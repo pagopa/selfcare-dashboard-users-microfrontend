@@ -11,8 +11,6 @@ import UsersProductPage from './pages/dashboardUsers/UsersProductPage/UsersProdu
 import AddProductToUserPage from './pages/dashboardUserEdit/AddProductToUserPage';
 import EditUserRegistryProductPage from './pages/dashboardUserEdit/EditUserRegistryProductPage';
 
-export const BASE_ROUTE = ENV.PUBLIC_URL;
-
 export type RoutesObject = { [key: string]: RouteConfig };
 
 export type RouteConfig = {
@@ -20,6 +18,9 @@ export type RouteConfig = {
   exact?: boolean;
   subRoutes?: RoutesObject;
   component?: React.ComponentType<any>;
+  withProductRolesMap?: boolean;
+  withSelectedProduct?: boolean;
+  withSelectedProductRoles?: boolean;
 };
 
 const buildRedirectToBasePath = (basePath: string): RoutesObject => ({
@@ -36,62 +37,73 @@ const buildRedirectToBasePath = (basePath: string): RoutesObject => ({
 
 export const DASHBOARD_USERS_ROUTES = {
   PARTY_USERS: {
-    path: `${BASE_ROUTE}/:institutionId/users`,
+    path: ENV.ROUTES.USERS,
     exact: false,
     subRoutes: {
       MAIN: {
-        path: `${BASE_ROUTE}/:institutionId/users`,
+        path: ENV.ROUTES.USERS,
         exact: true,
+        withProductRolesMap: true,
         component: UsersPage,
       },
       EDIT_USER: {
-        path: `${BASE_ROUTE}/:institutionId/users/:userId/edit`,
+        path: `${ENV.ROUTES.USERS}/:userId/edit`,
         exact: true,
         component: EditUserRegistryPage,
       },
       ADD_PARTY_USER: {
-        path: `${BASE_ROUTE}/:institutionId/users/add`,
+        path: `${ENV.ROUTES.USERS}/add`,
         exact: true,
+        withProductRolesMap: true,
         component: AddUsersPage,
       },
       ADD_PRODUCT: {
-        path: `${BASE_ROUTE}/:institutionId/users/:userId/add-product`,
+        path: `${ENV.ROUTES.USERS}/:userId/add-product`,
         exact: true,
+        withProductRolesMap: true,
         component: AddProductToUserPage,
       },
       PARTY_USER_DETAIL: {
-        path: `${BASE_ROUTE}/:institutionId/users/:userId`,
+        path: `${ENV.ROUTES.USERS}/:userId`,
         exact: true,
+        withProductRolesMap: true,
         component: UserDetailPage,
       },
-      ...buildRedirectToBasePath(`${BASE_ROUTE}/:institutionId/users`),
+      ...buildRedirectToBasePath(ENV.ROUTES.USERS),
     },
   },
   PARTY_PRODUCT_USERS: {
-    path: `${BASE_ROUTE}/:institutionId/:productId/users`,
+    path: ENV.ROUTES.PRODUCT_USERS,
     exact: false,
     subRoutes: {
       MAIN: {
-        path: `${BASE_ROUTE}/:institutionId/:productId/users`,
+        path: ENV.ROUTES.PRODUCT_USERS,
         exact: true,
+        withSelectedProduct: true,
+        withSelectedProductRoles: true,
         component: UsersProductPage,
       },
       EDIT_PARTY_PRODUCT_USER: {
-        path: `${BASE_ROUTE}/:institutionId/:productId/users/:userId/edit`,
+        path: `${ENV.ROUTES.PRODUCT_USERS}/:userId/edit`,
         exact: true,
+        withSelectedProduct: true,
         component: EditUserRegistryProductPage,
       },
       ADD_PARTY_PRODUCT_USER: {
-        path: `${BASE_ROUTE}/:institutionId/:productId/users/add`,
+        path: `${ENV.ROUTES.PRODUCT_USERS}/add`,
         exact: true,
+        withSelectedProduct: true,
+        withSelectedProductRoles: true,
         component: AddUsersProductPage,
       },
       PARTY_PRODUCT_USER_DETAIL: {
-        path: `${BASE_ROUTE}/:institutionId/:productId/users/:userId`,
+        path: `${ENV.ROUTES.PRODUCT_USERS}/:userId`,
         exact: true,
+        withSelectedProduct: true,
+        withSelectedProductRoles: true,
         component: UserProductDetailPage,
       },
-      ...buildRedirectToBasePath(`${BASE_ROUTE}/:institutionId/:productId/users`),
+      ...buildRedirectToBasePath(ENV.ROUTES.PRODUCT_USERS),
     },
   },
 };

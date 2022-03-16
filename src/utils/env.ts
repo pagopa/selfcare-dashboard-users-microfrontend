@@ -1,12 +1,14 @@
 import * as env from 'env-var';
 
-const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString();
+const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').default('/dashboard').asString();
 export const ENV = {
   ENV: env.get('REACT_APP_ENV').required().asString(),
-  PUBLIC_URL: PUBLIC_URL_INNER ? PUBLIC_URL_INNER : '/dashboard',
+  PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
     OVERVIEW: '/dashboard/:institutionId',
+    USERS: `${PUBLIC_URL_INNER}/:institutionId/users`,
+    PRODUCT_USERS: `${PUBLIC_URL_INNER}/:institutionId/:productId/users`,
   },
 
   URL_FE: {
