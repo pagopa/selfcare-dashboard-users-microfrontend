@@ -4,7 +4,7 @@ import {
   UnloadEventHandler,
   UserNotifyHandle,
 } from '@pagopa/selfcare-common-frontend';
-import { useParams, Route, Switch } from 'react-router';
+import { useParams, Route, Switch, useHistory } from 'react-router';
 import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
 import { Box, Grid } from '@mui/material';
 import Layout from '../../components/Layout/Layout';
@@ -18,6 +18,7 @@ import {
   DashboardMicrofrontendPageProps,
   DashboardPageProps,
 } from '../../RoutingUsers';
+import { createStore } from '../../redux/store';
 
 type UrlParams = {
   institutionId: string;
@@ -26,10 +27,13 @@ type UrlParams = {
 
 const App = ({
   AppRouting,
+  store,
 }: {
   AppRouting: (props: DashboardMicrofrontendPageProps) => Array<React.ReactNode>;
+  store: ReturnType<typeof createStore>;
 }) => {
   const { institutionId } = useParams<UrlParams>();
+  const history = useHistory();
   const party = mockedParties.find((p) => p.institutionId === institutionId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
@@ -91,6 +95,8 @@ const App = ({
           >
             <Switch>
               {AppRouting({
+                history,
+                store,
                 party,
                 products,
                 activeProducts,

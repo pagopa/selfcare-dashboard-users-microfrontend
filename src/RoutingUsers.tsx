@@ -1,4 +1,7 @@
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Router } from 'react-router';
+import * as H from 'history';
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
 import { DASHBOARD_USERS_ROUTES, RouteConfig, RoutesObject } from './routes';
 import { Party } from './model/Party';
 import { Product, ProductsMap } from './model/Product';
@@ -63,26 +66,34 @@ export const buildRoutes = (
   });
 
 export type DashboardMicrofrontendPageProps = {
+  history: H.History;
+  store: Store<any, any>;
   decorators: DashboardDecoratorsType;
 } & DashboardPageProps;
 
 const RoutingUsers = ({
+  history,
+  store,
   party,
   products,
   activeProducts,
   productsMap,
   decorators,
 }: DashboardMicrofrontendPageProps) => (
-  <>
-    {buildRoutes(
-      party,
-      products,
-      activeProducts,
-      productsMap,
-      decorators,
-      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes
-    )}
-  </>
+  <Provider store={store}>
+    <Router history={history}>
+      <Switch>
+        {buildRoutes(
+          party,
+          products,
+          activeProducts,
+          productsMap,
+          decorators,
+          DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes
+        )}
+      </Switch>
+    </Router>
+  </Provider>
 );
 
 export default RoutingUsers;

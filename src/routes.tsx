@@ -64,7 +64,7 @@ export const DASHBOARD_USERS_ROUTES = {
         component: AddProductToUserPage,
       },
       PARTY_USER_DETAIL: {
-        path: `${ENV.ROUTES.USERS}/:userId`,
+        path: ENV.ROUTES.USERS_DETAIL,
         exact: true,
         withProductRolesMap: true,
         component: UserDetailPage,

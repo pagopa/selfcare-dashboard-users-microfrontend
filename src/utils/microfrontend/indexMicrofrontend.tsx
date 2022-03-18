@@ -33,7 +33,7 @@ ReactDOM.render(
           <CssBaseline />
           <Switch>
             <Route path={ENV.ROUTES.OVERVIEW} exact={false}>
-              <App AppRouting={(window as any).AppRouting} />
+              <App AppRouting={(window as any).AppRouting} store={store} />
             </Route>
             <Route path="*">
               <Redirect

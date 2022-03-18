@@ -1,6 +1,6 @@
 import * as env from 'env-var';
 
-const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').default('/dashboard').asString();
+const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString() || '/dashboard';
 export const ENV = {
   ENV: env.get('REACT_APP_ENV').required().asString(),
   PUBLIC_URL: PUBLIC_URL_INNER,
@@ -8,6 +8,7 @@ export const ENV = {
   ROUTES: {
     OVERVIEW: '/dashboard/:institutionId',
     USERS: `${PUBLIC_URL_INNER}/:institutionId/users`,
+    USERS_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/users/:userId`,
     PRODUCT_USERS: `${PUBLIC_URL_INNER}/:institutionId/:productId/users`,
   },
 
