@@ -6,7 +6,7 @@ import {
 } from '@pagopa/selfcare-common-frontend';
 import { useParams, Route, Switch, useHistory } from 'react-router';
 import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import Layout from '../../components/Layout/Layout';
 import { buildProductsMap, Product } from '../../model/Product';
 import { mockedParties } from '../../services/__mocks__/partyService';
@@ -34,6 +34,7 @@ const App = ({
 }) => {
   const { institutionId } = useParams<UrlParams>();
   const history = useHistory();
+  const theme = useTheme();
   const party = mockedParties.find((p) => p.institutionId === institutionId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
@@ -97,6 +98,7 @@ const App = ({
               {AppRouting({
                 history,
                 store,
+                theme,
                 party,
                 products,
                 activeProducts,
