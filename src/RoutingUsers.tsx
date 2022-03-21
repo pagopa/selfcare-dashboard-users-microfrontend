@@ -3,6 +3,7 @@ import * as H from 'history';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
 import { ThemeProvider, Theme } from '@mui/material';
+import { useMemo } from 'react';
 import { DASHBOARD_USERS_ROUTES, RouteConfig, RoutesObject } from './routes';
 import { Party } from './model/Party';
 import { Product, ProductsMap } from './model/Product';
@@ -45,8 +46,14 @@ export const buildRoutes = (
 ) =>
   Object.values(rs).map((route, i) => {
     const { path, exact, component: Component, subRoutes } = route;
-    const decoratorResult = Component ? reduceDecorators(decorators, route) : undefined;
-    const WrappedComponent = Component && decoratorResult ? decoratorResult(Component) : undefined;
+    const decoratorResult = useMemo(
+      () => (Component ? reduceDecorators(decorators, route) : undefined),
+      []
+    );
+    const WrappedComponent = useMemo(
+      () => (Component && decoratorResult ? decoratorResult(Component) : undefined),
+      []
+    );
     return (
       <Route path={path} exact={exact} key={i}>
         {WrappedComponent && (
