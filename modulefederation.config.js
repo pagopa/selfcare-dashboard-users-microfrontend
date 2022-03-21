@@ -68,5 +68,9 @@ module.exports = {
       singleton: true,
       requiredVersion: dependencies['react-i18next'],
     },
+    'core-js': {
+      singleton: true,
+      requiredVersion: dependencies['core-js'],
+    },
   },
 };
