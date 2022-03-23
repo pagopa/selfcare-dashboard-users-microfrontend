@@ -13,12 +13,12 @@ import { mockedParties } from '../../services/__mocks__/partyService';
 import { mockedPartyProducts } from '../../services/__mocks__/productService';
 import { mockedProductRoles } from '../../services/__mocks__/usersService';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
+import { createStore } from '../../redux/store';
 import {
   DashboardDecoratorsType,
   DashboardMicrofrontendPageProps,
   DashboardPageProps,
-} from '../../RoutingUsers';
-import { createStore } from '../../redux/store';
+} from './dashboard-routes-utils';
 
 type UrlParams = {
   institutionId: string;

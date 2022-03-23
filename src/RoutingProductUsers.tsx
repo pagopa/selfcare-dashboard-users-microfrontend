@@ -2,7 +2,10 @@ import { Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import { DASHBOARD_USERS_ROUTES } from './routes';
-import { buildRoutes, DashboardMicrofrontendPageProps } from './RoutingUsers';
+import {
+  buildRoutes,
+  DashboardMicrofrontendPageProps,
+} from './utils/microfrontend/dashboard-routes-utils';
 
 const RoutingProductUsers = ({
   history,
