@@ -6,6 +6,7 @@ import {
   buildRoutes,
   DashboardMicrofrontendPageProps,
 } from './utils/microfrontend/dashboard-routes-utils';
+import { ENV } from './utils/env';
 
 const RoutingUsers = ({
   history,
@@ -16,23 +17,28 @@ const RoutingUsers = ({
   activeProducts,
   productsMap,
   decorators,
-}: DashboardMicrofrontendPageProps) => (
-  <Provider store={store}>
-    <Router history={history}>
-      <ThemeProvider theme={theme}>
-        <Switch>
-          {buildRoutes(
-            party,
-            products,
-            activeProducts,
-            productsMap,
-            decorators,
-            DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes
-          )}
-        </Switch>
-      </ThemeProvider>
-    </Router>
-  </Provider>
-);
+}: DashboardMicrofrontendPageProps) => {
+  // eslint-disable-next-line functional/immutable-data
+  ENV.STORE = store;
+
+  return (
+    <Provider store={store}>
+      <Router history={history}>
+        <ThemeProvider theme={theme}>
+          <Switch>
+            {buildRoutes(
+              party,
+              products,
+              activeProducts,
+              productsMap,
+              decorators,
+              DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes
+            )}
+          </Switch>
+        </ThemeProvider>
+      </Router>
+    </Provider>
+  );
+};
 
 export default RoutingUsers;

@@ -1,7 +1,6 @@
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
-import { store } from '../redux/store';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
@@ -27,7 +26,7 @@ const apiClient = createClient({
 });
 
 const onRedirectToLogin = () =>
-  store.dispatch(
+  ENV.STORE.dispatch(
     appStateActions.addError({
       id: 'tokenNotValid',
       error: new Error(),
