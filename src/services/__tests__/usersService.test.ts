@@ -9,7 +9,6 @@ import {
   fetchPartyUsers,
   savePartyUser,
   updatePartyUserStatus,
-  fetchProductRoles,
   fetchUserRegistryByFiscalCode,
   deletePartyUser,
 } from '../usersService';
@@ -35,7 +34,6 @@ beforeEach(() => {
   jest.spyOn(DashboardApi, 'savePartyUser');
   jest.spyOn(DashboardApi, 'suspendPartyRelation');
   jest.spyOn(DashboardApi, 'activatePartyRelation');
-  jest.spyOn(DashboardApi, 'getProductRoles');
   jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   jest.spyOn(DashboardApi, 'deletePartyRelation');
 });
@@ -144,42 +142,6 @@ describe('Test fetchPartyUsers', () => {
     );
     expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
   });
-});
-
-test('Test fetchProductRoles', async () => {
-  const productRoles = await fetchProductRoles(mockedPartyProducts[0]);
-
-  expect(productRoles).toStrictEqual([
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'SUB_DELEGATE',
-      selcRole: 'ADMIN',
-      multiroleAllowed: false,
-      productRole: 'incaricato-ente-creditore',
-      title: 'Incaricato Ente Creditore',
-      description: 'Descrizione incaricato-ente-creditore',
-    },
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'OPERATOR',
-      selcRole: 'LIMITED',
-      multiroleAllowed: true,
-      productRole: 'referente-dei-pagamenti',
-      title: 'Referente dei Pagamenti',
-      description: 'Descrizione referente-dei-pagamenti',
-    },
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'OPERATOR',
-      selcRole: 'LIMITED',
-      multiroleAllowed: true,
-      productRole: 'referente-tecnico',
-      title: 'Referente Tecnico',
-      description: 'Descrizione referente-tecnico',
-    },
-  ]);
-
-  expect(DashboardApi.getProductRoles).toBeCalledWith(mockedPartyProducts[0].id);
 });
 
 test('Test savePartyUser', async () => {

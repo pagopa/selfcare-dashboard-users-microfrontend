@@ -7,6 +7,8 @@ import { Route, Router, Switch } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import AddUsersProductPage from '../AddUsersProductPage';
+import { productRoles2ProductRolesList } from '../../../model/ProductRole';
+import { mockedProductRoles } from '../../../services/__mocks__/usersService';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
@@ -29,7 +31,12 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
       <Router history={history}>
         <Switch>
           <Route path="/:institutionId/:productId" exact={true}>
-            <AddUsersProductPage party={mockedParties[0]} products={mockedPartyProducts} />
+            <AddUsersProductPage
+              party={mockedParties[0]}
+              activeProducts={mockedPartyProducts}
+              selectedProduct={mockedPartyProducts[0]}
+              productRolesList={productRoles2ProductRolesList(mockedProductRoles)}
+            />
           </Route>
           <Route path="/dashboard/1/prod-io/users" exact={true}>
             Test Completato
