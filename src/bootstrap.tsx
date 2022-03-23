@@ -1,8 +1,9 @@
 import { Route } from 'react-router-dom';
 import { DASHBOARD_USERS_ROUTES } from './routes';
 import RoutingProductUsers from './RoutingProductUsers';
-import RoutingUsers, { DashboardMicrofrontendPageProps } from './RoutingUsers';
+import RoutingUsers from './RoutingUsers';
 import { ENV } from './utils/env';
+import { DashboardMicrofrontendPageProps } from './utils/microfrontend/dashboard-routes-utils';
 
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line functional/immutable-data

@@ -1,5 +1,5 @@
 {
-  "name": "selfcare-users-frontend",
+  "name": "selfcare-dashboard-users-microfrontend",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
