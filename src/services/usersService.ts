@@ -16,7 +16,7 @@ import {
 import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
 import { DashboardApi } from '../api/DashboardApiClient';
-import { PartyGroup } from '../model/PartyGroup';
+import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
   fetchPartyUsers as fetchPartyUsersMocked,
   savePartyUser as savePartyUserMocked,
@@ -207,6 +207,8 @@ export const fetchUserGroups = (
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, product, userId);
   } else {
-    throw new Error('TODO');
+    return DashboardApi.fetchUserGroups(party.institutionId, product.id, userId).then(
+      (resources) => resources?.map(usersGroupPlainResource2PartyGroup) ?? []
+    );
   }
 };

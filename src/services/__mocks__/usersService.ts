@@ -16,7 +16,7 @@ import {
 import { Product } from '../../model/Product';
 import { ProductRole } from '../../model/ProductRole';
 import { UserRegistry } from '../../model/UserRegistry';
-import { PartyGroup } from '../../model/PartyGroup';
+import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
 export const mockedUsers: Array<PartyUser> = [
   // use case ACTIVE on 1 product/role
@@ -712,7 +712,14 @@ export const mockedProductRoles: Array<ProductRole> = [
     description: 'Descrizione referente-tecnico',
   },
 ];
-export const mockedGroups: Array<PartyGroup> = [
+
+type PartyGroupMock = PartyGroup & {
+  membersIds: Array<string>;
+  createdByUserId: string;
+  modifiedByUserId: string;
+};
+
+export const mockedGroups: Array<PartyGroupMock> = [
   {
     id: 'groupId1',
     name: 'Gruppo1',
@@ -887,7 +894,11 @@ export const mockedGroups: Array<PartyGroup> = [
     modifiedAt: new Date('2022-01-01 16:00'),
     modifiedByUserId: 'uid',
   },
-];
+].map((o) => ({
+  ...o,
+  membersCount: o.membersIds.length,
+  status: o.status as PartyGroupStatus,
+}));
 
 export const mockedUserRegistry: UserRegistry = {
   taxCode: 'AAAAAA11A11A234S',

@@ -8,6 +8,7 @@ import { createClient, WithDefaultsT } from './generated/b4f-dashboard/client';
 import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
+import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -127,6 +128,19 @@ export const DashboardApi = {
     const result = await apiClient.getUserByExternalIdUsingPOST({
       institutionId,
       body: { externalId: taxCode },
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  fetchUserGroups: async (
+    institutionId: string,
+    productId: string,
+    userId: string
+  ): Promise<Array<UserGroupPlainResource>> => {
+    const result = await apiClient.getUserGroupsUsingGET({
+      institutionId,
+      productId,
+      userId,
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
