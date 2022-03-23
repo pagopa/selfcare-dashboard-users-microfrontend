@@ -1,7 +1,6 @@
 import { Button, Divider, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { Party } from '@pagopa/selfcare-common-frontend/model/Party';
 import { useEffect } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -13,6 +12,7 @@ import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import UserSelcRole from './components/UserSelcRole';
