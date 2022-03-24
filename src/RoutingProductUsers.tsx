@@ -1,4 +1,4 @@
-import { Router, Switch } from 'react-router-dom';
+import { Switch, Router } from 'react-router';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import { DASHBOARD_USERS_ROUTES } from './routes';
