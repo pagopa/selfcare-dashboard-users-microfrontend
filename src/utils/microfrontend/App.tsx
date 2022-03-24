@@ -7,13 +7,13 @@ import {
 import { useParams, Route, Switch, useHistory } from 'react-router';
 import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
 import { Box, Grid, useTheme } from '@mui/material';
-import Layout from '../../components/Layout/Layout';
 import { buildProductsMap, Product } from '../../model/Product';
 import { mockedParties } from '../../services/__mocks__/partyService';
 import { mockedPartyProducts } from '../../services/__mocks__/productService';
 import { mockedProductRoles } from '../../services/__mocks__/usersService';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
 import { createStore } from '../../redux/store';
+import Layout from './Layout';
 import {
   DashboardDecoratorsType,
   DashboardMicrofrontendPageProps,
