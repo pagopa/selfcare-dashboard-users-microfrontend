@@ -26,31 +26,4 @@ module.exports = {
       options: { useNamedChunkIds: true }, //THIS LINE IS OPTIONAL
     },
   ],
-  /*plugins: [
-    {
-      plugin: new ModuleFederationPlugin({
-        name: 'SelfcareUsersMicrofrontend',
-        filename: 'remoteEntry.js',
-        exposes: {
-          './RoutingUsers': './src/index',
-        },
-        shared: {
-          ...commonPackageJson.dependencies,
-          ...dependencies,
-          '@pagopa/selfcare-common-frontend': {
-            singleton: true,
-            requiredVersion: dependencies['@pagopa/selfcare-common-frontend'],
-          },
-          react: {
-            singleton: true,
-            requiredVersion: dependencies['react'],
-          },
-          'react-dom': {
-            singleton: true,
-            requiredVersion: dependencies['react-dom'],
-          },
-        },
-      }),
-    },
-  ],*/
 };
