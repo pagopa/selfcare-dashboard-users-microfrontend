@@ -71,34 +71,8 @@ const App = ({
       }, {} as ProductsRolesMap)
     : undefined;
 
-  const decorators: DashboardDecoratorsType = {
-    withProductRolesMap:
-      (
-        WrappedComponent: React.ComponentType<
-          {
-            decorators: DashboardDecoratorsType;
-          } & DashboardPageProps
-        >
-      ) =>
-      (props: any) =>
-        <WrappedComponent productsRolesMap={productsRolesMap} {...props} />,
-
-    withSelectedProductRoles: (WrappedComponent: React.ComponentType<any>) => (props: any) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { productId } = useParams<UrlParams>();
-      const productRolesList = productId ? productsRolesMap?.[productId] : undefined;
-      return <WrappedComponent productRolesList={productRolesList} {...props} />;
-    },
-
-    withSelectedProduct: (WrappedComponent: React.ComponentType<any>) => (props: any) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { productId } = useParams<UrlParams>();
-      const selectedProduct = productId
-        ? mockedPartyProducts.find((p) => p.id === productId)
-        : undefined;
-      return <WrappedComponent selectedProduct={selectedProduct} {...props} />;
-    },
-  };
+  const availableParties = mockedParties.map((p) => p.institutionId).join(', ');
+  const availableProducts = mockedPartyProducts.map((p) => p.id).join(', ');
 
   const availableRoutesBody = Object.keys(
     Array.from(
@@ -134,6 +108,42 @@ const App = ({
     )
   );
 
+  const decorators: DashboardDecoratorsType = {
+    withProductRolesMap:
+      (
+        WrappedComponent: React.ComponentType<
+          {
+            decorators: DashboardDecoratorsType;
+          } & DashboardPageProps
+        >
+      ) =>
+      (props: any) =>
+        <WrappedComponent productsRolesMap={productsRolesMap} {...props} />,
+
+    withSelectedProductRoles: (WrappedComponent: React.ComponentType<any>) => (props: any) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { productId } = useParams<UrlParams>();
+      const productRolesList = productId ? productsRolesMap?.[productId] : undefined;
+      return <WrappedComponent productRolesList={productRolesList} {...props} />;
+    },
+
+    withSelectedProduct: (WrappedComponent: React.ComponentType<any>) => (props: any) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { productId } = useParams<UrlParams>();
+      const selectedProduct = productId
+        ? mockedPartyProducts.find((p) => p.id === productId)
+        : undefined;
+      return selectedProduct ? (
+        <WrappedComponent selectedProduct={selectedProduct} {...props} />
+      ) : (
+        <>
+          Product not available! Use one of: <br />
+          {availableProducts}
+        </>
+      );
+    },
+  };
+
   return party && products && activeProducts && productsMap && productsRolesMap ? (
     <ErrorBoundary>
       <Layout>
@@ -146,12 +156,11 @@ const App = ({
             <br />
             <Box sx={{ backgroundColor: 'background.default' }}>
               <strong>available mocked parties:</strong> <br />
-              {mockedParties.map((p) => p.institutionId).join(', ')}
+              {availableParties}
             </Box>
             <br />
             <Box sx={{ backgroundColor: 'background.default' }}>
-              <strong>available mocked products:</strong> <br />{' '}
-              {mockedPartyProducts.map((p) => p.id).join(', ')}
+              <strong>available mocked products:</strong> <br /> {availableProducts}
             </Box>
             <br />
             <Box sx={{ backgroundColor: 'background.default' }}>
@@ -190,7 +199,10 @@ const App = ({
       </Layout>
     </ErrorBoundary>
   ) : (
-    <></>
+    <>
+      Party not available! Use one of: <br />
+      {availableParties}
+    </>
   );
 };
 
