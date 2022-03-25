@@ -1,4 +1,4 @@
-import { Party } from '../../model/Party';
+import { Party } from '../../../model/Party';
 
 export const mockedParties: Array<Party> = [
   {
@@ -52,23 +52,3 @@ export const mockedParties: Array<Party> = [
     category: '',
   },
 ];
-
-export const verifyFetchPartiesMockExecution = (parties: Array<Party>) => {
-  expect(parties).toStrictEqual(mockedParties);
-};
-
-export const fetchParties = () => new Promise((resolve) => resolve(mockedParties));
-
-export const verifyFetchPartyDetailsMockExecution = (party: Party) => {
-  expect(party).toStrictEqual(
-    mockedParties.filter((p) => p.institutionId === party.institutionId)[0]
-  );
-};
-
-export const fetchPartyDetails = (
-  institutionId: string,
-  _parties?: Array<Party>
-): Promise<Party | null> =>
-  new Promise((resolve) =>
-    resolve(mockedParties.find((p) => p.institutionId === institutionId) ?? null)
-  );

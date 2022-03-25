@@ -11,8 +11,8 @@ const dependencies = {
 module.exports = {
   name: 'selfcareUsers',
   exposes: {
-    './RoutingUsers': './src/RoutingUsers',
-    './RoutingProductUsers': './src/RoutingProductUsers',
+    './RoutingUsers': './src/remotes/RoutingUsers',
+    './RoutingProductUsers': './src/remotes/RoutingProductUsers',
   },
   filename: 'remoteEntry.js',
   shared: {
@@ -51,6 +51,10 @@ module.exports = {
     '@mui/material': {
       singleton: true,
       requiredVersion: dependencies['@mui/material'],
+    },
+    '@mui/lab': {
+      singleton: true,
+      requiredVersion: dependencies['@mui/lab'],
     },
     '@mui/x-data-grid': {
       singleton: true,

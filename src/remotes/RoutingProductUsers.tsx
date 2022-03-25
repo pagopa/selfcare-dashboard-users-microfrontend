@@ -1,14 +1,14 @@
 import { Switch, Router } from 'react-router';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
-import { DASHBOARD_USERS_ROUTES } from './routes';
+import { DASHBOARD_USERS_ROUTES } from '../routes';
 import {
   buildRoutes,
   DashboardMicrofrontendPageProps,
-} from './utils/microfrontend/dashboard-routes-utils';
-import { ENV } from './utils/env';
+} from '../microcomponents/dashboard-routes-utils';
+import { ENV } from '../utils/env';
 
-const RoutingUsers = ({
+const RoutingProductUsers = ({
   history,
   store,
   theme,
@@ -32,7 +32,7 @@ const RoutingUsers = ({
               activeProducts,
               productsMap,
               decorators,
-              DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes
+              DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes
             )}
           </Switch>
         </ThemeProvider>
@@ -41,4 +41,4 @@ const RoutingUsers = ({
   );
 };
 
-export default RoutingUsers;
+export default RoutingProductUsers;

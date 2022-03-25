@@ -1,7 +1,3 @@
-/* const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const { dependencies } = require('./package.json');
-const commonPackageJson = require('@pagopa/selfcare-common-frontend/package.json');*/
-
 const cracoModuleFederation = require('craco-module-federation');
 
 module.exports = {
