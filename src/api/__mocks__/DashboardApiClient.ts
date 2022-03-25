@@ -241,21 +241,6 @@ export const mockedUserResource: UserResource = {
 };
 
 export const DashboardApi = {
-  getInstitutions: async (): Promise<Array<InstitutionResource>> =>
-    new Promise((resolve) => resolve(mockedInstitutionResources)),
-
-  getInstitution: async (_institutionId: string): Promise<InstitutionResource> =>
-    new Promise((resolve) => resolve(mockedInstitutionResources[0])),
-
-  getProducts: async (): Promise<Array<ProductsResource>> =>
-    new Promise((resolve) => resolve(mockedProductResources)),
-
-  getTokenExchange: async (
-    _hostname: string,
-    _institutionId: string,
-    _productId: string
-  ): Promise<IdentityTokenResource> => new Promise((resolve) => resolve({ token: 'DUMMYTOKEN' })),
-
   getPartyUsers: async (
     _institutionId: string,
     _productId?: string,
@@ -282,9 +267,6 @@ export const DashboardApi = {
 
   activatePartyRelation: async (_relationshipId: string): Promise<void> =>
     new Promise((resolve) => resolve()),
-
-  getProductRoles: async (_productId: string): Promise<Array<ProductRoleMappingsResource>> =>
-    new Promise((resolve) => resolve(mockedProductRoles)),
 
   fetchUserRegistryByFiscalCode: async (_taxCode: string): Promise<UserResource | null> =>
     new Promise((resolve) => resolve(mockedUserResource)),
