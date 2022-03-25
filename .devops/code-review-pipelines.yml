@@ -19,7 +19,7 @@ trigger:
   - release-*
 
 pr:
-  - *
+  - '*'
 
 resources:
   repositories:
