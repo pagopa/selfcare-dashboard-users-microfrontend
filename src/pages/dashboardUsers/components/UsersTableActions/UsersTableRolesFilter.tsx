@@ -5,6 +5,7 @@ import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/materia
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
+import { Trans, useTranslation } from 'react-i18next';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
@@ -46,12 +47,26 @@ const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupB
 const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
 const labels = {
   ADMIN: {
-    title: 'Amministratore',
-    description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+    title: (
+      <Trans i18nKey="userDetail.filterRole.admin.title"> Amministratore </Trans>
+    ) as unknown as string,
+    description: (
+      <Trans i18nKey="userDetail.filterRole.admin.description">
+        {' '}
+        tutti i ruoli abilitati alla gestione dei prodotti e di Self Care{' '}
+      </Trans>
+    ) as unknown as string,
   },
   LIMITED: {
-    title: 'Operatore',
-    description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+    title: (
+      <Trans i18nKey="userDetail.filterRole.limited.title"> Operatore </Trans>
+    ) as unknown as string,
+    description: (
+      <Trans i18nKey="userDetail.filterRole.limited.description">
+        {' '}
+        tutti i ruoli ruoli autorizzati a operare sui prodotti{' '}
+      </Trans>
+    ) as unknown as string,
   },
 };
 
@@ -77,6 +92,7 @@ export default function UsersTableRolesFilter({
   disableFilters,
   showSelcRoleGrouped,
 }: Props) {
+  const { t } = useTranslation();
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
@@ -285,7 +301,7 @@ export default function UsersTableRolesFilter({
                     });
                   }}
                 >
-                  Filtra
+                  {t('userDetail.filterRole.goFilterButton')}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -300,7 +316,7 @@ export default function UsersTableRolesFilter({
                     onFiltersChange({ ...filters, productRoles: [] });
                   }}
                 >
-                  Cancella filtri
+                  {t('userDetail.filterRole.deleteFilterButton')}
                 </Button>
               </Grid>
             </Grid>

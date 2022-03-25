@@ -5,6 +5,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { HashLink } from 'react-router-hash-link';
 import useScrollSpy from 'react-use-scrollspy';
+import { useTranslation } from 'react-i18next';
 import { Product, ProductsMap } from '../../../model/Product';
 import { Party } from '../../../model/Party';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -29,6 +30,7 @@ const emptyFilters: UsersTableFiltersConfig = {
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
   const showSelcRoleGrouped = true;
 
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -69,10 +71,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12}>
-        <TitleBox
-          title="Referenti"
-          subTitle="Visualizza e gestisci i referenti abilitati alla gestione dei prodotti del tuo Ente."
-        />
+        <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.vertical.subTitle')} />
       </Grid>
 
       {activeProducts.length > 1 && (

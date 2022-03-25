@@ -2,6 +2,7 @@ import { Link, Grid, Typography } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party, UserStatus } from '../../../model/Party';
 import { PartyUser, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
@@ -31,6 +32,7 @@ export default function UserProductActions({
   canEdit,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
@@ -43,14 +45,21 @@ export default function UserProductActions({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: 'RUOLO ELIMINATO',
+          title: t('userDetail.actions.delete.title'),
           message: (
             <>
-              {'Hai eliminato correttamente il ruolo '}
-              {transcodeProductRole2Title(role.role, productRolesList)}
-              {' assegnato a '}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-              {'.'}
+              <Trans i18nKey="userDetail.actions.delete.message">
+                {'Hai eliminato correttamente il ruolo '}
+                {transcodeProductRole2Title(role.role, productRolesList)}
+                {' assegnato a '}
+                <strong>
+                  {
+                    (t('userDetail.actions.delete.message'),
+                    { name: `${user.name}`, surname: `${user.surname}` })
+                  }
+                </strong>
+                {'.'}
+              </Trans>
             </>
           ),
         });
@@ -71,7 +80,7 @@ export default function UserProductActions({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: 'Elimina Ruolo',
+      title: t('userDetail.actions.modalDelete.title'),
       message: (
         <>
           {'Stai per eliminare il ruolo'}
@@ -87,15 +96,16 @@ export default function UserProductActions({
           {'Vuoi continuare?'}
         </>
       ),
-      confirmLabel: 'Conferma',
-      closeLabel: 'Annulla',
+      confirmLabel: t('userDetail.actions.modalDelete.confirmButton'),
+      closeLabel: t('userDetail.actions.modalDelete.closeButton'),
       onConfirm: onDelete,
     });
   };
   const confirmChangeStatus = () => {
     const nextStatus: UserStatus | undefined =
       role.status === 'ACTIVE' ? 'SUSPENDED' : role.status === 'SUSPENDED' ? 'ACTIVE' : undefined;
-    const selectedUserStatus = nextStatus === 'SUSPENDED' ? 'sospeso' : 'riabilitato';
+    const selectedUserStatus =
+      nextStatus === 'SUSPENDED' ? t('userDetail.suspended') : t('userDetail.rehabilitated');
 
     if (!nextStatus) {
       addError({
@@ -158,8 +168,8 @@ export default function UserProductActions({
           {'Vuoi continuare?'}
         </>
       ),
-      confirmLabel: 'Conferma',
-      closeLabel: 'Annulla',
+      confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
+      closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
       onConfirm: confirmChangeStatus,
     });
   };
@@ -172,9 +182,9 @@ export default function UserProductActions({
             <Link onClick={handleOpen} component="button">
               <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
                 {role.status === 'SUSPENDED'
-                  ? 'Riabilita'
+                  ? 'Riabilita' // TODO
                   : role.status === 'ACTIVE'
-                  ? 'Sospendi'
+                  ? 'Sospendi' // TODO
                   : ''}
               </Typography>
             </Link>
@@ -184,7 +194,7 @@ export default function UserProductActions({
               <Grid item xs={6}>
                 <Link color="error" onClick={handleOpenDelete} component="button">
                   <Typography variant="h3" sx={{ fontSize: '16px', color: '#C02927' }}>
-                    Elimina
+                    {t('userDetail.actions.deleteButton')}
                   </Typography>
                 </Link>
               </Grid>

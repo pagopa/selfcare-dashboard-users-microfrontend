@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useTranslation } from 'react-i18next';
 import { Product } from '../../model/Product';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
@@ -17,6 +18,7 @@ type Props = {
 };
 
 function AddUsersProductPage({ party, selectedProduct, activeProducts, productRolesList }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const productsRolesMap = {
@@ -25,7 +27,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
 
   const paths = [
     {
-      description: 'Referenti',
+      description: t('userEdit.addForm.path'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.MAIN.path, {
@@ -35,7 +37,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
         ),
     },
     {
-      description: 'Aggiungi un Referente',
+      description: t('userEdit.addForm.pathDescription'),
     },
   ];
 
@@ -52,8 +54,10 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
-          title="Aggiungi un Referente"
-          subTitle={`Inserisci i dati della persona che vuoi autorizzare a gestire ${selectedProduct.title}`}
+          title={t('userEdit.addForm.title')}
+          subTitle={t('userEdit.addForm.subTitle.generic', {
+            selectedProduct: `${selectedProduct.title}`,
+          })}
         />
       </Grid>
       <Grid item xs={12}>

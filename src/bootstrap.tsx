@@ -4,6 +4,7 @@ import RoutingProductUsers from './RoutingProductUsers';
 import RoutingUsers from './RoutingUsers';
 import { ENV } from './utils/env';
 import { DashboardMicrofrontendPageProps } from './utils/microfrontend/dashboard-routes-utils';
+import './locale';
 
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line functional/immutable-data

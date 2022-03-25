@@ -4,6 +4,7 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -29,6 +30,7 @@ export default function UserProductAddRoles({
   fetchPartyUser,
   productRolesList,
 }: Props) {
+  const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
@@ -55,7 +57,7 @@ export default function UserProductAddRoles({
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',
-          title: 'RUOLO AGGIUNTO',
+          title: t('userDetail.actions.successfulAddRole.title'),
           message: (
             <>
               {'Hai aggiunto correttamente '}
@@ -72,7 +74,7 @@ export default function UserProductAddRoles({
         addError({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
-          displayableTitle: "ERRORE DURANTE L'AGGIUNTA",
+          displayableTitle: t('userDetail.actions.addRoleError.title'),
           techDescription: `C'è stato un errore durante l'aggiunta del ruolo per il referente ${user.name} ${user.surname}`,
           blocking: false,
           error,
@@ -126,12 +128,12 @@ export default function UserProductAddRoles({
         component="button"
       >
         <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
-          + Assegna ruolo
+          {t('userDetail.actions.newRoleAssign')}
         </Typography>
       </Link>
       <SessionModal
         open={open}
-        title="Assegna ruolo"
+        title={t('userDetail.actions.newRoleAssignModal.title')}
         message={
           <>
             {'Assegna a '}
@@ -187,8 +189,8 @@ export default function UserProductAddRoles({
         onConfirm={onAddMultiRole}
         onConfirmEnabled={selectedRoles.length > userProduct.roles.length}
         handleClose={() => setOpen(false)}
-        onConfirmLabel="Conferma"
-        onCloseLabel="Annulla"
+        onConfirmLabel={t('userDetail.actions.newRoleAssignModal.confirmButton')}
+        onCloseLabel={t('userDetail.actions.newRoleAssignModal.closeButton')}
       />
     </>
   ) : (

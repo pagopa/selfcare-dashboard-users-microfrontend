@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import MDSpinner from 'react-md-spinner';
+import { useTranslation } from 'react-i18next';
 import { Product } from '../../../../model/Product';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -32,6 +33,7 @@ export default function UsersTableActions({
   onFiltersChange,
   showSelcRoleGrouped,
 }: UsersSearchProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const history = useHistory();
   const onExit = useUnloadEventOnExit();
@@ -61,7 +63,7 @@ export default function UsersTableActions({
           sx={{ py: '10px' }}
           onClick={() => onExit(() => history.push(addUserUrl))}
         >
-          Aggiungi
+          {t('userDetail.addButton')}
         </Button>
       </Grid>
     </Grid>

@@ -1,4 +1,5 @@
 import { Grid, Link, Typography } from '@mui/material';
+import { Trans } from 'react-i18next';
 import { ReactComponent as DissatisfiedIcon } from '../../../assets/dissatisfied-face.svg';
 
 type Props = {
@@ -19,11 +20,16 @@ export default function UserTableNoData({ removeFilters }: Props) {
     >
       <DissatisfiedIcon />
       <Typography>
-        {'I filtri che hai applicato non hanno dato nessun risultato. '}
-        <Link onClick={removeFilters} sx={{ textDecoration: 'none!important', cursor: 'pointer' }}>
-          <b>Rimuovi filtri</b>
-        </Link>
-        .
+        <Trans i18nKey="userDetail.noDataFilter">
+          {'I filtri che hai applicato non hanno dato nessun risultato. '}
+          <Link
+            onClick={removeFilters}
+            sx={{ textDecoration: 'none!important', cursor: 'pointer' }}
+          >
+            <b>Rimuovi filtri</b>
+          </Link>
+          .
+        </Trans>
       </Typography>
     </Grid>
   );
