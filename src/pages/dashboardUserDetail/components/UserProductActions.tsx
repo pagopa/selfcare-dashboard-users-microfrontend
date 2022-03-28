@@ -3,7 +3,7 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { Party, UserStatus } from '../../../model/Party';
-import { PartyUser, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
@@ -12,7 +12,7 @@ import { deletePartyUser } from './../../../services/usersService';
 type Props = {
   showActions: boolean;
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   fetchPartyUser: () => void;
   role: PartyUserProductRole;
   product: PartyUserProduct;

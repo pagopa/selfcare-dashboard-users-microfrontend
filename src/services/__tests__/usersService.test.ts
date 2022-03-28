@@ -1,7 +1,6 @@
 import {
   mockedInstitutionUserResource,
   mockedProductUserResource,
-  mockedProductRoles,
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
@@ -11,15 +10,16 @@ import {
   updatePartyUserStatus,
   fetchUserRegistryByFiscalCode,
   deletePartyUser,
+  fetchPartyProductUsers,
 } from '../usersService';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
-  institutionUserResource2PartyUser,
+  institutionUserResource2PartyUserDetail,
   PartyUser,
   PartyUserOnCreation,
-  productUserResource2PartyUser,
+  productUserResource2PartyProductUser,
 } from '../../model/PartyUser';
 import { mockedProductRoles as mockedProductRolesService } from '../../microcomponents/mock_dashboard/data/product';
 import { userResource2UserRegistry } from '../../model/UserRegistry';
@@ -39,13 +39,12 @@ beforeEach(() => {
 });
 
 describe('Test fetchPartyUsers', () => {
-  const testNoProductFilter = async (checkPermission: boolean) => {
+  const testNoProductFilter = async () => {
     const partyUsers = await fetchPartyUsers(
       { page: 0, size: 20 },
       mockedParties[0],
       buildProductsMap(mockedPartyProducts),
       mockedUser,
-      checkPermission,
       undefined,
       'ADMIN',
       mockedProductRolesService
@@ -59,7 +58,7 @@ describe('Test fetchPartyUsers', () => {
         totalPages: 1,
       },
       content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUser(u, {}, mockedUser)
+        institutionUserResource2PartyUserDetail(u, {}, mockedUser)
       ),
     });
 
@@ -73,50 +72,14 @@ describe('Test fetchPartyUsers', () => {
     expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
   };
 
-  test('Test CheckPermission True', async () => {
-    await testNoProductFilter(true);
-
-    const partyProductUsers = await fetchPartyUsers(
-      { page: 0, size: 20 },
-      mockedParties[0],
-      buildProductsMap(mockedPartyProducts),
-      mockedUser,
-      true,
-      mockedPartyProducts[0],
-      'LIMITED'
-    );
-
-    expect(partyProductUsers).toMatchObject({
-      page: {
-        number: 0,
-        size: mockedProductUserResource.length,
-        totalElements: mockedProductUserResource.length,
-        totalPages: 1,
-      },
-      content: mockedProductUserResource.map((r) =>
-        productUserResource2PartyUser(r, mockedPartyProducts[0], mockedUser)
-      ),
-    });
-
-    expect(DashboardApi.getPartyUsers).toBeCalledTimes(1);
-    expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
-    expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
-      mockedParties[0].institutionId,
-      mockedPartyProducts[0].id,
-      'LIMITED',
-      undefined
-    );
-  });
-
   test('Test CheckPermission False', async () => {
-    await testNoProductFilter(false);
+    await testNoProductFilter();
 
     const partyProductUsers = await fetchPartyUsers(
       { page: 0, size: 20 },
       mockedParties[0],
       buildProductsMap(mockedPartyProducts),
       mockedUser,
-      false,
       mockedPartyProducts[0],
       'LIMITED'
     );
@@ -129,7 +92,7 @@ describe('Test fetchPartyUsers', () => {
         totalPages: 1,
       },
       content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUser(u, {}, mockedUser)
+        institutionUserResource2PartyUserDetail(u, {}, mockedUser)
       ),
     });
 
@@ -142,6 +105,37 @@ describe('Test fetchPartyUsers', () => {
     );
     expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
   });
+});
+
+test('Test fetchPartyProductUser', async () => {
+  const partyProductUsers = await fetchPartyProductUsers(
+    { page: 0, size: 20 },
+    mockedParties[0],
+    mockedPartyProducts[0],
+    mockedUser,
+    'LIMITED'
+  );
+
+  expect(partyProductUsers).toMatchObject({
+    page: {
+      number: 0,
+      size: mockedProductUserResource.length,
+      totalElements: mockedProductUserResource.length,
+      totalPages: 1,
+    },
+    content: mockedProductUserResource.map((r) =>
+      productUserResource2PartyProductUser(r, mockedPartyProducts[0], mockedUser)
+    ),
+  });
+
+  expect(DashboardApi.getPartyUsers).toBeCalledTimes(0);
+  expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
+  expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
+    mockedParties[0].institutionId,
+    mockedPartyProducts[0].id,
+    'LIMITED',
+    undefined
+  );
 });
 
 test('Test savePartyUser', async () => {
@@ -168,7 +162,6 @@ describe('Test updatePartyUserStatus', () => {
   test('Test updatePartyUserStatus', async () => {
     const partyUser: PartyUser = {
       id: 'id',
-      taxCode: 'taxCode',
       name: 'Name',
       surname: 'Surname',
       email: 'email',
@@ -189,7 +182,6 @@ describe('Test updatePartyUserStatus', () => {
       ],
       status: 'ACTIVE',
       isCurrentUser: false,
-      certification: true,
     };
 
     await updatePartyUserStatus(

@@ -6,7 +6,7 @@ import {
   transcodeProductRole2Title,
 } from '../../../model/ProductRole';
 import { Party } from '../../../model/Party';
-import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import UserProductActions from './UserProductActions';
 import UserProductAddRoles from './UserProductAddRoles';
@@ -14,7 +14,7 @@ import UserProductAddRoles from './UserProductAddRoles';
 type Props = {
   showActions: boolean;
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   fetchPartyUser: () => void;
   userProduct: PartyUserProduct;
   product: Product;

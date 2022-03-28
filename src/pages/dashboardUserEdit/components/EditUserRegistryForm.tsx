@@ -12,7 +12,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
-import { PartyUser, PartyUserOnEdit } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserOnEdit } from '../../../model/PartyUser';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -47,7 +47,7 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   goBack: () => void;
 };
 

@@ -8,10 +8,10 @@ import useFakePagination from '@pagopa/selfcare-common-frontend/hooks/useFakePag
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { Party, UserStatus } from '../../../../model/Party';
-import { PartyUser } from '../../../../model/PartyUser';
+import { PartyProductUser } from '../../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../../model/Product';
 import { useAppSelector } from '../../../../redux/hooks';
-import { fetchPartyUsers } from '../../../../services/usersService';
+import { fetchPartyProductUsers } from '../../../../services/usersService';
 import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
 import { ProductRolesLists } from '../../../../model/ProductRole';
 import UsersProductTable from './components/UsersProductTable';
@@ -46,7 +46,7 @@ const UsersTableProduct = ({
 
   const history = useHistory();
 
-  const [users, setUsers] = useState<PageResource<PartyUser>>({
+  const [users, setUsers] = useState<PageResource<PartyProductUser>>({
     content: [],
     page: { number: 0, size: 0, totalElements: 0, totalPages: 0 },
   });
@@ -56,13 +56,12 @@ const UsersTableProduct = ({
   const [pageRequest, setPageRequest] = useState<{ page: PageRequest; filterChanged: boolean }>();
 
   const fakePagedFetch = useFakePagination(() =>
-    fetchPartyUsers(
+    fetchPartyProductUsers(
       { page: 0, size: 2000 }, // pageRequest?.page as PageRequest, TODO actually pagination is not supported
       party,
-      productsMap,
-      currentUser ?? ({ uid: 'NONE' } as User),
-      canEdit,
       product,
+      currentUser ?? ({ uid: 'NONE' } as User),
+      productsMap,
       undefined,
       filterConfiguration.productRoles
     ).then((data) => data.content)
@@ -133,7 +132,7 @@ const UsersTableProduct = ({
       });
   };
 
-  const onDelete = (partyUser: PartyUser) => {
+  const onDelete = (partyUser: PartyProductUser) => {
     if (incrementalLoad) {
       setUsers({ ...users, content: users.content.filter((u) => u.id !== partyUser.id) });
     } else {
@@ -144,7 +143,7 @@ const UsersTableProduct = ({
     }
   };
 
-  const onStatusUpdate = (partyUser: PartyUser, nextStatus: UserStatus) => {
+  const onStatusUpdate = (partyUser: PartyProductUser, nextStatus: UserStatus) => {
     // eslint-disable-next-line functional/immutable-data
     partyUser.status = nextStatus;
     setUsers({ ...users });

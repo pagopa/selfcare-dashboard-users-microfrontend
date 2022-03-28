@@ -8,18 +8,21 @@ import {
 import { cloneDeep } from 'lodash';
 import { Party, UserRole, UserStatus } from '../../model/Party';
 import {
+  BasePartyUser,
+  PartyProductUser,
   PartyUser,
+  PartyUserDetail,
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
   PartyUserProductRole,
 } from '../../model/PartyUser';
-import { Product } from '../../model/Product';
+import { Product, ProductsMap } from '../../model/Product';
 import { ProductRole } from '../../model/ProductRole';
 import { UserRegistry } from '../../model/UserRegistry';
 import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
-export const mockedUsers: Array<PartyUser> = [
+export const mockedUsers: Array<PartyUserDetail> = [
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
@@ -865,7 +868,6 @@ export const fetchPartyUsers = (
   pageRequest: PageRequest,
   _party: Party,
   _currentUser: User,
-  fetchOnlyCurrentProduct: boolean,
   product?: Product,
   selcRole?: UserRole,
   productRoles?: Array<ProductRole>
@@ -890,16 +892,11 @@ export const fetchPartyUsers = (
       return u;
     })
     .map((u) => {
-      if (fetchOnlyCurrentProduct && product) {
-        const clone = cloneDeep(u);
-        // eslint-disable-next-line functional/immutable-data
-        clone.products = [u.products.find((p) => p.id === product.id) as PartyUserProduct];
-        return clone;
-      } else {
-        return u;
-      }
-    })
-    .map((u) => cloneDeep(u));
+      const clone = cloneDeep(u) as PartyUser;
+      // eslint-disable-next-line functional/immutable-data
+      delete (clone as any).taxCode;
+      return clone;
+    });
 
   if (pageRequest.sort) {
     applySort(filteredContent, pageRequest.sort);
@@ -908,6 +905,30 @@ export const fetchPartyUsers = (
     setTimeout(() => resolve(extractPageRequest(filteredContent, pageRequest)), 100)
   );
 };
+
+export const fetchPartyProductUsers = (
+  pageRequest: PageRequest,
+  party: Party,
+  product: Product,
+  currentUser: User,
+  _productsMap: ProductsMap,
+  selcRole?: UserRole,
+  productRoles?: Array<ProductRole>
+): Promise<PageResource<PartyProductUser>> =>
+  fetchPartyUsers(pageRequest, party, currentUser, product, selcRole, productRoles).then(
+    (result) => ({
+      page: result.page,
+      content: result.content.map((u) => {
+        const clone: PartyProductUser = {
+          ...cloneDeep(u),
+          product: u.products.find((p) => p.id === product.id) as PartyUserProduct,
+        };
+        // eslint-disable-next-line functional/immutable-data
+        delete (u as any).products;
+        return clone;
+      }),
+    })
+  );
 
 export const savePartyUser = (
   _party: Party,
@@ -925,7 +946,7 @@ export const fetchPartyUser = (
   _institutionId: string,
   userId: string,
   _currentUser: User
-): Promise<PartyUser | null> => {
+): Promise<PartyUserDetail | null> => {
   const mockedUser = mockedUsers.find((u) => u.id === userId) ?? null;
   return new Promise((resolve) =>
     resolve(mockedUser ? JSON.parse(JSON.stringify(mockedUser)) : null)
@@ -934,11 +955,12 @@ export const fetchPartyUser = (
 
 export const updatePartyUserStatus = (
   _party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   _product: PartyUserProduct,
   role: PartyUserProductRole,
   status: UserStatus
 ): Promise<any> => {
+  const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
   if (status === 'ACTIVE' || status === 'SUSPENDED') {
     // eslint-disable-next-line functional/immutable-data
     role.status = status;
@@ -946,7 +968,7 @@ export const updatePartyUserStatus = (
       if (status === 'ACTIVE') {
         // eslint-disable-next-line functional/immutable-data
         user.status = 'ACTIVE';
-      } else if (!user.products.find((p) => p.roles.find((r) => r.status === 'ACTIVE'))) {
+      } else if (!mockedUser.products.find((p) => p.roles.find((r) => r.status === 'ACTIVE'))) {
         // eslint-disable-next-line functional/immutable-data
         user.status = 'SUSPENDED';
       }
@@ -955,7 +977,7 @@ export const updatePartyUserStatus = (
     mockedUsers.splice(
       mockedUsers.findIndex((u) => u.id === user.id),
       1,
-      user
+      { ...mockedUser, ...user }
     );
 
     return new Promise<void>((resolve) => resolve());
@@ -966,11 +988,12 @@ export const updatePartyUserStatus = (
 
 export const deletePartyUser = (
   _party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   product: PartyUserProduct,
   role: PartyUserProductRole
 ): Promise<any> => {
-  if (user.products.length === 1 && product.roles.length === 1) {
+  const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
+  if (mockedUser.products.length === 1 && product.roles.length === 1) {
     // eslint-disable-next-line functional/immutable-data
     mockedUsers.splice(
       mockedUsers.findIndex((u) => u.id === user.id),

@@ -7,7 +7,7 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import UserDetail from '../components/UserDetail';
-import { PartyUser } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
@@ -20,7 +20,7 @@ import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
 type Props = {
-  partyUser: PartyUser;
+  partyUser: PartyUserDetail;
   fetchPartyUser: () => void;
   activeProducts: Array<Product>;
   party: Party;

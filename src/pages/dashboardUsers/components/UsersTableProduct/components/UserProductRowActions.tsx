@@ -6,7 +6,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/rou
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import { PartyUser, PartyUserProduct } from '../../../../../model/PartyUser';
+import { PartyProductUser, PartyUserProduct } from '../../../../../model/PartyUser';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { LOADING_TASK_ACTION_ON_PARTY_USER } from '../../../../../utils/constants';
 import { deletePartyUser, updatePartyUserStatus } from '../../../../../services/usersService';
@@ -14,10 +14,10 @@ import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
 
 type Props = {
   party: Party;
-  partyUser: PartyUser;
+  partyUser: PartyProductUser;
   partyUserProduct: PartyUserProduct;
-  onDelete: (partyUser: PartyUser) => void;
-  onStatusUpdate: (partyUser: PartyUser, nextStatus: UserStatus) => void;
+  onDelete: (partyUser: PartyProductUser) => void;
+  onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
 };
 
 const ITEM_HEIGHT = 48;
