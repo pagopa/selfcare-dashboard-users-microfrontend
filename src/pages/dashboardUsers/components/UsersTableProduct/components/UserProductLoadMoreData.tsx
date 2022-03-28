@@ -28,7 +28,7 @@ export default function UserTableLoadMoreData({ fetchNextPage }: Props) {
             fontWeight: 600,
           }}
         >
-          {t('userDetail.loadMore')}
+          {t('usersTable.loadMore')}
           <ExpandMore fontSize="small" sx={{ position: 'absolute', bottom: 0 }} />
         </Link>
       </Typography>

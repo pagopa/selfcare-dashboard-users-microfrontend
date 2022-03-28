@@ -52,10 +52,9 @@ const labels = {
     ) as unknown as string,
     description: (
       <Trans i18nKey="userDetail.filterRole.admin.description">
-        {' '}
-        tutti i ruoli abilitati alla gestione dei prodotti e di Self Care{' '}
+        tutti i ruoli abilitati alla gestione dei prodotti e di Self Care
       </Trans>
-    ) as unknown as string,
+    ),
   },
   LIMITED: {
     title: (
@@ -63,10 +62,9 @@ const labels = {
     ) as unknown as string,
     description: (
       <Trans i18nKey="userDetail.filterRole.limited.description">
-        {' '}
-        tutti i ruoli ruoli autorizzati a operare sui prodotti{' '}
+        tutti i ruoli ruoli autorizzati a operare sui prodotti
       </Trans>
-    ) as unknown as string,
+    ),
   },
 };
 
@@ -231,7 +229,11 @@ export default function UsersTableRolesFilter({
           )}
           renderValue={(selected: any) => {
             if (selected.length === 0) {
-              return <Box sx={{ fontStyle: 'normal', cursor: 'default' }}>Tutti i ruoli</Box>;
+              return (
+                <Box sx={{ fontStyle: 'normal', cursor: 'default' }}>
+                  {t('usersTable.filterRole.placeholder')}
+                </Box>
+              );
             }
             return selected.join(', ');
           }}
@@ -301,7 +303,7 @@ export default function UsersTableRolesFilter({
                     });
                   }}
                 >
-                  {t('userDetail.filterRole.goFilterButton')}
+                  {t('usersTable.filterRole.addFiltersButton')}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -316,7 +318,7 @@ export default function UsersTableRolesFilter({
                     onFiltersChange({ ...filters, productRoles: [] });
                   }}
                 >
-                  {t('userDetail.filterRole.deleteFilterButton')}
+                  {t('usersTable.filterRole.deleteFiltersButton')}
                 </Button>
               </Grid>
             </Grid>

@@ -36,7 +36,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
 
   const paths = [
     {
-      description: t('userEdit.addProduct.pathDescription'),
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -49,7 +49,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: goBack,
     },
     {
-      description: t('userEdit.addProduct.title'),
+      description: t('userPagesPath.addProduct'),
     },
   ];
 
@@ -66,8 +66,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
-          title={t('userEdit.addProduct.pageTitle')}
-          subTitle={t('userEdit.addProduct.pageSubTitle', {
+          title={t('userEdit.addProduct.title')}
+          subTitle={t('userEdit.addProduct.subTitle', {
             institutionName: `${party.description}`,
           })}
         />

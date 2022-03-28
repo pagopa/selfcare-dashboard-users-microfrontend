@@ -64,7 +64,7 @@ function UsersProductPage({
       <Grid item xs={12} mb={9} px={2}>
         <TitleBox
           title={t('usersPage.title')}
-          subTitle={t('usersPage.generic.subTitle', {
+          subTitle={t('usersPage.vertical.subTitle', {
             selectedProduct: `${selectedProduct.title}`,
           })}
         />

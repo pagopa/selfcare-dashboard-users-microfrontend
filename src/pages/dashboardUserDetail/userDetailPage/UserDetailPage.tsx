@@ -6,7 +6,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import UserDetail from '../components/UserDetail';
 import { PartyUser } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -75,11 +75,11 @@ function UserDetailPage({
           id: 'DELETE_PARTY_USER',
           title: t('userDetail.actions.deleteUser.title'),
           message: (
-            <>
+            <Trans i18nKey="userDetail.actions.deleteUser.message">
               {'Hai eliminato correttamente il referente '}
-              <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
+              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
               {'.'}
-            </>
+            </Trans>
           ),
         });
       })
@@ -101,15 +101,15 @@ function UserDetailPage({
       id: 'Notify_Example',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
-        <>
+        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
           {'Stai per eliminare il referente '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`}
+            {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
       closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),

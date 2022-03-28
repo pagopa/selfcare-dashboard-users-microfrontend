@@ -23,7 +23,7 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { fetchUserRegistryByFiscalCode, savePartyUser } from '../../../services/usersService';
 import {
@@ -229,9 +229,10 @@ export default function AddUserForm({
           title: t('userEdit.addForm.saveUserSuccess.title'),
           message: (
             <>
-              {'Hai aggiunto correttamente '}
-              <strong>{`${values.name} ${values.surname}`}</strong>
-              {'.'}
+              <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
+                Hai aggiunto correttamente
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+              </Trans>
             </>
           ),
         });
@@ -247,10 +248,10 @@ export default function AddUserForm({
           toNotify: true,
           displayableTitle: t('userEdit.addForm.saveUserError.title'),
           displayableDescription: (
-            <>
+            <Trans i18nKey="userEdit.addForm.saveUserError.message">
               {"C'è stato un errore durante l'aggiunta del referente "}
-              <strong>{`${values.name} ${values.surname}`}</strong>.
-            </>
+              <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+            </Trans>
           ),
           component: 'Toast',
         })
@@ -268,15 +269,19 @@ export default function AddUserForm({
           id: 'MULTI_ROLE_USER',
           title: t('userEdit.addForm.addMultiRoleModal.title'),
           message: (
-            <>
+            <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
               {'Stai per assegnare a '}
-              <strong>{`${values.name} ${values.surname} `}</strong>
+              <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
               {`i ruoli `}
-              <strong>{`${values.productRoles
-                .map((r) => productRoles?.groupByProductRole[r].title)
-                .join(',')}`}</strong>
+              <strong>
+                {{
+                  roles: `${values.productRoles
+                    .map((r) => productRoles?.groupByProductRole[r].title)
+                    .join(',')}`,
+                }}
+              </strong>
               {' sul prodotto '}
-              <strong>{`${userProduct?.title}.`}</strong>
+              <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
               {
                 <>
                   <br></br>
@@ -285,7 +290,7 @@ export default function AddUserForm({
               }
               {' Confermi di voler continuare?'}
               {<br></br>}
-            </>
+            </Trans>
           ),
           onConfirm: () => save(values),
           confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),

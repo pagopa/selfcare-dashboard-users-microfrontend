@@ -31,7 +31,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
     );
   const paths = [
     {
-      description: t('userEdit.editRegistryForm.path'),
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path, {
@@ -45,7 +45,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
       onClick: goBack,
     },
     {
-      description: t('userEdit.editRegistryForm.pathDescription'),
+      description: t('userPagesPath.editUser'),
     },
   ];
 

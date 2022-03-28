@@ -50,12 +50,12 @@ export default function UserProductActions({
             <>
               <Trans i18nKey="userDetail.actions.delete.message">
                 {'Hai eliminato correttamente il ruolo '}
-                {transcodeProductRole2Title(role.role, productRolesList)}
+                {{ role: transcodeProductRole2Title(role.role, productRolesList) }}
                 {' assegnato a '}
                 <strong>
                   {
                     (t('userDetail.actions.delete.message'),
-                    { name: `${user.name}`, surname: `${user.surname}` })
+                    { user: `${user.name} ${user.surname}` })
                   }
                 </strong>
                 {'.'}
@@ -82,19 +82,19 @@ export default function UserProductActions({
       id: 'Notify_Example',
       title: t('userDetail.actions.modalDelete.title'),
       message: (
-        <>
+        <Trans i18nKey="userDetail.actions.modalDelete.message">
           {'Stai per eliminare il ruolo'}
-          <strong> {transcodeProductRole2Title(role.role, productRolesList)} </strong>
+          <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
           {'di '}
-          <strong> {product.title} </strong>
+          <strong> {{ productTitle: product.title }} </strong>
           {' assegnato a '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${user.name} ${user.surname}`}
+            {{ user: party && `${user.name} ${user.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
       ),
       confirmLabel: t('userDetail.actions.modalDelete.confirmButton'),
       closeLabel: t('userDetail.actions.modalDelete.closeButton'),
@@ -124,13 +124,14 @@ export default function UserProductActions({
         fetchPartyUser();
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
-          title: `REFERENTE ${selectedUserStatus.toUpperCase()}`,
+          title: t('userDetail.actions.changeUserStatus.title', {
+            userStatus: `${selectedUserStatus.toUpperCase()}`,
+          }),
           message: (
-            <>
-              {`Hai ${selectedUserStatus} correttamente `}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-              {'.'}
-            </>
+            <Trans i18nKey="userDetail.actions.changeUserStatus.message">
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
           ),
           component: 'Toast',
         });
@@ -150,23 +151,31 @@ export default function UserProductActions({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: role.status === 'ACTIVE' ? 'Sospendi Ruolo' : 'Riabilita Ruolo',
+      title:
+        role.status === 'ACTIVE'
+          ? t('userDetail.actions.changeUserStatusModal.titleSuspend')
+          : t('userDetail.actions.changeUserStatusModal.titleReactivate'),
       message: (
-        <>
+        <Trans i18nKey="userDetail.actions.changeUserStatusModal.message">
           {role.status === 'ACTIVE'
-            ? 'Stai per sospendere il ruolo'
-            : 'Stai per riabilitare il ruolo'}
-          <strong> {transcodeProductRole2Title(role.role, productRolesList)} </strong>
+            ? t('userDetail.actions.changeUserStatusModal.messageSuspend')
+            : t('userDetail.actions.changeUserStatusModal.messageReactivate')}
+          <strong>
+            {' '}
+            {{
+              transcodeProductRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+            }}{' '}
+          </strong>
           {'di '}
-          <strong> {product.title} </strong>
+          <strong> {{ productTitle: product.title }} </strong>
           {' assegnato a '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${user.name.toLocaleLowerCase()} ${user.surname}`}
+            {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
       ),
       confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
       closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
@@ -182,9 +191,9 @@ export default function UserProductActions({
             <Link onClick={handleOpen} component="button">
               <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
                 {role.status === 'SUSPENDED'
-                  ? 'Riabilita' // TODO
+                  ? t('userDetail.actions.reactivateRole')
                   : role.status === 'ACTIVE'
-                  ? 'Sospendi' // TODO
+                  ? t('userDetail.actions.suspendRole')
                   : ''}
               </Typography>
             </Link>

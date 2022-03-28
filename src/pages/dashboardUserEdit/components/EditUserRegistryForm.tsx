@@ -9,7 +9,7 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
@@ -96,11 +96,11 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             id: 'EDIT_PARTY_USER',
             title: t('userEdit.editRegistryForm.editUserSuccess.title'),
             message: (
-              <>
+              <Trans i18nkey="userEdit.editRegistryForm.editUserSuccess.message">
                 {'Hai modificato correttamente i dati di '}
-                <strong>{`${values.name} ${values.surname}`}</strong>
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>
                 {'.'}
-              </>
+              </Trans>
             ),
           });
           goBack();
@@ -114,10 +114,10 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             toNotify: true,
             displayableTitle: t('userEdit.editRegistryForm.editUserError.title'),
             displayableDescription: (
-              <>
+              <Trans i18nkey="userEdit.editRegistryForm.editUserError.message">
                 {"C'è stato un errore durante la modifica del referente "}
-                <strong>{`${values.name} ${values.surname}`}</strong>.
-              </>
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+              </Trans>
             ),
             component: 'Toast',
           })

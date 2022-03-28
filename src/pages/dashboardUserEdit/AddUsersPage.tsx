@@ -22,7 +22,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
 
   const paths = [
     {
-      description: t('userEdit.addForm.path'),
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -31,7 +31,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
         ),
     },
     {
-      description: t('userEdit.addForm.pathDescription'),
+      description: t('userPagesPath.addUser'),
     },
   ];
 
@@ -49,7 +49,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       <Grid item xs={12} mb={9}>
         <TitleBox
           title={t('userEdit.addForm.title')}
-          subTitle={t('userEdit.addForm.subTitle.vertical', {
+          subTitle={t('userEdit.addForm.subTitle.generic', {
             institutionName: `${party.description}.`,
           })}
         />

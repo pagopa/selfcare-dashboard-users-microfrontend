@@ -9,6 +9,7 @@ import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mock
 import AddUsersProductPage from '../AddUsersProductPage';
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
 import { mockedProductRoles } from '../../../services/__mocks__/usersService';
+import './../../../locale';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');

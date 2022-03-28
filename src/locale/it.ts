@@ -1,4 +1,62 @@
 export default {
+  userPagesPath: {
+    detailRedirect: 'Referenti',
+    addProduct: 'Aggiungi Prodotto',
+    addUser: 'Aggiungi un Referente',
+    editUser: 'Modifica Referente',
+  },
+  usersTable: {
+    filterRole: {
+      placeholder: 'Tutti i ruoli',
+      admin: {
+        // TODO fix
+        title: 'Amministratore',
+        description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+      },
+      limited: {
+        // TODO fix
+        title: 'Operatore',
+        description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+      },
+      addFiltersButton: 'Filtra',
+      deleteFiltersButton: 'Cancella filtri',
+      noDataFilter:
+        'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
+      errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
+    },
+    rowActions: {
+      edit: 'Modifica',
+      rehabilitate: 'Riabilita',
+      suspend: 'Sospendi',
+      delete: 'Elimina',
+      deleteModal: {
+        title: 'Elimina Referente',
+        message: `Stai per eliminare <1>{{user}}</1>. <3/>Vuoi continuare?`,
+        confirmButton: 'Conferma',
+        closeButton: 'Annulla',
+      },
+      deleteSuccess: {
+        title: 'REFERENTE ELIMINATO',
+        message: `Hai eliminato correttamente <1>{{user}}</1>.`,
+      },
+      changeUserStatusModal: {
+        titleSuspended: 'Sospendi Referente',
+        titleReactivate: 'Riabilita Referente',
+        messageSuspended: 'Stai per sospendere ',
+        messageReactivate: 'Stai per riabilitare ',
+        message: ` <0>{{user}}</0>.<4/>Vuoi continuare?`,
+        confirmButton: 'Conferma',
+        closeButton: 'Annulla',
+      },
+      wantContinue: 'Vuoi continuare?',
+      changeUserStatusSuccess: {
+        title: 'REFERENTE {{userStatus}}',
+        message: 'Hai {{userStatus}} correttamente <3>{{user}}</3>.',
+      },
+    },
+    loadMore: 'Carica altri',
+    addButton: 'Aggiungi',
+  },
   userDetail: {
     title: 'Dettaglio Referente',
     name: 'NOME',
@@ -6,79 +64,65 @@ export default {
     fiscalCode: 'CODICE FISCALE',
     institutionalEmail: 'EMAIL ISTITUZIONALE',
     institution: 'ENTE',
-    addButton: 'Aggiungi',
     editButton: 'Modifica',
     deleteButton: 'Elimina',
     backButton: 'Indietro',
-    filterRole: {
-      // TODO CHECK POSITION IN JSON FILE AND NAME OF THE KEYS
-      admin: {
-        // TODO CHECK IF WORK AND IF IT'S CORRECT
-        title: 'Amministratore',
-        description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
-      },
-      limited: {
-        // TODO CHECK IF WORK AND IF IT'S CORRECT
-        title: 'Operatore',
-        description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
-      },
-      goFilterButton: 'Filtra',
-      deleteFilterButton: 'Cancella filtri',
-      noDataFilter:
-        'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.', // TODO CHECK JSON NAME AND POSITION
-      errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.', // TODO CHECK POSITION IN JSON DOCUMENT
-      loadMore: 'Carica altri', // TODO CHECK POSITION IN JSON DOCUMENT
-      userProductRowActions: {
-        // TODO userProductRowActions.tsx
-        // TODO UserProductTableColumns.tsx
-      },
-    },
     actions: {
       delete: {
-        // TODO USER ACTIONS
         title: 'RUOLO ELIMINATO',
-        message: 'Hai eliminato correttamente il ruolo assegnato a <0>{{name}} {{surname}}</0>.', // TODO CHECK
+        message: 'Hai eliminato correttamente il ruolo {{role}} assegnato a <0>{{user}}</0>.',
       },
       modalDelete: {
         title: 'Elimina Ruolo',
-        message: '', // TODO
+        message:
+          'Stai per eliminare il ruolo <1> {{role}} </1> di <3> {{productTitle}} </3> assegnato a <4>{{user}}</4>.<5 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
-        title: '', // TODO
-        message: '', // TODO
+        titleSuspend: 'Sospendi Ruolo',
+        messageSuspend: 'Stai per sospendere il ruolo',
+        titleReactivate: 'Riabilita Ruolo',
+        messageReactivate: 'Stai per riabilitare il ruolo',
+        message:
+          '<0></0> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       changeUserStatus: {
-        title: '', // TODO
-        message: '', // TODO
+        title: 'REFERENTE {{userStatus}}',
+        message: 'Hai {{userStatus}} correttamente <3>{{user}}</3>.',
       },
+      suspendRole: 'Sospendi',
+      reactivateRole: 'Riabilita',
       deleteButton: 'Elimina',
       successfulAddRole: {
         title: 'RUOLO AGGIUNTO',
-        message: '', // TODO
+        messageRole: 'il ruolo',
+        messageRoles: 'i ruoli',
+        message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
       },
       addRoleError: {
         title: "ERRORE DURANTE L'AGGIUNTA",
-        description: '', // TODO
-        message: '', // TODO
+        description: "C'è stato un errore durante l'aggiunta del ruolo per il referente {{user}}",
+        message:
+          "C'è stato un errore durante l'aggiunta del ruolo per il referente <1>{{user}}</1>.",
       },
       newRoleAssign: '+ Assegna ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
-        message: '', // TODO
+        message:
+          'Assegna a <1>{{user}}</1> un altro ruolo <2>{{userRole}}</2> sul prodotto <3>{{productTitle}}</3>',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       deleteUser: {
         title: 'REFERENTE ELIMINATO',
-        message: '', // TODO in UserProductDetailPage && UserDetailPage too
+        message: 'Hai eliminato correttamente il referente <1>{{user}}</1>.',
       },
       deleteUserModal: {
         title: 'Elimina Referente',
-        message: '', // TODO in UserProductDetailPage && UserDetailPage too
+        message: 'Stai per eliminare il referente <1>{{user}}</1>.<2 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
@@ -94,20 +138,16 @@ export default {
     rehabilitated: 'riabilitato',
     group: 'GRUPPO',
     role: 'RUOLO',
-    statusLabel: 'Sospeso', // TODO NOT EXACT JSON KEY NAME
+    statusLabel: 'Sospeso',
   },
   userEdit: {
-    // TODO NOT EXACT JSON KEY NAME
     addForm: {
-      path: 'Referenti', // TODO NOT EXACT JSON KEY NAME
-      pathDescription: 'Aggiungi un Referente', // TODO NOT EXACT JSON KEY NAME
       title: 'Aggiungi un Referente',
       subTitle: {
-        // TODO CHECK IF VERTICAL AND GENERIC HAVE THE CORRECT VALUE (CHECK FOR REVERSE)
-        vertical:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il {{institutionName}}', // TODO CHECK WORKING
         generic:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire {{selectedProduct}}', // TODO CHECK WORKING
+          'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il {{institutionName}}',
+        vertical:
+          'Inserisci i dati della persona che vuoi autorizzare a gestire {{selectedProduct}}',
       },
       fiscalCode: {
         label: 'Codice Fiscale',
@@ -147,22 +187,21 @@ export default {
       },
       saveUserSuccess: {
         title: 'REFERENTE AGGIUNTO',
-        message: '', // TODO
+        message: 'Hai aggiunto correttamente <1>{{user}}</1>.',
       },
       saveUserError: {
         title: "ERRORE DURANTE L'AGGIUNTA",
-        message: '', // TODO
+        message: "C'è stato un errore durante l'aggiunta del referente <1>{{user}}</1>.",
       },
       addMultiRoleModal: {
         title: 'Assegna ruolo',
-        message: '', // TODO
+        message:
+          'Stai per assegnare a <1>{{user}}</1>i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
     },
     editRegistryForm: {
-      path: 'Referenti', // TODO NOT EXACT JSON KEY NAME
-      pathDescription: 'Modifica Referente', // TODO NOT EXACT JSON KEY NAME
       title: 'Modifica Referente',
       subTitle: 'Modifica i dati della persona che hai autorizzato a gestire.',
       fiscalCode: {
@@ -194,31 +233,28 @@ export default {
       },
       editUserSuccess: {
         title: 'REFERENTE MODIFICATO',
-        message: '', // TODO
+        message: 'Hai modificato correttamente i dati di <1>{{user}}</1>.',
       },
       editUserError: {
         title: 'ERRORE DURANTE LA MODIFICA',
-        message: '', // TODO
+        message: "C'è stato un errore durante la modifica del referente <1>{{user}}</1>.",
       },
     },
     addProduct: {
-      pathDescription: 'Referenti', // TODO CHECK THIS
-      title: 'Aggiungi Prodotto', // TODO CHECK THIS
-      pageTitle: 'Aggiungi Prodotto', // TODO CHECK JSON KEYS
-      pageSubtitle: 'Assegna un prodotto al referente abilitato per {{institutionName}}', // TODO CHECK JSON KEYS AND CHECK
+      title: 'Aggiungi Prodotto',
+      subTitle: 'Assegna un prodotto al referente abilitato per {{institutionName}}',
       name: 'NOME',
       surname: 'COGNOME',
       fiscalCode: 'CODICE FISCALE',
     },
   },
   usersPage: {
-    // CHECK NAME, POSITION AND ADD PATHDESCRIPTION IN THE TWO PAGES (UsersPage, UsersProductPage)
     title: 'Referenti',
-    vertical: {
+    generic: {
       subTitle:
         'Visualizza e gestisci i referenti abilitati alla gestione dei prodotti del tuo Ente.',
     },
-    generic: {
+    vertical: {
       subTitle:
         'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto {{selectedProduct}}',
     },

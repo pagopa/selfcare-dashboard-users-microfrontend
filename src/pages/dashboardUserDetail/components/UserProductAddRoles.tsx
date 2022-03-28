@@ -4,7 +4,7 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -59,13 +59,15 @@ export default function UserProductAddRoles({
           id: 'ADD_MULTI_ROLE_USER',
           title: t('userDetail.actions.successfulAddRole.title'),
           message: (
-            <>
+            <Trans i18nKey="userDetail.actions.successfulAddRole.message">
               {'Hai aggiunto correttamente '}
-              {newRolesTitles?.length === 1 ? 'il ruolo' : 'i ruoli'}
-              {` ${newRolesTitles?.join(',')} `}
+              {newRolesTitles?.length === 1
+                ? t('userDetail.actions.successfulAddRole.messageRole')
+                : t('userDetail.actions.successfulAddRole.messageRoles')}
+              {{ roles: ` ${newRolesTitles?.join(',')} ` }}
               {' per il referente '}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-            </>
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
+            </Trans>
           ),
         });
         fetchPartyUser();
@@ -75,15 +77,17 @@ export default function UserProductAddRoles({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
           displayableTitle: t('userDetail.actions.addRoleError.title'),
-          techDescription: `C'è stato un errore durante l'aggiunta del ruolo per il referente ${user.name} ${user.surname}`,
+          techDescription: t('userDetail.actions.addRoleError.description', {
+            user: `${user.name} ${user.surname}`,
+          }),
           blocking: false,
           error,
           toNotify: true,
           displayableDescription: (
-            <>
+            <Trans i18nKey="userDetail.actions.addRoleError.message">
               {"C'è stato un errore durante l'aggiunta del ruolo per il referente "}
-              <strong>{`${user.name} ${user.surname}`}</strong>.
-            </>
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
           ),
         })
       )
@@ -136,12 +140,14 @@ export default function UserProductAddRoles({
         title={t('userDetail.actions.newRoleAssignModal.title')}
         message={
           <>
-            {'Assegna a '}
-            <strong> {`${user.name} ${user.surname}`} </strong>
-            {'un altro ruolo '}
-            <strong> {`${user.userRole}`} </strong>
-            {' sul prodotto '}
-            <strong> {`${product.title}:`} </strong>
+            <Trans i18nKey="userDetail.actions.newRoleAssignModal.message">
+              {'Assegna a '}
+              <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
+              {'un altro ruolo '}
+              <strong> {{ userRole: `${user.userRole}` }} </strong>
+              {' sul prodotto '}
+              <strong> {{ productTitle: `${product.title}:` }} </strong>
+            </Trans>
 
             {Object.values(orderedRolesList).map((p) => {
               const isSelected = (selectedRoles?.indexOf(p.productRole) ?? -1) > -1;

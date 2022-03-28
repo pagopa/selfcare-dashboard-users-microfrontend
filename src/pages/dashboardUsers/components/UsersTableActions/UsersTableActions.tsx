@@ -63,7 +63,7 @@ export default function UsersTableActions({
           sx={{ py: '10px' }}
           onClick={() => onExit(() => history.push(addUserUrl))}
         >
-          {t('userDetail.addButton')}
+          {t('usersTable.addButton')}
         </Button>
       </Grid>
     </Grid>
