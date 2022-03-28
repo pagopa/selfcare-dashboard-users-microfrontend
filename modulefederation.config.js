@@ -44,6 +44,14 @@ module.exports = {
       singleton: true,
       requiredVersion: dependencies['react-router-dom'],
     },
+    '@emotion/react': {
+      singleton: true,
+      requiredVersion: dependencies['@emotion/react'],
+    },
+    '@emotion/styled': {
+      singleton: true,
+      requiredVersion: dependencies['@emotion/styled'],
+    },
     '@mui/icons-material': {
       singleton: true,
       requiredVersion: dependencies['@mui/icons-material'],
