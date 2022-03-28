@@ -9,10 +9,9 @@ import theme from '@pagopa/mui-italia/theme';
 import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { store } from '../../redux/store';
-import { MOCK_USER } from '../constants';
-import { ENV } from '../env';
+import { MOCK_USER } from '../../utils/constants';
+import { ENV } from '../../utils/env';
 import reportWebVitals from '../../reportWebVitals';
-import { mockedParties } from '../../services/__mocks__/partyService';
 import App from './App';
 
 // eslint-disable-next-line functional/immutable-data
@@ -37,7 +36,7 @@ ReactDOM.render(
             <Route path="*">
               <Redirect
                 to={resolvePathVariables(ENV.ROUTES.OVERVIEW, {
-                  institutionId: mockedParties[0].institutionId,
+                  institutionId: 'onboarded',
                 })}
               />
             </Route>

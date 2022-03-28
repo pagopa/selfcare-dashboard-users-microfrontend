@@ -1,9 +1,9 @@
 import { Route } from 'react-router-dom';
 import { DASHBOARD_USERS_ROUTES } from './routes';
-import RoutingProductUsers from './RoutingProductUsers';
-import RoutingUsers from './RoutingUsers';
+import RoutingProductUsers from './remotes/RoutingProductUsers';
+import RoutingUsers from './remotes/RoutingUsers';
 import { ENV } from './utils/env';
-import { DashboardMicrofrontendPageProps } from './utils/microfrontend/dashboard-routes-utils';
+import { DashboardMicrofrontendPageProps } from './microcomponents/dashboard-routes-utils';
 import './locale';
 
 if (process.env.NODE_ENV === 'development') {
@@ -18,5 +18,5 @@ if (process.env.NODE_ENV === 'development') {
   ];
   // eslint-disable-next-line functional/immutable-data
   (window as any).appRoutes = DASHBOARD_USERS_ROUTES;
-  require('./utils/microfrontend/indexMicrofrontend');
+  require('./microcomponents/mock_dashboard/indexMicrofrontend');
 }

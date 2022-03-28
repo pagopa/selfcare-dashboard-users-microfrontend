@@ -3,9 +3,9 @@ import * as H from 'history';
 import { Store } from 'redux';
 import { Theme } from '@mui/material';
 import { useMemo } from 'react';
-import { RouteConfig, RoutesObject } from '../../routes';
-import { Party } from '../../model/Party';
-import { Product, ProductsMap } from '../../model/Product';
+import { RouteConfig, RoutesObject } from '../routes';
+import { Party } from '../model/Party';
+import { Product, ProductsMap } from '../model/Product';
 
 export type DashboardPageProps = {
   party: Party;
@@ -14,12 +14,15 @@ export type DashboardPageProps = {
   productsMap: ProductsMap;
 };
 
-export type DashboardMicrofrontendPageProps = {
+export type DashboardMicrofrontendPageProps = DashboardPageProps & {
+  decorators: DashboardDecoratorsType;
+} & DashboardMicrocomponentsProps;
+
+export type DashboardMicrocomponentsProps = {
   history: H.History;
   theme: Theme;
   store: Store<any, any>;
-  decorators: DashboardDecoratorsType;
-} & DashboardPageProps;
+};
 
 export type DashboardDecoratorsType = {
   withProductRolesMap: (WrappedComponent: React.ComponentType<any>) => React.ComponentType<any>;

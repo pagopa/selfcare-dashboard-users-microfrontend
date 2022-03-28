@@ -8,10 +8,12 @@ export const ENV = {
   PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
-    OVERVIEW: '/dashboard/:institutionId',
+    OVERVIEW: `${PUBLIC_URL_INNER}/:institutionId`,
     USERS: `${PUBLIC_URL_INNER}/:institutionId/users`,
     USERS_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/users/:userId`,
     PRODUCT_USERS: `${PUBLIC_URL_INNER}/:institutionId/:productId/users`,
+    GROUPS: `${PUBLIC_URL_INNER}/:institutionId/groups`,
+    GROUP_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/groups/:groupId`,
   },
 
   URL_FE: {

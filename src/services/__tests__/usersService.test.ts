@@ -12,8 +12,8 @@ import {
   fetchUserRegistryByFiscalCode,
   deletePartyUser,
 } from '../usersService';
-import { mockedParties } from '../__mocks__/partyService';
-import { mockedPartyProducts } from '../__mocks__/productService';
+import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
+import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
   institutionUserResource2PartyUser,
@@ -21,7 +21,7 @@ import {
   PartyUserOnCreation,
   productUserResource2PartyUser,
 } from '../../model/PartyUser';
-import { mockedProductRoles as mockedProductRolesService } from '../__mocks__/usersService';
+import { mockedProductRoles as mockedProductRolesService } from '../../microcomponents/mock_dashboard/data/product';
 import { userResource2UserRegistry } from '../../model/UserRegistry';
 import { mockedUsers } from '../__mocks__/usersService';
 import { buildProductsMap } from '../../model/Product';

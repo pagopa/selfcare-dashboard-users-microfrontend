@@ -4,7 +4,7 @@ import {
 } from '../../api/generated/b4f-dashboard/InstitutionUserResource';
 import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
-import { mockedPartyProducts } from '../../services/__mocks__/productService';
+import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import { institutionUserResource2PartyUser, productUserResource2PartyUser } from '../PartyUser';
 

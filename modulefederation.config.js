@@ -11,8 +11,8 @@ const dependencies = {
 module.exports = {
   name: 'selfcareUsers',
   exposes: {
-    './RoutingUsers': './src/RoutingUsers',
-    './RoutingProductUsers': './src/RoutingProductUsers',
+    './RoutingUsers': './src/remotes/RoutingUsers',
+    './RoutingProductUsers': './src/remotes/RoutingProductUsers',
   },
   filename: 'remoteEntry.js',
   shared: {
@@ -44,6 +44,14 @@ module.exports = {
       singleton: true,
       requiredVersion: dependencies['react-router-dom'],
     },
+    '@emotion/react': {
+      singleton: true,
+      requiredVersion: dependencies['@emotion/react'],
+    },
+    '@emotion/styled': {
+      singleton: true,
+      requiredVersion: dependencies['@emotion/styled'],
+    },
     '@mui/icons-material': {
       singleton: true,
       requiredVersion: dependencies['@mui/icons-material'],
@@ -51,6 +59,10 @@ module.exports = {
     '@mui/material': {
       singleton: true,
       requiredVersion: dependencies['@mui/material'],
+    },
+    '@mui/lab': {
+      singleton: true,
+      requiredVersion: dependencies['@mui/lab'],
     },
     '@mui/x-data-grid': {
       singleton: true,

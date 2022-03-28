@@ -1,14 +1,16 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore, store } from '../../../redux/store';
-import { mockedParties } from '../../../services/__mocks__/partyService';
-import { mockedPartyProducts } from '../../../services/__mocks__/productService';
+import { createStore } from '../../../redux/store';
+import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
+import {
+  mockedPartyProducts,
+  mockedProductRoles,
+} from '../../../microcomponents/mock_dashboard/data/product';
 import { Route, Router, Switch } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import AddUsersProductPage from '../AddUsersProductPage';
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
-import { mockedProductRoles } from '../../../services/__mocks__/usersService';
 import './../../../locale';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
