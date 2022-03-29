@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router';
 import * as H from 'history';
 import { Store } from 'redux';
+import { i18n } from 'i18next';
 import { Theme } from '@mui/material';
 import { useMemo } from 'react';
 import { RouteConfig, RoutesObject } from '../routes';
@@ -22,6 +23,7 @@ export type DashboardMicrocomponentsProps = {
   history: H.History;
   theme: Theme;
   store: Store<any, any>;
+  i18n: i18n;
 };
 
 export type DashboardDecoratorsType = {
