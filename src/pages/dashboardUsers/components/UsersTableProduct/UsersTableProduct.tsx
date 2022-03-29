@@ -146,7 +146,9 @@ const UsersTableProduct = ({
   const onStatusUpdate = (partyUser: PartyProductUser, nextStatus: UserStatus) => {
     // eslint-disable-next-line functional/immutable-data
     partyUser.status = nextStatus;
-    setUsers({ ...users });
+    // eslint-disable-next-line functional/immutable-data
+    partyUser.product.roles[0].status = nextStatus;
+    setUsers({ page: users.page, content: users.content.slice() });
   };
 
   if (error) {
