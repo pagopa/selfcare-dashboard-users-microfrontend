@@ -61,7 +61,7 @@ export default function UserProductRowActions({
         </>
       ),
       onConfirm,
-      confirmLabel: t('usersTable.changeUserStatusModal.confirmButton'),
+      confirmLabel: t('usersTable.rowActions.changeUserStatusModal.confirmButton'),
     });
   };
 
