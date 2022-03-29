@@ -51,4 +51,26 @@ export const mockedParties: Array<Party> = [
     fiscalCode: 'fiscalCodeONBOARDED',
     category: '',
   },
+  // Usable when not mocking the BE
+  {
+    category: 'Comuni e loro Consorzi e Associazioni',
+    description: 'Comune di Caltanissetta',
+    digitalAddress: 'protocollo@pec.comune.caltanissetta.it',
+    fiscalCode: '80001130857',
+    institutionId: 'c_b429',
+    status: 'ACTIVE',
+    urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b429/logo.png',
+    userRole: 'ADMIN',
+  },
+  // Usable when not mocking the BE
+  {
+    category: 'Comuni e loro Consorzi e Associazioni',
+    description: 'Comune di Casalnuovo di Napoli',
+    digitalAddress: 'protocollogen.casalnuovo.na@pec.actalis.it',
+    fiscalCode: '05600440639',
+    institutionId: 'c_b905',
+    status: 'ACTIVE',
+    urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b905/logo.png',
+    userRole: 'ADMIN',
+  },
 ];
