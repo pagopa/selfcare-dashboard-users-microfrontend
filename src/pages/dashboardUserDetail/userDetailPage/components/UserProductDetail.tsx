@@ -1,4 +1,5 @@
 import { Grid, Typography, Chip, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
@@ -28,6 +29,7 @@ export default function UserProductDetail({
   product,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
 
   return (
@@ -44,7 +46,7 @@ export default function UserProductDetail({
               <Box ml={2}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
-                    label="Sospeso"
+                    label={t('userDetail.statusLabel')}
                     variant="outlined"
                     sx={{
                       fontWeight: '600',

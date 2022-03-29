@@ -1,5 +1,6 @@
 import { Box, Chip, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { useTranslation } from 'react-i18next';
 import {
   ProductRolesLists,
   transcodeProductRole2Description,
@@ -38,6 +39,7 @@ export default function UserProductRoles({
   canEdit,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Grid container item xs={12}>
       {userProduct.roles.map((p) => (
@@ -46,7 +48,7 @@ export default function UserProductRoles({
             <Grid container item>
               <Box>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  RUOLO
+                  {t('userDetail.role')}
                 </Typography>
               </Box>
               {p.status === 'SUSPENDED' &&
@@ -54,7 +56,7 @@ export default function UserProductRoles({
                   userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
                   <Box ml={14}>
                     <Chip
-                      label="Sospeso"
+                      label={t('userDetail.statusLabel')}
                       variant="outlined"
                       sx={{
                         fontWeight: '600',

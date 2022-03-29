@@ -2,6 +2,7 @@ import { Button, Grid, Typography, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useTranslation } from 'react-i18next';
 import { PartyUserDetail } from '../../../../model/PartyUser';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -25,6 +26,7 @@ export default function UserProductSection({
   products,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
   return (
     <>
@@ -32,12 +34,12 @@ export default function UserProductSection({
         <Grid container item>
           <Grid item mb={1} xs={12}>
             <Typography variant="h3" sx={{ fontSize: '20px' }}>
-              Prodotti
+              {t('userDetail.productSection.title')}
             </Typography>
           </Grid>
           <Grid item mb={1} xs={12}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Qui trovi tutti i dati dei prodotti relativi al tuo profilo
+              {t('userDetail.productSection.description')}
             </Typography>
           </Grid>
         </Grid>
@@ -64,7 +66,7 @@ export default function UserProductSection({
                 )
               }
             >
-              Aggiungi
+              {t('userDetail.productSection.addButton')}
             </Button>
           </Grid>
         )}

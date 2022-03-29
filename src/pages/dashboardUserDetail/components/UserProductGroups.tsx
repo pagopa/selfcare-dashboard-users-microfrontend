@@ -2,6 +2,7 @@ import { Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
+import { useTranslation } from 'react-i18next';
 import { fetchUserGroups } from '../../../services/usersService';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
@@ -16,6 +17,7 @@ type Props = {
   canEdit: boolean;
 };
 export default function UserProductGroups({ user, party, product, canEdit }: Props) {
+  const { t } = useTranslation();
   const [userGroups, setUserGroups] = useState<Array<PartyGroup>>([]);
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
@@ -46,7 +48,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
         <Grid container>
           <Grid item xs={3}>
             <Typography className="CustomLabelStyle" variant="h6">
-              GRUPPO
+              {t('userDetail.group')}
             </Typography>
           </Grid>
 
