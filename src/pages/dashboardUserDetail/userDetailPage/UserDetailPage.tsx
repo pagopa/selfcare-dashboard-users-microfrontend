@@ -6,6 +6,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
+import { Trans, useTranslation } from 'react-i18next';
 import UserDetail from '../components/UserDetail';
 import { PartyUser } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -36,6 +37,7 @@ function UserDetailPage({
   party,
   productsMap,
 }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
@@ -71,13 +73,13 @@ function UserDetailPage({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: 'REFERENTE ELIMINATO',
+          title: t('userDetail.actions.deleteUser.title'),
           message: (
-            <>
+            <Trans i18nKey="userDetail.actions.deleteUser.message">
               {'Hai eliminato correttamente il referente '}
-              <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
+              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
               {'.'}
-            </>
+            </Trans>
           ),
         });
       })
@@ -97,27 +99,27 @@ function UserDetailPage({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: 'Elimina Referente',
+      title: t('userDetail.actions.deleteUserModal.title'),
       message: (
-        <>
+        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
           {'Stai per eliminare il referente '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`}
+            {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
       ),
-      confirmLabel: 'Conferma',
-      closeLabel: 'Annulla',
+      confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
+      closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
       onConfirm: onDelete,
     });
   };
 
   const paths = [
     {
-      description: 'Referenti',
+      description: t('userDetail.pathDescription'),
       onClick: goBack,
     },
     {
@@ -139,7 +141,7 @@ function UserDetailPage({
         <ProductNavigationBar paths={paths} />
       </Grid>
       <Grid item xs={12} mb={7}>
-        <Typography variant="h1">Dettaglio Referente</Typography>
+        <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
       <Grid container item>
         <Grid item xs={12} mb={9}>
@@ -173,7 +175,7 @@ function UserDetailPage({
             sx={{ height: '40px', width: '100%' }}
             onClick={goBack}
           >
-            Indietro
+            {t('userDetail.backButton')}
           </Button>
         </Grid>
         {partyUser.products.length === 1 &&
@@ -193,7 +195,7 @@ function UserDetailPage({
                 }}
                 onClick={handleOpenDelete}
               >
-                Elimina
+                {t('userDetail.deleteButton')}
               </Button>
             </Grid>
           )}

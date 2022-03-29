@@ -6,6 +6,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/rou
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
+import { useTranslation } from 'react-i18next';
 import { PartyUser, PartyUserProduct } from '../../../../../model/PartyUser';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { LOADING_TASK_ACTION_ON_PARTY_USER } from '../../../../../utils/constants';
@@ -29,6 +30,7 @@ export default function UserProductRowActions({
   onDelete,
   onStatusUpdate,
 }: Props) {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const history = useHistory();
 
@@ -55,11 +57,11 @@ export default function UserProductRowActions({
           <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
           {'.'}
           <br />
-          {'Vuoi continuare?'}
+          {t('usersTable.rowActions.wantContinue')}
         </>
       ),
       onConfirm,
-      confirmLabel: 'Conferma',
+      confirmLabel: t('usersTable.changeUserStatusModal.confirmButton'),
     });
   };
 
@@ -121,14 +123,19 @@ export default function UserProductRowActions({
     }
 
     askConfirm(
-      nextStatus === 'SUSPENDED' ? 'Sospendi Referente' : 'Riabilita Referente',
-      nextStatus === 'SUSPENDED' ? 'Stai per sospendere ' : 'Stai per riabilitare ',
+      nextStatus === 'SUSPENDED'
+        ? t('usersTable.rowActions.changeUserStatusModal.titleSuspended')
+        : t('usersTable.rowActions.changeUserStatusModal.titleReactivate'),
+      nextStatus === 'SUSPENDED'
+        ? t('usersTable.rowActions.changeUserStatusModal.messageSuspended')
+        : t('usersTable.rowActions.changeUserStatusModal.messageReactivate'),
       () => updateStatus(nextStatus)
     );
   };
 
   const updateStatus = (nextStatus: UserStatus) => {
-    const selectedUserStatus = nextStatus === 'SUSPENDED' ? 'sospeso' : 'riabilitato';
+    const selectedUserStatus =
+      nextStatus === 'SUSPENDED' ? t('userDetail.suspended') : t('userDetail.rehabilitated');
     performAction(
       () =>
         updatePartyUserStatus(
@@ -138,22 +145,30 @@ export default function UserProductRowActions({
           partyUserProduct.roles[0],
           nextStatus
         ),
-      `REFERENTE ${selectedUserStatus.toUpperCase()}`,
-      `Hai ${selectedUserStatus} correttamente `,
+      t('usersTable.rowActions.changeUserStatusSuccess.title', {
+        userStatus: `${selectedUserStatus.toUpperCase()}`,
+      }),
+      t('usersTable.rowActions.changeUserStatusSuccess.message', {
+        userStatus: `${selectedUserStatus}`,
+      }),
       () => onStatusUpdate(partyUser, nextStatus)
     );
   };
 
   const handleDelete = () => {
     handleClose();
-    askConfirm('Elimina Referente', 'Stai per eliminare ', deleteParty);
+    askConfirm(
+      t('usersTable.rowActions.deleteModal.title'),
+      t('usersTable.rowActions.deleteModal.message'),
+      deleteParty
+    );
   };
 
   const deleteParty = () => {
     performAction(
       () => deletePartyUser(party, partyUser, partyUserProduct, partyUserProduct.roles[0]),
-      'REFERENTE ELIMINATO',
-      'Hai eliminato correttamente ',
+      t('usersTable.rowActions.deleteSuccess.title'),
+      t('usersTable.rowActions.deleteSuccess.message'),
       () => onDelete(partyUser)
     );
   };
@@ -184,15 +199,15 @@ export default function UserProductRowActions({
           },
         }}
       >
-        <MenuItem onClick={handleModify}>Modifica</MenuItem>
+        <MenuItem onClick={handleModify}>{t('usersTable.rowActions.edit')}</MenuItem>
         <MenuItem onClick={handleChangeState}>
           {partyUser.status === 'ACTIVE'
-            ? 'Sospendi'
+            ? t('usersTable.rowActions.suspend')
             : partyUser.status === 'SUSPENDED'
-            ? 'Riabilita'
+            ? t('usersTable.rowActions.rehabilitate')
             : ''}
         </MenuItem>
-        <MenuItem onClick={handleDelete}>Elimina</MenuItem>
+        <MenuItem onClick={handleDelete}>{t('usersTable.rowActions.delete')}</MenuItem>
       </Menu>
     </div>
   );

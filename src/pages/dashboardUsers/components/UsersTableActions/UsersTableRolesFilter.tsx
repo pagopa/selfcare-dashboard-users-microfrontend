@@ -5,6 +5,7 @@ import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/materia
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
+import { useTranslation } from 'react-i18next';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
@@ -46,12 +47,12 @@ const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupB
 const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
 const labels = {
   ADMIN: {
-    title: 'Amministratore',
-    description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+    titleKey: 'usersTable.filterRole.admin.title',
+    descriptionKey: 'usersTable.filterRole.admin.description',
   },
   LIMITED: {
-    title: 'Operatore',
-    description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+    titleKey: 'usersTable.filterRole.limited.title',
+    descriptionKey: 'usersTable.filterRole.limited.description',
   },
 };
 
@@ -77,6 +78,7 @@ export default function UsersTableRolesFilter({
   disableFilters,
   showSelcRoleGrouped,
 }: Props) {
+  const { t } = useTranslation();
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
@@ -210,12 +212,16 @@ export default function UsersTableRolesFilter({
           inputProps={{ onClick: () => setOpen(!open) }}
           value={selcGroups.flatMap((s) =>
             selcGroupTotallySelected[s]
-              ? [labels[s].title]
+              ? [t(labels[s].titleKey)]
               : Object.keys(productRoleCheckedBySelcRole[s])
           )}
           renderValue={(selected: any) => {
             if (selected.length === 0) {
-              return <Box sx={{ fontStyle: 'normal', cursor: 'default' }}>Tutti i ruoli</Box>;
+              return (
+                <Box sx={{ fontStyle: 'normal', cursor: 'default' }}>
+                  {t('usersTable.filterRole.placeholder')}
+                </Box>
+              );
             }
             return selected.join(', ');
           }}
@@ -241,13 +247,14 @@ export default function UsersTableRolesFilter({
                             pb={1}
                             variant="body2"
                             sx={{ color: 'black', fontStyle: 'italic' }}
-                          >{`${labels[selcRole].title}`}</Typography>
+                          >
+                            {t(labels[selcRole].titleKey)}
+                          </Typography>
                         </Grid>
                         <Grid item>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: '#475A6D', fontSize: '12px' }}
-                          >{`${labels[selcRole].description}`}</Typography>
+                          <Typography variant="body2" sx={{ color: '#475A6D', fontSize: '12px' }}>
+                            {t(labels[selcRole].descriptionKey)}
+                          </Typography>
                         </Grid>
                       </Grid>
                     }
@@ -285,7 +292,7 @@ export default function UsersTableRolesFilter({
                     });
                   }}
                 >
-                  Filtra
+                  {t('usersTable.filterRole.addFiltersButton')}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -300,7 +307,7 @@ export default function UsersTableRolesFilter({
                     onFiltersChange({ ...filters, productRoles: [] });
                   }}
                 >
-                  Cancella filtri
+                  {t('usersTable.filterRole.deleteFiltersButton')}
                 </Button>
               </Grid>
             </Grid>
