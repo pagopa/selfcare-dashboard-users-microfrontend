@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { Trans, useTranslation } from 'react-i18next';
 import UserDetail from '../components/UserDetail';
-import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import UserProductRoles from '../components/UserProductRoles';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -22,7 +22,7 @@ import { deletePartyUser } from './../../../services/usersService';
 type Props = {
   party: Party;
   selectedProduct: Product;
-  partyUser: PartyUser;
+  partyUser: PartyUserDetail;
   fetchPartyUser: () => void;
   productsMap: ProductsMap;
   productRolesList: ProductRolesLists;

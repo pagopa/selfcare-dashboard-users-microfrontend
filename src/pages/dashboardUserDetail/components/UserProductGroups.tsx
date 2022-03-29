@@ -4,14 +4,14 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { useTranslation } from 'react-i18next';
 import { fetchUserGroups } from '../../../services/usersService';
-import { PartyUser } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
 type Props = {
-  user: PartyUser;
+  user: PartyUserDetail;
   party: Party;
   product: Product;
   canEdit: boolean;

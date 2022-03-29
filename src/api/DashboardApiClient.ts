@@ -9,6 +9,7 @@ import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUs
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
+import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -58,7 +59,7 @@ export const DashboardApi = {
   getPartyUser: async (
     institutionId: string,
     userId: string
-  ): Promise<InstitutionUserResource | null> => {
+  ): Promise<InstitutionUserDetailsResource | null> => {
     const result = await apiClient.getInstitutionUserUsingGET({ institutionId, userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },

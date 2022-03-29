@@ -1,7 +1,7 @@
 import { Button, Grid, Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { PartyUser } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
 
 const CustomStyleCapitolized = styled(Typography)({
@@ -12,7 +12,7 @@ const CustomStyleCapitolized = styled(Typography)({
 type Props = {
   party: Party;
   roleSection: React.ReactNode;
-  userInfo: PartyUser;
+  userInfo: PartyUserDetail;
   goEdit: () => void;
   productsMap: ProductsMap;
 };

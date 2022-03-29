@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
-import { PartyUser } from '../../../../model/PartyUser';
+import { PartyUserDetail } from '../../../../model/PartyUser';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
 import { Product } from '../../../../model/Product';
@@ -11,7 +11,7 @@ import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
 import UserProductDetail from './UserProductDetail';
 
 type Props = {
-  partyUser: PartyUser;
+  partyUser: PartyUserDetail;
   party: Party;
   fetchPartyUser: () => void;
   productsRolesMap: ProductsRolesMap;
