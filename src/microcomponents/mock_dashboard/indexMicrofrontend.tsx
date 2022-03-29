@@ -13,6 +13,7 @@ import { MOCK_USER } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 import reportWebVitals from '../../reportWebVitals';
 import App from './App';
+import '../../locale';
 
 // eslint-disable-next-line functional/immutable-data
 CONFIG.MOCKS.MOCK_USER = MOCK_USER;

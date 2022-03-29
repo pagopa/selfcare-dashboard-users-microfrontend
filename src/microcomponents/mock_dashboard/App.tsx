@@ -4,6 +4,7 @@ import {
   UnloadEventHandler,
   UserNotifyHandle,
 } from '@pagopa/selfcare-common-frontend';
+import { useTranslation } from 'react-i18next';
 import { useParams, Route, Switch, useHistory } from 'react-router';
 import { isEmpty } from 'lodash';
 import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
@@ -59,6 +60,8 @@ const App = ({
   const { institutionId } = useParams<UrlParams>();
   const history = useHistory();
   const theme = useTheme();
+  const { i18n } = useTranslation();
+
   const party = mockedParties.find((p) => p.institutionId === institutionId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
@@ -180,6 +183,7 @@ const App = ({
                 history,
                 store,
                 theme,
+                i18n,
                 party,
                 products,
                 activeProducts,

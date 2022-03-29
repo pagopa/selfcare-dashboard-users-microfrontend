@@ -1,9 +1,11 @@
 import * as env from 'env-var';
 import { Store } from 'redux';
+import { i18n } from 'i18next';
 
 const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString() || '/dashboard';
 export const ENV = {
   STORE: {} as Store,
+  i18n: {} as i18n,
   ENV: env.get('REACT_APP_ENV').required().asString(),
   PUBLIC_URL: PUBLIC_URL_INNER,
 

@@ -1,4 +1,10 @@
 export default {
+  session: {
+    expired: {
+      title: 'Sessione scaduta',
+      message: 'Stai per essere rediretto alla pagina di login...',
+    },
+  },
   userPagesPath: {
     detailRedirect: 'Referenti',
     addProduct: 'Aggiungi Prodotto',
