@@ -20,7 +20,7 @@ export default function UserTableNoData({ removeFilters }: Props) {
     >
       <DissatisfiedIcon />
       <Typography>
-        <Trans i18nKey="userDetail.noDataFilter">
+        <Trans i18nKey="usersTable.filterRole.noDataFilter">
           {'I filtri che hai applicato non hanno dato nessun risultato. '}
           <Link
             onClick={removeFilters}

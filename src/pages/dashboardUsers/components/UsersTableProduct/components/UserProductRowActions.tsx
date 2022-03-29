@@ -61,7 +61,7 @@ export default function UserProductRowActions({
         </>
       ),
       onConfirm,
-      confirmLabel: 'Conferma',
+      confirmLabel: t('usersTable.changeUserStatusModal.confirmButton'),
     });
   };
 
@@ -159,7 +159,7 @@ export default function UserProductRowActions({
     handleClose();
     askConfirm(
       t('usersTable.rowActions.deleteModal.title'),
-      t('usersTable.rowActions.deleteModal.message '),
+      t('usersTable.rowActions.deleteModal.message'),
       deleteParty
     );
   };
@@ -168,7 +168,7 @@ export default function UserProductRowActions({
     performAction(
       () => deletePartyUser(party, partyUser, partyUserProduct, partyUserProduct.roles[0]),
       t('usersTable.rowActions.deleteSuccess.title'),
-      t('usersTable.rowActions.deleteSuccess.message '),
+      t('usersTable.rowActions.deleteSuccess.message'),
       () => onDelete(partyUser)
     );
   };

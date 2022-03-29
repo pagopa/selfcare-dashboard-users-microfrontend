@@ -5,7 +5,7 @@ import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/materia
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
@@ -47,24 +47,12 @@ const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupB
 const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
 const labels = {
   ADMIN: {
-    title: (
-      <Trans i18nKey="userDetail.filterRole.admin.title"> Amministratore </Trans>
-    ) as unknown as string,
-    description: (
-      <Trans i18nKey="userDetail.filterRole.admin.description">
-        tutti i ruoli abilitati alla gestione dei prodotti e di Self Care
-      </Trans>
-    ),
+    titleKey: 'userDetail.filterRole.admin.title',
+    descriptionKey: 'userDetail.filterRole.admin.description',
   },
   LIMITED: {
-    title: (
-      <Trans i18nKey="userDetail.filterRole.limited.title"> Operatore </Trans>
-    ) as unknown as string,
-    description: (
-      <Trans i18nKey="userDetail.filterRole.limited.description">
-        tutti i ruoli ruoli autorizzati a operare sui prodotti
-      </Trans>
-    ),
+    titleKey: 'userDetail.filterRole.limited.title',
+    descriptionKey: 'userDetail.filterRole.limited.description',
   },
 };
 
@@ -224,7 +212,7 @@ export default function UsersTableRolesFilter({
           inputProps={{ onClick: () => setOpen(!open) }}
           value={selcGroups.flatMap((s) =>
             selcGroupTotallySelected[s]
-              ? [labels[s].title]
+              ? [t(labels[s].titleKey)]
               : Object.keys(productRoleCheckedBySelcRole[s])
           )}
           renderValue={(selected: any) => {
@@ -259,13 +247,14 @@ export default function UsersTableRolesFilter({
                             pb={1}
                             variant="body2"
                             sx={{ color: 'black', fontStyle: 'italic' }}
-                          >{`${labels[selcRole].title}`}</Typography>
+                          >
+                            {t(labels[selcRole].titleKey)}
+                          </Typography>
                         </Grid>
                         <Grid item>
-                          <Typography
-                            variant="body2"
-                            sx={{ color: '#475A6D', fontSize: '12px' }}
-                          >{`${labels[selcRole].description}`}</Typography>
+                          <Typography variant="body2" sx={{ color: '#475A6D', fontSize: '12px' }}>
+                            {t(labels[selcRole].descriptionKey)}
+                          </Typography>
                         </Grid>
                       </Grid>
                     }

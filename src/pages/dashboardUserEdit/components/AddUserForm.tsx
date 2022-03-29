@@ -111,20 +111,22 @@ export default function AddUserForm({
   const onExit = useUnloadEventOnExit();
 
   useEffect(() => {
-    if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
-      fetchTaxCode(validTaxcode, party.institutionId);
-    } else if (!validTaxcode && formik.values.certification === true) {
-      void formik.setValues(
-        {
-          ...formik.values,
-          name: formik.initialValues.name,
-          surname: formik.initialValues.surname,
-          email: formik.initialValues.email,
-          confirmEmail: '',
-          certification: formik.initialValues.certification,
-        },
-        true
-      );
+    if (!initialFormData.taxCode) {
+      if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
+        fetchTaxCode(validTaxcode, party.institutionId);
+      } else if (!validTaxcode && formik.values.certification === true) {
+        void formik.setValues(
+          {
+            ...formik.values,
+            name: formik.initialValues.name,
+            surname: formik.initialValues.surname,
+            email: formik.initialValues.email,
+            confirmEmail: '',
+            certification: formik.initialValues.certification,
+          },
+          true
+        );
+      }
     }
   }, [validTaxcode]);
 

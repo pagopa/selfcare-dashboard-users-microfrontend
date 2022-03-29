@@ -31,13 +31,13 @@ export default {
       delete: 'Elimina',
       deleteModal: {
         title: 'Elimina Referente',
-        message: `Stai per eliminare <1>{{user}}</1>. <3/>Vuoi continuare?`,
+        message: `Stai per eliminare `,
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       deleteSuccess: {
         title: 'REFERENTE ELIMINATO',
-        message: `Hai eliminato correttamente <1>{{user}}</1>.`,
+        message: 'Hai eliminato correttamente ',
       },
       changeUserStatusModal: {
         titleSuspended: 'Sospendi Referente',
@@ -51,7 +51,7 @@ export default {
       wantContinue: 'Vuoi continuare?',
       changeUserStatusSuccess: {
         title: 'REFERENTE {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente <3>{{user}}</3>.',
+        message: 'Hai {{userStatus}} correttamente ',
       },
     },
     loadMore: 'Carica altri',
@@ -112,7 +112,7 @@ export default {
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:
-          'Assegna a <1>{{user}}</1> un altro ruolo <2>{{userRole}}</2> sul prodotto <3>{{productTitle}}</3>',
+          'Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },

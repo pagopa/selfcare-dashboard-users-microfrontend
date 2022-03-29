@@ -19,7 +19,7 @@ export default function UserProductFetchError({ onRetry }: Props) {
     >
       <DissatisfiedIcon />
       <Typography>
-        <Trans i18nKey="userDetail.errorOnFetch">
+        <Trans i18nKey="usersTable.filterRole.errorOnFetch">
           {'Spiacenti, qualcosa è andato storto. '}
           <Link onClick={onRetry} sx={{ textDecoration: 'none!important', cursor: 'pointer' }}>
             <b>Riprova</b>

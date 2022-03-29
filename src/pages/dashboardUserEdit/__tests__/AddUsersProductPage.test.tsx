@@ -12,6 +12,7 @@ import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mock
 import AddUsersProductPage from '../AddUsersProductPage';
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
 import './../../../locale';
+import { Trans } from 'react-i18next';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
@@ -96,9 +97,15 @@ test('test with fields that respect rules, so enabled button', async () => {
     title: 'REFERENTE AGGIUNTO',
     message: (
       <>
-        {'Hai aggiunto correttamente '}
-        <strong>franco rossi</strong>
-        {'.'}
+        <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
+          Hai aggiunto correttamente
+          <strong>
+            {{
+              user: 'franco rossi',
+            }}
+          </strong>
+          .
+        </Trans>
       </>
     ),
   });
