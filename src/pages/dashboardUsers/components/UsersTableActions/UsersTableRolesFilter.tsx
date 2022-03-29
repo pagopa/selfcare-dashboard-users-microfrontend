@@ -47,12 +47,12 @@ const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupB
 const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
 const labels = {
   ADMIN: {
-    titleKey: 'userDetail.filterRole.admin.title',
-    descriptionKey: 'userDetail.filterRole.admin.description',
+    titleKey: 'usersTable.filterRole.admin.title',
+    descriptionKey: 'usersTable.filterRole.admin.description',
   },
   LIMITED: {
-    titleKey: 'userDetail.filterRole.limited.title',
-    descriptionKey: 'userDetail.filterRole.limited.description',
+    titleKey: 'usersTable.filterRole.limited.title',
+    descriptionKey: 'usersTable.filterRole.limited.description',
   },
 };
 

@@ -9,12 +9,10 @@ export default {
     filterRole: {
       placeholder: 'Tutti i ruoli',
       admin: {
-        // TODO fix
         title: 'Amministratore',
         description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
       },
       limited: {
-        // TODO fix
         title: 'Operatore',
         description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
       },
