@@ -1,4 +1,5 @@
 import {
+  mockedInstitutionUserDetailsResource,
   mockedInstitutionUserResource,
   mockedProductUserResource,
   mockedUserResource,
@@ -11,11 +12,13 @@ import {
   fetchUserRegistryByFiscalCode,
   deletePartyUser,
   fetchPartyProductUsers,
+  fetchPartyUser,
 } from '../usersService';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
+  institutionUserResource2PartyUser,
   institutionUserResource2PartyUserDetail,
   PartyUser,
   PartyUserOnCreation,
@@ -29,6 +32,7 @@ import { buildProductsMap } from '../../model/Product';
 jest.mock('../../api/DashboardApiClient');
 
 beforeEach(() => {
+  jest.spyOn(DashboardApi, 'getPartyUser');
   jest.spyOn(DashboardApi, 'getPartyUsers');
   jest.spyOn(DashboardApi, 'getPartyProductUsers');
   jest.spyOn(DashboardApi, 'savePartyUser');
@@ -36,6 +40,25 @@ beforeEach(() => {
   jest.spyOn(DashboardApi, 'activatePartyRelation');
   jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   jest.spyOn(DashboardApi, 'deletePartyRelation');
+});
+
+test('Test fetch PartyUserDetails', async () => {
+  const partyUserDetail = await fetchPartyUser(
+    mockedParties[0].institutionId,
+    mockedUsers[0].id,
+    mockedUser,
+    buildProductsMap(mockedPartyProducts)
+  );
+
+  expect(partyUserDetail).toMatchObject(
+    institutionUserResource2PartyUserDetail(mockedInstitutionUserDetailsResource, {}, mockedUser)
+  );
+
+  expect(DashboardApi.getPartyUser).toBeCalledWith(
+    mockedParties[0].institutionId,
+    mockedUsers[0].id
+  );
+  expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
 });
 
 describe('Test fetchPartyUsers', () => {
@@ -58,7 +81,7 @@ describe('Test fetchPartyUsers', () => {
         totalPages: 1,
       },
       content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUserDetail(u, {}, mockedUser)
+        institutionUserResource2PartyUser(u, {}, mockedUser)
       ),
     });
 
@@ -92,7 +115,7 @@ describe('Test fetchPartyUsers', () => {
         totalPages: 1,
       },
       content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUserDetail(u, {}, mockedUser)
+        institutionUserResource2PartyUser(u, {}, mockedUser)
       ),
     });
 
@@ -113,6 +136,7 @@ test('Test fetchPartyProductUser', async () => {
     mockedParties[0],
     mockedPartyProducts[0],
     mockedUser,
+    buildProductsMap(mockedPartyProducts),
     'LIMITED'
   );
 

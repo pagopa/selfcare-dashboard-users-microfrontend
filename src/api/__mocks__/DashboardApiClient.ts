@@ -1,5 +1,6 @@
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
+import { InstitutionUserDetailsResource } from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
 import {
   InstitutionUserResource,
   RoleEnum,
@@ -7,6 +8,31 @@ import {
 import { SelcRoleEnum } from '../generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from '../generated/b4f-dashboard/UserResource';
+
+export const mockedInstitutionUserDetailsResource: InstitutionUserDetailsResource = {
+  id: '1',
+  fiscalCode: 'AAAAAA11A11A123K',
+  certification: true,
+  name: 'Name',
+  surname: 'Surname',
+  status: 'PENDING',
+  role: 'LIMITED' as RoleEnum,
+  email: 'address',
+  products: [
+    {
+      id: 'productId',
+      title: 'productTitle',
+      roleInfos: [
+        {
+          relationshipId: 'relId',
+          role: 'incaricato-ente-creditore',
+          selcRole: SelcRoleEnum.ADMIN,
+          status: 'ACTIVE',
+        },
+      ],
+    },
+  ],
+};
 
 export const mockedInstitutionUserResource: Array<InstitutionUserResource> = [
   {
@@ -109,6 +135,12 @@ export const mockedUserResource: UserResource = {
 };
 
 export const DashboardApi = {
+  getPartyUser: async (
+    _institutionId: string,
+    _userId: string
+  ): Promise<InstitutionUserDetailsResource | null> =>
+    new Promise((resolve) => resolve(mockedInstitutionUserDetailsResource)),
+
   getPartyUsers: async (
     _institutionId: string,
     _productId?: string,
