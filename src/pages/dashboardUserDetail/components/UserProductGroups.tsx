@@ -51,10 +51,9 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
               {t('userDetail.group')}
             </Typography>
           </Grid>
-
           <Grid item xs={9}>
             {userGroups?.map((g) => (
-              <Typography key={g.id} variant="h6" className="CustomInfoStyle">
+              <Typography key={g.id} variant="body2">
                 {g.name}
               </Typography>
             ))}
