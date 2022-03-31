@@ -77,7 +77,6 @@ export default function UserProductRoles({
             <Grid item container>
               <Grid item xs={5}>
                 <CustomTextTransform
-                  className="CustomInfoStyle"
                   variant="body2"
                   sx={{ color: p.status === 'SUSPENDED' ? '#A2ADB8' : '#000000' }}
                 >
