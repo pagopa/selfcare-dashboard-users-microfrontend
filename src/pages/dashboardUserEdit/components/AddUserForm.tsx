@@ -162,11 +162,21 @@ export default function AddUserForm({
         void formik.setValues(
           {
             ...formik.values,
-            name: userRegistry?.name ?? formik.values.name,
-            surname: userRegistry?.surname ?? formik.values.surname,
-            email: userRegistry?.email ?? formik.values.email,
+            name:
+              userRegistry?.name ??
+              (formik.values.certification ? initialFormData.name : formik.values.name),
+            surname:
+              userRegistry?.surname ??
+              (formik.values.certification ? initialFormData.surname : formik.values.surname),
+            email:
+              userRegistry?.email ??
+              (formik.values.certification ? initialFormData.email : formik.values.email),
             confirmEmail: '',
-            certification: userRegistry?.certification ?? formik.values.certification,
+            certification:
+              userRegistry?.certification ??
+              (formik.values.certification
+                ? initialFormData.certification
+                : formik.values.certification),
           },
           true
         );
