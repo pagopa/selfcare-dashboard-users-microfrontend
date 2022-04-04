@@ -6,6 +6,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/rou
 import { HashLink } from 'react-router-hash-link';
 import useScrollSpy from 'react-use-scrollspy';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { Product, ProductsMap } from '../../../model/Product';
 import { Party } from '../../../model/Party';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -14,6 +15,7 @@ import UsersProductSection from '../components/UsersProductSection';
 import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
 import UserTableNoData from '../components/UserTableNoData';
 import { ProductsRolesMap } from '../../../model/ProductRole';
+import { ENV } from '../../../utils/env';
 
 interface Props {
   party: Party;
@@ -40,6 +42,16 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   >(() =>
     Object.fromEntries(activeProducts.map((p) => [[p.id], { loading: true, noData: false }]))
   );
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (party.userRole !== 'ADMIN') {
+      history.push(
+        resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.institutionId })
+      );
+    }
+  }, [party.institutionId]);
 
   useEffect(() => {
     if (productsFetchStatus) {
