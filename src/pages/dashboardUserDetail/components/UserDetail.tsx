@@ -51,7 +51,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  {t('userDetail.name')}
+                  {t('userDetail.fiscalCode')}
                 </Typography>
               </Grid>
               <Grid item xs={9}>
