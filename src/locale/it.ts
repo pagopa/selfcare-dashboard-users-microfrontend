@@ -74,7 +74,7 @@ export default {
     actions: {
       delete: {
         title: 'RUOLO ELIMINATO',
-        message: 'Hai eliminato correttamente il ruolo {{role}} assegnato a <0>{{user}}</0>.',
+        message: 'Hai eliminato correttamente il ruolo {{role}} assegnato a <3>{{user}}</3>.',
       },
       modalDelete: {
         title: 'Elimina Ruolo',
