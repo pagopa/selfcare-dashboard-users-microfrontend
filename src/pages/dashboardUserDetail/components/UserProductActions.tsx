@@ -50,7 +50,7 @@ export default function UserProductActions({
             <>
               <Trans i18nKey="userDetail.actions.delete.message">
                 {'Hai eliminato correttamente il ruolo '}
-                {{ role: transcodeProductRole2Title(role.role, productRolesList) }}
+                <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
                 {' assegnato a '}
                 <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
                 {'.'}
