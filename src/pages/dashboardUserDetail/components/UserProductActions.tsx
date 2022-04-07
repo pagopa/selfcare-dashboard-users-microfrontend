@@ -124,8 +124,9 @@ export default function UserProductActions({
           }),
           message: (
             <Trans i18nKey="userDetail.actions.changeUserStatus.message">
-              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
+              <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
+              assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
             </Trans>
           ),
           component: 'Toast',

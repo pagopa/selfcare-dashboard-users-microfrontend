@@ -95,8 +95,8 @@ export default {
         closeButton: 'Annulla',
       },
       changeUserStatus: {
-        title: 'REFERENTE {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente <3>{{user}}</3>.',
+        title: 'RUOLO {{userStatus}}',
+        message: 'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
       },
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',
