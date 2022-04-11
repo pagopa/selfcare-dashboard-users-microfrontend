@@ -187,7 +187,7 @@ export default function UserProductAddRoles({
                             setSelectedRoles(
                               isSelected
                                 ? selectedRoles?.filter((s) => s !== p.productRole)
-                                : selectedRoles.concat([p.productRole])
+                                : selectedRoles?.concat([p.productRole])
                             )
                     }
                   />
