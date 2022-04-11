@@ -42,18 +42,22 @@ export default function UserProductAddRoles({
     setSelectedRoles(userProduct.roles.map((r) => r.role));
   }, [userProduct.roles]);
 
+  const newRoleSelected = selectedRoles.filter(
+    (r) => !userProduct.roles.find((ur) => ur.role === r)
+  );
+
   const onAddMultiRole = () => {
     setOpen(false);
     setLoading(true);
     savePartyUser(party, product, {
       ...user,
-      productRoles: selectedRoles ?? [],
+      productRoles: newRoleSelected ?? [],
       confirmEmail: user.email,
     })
       .then((_) => {
-        const newRolesTitles = selectedRoles
-          ?.filter((r) => !userProduct.roles.find((ur) => ur.role === r))
-          .map((r) => productRolesList.groupByProductRole[r].title);
+        const newRolesTitles = newRoleSelected.map(
+          (r) => productRolesList.groupByProductRole[r].title
+        );
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',
@@ -183,7 +187,7 @@ export default function UserProductAddRoles({
                             setSelectedRoles(
                               isSelected
                                 ? selectedRoles?.filter((s) => s !== p.productRole)
-                                : selectedRoles?.concat([p.productRole])
+                                : selectedRoles.concat([p.productRole])
                             )
                     }
                   />
