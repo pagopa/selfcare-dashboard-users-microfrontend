@@ -42,11 +42,11 @@ export default function UserProductAddRoles({
     setSelectedRoles(userProduct.roles.map((r) => r.role));
   }, [userProduct.roles]);
 
-  const newRoleSelected = selectedRoles.filter(
-    (r) => !userProduct.roles.find((ur) => ur.role === r)
-  );
-
   const onAddMultiRole = () => {
+    const newRoleSelected = selectedRoles.filter(
+      (r) => !userProduct.roles.find((ur) => ur.role === r)
+    );
+
     setOpen(false);
     setLoading(true);
     savePartyUser(party, product, {
