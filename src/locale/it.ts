@@ -85,18 +85,35 @@ export default {
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
-        titleSuspend: 'Sospendi Ruolo',
-        messageSuspend: 'Stai per sospendere il ruolo',
-        titleReactivate: 'Riabilita Ruolo',
-        messageReactivate: 'Stai per riabilitare il ruolo',
-        message:
-          '<0></0> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
+        moreRolesOnProduct: {
+          titleSuspend: 'Sospendi Ruolo',
+          messageSuspend: 'Stai per sospendere il ruolo',
+          titleReactivate: 'Riabilita Ruolo',
+          messageReactivate: 'Stai per riabilitare il ruolo',
+          message:
+            '<0/> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
+        },
+        oneRoleOnProduct: {
+          titleSuspend: 'Sospendi Referente',
+          messageSuspend: `Stai per sospendere il referente `,
+          titleReactivate: 'Riabilita Referente',
+          messageReactivate: 'Stai per riabilitare il referente',
+          message: `<0/> <1>{{partyAndUser}}<1/>. <3/>Vuoi continuare?`,
+        },
+
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       changeUserStatus: {
-        title: 'RUOLO {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
+        moreRolesOnProduct: {
+          title: 'RUOLO {{userStatus}}',
+          message:
+            'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
+        },
+        oneRoleOnProduct: {
+          title: 'REFERENTE {{userStatus}}',
+          message: 'Hai {{userStatus}} correttamente il referente <3>{{user}}.',
+        },
       },
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',

@@ -119,16 +119,27 @@ export default function UserProductActions({
         fetchPartyUser();
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
-          title: t('userDetail.actions.changeUserStatus.title', {
-            userStatus: `${selectedUserStatus.toUpperCase()}`,
-          }),
-          message: (
-            <Trans i18nKey="userDetail.actions.changeUserStatus.message">
-              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
-              <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
-              assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
-            </Trans>
-          ),
+          title:
+            product.roles.length > 1
+              ? t('userDetail.actions.changeUserStatus.moreRolesOnProduct.title', {
+                  userStatus: `${selectedUserStatus.toUpperCase()}`,
+                })
+              : t('userDetail.actions.changeUserStatus.oneRoleOnProduct.title', {
+                  userStatus: `${selectedUserStatus.toUpperCase()}`,
+                }),
+          message:
+            product.roles.length > 1 ? (
+              <Trans i18nKey="userDetail.actions.changeUserStatus.moreRolesOnProduct.message">
+                Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
+                <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
+                assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+              </Trans>
+            ) : (
+              <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
+                Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il referente
+                <strong> {{ user: `${user.name} ${user.surname}` }}</strong>.
+              </Trans>
+            ),
           component: 'Toast',
         });
       })
@@ -148,31 +159,47 @@ export default function UserProductActions({
       component: 'SessionModal',
       id: 'Notify_Example',
       title:
-        role.status === 'ACTIVE'
-          ? t('userDetail.actions.changeUserStatusModal.titleSuspend')
-          : t('userDetail.actions.changeUserStatusModal.titleReactivate'),
-      message: (
-        <Trans i18nKey="userDetail.actions.changeUserStatusModal.message">
-          {role.status === 'ACTIVE'
-            ? t('userDetail.actions.changeUserStatusModal.messageSuspend')
-            : t('userDetail.actions.changeUserStatusModal.messageReactivate')}
-          <strong>
-            {' '}
-            {{
-              transcodeProductRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
-            }}{' '}
-          </strong>
-          {'di '}
-          <strong> {{ productTitle: product.title }} </strong>
-          {' assegnato a '}
-          <strong style={{ textTransform: 'capitalize' }}>
-            {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
-          </strong>
-          {'.'}
-          <br />
-          {'Vuoi continuare?'}
-        </Trans>
-      ),
+        product.roles.length > 1
+          ? role.status === 'ACTIVE'
+            ? t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.titleSuspend')
+            : t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.titleReactivate')
+          : role.status === 'ACTIVE'
+          ? t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.titleSuspend')
+          : t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.titleReactivate'),
+      message:
+        product.roles.length > 1 ? (
+          <Trans i18nKey="userDetail.actions.changeUserStatusModal.moreRolesOnProduct.message">
+            {role.status === 'ACTIVE'
+              ? t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.messageSuspend')
+              : t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.messageReactivate')}
+            <strong>
+              {{
+                transcodeProductRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+              }}
+            </strong>
+            {'di '}
+            <strong> {{ productTitle: product.title }} </strong>
+            {' assegnato a '}
+            <strong style={{ textTransform: 'capitalize' }}>
+              {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
+            </strong>
+            {'.'}
+            <br />
+            {'Vuoi continuare?'}
+          </Trans>
+        ) : (
+          <Trans i18nKey="userDetail.actions.changeUserStatusModal.oneRoleOnProduct.message">
+            {role.status === 'ACTIVE'
+              ? t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.messageSuspend')
+              : t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.messageReactivate')}
+            <strong style={{ textTransform: 'capitalize' }}>
+              {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
+            </strong>
+            {'.'}
+            <br />
+            {'Vuoi continuare?'}
+          </Trans>
+        ),
       confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
       closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
       onConfirm: confirmChangeStatus,
