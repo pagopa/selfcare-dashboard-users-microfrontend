@@ -120,27 +120,25 @@ export default function UserProductActions({
         fetchPartyUser();
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
-          title:
-            product.roles.length > 1
-              ? t('userDetail.actions.changeUserStatus.moreRolesOnProduct.title', {
-                  userStatus: `${selectedUserStatus.toUpperCase()}`,
-                })
-              : t('userDetail.actions.changeUserStatus.oneRoleOnProduct.title', {
-                  userStatus: `${selectedUserStatus.toUpperCase()}`,
-                }),
-          message:
-            product.roles.length > 1 ? (
-              <Trans i18nKey="userDetail.actions.changeUserStatus.moreRolesOnProduct.message">
-                Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
-                <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
-                assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
-              </Trans>
-            ) : (
-              <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-                Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il referente
-                <strong> {{ user: `${user.name} ${user.surname}` }}</strong>.
-              </Trans>
-            ),
+          title: moreRolesOnProduct
+            ? t('userDetail.actions.changeUserStatus.moreRolesOnProduct.title', {
+                userStatus: `${selectedUserStatus.toUpperCase()}`,
+              })
+            : t('userDetail.actions.changeUserStatus.oneRoleOnProduct.title', {
+                userStatus: `${selectedUserStatus.toUpperCase()}`,
+              }),
+          message: moreRolesOnProduct ? (
+            <Trans i18nKey="userDetail.actions.changeUserStatus.moreRolesOnProduct.message">
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
+              <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
+              assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
+          ) : (
+            <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il referente
+              <strong> {{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
+          ),
           component: 'Toast',
         });
       })
