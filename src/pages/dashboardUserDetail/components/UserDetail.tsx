@@ -94,7 +94,6 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
           <Grid item xs={2}>
             <Button
               disableRipple
-              disabled={userInfo.status === 'SUSPENDED'}
               variant="contained"
               sx={{ height: '40px', width: '120px' }}
               onClick={goEdit}
