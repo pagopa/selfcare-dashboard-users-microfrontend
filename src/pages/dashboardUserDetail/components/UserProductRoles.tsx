@@ -1,12 +1,13 @@
 import { Box, Chip, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { useTranslation } from 'react-i18next';
 import {
   ProductRolesLists,
   transcodeProductRole2Description,
   transcodeProductRole2Title,
 } from '../../../model/ProductRole';
 import { Party } from '../../../model/Party';
-import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import UserProductActions from './UserProductActions';
 import UserProductAddRoles from './UserProductAddRoles';
@@ -14,7 +15,7 @@ import UserProductAddRoles from './UserProductAddRoles';
 type Props = {
   showActions: boolean;
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   fetchPartyUser: () => void;
   userProduct: PartyUserProduct;
   product: Product;
@@ -38,6 +39,7 @@ export default function UserProductRoles({
   canEdit,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Grid container item xs={12}>
       {userProduct.roles.map((p) => (
@@ -46,15 +48,15 @@ export default function UserProductRoles({
             <Grid container item>
               <Box>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  RUOLO
+                  {t('userDetail.role')}
                 </Typography>
               </Box>
               {p.status === 'SUSPENDED' &&
                 (isProductDetailPage ||
                   userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
-                  <Box ml={14}>
+                  <Box ml={8}>
                     <Chip
-                      label="Sospeso"
+                      label={t('userDetail.statusLabel')}
                       variant="outlined"
                       sx={{
                         fontWeight: '600',
@@ -75,7 +77,6 @@ export default function UserProductRoles({
             <Grid item container>
               <Grid item xs={5}>
                 <CustomTextTransform
-                  className="CustomInfoStyle"
                   variant="body2"
                   sx={{ color: p.status === 'SUSPENDED' ? '#A2ADB8' : '#000000' }}
                 >

@@ -1,12 +1,21 @@
 import * as env from 'env-var';
+import { Store } from 'redux';
+import { i18n } from 'i18next';
 
-const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString();
+const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString() || '/dashboard';
 export const ENV = {
+  STORE: {} as Store,
+  i18n: {} as i18n,
   ENV: env.get('REACT_APP_ENV').required().asString(),
-  PUBLIC_URL: PUBLIC_URL_INNER ? PUBLIC_URL_INNER : '/dashboard',
+  PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
-    OVERVIEW: '/dashboard/:institutionId',
+    OVERVIEW: `${PUBLIC_URL_INNER}/:institutionId`,
+    USERS: `${PUBLIC_URL_INNER}/:institutionId/users`,
+    USERS_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/users/:userId`,
+    PRODUCT_USERS: `${PUBLIC_URL_INNER}/:institutionId/:productId/users`,
+    GROUPS: `${PUBLIC_URL_INNER}/:institutionId/groups`,
+    GROUP_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/groups/:groupId`,
   },
 
   URL_FE: {

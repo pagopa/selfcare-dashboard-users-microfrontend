@@ -1,7 +1,7 @@
 import {
+  mockedInstitutionUserDetailsResource,
   mockedInstitutionUserResource,
   mockedProductUserResource,
-  mockedProductRoles,
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
@@ -9,20 +9,22 @@ import {
   fetchPartyUsers,
   savePartyUser,
   updatePartyUserStatus,
-  fetchProductRoles,
   fetchUserRegistryByFiscalCode,
   deletePartyUser,
+  fetchPartyProductUsers,
+  fetchPartyUser,
 } from '../usersService';
-import { mockedParties } from '../__mocks__/partyService';
-import { mockedPartyProducts } from '../__mocks__/productService';
+import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
+import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
   institutionUserResource2PartyUser,
+  institutionUserResource2PartyUserDetail,
   PartyUser,
   PartyUserOnCreation,
-  productUserResource2PartyUser,
+  productUserResource2PartyProductUser,
 } from '../../model/PartyUser';
-import { mockedProductRoles as mockedProductRolesService } from '../__mocks__/usersService';
+import { mockedProductRoles as mockedProductRolesService } from '../../microcomponents/mock_dashboard/data/product';
 import { userResource2UserRegistry } from '../../model/UserRegistry';
 import { mockedUsers } from '../__mocks__/usersService';
 import { buildProductsMap } from '../../model/Product';
@@ -30,24 +32,42 @@ import { buildProductsMap } from '../../model/Product';
 jest.mock('../../api/DashboardApiClient');
 
 beforeEach(() => {
+  jest.spyOn(DashboardApi, 'getPartyUser');
   jest.spyOn(DashboardApi, 'getPartyUsers');
   jest.spyOn(DashboardApi, 'getPartyProductUsers');
   jest.spyOn(DashboardApi, 'savePartyUser');
   jest.spyOn(DashboardApi, 'suspendPartyRelation');
   jest.spyOn(DashboardApi, 'activatePartyRelation');
-  jest.spyOn(DashboardApi, 'getProductRoles');
   jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   jest.spyOn(DashboardApi, 'deletePartyRelation');
 });
 
+test('Test fetch PartyUserDetails', async () => {
+  const partyUserDetail = await fetchPartyUser(
+    mockedParties[0].institutionId,
+    mockedUsers[0].id,
+    mockedUser,
+    buildProductsMap(mockedPartyProducts)
+  );
+
+  expect(partyUserDetail).toMatchObject(
+    institutionUserResource2PartyUserDetail(mockedInstitutionUserDetailsResource, {}, mockedUser)
+  );
+
+  expect(DashboardApi.getPartyUser).toBeCalledWith(
+    mockedParties[0].institutionId,
+    mockedUsers[0].id
+  );
+  expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
+});
+
 describe('Test fetchPartyUsers', () => {
-  const testNoProductFilter = async (checkPermission: boolean) => {
+  const testNoProductFilter = async () => {
     const partyUsers = await fetchPartyUsers(
       { page: 0, size: 20 },
       mockedParties[0],
       buildProductsMap(mockedPartyProducts),
       mockedUser,
-      checkPermission,
       undefined,
       'ADMIN',
       mockedProductRolesService
@@ -75,50 +95,14 @@ describe('Test fetchPartyUsers', () => {
     expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
   };
 
-  test('Test CheckPermission True', async () => {
-    await testNoProductFilter(true);
-
-    const partyProductUsers = await fetchPartyUsers(
-      { page: 0, size: 20 },
-      mockedParties[0],
-      buildProductsMap(mockedPartyProducts),
-      mockedUser,
-      true,
-      mockedPartyProducts[0],
-      'LIMITED'
-    );
-
-    expect(partyProductUsers).toMatchObject({
-      page: {
-        number: 0,
-        size: mockedProductUserResource.length,
-        totalElements: mockedProductUserResource.length,
-        totalPages: 1,
-      },
-      content: mockedProductUserResource.map((r) =>
-        productUserResource2PartyUser(r, mockedPartyProducts[0], mockedUser)
-      ),
-    });
-
-    expect(DashboardApi.getPartyUsers).toBeCalledTimes(1);
-    expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
-    expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
-      mockedParties[0].institutionId,
-      mockedPartyProducts[0].id,
-      'LIMITED',
-      undefined
-    );
-  });
-
   test('Test CheckPermission False', async () => {
-    await testNoProductFilter(false);
+    await testNoProductFilter();
 
     const partyProductUsers = await fetchPartyUsers(
       { page: 0, size: 20 },
       mockedParties[0],
       buildProductsMap(mockedPartyProducts),
       mockedUser,
-      false,
       mockedPartyProducts[0],
       'LIMITED'
     );
@@ -146,40 +130,36 @@ describe('Test fetchPartyUsers', () => {
   });
 });
 
-test('Test fetchProductRoles', async () => {
-  const productRoles = await fetchProductRoles(mockedPartyProducts[0]);
+test('Test fetchPartyProductUser', async () => {
+  const partyProductUsers = await fetchPartyProductUsers(
+    { page: 0, size: 20 },
+    mockedParties[0],
+    mockedPartyProducts[0],
+    mockedUser,
+    buildProductsMap(mockedPartyProducts),
+    'LIMITED'
+  );
 
-  expect(productRoles).toStrictEqual([
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'SUB_DELEGATE',
-      selcRole: 'ADMIN',
-      multiroleAllowed: false,
-      productRole: 'incaricato-ente-creditore',
-      title: 'Incaricato Ente Creditore',
-      description: 'Descrizione incaricato-ente-creditore',
+  expect(partyProductUsers).toMatchObject({
+    page: {
+      number: 0,
+      size: mockedProductUserResource.length,
+      totalElements: mockedProductUserResource.length,
+      totalPages: 1,
     },
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'OPERATOR',
-      selcRole: 'LIMITED',
-      multiroleAllowed: true,
-      productRole: 'referente-dei-pagamenti',
-      title: 'Referente dei Pagamenti',
-      description: 'Descrizione referente-dei-pagamenti',
-    },
-    {
-      productId: mockedPartyProducts[0].id,
-      partyRole: 'OPERATOR',
-      selcRole: 'LIMITED',
-      multiroleAllowed: true,
-      productRole: 'referente-tecnico',
-      title: 'Referente Tecnico',
-      description: 'Descrizione referente-tecnico',
-    },
-  ]);
+    content: mockedProductUserResource.map((r) =>
+      productUserResource2PartyProductUser(r, mockedPartyProducts[0], mockedUser)
+    ),
+  });
 
-  expect(DashboardApi.getProductRoles).toBeCalledWith(mockedPartyProducts[0].id);
+  expect(DashboardApi.getPartyUsers).toBeCalledTimes(0);
+  expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
+  expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
+    mockedParties[0].institutionId,
+    mockedPartyProducts[0].id,
+    'LIMITED',
+    undefined
+  );
 });
 
 test('Test savePartyUser', async () => {
@@ -206,7 +186,6 @@ describe('Test updatePartyUserStatus', () => {
   test('Test updatePartyUserStatus', async () => {
     const partyUser: PartyUser = {
       id: 'id',
-      taxCode: 'taxCode',
       name: 'Name',
       surname: 'Surname',
       email: 'email',
@@ -227,7 +206,6 @@ describe('Test updatePartyUserStatus', () => {
       ],
       status: 'ACTIVE',
       isCurrentUser: false,
-      certification: true,
     };
 
     await updatePartyUserStatus(

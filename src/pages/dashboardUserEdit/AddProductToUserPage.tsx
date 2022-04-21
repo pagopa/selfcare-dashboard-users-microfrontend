@@ -2,6 +2,7 @@ import { Grid, styled, Typography } from '@mui/material';
 import { TitleBox } from '@pagopa/selfcare-common-frontend';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
 import { Party } from '../../model/Party';
@@ -22,6 +23,7 @@ type Props = {
 } & withUserDetailProps;
 
 function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUser }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const goBack = () =>
@@ -34,7 +36,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
 
   const paths = [
     {
-      description: 'Referenti',
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -47,7 +49,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: goBack,
     },
     {
-      description: 'Aggiungi Prodotto',
+      description: t('userPagesPath.addProduct'),
     },
   ];
 
@@ -64,8 +66,10 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
-          title="Aggiungi prodotto"
-          subTitle={`Assegna un prodotto al referente abilitato per ${party.description}`}
+          title={t('userEdit.addProduct.title')}
+          subTitle={t('userEdit.addProduct.subTitle', {
+            institutionName: `${party.description}`,
+          })}
         />
       </Grid>
       <Grid item xs={12} mb={9}>
@@ -75,7 +79,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               <Grid container item alignContent="center">
                 <Grid item xs={3}>
                   <Typography variant="h6" className="CustomLabelStyle">
-                    NOME
+                    {t('userEdit.addProduct.name')}
                   </Typography>
                 </Grid>
                 <Grid item xs={9} className="partyUserStyle">
@@ -87,7 +91,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               <Grid container item alignContent="center">
                 <Grid item xs={3}>
                   <Typography variant="h6" className="CustomLabelStyle">
-                    COGNOME
+                    {t('userEdit.addProduct.surname')}
                   </Typography>
                 </Grid>
                 <Grid item xs={9}>
@@ -99,7 +103,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               <Grid container item alignContent="center">
                 <Grid item xs={3}>
                   <Typography variant="h6" className="CustomLabelStyle">
-                    CODICE FISCALE
+                    {t('userEdit.addProduct.fiscalCode')}
                   </Typography>
                 </Grid>
                 <Grid item xs={9}>

@@ -1,7 +1,6 @@
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
-import { store } from '../redux/store';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
@@ -9,6 +8,8 @@ import { createClient, WithDefaultsT } from './generated/b4f-dashboard/client';
 import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
+import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
+import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -27,15 +28,15 @@ const apiClient = createClient({
 });
 
 const onRedirectToLogin = () =>
-  store.dispatch(
+  ENV.STORE.dispatch(
     appStateActions.addError({
       id: 'tokenNotValid',
       error: new Error(),
       techDescription: 'token expired or not valid',
       toNotify: false,
       blocking: false,
-      displayableTitle: 'Sessione scaduta',
-      displayableDescription: 'Stai per essere rediretto alla pagina di login...',
+      displayableTitle: ENV.i18n.t('session.expired.title'),
+      displayableDescription: ENV.i18n.t('session.expired.message'),
     })
   );
 
@@ -58,7 +59,7 @@ export const DashboardApi = {
   getPartyUser: async (
     institutionId: string,
     userId: string
-  ): Promise<InstitutionUserResource | null> => {
+  ): Promise<InstitutionUserDetailsResource | null> => {
     const result = await apiClient.getInstitutionUserUsingGET({ institutionId, userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },
@@ -128,6 +129,19 @@ export const DashboardApi = {
     const result = await apiClient.getUserByExternalIdUsingPOST({
       institutionId,
       body: { externalId: taxCode },
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  fetchUserGroups: async (
+    institutionId: string,
+    productId: string,
+    userId: string
+  ): Promise<Array<UserGroupPlainResource>> => {
+    const result = await apiClient.getUserGroupsUsingGET({
+      institutionId,
+      productId,
+      userId,
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },

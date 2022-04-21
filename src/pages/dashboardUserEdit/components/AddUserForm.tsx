@@ -23,6 +23,7 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { fetchUserRegistryByFiscalCode, savePartyUser } from '../../../services/usersService';
 import {
@@ -93,6 +94,7 @@ export default function AddUserForm({
   initialFormData,
   goBack,
 }: Props) {
+  const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
 
@@ -109,20 +111,22 @@ export default function AddUserForm({
   const onExit = useUnloadEventOnExit();
 
   useEffect(() => {
-    if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
-      fetchTaxCode(validTaxcode, party.institutionId);
-    } else if (!validTaxcode && formik.values.certification === true) {
-      void formik.setValues(
-        {
-          ...formik.values,
-          name: formik.initialValues.name,
-          surname: formik.initialValues.surname,
-          email: formik.initialValues.email,
-          confirmEmail: '',
-          certification: formik.initialValues.certification,
-        },
-        true
-      );
+    if (!initialFormData.taxCode) {
+      if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
+        fetchTaxCode(validTaxcode, party.institutionId);
+      } else if (!validTaxcode && formik.values.certification === true) {
+        void formik.setValues(
+          {
+            ...formik.values,
+            name: formik.initialValues.name,
+            surname: formik.initialValues.surname,
+            email: formik.initialValues.email,
+            confirmEmail: '',
+            certification: formik.initialValues.certification,
+          },
+          true
+        );
+      }
     }
   }, [validTaxcode]);
 
@@ -158,11 +162,21 @@ export default function AddUserForm({
         void formik.setValues(
           {
             ...formik.values,
-            name: userRegistry?.name ?? formik.values.name,
-            surname: userRegistry?.surname ?? formik.values.surname,
-            email: userRegistry?.email ?? formik.values.email,
+            name:
+              userRegistry?.name ??
+              (formik.values.certification ? initialFormData.name : formik.values.name),
+            surname:
+              userRegistry?.surname ??
+              (formik.values.certification ? initialFormData.surname : formik.values.surname),
+            email:
+              userRegistry?.email ??
+              (formik.values.certification ? initialFormData.email : formik.values.email),
             confirmEmail: '',
-            certification: userRegistry?.certification ?? formik.values.certification,
+            certification:
+              userRegistry?.certification ??
+              (formik.values.certification
+                ? initialFormData.certification
+                : formik.values.certification),
           },
           true
         );
@@ -188,17 +202,17 @@ export default function AddUserForm({
         taxCode: !values.taxCode
           ? requiredError
           : !taxCodeRegexp.test(values.taxCode)
-          ? 'Il Codice Fiscale inserito non è valido '
+          ? t('userEdit.addForm.errors.invalidFiscalCode')
           : undefined,
         email: !values.email
           ? requiredError
           : !emailRegexp.test(values.email)
-          ? 'L’indirizzo email non è valido'
+          ? t('userEdit.addForm.errors.invalidEmail')
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
           : values.confirmEmail !== values.email
-          ? 'Gli indirizzi email non corrispondono'
+          ? t('userEdit.addForm.errors.mismatchEmail')
           : undefined,
         productRoles: values.productRoles?.length === 0 ? requiredError : undefined,
       }).filter(([_key, value]) => value)
@@ -224,12 +238,13 @@ export default function AddUserForm({
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: 'REFERENTE AGGIUNTO',
+          title: t('userEdit.addForm.saveUserSuccess.title'),
           message: (
             <>
-              {'Hai aggiunto correttamente '}
-              <strong>{`${values.name} ${values.surname}`}</strong>
-              {'.'}
+              <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
+                Hai aggiunto correttamente
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+              </Trans>
             </>
           ),
         });
@@ -243,12 +258,12 @@ export default function AddUserForm({
           error: reason,
           techDescription: `An error occurred while saving party user ${party.institutionId}`,
           toNotify: true,
-          displayableTitle: "ERRORE DURANTE L'AGGIUNTA",
+          displayableTitle: t('userEdit.addForm.saveUserError.title'),
           displayableDescription: (
-            <>
+            <Trans i18nKey="userEdit.addForm.saveUserError.message">
               {"C'è stato un errore durante l'aggiunta del referente "}
-              <strong>{`${values.name} ${values.surname}`}</strong>.
-            </>
+              <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+            </Trans>
           ),
           component: 'Toast',
         })
@@ -264,17 +279,21 @@ export default function AddUserForm({
         addNotify({
           component: 'SessionModal',
           id: 'MULTI_ROLE_USER',
-          title: 'Assegna ruolo',
+          title: t('userEdit.addForm.addMultiRoleModal.title'),
           message: (
-            <>
+            <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
               {'Stai per assegnare a '}
-              <strong>{`${values.name} ${values.surname} `}</strong>
+              <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
               {`i ruoli `}
-              <strong>{`${values.productRoles
-                .map((r) => productRoles?.groupByProductRole[r].title)
-                .join(',')}`}</strong>
+              <strong>
+                {{
+                  roles: `${values.productRoles
+                    .map((r) => productRoles?.groupByProductRole[r].title)
+                    .join(',')}`,
+                }}
+              </strong>
               {' sul prodotto '}
-              <strong>{`${userProduct?.title}.`}</strong>
+              <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
               {
                 <>
                   <br></br>
@@ -283,11 +302,11 @@ export default function AddUserForm({
               }
               {' Confermi di voler continuare?'}
               {<br></br>}
-            </>
+            </Trans>
           ),
           onConfirm: () => save(values),
-          confirmLabel: 'Conferma',
-          closeLabel: 'Annulla',
+          confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),
+          closeLabel: t('userEdit.addForm.addMultiRoleModal.closeButton'),
         });
       } else {
         save(values);
@@ -373,8 +392,8 @@ export default function AddUserForm({
                   <CustomTextField
                     {...baseTextFieldProps(
                       'taxCode',
-                      'Codice Fiscale',
-                      'Inserisci il Codice Fiscale del referente'
+                      t('userEdit.addForm.fiscalCode.label'),
+                      t('userEdit.addForm.fiscalCode.placeholder')
                     )}
                   />
                 </Grid>
@@ -382,7 +401,11 @@ export default function AddUserForm({
               <Grid item container spacing={3}>
                 <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
-                    {...baseTextFieldProps('name', 'Nome', 'Inserisci il nome del referente')}
+                    {...baseTextFieldProps(
+                      'name',
+                      t('userEdit.addForm.name.label'),
+                      t('userEdit.addForm.name.placeholder')
+                    )}
                     disabled={formik.values.certification || !validTaxcode}
                   />
                 </Grid>
@@ -390,8 +413,8 @@ export default function AddUserForm({
                   <CustomTextField
                     {...baseTextFieldProps(
                       'surname',
-                      'Cognome',
-                      'Inserisci il cognome del referente'
+                      t('userEdit.addForm.surname.label'),
+                      t('userEdit.addForm.surname.placeholder')
                     )}
                     disabled={formik.values.certification || !validTaxcode}
                   />
@@ -402,8 +425,8 @@ export default function AddUserForm({
                   <CustomTextField
                     {...baseTextFieldProps(
                       'email',
-                      'Email istituzionale',
-                      'Inserisci l’indirizzo email istituzionale del referente'
+                      t('userEdit.addForm.institutionalEmail.label'),
+                      t('userEdit.addForm.institutionalEmail.placeholder')
                     )}
                     disabled={!validTaxcode}
                   />
@@ -414,8 +437,8 @@ export default function AddUserForm({
                   <CustomTextField
                     {...baseTextFieldProps(
                       'confirmEmail',
-                      'Conferma email',
-                      'Conferma l’indirizzo email istituzionale del referente'
+                      t('userEdit.addForm.confirmInstitutionalEmail.label'),
+                      t('userEdit.addForm.confirmInstitutionalEmail.placeholder')
                     )}
                     disabled={!validTaxcode}
                   />
@@ -428,10 +451,10 @@ export default function AddUserForm({
             <Grid item container spacing={3}>
               <Grid item xs={8} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
-                  Prodotto
+                  {t('userEdit.addForm.product.title')}
                 </Typography>
                 <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  Seleziona il prodotto sul quale vuoi aggiungere il referente
+                  {t('userEdit.addForm.product.description')}
                 </Typography>
                 <RadioGroup aria-label="user" name="products" value={userProduct?.id ?? ''}>
                   {products
@@ -459,11 +482,10 @@ export default function AddUserForm({
             <Grid item container spacing={3}>
               <Grid item xs={8} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
-                  Ruolo
+                  {t('userEdit.addForm.role.title')}
                 </Typography>
                 <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  Seleziona il ruolo che vuoi assegnare al referente relativo al prodotto
-                  selezionato
+                  {t('userEdit.addForm.role.description')}
                 </Typography>
 
                 {Object.values(productRoles.groupBySelcRole).map((roles, selcRoleIndex) =>
@@ -518,7 +540,7 @@ export default function AddUserForm({
               variant="outlined"
               onClick={() => onExit(goBackInner)}
             >
-              Indietro
+              {t('userEdit.addForm.backButton')}
             </Button>
           </Grid>
           <Grid item xs={3} mt={8}>
@@ -529,7 +551,7 @@ export default function AddUserForm({
               variant="contained"
               type="submit"
             >
-              Conferma
+              {t('userEdit.addForm.confirmButton')}
             </Button>
           </Grid>
         </Grid>

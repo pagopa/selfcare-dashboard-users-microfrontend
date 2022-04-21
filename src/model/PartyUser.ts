@@ -1,20 +1,31 @@
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { InstitutionUserResource } from '../api/generated/b4f-dashboard/InstitutionUserResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserRole, UserStatus } from './Party';
 import { Product, ProductsMap } from './Product';
 
-export type PartyUser = {
+export type BasePartyUser = {
   id: string;
-  taxCode: string;
   name: string;
   surname: string;
   email: string;
   userRole: UserRole;
-  products: Array<PartyUserProduct>;
   status: UserStatus;
   isCurrentUser: boolean;
+};
+
+export type PartyProductUser = BasePartyUser & {
+  product: PartyUserProduct;
+};
+
+export type PartyUser = BasePartyUser & {
+  products: Array<PartyUserProduct>;
+};
+
+export type PartyUserDetail = PartyUser & {
+  taxCode: string;
   certification: boolean;
 };
 
@@ -57,6 +68,23 @@ export const institutionUserResource2PartyUser = (
   currentUser: User
 ): PartyUser => ({
   id: resource.id,
+  name: resource.name,
+  surname: resource.surname,
+  email: resource.email,
+  userRole: resource.role,
+  products: ([] as Array<PartyUserProduct>).concat(
+    resource.products.map((p) => productInfoResource2PartyUserProduct(p, productsMap[p.id]))
+  ),
+  status: resource.status as UserStatus,
+  isCurrentUser: currentUser.uid === resource.id,
+});
+
+export const institutionUserResource2PartyUserDetail = (
+  resource: InstitutionUserDetailsResource,
+  productsMap: ProductsMap,
+  currentUser: User
+): PartyUserDetail => ({
+  id: resource.id,
   taxCode: resource.fiscalCode,
   name: resource.name,
   surname: resource.surname,
@@ -84,19 +112,17 @@ export const productInfoResource2PartyUserProduct = (
   })),
 });
 
-export const productUserResource2PartyUser = (
+export const productUserResource2PartyProductUser = (
   resource: ProductUserResource,
   product: Product,
   currentUser: User
-): PartyUser => ({
+): PartyProductUser => ({
   id: resource.id,
-  taxCode: resource.fiscalCode,
   name: resource.name,
   surname: resource.surname,
   email: resource.email,
   userRole: resource.role,
-  products: [productInfoResource2PartyUserProduct(resource.product, product)],
+  product: productInfoResource2PartyUserProduct(resource.product, product),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
-  certification: resource.certification,
 });

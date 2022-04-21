@@ -5,20 +5,24 @@ import {
   applySort,
   extractPageRequest,
 } from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
+import { cloneDeep } from 'lodash';
 import { Party, UserRole, UserStatus } from '../../model/Party';
 import {
+  BasePartyUser,
+  PartyProductUser,
   PartyUser,
+  PartyUserDetail,
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
   PartyUserProductRole,
 } from '../../model/PartyUser';
-import { Product } from '../../model/Product';
+import { Product, ProductsMap } from '../../model/Product';
 import { ProductRole } from '../../model/ProductRole';
 import { UserRegistry } from '../../model/UserRegistry';
-import { PartyGroup } from '../../model/PartyGroup';
+import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
-export const mockedUsers: Array<PartyUser> = [
+export const mockedUsers: Array<PartyUserDetail> = [
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
@@ -665,54 +669,13 @@ export const mockedUsers: Array<PartyUser> = [
   },
 ];
 
-export const mockedProductRoles: Array<ProductRole> = [
-  {
-    productId: 'PRODID',
-    partyRole: 'MANAGER',
-    selcRole: 'ADMIN',
-    multiroleAllowed: false,
-    productRole: 'referente-legale',
-    title: 'Referente Legale',
-    description: 'Descrizione referente-legale',
-  },
-  {
-    productId: 'PRODID',
-    partyRole: 'DELEGATE',
-    selcRole: 'ADMIN',
-    multiroleAllowed: false,
-    productRole: 'referente-amministrativo',
-    title: 'Referente Amministrativo',
-    description: 'Descrizione referente-amministrativo',
-  },
-  {
-    productId: 'PRODID',
-    partyRole: 'SUB_DELEGATE',
-    selcRole: 'ADMIN',
-    multiroleAllowed: false,
-    productRole: 'incaricato-ente-creditore',
-    title: 'Incaricato Ente Creditore',
-    description: 'Descrizione incaricato-ente-creditore',
-  },
-  {
-    productId: 'PRODID',
-    partyRole: 'OPERATOR',
-    selcRole: 'LIMITED',
-    multiroleAllowed: true,
-    productRole: 'referente-dei-pagamenti',
-    title: 'Referente dei Pagamenti',
-    description: 'Descrizione referente-dei-pagamenti',
-  },
-  {
-    productId: 'PRODID',
-    partyRole: 'OPERATOR',
-    selcRole: 'LIMITED',
-    multiroleAllowed: true,
-    productRole: 'referente-tecnico',
-    title: 'Referente Tecnico',
-    description: 'Descrizione referente-tecnico',
-  },
-];
-export const mockedGroups: Array<PartyGroup> = [
+type PartyGroupMock = PartyGroup & {
+  membersIds: Array<string>;
+  createdByUserId: string;
+  modifiedByUserId: string;
+};
+
+export const mockedGroups: Array<PartyGroupMock> = [
   {
     id: 'groupId1',
     name: 'Gruppo1',
@@ -887,7 +850,11 @@ export const mockedGroups: Array<PartyGroup> = [
     modifiedAt: new Date('2022-01-01 16:00'),
     modifiedByUserId: 'uid',
   },
-];
+].map((o) => ({
+  ...o,
+  membersCount: o.membersIds.length,
+  status: o.status as PartyGroupStatus,
+}));
 
 export const mockedUserRegistry: UserRegistry = {
   taxCode: 'AAAAAA11A11A234S',
@@ -901,7 +868,6 @@ export const fetchPartyUsers = (
   pageRequest: PageRequest,
   _party: Party,
   _currentUser: User,
-  _checkPermission: boolean,
   product?: Product,
   selcRole?: UserRole,
   productRoles?: Array<ProductRole>
@@ -925,7 +891,12 @@ export const fetchPartyUsers = (
       }
       return u;
     })
-    .map((u) => JSON.parse(JSON.stringify(u)));
+    .map((u) => {
+      const clone = cloneDeep(u) as PartyUser;
+      // eslint-disable-next-line functional/immutable-data
+      delete (clone as any).taxCode;
+      return clone;
+    });
 
   if (pageRequest.sort) {
     applySort(filteredContent, pageRequest.sort);
@@ -935,17 +906,29 @@ export const fetchPartyUsers = (
   );
 };
 
-export const fetchProductRoles = (product: Product): Promise<Array<ProductRole>> => {
-  const out = mockedProductRoles.map((r) =>
-    Object.assign(
-      {},
-      r,
-      { productId: product.id },
-      { multiroleAllowed: product.id === 'prod-interop' && r.partyRole === 'OPERATOR' }
-    )
+export const fetchPartyProductUsers = (
+  pageRequest: PageRequest,
+  party: Party,
+  product: Product,
+  currentUser: User,
+  _productsMap: ProductsMap,
+  selcRole?: UserRole,
+  productRoles?: Array<ProductRole>
+): Promise<PageResource<PartyProductUser>> =>
+  fetchPartyUsers(pageRequest, party, currentUser, product, selcRole, productRoles).then(
+    (result) => ({
+      page: result.page,
+      content: result.content.map((u) => {
+        const clone: PartyProductUser = {
+          ...cloneDeep(u),
+          product: u.products.find((p) => p.id === product.id) as PartyUserProduct,
+        };
+        // eslint-disable-next-line functional/immutable-data
+        delete (u as any).products;
+        return clone;
+      }),
+    })
   );
-  return new Promise((resolve) => resolve(out));
-};
 
 export const savePartyUser = (
   _party: Party,
@@ -963,7 +946,7 @@ export const fetchPartyUser = (
   _institutionId: string,
   userId: string,
   _currentUser: User
-): Promise<PartyUser | null> => {
+): Promise<PartyUserDetail | null> => {
   const mockedUser = mockedUsers.find((u) => u.id === userId) ?? null;
   return new Promise((resolve) =>
     resolve(mockedUser ? JSON.parse(JSON.stringify(mockedUser)) : null)
@@ -972,11 +955,12 @@ export const fetchPartyUser = (
 
 export const updatePartyUserStatus = (
   _party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   _product: PartyUserProduct,
   role: PartyUserProductRole,
   status: UserStatus
 ): Promise<any> => {
+  const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
   if (status === 'ACTIVE' || status === 'SUSPENDED') {
     // eslint-disable-next-line functional/immutable-data
     role.status = status;
@@ -984,7 +968,7 @@ export const updatePartyUserStatus = (
       if (status === 'ACTIVE') {
         // eslint-disable-next-line functional/immutable-data
         user.status = 'ACTIVE';
-      } else if (!user.products.find((p) => p.roles.find((r) => r.status === 'ACTIVE'))) {
+      } else if (!mockedUser.products.find((p) => p.roles.find((r) => r.status === 'ACTIVE'))) {
         // eslint-disable-next-line functional/immutable-data
         user.status = 'SUSPENDED';
       }
@@ -993,7 +977,7 @@ export const updatePartyUserStatus = (
     mockedUsers.splice(
       mockedUsers.findIndex((u) => u.id === user.id),
       1,
-      user
+      { ...mockedUser, ...user }
     );
 
     return new Promise<void>((resolve) => resolve());
@@ -1004,11 +988,12 @@ export const updatePartyUserStatus = (
 
 export const deletePartyUser = (
   _party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   product: PartyUserProduct,
   role: PartyUserProductRole
 ): Promise<any> => {
-  if (user.products.length === 1 && product.roles.length === 1) {
+  const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
+  if (mockedUser.products.length === 1 && product.roles.length === 1) {
     // eslint-disable-next-line functional/immutable-data
     mockedUsers.splice(
       mockedUsers.findIndex((u) => u.id === user.id),

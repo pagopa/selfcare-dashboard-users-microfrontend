@@ -4,8 +4,9 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { PartyUser, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
 import { savePartyUser } from '../../../services/usersService';
@@ -13,7 +14,7 @@ import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants'
 
 type Props = {
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   fetchPartyUser: () => void;
   userProduct: PartyUserProduct;
   product: Product;
@@ -29,6 +30,7 @@ export default function UserProductAddRoles({
   fetchPartyUser,
   productRolesList,
 }: Props) {
+  const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
@@ -41,29 +43,35 @@ export default function UserProductAddRoles({
   }, [userProduct.roles]);
 
   const onAddMultiRole = () => {
+    const newRoleSelected = selectedRoles.filter(
+      (r) => !userProduct.roles.find((ur) => ur.role === r)
+    );
+
     setOpen(false);
     setLoading(true);
     savePartyUser(party, product, {
       ...user,
-      productRoles: selectedRoles ?? [],
+      productRoles: newRoleSelected ?? [],
       confirmEmail: user.email,
     })
       .then((_) => {
-        const newRolesTitles = selectedRoles
-          ?.filter((r) => !userProduct.roles.find((ur) => ur.role === r))
-          .map((r) => productRolesList.groupByProductRole[r].title);
+        const newRolesTitles = newRoleSelected.map(
+          (r) => productRolesList.groupByProductRole[r].title
+        );
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',
-          title: 'RUOLO AGGIUNTO',
+          title: t('userDetail.actions.successfulAddRole.title'),
           message: (
-            <>
+            <Trans i18nKey="userDetail.actions.successfulAddRole.message">
               {'Hai aggiunto correttamente '}
-              {newRolesTitles?.length === 1 ? 'il ruolo' : 'i ruoli'}
-              {` ${newRolesTitles?.join(',')} `}
+              {newRolesTitles?.length === 1
+                ? t('userDetail.actions.successfulAddRole.messageRole')
+                : t('userDetail.actions.successfulAddRole.messageRoles')}
+              {{ roles: ` ${newRolesTitles?.join(',')} ` }}
               {' per il referente '}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-            </>
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
+            </Trans>
           ),
         });
         fetchPartyUser();
@@ -72,16 +80,18 @@ export default function UserProductAddRoles({
         addError({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
-          displayableTitle: "ERRORE DURANTE L'AGGIUNTA",
-          techDescription: `C'è stato un errore durante l'aggiunta del ruolo per il referente ${user.name} ${user.surname}`,
+          displayableTitle: t('userDetail.actions.addRoleError.title'),
+          techDescription: t('userDetail.actions.addRoleError.description', {
+            user: `${user.name} ${user.surname}`,
+          }),
           blocking: false,
           error,
           toNotify: true,
           displayableDescription: (
-            <>
+            <Trans i18nKey="userDetail.actions.addRoleError.message">
               {"C'è stato un errore durante l'aggiunta del ruolo per il referente "}
-              <strong>{`${user.name} ${user.surname}`}</strong>.
-            </>
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
           ),
         })
       )
@@ -126,20 +136,22 @@ export default function UserProductAddRoles({
         component="button"
       >
         <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
-          + Assegna ruolo
+          {t('userDetail.actions.newRoleAssign')}
         </Typography>
       </Link>
       <SessionModal
         open={open}
-        title="Assegna ruolo"
+        title={t('userDetail.actions.newRoleAssignModal.title')}
         message={
           <>
-            {'Assegna a '}
-            <strong> {`${user.name} ${user.surname}`} </strong>
-            {'un altro ruolo '}
-            <strong> {`${user.userRole}`} </strong>
-            {' sul prodotto '}
-            <strong> {`${product.title}:`} </strong>
+            <Trans i18nKey="userDetail.actions.newRoleAssignModal.message">
+              {'Assegna a '}
+              <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
+              {'un altro ruolo '}
+              <strong> {{ userRole: `${user.userRole}` }} </strong>
+              {' sul prodotto '}
+              <strong> {{ productTitle: `${product.title}:` }} </strong>
+            </Trans>
 
             {Object.values(orderedRolesList).map((p) => {
               const isSelected = (selectedRoles?.indexOf(p.productRole) ?? -1) > -1;
@@ -187,8 +199,8 @@ export default function UserProductAddRoles({
         onConfirm={onAddMultiRole}
         onConfirmEnabled={selectedRoles.length > userProduct.roles.length}
         handleClose={() => setOpen(false)}
-        onConfirmLabel="Conferma"
-        onCloseLabel="Annulla"
+        onConfirmLabel={t('userDetail.actions.newRoleAssignModal.confirmButton')}
+        onCloseLabel={t('userDetail.actions.newRoleAssignModal.closeButton')}
       />
     </>
   ) : (

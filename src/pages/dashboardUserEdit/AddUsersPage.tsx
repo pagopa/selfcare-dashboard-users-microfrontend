@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useTranslation } from 'react-i18next';
 import { Product } from '../../model/Product';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
@@ -16,11 +17,12 @@ type Props = {
 };
 
 function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const paths = [
     {
-      description: 'Referenti',
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -29,7 +31,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
         ),
     },
     {
-      description: 'Aggiungi un Referente',
+      description: t('userPagesPath.addUser'),
     },
   ];
 
@@ -46,8 +48,10 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
-          title="Aggiungi un Referente"
-          subTitle={`Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il ${party.description}.`}
+          title={t('userEdit.addForm.title')}
+          subTitle={t('userEdit.addForm.subTitle.generic', {
+            institutionName: `${party.description}.`,
+          })}
         />
       </Grid>
       <Grid item xs={12}>

@@ -1,6 +1,7 @@
 import { Button, Grid, Typography, styled } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { PartyUser } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
 
 const CustomStyleCapitolized = styled(Typography)({
@@ -11,12 +12,13 @@ const CustomStyleCapitolized = styled(Typography)({
 type Props = {
   party: Party;
   roleSection: React.ReactNode;
-  userInfo: PartyUser;
+  userInfo: PartyUserDetail;
   goEdit: () => void;
   productsMap: ProductsMap;
 };
 
 export default function UserDetail({ roleSection, userInfo, party, goEdit, productsMap }: Props) {
+  const { t } = useTranslation();
   return (
     <>
       <Grid container>
@@ -25,7 +27,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  NOME
+                  {t('userDetail.name')}
                 </Typography>
               </Grid>
               <Grid item xs={9} className="userInfoStyle">
@@ -37,7 +39,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  COGNOME
+                  {t('userDetail.surname')}
                 </Typography>
               </Grid>
               <Grid item xs={9}>
@@ -49,7 +51,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  CODICE FISCALE
+                  {t('userDetail.fiscalCode')}
                 </Typography>
               </Grid>
               <Grid item xs={9}>
@@ -61,7 +63,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  EMAIL ISTITUZIONALE
+                  {t('userDetail.institutionalEmail')}
                 </Typography>
               </Grid>
               <Grid item xs={9}>
@@ -73,7 +75,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
             <Grid container item alignContent="center">
               <Grid item xs={3}>
                 <Typography variant="h6" className="CustomLabelStyle">
-                  ENTE
+                  {t('userDetail.institution')}
                 </Typography>
               </Grid>
               <Grid item xs={9}>
@@ -92,12 +94,11 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
           <Grid item xs={2}>
             <Button
               disableRipple
-              disabled={userInfo.status === 'SUSPENDED'}
               variant="contained"
               sx={{ height: '40px', width: '120px' }}
               onClick={goEdit}
             >
-              Modifica
+              {t('userDetail.editButton')}
             </Button>
           </Grid>
         )}
