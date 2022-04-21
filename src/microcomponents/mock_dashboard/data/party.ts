@@ -1,4 +1,4 @@
-import { Party } from '../../model/Party';
+import { Party } from '../../../model/Party';
 
 export const mockedParties: Array<Party> = [
   {
@@ -51,24 +51,26 @@ export const mockedParties: Array<Party> = [
     fiscalCode: 'fiscalCodeONBOARDED',
     category: '',
   },
+  // Usable when not mocking the BE
+  {
+    category: 'Comuni e loro Consorzi e Associazioni',
+    description: 'Comune di Caltanissetta',
+    digitalAddress: 'protocollo@pec.comune.caltanissetta.it',
+    fiscalCode: '80001130857',
+    institutionId: 'c_b429',
+    status: 'ACTIVE',
+    urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b429/logo.png',
+    userRole: 'ADMIN',
+  },
+  // Usable when not mocking the BE
+  {
+    category: 'Comuni e loro Consorzi e Associazioni',
+    description: 'Comune di Casalnuovo di Napoli',
+    digitalAddress: 'protocollogen.casalnuovo.na@pec.actalis.it',
+    fiscalCode: '05600440639',
+    institutionId: 'c_b905',
+    status: 'ACTIVE',
+    urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b905/logo.png',
+    userRole: 'ADMIN',
+  },
 ];
-
-export const verifyFetchPartiesMockExecution = (parties: Array<Party>) => {
-  expect(parties).toStrictEqual(mockedParties);
-};
-
-export const fetchParties = () => new Promise((resolve) => resolve(mockedParties));
-
-export const verifyFetchPartyDetailsMockExecution = (party: Party) => {
-  expect(party).toStrictEqual(
-    mockedParties.filter((p) => p.institutionId === party.institutionId)[0]
-  );
-};
-
-export const fetchPartyDetails = (
-  institutionId: string,
-  _parties?: Array<Party>
-): Promise<Party | null> =>
-  new Promise((resolve) =>
-    resolve(mockedParties.find((p) => p.institutionId === institutionId) ?? null)
-  );

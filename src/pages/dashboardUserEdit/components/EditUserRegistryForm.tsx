@@ -9,10 +9,11 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
-import { PartyUser, PartyUserOnEdit } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserOnEdit } from '../../../model/PartyUser';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -47,11 +48,12 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   goBack: () => void;
 };
 
 export default function EditUserRegistryForm({ party, user, goBack }: Props) {
+  const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
@@ -67,12 +69,12 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         email: !values.email
           ? requiredError
           : !emailRegexp.test(values.email)
-          ? 'L’indirizzo email non è valido'
+          ? t('userEdit.editRegistryForm.errors.invalidEmail')
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
           : values.confirmEmail !== values.email
-          ? 'Gli indirizzi email non corrispondono'
+          ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
       }).filter(([_key, value]) => value)
     );
@@ -92,13 +94,13 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           addNotify({
             component: 'Toast',
             id: 'EDIT_PARTY_USER',
-            title: 'REFERENTE MODIFICATO',
+            title: t('userEdit.editRegistryForm.editUserSuccess.title'),
             message: (
-              <>
+              <Trans i18nkey="userEdit.editRegistryForm.editUserSuccess.message">
                 {'Hai modificato correttamente i dati di '}
-                <strong>{`${values.name} ${values.surname}`}</strong>
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>
                 {'.'}
-              </>
+              </Trans>
             ),
           });
           goBack();
@@ -110,12 +112,12 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             error: reason,
             techDescription: `An error occurred while editing party user ${user.id} of institution ${party.institutionId}`,
             toNotify: true,
-            displayableTitle: 'ERRORE DURANTE LA MODIFICA',
+            displayableTitle: t('userEdit.editRegistryForm.editUserError.title'),
             displayableDescription: (
-              <>
+              <Trans i18nkey="userEdit.editRegistryForm.editUserError.message">
                 {"C'è stato un errore durante la modifica del referente "}
-                <strong>{`${values.name} ${values.surname}`}</strong>.
-              </>
+                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+              </Trans>
             ),
             component: 'Toast',
           })
@@ -169,8 +171,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               <CustomTextField
                 {...baseTextFieldProps(
                   'taxCode',
-                  'Codice Fiscale',
-                  'Inserisci il Codice Fiscale del referente'
+                  t('userEdit.editRegistryForm.fiscalCode.label'),
+                  t('userEdit.editRegistryForm.fiscalCode.placeholder')
                 )}
                 disabled={true}
               />
@@ -179,13 +181,21 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           <Grid item container spacing={3}>
             <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
-                {...baseTextFieldProps('name', 'Nome', 'Inserisci il nome del referente')}
+                {...baseTextFieldProps(
+                  'name',
+                  t('userEdit.editRegistryForm.name.label'),
+                  t('userEdit.editRegistryForm.name.placeholder')
+                )}
                 disabled={formik.values.certification}
               />
             </Grid>
             <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
-                {...baseTextFieldProps('surname', 'Cognome', 'Inserisci il cognome del referente')}
+                {...baseTextFieldProps(
+                  'surname',
+                  t('userEdit.editRegistryForm.surname.label'),
+                  t('userEdit.editRegistryForm.surname.placeholder')
+                )}
                 disabled={formik.values.certification}
               />
             </Grid>
@@ -195,8 +205,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               <CustomTextField
                 {...baseTextFieldProps(
                   'email',
-                  'Email istituzionale',
-                  'Inserisci l’indirizzo email istituzionale del referente'
+                  t('userEdit.editRegistryForm.institutionalEmail.label'),
+                  t('userEdit.editRegistryForm.institutionalEmail.placeholder')
                 )}
               />
             </Grid>
@@ -206,8 +216,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               <CustomTextField
                 {...baseTextFieldProps(
                   'confirmEmail',
-                  'Conferma email',
-                  'Conferma l’indirizzo email istituzionale del referente'
+                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
+                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.placeholder')
                 )}
               />
             </Grid>
@@ -222,7 +232,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               variant="outlined"
               onClick={() => onExit(goBack)}
             >
-              Indietro
+              {t('userEdit.editRegistryForm.backButton')}
             </Button>
           </Grid>
           <Grid item xs={3} mt={8}>
@@ -233,7 +243,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               variant="contained"
               type="submit"
             >
-              Conferma
+              {t('userEdit.editRegistryForm.confirmButton')}
             </Button>
           </Grid>
         </Grid>

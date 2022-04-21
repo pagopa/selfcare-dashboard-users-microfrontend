@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useTranslation } from 'react-i18next';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import { Product } from '../../model/Product';
@@ -14,6 +15,7 @@ type Props = withUserDetailProps & {
 };
 
 function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Props) {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const goBack = () =>
@@ -29,7 +31,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
     );
   const paths = [
     {
-      description: 'Referenti',
+      description: t('userPagesPath.detailRedirect'),
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path, {
@@ -43,7 +45,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
       onClick: goBack,
     },
     {
-      description: 'Modifica Referente',
+      description: t('userPagesPath.editUser'),
     },
   ];
 
@@ -60,15 +62,15 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
-          title="Modifica Referente"
-          subTitle={`Modifica i dati della persona che hai autorizzato a gestire.`}
+          title={t('userEdit.editRegistryForm.title')}
+          subTitle={t('userEdit.editRegistryForm.subTitle')}
         />
       </Grid>
       <Grid item xs={12}>
         {partyUser ? (
           <EditUserRegistryForm party={party} user={partyUser} goBack={goBack} />
         ) : (
-          "Impossibile individuare l'utente desiderato"
+          t('userEdit.editRegistryForm.errors.userNotFind')
         )}
       </Grid>
     </Grid>

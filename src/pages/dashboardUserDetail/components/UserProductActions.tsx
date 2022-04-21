@@ -2,8 +2,9 @@ import { Link, Grid, Typography } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party, UserStatus } from '../../../model/Party';
-import { PartyUser, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
@@ -12,7 +13,7 @@ import { deletePartyUser } from './../../../services/usersService';
 type Props = {
   showActions: boolean;
   party: Party;
-  user: PartyUser;
+  user: PartyUserDetail;
   fetchPartyUser: () => void;
   role: PartyUserProductRole;
   product: PartyUserProduct;
@@ -31,9 +32,11 @@ export default function UserProductActions({
   canEdit,
   isProductDetailPage,
 }: Props) {
+  const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const moreRolesOnProduct = product.roles.length > 1;
 
   const onDelete = () => {
     setLoading(true);
@@ -43,14 +46,16 @@ export default function UserProductActions({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: 'RUOLO ELIMINATO',
+          title: t('userDetail.actions.delete.title'),
           message: (
             <>
-              {'Hai eliminato correttamente il ruolo '}
-              {transcodeProductRole2Title(role.role, productRolesList)}
-              {' assegnato a '}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-              {'.'}
+              <Trans i18nKey="userDetail.actions.delete.message">
+                {'Hai eliminato correttamente il ruolo '}
+                <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
+                {' assegnato a '}
+                <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
+                {'.'}
+              </Trans>
             </>
           ),
         });
@@ -71,31 +76,32 @@ export default function UserProductActions({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: 'Elimina Ruolo',
+      title: t('userDetail.actions.modalDelete.title'),
       message: (
-        <>
+        <Trans i18nKey="userDetail.actions.modalDelete.message">
           {'Stai per eliminare il ruolo'}
-          <strong> {transcodeProductRole2Title(role.role, productRolesList)} </strong>
+          <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
           {'di '}
-          <strong> {product.title} </strong>
+          <strong> {{ productTitle: product.title }} </strong>
           {' assegnato a '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${user.name} ${user.surname}`}
+            {{ user: party && `${user.name} ${user.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
       ),
-      confirmLabel: 'Conferma',
-      closeLabel: 'Annulla',
+      confirmLabel: t('userDetail.actions.modalDelete.confirmButton'),
+      closeLabel: t('userDetail.actions.modalDelete.closeButton'),
       onConfirm: onDelete,
     });
   };
   const confirmChangeStatus = () => {
     const nextStatus: UserStatus | undefined =
       role.status === 'ACTIVE' ? 'SUSPENDED' : role.status === 'SUSPENDED' ? 'ACTIVE' : undefined;
-    const selectedUserStatus = nextStatus === 'SUSPENDED' ? 'sospeso' : 'riabilitato';
+    const selectedUserStatus =
+      nextStatus === 'SUSPENDED' ? t('userDetail.suspended') : t('userDetail.rehabilitated');
 
     if (!nextStatus) {
       addError({
@@ -114,13 +120,24 @@ export default function UserProductActions({
         fetchPartyUser();
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
-          title: `REFERENTE ${selectedUserStatus.toUpperCase()}`,
-          message: (
-            <>
-              {`Hai ${selectedUserStatus} correttamente `}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-              {'.'}
-            </>
+          title: moreRolesOnProduct
+            ? t('userDetail.actions.changeUserStatus.moreRolesOnProduct.title', {
+                userStatus: `${selectedUserStatus.toUpperCase()}`,
+              })
+            : t('userDetail.actions.changeUserStatus.oneRoleOnProduct.title', {
+                userStatus: `${selectedUserStatus.toUpperCase()}`,
+              }),
+          message: moreRolesOnProduct ? (
+            <Trans i18nKey="userDetail.actions.changeUserStatus.moreRolesOnProduct.message">
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
+              <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
+              assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
+          ) : (
+            <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
+              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il referente
+              <strong> {{ user: `${user.name} ${user.surname}` }}</strong>.
+            </Trans>
           ),
           component: 'Toast',
         });
@@ -140,26 +157,48 @@ export default function UserProductActions({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: role.status === 'ACTIVE' ? 'Sospendi Ruolo' : 'Riabilita Ruolo',
-      message: (
-        <>
+      title: moreRolesOnProduct
+        ? role.status === 'ACTIVE'
+          ? t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.titleSuspend')
+          : t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.titleReactivate')
+        : role.status === 'ACTIVE'
+        ? t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.titleSuspend')
+        : t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.titleReactivate'),
+      message: moreRolesOnProduct ? (
+        <Trans i18nKey="userDetail.actions.changeUserStatusModal.moreRolesOnProduct.message">
           {role.status === 'ACTIVE'
-            ? 'Stai per sospendere il ruolo'
-            : 'Stai per riabilitare il ruolo'}
-          <strong> {transcodeProductRole2Title(role.role, productRolesList)} </strong>
+            ? t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.messageSuspend')
+            : t('userDetail.actions.changeUserStatusModal.moreRolesOnProduct.messageReactivate')}
+          <strong>
+            {{
+              transcodeProductRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+            }}
+          </strong>
           {'di '}
-          <strong> {product.title} </strong>
+          <strong> {{ productTitle: product.title }} </strong>
           {' assegnato a '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${user.name.toLocaleLowerCase()} ${user.surname}`}
+            {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
           </strong>
           {'.'}
           <br />
           {'Vuoi continuare?'}
-        </>
+        </Trans>
+      ) : (
+        <Trans i18nKey="userDetail.actions.changeUserStatusModal.oneRoleOnProduct.message">
+          {role.status === 'ACTIVE'
+            ? t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.messageSuspend')
+            : t('userDetail.actions.changeUserStatusModal.oneRoleOnProduct.messageReactivate')}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
+          </strong>
+          {'.'}
+          <br />
+          {'Vuoi continuare?'}
+        </Trans>
       ),
-      confirmLabel: 'Conferma',
-      closeLabel: 'Annulla',
+      confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
+      closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
       onConfirm: confirmChangeStatus,
     });
   };
@@ -172,19 +211,19 @@ export default function UserProductActions({
             <Link onClick={handleOpen} component="button">
               <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
                 {role.status === 'SUSPENDED'
-                  ? 'Riabilita'
+                  ? t('userDetail.actions.reactivateRole')
                   : role.status === 'ACTIVE'
-                  ? 'Sospendi'
+                  ? t('userDetail.actions.suspendRole')
                   : ''}
               </Typography>
             </Link>
           </Grid>
-          {(product.roles.length > 1 || (!isProductDetailPage && user.products.length > 1)) &&
+          {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
             !user.isCurrentUser && (
               <Grid item xs={6}>
                 <Link color="error" onClick={handleOpenDelete} component="button">
                   <Typography variant="h3" sx={{ fontSize: '16px', color: '#C02927' }}>
-                    Elimina
+                    {t('userDetail.actions.deleteButton')}
                   </Typography>
                 </Link>
               </Grid>

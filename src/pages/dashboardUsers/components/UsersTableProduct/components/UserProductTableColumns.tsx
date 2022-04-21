@@ -7,7 +7,7 @@ import {
 } from '@mui/x-data-grid';
 import React, { CSSProperties, ReactNode } from 'react';
 import { InfoOutlined } from '@mui/icons-material';
-import { PartyUser, PartyUserProduct } from '../../../../../model/PartyUser';
+import { PartyProductUser, PartyUserProduct } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { Product } from '../../../../../model/Product';
@@ -16,10 +16,10 @@ import UserProductRowActions from './UserProductRowActions';
 export function buildColumnDefs(
   canEdit: boolean,
   party: Party,
-  product: Product,
-  onRowClick: (partyUser: PartyUser) => void,
-  onDelete: (user: PartyUser) => void,
-  onStatusUpdate: (user: PartyUser, nextStatus: UserStatus) => void,
+  _product: Product,
+  onRowClick: (partyUser: PartyProductUser) => void,
+  onDelete: (user: PartyProductUser) => void,
+  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void,
   productRolesLists: ProductRolesLists
 ) {
   return [
@@ -34,7 +34,7 @@ export function buildColumnDefs(
       disableColumnMenu: true,
       valueGetter: getFullName,
       renderHeader: showCustmHeader,
-      renderCell: (params) => showName(params, product, false, onRowClick),
+      renderCell: (params) => showName(params, false, onRowClick),
       sortable: false,
     },
     {
@@ -59,7 +59,7 @@ export function buildColumnDefs(
       width: 250,
       editable: false,
       disableColumnMenu: true,
-      renderCell: (params) => showRoles(params, product, productRolesLists, onRowClick),
+      renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
     },
@@ -72,7 +72,7 @@ export function buildColumnDefs(
       hideSortIcons: true,
       disableColumnMenu: true,
       editable: false,
-      renderCell: (params) => showStatus(params, product, onRowClick),
+      renderCell: (params) => showStatus(params, onRowClick),
       sortable: false,
     },
     {
@@ -85,9 +85,7 @@ export function buildColumnDefs(
       disableColumnMenu: true,
       editable: false,
       renderCell: (p) =>
-        canEdit
-          ? showActions(party, product, p, onDelete, onStatusUpdate)
-          : renderCell(p, '', onRowClick),
+        canEdit ? showActions(party, p, onDelete, onStatusUpdate) : renderCell(p, '', onRowClick),
       sortable: false,
     },
   ] as Array<GridColDef>;
@@ -96,7 +94,7 @@ export function buildColumnDefs(
 function renderCell(
   params: GridRenderCellParams,
   value: ReactNode = params.value,
-  onRowClick?: (partyUser: PartyUser) => void,
+  onRowClick?: (partyUser: PartyProductUser) => void,
   overrideStyle: CSSProperties = {}
 ) {
   return (
@@ -136,11 +134,8 @@ function renderCell(
   );
 }
 
-function isUserSuspended(user: PartyUser, product: Product): boolean {
-  return (
-    user.status === 'SUSPENDED' ||
-    !user.products.find((p) => p.id === product.id)?.roles?.find((r) => r.status !== 'SUSPENDED')
-  );
+function isUserSuspended(user: PartyProductUser): boolean {
+  return user.status === 'SUSPENDED' || !user.product.roles?.find((r) => r.status !== 'SUSPENDED');
 }
 
 function getFullName(params: GridValueGetterParams) {
@@ -162,11 +157,10 @@ function showCustmHeader(params: GridColumnHeaderParams) {
 
 function showName(
   params: GridRenderCellParams,
-  product: Product,
   canShowChip: boolean,
-  onRowClick: (partyUser: PartyUser) => void
+  onRowClick: (partyUser: PartyProductUser) => void
 ) {
-  const isSuspended = isUserSuspended(params.row as PartyUser, product);
+  const isSuspended = isUserSuspended(params.row as PartyProductUser);
   const showChip = canShowChip && isSuspended;
   return (
     <React.Fragment>
@@ -213,35 +207,32 @@ function TableChip({ text }: { text: string }) {
 }
 
 function showRoles(
-  params: GridRenderCellParams<PartyUser>,
-  product: Product,
+  params: GridRenderCellParams<PartyProductUser>,
   productRolesLists: ProductRolesLists,
-  onRowClick: (partyUser: PartyUser) => void
+  onRowClick: (partyUser: PartyProductUser) => void
 ) {
-  const isSuspended = isUserSuspended(params.row as PartyUser, product);
+  const isSuspended = isUserSuspended(params.row as PartyProductUser);
   return (
     <React.Fragment>
       {renderCell(
         params,
         <Grid container direction="column">
-          {(params.row as PartyUser).products
-            .find((p) => p.id === product.id)
-            ?.roles?.map(
-              (
-                r // load just the actual product
-              ) => (
-                <Grid item key={r.relationshipId}>
-                  <Typography
-                    color={isSuspended || r.status === 'SUSPENDED' ? '#9E9E9E' : undefined}
-                    sx={{ fontSize: '14px', fontWeight: '700', outline: 'none' }}
-                  >
-                    {productRolesLists.groupByProductRole[r.role]
-                      ? productRolesLists.groupByProductRole[r.role].title
-                      : r.role}
-                  </Typography>
-                </Grid>
-              )
-            )}
+          {(params.row as PartyProductUser).product.roles?.map(
+            (
+              r // load just the actual product
+            ) => (
+              <Grid item key={r.relationshipId}>
+                <Typography
+                  color={isSuspended || r.status === 'SUSPENDED' ? '#9E9E9E' : undefined}
+                  sx={{ fontSize: '14px', fontWeight: '700', outline: 'none' }}
+                >
+                  {productRolesLists.groupByProductRole[r.role]
+                    ? productRolesLists.groupByProductRole[r.role].title
+                    : r.role}
+                </Typography>
+              </Grid>
+            )
+          )}
         </Grid>,
         onRowClick
       )}
@@ -251,10 +242,9 @@ function showRoles(
 
 function showStatus(
   params: GridRenderCellParams,
-  product: Product,
-  onRowClick: (partyUser: PartyUser) => void
+  onRowClick: (partyUser: PartyProductUser) => void
 ) {
-  const showChip = isUserSuspended(params.row as PartyUser, product);
+  const showChip = isUserSuspended(params.row as PartyProductUser);
   return renderCell(params, <>{showChip && <TableChip text="Sospeso" />}</>, onRowClick, {
     paddingLeft: 0,
     paddingRight: 0,
@@ -264,13 +254,12 @@ function showStatus(
 
 function showActions(
   party: Party,
-  product: Product,
-  users: GridRenderCellParams<PartyUser>,
-  onDelete: (user: PartyUser) => void,
-  onStatusUpdate: (user: PartyUser, nextStatus: UserStatus) => void
+  users: GridRenderCellParams<PartyProductUser>,
+  onDelete: (user: PartyProductUser) => void,
+  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void
 ) {
-  const row = users.row as PartyUser;
-  const userProduct = row.products.find((p) => p.id === product.id) as PartyUserProduct;
+  const row = users.row as PartyProductUser;
+  const userProduct = row.product as PartyUserProduct;
   return renderCell(
     users,
     row.isCurrentUser || (userProduct?.roles?.length ?? 2) > 1 ? (

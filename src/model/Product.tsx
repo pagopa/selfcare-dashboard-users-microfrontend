@@ -1,3 +1,5 @@
+import { UserRole } from './Party';
+
 export type Product = {
   activationDateTime?: Date;
   description: string;
@@ -7,7 +9,7 @@ export type Product = {
   urlBO: string;
   urlPublic?: string;
   tag?: string;
-  userRole?: string;
+  userRole?: UserRole;
   authorized?: boolean;
   status: 'ACTIVE' | 'INACTIVE' | 'PENDING';
 };

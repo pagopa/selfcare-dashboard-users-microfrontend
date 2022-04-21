@@ -1,11 +1,13 @@
 import { Grid, Link, Typography } from '@mui/material';
 import { ExpandMore } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   fetchNextPage: () => void;
 };
 
 export default function UserTableLoadMoreData({ fetchNextPage }: Props) {
+  const { t } = useTranslation();
   return (
     <Grid
       container
@@ -26,7 +28,7 @@ export default function UserTableLoadMoreData({ fetchNextPage }: Props) {
             fontWeight: 600,
           }}
         >
-          Carica altri
+          {t('usersTable.loadMore')}
           <ExpandMore fontSize="small" sx={{ position: 'absolute', bottom: 0 }} />
         </Link>
       </Typography>

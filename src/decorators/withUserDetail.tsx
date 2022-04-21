@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { uniqueId } from 'lodash';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { PartyUser } from '../model/PartyUser';
+import { PartyUserDetail } from '../model/PartyUser';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { DASHBOARD_USERS_ROUTES } from '../routes';
 import { Party } from '../model/Party';
@@ -12,7 +12,7 @@ import { ProductsMap } from '../model/Product';
 import { ENV } from '../utils/env';
 
 export type withUserDetailProps = {
-  partyUser: PartyUser;
+  partyUser: PartyUserDetail;
   party: Party;
   productsMap: ProductsMap;
 };
@@ -31,7 +31,7 @@ export default function withUserDetail<T extends withUserDetailProps>(
   const ComponentWithUserDetail = (props: T) => {
     const { institutionId, userId, productId } = useParams<UserUrlParams>();
     const fetchUserDetail = useUserDetail();
-    const [partyUser, setPartyUser] = useState<PartyUser | null>();
+    const [partyUser, setPartyUser] = useState<PartyUserDetail | null>();
     const addError = useErrorDispatcher();
     const history = useHistory();
 

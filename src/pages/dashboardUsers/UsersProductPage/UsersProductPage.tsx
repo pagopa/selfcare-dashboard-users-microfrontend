@@ -3,6 +3,8 @@ import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import UsersTableProduct from '../components/UsersTableProduct/UsersTableProduct';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -42,8 +44,19 @@ function UsersProductPage({
 }: Props) {
   const showSelcRoleGrouped = false;
 
+  const { t } = useTranslation();
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (party.userRole !== 'ADMIN') {
+      history.push(
+        resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.institutionId })
+      );
+    }
+  }, [party.institutionId]);
 
   useEffect(() => {
     trackEvent('USER_LIST', { party_id: party.institutionId, product: selectedProduct.id });
@@ -61,8 +74,10 @@ function UsersProductPage({
       </Grid>
       <Grid item xs={12} mb={9} px={2}>
         <TitleBox
-          title="Referenti"
-          subTitle={`Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto ${selectedProduct.title}.`}
+          title={t('usersPage.title')}
+          subTitle={t('usersPage.vertical.subTitle', {
+            selectedProduct: `${selectedProduct.title}`,
+          })}
         />
       </Grid>
       <Grid item xs={12} sx={{ height: '100%' }}>

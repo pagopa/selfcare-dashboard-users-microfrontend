@@ -20,11 +20,11 @@ export const verifyMockExecution = (state: RootState) => {
   expect(state.user.logged).toMatchObject(mockedUser);
 };
 
-export default (WrappedComponent: React.ComponentType<any>) => () => {
+export default (WrappedComponent: React.ComponentType<any>) => (props: any) => {
   const dispatch = useAppDispatch();
   const loggedUser = useSelector(userSelectors.selectLoggedUser);
   useEffect(() => {
     dispatch(userActions.setLoggedUser(mockedUser));
   }, []);
-  return loggedUser ? <WrappedComponent /> : <></>;
+  return loggedUser ? <WrappedComponent {...props} /> : <></>;
 };

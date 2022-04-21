@@ -5,7 +5,7 @@ import React from 'react';
 import { CustomPagination } from '@pagopa/selfcare-common-frontend';
 import { Page } from '@pagopa/selfcare-common-frontend/model/Page';
 import { Product } from '../../../../../model/Product';
-import { PartyUser } from '../../../../../model/PartyUser';
+import { PartyProductUser } from '../../../../../model/PartyUser';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { buildColumnDefs } from './UserProductTableColumns';
@@ -20,7 +20,7 @@ interface UsersTableProps {
   loading: boolean;
   noMoreData: boolean;
   party: Party;
-  users: Array<PartyUser>;
+  users: Array<PartyProductUser>;
   product: Product;
   productRolesLists: ProductRolesLists;
   canEdit: boolean;
@@ -28,9 +28,9 @@ interface UsersTableProps {
   page: Page;
   sort?: string;
   onSortRequest: (sort: string) => void;
-  onRowClick: (partyUser: PartyUser) => void;
-  onDelete: (partyUser: PartyUser) => void;
-  onStatusUpdate: (partyUser: PartyUser, nextStatus: UserStatus) => void;
+  onRowClick: (partyUser: PartyProductUser) => void;
+  onDelete: (partyUser: PartyProductUser) => void;
+  onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
 }
 
 const CustomDataGrid = styled(DataGrid)({
@@ -137,6 +137,7 @@ export default function UsersProductTable({
           className="CustomDataGrid"
           autoHeight={true}
           rows={users}
+          rowCount={Math.max(page?.totalElements ?? 0, users.length)}
           getRowId={(r) => r.id}
           columns={columns}
           rowHeight={users.length === 0 && loading ? 0 : rowHeight}

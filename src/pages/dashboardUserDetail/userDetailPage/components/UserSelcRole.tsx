@@ -1,5 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { useTranslation } from 'react-i18next';
 import { UserRole } from '../../../../model/Party';
 
 type Props = {
@@ -7,12 +8,13 @@ type Props = {
 };
 
 export default function UserSelcRole({ selcRole }: Props) {
+  const { t } = useTranslation();
   const roleLabel = roleLabels[selcRole];
   return (
     <>
       <Grid item xs={3}>
         <Typography variant="h6" className="CustomLabelStyle">
-          RUOLO SU SELF CARE
+          {t('userDetail.selfCareRole')}
         </Typography>
       </Grid>
       <Grid item xs={6}>

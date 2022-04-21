@@ -5,20 +5,25 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import { Party, UserRole, UserStatus } from '../model/Party';
 import { Product, ProductsMap } from '../model/Product';
 import {
+  BasePartyUser,
   institutionUserResource2PartyUser,
+  institutionUserResource2PartyUserDetail,
+  PartyProductUser,
   PartyUser,
+  PartyUserDetail,
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
   PartyUserProductRole,
-  productUserResource2PartyUser,
+  productUserResource2PartyProductUser,
 } from '../model/PartyUser';
 import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
 import { DashboardApi } from '../api/DashboardApiClient';
-import { PartyGroup } from '../model/PartyGroup';
+import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
   fetchPartyUsers as fetchPartyUsersMocked,
+  fetchPartyProductUsers as fetchPartyProductUsersMocked,
   savePartyUser as savePartyUserMocked,
   updatePartyUser as updatePartyUserMocked,
   updatePartyUserStatus as updatePartyUserStatusMocked,
@@ -43,48 +48,76 @@ export const fetchPartyUsers = (
   party: Party,
   productsMap: ProductsMap,
   currentUser: User,
-  checkPermission: boolean,
   product?: Product,
   selcRole?: UserRole,
   productRoles?: Array<ProductRole>
 ): Promise<PageResource<PartyUser>> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return fetchPartyUsersMocked(
+    return fetchPartyUsersMocked(pageRequest, party, currentUser, product, selcRole, productRoles);
+  } else {
+    return DashboardApi.getPartyUsers(
+      party.institutionId,
+      product?.id,
+      selcRole,
+      productRoles
+    ).then((r) =>
+      // TODO fixme when API will support pagination
+      toFakePagination(r.map((u) => institutionUserResource2PartyUser(u, productsMap, currentUser)))
+    );
+  }
+};
+
+export const fetchPartyProductUsers = (
+  pageRequest: PageRequest,
+  party: Party,
+  product: Product,
+  currentUser: User,
+  productsMap: ProductsMap,
+  selcRole?: UserRole,
+  productRoles?: Array<ProductRole>
+): Promise<PageResource<PartyProductUser>> => {
+  /* istanbul ignore if */
+  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+    return fetchPartyProductUsersMocked(
       pageRequest,
       party,
-      currentUser,
-      checkPermission,
       product,
+      currentUser,
+      productsMap,
       selcRole,
       productRoles
     );
   } else {
-    if (product && checkPermission) {
+    if (product.userRole === 'ADMIN') {
+      // This API is allowed only for ADMIN users
       return DashboardApi.getPartyProductUsers(
         party.institutionId,
         product.id,
         selcRole,
         productRoles
-      ).then(
-        (
-          r // TODO fixme when API will support pagination
-        ) => toFakePagination(r.map((u) => productUserResource2PartyUser(u, product, currentUser)))
+      ).then((r) =>
+        // TODO fixme when API will support pagination
+        toFakePagination(
+          r.map((u) => productUserResource2PartyProductUser(u, product, currentUser))
+        )
       );
     } else {
-      return DashboardApi.getPartyUsers(
-        party.institutionId,
-        product?.id,
+      return fetchPartyUsers(
+        pageRequest,
+        party,
+        productsMap,
+        currentUser,
+        product,
         selcRole,
         productRoles
-      ).then(
-        (
-          r // TODO fixme when API will support pagination
-        ) =>
-          toFakePagination(
-            r.map((u) => institutionUserResource2PartyUser(u, productsMap, currentUser))
-          )
-      );
+      ).then((result) => ({
+        page: result.page,
+        content: result.content.map((partyUser) => ({
+          ...partyUser,
+          product: partyUser.products.find((p) => p.id === product.id) as PartyUserProduct,
+        })),
+      }));
     }
   }
 };
@@ -94,14 +127,14 @@ export const fetchPartyUser = (
   userId: string,
   currentUser: User,
   productsMap: ProductsMap
-): Promise<PartyUser | null> => {
+): Promise<PartyUserDetail | null> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return fetchPartyUserMocked(institutionId, userId, currentUser);
   } else {
     return DashboardApi.getPartyUser(institutionId, userId).then((u) => {
       if (u) {
-        return institutionUserResource2PartyUser(u, productsMap, currentUser);
+        return institutionUserResource2PartyUserDetail(u, productsMap, currentUser);
       } else {
         return null;
       }
@@ -133,7 +166,7 @@ export const updatePartyUser = (party: Party, user: PartyUserOnEdit): Promise<an
 
 export const updatePartyUserStatus = (
   party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   product: PartyUserProduct,
   role: PartyUserProductRole,
   status: UserStatus
@@ -163,7 +196,7 @@ export const updatePartyUserStatus = (
 
 export const deletePartyUser = (
   party: Party,
-  user: PartyUser,
+  user: BasePartyUser,
   product: PartyUserProduct,
   role: PartyUserProductRole
 ): Promise<any> => {
@@ -207,6 +240,8 @@ export const fetchUserGroups = (
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, product, userId);
   } else {
-    throw new Error('TODO');
+    return DashboardApi.fetchUserGroups(party.institutionId, product.id, userId).then(
+      (resources) => resources?.map(usersGroupPlainResource2PartyGroup) ?? []
+    );
   }
 };

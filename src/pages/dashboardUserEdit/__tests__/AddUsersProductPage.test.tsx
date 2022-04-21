@@ -1,12 +1,18 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore, store } from '../../../redux/store';
-import { mockedParties } from '../../../services/__mocks__/partyService';
-import { mockedPartyProducts } from '../../../services/__mocks__/productService';
+import { createStore } from '../../../redux/store';
+import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
+import {
+  mockedPartyProducts,
+  mockedProductRoles,
+} from '../../../microcomponents/mock_dashboard/data/product';
 import { Route, Router, Switch } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import AddUsersProductPage from '../AddUsersProductPage';
+import { productRoles2ProductRolesList } from '../../../model/ProductRole';
+import './../../../locale';
+import { Trans } from 'react-i18next';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
@@ -29,7 +35,12 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
       <Router history={history}>
         <Switch>
           <Route path="/:institutionId/:productId" exact={true}>
-            <AddUsersProductPage party={mockedParties[0]} products={mockedPartyProducts} />
+            <AddUsersProductPage
+              party={mockedParties[0]}
+              activeProducts={mockedPartyProducts}
+              selectedProduct={mockedPartyProducts[0]}
+              productRolesList={productRoles2ProductRolesList(mockedProductRoles)}
+            />
           </Route>
           <Route path="/dashboard/1/prod-io/users" exact={true}>
             Test Completato
@@ -86,9 +97,15 @@ test('test with fields that respect rules, so enabled button', async () => {
     title: 'REFERENTE AGGIUNTO',
     message: (
       <>
-        {'Hai aggiunto correttamente '}
-        <strong>franco rossi</strong>
-        {'.'}
+        <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
+          Hai aggiunto correttamente
+          <strong>
+            {{
+              user: 'franco rossi',
+            }}
+          </strong>
+          .
+        </Trans>
       </>
     ),
   });
