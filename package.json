@@ -1,6 +1,6 @@
 {
   "name": "selfcare-dashboard-users-microfrontend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@mui/x-data-grid": "^5.0.1",
