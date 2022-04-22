@@ -126,7 +126,7 @@ export const DashboardApi = {
     taxCode: string,
     institutionId: string
   ): Promise<UserResource | null> => {
-    const result = await apiClient.getUserByExternalIdUsingPOST({
+    const result = await apiClient.searchUsingPOST({
       institutionId,
       body: { externalId: taxCode },
     });

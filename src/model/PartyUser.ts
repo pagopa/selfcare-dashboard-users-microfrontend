@@ -63,7 +63,9 @@ export type PartyUserOnEdit = {
   surname: string;
   email: string;
   confirmEmail: string;
-  certification: boolean;
+  certifiedName: boolean;
+  certifiedSurname: boolean;
+  certifiedMail: boolean;
 };
 
 export const institutionUserResource2PartyUser = (
@@ -99,10 +101,9 @@ export const institutionUserResource2PartyUserDetail = (
   ),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
-  // certification: resource.certification,
-  certifiedName: resource.certifiedName,
-  certifiedSurname: resource.certifiedSurname,
-  certifiedMail: resource.certifiedMail,
+  certifiedName: resource.certification,
+  certifiedSurname: resource.certification,
+  certifiedMail: resource.certification,
 });
 
 export const productInfoResource2PartyUserProduct = (

@@ -186,7 +186,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                   t('userEdit.editRegistryForm.name.label'),
                   t('userEdit.editRegistryForm.name.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedName}
               />
             </Grid>
             <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
@@ -196,7 +196,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                   t('userEdit.editRegistryForm.surname.label'),
                   t('userEdit.editRegistryForm.surname.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedSurname}
               />
             </Grid>
           </Grid>

@@ -65,7 +65,9 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
             surname: '',
             email: '',
             confirmEmail: '',
-            certification: false,
+            certifiedMail: false,
+            certifiedName: false,
+            certifiedSurname: false,
             productRoles: [],
           }}
           canEditRegistryData={true}

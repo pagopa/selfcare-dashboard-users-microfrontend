@@ -127,11 +127,11 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
 ];
 
 export const mockedUserResource: UserResource = {
+  id: 'id',
   fiscalCode: 'AAAAAA11A11A123K',
-  name: 'Gigi',
-  surname: 'Verdi',
-  email: 'gigi.v@email.com',
-  certification: true,
+  name: { certified: true, value: 'Gigi' },
+  familyName: { certified: true, value: 'Verdi' },
+  email: { certified: true, value: 'gigi.v@email.com' },
 };
 
 export const DashboardApi = {
