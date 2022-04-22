@@ -119,7 +119,11 @@ export default function AddUserForm({
     if (!initialFormData.taxCode) {
       if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
         fetchTaxCode(validTaxcode, party.institutionId);
-      } else if (!validTaxcode && formik.values.certification === true) {
+      } else if (
+        !validTaxcode &&
+        formik.values.certifiedName === true &&
+        formik.values.certifiedSurname === true
+      ) {
         void formik.setValues(
           {
             ...formik.values,
@@ -127,7 +131,8 @@ export default function AddUserForm({
             surname: formik.initialValues.surname,
             email: formik.initialValues.email,
             confirmEmail: '',
-            certification: formik.initialValues.certification,
+            certifiedName: formik.initialValues.certifiedName,
+            certifiedSurname: formik.initialValues.certifiedSurname,
           },
           true
         );
@@ -169,19 +174,24 @@ export default function AddUserForm({
             ...formik.values,
             name:
               userRegistry?.name ??
-              (formik.values.certification ? initialFormData.name : formik.values.name),
+              (formik.values.certifiedName ? initialFormData.name : formik.values.name),
             surname:
               userRegistry?.surname ??
-              (formik.values.certification ? initialFormData.surname : formik.values.surname),
+              (formik.values.certifiedSurname ? initialFormData.surname : formik.values.surname),
             email:
               userRegistry?.email ??
-              (formik.values.certification ? initialFormData.email : formik.values.email),
+              (formik.values.certifiedMail ? initialFormData.email : formik.values.email),
             confirmEmail: '',
-            certification:
-              userRegistry?.certification ??
-              (formik.values.certification
-                ? initialFormData.certification
-                : formik.values.certification),
+            certifiedName:
+              userRegistry?.certifiedName ??
+              (formik.values.certifiedName
+                ? initialFormData.certifiedName
+                : formik.values.certifiedName),
+            certifiedSurname:
+              userRegistry?.certifiedSurname ??
+              (formik.values.certifiedSurname
+                ? initialFormData.certifiedSurname
+                : formik.values.certifiedSurname),
           },
           true
         );
@@ -411,7 +421,7 @@ export default function AddUserForm({
                       t('userEdit.addForm.name.label'),
                       t('userEdit.addForm.name.placeholder')
                     )}
-                    disabled={formik.values.certification || !validTaxcode}
+                    disabled={formik.values.certifiedName || !validTaxcode}
                   />
                 </Grid>
                 <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
@@ -421,7 +431,7 @@ export default function AddUserForm({
                       t('userEdit.addForm.surname.label'),
                       t('userEdit.addForm.surname.placeholder')
                     )}
-                    disabled={formik.values.certification || !validTaxcode}
+                    disabled={formik.values.certifiedSurname || !validTaxcode}
                   />
                 </Grid>
               </Grid>

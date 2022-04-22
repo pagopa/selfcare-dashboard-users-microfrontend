@@ -26,7 +26,9 @@ export type PartyUser = BasePartyUser & {
 
 export type PartyUserDetail = PartyUser & {
   taxCode: string;
-  certification: boolean;
+  certifiedName: boolean;
+  certifiedSurname: boolean;
+  certifiedMail: boolean;
 };
 
 export type PartyUserProduct = {
@@ -49,7 +51,9 @@ export type PartyUserOnCreation = {
   email: string;
   confirmEmail: string;
   productRoles: Array<string>;
-  certification: boolean;
+  certifiedName: boolean;
+  certifiedSurname: boolean;
+  certifiedMail: boolean;
 };
 
 export type PartyUserOnEdit = {
@@ -95,7 +99,10 @@ export const institutionUserResource2PartyUserDetail = (
   ),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
-  certification: resource.certification,
+  // certification: resource.certification,
+  certifiedName: resource.certifiedName,
+  certifiedSurname: resource.certifiedSurname,
+  certifiedMail: resource.certifiedMail,
 });
 
 export const productInfoResource2PartyUserProduct = (

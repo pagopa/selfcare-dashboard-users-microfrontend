@@ -1,17 +1,21 @@
 import { UserResource } from '../api/generated/b4f-dashboard/UserResource';
 
 export type UserRegistry = {
-  taxCode: string;
-  name: string;
-  surname: string;
-  email: string;
-  certification: boolean;
+  taxCode?: string;
+  name?: string;
+  surname?: string;
+  email?: string;
+  certifiedName?: boolean;
+  certifiedSurname?: boolean;
+  certifiedMail?: boolean;
 };
 
 export const userResource2UserRegistry = (resource: UserResource): UserRegistry => ({
   taxCode: resource.fiscalCode,
-  name: resource.name,
-  surname: resource.surname,
-  email: resource.email,
-  certification: resource.certification,
+  name: resource.name?.value,
+  surname: resource.familyName?.value,
+  email: resource.email?.value,
+  certifiedName: resource.name?.certified,
+  certifiedSurname: resource.familyName?.certified,
+  certifiedMail: resource.email?.certified,
 });

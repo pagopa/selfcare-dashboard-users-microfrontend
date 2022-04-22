@@ -73,8 +73,10 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
             surname: '',
             email: '',
             confirmEmail: '',
-            certification: false,
             productRoles: [],
+            certifiedName: true,
+            certifiedSurname: true,
+            certifiedMail: true,
           }}
         />
       </Grid>
