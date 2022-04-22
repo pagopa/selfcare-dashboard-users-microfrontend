@@ -107,7 +107,9 @@ test('Test institutionUserResource2PartyUserDetail', () => {
     status: 'PENDING',
     userRole: 'LIMITED',
     email: 'address',
-    certification: true,
+    certifiedName: true,
+    certifiedSurname: true,
+    certifiedMail: true,
     products: [
       {
         id: 'productId',
