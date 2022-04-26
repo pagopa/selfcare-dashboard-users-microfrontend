@@ -68,7 +68,7 @@ export default function UserProductAddRoles({
               {newRolesTitles?.length === 1
                 ? t('userDetail.actions.successfulAddRole.messageRole')
                 : t('userDetail.actions.successfulAddRole.messageRoles')}
-              {{ roles: ` ${newRolesTitles?.join(',')} ` }}
+              {{ roles: ` ${newRolesTitles?.join(', ')} ` }}
               {' per il referente '}
               <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
             </Trans>

@@ -294,7 +294,7 @@ export default function AddUserForm({
                 {{
                   roles: `${values.productRoles
                     .map((r) => productRoles?.groupByProductRole[r].title)
-                    .join(',')}`,
+                    .join(', ')}`,
                 }}
               </strong>
               {' sul prodotto '}
