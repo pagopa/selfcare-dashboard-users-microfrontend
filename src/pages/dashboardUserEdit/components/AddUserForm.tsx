@@ -389,11 +389,19 @@ export default function AddUserForm({
   return (
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column">
+        <Grid
+          container
+          direction="column"
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           {canEditRegistryData ? (
             <>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'taxCode',
@@ -404,7 +412,7 @@ export default function AddUserForm({
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'name',
@@ -414,7 +422,7 @@ export default function AddUserForm({
                     disabled={formik.values.certification || !validTaxcode}
                   />
                 </Grid>
-                <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'surname',
@@ -426,7 +434,7 @@ export default function AddUserForm({
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'email',
@@ -438,7 +446,7 @@ export default function AddUserForm({
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'confirmEmail',
@@ -454,7 +462,7 @@ export default function AddUserForm({
 
           {!selectedProduct ? (
             <Grid item container spacing={3}>
-              <Grid item xs={8} mb={3}>
+              <Grid item xs={10} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.product.title')}
                 </Typography>
@@ -485,7 +493,7 @@ export default function AddUserForm({
 
           {productRoles && (
             <Grid item container spacing={3}>
-              <Grid item xs={8} mb={3}>
+              <Grid item xs={10} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.role.title')}
                 </Typography>

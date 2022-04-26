@@ -73,7 +73,14 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <Grid container>
+        <Grid
+          container
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           <Grid item xs={10}>
             <Grid container spacing={2}>
               <Grid container item alignContent="center">

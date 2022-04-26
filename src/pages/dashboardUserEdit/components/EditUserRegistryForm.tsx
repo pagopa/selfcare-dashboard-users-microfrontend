@@ -165,9 +165,17 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   return (
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column">
+        <Grid
+          container
+          direction="column"
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'taxCode',
@@ -179,7 +187,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'name',
@@ -189,7 +197,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                 disabled={formik.values.certification}
               />
             </Grid>
-            <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'surname',
@@ -201,7 +209,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'email',
@@ -212,7 +220,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'confirmEmail',
