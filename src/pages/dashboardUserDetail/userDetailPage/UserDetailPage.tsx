@@ -143,14 +143,7 @@ function UserDetailPage({
       <Grid item xs={12} mb={7}>
         <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid
-        container
-        item
-        sx={{
-          backgroundColor: '#FFFFFF',
-          padding: '24px',
-        }}
-      >
+      <Grid container item sx={{ width: '985px', backgroundColor: '#FFFFFF', padding: '24px' }}>
         <Grid item xs={12} mb={9}>
           <UserDetail
             party={party}
@@ -160,27 +153,19 @@ function UserDetailPage({
             productsMap={productsMap}
           />
         </Grid>
-      </Grid>
-      <Grid item xs={11} mb={4}>
-        <Divider />
-      </Grid>
-      <Grid
-        container
-        item
-        mb={9}
-        sx={{
-          backgroundColor: '#FFFFFF',
-          padding: '24px',
-        }}
-      >
-        <UserProductSection
-          isProductDetailPage={isProductDetailPage}
-          partyUser={partyUser}
-          party={party}
-          fetchPartyUser={fetchPartyUser}
-          productsRolesMap={productsRolesMap}
-          products={activeProducts}
-        />
+        <Grid item xs={11} mb={4}>
+          <Divider />
+        </Grid>
+        <Grid container>
+          <UserProductSection
+            isProductDetailPage={isProductDetailPage}
+            partyUser={partyUser}
+            party={party}
+            fetchPartyUser={fetchPartyUser}
+            productsRolesMap={productsRolesMap}
+            products={activeProducts}
+          />
+        </Grid>
       </Grid>
       <Grid container item my={10} spacing={2}>
         <Grid item xs={2}>
