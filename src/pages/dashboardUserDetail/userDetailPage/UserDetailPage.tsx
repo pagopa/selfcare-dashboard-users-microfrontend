@@ -42,6 +42,7 @@ function UserDetailPage({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+
   const product = partyUser.products[0];
 
   useEffect(() => {
