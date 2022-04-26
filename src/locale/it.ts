@@ -218,7 +218,7 @@ export default {
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:
-          'Stai per assegnare a <1>{{user}}</1>i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
+          'Stai per assegnare a <1>{{user}}</1> i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
