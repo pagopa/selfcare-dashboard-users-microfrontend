@@ -11,6 +11,7 @@ export default function UserProductLoading() {
         mt: 1,
         backgroundColor: 'white',
       }}
+      py={6}
       justifyContent="center"
     >
       <MDSpinner singleColor={theme.palette.primary.main} />
