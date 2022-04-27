@@ -56,14 +56,12 @@ export const fetchPartyUsers = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return fetchPartyUsersMocked(pageRequest, party, currentUser, product, selcRole, productRoles);
   } else {
-    return DashboardApi.getPartyUsers(
-      party.institutionId,
-      product?.id,
-      selcRole,
-      productRoles
-    ).then((r) =>
-      // TODO fixme when API will support pagination
-      toFakePagination(r.map((u) => institutionUserResource2PartyUser(u, productsMap, currentUser)))
+    return DashboardApi.getPartyUsers(party.partyId, product?.id, selcRole, productRoles).then(
+      (r) =>
+        // TODO fixme when API will support pagination
+        toFakePagination(
+          r.map((u) => institutionUserResource2PartyUser(u, productsMap, currentUser))
+        )
     );
   }
 };
@@ -92,7 +90,7 @@ export const fetchPartyProductUsers = (
     if (product.userRole === 'ADMIN') {
       // This API is allowed only for ADMIN users
       return DashboardApi.getPartyProductUsers(
-        party.institutionId,
+        party.partyId,
         product.id,
         selcRole,
         productRoles
@@ -151,7 +149,7 @@ export const savePartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return savePartyUserMocked(party, product, user);
   } else {
-    return DashboardApi.savePartyUser(party.institutionId, product.id, user);
+    return DashboardApi.savePartyUser(party.partyId, product.id, user);
   }
 };
 
@@ -160,7 +158,7 @@ export const updatePartyUser = (party: Party, user: PartyUserOnEdit): Promise<an
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return updatePartyUserMocked(party, user);
   } else {
-    return DashboardApi.updatePartyUser(party.institutionId, user);
+    return DashboardApi.updatePartyUser(party.partyId, user);
   }
 };
 
@@ -177,14 +175,14 @@ export const updatePartyUserStatus = (
   }
   if (status === 'ACTIVE') {
     trackEvent('USER_RESUME', {
-      party_id: party.institutionId,
+      party_id: party.partyId,
       product: product.id,
       product_role: user.userRole,
     });
     return DashboardApi.activatePartyRelation(role.relationshipId);
   } else if (status === 'SUSPENDED') {
     trackEvent('USER_SUSPEND', {
-      party_id: party.institutionId,
+      party_id: party.partyId,
       product: product.id,
       product_role: user.userRole,
     });
@@ -201,7 +199,7 @@ export const deletePartyUser = (
   role: PartyUserProductRole
 ): Promise<any> => {
   trackEvent('USER_DELETE', {
-    party_id: party.institutionId,
+    party_id: party.partyId,
     product: product.id,
     product_role: role.role,
   });
@@ -233,14 +231,14 @@ export const fetchUserGroups = (
   product: Product
 ): Promise<Array<PartyGroup>> => {
   trackEvent('GET_USER_GROUPS', {
-    party_id: party.institutionId,
+    party_id: party.partyId,
     product: product.id,
   });
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, product, userId);
   } else {
-    return DashboardApi.fetchUserGroups(party.institutionId, product.id, userId).then(
+    return DashboardApi.fetchUserGroups(party.partyId, product.id, userId).then(
       (resources) => resources?.map(usersGroupPlainResource2PartyGroup) ?? []
     );
   }

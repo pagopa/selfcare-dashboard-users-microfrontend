@@ -52,14 +52,12 @@ function UsersProductPage({
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
-      history.push(
-        resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.institutionId })
-      );
+      history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.partyId }));
     }
-  }, [party.institutionId]);
+  }, [party.partyId]);
 
   useEffect(() => {
-    trackEvent('USER_LIST', { party_id: party.institutionId, product: selectedProduct.id });
+    trackEvent('USER_LIST', { party_id: party.partyId, product: selectedProduct.id });
   }, [selectedProduct]);
 
   return productRolesList ? (
@@ -94,7 +92,7 @@ function UsersProductPage({
               onFiltersChange={setFilters}
               addUserUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
-                { institutionId: party.institutionId, productId: selectedProduct.id }
+                { institutionId: party.partyId, productId: selectedProduct.id }
               )}
               showSelcRoleGrouped={showSelcRoleGrouped}
             />
@@ -115,7 +113,7 @@ function UsersProductPage({
               userDetailUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path,
                 {
-                  institutionId: party.institutionId,
+                  institutionId: party.partyId,
                   productId: selectedProduct.id,
                 }
               )}

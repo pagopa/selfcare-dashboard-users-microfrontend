@@ -59,7 +59,7 @@ export default function UserProductSection({
                   resolvePathVariables(
                     DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PRODUCT.path,
                     {
-                      institutionId: party.institutionId,
+                      institutionId: party.partyId,
                       userId: partyUser.id,
                     }
                   )

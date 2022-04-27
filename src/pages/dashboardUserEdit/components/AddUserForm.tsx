@@ -118,7 +118,7 @@ export default function AddUserForm({
   useEffect(() => {
     if (!initialFormData.taxCode) {
       if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
-        fetchTaxCode(validTaxcode, party.institutionId);
+        fetchTaxCode(validTaxcode, party.partyId);
       } else if (!validTaxcode && formik.values.certification === true) {
         void formik.setValues(
           {
@@ -154,7 +154,7 @@ export default function AddUserForm({
             ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path
             : DASHBOARD_USERS_ROUTES.PARTY_USERS.path,
           {
-            institutionId: party.institutionId,
+            institutionId: party.partyId,
             productId: userProduct?.id ?? '',
           }
         )
@@ -236,7 +236,7 @@ export default function AddUserForm({
       .then(() => {
         unregisterUnloadEvent();
         trackEvent(initialFormData.taxCode ? 'USER_UPDATE' : 'USER_ADD', {
-          party_id: party.institutionId,
+          party_id: party.partyId,
           product: userProduct?.id,
           product_role: values.productRoles,
         });
@@ -261,7 +261,7 @@ export default function AddUserForm({
           id: 'SAVE_PARTY_USER',
           blocking: false,
           error: reason,
-          techDescription: `An error occurred while saving party user ${party.institutionId}`,
+          techDescription: `An error occurred while saving party user ${party.partyId}`,
           toNotify: true,
           displayableTitle: t('userEdit.addForm.saveUserError.title'),
           displayableDescription: (

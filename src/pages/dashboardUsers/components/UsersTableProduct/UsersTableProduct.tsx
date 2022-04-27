@@ -119,7 +119,7 @@ const UsersTableProduct = ({
             id: 'FETCH_PARTY_USERS',
             blocking: false,
             error: reason,
-            techDescription: `An error occurred while fetching party users ${party.institutionId} of product ${product} and filter ${filterConfiguration}`,
+            techDescription: `An error occurred while fetching party users ${party.partyId} of product ${product} and filter ${filterConfiguration}`,
             toNotify: true,
           },
         ]);

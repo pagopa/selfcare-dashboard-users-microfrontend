@@ -3,7 +3,9 @@ export type PartyRole = 'DELEGATE' | 'MANAGER' | 'OPERATOR' | 'SUB_DELEGATE';
 export type UserStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED';
 
 export type Party = {
-  institutionId: string;
+  partyId: string;
+  externalId?: string;
+  originId?: string;
   description: string;
   digitalAddress: string;
   status: UserStatus;

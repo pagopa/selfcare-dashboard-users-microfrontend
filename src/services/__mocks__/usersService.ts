@@ -1032,7 +1032,7 @@ export const fetchUserGroups = (
 ): Promise<Array<PartyGroup>> => {
   const userGroups = mockedGroups.filter(
     (g) =>
-      g.institutionId === party.institutionId &&
+      g.institutionId === party.partyId &&
       g.productId === product.id &&
       g.membersIds.indexOf(userId) > -1
   );

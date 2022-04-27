@@ -62,7 +62,7 @@ const App = ({
   const theme = useTheme();
   const { i18n } = useTranslation();
 
-  const party = mockedParties.find((p) => p.institutionId === institutionId);
+  const party = mockedParties.find((p) => p.partyId === institutionId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
   const productsMap = products ? buildProductsMap(products) : undefined;
@@ -74,7 +74,7 @@ const App = ({
       }, {} as ProductsRolesMap)
     : undefined;
 
-  const availableParties = mockedParties.map((p) => p.institutionId).join(', ');
+  const availableParties = mockedParties.map((p) => p.partyId).join(', ');
   const availableProducts = mockedPartyProducts.map((p) => p.id).join(', ');
 
   const availableRoutesBody = Object.keys(
