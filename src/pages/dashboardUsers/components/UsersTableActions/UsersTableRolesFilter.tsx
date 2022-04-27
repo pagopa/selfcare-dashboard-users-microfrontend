@@ -138,6 +138,7 @@ export default function UsersTableRolesFilter({
                 }}
                 checked={isSelected}
                 onChange={() => {
+                  setOpen(true);
                   const nextSelcGroupSelected = isSelected
                     ? Object.fromEntries(
                         Object.entries(selcGroupSelected).filter(([t, _rs]) => t !== title)
@@ -177,6 +178,7 @@ export default function UsersTableRolesFilter({
     <Box>
       <FormControl sx={{ width: 300 }} variant="standard">
         <CustomSelect
+          onClick={() => setOpen(!open)}
           multiple
           MenuProps={MenuProps}
           variant="standard"
@@ -263,6 +265,7 @@ export default function UsersTableRolesFilter({
                         checked={isSelected}
                         indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
                         onChange={() => {
+                          setOpen(true);
                           const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
                           setProductRoleCheckedBySelcRole({
                             ...productRoleCheckedBySelcRole,
