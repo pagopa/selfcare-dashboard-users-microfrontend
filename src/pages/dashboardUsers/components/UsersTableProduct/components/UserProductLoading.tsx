@@ -10,8 +10,9 @@ export default function UserProductLoading() {
       sx={{
         mt: 1,
         backgroundColor: 'white',
+        paddingTop: 3,
       }}
-      py={6}
+      py={3}
       justifyContent="center"
     >
       <MDSpinner singleColor={theme.palette.primary.main} />
