@@ -9,7 +9,7 @@ export default {
     detailRedirect: 'Referenti',
     addProduct: 'Aggiungi Prodotto',
     addUser: 'Aggiungi un Referente',
-    editUser: 'Modifica Referente',
+    editUser: 'Modifica il profilo utente',
   },
   usersTable: {
     filterRole: {
@@ -224,8 +224,7 @@ export default {
       },
     },
     editRegistryForm: {
-      title: 'Modifica Referente',
-      subTitle: 'Modifica i dati della persona che hai autorizzato a gestire.',
+      title: 'Modifica il profilo utente',
       fiscalCode: {
         label: 'Codice Fiscale',
         placeholder: 'Inserisci il Codice Fiscale del referente',
