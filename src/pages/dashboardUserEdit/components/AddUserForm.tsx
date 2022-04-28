@@ -466,9 +466,6 @@ export default function AddUserForm({
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.product.title')}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  {t('userEdit.addForm.product.description')}
-                </Typography>
                 <RadioGroup aria-label="user" name="products" value={userProduct?.id ?? ''}>
                   {products
                     ?.filter((p) => p.userRole === 'ADMIN')
@@ -496,9 +493,6 @@ export default function AddUserForm({
               <Grid item xs={10} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.role.title')}
-                </Typography>
-                <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  {t('userEdit.addForm.role.description')}
                 </Typography>
 
                 {Object.values(productRoles.groupBySelcRole).map((roles, selcRoleIndex) =>

@@ -79,17 +79,16 @@ export default function UserProductActions({
       title: t('userDetail.actions.modalDelete.title'),
       message: (
         <Trans i18nKey="userDetail.actions.modalDelete.message">
-          {'Stai per eliminare il ruolo'}
-          <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
-          {'di '}
-          <strong> {{ productTitle: product.title }} </strong>
-          {' assegnato a '}
+          {'Stai per rimuovere '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${user.name} ${user.surname}` }}
           </strong>
-          {'.'}
+          {' dal ruolo di '}
+          <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}.</strong>
           <br />
-          {'Vuoi continuare?'}
+          {' Se lo rimuovi, non potrà più operare su '}
+          {{ productTitle: product.title }}.
+          {' Puoi assegnare di nuovo il ruolo in qualsiasi momento.'}
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.modalDelete.confirmButton'),

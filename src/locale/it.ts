@@ -6,8 +6,7 @@ export default {
     },
   },
   userPagesPath: {
-    detailRedirect: 'Referenti',
-    addProduct: 'Aggiungi Prodotto',
+    detailRedirect: 'Utenti',
     addUser: 'Aggiungi un Referente',
     editUser: 'Modifica il profilo utente',
   },
@@ -62,7 +61,7 @@ export default {
     addButton: 'Aggiungi',
   },
   userDetail: {
-    title: 'Dettaglio Referente',
+    title: 'Profilo Utente',
     name: 'NOME',
     surname: 'COGNOME',
     fiscalCode: 'CODICE FISCALE',
@@ -78,10 +77,10 @@ export default {
           'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
       },
       modalDelete: {
-        title: 'Elimina Ruolo',
+        title: 'Rimuovi Ruolo',
         message:
-          'Stai per eliminare il ruolo <1> {{role}} </1> di <3> {{productTitle}} </3> assegnato a <4>{{user}}</4>.<5 />Vuoi continuare?',
-        confirmButton: 'Conferma',
+          'Stai per eliminare <1>{{user}}</1> dal ruolo di <1>{{role}}.</1> <4 />Se lo rimuovi, non potrà più operare su {{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
@@ -125,8 +124,9 @@ export default {
         message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
       },
       addRoleError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        description: "C'è stato un errore durante l'aggiunta del ruolo per il referente {{user}}",
+        title: 'RUOLO NON ASSEGNATO',
+        description:
+          'Non è stato possibile assegnare a {{user}} il ruolo di {{role}} per {{selectedProduct}}. Riprova',
         message:
           "C'è stato un errore durante l'aggiunta del ruolo per il referente <1>{{user}}</1>.",
       },
@@ -150,11 +150,11 @@ export default {
       },
     },
     productSection: {
-      title: 'Prodotti',
+      title: 'Ruoli',
       description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
-      addButton: 'Aggiungi',
+      addButton: 'Assegna ruolo',
     },
-    pathDescription: 'Referenti',
+    pathDescription: 'Utenti',
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
@@ -192,13 +192,10 @@ export default {
         placeholder: 'Conferma l’indirizzo email istituzionale del referente',
       },
       product: {
-        title: 'Prodotto',
-        description: 'Seleziona il prodotto sul quale vuoi aggiungere il referente',
+        title: 'Seleziona il prodotto',
       },
       role: {
-        title: 'Ruolo',
-        description:
-          'Seleziona il ruolo che vuoi assegnare al referente relativo al prodotto selezionato',
+        title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
@@ -262,18 +259,18 @@ export default {
       },
     },
     addProduct: {
-      title: 'Aggiungi Prodotto',
-      subTitle: 'Assegna un prodotto al referente abilitato per {{institutionName}}',
+      title: 'Assegna un nuovo ruolo',
+      subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
       name: 'NOME',
       surname: 'COGNOME',
       fiscalCode: 'CODICE FISCALE',
     },
   },
   usersPage: {
-    title: 'Referenti',
+    title: 'Utenti',
     generic: {
       subTitle:
-        'Visualizza e gestisci i referenti abilitati alla gestione dei prodotti del tuo Ente.',
+        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     vertical: {
       subTitle:
