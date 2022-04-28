@@ -41,7 +41,7 @@ export default function UsersTableActions({
   return (
     <Grid container direction="row" justifyContent={'flex-end'} alignItems={'center'} px={2}>
       {loading && (
-        <Grid item pr={4}>
+        <Grid item sx={{ position: 'fixed', right: '330px' }}>
           <MDSpinner singleColor={theme.palette.primary.main} />
         </Grid>
       )}
