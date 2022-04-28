@@ -4,7 +4,7 @@ export type PartyGroupStatus = 'ACTIVE' | 'SUSPENDED';
 
 export type PartyGroup = {
   id: string;
-  institutionId: string;
+  partyId: string;
   productId: string;
   name: string;
   description: string;
@@ -18,7 +18,7 @@ export const usersGroupPlainResource2PartyGroup = (
   resource: UserGroupPlainResource
 ): PartyGroup => ({
   id: resource.id,
-  institutionId: resource.institutionId,
+  partyId: resource.partyId,
   productId: resource.productId,
   name: resource.name,
   description: resource.description,

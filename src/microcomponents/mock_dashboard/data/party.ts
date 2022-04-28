@@ -10,6 +10,8 @@ export const mockedParties: Array<Party> = [
     digitalAddress: '',
     fiscalCode: 'fiscalCodeBari',
     category: '',
+    externalId: 'externalId1',
+    originId: 'originId1',
   },
   {
     userRole: 'ADMIN',
@@ -20,6 +22,8 @@ export const mockedParties: Array<Party> = [
     digitalAddress: '',
     fiscalCode: 'fiscalCodeMilano',
     category: '',
+    externalId: 'externalId2',
+    originId: 'originId2',
   },
   {
     userRole: 'ADMIN',
@@ -30,6 +34,8 @@ export const mockedParties: Array<Party> = [
     digitalAddress: '',
     fiscalCode: 'fiscalCodeRoma',
     category: '',
+    externalId: 'externalId3',
+    originId: 'originId3',
   },
   {
     userRole: 'LIMITED',
@@ -40,6 +46,8 @@ export const mockedParties: Array<Party> = [
     digitalAddress: '',
     fiscalCode: 'fiscalCodeNapoli',
     category: '',
+    externalId: 'externalId4',
+    originId: 'originId4',
   },
   {
     userRole: 'ADMIN',
@@ -50,6 +58,8 @@ export const mockedParties: Array<Party> = [
     digitalAddress: '',
     fiscalCode: 'fiscalCodeONBOARDED',
     category: '',
+    externalId: 'externalId5',
+    originId: 'originId5',
   },
   // Usable when not mocking the BE
   {
@@ -61,6 +71,8 @@ export const mockedParties: Array<Party> = [
     status: 'ACTIVE',
     urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b429/logo.png',
     userRole: 'ADMIN',
+    externalId: 'externalId6',
+    originId: 'originId6',
   },
   // Usable when not mocking the BE
   {
@@ -72,5 +84,7 @@ export const mockedParties: Array<Party> = [
     status: 'ACTIVE',
     urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b905/logo.png',
     userRole: 'ADMIN',
+    externalId: 'externalId7',
+    originId: 'originId7',
   },
 ];

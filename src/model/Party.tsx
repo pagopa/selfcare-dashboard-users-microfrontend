@@ -4,8 +4,8 @@ export type UserStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED';
 
 export type Party = {
   partyId: string;
-  externalId?: string;
-  originId?: string;
+  externalId: string;
+  originId: string;
   description: string;
   digitalAddress: string;
   status: UserStatus;
