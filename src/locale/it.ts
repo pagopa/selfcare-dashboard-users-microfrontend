@@ -118,7 +118,7 @@ export default {
       reactivateRole: 'Riabilita',
       deleteButton: 'Elimina',
       successfulAddRole: {
-        title: 'RUOLO AGGIUNTO',
+        title: 'Ruolo assegnato',
         messageRole: 'il ruolo',
         messageRoles: 'i ruoli',
         message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
@@ -126,9 +126,7 @@ export default {
       addRoleError: {
         title: 'RUOLO NON ASSEGNATO',
         description:
-          'Non è stato possibile assegnare a {{user}} il ruolo di {{role}} per {{selectedProduct}}. Riprova',
-        message:
-          "C'è stato un errore durante l'aggiunta del ruolo per il referente <1>{{user}}</1>.",
+          'Non è stato possibile assegnare a {{user}} il ruolo di {{roles}} per {{selectedProduct}}. Riprova',
       },
       newRoleAssign: '+ Assegna ruolo',
       newRoleAssignModal: {

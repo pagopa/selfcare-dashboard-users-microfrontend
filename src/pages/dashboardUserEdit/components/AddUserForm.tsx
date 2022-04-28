@@ -243,7 +243,9 @@ export default function AddUserForm({
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: t('userEdit.addForm.saveUserSuccess.title'),
+          title: initialFormData.taxCode
+            ? t('userDetail.actions.successfulAddRole.title')
+            : t('userEdit.addForm.saveUserSuccess.title'),
           message: (
             <>
               <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
@@ -263,11 +265,20 @@ export default function AddUserForm({
           error: reason,
           techDescription: `An error occurred while saving party user ${party.institutionId}`,
           toNotify: true,
-          displayableTitle: t('userEdit.addForm.saveUserError.title'),
-          displayableDescription: (
+          displayableTitle: initialFormData.taxCode
+            ? t('userDetail.actions.addRoleError.title')
+            : t('userEdit.addForm.saveUserError.title'),
+          displayableDescription: initialFormData.taxCode ? (
             <Trans i18nKey="userEdit.addForm.saveUserError.message">
               {"C'è stato un errore durante l'aggiunta del referente "}
               <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
+            </Trans>
+          ) : (
+            <Trans i18nKey="userDetail.actions.addRoleError.description">
+              {'Non è stato possibile assegnare a '}
+              <strong>{{ user: `${values.name} ${values.surname}` }}</strong> {' il ruolo di '}
+              {{ roles: `${values.productRoles}` }} {' per '}{' '}
+              <strong>{{ selectedProduct: `${selectedProduct}` }}</strong>.{' Riprova'}
             </Trans>
           ),
           component: 'Toast',
