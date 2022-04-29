@@ -18,7 +18,7 @@ export const usersGroupPlainResource2PartyGroup = (
   resource: UserGroupPlainResource
 ): PartyGroup => ({
   id: resource.id,
-  partyId: resource.partyId,
+  partyId: resource.institutionId,
   productId: resource.productId,
   name: resource.name,
   description: resource.description,
