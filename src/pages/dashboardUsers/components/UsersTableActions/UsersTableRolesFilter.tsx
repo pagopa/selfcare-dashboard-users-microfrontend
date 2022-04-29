@@ -293,6 +293,7 @@ export default function UsersTableRolesFilter({
                     setOpen(false);
                     onFiltersChange({
                       ...filters,
+                      productIds: nextProductRolesFilter.map((f) => f.productId),
                       productRoles: nextProductRolesFilter,
                     });
                   }}
@@ -309,7 +310,7 @@ export default function UsersTableRolesFilter({
                   type="submit"
                   onClick={() => {
                     setOpen(false);
-                    onFiltersChange({ ...filters, productRoles: [] });
+                    onFiltersChange({ ...filters, productIds: [], productRoles: [] });
                   }}
                 >
                   {t('usersTable.filterRole.deleteFiltersButton')}
