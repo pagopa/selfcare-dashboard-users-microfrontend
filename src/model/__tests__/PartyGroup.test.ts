@@ -8,7 +8,7 @@ test('Test usersGroupPlainResource2PartyGroup', () => {
   const userGroupPlainResource: UserGroupPlainResource = {
     description: 'groupId1: descriptoion',
     id: 'groupId1',
-    partyId: 'onboarded',
+    institutionId: 'onboarded',
     membersCount: 1,
     name: 'Gruppo1',
     productId: 'prod-io',
