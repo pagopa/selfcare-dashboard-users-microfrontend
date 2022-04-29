@@ -46,10 +46,12 @@ export default function UserProductActions({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: t('userDetail.actions.delete.title'),
-          message: (
+          title: moreRolesOnProduct
+            ? t('userDetail.actions.delete.moreRolesOnProduct.title')
+            : t('userDetail.actions.delete.oneRoleOnProduct.title'),
+          message: moreRolesOnProduct ? (
             <>
-              <Trans i18nKey="userDetail.actions.delete.message">
+              <Trans i18nKey="userDetail.actions.delete.moreRolesOnProduct.message">
                 {'Hai eliminato correttamente il ruolo '}
                 <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
                 {' assegnato a '}
@@ -57,6 +59,12 @@ export default function UserProductActions({
                 {'.'}
               </Trans>
             </>
+          ) : (
+            <Trans i18nKey="userDetail.actions.delete.oneRoleOnProduct.message">
+              {'Hai eliminato correttamente il ruolo '}
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
+              {'.'}
+            </Trans>
           ),
         });
       })
@@ -76,14 +84,26 @@ export default function UserProductActions({
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: t('userDetail.actions.modalDelete.title'),
-      message: (
-        <Trans i18nKey="userDetail.actions.modalDelete.message">
+      title: moreRolesOnProduct
+        ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
+        : t('userDetail.actions.modalDelete.oneRoleOnProduct.title'),
+      message: moreRolesOnProduct ? (
+        <Trans i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message">
           {'Stai per eliminare il ruolo'}
           <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
           {'di '}
           <strong> {{ productTitle: product.title }} </strong>
           {' assegnato a '}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{ user: party && `${user.name} ${user.surname}` }}
+          </strong>
+          {'.'}
+          <br />
+          {'Vuoi continuare?'}
+        </Trans>
+      ) : (
+        <Trans i18nKey="userDetail.actions.modalDelete.oneRoleOnProduct.message">
+          {"Stai per eliminare l'utente"}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${user.name} ${user.surname}` }}
           </strong>
@@ -192,7 +212,7 @@ export default function UserProductActions({
           <strong style={{ textTransform: 'capitalize' }}>
             {{ partyAndUser: party && `${user.name.toLocaleLowerCase()} ${user.surname}` }}
           </strong>
-          {'.'}
+          .
           <br />
           {'Vuoi continuare?'}
         </Trans>
