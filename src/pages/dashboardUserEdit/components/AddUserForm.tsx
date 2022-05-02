@@ -277,7 +277,7 @@ export default function AddUserForm({
             <Trans i18nKey="userDetail.actions.addRoleError.description">
               {'Non è stato possibile assegnare a '}
               <strong>{{ user: `${values.name} ${values.surname}` }}</strong> {' il ruolo di '}
-              {{ roles: `${values.productRoles}` }} {' per '}{' '}
+              <strong>{{ roles: `${values.productRoles}` }}</strong> {' per '}
               <strong>{{ selectedProduct: `${selectedProduct}` }}</strong>.{' Riprova'}
             </Trans>
           ),

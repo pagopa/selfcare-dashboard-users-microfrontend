@@ -83,9 +83,15 @@ export default {
         },
       },
       modalDelete: {
-        title: 'Rimuovi Ruolo',
-        message:
-          'Stai per eliminare <1>{{user}}</1> dal ruolo di <1>{{role}}.</1> <4 />Se lo rimuovi, non potrà più operare su {{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        moreRolesOnProduct: {
+          title: 'Rimuovi Ruolo',
+          message:
+            'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}.</3> <4 />Se lo rimuovi, non potrà più operare su <6 />{{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        },
+        oneRoleOnProduct: {
+          title: 'Elimina Utente',
+          message: "Stai per eliminare l'utente <1>{{user}}</1>.<3 />Vuoi continuare?",
+        },
         confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
@@ -103,9 +109,8 @@ export default {
           messageSuspend: `Stai per sospendere il referente `,
           titleReactivate: 'Riabilita Referente',
           messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}</1>. <3/> Vuoi continuare?`,
+          message: `<0/> <1>{{partyAndUser}}</1>. <3/> <4>Vuoi Continuare?</4>`,
         },
-
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
@@ -132,7 +137,7 @@ export default {
       addRoleError: {
         title: 'RUOLO NON ASSEGNATO',
         description:
-          'Non è stato possibile assegnare a {{user}} il ruolo di {{roles}} per {{selectedProduct}}. Riprova',
+          'Non è stato possibile assegnare a <1>{{user}}</1> il ruolo di <3>{{roles}}</3> per <5>{{selectedProduct}}</5>. Riprova',
       },
       newRoleAssign: '+ Assegna ruolo',
       newRoleAssignModal: {

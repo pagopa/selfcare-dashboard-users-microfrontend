@@ -87,8 +87,9 @@ export default function UserProductAddRoles({
           displayableDescription: (
             <Trans i18nKey="userDetail.actions.addRoleError.description">
               {'Non è stato possibile assegnare a '}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong> {' i ruoli di '}
-              {{ role: `${newRolesTitles?.join(', ')}` }} {' per '} [nome prodotto]. {' Riprova'}
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong> {' il ruolo di '}
+              {{ role: `${newRolesTitles?.join(', ')}` }} {' per '}
+              <strong>{{ selectedProduct: `${userProduct.title}` }}</strong>.{' Riprova'}
             </Trans>
           ),
           techDescription: `An error occurred while add role`,
