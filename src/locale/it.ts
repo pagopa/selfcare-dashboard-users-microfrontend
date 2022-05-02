@@ -72,9 +72,15 @@ export default {
     backButton: 'Indietro',
     actions: {
       delete: {
-        title: 'RUOLO ELIMINATO',
-        message:
-          'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
+        moreRolesOnProduct: {
+          title: 'RUOLO ELIMINATO',
+          message:
+            'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
+        },
+        oneRoleOnProduct: {
+          title: 'UTENTE ELIMINATO',
+          message: 'Hai eliminato correttamente <1>{{user}}</1>.',
+        },
       },
       modalDelete: {
         title: 'Rimuovi Ruolo',
@@ -97,7 +103,7 @@ export default {
           messageSuspend: `Stai per sospendere il referente `,
           titleReactivate: 'Riabilita Referente',
           messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}<1/>. <3/>Vuoi continuare?`,
+          message: `<0/> <1>{{partyAndUser}}</1>. <3/> Vuoi continuare?`,
         },
 
         confirmButton: 'Conferma',
@@ -142,7 +148,7 @@ export default {
       },
       deleteUserModal: {
         title: 'Elimina Referente',
-        message: 'Stai per eliminare il referente <1>{{user}}</1>.<2 />Vuoi continuare?',
+        message: 'Stai per eliminare il referente <1>{{user}}</1>.<3 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
