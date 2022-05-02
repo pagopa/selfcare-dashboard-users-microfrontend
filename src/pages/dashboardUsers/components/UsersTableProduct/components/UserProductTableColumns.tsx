@@ -53,7 +53,7 @@ export function buildColumnDefs(
     {
       field: 'userRole',
       cellClassName: 'justifyContentBold',
-      headerName: 'Ruolo 🡣',
+      headerName: 'Ruolo',
       align: 'left',
       headerAlign: 'left',
       width: 250,
