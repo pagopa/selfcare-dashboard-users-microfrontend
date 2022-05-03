@@ -1,5 +1,4 @@
 import { Button, Grid, Typography, Divider } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
@@ -52,8 +51,6 @@ export default function UserProductSection({
           <Grid item xs={2}>
             <Button
               variant="contained"
-              startIcon={<AddIcon />}
-              sx={{ py: '10px', width: '120px' }}
               onClick={() =>
                 history.push(
                   resolvePathVariables(

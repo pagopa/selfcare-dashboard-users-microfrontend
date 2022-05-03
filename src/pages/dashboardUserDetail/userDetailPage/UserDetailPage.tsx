@@ -16,7 +16,6 @@ import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants'
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
-import UserSelcRole from './components/UserSelcRole';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -149,7 +148,7 @@ function UserDetailPage({
           <UserDetail
             party={party}
             userInfo={partyUser}
-            roleSection={<UserSelcRole selcRole={partyUser.userRole} />}
+            roleSection={''}
             goEdit={goEdit}
             productsMap={productsMap}
           />
