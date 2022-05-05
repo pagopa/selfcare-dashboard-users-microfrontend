@@ -139,7 +139,7 @@ export default {
         description:
           'Non è stato possibile assegnare a <1>{{user}}</1> il ruolo di <3>{{roles}}</3> per <5>{{selectedProduct}}</5>. Riprova',
       },
-      newRoleAssign: '+ Assegna ruolo',
+      newRoleAssign: '+ Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:
