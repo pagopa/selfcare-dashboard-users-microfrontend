@@ -177,7 +177,7 @@ export default function UserProductRowActions({
     handleClose();
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.partyId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );

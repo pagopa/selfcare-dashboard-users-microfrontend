@@ -53,7 +53,7 @@ function UserDetailPage({
   const goEdit = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.partyId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -61,7 +61,7 @@ function UserDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-        institutionId: party.partyId,
+        partyId: party.partyId,
       })
     );
 

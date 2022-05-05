@@ -121,16 +121,16 @@ export const fetchPartyProductUsers = (
 };
 
 export const fetchPartyUser = (
-  institutionId: string,
+  partyId: string,
   userId: string,
   currentUser: User,
   productsMap: ProductsMap
 ): Promise<PartyUserDetail | null> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return fetchPartyUserMocked(institutionId, userId, currentUser);
+    return fetchPartyUserMocked(partyId, userId, currentUser);
   } else {
-    return DashboardApi.getPartyUser(institutionId, userId).then((u) => {
+    return DashboardApi.getPartyUser(partyId, userId).then((u) => {
       if (u) {
         return institutionUserResource2PartyUserDetail(u, productsMap, currentUser);
       } else {
@@ -213,13 +213,13 @@ export const deletePartyUser = (
 
 export const fetchUserRegistryByFiscalCode = (
   taxCode: string,
-  institutionId: string
+  partyId: string
 ): Promise<UserRegistry | null> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return new Promise((resolve) => resolve(mockedUserRegistry));
   } else {
-    return DashboardApi.fetchUserRegistryByFiscalCode(taxCode, institutionId).then((userResource) =>
+    return DashboardApi.fetchUserRegistryByFiscalCode(taxCode, partyId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
   }

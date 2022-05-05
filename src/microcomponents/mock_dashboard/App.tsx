@@ -25,7 +25,7 @@ import { mockedProductRoles } from './data/product';
 import Layout from './Layout';
 
 type UrlParams = {
-  institutionId: string;
+  partyId: string;
   productId: string;
 };
 
@@ -57,12 +57,12 @@ const App = ({
   AppRouting: (props: DashboardMicrofrontendPageProps) => Array<React.ReactNode>;
   store: ReturnType<typeof createStore>;
 }) => {
-  const { institutionId } = useParams<UrlParams>();
+  const { partyId } = useParams<UrlParams>();
   const history = useHistory();
   const theme = useTheme();
   const { i18n } = useTranslation();
 
-  const party = mockedParties.find((p) => p.partyId === institutionId);
+  const party = mockedParties.find((p) => p.partyId === partyId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
   const productsMap = products ? buildProductsMap(products) : undefined;

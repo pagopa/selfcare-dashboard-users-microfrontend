@@ -229,11 +229,11 @@ describe('Test updatePartyUserStatus', () => {
   });
 
   test('Test fetchUserRegistryByFiscalCode', async () => {
-    const userRegistry = await fetchUserRegistryByFiscalCode('TaxCode', 'institutionId');
+    const userRegistry = await fetchUserRegistryByFiscalCode('TaxCode', 'partyId');
 
     expect(userRegistry).toMatchObject(userResource2UserRegistry(mockedUserResource));
 
-    expect(DashboardApi.fetchUserRegistryByFiscalCode).toBeCalledWith('TaxCode', 'institutionId');
+    expect(DashboardApi.fetchUserRegistryByFiscalCode).toBeCalledWith('TaxCode', 'partyId');
   });
 });
 

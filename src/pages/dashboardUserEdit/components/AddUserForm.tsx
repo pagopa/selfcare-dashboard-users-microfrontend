@@ -154,15 +154,15 @@ export default function AddUserForm({
             ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path
             : DASHBOARD_USERS_ROUTES.PARTY_USERS.path,
           {
-            institutionId: party.partyId,
+            partyId: party.partyId,
             productId: userProduct?.id ?? '',
           }
         )
       ));
 
-  const fetchTaxCode = (taxCode: string, institutionId: string) => {
+  const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
-    fetchUserRegistryByFiscalCode(taxCode, institutionId)
+    fetchUserRegistryByFiscalCode(taxCode, partyId)
       .then((userRegistry) => {
         void formik.setValues(
           {

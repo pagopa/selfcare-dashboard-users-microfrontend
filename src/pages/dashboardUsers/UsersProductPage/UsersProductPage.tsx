@@ -52,7 +52,7 @@ function UsersProductPage({
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
-      history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.partyId }));
+      history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId: party.partyId }));
     }
   }, [party.partyId]);
 
@@ -92,7 +92,7 @@ function UsersProductPage({
               onFiltersChange={setFilters}
               addUserUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
-                { institutionId: party.partyId, productId: selectedProduct.id }
+                { partyId: party.partyId, productId: selectedProduct.id }
               )}
               showSelcRoleGrouped={showSelcRoleGrouped}
             />
@@ -113,7 +113,7 @@ function UsersProductPage({
               userDetailUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path,
                 {
-                  institutionId: party.partyId,
+                  partyId: party.partyId,
                   productId: selectedProduct.id,
                 }
               )}

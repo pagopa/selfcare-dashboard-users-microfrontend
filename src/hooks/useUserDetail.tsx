@@ -8,7 +8,7 @@ import { fetchPartyUser } from '../services/usersService';
 import { LOADING_TASK_FETCH_PARTY_USER } from '../utils/constants';
 
 export const useUserDetail = (): ((
-  institutionId: string,
+  partyId: string,
   userId: string,
   productsMap: ProductsMap
 ) => Promise<PartyUserDetail | null>) => {
@@ -16,12 +16,12 @@ export const useUserDetail = (): ((
   const currentUser = useAppSelector(userSelectors.selectLoggedUser) as User;
 
   return (
-    institutionId: string,
+    partyId: string,
     userId: string,
     productsMap: ProductsMap
   ): Promise<PartyUserDetail | null> => {
     setLoading(true);
-    return fetchPartyUser(institutionId, userId, currentUser, productsMap).finally(() =>
+    return fetchPartyUser(partyId, userId, currentUser, productsMap).finally(() =>
       setLoading(false)
     );
   };

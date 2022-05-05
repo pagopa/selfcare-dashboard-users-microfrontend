@@ -29,7 +29,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
-        institutionId: party.partyId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -40,7 +40,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            institutionId: party.partyId,
+            partyId: party.partyId,
           })
         ),
     },

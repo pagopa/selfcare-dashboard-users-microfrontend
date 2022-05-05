@@ -31,7 +31,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.MAIN.path, {
-            institutionId: party.partyId,
+            partyId: party.partyId,
             productId: selectedProduct.id,
           })
         ),
