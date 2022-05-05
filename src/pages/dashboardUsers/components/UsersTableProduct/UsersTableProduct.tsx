@@ -63,7 +63,7 @@ const UsersTableProduct = ({
       currentUser ?? ({ uid: 'NONE' } as User),
       productsMap,
       undefined,
-      filterConfiguration.productRoles
+      filterConfiguration.productRoles.filter((r) => r.productId === product.id)
     ).then((data) => data.content)
   );
 

@@ -86,7 +86,7 @@ export const mockedProductRoles: Array<ProductRole> = [
     selcRole: 'ADMIN',
     multiroleAllowed: false,
     productRole: 'referente-amministrativo',
-    title: 'Referente Amministrativo',
+    title: 'Amministratore',
     description: 'Descrizione referente-amministrativo',
   },
   {
