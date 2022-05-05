@@ -6,6 +6,7 @@ export type Party = {
   partyId: string;
   externalId: string;
   originId: string;
+  origin: string;
   description: string;
   digitalAddress: string;
   status: UserStatus;
@@ -13,4 +14,5 @@ export type Party = {
   category?: string;
   urlLogo?: string;
   fiscalCode: string;
+  institutionType?: string;
 };

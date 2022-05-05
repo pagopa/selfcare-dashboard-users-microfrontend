@@ -12,6 +12,8 @@ export const mockedParties: Array<Party> = [
     category: '',
     externalId: 'externalId1',
     originId: 'originId1',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
   {
     userRole: 'ADMIN',
@@ -24,6 +26,8 @@ export const mockedParties: Array<Party> = [
     category: '',
     externalId: 'externalId2',
     originId: 'originId2',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
   {
     userRole: 'ADMIN',
@@ -36,6 +40,8 @@ export const mockedParties: Array<Party> = [
     category: '',
     externalId: 'externalId3',
     originId: 'originId3',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
   {
     userRole: 'LIMITED',
@@ -48,6 +54,8 @@ export const mockedParties: Array<Party> = [
     category: '',
     externalId: 'externalId4',
     originId: 'originId4',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
   {
     userRole: 'ADMIN',
@@ -60,6 +68,8 @@ export const mockedParties: Array<Party> = [
     category: '',
     externalId: 'externalId5',
     originId: 'originId5',
+    origin: 'MOCK',
+    institutionType: 'GSP',
   },
   // Usable when not mocking the BE
   {
@@ -67,12 +77,14 @@ export const mockedParties: Array<Party> = [
     description: 'Comune di Caltanissetta',
     digitalAddress: 'protocollo@pec.comune.caltanissetta.it',
     fiscalCode: '80001130857',
-    partyId: 'c_b429',
+    partyId: 'c_b429', // TODO fixme when available
     status: 'ACTIVE',
     urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b429/logo.png',
     userRole: 'ADMIN',
-    externalId: 'externalId6',
-    originId: 'originId6',
+    externalId: '80001130857',
+    originId: 'c_b429',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
   // Usable when not mocking the BE
   {
@@ -80,11 +92,13 @@ export const mockedParties: Array<Party> = [
     description: 'Comune di Casalnuovo di Napoli',
     digitalAddress: 'protocollogen.casalnuovo.na@pec.actalis.it',
     fiscalCode: '05600440639',
-    partyId: 'c_b905',
+    partyId: 'c_b905', // TODO fixme when available
     status: 'ACTIVE',
     urlLogo: 'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/c_b905/logo.png',
     userRole: 'ADMIN',
-    externalId: 'externalId7',
-    originId: 'originId7',
+    externalId: '05600440639',
+    originId: 'c_b905',
+    origin: 'IPA',
+    institutionType: 'PA',
   },
 ];
