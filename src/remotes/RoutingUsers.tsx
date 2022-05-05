@@ -1,4 +1,5 @@
 import { Switch } from 'react-router';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { DASHBOARD_USERS_ROUTES } from '../routes';
 import {
   buildRoutes,
@@ -17,7 +18,7 @@ const RoutingUsers = ({
   productsMap,
   decorators,
 }: DashboardMicrofrontendPageProps) => (
-  <RemotePage store={store} history={history} i18n={i18n} theme={theme}>
+  <RemotePage store={store} history={history} i18n={i18n} theme={theme} CONFIG={CONFIG}>
     <Switch>
       {buildRoutes(
         party,

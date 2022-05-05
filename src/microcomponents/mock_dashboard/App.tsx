@@ -11,6 +11,7 @@ import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
 import { Box, Grid, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { buildProductsMap, Product } from '../../model/Product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
 import { createStore } from '../../redux/store';
@@ -189,6 +190,7 @@ const App = ({
                 activeProducts,
                 productsMap,
                 decorators,
+                CONFIG,
               })}
               <Route path="*">
                 <Box>
