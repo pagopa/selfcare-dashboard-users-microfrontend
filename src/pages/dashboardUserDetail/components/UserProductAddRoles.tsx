@@ -76,25 +76,28 @@ export default function UserProductAddRoles({
         });
         fetchPartyUser();
       })
-      .catch((error) =>
+      .catch((error) => {
+        const newRolesTitles = newRoleSelected.map(
+          (r) => productRolesList.groupByProductRole[r].title
+        );
         addError({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
           displayableTitle: t('userDetail.actions.addRoleError.title'),
-          techDescription: t('userDetail.actions.addRoleError.description', {
-            user: `${user.name} ${user.surname}`,
-          }),
+          displayableDescription: (
+            <Trans i18nKey="userDetail.actions.addRoleError.description">
+              {'Non è stato possibile assegnare a '}
+              <strong>{{ user: `${user.name} ${user.surname}` }}</strong> {' il ruolo di '}
+              {{ role: `${newRolesTitles?.join(', ')}` }} {' per '}
+              <strong>{{ selectedProduct: `${userProduct.title}` }}</strong>.{' Riprova'}
+            </Trans>
+          ),
+          techDescription: `An error occurred while add role`,
           blocking: false,
           error,
           toNotify: true,
-          displayableDescription: (
-            <Trans i18nKey="userDetail.actions.addRoleError.message">
-              {"C'è stato un errore durante l'aggiunta del ruolo per il referente "}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
-            </Trans>
-          ),
-        })
-      )
+        });
+      })
       .finally(() => setLoading(false));
   };
 

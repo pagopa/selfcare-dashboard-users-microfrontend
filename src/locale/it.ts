@@ -6,10 +6,9 @@ export default {
     },
   },
   userPagesPath: {
-    detailRedirect: 'Referenti',
-    addProduct: 'Aggiungi Prodotto',
+    detailRedirect: 'Utenti',
     addUser: 'Aggiungi un Referente',
-    editUser: 'Modifica Referente',
+    editUser: 'Modifica il profilo utente',
   },
   usersTable: {
     filterRole: {
@@ -62,7 +61,7 @@ export default {
     addButton: 'Aggiungi',
   },
   userDetail: {
-    title: 'Dettaglio Referente',
+    title: 'Profilo Utente',
     name: 'NOME',
     surname: 'COGNOME',
     fiscalCode: 'CODICE FISCALE',
@@ -73,15 +72,27 @@ export default {
     backButton: 'Indietro',
     actions: {
       delete: {
-        title: 'RUOLO ELIMINATO',
-        message:
-          'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
+        moreRolesOnProduct: {
+          title: 'RUOLO ELIMINATO',
+          message:
+            'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
+        },
+        oneRoleOnProduct: {
+          title: 'UTENTE ELIMINATO',
+          message: 'Hai eliminato correttamente <1>{{user}}</1>.',
+        },
       },
       modalDelete: {
-        title: 'Elimina Ruolo',
-        message:
-          'Stai per eliminare il ruolo <1> {{role}} </1> di <3> {{productTitle}} </3> assegnato a <4>{{user}}</4>.<5 />Vuoi continuare?',
-        confirmButton: 'Conferma',
+        moreRolesOnProduct: {
+          title: 'Rimuovi Ruolo',
+          message:
+            'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}.</3> <4 />Se lo rimuovi, non potrà più operare su <6 />{{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        },
+        oneRoleOnProduct: {
+          title: 'Elimina Utente',
+          message: "Stai per eliminare l'utente <1>{{user}}</1>.<3 />Vuoi continuare?",
+        },
+        confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
@@ -98,9 +109,8 @@ export default {
           messageSuspend: `Stai per sospendere il referente `,
           titleReactivate: 'Riabilita Referente',
           messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}<1/>. <3/>Vuoi continuare?`,
+          message: `<0/> <1>{{partyAndUser}}</1>. <3/> <4>Vuoi Continuare?</4>`,
         },
-
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
@@ -119,16 +129,15 @@ export default {
       reactivateRole: 'Riabilita',
       deleteButton: 'Elimina',
       successfulAddRole: {
-        title: 'RUOLO AGGIUNTO',
+        title: 'Ruolo assegnato',
         messageRole: 'il ruolo',
         messageRoles: 'i ruoli',
         message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
       },
       addRoleError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        description: "C'è stato un errore durante l'aggiunta del ruolo per il referente {{user}}",
-        message:
-          "C'è stato un errore durante l'aggiunta del ruolo per il referente <1>{{user}}</1>.",
+        title: 'RUOLO NON ASSEGNATO',
+        description:
+          'Non è stato possibile assegnare a <1>{{user}}</1> il ruolo di <3>{{roles}}</3> per <5>{{selectedProduct}}</5>. Riprova',
       },
       newRoleAssign: '+ Assegna ruolo',
       newRoleAssignModal: {
@@ -144,17 +153,17 @@ export default {
       },
       deleteUserModal: {
         title: 'Elimina Referente',
-        message: 'Stai per eliminare il referente <1>{{user}}</1>.<2 />Vuoi continuare?',
+        message: 'Stai per eliminare il referente <1>{{user}}</1>.<3 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
     },
     productSection: {
-      title: 'Prodotti',
+      title: 'Ruoli',
       description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
-      addButton: 'Aggiungi',
+      addButton: 'Assegna ruolo',
     },
-    pathDescription: 'Referenti',
+    pathDescription: 'Utenti',
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
@@ -192,13 +201,10 @@ export default {
         placeholder: 'Conferma l’indirizzo email istituzionale del referente',
       },
       product: {
-        title: 'Prodotto',
-        description: 'Seleziona il prodotto sul quale vuoi aggiungere il referente',
+        title: 'Seleziona il prodotto',
       },
       role: {
-        title: 'Ruolo',
-        description:
-          'Seleziona il ruolo che vuoi assegnare al referente relativo al prodotto selezionato',
+        title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
@@ -224,8 +230,7 @@ export default {
       },
     },
     editRegistryForm: {
-      title: 'Modifica Referente',
-      subTitle: 'Modifica i dati della persona che hai autorizzato a gestire.',
+      title: 'Modifica il profilo utente',
       fiscalCode: {
         label: 'Codice Fiscale',
         placeholder: 'Inserisci il Codice Fiscale del referente',
@@ -263,18 +268,18 @@ export default {
       },
     },
     addProduct: {
-      title: 'Aggiungi Prodotto',
-      subTitle: 'Assegna un prodotto al referente abilitato per {{institutionName}}',
+      title: 'Assegna un nuovo ruolo',
+      subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
       name: 'NOME',
       surname: 'COGNOME',
       fiscalCode: 'CODICE FISCALE',
     },
   },
   usersPage: {
-    title: 'Referenti',
+    title: 'Utenti',
     generic: {
       subTitle:
-        'Visualizza e gestisci i referenti abilitati alla gestione dei prodotti del tuo Ente.',
+        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     vertical: {
       subTitle:

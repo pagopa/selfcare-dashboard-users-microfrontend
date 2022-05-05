@@ -50,7 +50,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
       </Router>
     </Provider>
   );
-  await waitFor(() => screen.getByText('Ruolo'));
+  await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
   return { history, store };
 };
 

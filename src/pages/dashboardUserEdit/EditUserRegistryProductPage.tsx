@@ -61,10 +61,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox
-          title={t('userEdit.editRegistryForm.title')}
-          subTitle={t('userEdit.editRegistryForm.subTitle')}
-        />
+        <TitleBox title={t('userEdit.editRegistryForm.title')} />
       </Grid>
       <Grid item xs={12}>
         {partyUser ? (
