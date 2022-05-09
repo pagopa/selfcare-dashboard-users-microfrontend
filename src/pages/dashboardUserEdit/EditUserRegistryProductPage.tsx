@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import { Product } from '../../model/Product';
-import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
+import withUserRegistry, { withUserRegistryProps } from '../../decorators/withUserRegistry';
 import EditUserRegistryForm from './components/EditUserRegistryForm';
 
-type Props = withUserDetailProps & {
+type Props = withUserRegistryProps & {
   selectedProduct: Product;
   products: Array<Product>;
 };
@@ -77,4 +77,4 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
   );
 }
 
-export default withUserDetail(EditUserRegistryProductPage);
+export default withUserRegistry(EditUserRegistryProductPage);

@@ -1,6 +1,7 @@
 import { UserResource } from '../api/generated/b4f-dashboard/UserResource';
 
 export type UserRegistry = {
+  id: string;
   taxCode?: string;
   name?: string;
   surname?: string;
@@ -11,6 +12,7 @@ export type UserRegistry = {
 };
 
 export const userResource2UserRegistry = (resource: UserResource): UserRegistry => ({
+  id: resource.id,
   taxCode: resource.fiscalCode,
   name: resource.name?.value,
   surname: resource.familyName?.value,

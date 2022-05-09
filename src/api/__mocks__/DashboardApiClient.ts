@@ -12,7 +12,6 @@ import { UserResource } from '../generated/b4f-dashboard/UserResource';
 export const mockedInstitutionUserDetailsResource: InstitutionUserDetailsResource = {
   id: '1',
   fiscalCode: 'AAAAAA11A11A123K',
-  certification: true,
   name: 'Name',
   surname: 'Surname',
   status: 'PENDING',
@@ -101,7 +100,6 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
         },
       ],
     },
-    certification: true,
   },
   {
     id: '2',
@@ -122,7 +120,6 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
         },
       ],
     },
-    certification: true,
   },
 ];
 

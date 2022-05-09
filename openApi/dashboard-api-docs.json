@@ -85,7 +85,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -131,7 +131,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -202,7 +202,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -251,7 +251,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -330,7 +330,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -382,13 +382,13 @@
       "get": {
         "tags": ["institutions"],
         "summary": "getInstitutionUsers",
-        "description": "Service to get all the users related to a specific pair of institution-product",
+        "description": "Service to get all the users related to a specific institution",
         "operationId": "getInstitutionUsersUsingGET",
         "parameters": [
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -463,13 +463,13 @@
       "get": {
         "tags": ["institutions"],
         "summary": "getInstitutionUser",
-        "description": "${swagger.dashboard.institutions.api.getInstitutionUser}",
+        "description": "Service to get the users with the given user id related to a specific institution ",
         "operationId": "getInstitutionUserUsingGET",
         "parameters": [
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -694,7 +694,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -760,7 +760,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -815,7 +815,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -884,7 +884,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -939,7 +939,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -1491,15 +1491,19 @@
   },
   "components": {
     "schemas": {
-      "CertifiableFieldBooleanResource": {
-        "title": "CertifiableFieldBooleanResource",
+      "CertifiedFieldResourceOfstring": {
+        "title": "CertifiedFieldResourceOfstring",
+        "required": ["certified", "value"],
         "type": "object",
         "properties": {
           "certified": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Indicates whether the value comes from a certified information source",
+            "example": false
           },
           "value": {
-            "type": "string"
+            "type": "string",
+            "description": "Field value"
           }
         }
       },
@@ -1510,7 +1514,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User's email"
+            "description": "User's personal email"
           },
           "name": {
             "type": "string",
@@ -1588,12 +1592,26 @@
       },
       "InstitutionResource": {
         "title": "InstitutionResource",
-        "required": ["fiscalCode", "id", "mailAddress", "name", "status", "userRole"],
+        "required": [
+          "externalId",
+          "fiscalCode",
+          "id",
+          "mailAddress",
+          "name",
+          "origin",
+          "originId",
+          "status",
+          "userRole"
+        ],
         "type": "object",
         "properties": {
           "category": {
             "type": "string",
             "description": "Institution's category"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Institution's unique external identifier (i.e.: IPA code)"
           },
           "fiscalCode": {
             "type": "string",
@@ -1601,7 +1619,12 @@
           },
           "id": {
             "type": "string",
-            "description": "Institution's unique identifier (i.e.: IPA code)"
+            "description": "Institution's unique internal identifier"
+          },
+          "institutionType": {
+            "type": "string",
+            "description": "Institution's type",
+            "enum": ["GSP", "PA", "PT", "SCP"]
           },
           "mailAddress": {
             "type": "string",
@@ -1610,6 +1633,14 @@
           "name": {
             "type": "string",
             "description": "Institution's name"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Institution's details origin"
+          },
+          "originId": {
+            "type": "string",
+            "description": "Institution's details origin Id"
           },
           "status": {
             "type": "string",
@@ -1623,27 +1654,12 @@
       },
       "InstitutionUserDetailsResource": {
         "title": "InstitutionUserDetailsResource",
-        "required": [
-          "certification",
-          "email",
-          "fiscalCode",
-          "id",
-          "name",
-          "products",
-          "role",
-          "status",
-          "surname"
-        ],
+        "required": ["email", "fiscalCode", "id", "name", "products", "role", "status", "surname"],
         "type": "object",
         "properties": {
-          "certification": {
-            "type": "boolean",
-            "description": "User provided with certification",
-            "example": false
-          },
           "email": {
             "type": "string",
-            "description": "User's email"
+            "description": "User's personal email"
           },
           "fiscalCode": {
             "type": "string",
@@ -1651,7 +1667,8 @@
           },
           "id": {
             "type": "string",
-            "description": "User's unique identifier"
+            "description": "User's unique identifier",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -1686,11 +1703,12 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User's email"
+            "description": "User's personal email"
           },
           "id": {
             "type": "string",
-            "description": "User's unique identifier"
+            "description": "User's unique identifier",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -1725,7 +1743,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "User's unique identifier"
+            "description": "User's unique identifier",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -1833,30 +1852,17 @@
       },
       "ProductUserResource": {
         "title": "ProductUserResource",
-        "required": [
-          "certification",
-          "email",
-          "id",
-          "name",
-          "product",
-          "role",
-          "status",
-          "surname"
-        ],
+        "required": ["email", "id", "name", "product", "role", "status", "surname"],
         "type": "object",
         "properties": {
-          "certification": {
-            "type": "boolean",
-            "description": "User provided with certification",
-            "example": false
-          },
           "email": {
             "type": "string",
-            "description": "User's email"
+            "description": "User's personal email"
           },
           "id": {
             "type": "string",
-            "description": "User's unique identifier"
+            "description": "User's unique identifier",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
@@ -1965,7 +1971,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "${swagger.dashboard.user.model.institutionalEmail}"
+            "description": "User's institutional email"
           },
           "fiscalCode": {
             "type": "string",
@@ -2012,7 +2018,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User's institution email"
+            "description": "User's institutional email"
           },
           "fiscalCode": {
             "type": "string",
@@ -2176,12 +2182,12 @@
         "type": "object",
         "properties": {
           "email": {
-            "description": "User's institution email",
-            "$ref": "#/components/schemas/CertifiableFieldBooleanResource"
+            "description": "User's institutional email",
+            "$ref": "#/components/schemas/CertifiedFieldResourceOfstring"
           },
           "familyName": {
             "description": "User's surname",
-            "$ref": "#/components/schemas/CertifiableFieldBooleanResource"
+            "$ref": "#/components/schemas/CertifiedFieldResourceOfstring"
           },
           "fiscalCode": {
             "type": "string",
@@ -2194,7 +2200,7 @@
           },
           "name": {
             "description": "User's name",
-            "$ref": "#/components/schemas/CertifiableFieldBooleanResource"
+            "$ref": "#/components/schemas/CertifiedFieldResourceOfstring"
           }
         }
       }

@@ -53,6 +53,9 @@ export default function UserProductAddRoles({
       ...user,
       productRoles: newRoleSelected ?? [],
       confirmEmail: user.email,
+      certifiedName: false,
+      certifiedSurname: false,
+      certifiedMail: false,
     })
       .then((_) => {
         const newRolesTitles = newRoleSelected.map(

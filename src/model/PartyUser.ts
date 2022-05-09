@@ -26,9 +26,9 @@ export type PartyUser = BasePartyUser & {
 
 export type PartyUserDetail = PartyUser & {
   taxCode: string;
-  certifiedName: boolean;
-  certifiedSurname: boolean;
-  certifiedMail: boolean;
+  // certifiedName: boolean;
+  // certifiedSurname: boolean;
+  // certifiedMail: boolean;
 };
 
 export type PartyUserProduct = {
@@ -101,9 +101,9 @@ export const institutionUserResource2PartyUserDetail = (
   ),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
-  certifiedName: resource.certification,
-  certifiedSurname: resource.certification,
-  certifiedMail: resource.certification,
+  // certifiedName: resource.certification,
+  // certifiedSurname: resource.certification,
+  // certifiedMail: resource.certification,
 });
 
 export const productInfoResource2PartyUserProduct = (
