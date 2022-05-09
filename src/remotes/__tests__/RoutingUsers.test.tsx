@@ -23,7 +23,7 @@ const renderComponent = (
   const history = injectedHistory ? injectedHistory : createMemoryHistory();
 
   const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingGroups" path={ENV.ROUTES.GROUPS} exact={false}>
+    <Route key="RoutingUsers" path={ENV.ROUTES.USERS} exact={false}>
       <RoutingUsers {...props} />
     </Route>,
   ];
@@ -42,33 +42,43 @@ const renderComponent = (
   return { store, history };
 };
 
-const toVerifyPath = async (path: string, title: string, history: History) => {
+const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
   expect(screen.queryByPlaceholderText(title)).toBeNull();
   history.push(path);
   await waitFor(() => screen.queryByPlaceholderText(title));
 };
 
-test('test routing user detail', async () => {
+test('test routing user detail for onboarded institution', async () => {
   const { history } = renderComponent();
   await toVerifyPath('/dashboard/onboarded/users/uid', 'Dettaglio Referente', history);
 });
 
-test('test routing user list', async () => {
+test('test routing user list for onboarded institution', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users', 'Referenti', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/users',
+    'Referenti',
+    history,
+    'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
+  );
 });
 
-test('test routing add new user', async () => {
+test('test routing add new user for onboarded institution', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users/add', 'Aggiungi un Referente', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/users/add',
+    'Aggiungi un Referente',
+    history,
+    'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il AGENCY ONBOARDED.'
+  );
 });
 
-test('test routing add product', async () => {
-  const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users/uid/add-product', 'Aggiungi Prodotto', history);
-});
-
-test('test routing modify user', async () => {
+test('test routing modify user for onboarded institution', async () => {
   const { history } = renderComponent();
   await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica Referente', history);
+});
+
+test('test routing add product for onboarded institution', async () => {
+  const { history } = renderComponent();
+  await toVerifyPath('/dashboard/onboarded/users/uid/add-product', 'Aggiungi Prodotto', history);
 });
