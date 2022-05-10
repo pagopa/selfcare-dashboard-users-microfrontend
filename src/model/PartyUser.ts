@@ -95,9 +95,6 @@ export const institutionUserResource2PartyUserDetail = (
   ),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
-  // certifiedName: resource.certification,
-  // certifiedSurname: resource.certification,
-  // certifiedMail: resource.certification,
 });
 
 export const productInfoResource2PartyUserProduct = (
