@@ -47,9 +47,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // logged user
