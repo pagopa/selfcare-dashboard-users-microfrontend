@@ -86,7 +86,7 @@ module.exports = {
     },
     'mixpanel-browser': {
       singleton: true,
-      requiredVersion: dependencies['core-js'],
+      requiredVersion: dependencies['mixpanel-browser'],
     },
   },
 };
