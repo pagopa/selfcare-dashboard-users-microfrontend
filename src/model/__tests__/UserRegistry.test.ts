@@ -16,6 +16,7 @@ test('Test UserResource2UserRegistry', () => {
     name: 'Gigi',
     surname: 'Verdi',
     email: 'gigi.v@email.com',
+    id: 'id',
     certifiedName: true,
     certifiedSurname: true,
     certifiedMail: true,
