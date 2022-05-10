@@ -10,7 +10,6 @@ import { Party } from '../model/Party';
 import { ProductsMap } from '../model/Product';
 import { ENV } from '../utils/env';
 import { UserRegistry } from '../model/UserRegistry';
-import { PartyUserOnEdit } from '../model/PartyUser';
 
 export type withUserRegistryProps = {
   user: UserRegistry;
