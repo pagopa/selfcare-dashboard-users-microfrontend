@@ -25,7 +25,7 @@ type UserUrlParams = {
 
 export default function withUserRegistry<T extends withUserRegistryProps>(
   WrappedComponent: React.ComponentType<T>
-): React.ComponentType<Omit<T, 'partyUser' | 'fetchPartyUser'>> {
+): React.ComponentType<Omit<T, 'user' | 'fetchUser'>> {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ComponentUserRegistry = (props: T) => {
