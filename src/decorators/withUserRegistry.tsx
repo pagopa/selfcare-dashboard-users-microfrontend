@@ -30,7 +30,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
 
   const ComponentUserRegistry = (props: T) => {
     const { institutionId, userId } = useParams<UserUrlParams>();
-    const fetchPartyUser = useUserRegistry();
+    const fetchUser = useUserRegistry();
     const [partyUser, setPartyUser] = useState<UserRegistry | null>();
     const addError = useErrorDispatcher();
     const history = useHistory();
