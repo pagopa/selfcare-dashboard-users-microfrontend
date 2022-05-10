@@ -26,9 +26,6 @@ export type PartyUser = BasePartyUser & {
 
 export type PartyUserDetail = PartyUser & {
   taxCode: string;
-  // certifiedName: boolean;
-  // certifiedSurname: boolean;
-  // certifiedMail: boolean;
 };
 
 export type PartyUserProduct = {
