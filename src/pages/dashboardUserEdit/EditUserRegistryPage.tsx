@@ -18,7 +18,7 @@ function EditUserRegistryPage({ party, user }: Props) {
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
         institutionId: party.institutionId,
-        userId: partyUser.id,
+        userId: user.id,
       })
     );
   const paths = [
@@ -32,7 +32,7 @@ function EditUserRegistryPage({ party, user }: Props) {
         ),
     },
     {
-      description: `${partyUser.name} ${partyUser.surname}`,
+      description: `${user.name} ${user.surname}`,
       onClick: goBack,
     },
     {
@@ -58,8 +58,22 @@ function EditUserRegistryPage({ party, user }: Props) {
         />
       </Grid>
       <Grid item xs={12}>
-        {partyUser ? (
-          <EditUserRegistryForm party={party} user={partyUser} goBack={goBack} />
+        {user ? (
+          <EditUserRegistryForm
+            party={party}
+            user={{
+              id: user.id,
+              taxCode: user.taxCode,
+              name: user.name,
+              surname: user.surname,
+              email: user.email,
+              certifiedName: user.certifiedName,
+              certifiedSurname: user.certifiedSurname,
+              certifiedMail: user.certifiedMail,
+              confirmEmail: '',
+            }}
+            goBack={goBack}
+          />
         ) : (
           t('userEdit.editRegistryForm.errors.userNotFind')
         )}

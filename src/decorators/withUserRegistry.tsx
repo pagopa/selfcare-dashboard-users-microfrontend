@@ -7,14 +7,12 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/rou
 import { useUserRegistry } from '../hooks/useUserRegistry';
 import { DASHBOARD_USERS_ROUTES } from '../routes';
 import { Party } from '../model/Party';
-import { ProductsMap } from '../model/Product';
 import { ENV } from '../utils/env';
 import { UserRegistry } from '../model/UserRegistry';
 
 export type withUserRegistryProps = {
   user: UserRegistry;
   party: Party;
-  productsMap: ProductsMap;
 };
 
 type UserUrlParams = {
@@ -35,9 +33,9 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
     const history = useHistory();
 
     const doFetch = () => {
-      fetchUser(institutionId, userId, props.productsMap)
+      fetchUser(institutionId, userId)
         .then((fetchedUser) => {
-          if (fetchedUser=== null) {
+          if (fetchedUser === null) {
             const goBackUrl = resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
               institutionId,
             });
@@ -78,11 +76,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
       }
     }, [institutionId, userId]);
 
-    return user ? (
-      <WrappedComponent {...props} user={user} fetchUser={doFetch} />
-    ) : (
-      <></>
-    );
+    return user ? <WrappedComponent {...props} user={user} fetchUser={doFetch} /> : <></>;
   };
 
   // eslint-disable-next-line functional/immutable-data

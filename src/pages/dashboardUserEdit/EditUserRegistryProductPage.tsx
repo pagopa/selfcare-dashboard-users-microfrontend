@@ -14,7 +14,7 @@ type Props = withUserRegistryProps & {
   products: Array<Product>;
 };
 
-function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Props) {
+function EditUserRegistryProductPage({ party, user, selectedProduct }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -25,7 +25,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
         {
           institutionId: party.institutionId,
           productId: selectedProduct.id,
-          userId: partyUser.id,
+          userId: user.id,
         }
       )
     );
@@ -41,7 +41,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
         ),
     },
     {
-      description: `${partyUser.name} ${partyUser.surname}`,
+      description: `${user.name} ${user.surname}`,
       onClick: goBack,
     },
     {
@@ -67,8 +67,22 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
         />
       </Grid>
       <Grid item xs={12}>
-        {partyUser ? (
-          <EditUserRegistryForm party={party} user={partyUser} goBack={goBack} />
+        {user ? (
+          <EditUserRegistryForm
+            party={party}
+            user={{
+              id: user.id,
+              taxCode: user.taxCode,
+              name: user.name,
+              surname: user.surname,
+              email: user.email,
+              certifiedName: user.certifiedName,
+              certifiedSurname: user.certifiedSurname,
+              certifiedMail: user.certifiedMail,
+              confirmEmail: '',
+            }}
+            goBack={goBack}
+          />
         ) : (
           t('userEdit.editRegistryForm.errors.userNotFind')
         )}
