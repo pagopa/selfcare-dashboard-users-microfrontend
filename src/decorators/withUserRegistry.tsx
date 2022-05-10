@@ -13,7 +13,7 @@ import { UserRegistry } from '../model/UserRegistry';
 import { PartyUserOnEdit } from '../model/PartyUser';
 
 export type withUserRegistryProps = {
-  partyUser: PartyUserOnEdit;
+  user: UserRegistry;
   party: Party;
   productsMap: ProductsMap;
 };
