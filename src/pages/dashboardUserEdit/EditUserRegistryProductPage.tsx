@@ -23,7 +23,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
       resolvePathVariables(
         DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path,
         {
-          institutionId: party.institutionId,
+          partyId: party.partyId,
           productId: selectedProduct.id,
           userId: partyUser.id,
         }
@@ -35,7 +35,7 @@ function EditUserRegistryProductPage({ party, partyUser, selectedProduct }: Prop
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
             productId: selectedProduct.id,
           })
         ),

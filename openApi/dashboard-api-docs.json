@@ -85,7 +85,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -131,7 +131,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -202,7 +202,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -251,7 +251,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -330,7 +330,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -388,7 +388,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -469,7 +469,7 @@
           {
             "name": "institutionId",
             "in": "path",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -694,7 +694,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -760,7 +760,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -829,7 +829,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "Institution's unique identifier (i.e.: IPA code)",
+            "description": "Institution's unique internal identifier",
             "required": true,
             "style": "form",
             "schema": {
@@ -1431,12 +1431,26 @@
       },
       "InstitutionResource": {
         "title": "InstitutionResource",
-        "required": ["fiscalCode", "id", "mailAddress", "name", "status", "userRole"],
+        "required": [
+          "externalId",
+          "fiscalCode",
+          "id",
+          "mailAddress",
+          "name",
+          "origin",
+          "originId",
+          "status",
+          "userRole"
+        ],
         "type": "object",
         "properties": {
           "category": {
             "type": "string",
             "description": "Institution's category"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "Institution's unique external identifier (i.e.: IPA code)"
           },
           "fiscalCode": {
             "type": "string",
@@ -1444,7 +1458,12 @@
           },
           "id": {
             "type": "string",
-            "description": "Institution's unique identifier (i.e.: IPA code)"
+            "description": "Institution's unique internal identifier"
+          },
+          "institutionType": {
+            "type": "string",
+            "description": "Institution's type",
+            "enum": ["GSP", "PA", "PT", "SCP"]
           },
           "mailAddress": {
             "type": "string",
@@ -1453,6 +1472,14 @@
           "name": {
             "type": "string",
             "description": "Institution's name"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Institution's details origin"
+          },
+          "originId": {
+            "type": "string",
+            "description": "Institution's details origin Id"
           },
           "status": {
             "type": "string",
@@ -1739,6 +1766,13 @@
             "description": "flag indicating whether the logged user has the authorization to manage the product",
             "example": false
           },
+          "children": {
+            "type": "array",
+            "description": "Product's sub products list",
+            "items": {
+              "$ref": "#/components/schemas/SubProductResource"
+            }
+          },
           "description": {
             "type": "string",
             "description": "Product's description"
@@ -1771,6 +1805,26 @@
           "userRole": {
             "type": "string",
             "description": "Logged user's role"
+          }
+        }
+      },
+      "SubProductResource": {
+        "title": "SubProductResource",
+        "required": ["id", "status", "title"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Product's unique identifier"
+          },
+          "status": {
+            "type": "string",
+            "description": "Product's status",
+            "enum": ["ACTIVE", "INACTIVE", "PENDING"]
+          },
+          "title": {
+            "type": "string",
+            "description": "Product's title"
           }
         }
       },

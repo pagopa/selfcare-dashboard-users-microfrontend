@@ -10,12 +10,12 @@ export const ENV = {
   PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
-    OVERVIEW: `${PUBLIC_URL_INNER}/:institutionId`,
-    USERS: `${PUBLIC_URL_INNER}/:institutionId/users`,
-    USERS_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/users/:userId`,
-    PRODUCT_USERS: `${PUBLIC_URL_INNER}/:institutionId/:productId/users`,
-    GROUPS: `${PUBLIC_URL_INNER}/:institutionId/groups`,
-    GROUP_DETAIL: `${PUBLIC_URL_INNER}/:institutionId/groups/:groupId`,
+    OVERVIEW: `${PUBLIC_URL_INNER}/:partyId`,
+    USERS: `${PUBLIC_URL_INNER}/:partyId/users`,
+    USERS_DETAIL: `${PUBLIC_URL_INNER}/:partyId/users/:userId`,
+    PRODUCT_USERS: `${PUBLIC_URL_INNER}/:partyId/:productId/users`,
+    GROUPS: `${PUBLIC_URL_INNER}/:partyId/groups`,
+    GROUP_DETAIL: `${PUBLIC_URL_INNER}/:partyId/groups/:groupId`,
   },
 
   URL_FE: {

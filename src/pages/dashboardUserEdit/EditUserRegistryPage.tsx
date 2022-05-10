@@ -17,7 +17,7 @@ function EditUserRegistryPage({ party, partyUser }: Props) {
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -27,7 +27,7 @@ function EditUserRegistryPage({ party, partyUser }: Props) {
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
           })
         ),
     },

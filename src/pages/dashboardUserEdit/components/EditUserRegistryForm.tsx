@@ -88,7 +88,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         .then(() => {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
-            party_id: party.institutionId,
+            party_id: party.partyId,
             user: user.id,
           });
           addNotify({
@@ -110,7 +110,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             id: 'EDIT_PARTY_USER_ERROR',
             blocking: false,
             error: reason,
-            techDescription: `An error occurred while editing party user ${user.id} of institution ${party.institutionId}`,
+            techDescription: `An error occurred while editing party user ${user.id} of institution ${party.partyId}`,
             toNotify: true,
             displayableTitle: t('userEdit.editRegistryForm.editUserError.title'),
             displayableDescription: (
