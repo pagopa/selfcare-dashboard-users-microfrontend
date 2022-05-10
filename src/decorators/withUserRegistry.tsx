@@ -89,5 +89,5 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
   // eslint-disable-next-line functional/immutable-data
   ComponentUserRegistry.displayName = `withUserRegistry(${displayName})`;
 
-  return ComponentUserRegistry as React.ComponentType<Omit<T, 'partyUser' | 'fetchPartyUser'>>;
+  return ComponentUserRegistry as React.ComponentType<Omit<T, 'user' | 'fetchUser'>>;
 }
