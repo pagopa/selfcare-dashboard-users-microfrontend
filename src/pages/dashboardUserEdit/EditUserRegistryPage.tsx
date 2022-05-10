@@ -11,7 +11,7 @@ import EditUserRegistryForm from './components/EditUserRegistryForm';
 
 type Props = withUserRegistryProps;
 
-function EditUserRegistryPage({ party, partyUser }: Props) {
+function EditUserRegistryPage({ party, user }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
 
