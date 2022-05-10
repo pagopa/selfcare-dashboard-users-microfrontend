@@ -80,7 +80,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
     }, [institutionId, userId]);
 
     return partyUser ? (
-      <WrappedComponent {...props} partyUser={partyUser} fetchPartyUser={doFetch} />
+      <WrappedComponent {...props} user={user} fetchUser={doFetch} />
     ) : (
       <></>
     );
