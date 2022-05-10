@@ -53,7 +53,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
               displayableDescription: "Impossibile trovare l'utente selezionato",
             });
           }
-          setPartyUser(user);
+          setUser(fetchedUser);
         })
         .catch((reason) => {
           addError({
