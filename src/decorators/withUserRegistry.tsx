@@ -38,7 +38,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
     const doFetch = () => {
       fetchUser(institutionId, userId, props.productsMap)
         .then((fetchedUser) => {
-          if (user === null) {
+          if (fetchedUser=== null) {
             const goBackUrl = resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
               institutionId,
             });
