@@ -23,7 +23,7 @@ const renderComponent = (
   const history = injectedHistory ? injectedHistory : createMemoryHistory();
 
   const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingGroups" path={ENV.ROUTES.GROUPS} exact={false}>
+    <Route key="RoutingProductUsers" path={ENV.ROUTES.PRODUCT_USERS} exact={false}>
       <RoutingProductUsers {...props} />
     </Route>,
   ];

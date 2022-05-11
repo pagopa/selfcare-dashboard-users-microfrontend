@@ -15,7 +15,7 @@ jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 // eslint-disable-next-line functional/immutable-data
 (window as any).appRoutes = DASHBOARD_USERS_ROUTES;
 
-const renderComponent = (
+export const renderComponent = (
   injectedStore?: ReturnType<typeof createStore>,
   injectedHistory?: ReturnType<typeof createMemoryHistory>
 ) => {
@@ -23,7 +23,7 @@ const renderComponent = (
   const history = injectedHistory ? injectedHistory : createMemoryHistory();
 
   const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingGroups" path={ENV.ROUTES.GROUPS} exact={false}>
+    <Route key="RoutingUsers" path={ENV.ROUTES.USERS} exact={false}>
       <RoutingUsers {...props} />
     </Route>,
   ];
@@ -50,12 +50,12 @@ const toVerifyPath = async (path: string, title: string, history: History) => {
 
 test('test routing user detail', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users/uid', 'Dettaglio Referente', history);
+  await toVerifyPath('/dashboard/onboarded/users/uid', 'Profilo Utente', history);
 });
 
 test('test routing user list', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users', 'Referenti', history);
+  await toVerifyPath('/dashboard/onboarded/users', 'Utenti', history);
 });
 
 test('test routing add new user', async () => {
@@ -70,5 +70,5 @@ test('test routing add product', async () => {
 
 test('test routing modify user', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica Referente', history);
+  await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica il profilo utente', history);
 });
