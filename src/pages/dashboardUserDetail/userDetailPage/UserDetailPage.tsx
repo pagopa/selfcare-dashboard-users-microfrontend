@@ -16,7 +16,6 @@ import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants'
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
-import UserSelcRole from './components/UserSelcRole';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -42,18 +41,19 @@ function UserDetailPage({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+
   const product = partyUser.products[0];
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.institutionId });
+      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId });
     }
   }, [party]);
 
   const goEdit = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -61,7 +61,7 @@ function UserDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
       })
     );
 
@@ -143,29 +143,29 @@ function UserDetailPage({
       <Grid item xs={12} mb={7}>
         <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid container item>
+      <Grid container item sx={{ width: '985px', backgroundColor: '#FFFFFF', padding: 3 }}>
         <Grid item xs={12} mb={9}>
           <UserDetail
             party={party}
             userInfo={partyUser}
-            roleSection={<UserSelcRole selcRole={partyUser.userRole} />}
+            roleSection={''}
             goEdit={goEdit}
             productsMap={productsMap}
           />
         </Grid>
-      </Grid>
-      <Grid item xs={11} mb={4}>
-        <Divider />
-      </Grid>
-      <Grid container item mb={9}>
-        <UserProductSection
-          isProductDetailPage={isProductDetailPage}
-          partyUser={partyUser}
-          party={party}
-          fetchPartyUser={fetchPartyUser}
-          productsRolesMap={productsRolesMap}
-          products={activeProducts}
-        />
+        <Grid item xs={11} mb={4}>
+          <Divider />
+        </Grid>
+        <Grid container>
+          <UserProductSection
+            isProductDetailPage={isProductDetailPage}
+            partyUser={partyUser}
+            party={party}
+            fetchPartyUser={fetchPartyUser}
+            productsRolesMap={productsRolesMap}
+            products={activeProducts}
+          />
+        </Grid>
       </Grid>
       <Grid container item my={10} spacing={2}>
         <Grid item xs={2}>

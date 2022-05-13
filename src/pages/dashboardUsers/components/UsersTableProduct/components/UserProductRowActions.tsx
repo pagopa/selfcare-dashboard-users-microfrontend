@@ -94,7 +94,7 @@ export default function UserProductRowActions({
           id: 'ACTION_ON_PARTY_USER_ERROR',
           blocking: false,
           error: reason,
-          techDescription: `An error occurred while performing action ${title} on party (${party.institutionId}) and user (${partyUser.id})`,
+          techDescription: `An error occurred while performing action ${title} on party (${party.partyId}) and user (${partyUser.id})`,
           toNotify: true,
         })
       )
@@ -115,7 +115,7 @@ export default function UserProductRowActions({
         id: 'INVALID_STATUS_TRANSITION',
         blocking: false,
         error: new Error('INVALID_STATUS_TRANSITION'),
-        techDescription: `Invalid status transition while updating party (${party.institutionId}) user (${partyUser.id}): ${partyUser.status}`,
+        techDescription: `Invalid status transition while updating party (${party.partyId}) user (${partyUser.id}): ${partyUser.status}`,
         toNotify: true,
       });
 
@@ -177,7 +177,7 @@ export default function UserProductRowActions({
     handleClose();
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );

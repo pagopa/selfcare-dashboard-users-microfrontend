@@ -22,7 +22,7 @@ test('Test usersGroupPlainResource2PartyGroup', () => {
   const partyGroup = usersGroupPlainResource2PartyGroup(userGroupPlainResource);
   expect(partyGroup).toStrictEqual({
     id: 'groupId1',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     name: 'Gruppo1',
     description: 'groupId1: descriptoion',

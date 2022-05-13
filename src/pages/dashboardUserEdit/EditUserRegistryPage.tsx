@@ -17,8 +17,8 @@ function EditUserRegistryPage({ party, user }: Props) {
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
-        institutionId: party.institutionId,
         userId: user.id,
+        partyId: party.partyId,
       })
     );
   const paths = [
@@ -27,7 +27,7 @@ function EditUserRegistryPage({ party, user }: Props) {
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
           })
         ),
     },
@@ -52,10 +52,7 @@ function EditUserRegistryPage({ party, user }: Props) {
         <ProductNavigationBar paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox
-          title={t('userEdit.editRegistryForm.title')}
-          subTitle={t('userEdit.editRegistryForm.subTitle')}
-        />
+        <TitleBox title={t('userEdit.editRegistryForm.title')} />
       </Grid>
       <Grid item xs={12}>
         {user ? (

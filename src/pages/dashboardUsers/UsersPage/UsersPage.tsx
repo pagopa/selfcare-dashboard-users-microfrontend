@@ -47,11 +47,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
-      history.push(
-        resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.institutionId })
-      );
+      history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId: party.partyId }));
     }
-  }, [party.institutionId]);
+  }, [party.partyId]);
 
   useEffect(() => {
     if (productsFetchStatus) {
@@ -60,7 +58,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     }
   }, [productsFetchStatus]);
 
-  useEffect(() => trackEvent('USER_LIST', { party_id: party.institutionId }), [party]);
+  useEffect(() => trackEvent('USER_LIST', { party_id: party.partyId }), [party]);
 
   const prodSectionRefs = useMemo(
     () => activeProducts.map((_) => React.createRef<HTMLDivElement>()),
@@ -129,7 +127,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               onFiltersChange={setFilters}
               addUserUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
-                { institutionId: party.institutionId }
+                { partyId: party.partyId }
               )}
               showSelcRoleGrouped={showSelcRoleGrouped}
             />

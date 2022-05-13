@@ -29,7 +29,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -40,16 +40,13 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
           })
         ),
     },
     {
       description: partyUser.name + ' ' + partyUser.surname,
       onClick: goBack,
-    },
-    {
-      description: t('userPagesPath.addProduct'),
     },
   ];
 
@@ -73,7 +70,14 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <Grid container>
+        <Grid
+          container
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           <Grid item xs={10}>
             <Grid container spacing={2}>
               <Grid container item alignContent="center">

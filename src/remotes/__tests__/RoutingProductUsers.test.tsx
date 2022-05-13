@@ -23,7 +23,7 @@ const renderComponent = (
   const history = injectedHistory ? injectedHistory : createMemoryHistory();
 
   const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingGroups" path={ENV.ROUTES.GROUPS} exact={false}>
+    <Route key="RoutingProductUsers" path={ENV.ROUTES.PRODUCT_USERS} exact={false}>
       <RoutingProductUsers {...props} />
     </Route>,
   ];
@@ -42,25 +42,35 @@ const renderComponent = (
   return { store, history };
 };
 
-const toVerifyPath = async (path: string, title: string, history: History) => {
+const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
   expect(screen.queryByPlaceholderText(title)).toBeNull();
   history.push(path);
   await waitFor(() => screen.queryByPlaceholderText(title));
 };
 
-test('test routing user prduct detail ', async () => {
+test('test routing user product detail ', async () => {
   const { history } = renderComponent();
   await toVerifyPath('/dashboard/onboarded/prod-io/users/uid', 'Dettaglio Referente', history);
 });
 
 test('test routing user product list', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users', 'Referenti', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/prod-io/users',
+    'Referenti',
+    history,
+    'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto App IO'
+  );
 });
 
 test('test routing add new user product', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users/add', 'Aggiungi un Referente', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/prod-io/users/add',
+    'Aggiungi un Referente',
+    history,
+    'Inserisci i dati della persona che vuoi autorizzare a gestire App IO'
+  );
 });
 
 test('test routing modify user product', async () => {

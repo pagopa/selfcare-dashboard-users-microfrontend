@@ -63,7 +63,7 @@ const UsersTableProduct = ({
       currentUser ?? ({ uid: 'NONE' } as User),
       productsMap,
       undefined,
-      filterConfiguration.productRoles
+      filterConfiguration.productRoles.filter((r) => r.productId === product.id)
     ).then((data) => data.content)
   );
 
@@ -119,7 +119,7 @@ const UsersTableProduct = ({
             id: 'FETCH_PARTY_USERS',
             blocking: false,
             error: reason,
-            techDescription: `An error occurred while fetching party users ${party.institutionId} of product ${product} and filter ${filterConfiguration}`,
+            techDescription: `An error occurred while fetching party users ${party.partyId} of product ${product} and filter ${filterConfiguration}`,
             toNotify: true,
           },
         ]);

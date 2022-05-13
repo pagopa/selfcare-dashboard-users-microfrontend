@@ -34,7 +34,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route path="/:institutionId/:productId" exact={true}>
+          <Route path="/:partyId/:productId" exact={true}>
             <AddUsersProductPage
               party={mockedParties[0]}
               activeProducts={mockedPartyProducts}
@@ -50,7 +50,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
       </Router>
     </Provider>
   );
-  await waitFor(() => screen.getByText('Ruolo'));
+  await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
   return { history, store };
 };
 

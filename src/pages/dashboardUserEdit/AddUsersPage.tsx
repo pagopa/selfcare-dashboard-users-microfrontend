@@ -26,7 +26,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
           })
         ),
     },
