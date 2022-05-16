@@ -1,58 +1,26 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { createStore } from '../../../redux/store';
-import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import {
-  mockedPartyProducts,
-  mockedProductRoles,
-} from '../../../microcomponents/mock_dashboard/data/product';
-import { Route, Router, Switch } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { Trans } from 'react-i18next';
-import { ProductsMap } from '../../../model/Product';
-import EditUserRegistryProductPage from '../EditUserRegistryProductPage';
-import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import { renderComponent as routingProductUsers } from '../../../remotes/__tests__/RoutingProductUsers.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
-const fieldsValue = {
-  email: 'NAME@SURNAME.COM',
-  confirmEmail: 'NAME@SURNAME.COM',
-};
-
-const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
-  const store = injectedStore ? injectedStore : createStore();
-  verifyLoginMockExecution(store.getState());
+const renderApp = async (
+  institutionId: string = 'onboarded',
+  productId: string = 'prod-io',
+  userId: string = 'uid'
+) => {
   const history = createMemoryHistory();
-  history.push('/1/prod-io/users/uid');
-  render(
-    <Provider store={store}>
-      <Router history={history}>
-        <Switch>
-          <Route path="/:institutionId/:productId/users/:userId" exact={true}>
-            <EditUserRegistryProductPage
-              party={mockedParties[0]}
-              products={mockedPartyProducts}
-              selectedProduct={mockedPartyProducts[0]}
-              productsMap={mockedPartyProducts as unknown as ProductsMap}
-            />
-          </Route>
-          <Route path="/dashboard/1/prod-io/users/uid" exact={true}>
-            Test Completato
-          </Route>
-          <Route path="*"> {history.location.pathname}</Route>
-        </Switch>
-      </Router>
-    </Provider>
-  );
-  return { history, store };
+  history.push(`/dashboard/${institutionId}/${productId}/users/${userId}/edit`);
+  const output = routingProductUsers(undefined, history);
+  await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
+  return output;
 };
 
 test('render test', async () => {
   await renderApp();
-  screen.getByRole('heading', { name: 'Modifica il profilo utente' });
 });
 
 test('test back button', async () => {
@@ -60,7 +28,7 @@ test('test back button', async () => {
   const backButton = screen.getByText('Indietro');
   expect(backButton).toBeEnabled();
   fireEvent.click(backButton);
-  expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid');
+  expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid');
 });
 
 test('test with no modify, so disabled button', async () => {
@@ -77,16 +45,16 @@ test('test with email and confirm email modified but different, so disabled butt
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   expect(confirmButton).toBeDisabled();
 
-  const email = document.querySelector('#email');
-  const confirmEmail = document.querySelector('#confirmEmail');
+  const email = document.getElementById('email');
+  const confirmEmail = document.getElementById('confirmEmail');
 
-  fireEvent.change(email, { target: { value: fieldsValue.email } });
+  fireEvent.change(email, { target: { value: 'a@a.com' } });
   fireEvent.change(confirmEmail, { target: { value: 'test@t.com' } });
 
-  expect(confirmButton).toBeDisabled();
+  await waitFor(() => expect(confirmButton).toBeDisabled());
 });
 
-test('test with email and confirm email modified and equal, so enabled button', async () => {
+test('test with email and confirm email modified and equal, so enabled button and complete edit with toast notification', async () => {
   const { history, store } = await renderApp();
 
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
@@ -95,31 +63,30 @@ test('test with email and confirm email modified and equal, so enabled button', 
   const email = document.querySelector('#email');
   const confirmEmail = document.querySelector('#confirmEmail');
 
-  fireEvent.change(email, { target: { value: fieldsValue.email } });
-  fireEvent.change(confirmEmail, { target: { value: fieldsValue.confirmEmail } });
+  fireEvent.change(email, { target: { value: 'test@test.com' } });
+  fireEvent.change(confirmEmail, { target: { value: 'test@test.com' } });
 
   expect(confirmButton).toBeEnabled();
   fireEvent.click(confirmButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/1/prod-io/users'));
-  await waitFor(() => screen.getByText('Test Completato'));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid')
+  );
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'REFERENTE MODIFICATO',
     message: (
-      <>
-        <Trans i18nKey="userEdit.editRegistryForm.editUserSuccess.message">
-          Hai modificato correttamente i dati di
-          <strong>
-            {{
-              user: 'elena verdi',
-            }}
-          </strong>
-          .
-        </Trans>
-      </>
+      <Trans i18nkey="userEdit.editRegistryForm.editUserSuccess.message">
+        {'Hai modificato correttamente i dati di '}
+        <strong>
+          {{
+            user: 'Elena Verdi',
+          }}
+        </strong>
+        .
+      </Trans>
     ),
   });
 });

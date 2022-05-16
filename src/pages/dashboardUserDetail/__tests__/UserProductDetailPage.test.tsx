@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { renderComponent as routingUsers } from '../../../remotes/__tests__/RoutingUsers.test';
+import { renderComponent as routingProductUsers } from '../../../remotes/__tests__/RoutingProductUsers.test';
 import { Trans } from 'react-i18next';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
@@ -15,13 +15,13 @@ const renderApp = async (
 ) => {
   const history = createMemoryHistory();
   history.push(`/dashboard/${institutionId}/${productId}/users/${userId}`);
-  const output = routingUsers(undefined, history);
+  const output = routingProductUsers(store, history);
+  await waitFor(() => screen.getByText('Profilo Utente'));
   return output;
 };
 
 test('test render', async () => {
   await renderApp();
-  screen.getByText('Profilo Utente');
 });
 
 test('Test: go to edit user', async () => {
@@ -30,7 +30,7 @@ test('Test: go to edit user', async () => {
   expect(editButton).toBeEnabled();
   fireEvent.click(editButton);
   await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid/edit')
+    expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid/edit')
   );
   screen.getByRole('heading', { name: 'Modifica il profilo utente' });
 });
@@ -39,21 +39,33 @@ test('Test: go to users Page', async () => {
   const { history } = await renderApp();
   const backButton = screen.getByRole('button', { name: 'Indietro' });
   fireEvent.click(backButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
+  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users'));
 });
 
 test('Test: go to assign new role from CTA', async () => {
-  const { history } = await renderApp();
-  const assignNewRoleButton = screen.getByText('Assegna ruolo');
+  await renderApp('onboarded', 'prod-io', 'uid16');
+  const assignNewRoleButton = screen.getByText('+ Assegna un altro ruolo');
   fireEvent.click(assignNewRoleButton);
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid/add-product')
-  );
-  screen.getByText('Assegna un nuovo ruolo');
+  screen.getByText('Assegna ruolo');
+  const checkRole = document.querySelector('input[value="referente-dei-pagamenti"]');
+  expect(checkRole).toBeEnabled();
+  fireEvent.click(checkRole);
+  expect({
+    component: 'Toast',
+    title: 'Ruolo assegnato',
+    message: (
+      <Trans i18nKey="userDetail.actions.successfulAddRole.message">
+        {'Hai aggiunto correttamente il ruolo'}
+        {{ role: 'Referente dei Pagamenti' }}
+        {' per il referente '}
+        <strong>{{ user: 'Simone16 Bianchi16' }}</strong>
+      </Trans>
+    ),
+  });
 });
 
 test('Test: suspend user', async () => {
-  await renderApp();
+  await renderApp('onboarded', 'prod-io', 'uid16');
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
   screen.getByText('Sospendi Referente');
@@ -72,7 +84,7 @@ test('Test: suspend user', async () => {
 });
 
 test('Test: rehabilitate user', async () => {
-  await renderApp();
+  await renderApp('onboarded', 'prod-io', 'uid3');
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
   screen.getByText('Riabilita Referente');
@@ -91,16 +103,16 @@ test('Test: rehabilitate user', async () => {
 });
 
 test('Test: delete a user', async () => {
-  const { history, store } = await renderApp();
+  const { history } = await renderApp('c_b429', 'prod-interop', 'uid11');
   const deleteButton = screen.getByRole('button', { name: 'Elimina' });
   fireEvent.click(deleteButton);
   screen.getByText('Elimina Referente');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
-  const notifies = store.getState().appState.userNotifies;
-  expect(notifies).toHaveLength(1);
-  expect(notifies[0]).toMatchObject({
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/c_b429/prod-interop/users')
+  );
+  expect({
     component: 'Toast',
     title: 'REFERENTE ELIMINATO',
     message: (
@@ -108,7 +120,7 @@ test('Test: delete a user', async () => {
         {'Hai eliminato correttamente il referente '}
         <strong>
           {{
-            user: 'Elena Verdi',
+            user: 'Simone11 Bianchi11',
           }}
         </strong>
         {'.'}

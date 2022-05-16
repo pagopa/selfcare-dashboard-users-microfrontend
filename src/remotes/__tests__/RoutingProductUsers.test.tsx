@@ -15,7 +15,7 @@ jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 // eslint-disable-next-line functional/immutable-data
 (window as any).appRoutes = DASHBOARD_USERS_ROUTES;
 
-const renderComponent = (
+export const renderComponent = (
   injectedStore?: ReturnType<typeof createStore>,
   injectedHistory?: ReturnType<typeof createMemoryHistory>
 ) => {
@@ -42,28 +42,42 @@ const renderComponent = (
   return { store, history };
 };
 
-const toVerifyPath = async (path: string, title: string, history: History) => {
+const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
   expect(screen.queryByPlaceholderText(title)).toBeNull();
   history.push(path);
   await waitFor(() => screen.queryByPlaceholderText(title));
 };
 
-test('test routing user prduct detail ', async () => {
+test('test routing user product detail ', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users/uid', 'Dettaglio Referente', history);
+  await toVerifyPath('/dashboard/onboarded/prod-io/users/uid', 'Profilo Utente', history);
 });
 
 test('test routing user product list', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users', 'Referenti', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/prod-io/users',
+    'Utenti',
+    history,
+    'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto App IO'
+  );
 });
 
 test('test routing add new user product', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users/add', 'Aggiungi un Referente', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/prod-io/users/add',
+    'Aggiungi un Referente',
+    history,
+    'Inserisci i dati della persona che vuoi autorizzare a gestire App IO'
+  );
 });
 
 test('test routing modify user product', async () => {
   const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/prod-io/users/uid/edit', 'Modifica Referente', history);
+  await toVerifyPath(
+    '/dashboard/onboarded/prod-io/users/uid/edit',
+    'Modifica il profilo utente',
+    history
+  );
 });
