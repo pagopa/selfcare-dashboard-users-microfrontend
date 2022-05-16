@@ -13,7 +13,7 @@ export type UserRegistry = {
 
 export const userResource2UserRegistry = (resource: UserResource): UserRegistry => ({
   id: resource.id,
-  taxCode: resource.fiscalCode ? resource.fiscalCode : '',
+  taxCode: resource.fiscalCode,
   name: resource.name ? resource.name?.value : '',
   surname: resource.familyName ? resource.familyName?.value : '',
   email: resource.email ? resource.email?.value : '',

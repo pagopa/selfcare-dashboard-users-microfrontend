@@ -104,7 +104,7 @@ export const DashboardApi = {
     const result = await apiClient.updateUserUsingPUT({
       institutionId,
       id: user.id,
-      body: { email: user.email, fiscalCode: user.taxCode, name: user.name, surname: user.surname },
+      body: { email: user.email, name: user.name, surname: user.surname },
     });
     return extractResponse(result, 201, onRedirectToLogin);
   },
@@ -136,7 +136,7 @@ export const DashboardApi = {
   ): Promise<UserResource | null> => {
     const result = await apiClient.searchUsingPOST({
       institutionId,
-      body: { externalId: taxCode },
+      body: { fiscalCode: taxCode },
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
