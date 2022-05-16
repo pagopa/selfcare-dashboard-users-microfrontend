@@ -51,7 +51,7 @@ function UserProductDetailPage({
     if (!userProduct) {
       history.push(
         resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path, {
-          institutionId: party.institutionId,
+          partyId: party.partyId,
           productId: selectedProduct.id,
         })
       );
@@ -122,7 +122,7 @@ function UserProductDetailPage({
       resolvePathVariables(
         DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.EDIT_PARTY_PRODUCT_USER.path,
         {
-          institutionId: party.institutionId,
+          partyId: party.partyId,
           userId: partyUser.id,
           productId: selectedProduct.id,
         }
@@ -132,7 +132,7 @@ function UserProductDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.MAIN.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         productId: selectedProduct.id,
       })
     );

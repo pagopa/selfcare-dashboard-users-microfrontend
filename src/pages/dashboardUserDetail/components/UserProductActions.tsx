@@ -129,7 +129,7 @@ export default function UserProductActions({
         id: 'INVALID_STATUS_TRANSITION',
         blocking: false,
         error: new Error('INVALID_STATUS_TRANSITION'),
-        techDescription: `Invalid status transition while updating party (${party.institutionId}) user (${user.id}): ${user.status}`,
+        techDescription: `Invalid status transition while updating party (${party.partyId}) user (${user.id}): ${user.status}`,
         toNotify: true,
       });
 
@@ -168,7 +168,7 @@ export default function UserProductActions({
           id: 'UPDATE_PARTY_USER_STATUS',
           blocking: false,
           error: reason,
-          techDescription: `An error occurred while updating party (${party.institutionId}) user (${user.id}): ${user.status} -> ${nextStatus}`,
+          techDescription: `An error occurred while updating party (${party.partyId}) user (${user.id}): ${user.status} -> ${nextStatus}`,
           toNotify: true,
         })
       )

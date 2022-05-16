@@ -46,14 +46,14 @@ function UserDetailPage({
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.institutionId });
+      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId });
     }
   }, [party]);
 
   const goEdit = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -61,7 +61,7 @@ function UserDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
       })
     );
 
