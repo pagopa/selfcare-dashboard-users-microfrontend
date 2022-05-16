@@ -57,11 +57,7 @@ test('test routing user list for onboarded institution', async () => {
   const { history } = renderComponent();
   await toVerifyPath(
     '/dashboard/onboarded/users',
-<<<<<<< HEAD
     'Utenti',
-=======
-    'Referenti',
->>>>>>> 15858381fe76f841fa6c688f5f011df96c5ae9b6
     history,
     'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
   );
@@ -79,11 +75,7 @@ test('test routing add new user for onboarded institution', async () => {
 
 test('test routing modify user for onboarded institution', async () => {
   const { history } = renderComponent();
-<<<<<<< HEAD
   await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica il profilo utente', history);
-=======
-  await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica Referente', history);
->>>>>>> 15858381fe76f841fa6c688f5f011df96c5ae9b6
 });
 
 test('test routing add product for onboarded institution', async () => {

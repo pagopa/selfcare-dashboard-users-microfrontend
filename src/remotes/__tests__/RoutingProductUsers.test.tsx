@@ -57,11 +57,7 @@ test('test routing user product list', async () => {
   const { history } = renderComponent();
   await toVerifyPath(
     '/dashboard/onboarded/prod-io/users',
-<<<<<<< HEAD
     'Utenti',
-=======
-    'Referenti',
->>>>>>> 15858381fe76f841fa6c688f5f011df96c5ae9b6
     history,
     'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto App IO'
   );
