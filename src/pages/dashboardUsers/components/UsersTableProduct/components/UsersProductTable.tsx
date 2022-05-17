@@ -136,6 +136,7 @@ export default function UsersProductTable({
         <CustomDataGrid
           className="CustomDataGrid"
           autoHeight={true}
+          columnBuffer={5}
           rows={users}
           rowCount={Math.max(page?.totalElements ?? 0, users.length)}
           getRowId={(r) => r.id}
