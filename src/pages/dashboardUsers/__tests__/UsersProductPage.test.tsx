@@ -37,7 +37,7 @@ test('test add new user', async () => {
   screen.getByRole('heading', { name: 'Aggiungi un Referente' });
 });
 
-test('test filter users from role', async () => {
+test('test filter users from role ', async () => {
   await renderApp();
   const rolesFilter = screen.getByRole('button', { name: 'Tutti i ruoli' });
   fireEvent.click(rolesFilter);
