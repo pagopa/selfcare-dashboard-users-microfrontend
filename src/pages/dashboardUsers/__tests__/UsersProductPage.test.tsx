@@ -37,7 +37,7 @@ test('test add new user', async () => {
   screen.getByRole('heading', { name: 'Aggiungi un Referente' });
 });
 
-test('test filter users from role', async () => {
+test('test filter users from role ', async () => {
   await renderApp();
   const rolesFilter = screen.getByRole('button', { name: 'Tutti i ruoli' });
   fireEvent.click(rolesFilter);
@@ -56,7 +56,7 @@ test('test edit user anagraphic from row action', async () => {
   fireEvent.click(actionButton);
   await waitFor(() => fireEvent.click(screen.getByText('Modifica')));
   await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid3/edit')
+    expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid3/edit')
   );
 });
 

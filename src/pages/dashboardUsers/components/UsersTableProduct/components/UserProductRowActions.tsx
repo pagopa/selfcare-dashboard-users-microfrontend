@@ -1,7 +1,7 @@
 import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, Menu, MenuItem } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
@@ -12,6 +12,10 @@ import { Party, UserStatus } from '../../../../../model/Party';
 import { LOADING_TASK_ACTION_ON_PARTY_USER } from '../../../../../utils/constants';
 import { deletePartyUser, updatePartyUserStatus } from '../../../../../services/usersService';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
+
+type selectedProductByParams = {
+  productId: string;
+};
 
 type Props = {
   party: Party;
@@ -30,6 +34,7 @@ export default function UserProductRowActions({
   onDelete,
   onStatusUpdate,
 }: Props) {
+  const { productId } = useParams<selectedProductByParams>();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const history = useHistory();
@@ -175,12 +180,25 @@ export default function UserProductRowActions({
 
   const handleModify = () => {
     handleClose();
-    history.push(
-      resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        partyId: party.partyId,
-        userId: partyUser.id,
-      })
-    );
+    if (productId) {
+      history.push(
+        resolvePathVariables(
+          DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.EDIT_PARTY_PRODUCT_USER.path,
+          {
+            partyId: party.partyId,
+            productId,
+            userId: partyUser.id,
+          }
+        )
+      );
+    } else {
+      history.push(
+        resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
+          partyId: party.partyId,
+          userId: partyUser.id,
+        })
+      );
+    }
   };
 
   return (
