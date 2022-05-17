@@ -185,7 +185,7 @@ export default function UserProductRowActions({
 
   return (
     <div>
-      <IconButton onClick={handleClick}>
+      <IconButton data-testid={`action-${partyUser.id}`} onClick={handleClick}>
         <MoreVertIcon color="primary" />
       </IconButton>
       <Menu

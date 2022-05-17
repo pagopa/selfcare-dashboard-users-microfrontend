@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { Trans } from 'react-i18next';
-import { renderComponent as routingProductUsers } from '../../../remotes/__tests__/RoutingProductUsers.test';
+import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
@@ -14,7 +14,7 @@ const renderApp = async (
 ) => {
   const history = createMemoryHistory();
   history.push(`/dashboard/${institutionId}/${productId}/users/${userId}/edit`);
-  const output = routingProductUsers(undefined, history);
+  const output = renderComponent(undefined, history);
   await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
   return output;
 };

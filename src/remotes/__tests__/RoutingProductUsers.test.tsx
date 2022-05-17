@@ -1,45 +1,20 @@
-import { createStore } from '../../redux/store';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
+import { screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
-import { Router, Route, Switch } from 'react-router';
-import { ENV } from '../../utils/env';
-import { DashboardMicrofrontendPageProps } from '../../microcomponents/dashboard-routes-utils';
-import { screen, render, waitFor, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import App from '../../microcomponents/mock_dashboard/App';
-import RoutingProductUsers from './../RoutingProductUsers';
+import '../../locale';
+import { renderComponent } from './RenderComponents/RenderComponentProductUser.test';
 
-jest.mock('../../services/usersService');
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('../../services/usersService');
 
-// eslint-disable-next-line functional/immutable-data
-(window as any).appRoutes = DASHBOARD_USERS_ROUTES;
+jest.setTimeout(100000);
 
-export const renderComponent = (
-  injectedStore?: ReturnType<typeof createStore>,
-  injectedHistory?: ReturnType<typeof createMemoryHistory>
-) => {
-  const store = injectedStore ? injectedStore : createStore();
-  const history = injectedHistory ? injectedHistory : createMemoryHistory();
-
-  const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingProductUsers" path={ENV.ROUTES.PRODUCT_USERS} exact={false}>
-      <RoutingProductUsers {...props} />
-    </Route>,
-  ];
-
-  render(
-    <Router history={history}>
-      <Provider store={store}>
-        <Switch>
-          <Route path={ENV.ROUTES.OVERVIEW} exact={false}>
-            <App AppRouting={appRouting} store={store} />
-          </Route>
-        </Switch>
-      </Provider>
-    </Router>
-  );
-  return { store, history };
+const renderApp = async (institutionId: string = 'onboarded', productId: string = 'prod-io') => {
+  const history = createMemoryHistory();
+  history.push(`/dashboard/${institutionId}/${productId}/users`);
+  const output = renderComponent(undefined, history);
+  await waitFor(() => screen.getByText('Utenti'));
+  await waitFor(() => screen.getByText('EMAIL'));
+  return output;
 };
 
 const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
@@ -49,12 +24,12 @@ const toVerifyPath = async (path: string, title: string, history: History, subTi
 };
 
 test('test routing user product detail ', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath('/dashboard/onboarded/prod-io/users/uid', 'Profilo Utente', history);
 });
 
 test('test routing user product list', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/prod-io/users',
     'Utenti',
@@ -64,7 +39,7 @@ test('test routing user product list', async () => {
 });
 
 test('test routing add new user product', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/prod-io/users/add',
     'Aggiungi un Referente',
@@ -74,7 +49,7 @@ test('test routing add new user product', async () => {
 });
 
 test('test routing modify user product', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/prod-io/users/uid/edit',
     'Modifica il profilo utente',

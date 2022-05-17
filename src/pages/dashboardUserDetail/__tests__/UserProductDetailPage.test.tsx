@@ -2,11 +2,13 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { renderComponent as routingProductUsers } from '../../../remotes/__tests__/RoutingProductUsers.test';
 import { Trans } from 'react-i18next';
+import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
+
+jest.setTimeout(6000);
 
 const renderApp = async (
   institutionId: string = 'onboarded',
@@ -15,7 +17,7 @@ const renderApp = async (
 ) => {
   const history = createMemoryHistory();
   history.push(`/dashboard/${institutionId}/${productId}/users/${userId}`);
-  const output = routingProductUsers(store, history);
+  const output = renderComponent(store, history);
   await waitFor(() => screen.getByText('Profilo Utente'));
   return output;
 };
