@@ -56,7 +56,7 @@ test('test edit user anagraphic from row action', async () => {
   fireEvent.click(actionButton);
   await waitFor(() => fireEvent.click(screen.getByText('Modifica')));
   await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid3/edit')
+    expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid3/edit')
   );
 });
 
