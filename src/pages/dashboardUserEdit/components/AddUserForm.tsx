@@ -244,16 +244,9 @@ export default function AddUserForm({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
           title: initialFormData.taxCode
-            ? t('userDetail.actions.successfulAddRole.title')
-            : t('userEdit.addForm.saveUserSuccess.title'),
-          message: (
-            <>
-              <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
-                Hai aggiunto correttamente
-                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
-              </Trans>
-            </>
-          ),
+            ? t('userDetail.actions.successfulAddRole')
+            : t('userEdit.addForm.saveUserSuccess'),
+          message: '',
         });
 
         goBackInner();
@@ -266,21 +259,9 @@ export default function AddUserForm({
           techDescription: `An error occurred while saving party user ${party.partyId}`,
           toNotify: true,
           displayableTitle: initialFormData.taxCode
-            ? t('userDetail.actions.addRoleError.title')
-            : t('userEdit.addForm.saveUserError.title'),
-          displayableDescription: initialFormData.taxCode ? (
-            <Trans i18nKey="userEdit.addForm.saveUserError.message">
-              {"C'è stato un errore durante l'aggiunta del referente "}
-              <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
-            </Trans>
-          ) : (
-            <Trans i18nKey="userDetail.actions.addRoleError.description">
-              {'Non è stato possibile assegnare a '}
-              <strong>{{ user: `${values.name} ${values.surname}` }}</strong> {' il ruolo di '}
-              <strong>{{ roles: `${values.productRoles}` }}</strong> {' per '}
-              <strong>{{ selectedProduct: `${selectedProduct}` }}</strong>.{' Riprova'}
-            </Trans>
-          ),
+            ? t('userDetail.actions.addRoleError')
+            : t('userEdit.addForm.saveUserError'),
+          displayableDescription: '',
           component: 'Toast',
         })
       )
