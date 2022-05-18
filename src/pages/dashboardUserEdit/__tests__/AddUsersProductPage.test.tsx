@@ -94,20 +94,8 @@ test('test with fields that respect rules, so enabled button', async () => {
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
-    title: 'REFERENTE AGGIUNTO',
-    message: (
-      <>
-        <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
-          Hai aggiunto correttamente
-          <strong>
-            {{
-              user: 'franco rossi',
-            }}
-          </strong>
-          .
-        </Trans>
-      </>
-    ),
+    title: 'Utente aggiunto correttamente',
+    message: '',
   });
 });
 
