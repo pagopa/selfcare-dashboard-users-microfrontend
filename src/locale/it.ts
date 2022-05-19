@@ -116,7 +116,7 @@ export default {
       changeUserStatusRemoveError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',
-      deleteButton: 'Elimina',
+      deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
       newRoleAssign: '+ Assegna un altro ruolo',
