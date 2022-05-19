@@ -80,30 +80,32 @@ export default {
         moreRolesOnProduct: {
           title: 'Rimuovi Ruolo',
           message:
-            'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}.</3> <4 />Se lo rimuovi, non potrà più operare su <6 />{{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+            'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3>? <6 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         },
         oneRoleOnProduct: {
           title: 'Elimina Utente',
-          message: "Stai per eliminare l'utente <1>{{user}}</1>.<3 />Vuoi continuare?",
+          message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
         },
-        confirmButton: 'Rimuovi',
+        haveMoreProducts:
+          'Stai per rimuovere <2>{{user}}</2> dal ruolo di <4>{{productRole}}</4>. <5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        removeRoleButton: 'Rimuovi',
+        deleteUserButton: 'Elimina utente',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
-        moreRolesOnProduct: {
-          titleSuspend: 'Sospendi Ruolo',
-          messageSuspend: 'Stai per sospendere il ruolo',
-          titleReactivate: 'Riabilita Ruolo',
-          messageReactivate: 'Stai per riabilitare il ruolo',
-          message:
-            '<0/> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
+        suspend: {
+          title: 'Sospendi ruolo',
+          messageWithOneRole:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi riabilitarlo in qualsiasi momento.',
         },
-        oneRoleOnProduct: {
-          titleSuspend: 'Sospendi Referente',
-          messageSuspend: `Stai per sospendere il referente `,
-          titleReactivate: 'Riabilita Referente',
-          messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}</1>. <3/> <4>Vuoi Continuare?</4>`,
+        reactivate: {
+          title: 'Riabilita ruolo',
+          messageWithOneRole:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
