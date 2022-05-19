@@ -52,18 +52,12 @@ test('Test: suspend user', async () => {
   await renderApp();
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
-  screen.getByText('Sospendi Referente');
+  screen.getByText('Sospendi ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE SOSPESO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'sospeso' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Ruolo sospeso correttamente',
   });
 });
 
@@ -71,18 +65,12 @@ test('Test: rehabilitate user', async () => {
   await renderApp();
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
-  screen.getByText('Riabilita Referente');
+  screen.getByText('Riabilita ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE RIABILITATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'riabilitato' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Ruolo riabilitato correttamente',
   });
 });
 
