@@ -22,7 +22,7 @@ const renderApp = async (
   return output;
 };
 
-test('test render', async () => {
+test(' test render ', async () => {
   await renderApp();
 });
 
