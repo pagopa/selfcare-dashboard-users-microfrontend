@@ -70,18 +70,12 @@ test('Test: suspend user', async () => {
   await renderApp('onboarded', 'prod-io', 'uid16');
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
-  screen.getByText('Sospendi Referente');
+  screen.getByText('Sospendi ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE SOSPESO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'sospeso' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Ruolo sospeso correttamente',
   });
 });
 
@@ -89,31 +83,23 @@ test('Test: rehabilitate user', async () => {
   await renderApp('onboarded', 'prod-io', 'uid3');
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
-  screen.getByText('Riabilita Referente');
+  screen.getByText('Riabilita ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE RIABILITATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'riabilitato' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Ruolo riabilitato correttamente',
   });
 });
 
 test('Test: delete a user', async () => {
-  const { history } = await renderApp('c_b429', 'prod-interop', 'uid11');
+  const { history } = await renderApp('onboarded', 'prod-io', 'uid');
   const deleteButton = screen.getByRole('button', { name: 'Elimina' });
   fireEvent.click(deleteButton);
   screen.getByText('Elimina Referente');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/c_b429/prod-interop/users')
-  );
+  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users'));
   expect({
     component: 'Toast',
     title: 'REFERENTE ELIMINATO',
