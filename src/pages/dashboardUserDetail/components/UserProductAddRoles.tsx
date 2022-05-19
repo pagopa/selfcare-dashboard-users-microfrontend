@@ -55,43 +55,19 @@ export default function UserProductAddRoles({
       confirmEmail: user.email,
     })
       .then((_) => {
-        const newRolesTitles = newRoleSelected.map(
-          (r) => productRolesList.groupByProductRole[r].title
-        );
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',
-          title: t('userDetail.actions.successfulAddRole.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.successfulAddRole.message">
-              {'Hai aggiunto correttamente '}
-              {newRolesTitles?.length === 1
-                ? t('userDetail.actions.successfulAddRole.messageRole')
-                : t('userDetail.actions.successfulAddRole.messageRoles')}
-              {{ roles: ` ${newRolesTitles?.join(', ')} ` }}
-              {' per il referente '}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
-            </Trans>
-          ),
+          title: t('userDetail.actions.successfulAddRole'),
+          message: '',
         });
         fetchPartyUser();
       })
       .catch((error) => {
-        const newRolesTitles = newRoleSelected.map(
-          (r) => productRolesList.groupByProductRole[r].title
-        );
         addError({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
-          displayableTitle: t('userDetail.actions.addRoleError.title'),
-          displayableDescription: (
-            <Trans i18nKey="userDetail.actions.addRoleError.description">
-              {'Non è stato possibile assegnare a '}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong> {' il ruolo di '}
-              {{ role: `${newRolesTitles?.join(', ')}` }} {' per '}
-              <strong>{{ selectedProduct: `${userProduct.title}` }}</strong>.{' Riprova'}
-            </Trans>
-          ),
+          displayableTitle: t('userDetail.actions.addRoleError'),
           techDescription: `An error occurred while add role`,
           blocking: false,
           error,

@@ -72,15 +72,9 @@ export default {
     backButton: 'Indietro',
     actions: {
       delete: {
-        moreRolesOnProduct: {
-          title: 'RUOLO ELIMINATO',
-          message:
-            'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
-        },
-        oneRoleOnProduct: {
-          title: 'UTENTE ELIMINATO',
-          message: 'Hai eliminato correttamente <1>{{user}}</1>.',
-        },
+        userRoleDelete: 'Ruolo rimosso correttamente',
+        userDelete: 'Utente rimosso correttamente',
+        userDeleteError: "Non è stato possibile rimuovere l'utente. Riprova.",
       },
       modalDelete: {
         moreRolesOnProduct: {
@@ -114,31 +108,15 @@ export default {
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      changeUserStatus: {
-        moreRolesOnProduct: {
-          title: 'RUOLO {{userStatus}}',
-          message:
-            'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
-        },
-        oneRoleOnProduct: {
-          title: 'REFERENTE {{userStatus}}',
-          message: 'Hai {{userStatus}} correttamente il referente <3>{{user}}.',
-        },
-      },
+      changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
+      changeUserStatusSuspendError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      changeUserStatusRehabilitateError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
+      changeUserStatusRemoveError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',
       deleteButton: 'Elimina',
-      successfulAddRole: {
-        title: 'Ruolo assegnato',
-        messageRole: 'il ruolo',
-        messageRoles: 'i ruoli',
-        message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
-      },
-      addRoleError: {
-        title: 'RUOLO NON ASSEGNATO',
-        description:
-          'Non è stato possibile assegnare a <1>{{user}}</1> il ruolo di <3>{{roles}}</3> per <5>{{selectedProduct}}</5>. Riprova',
-      },
+      successfulAddRole: 'Ruolo assegnato correttamente',
+      addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
       newRoleAssign: '+ Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
@@ -213,14 +191,8 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      saveUserSuccess: {
-        title: 'REFERENTE AGGIUNTO',
-        message: 'Hai aggiunto correttamente <1>{{user}}</1>.',
-      },
-      saveUserError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        message: "C'è stato un errore durante l'aggiunta del referente <1>{{user}}</1>.",
-      },
+      saveUserSuccess: 'Utente aggiunto correttamente',
+      saveUserError: "Non è stato possibile aggiungere l'utente. Riprova.",
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:

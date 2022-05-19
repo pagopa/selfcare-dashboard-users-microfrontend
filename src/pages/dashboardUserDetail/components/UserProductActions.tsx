@@ -47,25 +47,9 @@ export default function UserProductActions({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
           title: moreRolesOnProduct
-            ? t('userDetail.actions.delete.moreRolesOnProduct.title')
-            : t('userDetail.actions.delete.oneRoleOnProduct.title'),
-          message: moreRolesOnProduct ? (
-            <>
-              <Trans i18nKey="userDetail.actions.delete.moreRolesOnProduct.message">
-                {'Hai eliminato correttamente il ruolo '}
-                <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
-                {' assegnato a '}
-                <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
-                {'.'}
-              </Trans>
-            </>
-          ) : (
-            <Trans i18nKey="userDetail.actions.delete.oneRoleOnProduct.message">
-              {'Hai eliminato correttamente il ruolo '}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
-              {'.'}
-            </Trans>
-          ),
+            ? t('userDetail.actions.delete.userRoleDelete')
+            : t('userDetail.actions.delete.userDelete'),
+          message: '',
         });
       })
       .catch((error) =>
@@ -73,6 +57,9 @@ export default function UserProductActions({
           id: `DELETE_PARTY_USER_ERROR-${user.id}`,
           blocking: false,
           error,
+          displayableTitle: moreRolesOnProduct
+            ? t('userDetail.actions.changeUserStatusRemoveError')
+            : t('userDetail.actions.delete.userDeleteError'),
           techDescription: `Something gone wrong while deleting role for product ${product.title}`,
           toNotify: true,
         })
@@ -141,25 +128,10 @@ export default function UserProductActions({
         fetchPartyUser();
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
-          title: moreRolesOnProduct
-            ? t('userDetail.actions.changeUserStatus.moreRolesOnProduct.title', {
-                userStatus: `${selectedUserStatus.toUpperCase()}`,
-              })
-            : t('userDetail.actions.changeUserStatus.oneRoleOnProduct.title', {
-                userStatus: `${selectedUserStatus.toUpperCase()}`,
-              }),
-          message: moreRolesOnProduct ? (
-            <Trans i18nKey="userDetail.actions.changeUserStatus.moreRolesOnProduct.message">
-              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il ruolo
-              <strong>{{ role: transcodeProductRole2Title(role.role, productRolesList) }}</strong>
-              assegnato a<strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
-            </Trans>
-          ) : (
-            <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-              Hai {{ userStatus: `${selectedUserStatus}` }}correttamente il referente
-              <strong> {{ user: `${user.name} ${user.surname}` }}</strong>.
-            </Trans>
-          ),
+          title: t('userDetail.actions.changeUserStatusSuccess', {
+            userStatus: `${selectedUserStatus}`,
+          }),
+          message: '',
           component: 'Toast',
         });
       })
@@ -168,6 +140,12 @@ export default function UserProductActions({
           id: 'UPDATE_PARTY_USER_STATUS',
           blocking: false,
           error: reason,
+          displayableTitle:
+            `${selectedUserStatus}` === 'sospeso'
+              ? t('userDetail.action.changeUserStatusSuspendError')
+              : `${selectedUserStatus}` === 'riabilitato'
+              ? t('userDetail.action.changeUserStatusRehabilitateError')
+              : t('userDetail.action.changeUserStatusRemoveError'),
           techDescription: `An error occurred while updating party (${party.partyId}) user (${user.id}): ${user.status} -> ${nextStatus}`,
           toNotify: true,
         })
