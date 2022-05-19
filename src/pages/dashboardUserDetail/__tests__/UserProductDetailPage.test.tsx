@@ -104,7 +104,7 @@ test('Test: rehabilitate user', async () => {
   });
 });
 
-test('Test: delete a user', async () => {
+test('Test: delete user', async () => {
   const { history } = await renderApp('c_b429', 'prod-interop', 'uid11');
   const deleteButton = screen.getByRole('button', { name: 'Elimina' });
   fireEvent.click(deleteButton);
