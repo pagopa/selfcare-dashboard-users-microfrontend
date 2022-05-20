@@ -9,9 +9,9 @@ jest.mock('../../../services/usersService');
 
 jest.setTimeout(100000);
 
-const renderApp = async (institutionId: string = 'onboarded', productId: string = 'prod-io') => {
+const renderApp = async (partyId: string = 'onboarded', productId: string = 'prod-io') => {
   const history = createMemoryHistory();
-  history.push(`/dashboard/${institutionId}/${productId}/users`);
+  history.push(`/dashboard/${partyId}/${productId}/users`);
   const output = renderComponent(undefined, history);
   await waitFor(() => screen.getByText('Utenti'));
   await waitFor(() =>

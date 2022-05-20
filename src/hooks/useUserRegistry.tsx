@@ -4,13 +4,13 @@ import { fetchUserRegistryById } from '../services/usersService';
 import { LOADING_TASK_FETCH_USER_REGISTRY } from '../utils/constants';
 
 export const useUserRegistry = (): ((
-  institutionId: string,
+  partyId: string,
   userId: string
 ) => Promise<UserRegistry | null>) => {
   const setLoading = useLoading(LOADING_TASK_FETCH_USER_REGISTRY);
 
-  return (institutionId: string, userId: string): Promise<UserRegistry | null> => {
+  return (partyId: string, userId: string): Promise<UserRegistry | null> => {
     setLoading(true);
-    return fetchUserRegistryById(institutionId, userId).finally(() => setLoading(false));
+    return fetchUserRegistryById(partyId, userId).finally(() => setLoading(false));
   };
 };

@@ -167,8 +167,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
         <Grid
-          container
-          direction="column"
+          item
           sx={{
             backgroundColor: '#FFFFFF',
             padding: '24px',

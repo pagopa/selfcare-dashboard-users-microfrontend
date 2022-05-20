@@ -16,7 +16,7 @@ export type withUserRegistryProps = {
 };
 
 type UserUrlParams = {
-  institutionId: string;
+  partyId: string;
   userId: string;
 };
 
@@ -26,26 +26,26 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
   const ComponentUserRegistry = (props: T) => {
-    const { institutionId, userId } = useParams<UserUrlParams>();
+    const { partyId, userId } = useParams<UserUrlParams>();
     const fetchUser = useUserRegistry();
     const [user, setUser] = useState<UserRegistry | null>();
     const addError = useErrorDispatcher();
     const history = useHistory();
 
     const doFetch = () => {
-      fetchUser(institutionId, userId)
+      fetchUser(partyId, userId)
         .then((fetchedUser) => {
           if (fetchedUser === null) {
             const goBackUrl = resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-              institutionId,
+              partyId,
             });
 
             addError({
-              id: 'INVALID_PARTY_USER_ID_' + userId + '__' + institutionId,
+              id: 'INVALID_PARTY_USER_ID_' + userId + '__' + partyId,
               blocking: false,
-              techDescription: `Selected an invalid user Id ${userId} and/or institution id ${institutionId}`,
+              techDescription: `Selected an invalid user Id ${userId} and/or party id ${partyId}`,
               toNotify: false,
-              error: new Error('INVALID_PARTY_USER_ID_INSTITUTION_ID'),
+              error: new Error('INVALID_PARTY_USER_ID_PARTY_ID'),
               onClose: () => history.push(goBackUrl),
               displayableDescription: "Impossibile trovare l'utente selezionato",
             });
@@ -66,15 +66,13 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
 
     useEffect(() => {
       if (props.party.userRole !== 'ADMIN') {
-        history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId }));
-      } else if (institutionId && userId) {
+        history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId }));
+      } else if (partyId && userId) {
         doFetch();
       } else {
-        throw new Error(
-          'Using withUserRegistry decorator under a path without institutionId or userId'
-        );
+        throw new Error('Using withUserRegistry decorator under a path without partyId or userId');
       }
-    }, [institutionId, userId]);
+    }, [partyId, userId]);
 
     return user ? <WrappedComponent {...props} user={user} fetchUser={doFetch} /> : <></>;
   };

@@ -988,11 +988,11 @@ export const fetchUserRegistryByFiscalCode = (_taxCode: string): Promise<UserReg
 
 export const fetchUserRegistryById = (
   userId: string,
-  institutionId: string
+  partyId: string
 ): Promise<UserRegistry | null> =>
   new Promise((resolve) =>
     resolve(
-      fetchPartyUser(institutionId, userId, {
+      fetchPartyUser(partyId, userId, {
         email: '',
         surname: '',
         taxCode: '',

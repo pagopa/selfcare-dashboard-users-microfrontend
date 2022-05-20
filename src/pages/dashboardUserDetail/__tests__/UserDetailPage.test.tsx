@@ -8,9 +8,9 @@ import { Trans } from 'react-i18next';
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
-const renderApp = async (institutionId: string = 'onboarded', userId: string = 'uid') => {
+const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
-  history.push(`/dashboard/${institutionId}/users/${userId}`);
+  history.push(`/dashboard/${partyId}/users/${userId}`);
   const output = renderComponent(undefined, history);
   await waitFor(() => screen.getByText('Profilo Utente'));
   return output;
