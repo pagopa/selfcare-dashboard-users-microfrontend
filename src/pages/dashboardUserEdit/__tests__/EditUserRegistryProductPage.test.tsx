@@ -28,7 +28,9 @@ test('test back button', async () => {
   const backButton = screen.getByText('Indietro');
   expect(backButton).toBeEnabled();
   fireEvent.click(backButton);
-  expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid');
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/uid')
+  );
 });
 
 test('test with no modify, so disabled button', async () => {

@@ -393,8 +393,7 @@ export default function AddUserForm({
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
         <Grid
-          container
-          direction="column"
+          item
           sx={{
             backgroundColor: '#FFFFFF',
             padding: '24px',

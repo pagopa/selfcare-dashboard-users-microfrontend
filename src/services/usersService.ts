@@ -227,14 +227,14 @@ export const fetchUserRegistryByFiscalCode = (
 };
 
 export const fetchUserRegistryById = (
-  id: string,
-  partyId: string
+  partyId: string,
+  userId: string
 ): Promise<UserRegistry | null> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return fetchUserRegistryByIdMocked(id, partyId);
+    return fetchUserRegistryByIdMocked(partyId, userId);
   } else {
-    return DashboardApi.fetchUserRegistryById(id, partyId).then((userResource) =>
+    return DashboardApi.fetchUserRegistryById(partyId, userId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
   }

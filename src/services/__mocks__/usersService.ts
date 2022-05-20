@@ -987,29 +987,25 @@ export const fetchUserRegistryByFiscalCode = (_taxCode: string): Promise<UserReg
   new Promise((resolve) => resolve(mockedUserRegistry));
 
 export const fetchUserRegistryById = (
-  userId: string,
-  partyId: string
+  partyId: string,
+  userId: string
 ): Promise<UserRegistry | null> =>
-  new Promise((resolve) =>
-    resolve(
-      fetchPartyUser(partyId, userId, {
-        email: '',
-        surname: '',
-        taxCode: '',
-        uid: '',
-        name: '',
-      } as User).then((user: PartyUserDetail | null) => ({
-        id: user?.id as string,
-        taxCode: user?.taxCode as string,
-        name: user?.name as string,
-        surname: user?.surname as string,
-        email: user?.email as string,
-        certifiedName: false,
-        certifiedSurname: false,
-        certifiedMail: false,
-      }))
-    )
-  );
+  fetchPartyUser(partyId, userId, {
+    email: '',
+    surname: '',
+    taxCode: '',
+    uid: '',
+    name: '',
+  } as User).then((user: PartyUserDetail | null) => ({
+    id: user?.id as string,
+    taxCode: user?.taxCode as string,
+    name: user?.name as string,
+    surname: user?.surname as string,
+    email: user?.email as string,
+    certifiedName: false,
+    certifiedSurname: false,
+    certifiedMail: false,
+  }));
 
 export const fetchPartyUser = (
   _partyId: string,
