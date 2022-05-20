@@ -216,8 +216,7 @@ export default function AddUserForm({
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
-          : values.confirmEmail !== values.email &&
-            values.email &&
+          : values.email &&
             values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.addForm.errors.mismatchEmail')
           : undefined,
