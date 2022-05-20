@@ -1,45 +1,25 @@
-import { createStore } from '../../redux/store';
-import { DASHBOARD_USERS_ROUTES } from './../../routes';
+import { screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory, History } from 'history';
-import RoutingUsers from './../RoutingUsers';
-import { Router, Route, Switch } from 'react-router';
-import { ENV } from '../../utils/env';
-import { DashboardMicrofrontendPageProps } from '../../microcomponents/dashboard-routes-utils';
-import { screen, render, waitFor, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import App from '../../microcomponents/mock_dashboard/App';
+import '../../locale';
+import { renderComponent } from './RenderComponents/RenderComponentUser.test';
 
-jest.mock('../../services/usersService');
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('../../services/usersService');
 
-// eslint-disable-next-line functional/immutable-data
-(window as any).appRoutes = DASHBOARD_USERS_ROUTES;
+jest.setTimeout(100000);
 
-const renderComponent = (
-  injectedStore?: ReturnType<typeof createStore>,
-  injectedHistory?: ReturnType<typeof createMemoryHistory>
-) => {
-  const store = injectedStore ? injectedStore : createStore();
-  const history = injectedHistory ? injectedHistory : createMemoryHistory();
-
-  const appRouting = (props: DashboardMicrofrontendPageProps) => [
-    <Route key="RoutingUsers" path={ENV.ROUTES.USERS} exact={false}>
-      <RoutingUsers {...props} />
-    </Route>,
-  ];
-
-  render(
-    <Router history={history}>
-      <Provider store={store}>
-        <Switch>
-          <Route path={ENV.ROUTES.OVERVIEW} exact={false}>
-            <App AppRouting={appRouting} store={store} />
-          </Route>
-        </Switch>
-      </Provider>
-    </Router>
+const renderApp = async (institutionId: string = 'onboarded') => {
+  const history = createMemoryHistory();
+  history.push(`/dashboard/${institutionId}/users`);
+  const output = renderComponent(undefined, history);
+  await waitFor(() => screen.getByText('Utenti'));
+  await waitFor(() =>
+    screen.getByText(
+      'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
+    )
   );
-  return { store, history };
+  await waitFor(() => screen.getByText('simone.v@comune.milano.it'));
+  return output;
 };
 
 const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
@@ -49,22 +29,22 @@ const toVerifyPath = async (path: string, title: string, history: History, subTi
 };
 
 test('test routing user detail for onboarded institution', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath('/dashboard/onboarded/users/uid', 'Dettaglio Referente', history);
 });
 
 test('test routing user list for onboarded institution', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/users',
-    'Referenti',
+    'Utenti',
     history,
     'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
   );
 });
 
 test('test routing add new user for onboarded institution', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/users/add',
     'Aggiungi un Referente',
@@ -74,11 +54,11 @@ test('test routing add new user for onboarded institution', async () => {
 });
 
 test('test routing modify user for onboarded institution', async () => {
-  const { history } = renderComponent();
-  await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica Referente', history);
+  const { history } = await renderApp();
+  await toVerifyPath('/dashboard/onboarded/users/uid/edit', 'Modifica il profilo utente', history);
 });
 
 test('test routing add product for onboarded institution', async () => {
-  const { history } = renderComponent();
+  const { history } = await renderApp();
   await toVerifyPath('/dashboard/onboarded/users/uid/add-product', 'Aggiungi Prodotto', history);
 });

@@ -72,73 +72,53 @@ export default {
     backButton: 'Indietro',
     actions: {
       delete: {
-        moreRolesOnProduct: {
-          title: 'RUOLO ELIMINATO',
-          message:
-            'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
-        },
-        oneRoleOnProduct: {
-          title: 'UTENTE ELIMINATO',
-          message: 'Hai eliminato correttamente <1>{{user}}</1>.',
-        },
+        userRoleDelete: 'Ruolo rimosso correttamente',
+        userDelete: 'Utente rimosso correttamente',
+        userDeleteError: "Non è stato possibile rimuovere l'utente. Riprova.",
       },
       modalDelete: {
         moreRolesOnProduct: {
           title: 'Rimuovi Ruolo',
           message:
-            'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}.</3> <4 />Se lo rimuovi, non potrà più operare su <6 />{{productTitle}}. Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+            'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3>? <6 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         },
         oneRoleOnProduct: {
           title: 'Elimina Utente',
-          message: "Stai per eliminare l'utente <1>{{user}}</1>.<3 />Vuoi continuare?",
+          message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
         },
-        confirmButton: 'Rimuovi',
+        haveMoreProducts:
+          'Stai per rimuovere <2>{{user}}</2> dal ruolo di <4>{{productRole}}</4>. <5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        removeRoleButton: 'Rimuovi',
+        deleteUserButton: 'Elimina utente',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
-        moreRolesOnProduct: {
-          titleSuspend: 'Sospendi Ruolo',
-          messageSuspend: 'Stai per sospendere il ruolo',
-          titleReactivate: 'Riabilita Ruolo',
-          messageReactivate: 'Stai per riabilitare il ruolo',
-          message:
-            '<0/> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
+        suspend: {
+          title: 'Sospendi ruolo',
+          messageWithOneRole:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi riabilitarlo in qualsiasi momento.',
         },
-        oneRoleOnProduct: {
-          titleSuspend: 'Sospendi Referente',
-          messageSuspend: `Stai per sospendere il referente `,
-          titleReactivate: 'Riabilita Referente',
-          messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}</1>. <3/> <4>Vuoi Continuare?</4>`,
+        reactivate: {
+          title: 'Riabilita ruolo',
+          messageWithOneRole:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      changeUserStatus: {
-        moreRolesOnProduct: {
-          title: 'RUOLO {{userStatus}}',
-          message:
-            'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
-        },
-        oneRoleOnProduct: {
-          title: 'REFERENTE {{userStatus}}',
-          message: 'Hai {{userStatus}} correttamente il referente <3>{{user}}.',
-        },
-      },
+      changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
+      changeUserStatusSuspendError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      changeUserStatusRehabilitateError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
+      changeUserStatusRemoveError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',
-      deleteButton: 'Elimina',
-      successfulAddRole: {
-        title: 'Ruolo assegnato',
-        messageRole: 'il ruolo',
-        messageRoles: 'i ruoli',
-        message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
-      },
-      addRoleError: {
-        title: 'RUOLO NON ASSEGNATO',
-        description:
-          'Non è stato possibile assegnare a <1>{{user}}</1> il ruolo di <3>{{roles}}</3> per <5>{{selectedProduct}}</5>. Riprova',
-      },
+      deleteButton: 'Rimuovi',
+      successfulAddRole: 'Ruolo assegnato correttamente',
+      addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
       newRoleAssign: '+ Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
@@ -213,14 +193,8 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      saveUserSuccess: {
-        title: 'REFERENTE AGGIUNTO',
-        message: 'Hai aggiunto correttamente <1>{{user}}</1>.',
-      },
-      saveUserError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        message: "C'è stato un errore durante l'aggiunta del referente <1>{{user}}</1>.",
-      },
+      saveUserSuccess: 'Utente aggiunto correttamente',
+      saveUserError: "Non è stato possibile aggiungere l'utente. Riprova.",
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:

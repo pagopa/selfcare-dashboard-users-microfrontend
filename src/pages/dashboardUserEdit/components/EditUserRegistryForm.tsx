@@ -73,7 +73,9 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
-          : values.confirmEmail !== values.email
+          : values.confirmEmail !== values.email &&
+            values.email &&
+            values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
       }).filter(([_key, value]) => value)
