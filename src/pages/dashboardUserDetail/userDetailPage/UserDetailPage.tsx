@@ -73,14 +73,8 @@ function UserDetailPage({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: t('userDetail.actions.deleteUser.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.deleteUser.message">
-              {'Hai eliminato correttamente il referente '}
-              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
-              {'.'}
-            </Trans>
-          ),
+          title: t('userDetail.actions.delete.userDelete'),
+          message: '',
         });
       })
       .catch((reason) =>
@@ -88,6 +82,7 @@ function UserDetailPage({
           id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
           blocking: false,
           error: reason,
+          displayableTitle: t('userDetail.actions.delete.userDeleteError'),
           techDescription: `Something gone wrong while deleting role ${product.roles[0].relationshipId} for product ${product.title}`,
           toNotify: true,
         })
@@ -98,7 +93,7 @@ function UserDetailPage({
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'USER_DELETE_MODAL',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">

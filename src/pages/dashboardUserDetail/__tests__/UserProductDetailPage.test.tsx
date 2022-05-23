@@ -2,7 +2,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
@@ -54,15 +53,8 @@ test('Test: go to assign new role from CTA', async () => {
   fireEvent.click(checkRole);
   expect({
     component: 'Toast',
-    title: 'Ruolo assegnato',
-    message: (
-      <Trans i18nKey="userDetail.actions.successfulAddRole.message">
-        {'Hai aggiunto correttamente il ruolo'}
-        {{ role: 'Referente dei Pagamenti' }}
-        {' per il referente '}
-        <strong>{{ user: 'Simone16 Bianchi16' }}</strong>
-      </Trans>
-    ),
+    title: 'Ruolo assegnato correttamente',
+    message: '',
   });
 });
 
@@ -89,6 +81,7 @@ test('Test: rehabilitate user', async () => {
   expect({
     component: 'Toast',
     title: 'Ruolo riabilitato correttamente',
+    message: '',
   });
 });
 
@@ -102,17 +95,7 @@ test('Test: delete an user', async () => {
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users'));
   expect({
     component: 'Toast',
-    title: 'REFERENTE ELIMINATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.deleteUser.message">
-        {'Hai eliminato correttamente il referente '}
-        <strong>
-          {{
-            user: 'Simone11 Bianchi11',
-          }}
-        </strong>
-        {'.'}
-      </Trans>
-    ),
+    title: 'Utente rimosso correttamente',
+    message: '',
   });
 });

@@ -69,13 +69,7 @@ test('test suspend user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE SOSPESO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'sospeso' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Utente sospeso correttamente',
   });
 });
 
@@ -89,13 +83,7 @@ test('test rehabilitate user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE RIABILITATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'riabilitato' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Utente riabilitato correttamente',
   });
 });
 
@@ -109,17 +97,7 @@ test('test delete user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE ELIMINATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.deleteUser.message">
-        {'Hai eliminato correttamente il referente '}
-        <strong>
-          {{
-            user: 'Elena Verdi',
-          }}
-        </strong>
-        {'.'}
-      </Trans>
-    ),
+    title: 'Utente rimosso correttamente',
+    message: '',
   });
 });
