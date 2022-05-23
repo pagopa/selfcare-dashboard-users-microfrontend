@@ -42,7 +42,7 @@ test('test routing add new user product', async () => {
   const { history } = await renderApp();
   await toVerifyPath(
     '/dashboard/onboarded/prod-io/users/add',
-    'Aggiungi un Referente',
+    'Aggiungi un nuovo utente',
     history,
     'Inserisci i dati della persona che vuoi autorizzare a gestire App IO'
   );

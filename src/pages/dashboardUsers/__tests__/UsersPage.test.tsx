@@ -32,7 +32,7 @@ test('test add new user', async () => {
   const addNewUserButton = screen.getByRole('button', { name: 'Aggiungi' });
   fireEvent.click(addNewUserButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users/add'));
-  screen.getByRole('heading', { name: 'Aggiungi un Referente' });
+  screen.getByRole('heading', { name: 'Aggiungi un nuovo utente' });
 });
 
 test('test filter users from role', async () => {

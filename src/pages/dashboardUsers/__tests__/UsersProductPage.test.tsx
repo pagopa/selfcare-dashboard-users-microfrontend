@@ -34,7 +34,7 @@ test('test add new user', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/add')
   );
-  screen.getByRole('heading', { name: 'Aggiungi un Referente' });
+  screen.getByRole('heading', { name: 'Aggiungi un nuovo utente' });
 });
 
 test('test filter users from role ', async () => {
