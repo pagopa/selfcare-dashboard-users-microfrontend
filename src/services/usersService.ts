@@ -29,6 +29,7 @@ import {
   updatePartyUserStatus as updatePartyUserStatusMocked,
   deletePartyUser as deletePartyUserMocked,
   fetchPartyUser as fetchPartyUserMocked,
+  fetchUserRegistryById as fetchUserRegistryByIdMocked,
   fetchUserGroups as fetchUserGroupsMocked,
   mockedUserRegistry,
 } from './__mocks__/usersService';
@@ -220,6 +221,20 @@ export const fetchUserRegistryByFiscalCode = (
     return new Promise((resolve) => resolve(mockedUserRegistry));
   } else {
     return DashboardApi.fetchUserRegistryByFiscalCode(taxCode, partyId).then((userResource) =>
+      userResource ? userResource2UserRegistry(userResource) : null
+    );
+  }
+};
+
+export const fetchUserRegistryById = (
+  partyId: string,
+  userId: string
+): Promise<UserRegistry | null> => {
+  /* istanbul ignore if */
+  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+    return fetchUserRegistryByIdMocked(partyId, userId);
+  } else {
+    return DashboardApi.fetchUserRegistryById(partyId, userId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
   }

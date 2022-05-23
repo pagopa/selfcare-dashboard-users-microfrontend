@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
-import { PartyUserDetail, PartyUserOnEdit } from '../../../model/PartyUser';
+import { PartyUserOnEdit } from '../../../model/PartyUser';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -48,7 +48,7 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
-  user: PartyUserDetail;
+  user: PartyUserOnEdit;
   goBack: () => void;
 };
 
@@ -155,8 +155,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
         <Grid
-          container
-          direction="column"
+          item
           sx={{
             backgroundColor: '#FFFFFF',
             padding: '24px',
@@ -183,7 +182,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                   t('userEdit.editRegistryForm.name.label'),
                   t('userEdit.editRegistryForm.name.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedName}
               />
             </Grid>
             <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
@@ -193,7 +192,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                   t('userEdit.editRegistryForm.surname.label'),
                   t('userEdit.editRegistryForm.surname.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedSurname}
               />
             </Grid>
           </Grid>

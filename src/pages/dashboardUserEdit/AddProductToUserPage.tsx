@@ -137,7 +137,9 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                 confirmEmail: partyUser.email,
                 id: partyUser.id,
                 productRoles: [],
-                certification: partyUser.certification,
+                certifiedName: false,
+                certifiedSurname: false,
+                certifiedMail: false,
               } as PartyUserOnCreation
             }
             canEditRegistryData={false}
