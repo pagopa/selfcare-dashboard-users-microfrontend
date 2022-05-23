@@ -68,7 +68,7 @@ export const DashboardApi = {
     institutionId: string,
     userId: string
   ): Promise<UserResource | null> => {
-    const result = await apiClient.getUserByInternalIdUsingGET({ institutionId, userId });
+    const result = await apiClient.getUserByInternalIdUsingGET({ institutionId, id: userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
