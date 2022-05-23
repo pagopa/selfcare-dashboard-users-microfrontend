@@ -76,17 +76,6 @@ test('test with email and confirm email modified and equal, so enabled button an
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
-    title: 'REFERENTE MODIFICATO',
-    message: (
-      <Trans i18nkey="userEdit.editRegistryForm.editUserSuccess.message">
-        {'Hai modificato correttamente i dati di '}
-        <strong>
-          {{
-            user: 'Elena Verdi',
-          }}
-        </strong>
-        .
-      </Trans>
-    ),
+    title: 'Profilo modificato correttamente',
   });
 });

@@ -70,12 +70,7 @@ export default function UserProductRowActions({
     });
   };
 
-  const performAction = (
-    action: () => Promise<void>,
-    title: string,
-    actionMessage: string,
-    onComplete: () => void
-  ) => {
+  const performAction = (action: () => Promise<void>, title: string, onComplete: () => void) => {
     setLoading(true);
     action()
       .then((_) => {
@@ -84,13 +79,7 @@ export default function UserProductRowActions({
         addNotify({
           id: 'ACTION_ON_PARTY_USER_COMPLETED',
           title,
-          message: (
-            <>
-              {actionMessage}
-              <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
-              {'.'}
-            </>
-          ),
+          message: '',
           component: 'Toast',
         });
       })
@@ -150,10 +139,7 @@ export default function UserProductRowActions({
           partyUserProduct.roles[0],
           nextStatus
         ),
-      t('usersTable.rowActions.changeUserStatusSuccess.title', {
-        userStatus: `${selectedUserStatus.toUpperCase()}`,
-      }),
-      t('usersTable.rowActions.changeUserStatusSuccess.message', {
+      t('usersTable.rowActions.changeUserStatusSuccess', {
         userStatus: `${selectedUserStatus}`,
       }),
       () => onStatusUpdate(partyUser, nextStatus)
@@ -172,8 +158,7 @@ export default function UserProductRowActions({
   const deleteParty = () => {
     performAction(
       () => deletePartyUser(party, partyUser, partyUserProduct, partyUserProduct.roles[0]),
-      t('usersTable.rowActions.deleteSuccess.title'),
-      t('usersTable.rowActions.deleteSuccess.message'),
+      t('usersTable.rowActions.deleteSuccess'),
       () => onDelete(partyUser)
     );
   };

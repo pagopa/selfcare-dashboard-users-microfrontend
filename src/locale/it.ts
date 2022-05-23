@@ -38,10 +38,7 @@ export default {
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteSuccess: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente ',
-      },
+      deleteSuccess: 'Utente rimosso correttamente',
       changeUserStatusModal: {
         titleSuspended: 'Sospendi Referente',
         titleReactivate: 'Riabilita Referente',
@@ -52,10 +49,7 @@ export default {
         closeButton: 'Annulla',
       },
       wantContinue: 'Vuoi continuare?',
-      changeUserStatusSuccess: {
-        title: 'REFERENTE {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente ',
-      },
+      changeUserStatusSuccess: 'Utente {{userStatus}} correttamente',
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi',
@@ -126,10 +120,6 @@ export default {
           'Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
-      },
-      deleteUser: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente il referente <1>{{user}}</1>.',
       },
       deleteUserModal: {
         title: 'Elimina Referente',
@@ -227,14 +217,8 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      editUserSuccess: {
-        title: 'REFERENTE MODIFICATO',
-        message: 'Hai modificato correttamente i dati di <1>{{user}}</1>.',
-      },
-      editUserError: {
-        title: 'ERRORE DURANTE LA MODIFICA',
-        message: "C'è stato un errore durante la modifica del referente <1>{{user}}</1>.",
-      },
+      editUserSuccess: 'Profilo modificato correttamente',
+      editUserError: 'Si è verificato un errore durante la modifica del profilo. Riprova.',
     },
     addProduct: {
       title: 'Assegna un nuovo ruolo',
