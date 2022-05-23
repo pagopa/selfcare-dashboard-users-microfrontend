@@ -7,7 +7,7 @@ export default {
   },
   userPagesPath: {
     detailRedirect: 'Utenti',
-    addUser: 'Aggiungi un Referente',
+    addUser: 'Aggiungi nuovo utente',
     editUser: 'Modifica il profilo utente',
   },
   usersTable: {
@@ -153,13 +153,8 @@ export default {
   },
   userEdit: {
     addForm: {
-      title: 'Aggiungi un Referente',
-      subTitle: {
-        generic:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il {{institutionName}}',
-        vertical:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire {{selectedProduct}}',
-      },
+      title: 'Aggiungi un nuovo utente',
+      subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
       fiscalCode: {
         label: 'Codice Fiscale',
         placeholder: 'Inserisci il Codice Fiscale del referente',
