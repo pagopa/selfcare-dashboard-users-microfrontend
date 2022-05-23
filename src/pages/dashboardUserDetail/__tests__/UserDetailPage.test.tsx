@@ -3,10 +3,11 @@ import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
-import { Trans } from 'react-i18next';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
+
+jest.setTimeout(6000);
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
@@ -86,17 +87,7 @@ test('Test: delete a user', async () => {
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
-    title: 'REFERENTE ELIMINATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.deleteUser.message">
-        {'Hai eliminato correttamente il referente '}
-        <strong>
-          {{
-            user: 'Elena Verdi',
-          }}
-        </strong>
-        {'.'}
-      </Trans>
-    ),
+    title: 'Utente rimosso correttamente',
+    message: '',
   });
 });

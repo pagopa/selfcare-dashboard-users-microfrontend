@@ -47,12 +47,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
         <ProductNavigationBar paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox
-          title={t('userEdit.addForm.title')}
-          subTitle={t('userEdit.addForm.subTitle.generic', {
-            institutionName: `${party.description}.`,
-          })}
-        />
+        <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
       </Grid>
       <Grid item xs={12}>
         <AddUserForm

@@ -7,7 +7,7 @@ export default {
   },
   userPagesPath: {
     detailRedirect: 'Utenti',
-    addUser: 'Aggiungi un Referente',
+    addUser: 'Aggiungi nuovo utente',
     editUser: 'Modifica il profilo utente',
   },
   usersTable: {
@@ -38,10 +38,7 @@ export default {
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteSuccess: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente ',
-      },
+      deleteSuccess: 'Utente rimosso correttamente',
       changeUserStatusModal: {
         titleSuspended: 'Sospendi Referente',
         titleReactivate: 'Riabilita Referente',
@@ -52,10 +49,7 @@ export default {
         closeButton: 'Annulla',
       },
       wantContinue: 'Vuoi continuare?',
-      changeUserStatusSuccess: {
-        title: 'REFERENTE {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente ',
-      },
+      changeUserStatusSuccess: 'Utente {{userStatus}} correttamente',
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi',
@@ -127,10 +121,6 @@ export default {
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteUser: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente il referente <1>{{user}}</1>.',
-      },
       deleteUserModal: {
         title: 'Elimina Referente',
         message: 'Stai per eliminare il referente <1>{{user}}</1>.<3 />Vuoi continuare?',
@@ -153,13 +143,8 @@ export default {
   },
   userEdit: {
     addForm: {
-      title: 'Aggiungi un Referente',
-      subTitle: {
-        generic:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il {{institutionName}}',
-        vertical:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire {{selectedProduct}}',
-      },
+      title: 'Aggiungi un nuovo utente',
+      subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
       fiscalCode: {
         label: 'Codice Fiscale',
         placeholder: 'Inserisci il Codice Fiscale del referente',
@@ -232,14 +217,8 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      editUserSuccess: {
-        title: 'REFERENTE MODIFICATO',
-        message: 'Hai modificato correttamente i dati di <1>{{user}}</1>.',
-      },
-      editUserError: {
-        title: 'ERRORE DURANTE LA MODIFICA',
-        message: "C'è stato un errore durante la modifica del referente <1>{{user}}</1>.",
-      },
+      editUserSuccess: 'Profilo modificato correttamente',
+      editUserError: 'Si è verificato un errore durante la modifica del profilo. Riprova.',
     },
     addProduct: {
       title: 'Assegna un nuovo ruolo',

@@ -1,7 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
@@ -34,7 +33,7 @@ test('test add new user', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users/add')
   );
-  screen.getByRole('heading', { name: 'Aggiungi un Referente' });
+  screen.getByRole('heading', { name: 'Aggiungi un nuovo utente' });
 });
 
 test('test filter users from role ', async () => {
@@ -70,13 +69,7 @@ test('test suspend user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE SOSPESO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'sospeso' }} correttamente il referente
-        <strong> {{ user: 'Elena Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Utente sospeso correttamente',
   });
 });
 
@@ -90,13 +83,7 @@ test('test rehabilitate user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE RIABILITATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.changeUserStatus.oneRoleOnProduct.message">
-        Hai {{ userStatus: 'riabilitato' }} correttamente il referente
-        <strong> {{ user: 'Simone3 Bianchi3 Verdi Verdi Verdi' }}</strong>.
-      </Trans>
-    ),
+    title: 'Utente riabilitato correttamente',
   });
 });
 
@@ -110,17 +97,7 @@ test('test delete user from row action', async () => {
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'REFERENTE ELIMINATO',
-    message: (
-      <Trans i18nKey="userDetail.actions.deleteUser.message">
-        {'Hai eliminato correttamente il referente '}
-        <strong>
-          {{
-            user: 'Simone3 Bianchi3 Verdi Verdi Verdi',
-          }}
-        </strong>
-        {'.'}
-      </Trans>
-    ),
+    title: 'Utente rimosso correttamente',
+    message: '',
   });
 });

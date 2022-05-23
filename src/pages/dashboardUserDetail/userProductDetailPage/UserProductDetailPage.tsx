@@ -71,14 +71,8 @@ function UserProductDetailPage({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: t('userDetail.actions.deleteUser.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.deleteUser.message">
-              {'Hai eliminato correttamente il referente '}
-              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
-              {'.'}
-            </Trans>
-          ),
+          title: t('userDetail.actions.delete.userDelete'),
+          message: '',
         });
       })
       .catch((reason) =>
@@ -98,7 +92,7 @@ function UserProductDetailPage({
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'PRODUCT_USER_DELETE_MODAL',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
