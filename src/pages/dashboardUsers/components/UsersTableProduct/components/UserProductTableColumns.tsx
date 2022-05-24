@@ -195,6 +195,7 @@ function TableChip({ text }: { text: string }) {
   return (
     <Chip
       label={text}
+      aria-label={'Suspended'}
       sx={{
         fontSize: '14px',
         fontWeight: '600',
