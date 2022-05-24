@@ -57,6 +57,7 @@ export default function UserProductRoles({
                   <Box ml={8}>
                     <Chip
                       label={t('userDetail.statusLabel')}
+                      aria-label={'Suspended'}
                       variant="outlined"
                       sx={{
                         fontWeight: '600',

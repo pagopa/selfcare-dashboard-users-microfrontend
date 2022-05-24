@@ -7,6 +7,7 @@ import {
 } from '@mui/x-data-grid';
 import React, { CSSProperties, ReactNode } from 'react';
 import { InfoOutlined } from '@mui/icons-material';
+import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
 import { PartyProductUser, PartyUserProduct } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { Party, UserStatus } from '../../../../../model/Party';
@@ -194,6 +195,7 @@ function TableChip({ text }: { text: string }) {
   return (
     <Chip
       label={text}
+      aria-label={'Suspended'}
       sx={{
         fontSize: '14px',
         fontWeight: '600',
@@ -263,7 +265,10 @@ function showActions(
   return renderCell(
     users,
     row.isCurrentUser || (userProduct?.roles?.length ?? 2) > 1 ? (
-      <Tooltip title="Le azioni sono disponibili nel dettaglio del referente">
+      <Tooltip
+        aria-label={'InfoAction'}
+        title={i18n.t('usersTable.rowActions.toolTipInfo') as string}
+      >
         <InfoOutlined sx={{ color: '#5C6F82', paddingTop: 1, boxSizing: 'unset' }} />
       </Tooltip>
     ) : (

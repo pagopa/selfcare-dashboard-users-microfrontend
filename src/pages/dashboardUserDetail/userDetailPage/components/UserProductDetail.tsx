@@ -47,6 +47,7 @@ export default function UserProductDetail({
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
                     label={t('userDetail.statusLabel')}
+                    aria-label={'Suspended'}
                     variant="outlined"
                     sx={{
                       fontWeight: '600',
