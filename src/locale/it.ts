@@ -28,6 +28,8 @@ export default {
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
     },
     rowActions: {
+      toolTipActions: 'Seleziona il tipo di azione',
+      toolTipInfo: 'Le azioni sono disponibili nel dettaglio del referente',
       edit: 'Modifica',
       rehabilitate: 'Riabilita',
       suspend: 'Sospendi',

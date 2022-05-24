@@ -1,6 +1,6 @@
 import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useHistory, useParams } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
@@ -203,9 +203,14 @@ export default function UserProductRowActions({
 
   return (
     <div>
-      <IconButton data-testid={`action-${partyUser.id}`} onClick={handleClick}>
-        <MoreVertIcon color="primary" />
-      </IconButton>
+      <Tooltip
+        aria-label="SelectAction"
+        title={t('usersTable.rowActions.toolTipActions') as string}
+      >
+        <IconButton data-testid={`action-${partyUser.id}`} onClick={handleClick}>
+          <MoreVertIcon color="primary" />
+        </IconButton>
+      </Tooltip>
       <Menu
         anchorEl={anchorEl}
         open={open}
