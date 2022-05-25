@@ -41,6 +41,11 @@ const CustomTextField = styled(TextField)({
       opacity: '1',
     },
   },
+  label: {
+    '&.Mui-error': {
+      color: '#5C6F82 !important',
+    },
+  },
 });
 
 const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
