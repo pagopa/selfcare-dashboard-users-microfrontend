@@ -22,7 +22,7 @@ const CustomTextField = styled(TextField)({
   '.MuiInput-root': {
     '&:after': {
       borderBottom: '2px solid #5C6F82',
-      color: 'green',
+      color: '#5C6F82',
     },
   },
   '.MuiInputLabel-root.Mui-focused': {
@@ -39,6 +39,11 @@ const CustomTextField = styled(TextField)({
       fontStyle: 'italic',
       color: '#5C6F82',
       opacity: '1',
+    },
+  },
+  label: {
+    '&.Mui-error': {
+      color: '#5C6F82 !important',
     },
   },
 });
