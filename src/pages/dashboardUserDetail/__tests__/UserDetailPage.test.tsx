@@ -77,9 +77,9 @@ test('Test: rehabilitate user', async () => {
 
 test('Test: delete a user', async () => {
   const { history, store } = await renderApp();
-  const deleteButton = screen.getByRole('button', { name: 'Elimina' });
+  const deleteButton = screen.getByRole('button', { name: 'Elimina utente' });
   fireEvent.click(deleteButton);
-  screen.getByText('Elimina Referente');
+  screen.getAllByText('Elimina utente')[1];
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));

@@ -68,54 +68,56 @@ export default function UserProductActions({
       .finally(() => setLoading(false));
   };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: moreRolesOnProduct
-        ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
-        : t('userDetail.actions.modalDelete.oneRoleOnProduct.title'),
-      message:
-        (moreRolesOnProduct && !haveMoreProducts) || (moreRolesOnProduct && haveMoreProducts) ? (
-          <Trans i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message">
-            {'Vuoi rimuovere '}
+      title:
+        moreRolesOnProduct || (!moreRolesOnProduct && haveMoreProducts)
+          ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
+          : !moreRolesOnProduct && !haveMoreProducts
+          ? t('userDetail.actions.modalDelete.oneRoleOnProduct.title')
+          : '',
+      message: moreRolesOnProduct ? (
+        <Trans i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message">
+          {'Vuoi rimuovere '}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{ user: party && `${user.name} ${user.surname}` }}
+          </strong>
+          {' dal ruolo di '}
+          <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
+          {'?'} <br />
+          {'Puoi assegnare di nuovo il ruolo in qualsiasi momento.'}
+        </Trans>
+      ) : !moreRolesOnProduct && haveMoreProducts ? (
+        <Trans i18nKey="userDetail.actions.modalDelete.haveMoreProducts">
+          {'Stai per rimuovere '} <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
+          {' dal ruolo di '}
+          <strong>
+            {{ productRole: transcodeProductRole2Title(role.role, productRolesList) }}
+          </strong>
+          <br />
+          {'. Se lo rimuovi, non potrà più operare su '}
+          <strong>{{ productTitle: `${product.title}` }}</strong>.
+          <br />
+          {' Puoi assegnare di nuovo il ruolo in qualsiasi momento'},
+        </Trans>
+      ) : (
+        !moreRolesOnProduct &&
+        !haveMoreProducts && (
+          <Trans i18nKey="userDetail.actions.modalDelete.oneRoleOnProduct.message">
+            {'Stai per eliminare '}
             <strong style={{ textTransform: 'capitalize' }}>
               {{ user: party && `${user.name} ${user.surname}` }}
             </strong>
-            {' dal ruolo di '}
-            <strong> {{ role: transcodeProductRole2Title(role.role, productRolesList) }} </strong>
-            {'?'} <br />
-            {'Puoi assegnare di nuovo il ruolo in qualsiasi momento.'}
-          </Trans>
-        ) : !moreRolesOnProduct && haveMoreProducts ? (
-          <Trans i18nKey="userDetail.actions.modalDelete.haveMoreProducts">
-            {'Stai per rimuovere '} <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
-            {' dal ruolo di '}
-            <strong>
-              {{ productRole: transcodeProductRole2Title(role.role, productRolesList) }}
-            </strong>
+            {'.'}
             <br />
-            {'. Se lo rimuovi, non potrà più operare su '}
-            <strong>{{ productTitle: `${product.title}` }}</strong>.
-            <br />
-            {' Puoi assegnare di nuovo il ruolo in qualsiasi momento'},
+            {' Vuoi continuare?'}
           </Trans>
-        ) : (
-          !moreRolesOnProduct &&
-          !haveMoreProducts && (
-            <Trans i18nKey="userDetail.actions.modalDelete.oneRoleOnProduct.message">
-              {"Stai per eliminare l'utente"}
-              <strong style={{ textTransform: 'capitalize' }}>
-                {{ user: party && `${user.name} ${user.surname}` }}
-              </strong>
-              .{' Vuoi continuare?'}
-            </Trans>
-          )
-        ),
-      confirmLabel:
-        moreRolesOnProduct || haveMoreProducts
-          ? t('userDetail.actions.modalDelete.removeRoleButton')
-          : t('userDetail.actions.modalDelete.deleteUserButton'),
+        )
+      ),
+      confirmLabel: t('userDetail.actions.modalDelete.removeRoleButton'),
       closeLabel: t('userDetail.actions.modalDelete.closeButton'),
       onConfirm: onDelete,
     });

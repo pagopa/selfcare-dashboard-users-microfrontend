@@ -89,7 +89,7 @@ test('Test: delete an user', async () => {
   const { history } = await renderApp('onboarded', 'prod-io', 'uid');
   const deleteButton = screen.getByRole('button', { name: 'Elimina' });
   fireEvent.click(deleteButton);
-  screen.getByText('Elimina Referente');
+  screen.getByText('Elimina utente');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users'));

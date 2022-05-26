@@ -43,6 +43,8 @@ function UserDetailPage({
   const addNotify = useUserNotify();
 
   const product = partyUser.products[0];
+  const haveOneRoleAndOneProduct =
+    partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
   useEffect(() => {
     if (party) {
@@ -97,7 +99,7 @@ function UserDetailPage({
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare il referente '}
+          {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
@@ -190,7 +192,9 @@ function UserDetailPage({
                 }}
                 onClick={handleOpenDelete}
               >
-                {t('userDetail.deleteButton')}
+                {haveOneRoleAndOneProduct
+                  ? t('userDetail.deleteUserButton')
+                  : t('userDetail.deleteButton')}
               </Button>
             </Grid>
           )}
