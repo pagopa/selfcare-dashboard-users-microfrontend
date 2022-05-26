@@ -113,6 +113,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             techDescription: `An error occurred while editing party user ${user.id} of institution ${party.partyId}`,
             toNotify: true,
             displayableTitle: t('userEdit.editRegistryForm.editUserError'),
+            displayableDescription: '',
             component: 'Toast',
           })
         )
