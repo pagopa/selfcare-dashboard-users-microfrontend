@@ -14,6 +14,9 @@ export type BasePartyUser = {
   userRole: UserRole;
   status: UserStatus;
   isCurrentUser: boolean;
+  certifiedMail?: boolean;
+  certifiedName?: boolean;
+  certifiedSurname?: boolean;
 };
 
 export type PartyProductUser = BasePartyUser & {

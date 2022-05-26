@@ -95,8 +95,14 @@ export const DashboardApi = {
     const result = await apiClient.createInstitutionProductUserUsingPOST({
       institutionId,
       productId,
-      body: user,
+      body: {
+        ...user,
+        email: user.certifiedMail ? '' : user.email,
+        surname: user.certifiedSurname ? '' : user.surname,
+        name: user.certifiedName ? '' : user.name,
+      },
     });
+    console.log(result);
     return extractResponse(result, 201, onRedirectToLogin);
   },
 
@@ -104,7 +110,11 @@ export const DashboardApi = {
     const result = await apiClient.updateUserUsingPUT({
       institutionId,
       id: user.id,
-      body: { email: user.email, name: user.name, surname: user.surname },
+      body: {
+        email: user.certifiedMail ? '' : user.email,
+        name: user.certifiedName ? '' : user.name,
+        surname: user.certifiedSurname ? '' : user.surname,
+      },
     });
     return extractResponse(result, 201, onRedirectToLogin);
   },
