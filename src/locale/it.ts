@@ -35,22 +35,25 @@ export default {
       suspend: 'Sospendi',
       delete: 'Elimina',
       deleteModal: {
-        title: 'Elimina Referente',
+        title: 'Rimuovi ruolo',
         message: `Stai per eliminare `,
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
       deleteSuccess: 'Utente rimosso correttamente',
-      changeUserStatusModal: {
-        titleSuspended: 'Sospendi Referente',
-        titleReactivate: 'Riabilita Referente',
-        messageSuspended: 'Stai per sospendere ',
-        messageReactivate: 'Stai per riabilitare ',
-        message: ` <0>{{user}}</0>.<4/>Vuoi continuare?`,
+      changeUserRoleStatusModal: {
+        suspend: {
+          title: 'Sospendi ruolo',
+          actionMessage: 'Vuoi sospendere ',
+        },
+        reactivate: {
+          title: 'Riabilita ruolo',
+          actionMessage: 'Vuoi riabilitare ',
+        },
+        message: ` <0>{{user}}</0> nel ruolo di {{userRole}}?.<4/>Vuoi continuare?`,
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      wantContinue: 'Vuoi continuare?',
       changeUserStatusSuccess: 'Utente {{userStatus}} correttamente',
     },
     loadMore: 'Carica altri',
