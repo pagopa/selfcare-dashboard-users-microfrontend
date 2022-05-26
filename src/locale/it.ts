@@ -65,6 +65,7 @@ export default {
     institution: 'ENTE',
     editButton: 'Modifica',
     deleteButton: 'Elimina',
+    deleteUserButton: 'Elimina utente',
     backButton: 'Indietro',
     actions: {
       delete: {
@@ -85,7 +86,6 @@ export default {
         haveMoreProducts:
           'Stai per rimuovere <2>{{user}}</2> dal ruolo di <4>{{productRole}}</4>. <5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         removeRoleButton: 'Rimuovi',
-        deleteUserButton: 'Elimina utente',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
@@ -124,8 +124,8 @@ export default {
         closeButton: 'Annulla',
       },
       deleteUserModal: {
-        title: 'Elimina Referente',
-        message: 'Stai per eliminare il referente <1>{{user}}</1>.<3 />Vuoi continuare?',
+        title: 'Elimina utente',
+        message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },

@@ -68,13 +68,19 @@ export default function UserProductActions({
       .finally(() => setLoading(false));
   };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
-      title: moreRolesOnProduct
-        ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
-        : t('userDetail.actions.modalDelete.oneRoleOnProduct.title'),
+      title:
+        (moreRolesOnProduct && !haveMoreProducts) ||
+        (moreRolesOnProduct && haveMoreProducts) ||
+        (!moreRolesOnProduct && haveMoreProducts)
+          ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
+          : !moreRolesOnProduct && !haveMoreProducts
+          ? t('userDetail.actions.modalDelete.oneRoleOnProduct.title')
+          : '',
       message:
         (moreRolesOnProduct && !haveMoreProducts) || (moreRolesOnProduct && haveMoreProducts) ? (
           <Trans i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message">
@@ -104,18 +110,17 @@ export default function UserProductActions({
           !moreRolesOnProduct &&
           !haveMoreProducts && (
             <Trans i18nKey="userDetail.actions.modalDelete.oneRoleOnProduct.message">
-              {"Stai per eliminare l'utente"}
+              {'Stai per eliminare '}
               <strong style={{ textTransform: 'capitalize' }}>
                 {{ user: party && `${user.name} ${user.surname}` }}
               </strong>
-              .{' Vuoi continuare?'}
+              {'.'}
+              <br />
+              {' Vuoi continuare?'}
             </Trans>
           )
         ),
-      confirmLabel:
-        moreRolesOnProduct || haveMoreProducts
-          ? t('userDetail.actions.modalDelete.removeRoleButton')
-          : t('userDetail.actions.modalDelete.deleteUserButton'),
+      confirmLabel: t('userDetail.actions.modalDelete.removeRoleButton'),
       closeLabel: t('userDetail.actions.modalDelete.closeButton'),
       onConfirm: onDelete,
     });
