@@ -8,7 +8,11 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
-import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
+import {
+  ProductRole,
+  ProductRolesLists,
+  transcodeProductRole2Title,
+} from '../../../model/ProductRole';
 import { savePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
@@ -130,7 +134,11 @@ export default function UserProductAddRoles({
               {'Assegna a '}
               <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
               {'un altro ruolo '}
-              <strong> {{ userRole: `${user.userRole}` }} </strong>
+              <strong>
+                {{
+                  userRole: `${transcodeProductRole2Title(user.userRole, productRolesList)}`,
+                }}
+              </strong>
               {' sul prodotto '}
               <strong> {{ productTitle: `${product.title}:` }} </strong>
             </Trans>
