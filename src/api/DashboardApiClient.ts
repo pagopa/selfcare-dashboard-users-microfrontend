@@ -96,13 +96,13 @@ export const DashboardApi = {
       institutionId,
       productId,
       body: {
-        ...user,
-        email: user.certifiedMail ? '' : user.email,
-        surname: user.certifiedSurname ? '' : user.surname,
-        name: user.certifiedName ? '' : user.name,
+        productRoles: user.productRoles,
+        taxCode: user.taxCode,
+        email: user.certifiedMail ? undefined : user.email,
+        surname: user.certifiedSurname ? undefined : user.surname,
+        name: user.certifiedName ? undefined : user.name,
       },
     });
-    console.log(result);
     return extractResponse(result, 201, onRedirectToLogin);
   },
 
@@ -111,9 +111,9 @@ export const DashboardApi = {
       institutionId,
       id: user.id,
       body: {
-        email: user.certifiedMail ? '' : user.email,
-        name: user.certifiedName ? '' : user.name,
-        surname: user.certifiedSurname ? '' : user.surname,
+        email: user.certifiedMail ? undefined : user.email,
+        name: user.certifiedName ? undefined : user.name,
+        surname: user.certifiedSurname ? undefined : user.surname,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);
