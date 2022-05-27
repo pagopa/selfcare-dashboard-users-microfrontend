@@ -1499,7 +1499,7 @@
       },
       "CreateUserDto": {
         "title": "CreateUserDto",
-        "required": ["email", "name", "productRoles", "surname", "taxCode"],
+        "required": ["productRoles", "taxCode"],
         "type": "object",
         "properties": {
           "email": {
@@ -1592,7 +1592,7 @@
           },
           "externalId": {
             "type": "string",
-            "description": "Institution's unique external identifier (i.e.: IPA code)"
+            "description": "Institution's unique external identifier"
           },
           "fiscalCode": {
             "type": "string",
@@ -1617,11 +1617,11 @@
           },
           "origin": {
             "type": "string",
-            "description": "Institution's details origin"
+            "description": "Institution's data origin"
           },
           "originId": {
             "type": "string",
-            "description": "Institution's details origin Id"
+            "description": "Institution's identifier related to origin"
           },
           "status": {
             "type": "string",
@@ -1958,7 +1958,6 @@
       },
       "UpdateUserDto": {
         "title": "UpdateUserDto",
-        "required": ["email", "name", "surname"],
         "type": "object",
         "properties": {
           "email": {

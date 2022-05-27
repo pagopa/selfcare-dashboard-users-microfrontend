@@ -97,9 +97,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: true,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case SUSPENDED having just 1 product/role
@@ -126,9 +123,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case ACTIVE having 1 product and 2 roles (ACTIVE and SUSPENDED)
@@ -161,9 +155,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case SUSPENDED having 1 product and 2 roles
@@ -196,9 +187,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case SUSPENDED on 2 product, in 1 of them not logged user is not ADMIN
@@ -237,9 +225,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case ACTIVE on 1 product/role in which logged user is not ADMIN
@@ -266,9 +251,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 
   // use case ACTIVE on 1 product having 2 roles
@@ -301,9 +283,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   // use case ACTIVE on 2 product, both logged user is ADMIN: 1 product with 1 role, the other with 2 roles
   {
@@ -347,9 +326,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid10',
@@ -380,9 +356,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid11',
@@ -407,9 +380,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid12',
@@ -434,9 +404,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid13',
@@ -461,9 +428,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid14',
@@ -488,9 +452,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid15',
@@ -515,9 +476,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid16',
@@ -542,9 +500,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid17',
@@ -569,9 +524,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid18',
@@ -596,9 +548,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid19',
@@ -623,9 +572,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid20',
@@ -650,9 +596,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid21',
@@ -677,9 +620,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
   {
     id: 'uid22',
@@ -704,9 +644,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    // certifiedName: true,
-    // certifiedSurname: true,
-    // certifiedMail: true,
   },
 ];
 
