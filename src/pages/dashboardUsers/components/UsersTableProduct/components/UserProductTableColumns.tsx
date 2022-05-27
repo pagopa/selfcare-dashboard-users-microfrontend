@@ -86,7 +86,9 @@ export function buildColumnDefs(
       disableColumnMenu: true,
       editable: false,
       renderCell: (p) =>
-        canEdit ? showActions(party, p, onDelete, onStatusUpdate) : renderCell(p, '', onRowClick),
+        canEdit
+          ? showActions(party, p, productRolesLists, onDelete, onStatusUpdate)
+          : renderCell(p, '', onRowClick),
       sortable: false,
     },
   ] as Array<GridColDef>;
@@ -257,6 +259,7 @@ function showStatus(
 function showActions(
   party: Party,
   users: GridRenderCellParams<PartyProductUser>,
+  productRolesLists: ProductRolesLists,
   onDelete: (user: PartyProductUser) => void,
   onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void
 ) {
@@ -276,6 +279,7 @@ function showActions(
         party={party}
         partyUser={row}
         partyUserProduct={userProduct}
+        productRolesList={productRolesLists}
         onDelete={onDelete}
         onStatusUpdate={onStatusUpdate}
       />

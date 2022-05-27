@@ -33,25 +33,33 @@ export default {
       edit: 'Modifica',
       rehabilitate: 'Riabilita',
       suspend: 'Sospendi',
-      delete: 'Elimina',
+      delete: 'Rimuovi',
       deleteModal: {
-        title: 'Elimina Referente',
-        message: `Stai per eliminare `,
+        title: 'Rimuovi ruolo',
+        message:
+          'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>.<5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteSuccess: 'Utente rimosso correttamente',
-      changeUserStatusModal: {
-        titleSuspended: 'Sospendi Referente',
-        titleReactivate: 'Riabilita Referente',
-        messageSuspended: 'Stai per sospendere ',
-        messageReactivate: 'Stai per riabilitare ',
-        message: ` <0>{{user}}</0>.<4/>Vuoi continuare?`,
+      deleteSuccess: 'Ruolo rimosso correttamente',
+      deleteError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
+      changeUserRoleStatusModal: {
+        suspend: {
+          title: 'Sospendi ruolo',
+          message:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+        },
+        reactivate: {
+          title: 'Riabilita ruolo',
+          message:
+            'Vuoi riabilitare <1>{{user}}</1> nel ruolo di <3>{{userRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
+        },
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      wantContinue: 'Vuoi continuare?',
-      changeUserStatusSuccess: 'Utente {{userStatus}} correttamente',
+      changeUserRoleSuccess: 'Ruolo {{userStatus}} correttamente',
+      suspendRoleError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi',
