@@ -70,16 +70,17 @@ function UserProductDetailPage({
         goBack();
         addNotify({
           component: 'Toast',
-          id: 'DELETE_PARTY_USER',
+          id: 'DELETE_PARTY_USER_PRODUCT',
           title: t('userDetail.actions.delete.userDelete'),
           message: '',
         });
       })
       .catch((reason) =>
         addError({
-          id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
+          id: `DELETE_PARTY_USER_PRODUCT_ERROR-${partyUser.id}`,
           blocking: false,
           error: reason,
+          displayableTitle: t('userDetail.actions.delete.userDeleteError'),
           techDescription: `Something gone wrong while deleting role ${
             (userProduct as PartyUserProduct).roles[0].relationshipId
           } for product ${(userProduct as PartyUserProduct).title}`,
@@ -96,7 +97,7 @@ function UserProductDetailPage({
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare il referente '}
+          {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
@@ -218,7 +219,7 @@ function UserProductDetailPage({
               }}
               onClick={handleOpenDelete}
             >
-              {t('userDetail.deleteButton')}
+              {t('userDetail.deleteUserButton')}
             </Button>
           </Grid>
         )}
