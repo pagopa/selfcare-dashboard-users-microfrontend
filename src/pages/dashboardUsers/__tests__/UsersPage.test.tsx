@@ -64,12 +64,12 @@ test('test suspend user from row action', async () => {
   const actionButton = screen.getByTestId('action-uid');
   fireEvent.click(actionButton);
   await waitFor(() => fireEvent.click(screen.getByText('Sospendi')));
-  await waitFor(() => screen.getByText('Sospendi Referente'));
+  await waitFor(() => screen.getByText('Sospendi ruolo'));
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'Utente sospeso correttamente',
+    title: 'Ruolo sospeso correttamente',
   });
 });
 
@@ -78,12 +78,12 @@ test('test rehabilitate user from row action', async () => {
   const actionButton = screen.getByTestId('action-uid3');
   await waitFor(() => fireEvent.click(actionButton));
   await waitFor(() => fireEvent.click(screen.getByText('Riabilita')));
-  await waitFor(() => screen.getByText('Riabilita Referente'));
+  await waitFor(() => screen.getByText('Riabilita ruolo'));
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'Utente riabilitato correttamente',
+    title: 'Ruolo riabilitato correttamente',
   });
 });
 
@@ -91,13 +91,13 @@ test('test delete user from row action', async () => {
   await renderApp();
   const actionButton = screen.getByTestId('action-uid6');
   await waitFor(() => fireEvent.click(actionButton));
-  await waitFor(() => fireEvent.click(screen.getByText('Elimina')));
-  screen.getByText('Elimina Referente');
+  await waitFor(() => fireEvent.click(screen.getByText('Rimuovi')));
+  screen.getByText('Rimuovi ruolo');
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
   expect({
     component: 'Toast',
-    title: 'Utente rimosso correttamente',
+    title: 'Ruolo rimosso correttamente',
     message: '',
   });
 });

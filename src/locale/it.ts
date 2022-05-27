@@ -33,28 +33,33 @@ export default {
       edit: 'Modifica',
       rehabilitate: 'Riabilita',
       suspend: 'Sospendi',
-      delete: 'Elimina',
+      delete: 'Rimuovi',
       deleteModal: {
         title: 'Rimuovi ruolo',
-        message: `Stai per eliminare `,
+        message:
+          'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>.<5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteSuccess: 'Utente rimosso correttamente',
+      deleteSuccess: 'Ruolo rimosso correttamente',
+      deleteError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
       changeUserRoleStatusModal: {
         suspend: {
           title: 'Sospendi ruolo',
-          actionMessage: 'Vuoi sospendere ',
+          message:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
         },
         reactivate: {
           title: 'Riabilita ruolo',
-          actionMessage: 'Vuoi riabilitare ',
+          message:
+            'Vuoi riabilitare <1>{{user}}</1> nel ruolo di <3>{{userRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
-        message: ` <0>{{user}}</0> nel ruolo di {{userRole}}?.<4/>Vuoi continuare?`,
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      changeUserStatusSuccess: 'Utente {{userStatus}} correttamente',
+      changeUserRoleSuccess: 'Ruolo {{userStatus}} correttamente',
+      suspendRoleError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi',
