@@ -44,8 +44,6 @@ function UserProductDetailPage({
 
   const [userProduct, setUserProduct] = useState<PartyUserProduct>();
   const canEdit = selectedProduct.userRole === 'ADMIN' && selectedProduct.status === 'ACTIVE';
-  const haveOneRoleAndOneProduct =
-    partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
   useEffect(() => {
     const userProduct = partyUser.products.find((product) => product.id === selectedProduct.id);
@@ -221,9 +219,7 @@ function UserProductDetailPage({
               }}
               onClick={handleOpenDelete}
             >
-              {haveOneRoleAndOneProduct
-                ? t('userDetail.deleteUserButton')
-                : t('userDetail.deleteButton')}
+              {t('userDetail.deleteUserButton')}
             </Button>
           </Grid>
         )}
