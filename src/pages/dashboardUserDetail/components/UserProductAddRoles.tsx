@@ -5,6 +5,7 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -131,7 +132,11 @@ export default function UserProductAddRoles({
               {'Assegna a '}
               <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
               {'un altro ruolo '}
-              <strong> {{ userRole: `${user.userRole}` }} </strong>
+              <strong>
+                {{
+                  userRole: `${t(roleLabels[userProduct.roles[0].selcRole].longLabelKey)}`,
+                }}
+              </strong>
               {' sul prodotto '}
               <strong> {{ productTitle: `${product.title}:` }} </strong>
             </Trans>
