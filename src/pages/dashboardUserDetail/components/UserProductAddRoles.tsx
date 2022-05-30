@@ -9,7 +9,7 @@ import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
-import { savePartyUser } from '../../../services/usersService';
+import { addProductUser } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
 type Props = {
@@ -49,7 +49,7 @@ export default function UserProductAddRoles({
 
     setOpen(false);
     setLoading(true);
-    savePartyUser(party, product, {
+    addProductUser(party, product, {
       ...user,
       productRoles: newRoleSelected ?? [],
       confirmEmail: user.email,

@@ -25,7 +25,11 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { fetchUserRegistryByFiscalCode, savePartyUser } from '../../../services/usersService';
+import {
+  fetchUserRegistryByFiscalCode,
+  savePartyUser,
+  addProductUser,
+} from '../../../services/usersService';
 import {
   LOADING_TASK_SAVE_PARTY_USER,
   LOADING_TASK_FETCH_TAX_CODE,
@@ -243,7 +247,10 @@ export default function AddUserForm({
 
   const save = (values: PartyUserOnCreation) => {
     setLoadingSaveUser(true);
-    savePartyUser(party, userProduct as Product, values)
+    (initialFormData.taxCode
+      ? addProductUser(party, userProduct as Product, values)
+      : savePartyUser(party, userProduct as Product, values)
+    )
       .then(() => {
         unregisterUnloadEvent();
         trackEvent(initialFormData.taxCode ? 'USER_UPDATE' : 'USER_ADD', {
