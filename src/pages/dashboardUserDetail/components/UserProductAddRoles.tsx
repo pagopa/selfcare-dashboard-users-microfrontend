@@ -5,6 +5,7 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -108,8 +109,7 @@ export default function UserProductAddRoles({
     [productRolesList, userProduct.roles]
   );
 
-  return userProduct.roles.length < selcRoleProductRoleList.length &&
-    selcRoleProductRoleList[0].multiroleAllowed ? (
+  return (
     <>
       <Link
         onClick={() => {
@@ -132,11 +132,7 @@ export default function UserProductAddRoles({
               {'un altro ruolo '}
               <strong>
                 {{
-                  userRole: `${
-                    userProduct.roles[0].selcRole === 'ADMIN'
-                      ? t('userDetail.actions.newRoleAssignModal.roleAdmin')
-                      : t('userDetail.actions.newRoleAssignModal.roleOperator')
-                  }`,
+                  userRole: `${t(roleLabels[userProduct.roles[0].selcRole].longLabelKey)}`,
                 }}
               </strong>
               {' sul prodotto '}
@@ -193,7 +189,5 @@ export default function UserProductAddRoles({
         onCloseLabel={t('userDetail.actions.newRoleAssignModal.closeButton')}
       />
     </>
-  ) : (
-    <> </>
   );
 }
