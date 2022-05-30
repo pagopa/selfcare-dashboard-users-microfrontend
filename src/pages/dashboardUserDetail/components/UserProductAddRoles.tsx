@@ -71,6 +71,7 @@ export default function UserProductAddRoles({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
           displayableTitle: t('userDetail.actions.addRoleError'),
+          displayableDescription: '',
           techDescription: `An error occurred while add role`,
           blocking: false,
           error,

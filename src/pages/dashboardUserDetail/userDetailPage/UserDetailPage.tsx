@@ -85,6 +85,7 @@ function UserDetailPage({
           blocking: false,
           error: reason,
           displayableTitle: t('userDetail.actions.delete.userDeleteError'),
+          displayableDescription: '',
           techDescription: `Something gone wrong while deleting role ${product.roles[0].relationshipId} for product ${product.title}`,
           toNotify: true,
         })
