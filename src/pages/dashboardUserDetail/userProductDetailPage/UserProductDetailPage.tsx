@@ -81,6 +81,7 @@ function UserProductDetailPage({
           blocking: false,
           error: reason,
           displayableTitle: t('userDetail.actions.delete.userDeleteError'),
+          displayableDescription: '',
           techDescription: `Something gone wrong while deleting role ${
             (userProduct as PartyUserProduct).roles[0].relationshipId
           } for product ${(userProduct as PartyUserProduct).title}`,
