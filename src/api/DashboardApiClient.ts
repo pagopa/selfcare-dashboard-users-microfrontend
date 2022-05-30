@@ -116,7 +116,7 @@ export const DashboardApi = {
         surname: user.certifiedSurname ? undefined : user.surname,
       },
     });
-    return extractResponse(result, 201, onRedirectToLogin);
+    return extractResponse(result, 204, onRedirectToLogin);
   },
 
   suspendPartyRelation: async (relationshipId: string): Promise<void> => {
