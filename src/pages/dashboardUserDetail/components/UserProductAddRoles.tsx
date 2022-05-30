@@ -109,7 +109,8 @@ export default function UserProductAddRoles({
     [productRolesList, userProduct.roles]
   );
 
-  return (
+  return userProduct.roles.length < selcRoleProductRoleList.length &&
+    selcRoleProductRoleList[0].multiroleAllowed ? (
     <>
       <Link
         onClick={() => {
@@ -189,5 +190,7 @@ export default function UserProductAddRoles({
         onCloseLabel={t('userDetail.actions.newRoleAssignModal.closeButton')}
       />
     </>
+  ) : (
+    <> </>
   );
 }
