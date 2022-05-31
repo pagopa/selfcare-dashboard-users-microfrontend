@@ -917,6 +917,13 @@ export const savePartyUser = (
   _user: PartyUserOnCreation
 ): Promise<any> => new Promise((resolve) => resolve(200));
 
+export const addUserProductRoles = (
+  _party: Party,
+  _product: Product,
+  _userId: string,
+  _user: PartyUserOnCreation
+): Promise<any> => new Promise((resolve) => resolve(200));
+
 export const updatePartyUser = (_party: Party, _user: PartyUserOnEdit): Promise<any> =>
   new Promise((resolve) => resolve(200));
 

@@ -378,6 +378,74 @@
         ]
       }
     },
+    "/institutions/{institutionId}/products/{productId}/users/{userId}": {
+      "put": {
+        "tags": ["institutions"],
+        "summary": "addUserProductRoles",
+        "description": "${swagger.dashboard.institutions.api.addProductUser}",
+        "operationId": "addUserProductRolesUsingPUT",
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "path",
+            "description": "Institution's unique internal identifier",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "Product's unique identifier",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique identifier",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProductRoles"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": ["global"]
+          }
+        ]
+      }
+    },
     "/institutions/{institutionId}/users": {
       "get": {
         "tags": ["institutions"],
@@ -2160,6 +2228,19 @@
             "type": "string",
             "description": "User's unique identifier",
             "format": "uuid"
+          }
+        }
+      },
+      "UserProductRoles": {
+        "title": "UserProductRoles",
+        "type": "object",
+        "properties": {
+          "productRoles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

@@ -106,6 +106,23 @@ export const DashboardApi = {
     return extractResponse(result, 201, onRedirectToLogin);
   },
 
+  addUserProductRoles: async (
+    institutionId: string,
+    productId: string,
+    userId: string,
+    user: PartyUserOnCreation
+  ): Promise<void> => {
+    const result = await apiClient.addUserProductRolesUsingPUT({
+      institutionId,
+      productId,
+      userId,
+      body: {
+        productRoles: user.productRoles,
+      },
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
+  },
+
   updatePartyUser: async (institutionId: string, user: PartyUserOnEdit): Promise<void> => {
     const result = await apiClient.updateUserUsingPUT({
       institutionId,
