@@ -24,11 +24,12 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
   savePartyUser,
-  addProductUser,
+  addUserProductRoles,
 } from '../../../services/usersService';
 import {
   LOADING_TASK_SAVE_PARTY_USER,
@@ -84,6 +85,10 @@ const taxCodeRegexp = new RegExp(
 const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
 const requiredError = 'Required';
 
+type UrlParams = {
+  userId: string;
+};
+
 type Props = {
   party: Party;
   selectedProduct?: Product;
@@ -103,6 +108,8 @@ export default function AddUserForm({
   initialFormData,
   goBack,
 }: Props) {
+  const { userId } = useParams<UrlParams>();
+
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
@@ -247,13 +254,13 @@ export default function AddUserForm({
 
   const save = (values: PartyUserOnCreation) => {
     setLoadingSaveUser(true);
-    (initialFormData.taxCode
-      ? addProductUser(party, userProduct as Product, values)
+    (userId
+      ? addUserProductRoles(party, userProduct as Product, userId, values)
       : savePartyUser(party, userProduct as Product, values)
     )
       .then(() => {
         unregisterUnloadEvent();
-        trackEvent(initialFormData.taxCode ? 'USER_UPDATE' : 'USER_ADD', {
+        trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
           party_id: party.partyId,
           product: userProduct?.id,
           product_role: values.productRoles,
@@ -261,7 +268,7 @@ export default function AddUserForm({
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: initialFormData.taxCode
+          title: userId
             ? t('userDetail.actions.successfulAddRole')
             : t('userEdit.addForm.saveUserSuccess'),
           message: '',
@@ -276,7 +283,7 @@ export default function AddUserForm({
           error: reason,
           techDescription: `An error occurred while saving party user ${party.partyId}`,
           toNotify: true,
-          displayableTitle: initialFormData.taxCode
+          displayableTitle: userId
             ? t('userDetail.actions.addRoleError')
             : t('userEdit.addForm.saveUserError'),
           displayableDescription: '',

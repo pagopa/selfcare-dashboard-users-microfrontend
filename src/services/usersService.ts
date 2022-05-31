@@ -32,7 +32,7 @@ import {
   fetchUserRegistryById as fetchUserRegistryByIdMocked,
   fetchUserGroups as fetchUserGroupsMocked,
   mockedUserRegistry,
-  addProductUser as addProductUserMocked,
+  addUserProductRoles as addProductUserMocked,
 } from './__mocks__/usersService';
 
 const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
@@ -155,16 +155,17 @@ export const savePartyUser = (
   }
 };
 
-export const addProductUser = (
+export const addUserProductRoles = (
   party: Party,
   product: Product,
+  userId: string,
   user: PartyUserOnCreation
 ): Promise<any> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return addProductUserMocked(party, product, user);
+    return addProductUserMocked(party, product, userId, user);
   } else {
-    return DashboardApi.addProductUser(party.partyId, product.id, user);
+    return DashboardApi.addUserProductRoles(party.partyId, product.id, userId, user);
   }
 };
 

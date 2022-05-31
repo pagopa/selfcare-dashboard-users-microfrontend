@@ -106,14 +106,16 @@ export const DashboardApi = {
     return extractResponse(result, 201, onRedirectToLogin);
   },
 
-  addProductUser: async (
+  addUserProductRoles: async (
     institutionId: string,
     productId: string,
+    userId: string,
     user: PartyUserOnCreation
   ): Promise<void> => {
-    const result = await apiClient.addProductUserUsingPUT({
+    const result = await apiClient.addUserProductRolesUsingPUT({
       institutionId,
       productId,
+      userId,
       body: {
         productRoles: user.productRoles,
       },

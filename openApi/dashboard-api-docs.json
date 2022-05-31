@@ -381,9 +381,9 @@
     "/institutions/{institutionId}/products/{productId}/users/{userId}": {
       "put": {
         "tags": ["institutions"],
-        "summary": "addProductUser",
+        "summary": "addUserProductRoles",
         "description": "${swagger.dashboard.institutions.api.addProductUser}",
-        "operationId": "addProductUserUsingPUT",
+        "operationId": "addUserProductRolesUsingPUT",
         "parameters": [
           {
             "name": "institutionId",
@@ -399,6 +399,16 @@
             "name": "productId",
             "in": "path",
             "description": "Product's unique identifier",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique identifier",
             "required": true,
             "style": "simple",
             "schema": {
