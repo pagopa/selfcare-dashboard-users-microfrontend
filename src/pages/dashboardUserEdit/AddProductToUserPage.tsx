@@ -26,8 +26,6 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const { t } = useTranslation();
   const history = useHistory();
 
-  const index = partyUser.products.length > 1 ? 1 : 0;
-
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
@@ -51,7 +49,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: goBack,
     },
   ];
-
+  console.log(partyUser.products.length);
   return (
     <Grid
       container
@@ -148,7 +146,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               canEditRegistryData={false}
             />
           </Grid>
-        ))[index]
+        ))[0]
       }
     </Grid>
   );
