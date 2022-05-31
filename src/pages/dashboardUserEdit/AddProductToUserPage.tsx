@@ -26,6 +26,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const { t } = useTranslation();
   const history = useHistory();
 
+  const index = partyUser.products.length > 1 ? 1 : 0;
+
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
@@ -121,34 +123,33 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         </Grid>
       </Grid>
 
-      {partyUser.products.map(
-        (userProduct) =>
-          activeProducts.filter((p) => p.id !== userProduct.id) && (
-            <Grid item xs={12} mb={9} key={userProduct.id}>
-              <AddUserForm
-                goBack={goBack}
-                party={party}
-                products={activeProducts.filter((p) => p.id !== userProduct.id)}
-                productsRolesMap={productsRolesMap}
-                initialFormData={
-                  {
-                    taxCode: partyUser.taxCode,
-                    name: partyUser.name,
-                    surname: partyUser.surname,
-                    email: partyUser.email,
-                    confirmEmail: partyUser.email,
-                    id: partyUser.id,
-                    productRoles: [],
-                    certifiedName: false,
-                    certifiedSurname: false,
-                    certifiedMail: false,
-                  } as PartyUserOnCreation
-                }
-                canEditRegistryData={false}
-              />
-            </Grid>
-          )
-      )}
+      {
+        partyUser.products.map((userProduct) => (
+          <Grid item xs={12} mb={9} key={userProduct.id}>
+            <AddUserForm
+              goBack={goBack}
+              party={party}
+              products={activeProducts.filter((p) => p.id !== userProduct.id)}
+              productsRolesMap={productsRolesMap}
+              initialFormData={
+                {
+                  taxCode: partyUser.taxCode,
+                  name: partyUser.name,
+                  surname: partyUser.surname,
+                  email: partyUser.email,
+                  confirmEmail: partyUser.email,
+                  id: partyUser.id,
+                  productRoles: [],
+                  certifiedName: false,
+                  certifiedSurname: false,
+                  certifiedMail: false,
+                } as PartyUserOnCreation
+              }
+              canEditRegistryData={false}
+            />
+          </Grid>
+        ))[index]
+      }
     </Grid>
   );
 }
