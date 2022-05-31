@@ -49,7 +49,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: goBack,
     },
   ];
-  console.log(partyUser.products.length);
+
   return (
     <Grid
       container
@@ -127,6 +127,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
             <AddUserForm
               goBack={goBack}
               party={party}
+              userId={partyUser.id}
               products={activeProducts.filter((p) => p.id !== userProduct.id)}
               productsRolesMap={productsRolesMap}
               initialFormData={
