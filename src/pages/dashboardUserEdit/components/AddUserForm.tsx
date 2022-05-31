@@ -86,7 +86,7 @@ const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
 const requiredError = 'Required';
 
 type UrlParams = {
-  userId: string;
+  userId?: string;
 };
 
 type Props = {
