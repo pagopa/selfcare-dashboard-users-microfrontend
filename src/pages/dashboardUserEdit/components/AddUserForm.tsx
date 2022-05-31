@@ -24,7 +24,6 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -85,12 +84,9 @@ const taxCodeRegexp = new RegExp(
 const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
 const requiredError = 'Required';
 
-type UrlParams = {
-  userId?: string | undefined;
-};
-
 type Props = {
   party: Party;
+  userId?: string;
   selectedProduct?: Product;
   products: Array<Product>;
   productsRolesMap: ProductsRolesMap;
@@ -101,6 +97,7 @@ type Props = {
 
 export default function AddUserForm({
   party,
+  userId,
   selectedProduct,
   products,
   productsRolesMap,
@@ -108,8 +105,6 @@ export default function AddUserForm({
   initialFormData,
   goBack,
 }: Props) {
-  const { userId } = useParams<UrlParams>();
-
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
