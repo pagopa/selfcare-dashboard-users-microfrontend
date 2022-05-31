@@ -134,7 +134,9 @@ export default function UserProductAddRoles({
               {'un altro ruolo '}
               <strong>
                 {{
-                  userRole: `${t(roleLabels[userProduct.roles[0].selcRole].longLabelKey)}`,
+                  userRole: `${t(
+                    roleLabels[userProduct.roles[0].selcRole].longLabelKey
+                  ).toLowerCase()}`,
                 }}
               </strong>
               {' sul prodotto '}
