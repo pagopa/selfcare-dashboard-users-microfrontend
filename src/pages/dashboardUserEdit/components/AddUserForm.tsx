@@ -25,7 +25,11 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { fetchUserRegistryByFiscalCode, savePartyUser } from '../../../services/usersService';
+import {
+  fetchUserRegistryByFiscalCode,
+  savePartyUser,
+  addUserProductRoles,
+} from '../../../services/usersService';
 import {
   LOADING_TASK_SAVE_PARTY_USER,
   LOADING_TASK_FETCH_TAX_CODE,
@@ -82,6 +86,7 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
+  userId?: string;
   selectedProduct?: Product;
   products: Array<Product>;
   productsRolesMap: ProductsRolesMap;
@@ -92,6 +97,7 @@ type Props = {
 
 export default function AddUserForm({
   party,
+  userId,
   selectedProduct,
   products,
   productsRolesMap,
@@ -243,10 +249,13 @@ export default function AddUserForm({
 
   const save = (values: PartyUserOnCreation) => {
     setLoadingSaveUser(true);
-    savePartyUser(party, userProduct as Product, values)
+    (userId
+      ? addUserProductRoles(party, userProduct as Product, userId, values)
+      : savePartyUser(party, userProduct as Product, values)
+    )
       .then(() => {
         unregisterUnloadEvent();
-        trackEvent(initialFormData.taxCode ? 'USER_UPDATE' : 'USER_ADD', {
+        trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
           party_id: party.partyId,
           product: userProduct?.id,
           product_role: values.productRoles,
@@ -254,7 +263,7 @@ export default function AddUserForm({
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: initialFormData.taxCode
+          title: userId
             ? t('userDetail.actions.successfulAddRole')
             : t('userEdit.addForm.saveUserSuccess'),
           message: '',
@@ -269,7 +278,7 @@ export default function AddUserForm({
           error: reason,
           techDescription: `An error occurred while saving party user ${party.partyId}`,
           toNotify: true,
-          displayableTitle: initialFormData.taxCode
+          displayableTitle: userId
             ? t('userDetail.actions.addRoleError')
             : t('userEdit.addForm.saveUserError'),
           displayableDescription: '',
