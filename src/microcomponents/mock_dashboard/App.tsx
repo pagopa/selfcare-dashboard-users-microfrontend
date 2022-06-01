@@ -11,6 +11,7 @@ import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
 import { Box, Grid, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { buildProductsMap, Product } from '../../model/Product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
 import { createStore } from '../../redux/store';
@@ -25,7 +26,7 @@ import { mockedProductRoles } from './data/product';
 import Layout from './Layout';
 
 type UrlParams = {
-  institutionId: string;
+  partyId: string;
   productId: string;
 };
 
@@ -57,12 +58,12 @@ const App = ({
   AppRouting: (props: DashboardMicrofrontendPageProps) => Array<React.ReactNode>;
   store: ReturnType<typeof createStore>;
 }) => {
-  const { institutionId } = useParams<UrlParams>();
+  const { partyId } = useParams<UrlParams>();
   const history = useHistory();
   const theme = useTheme();
   const { i18n } = useTranslation();
 
-  const party = mockedParties.find((p) => p.institutionId === institutionId);
+  const party = mockedParties.find((p) => p.partyId === partyId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
   const productsMap = products ? buildProductsMap(products) : undefined;
@@ -74,7 +75,7 @@ const App = ({
       }, {} as ProductsRolesMap)
     : undefined;
 
-  const availableParties = mockedParties.map((p) => p.institutionId).join(', ');
+  const availableParties = mockedParties.map((p) => p.partyId).join(', ');
   const availableProducts = mockedPartyProducts.map((p) => p.id).join(', ');
 
   const availableRoutesBody = Object.keys(
@@ -189,6 +190,7 @@ const App = ({
                 activeProducts,
                 productsMap,
                 decorators,
+                CONFIG,
               })}
               <Route path="*">
                 <Box>

@@ -10,6 +10,7 @@ import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResour
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
+import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -64,6 +65,14 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  fetchUserRegistryById: async (
+    institutionId: string,
+    userId: string
+  ): Promise<UserResource | null> => {
+    const result = await apiClient.getUserByInternalIdUsingGET({ institutionId, id: userId });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   getPartyProductUsers: async (
     institutionId: string,
     productId: string,
@@ -83,11 +92,34 @@ export const DashboardApi = {
     institutionId: string,
     productId: string,
     user: PartyUserOnCreation
-  ): Promise<void> => {
+  ): Promise<UserIdResource> => {
     const result = await apiClient.createInstitutionProductUserUsingPOST({
       institutionId,
       productId,
-      body: user,
+      body: {
+        productRoles: user.productRoles,
+        taxCode: user.taxCode,
+        email: user.certifiedMail ? undefined : user.email,
+        surname: user.certifiedSurname ? undefined : user.surname,
+        name: user.certifiedName ? undefined : user.name,
+      },
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
+  },
+
+  addUserProductRoles: async (
+    institutionId: string,
+    productId: string,
+    userId: string,
+    user: PartyUserOnCreation
+  ): Promise<void> => {
+    const result = await apiClient.addUserProductRolesUsingPUT({
+      institutionId,
+      productId,
+      userId,
+      body: {
+        productRoles: user.productRoles,
+      },
     });
     return extractResponse(result, 201, onRedirectToLogin);
   },
@@ -96,9 +128,13 @@ export const DashboardApi = {
     const result = await apiClient.updateUserUsingPUT({
       institutionId,
       id: user.id,
-      body: { email: user.email, fiscalCode: user.taxCode, name: user.name, surname: user.surname },
+      body: {
+        email: user.certifiedMail ? undefined : user.email,
+        name: user.certifiedName ? undefined : user.name,
+        surname: user.certifiedSurname ? undefined : user.surname,
+      },
     });
-    return extractResponse(result, 201, onRedirectToLogin);
+    return extractResponse(result, 204, onRedirectToLogin);
   },
 
   suspendPartyRelation: async (relationshipId: string): Promise<void> => {
@@ -126,9 +162,9 @@ export const DashboardApi = {
     taxCode: string,
     institutionId: string
   ): Promise<UserResource | null> => {
-    const result = await apiClient.getUserByExternalIdUsingPOST({
+    const result = await apiClient.searchUsingPOST({
       institutionId,
-      body: { externalId: taxCode },
+      body: { fiscalCode: taxCode },
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },

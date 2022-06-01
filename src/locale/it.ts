@@ -6,10 +6,9 @@ export default {
     },
   },
   userPagesPath: {
-    detailRedirect: 'Referenti',
-    addProduct: 'Aggiungi Prodotto',
-    addUser: 'Aggiungi un Referente',
-    editUser: 'Modifica Referente',
+    detailRedirect: 'Utenti',
+    addUser: 'Aggiungi nuovo utente',
+    editUser: 'Modifica il profilo utente',
   },
   usersTable: {
     filterRole: {
@@ -29,40 +28,44 @@ export default {
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
     },
     rowActions: {
+      toolTipActions: 'Seleziona il tipo di azione',
+      toolTipInfo: 'Le azioni sono disponibili nel dettaglio del referente',
       edit: 'Modifica',
       rehabilitate: 'Riabilita',
       suspend: 'Sospendi',
-      delete: 'Elimina',
+      delete: 'Rimuovi',
       deleteModal: {
-        title: 'Elimina Referente',
-        message: `Stai per eliminare `,
+        title: 'Rimuovi ruolo',
+        message:
+          'Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>.<5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      deleteSuccess: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente ',
-      },
-      changeUserStatusModal: {
-        titleSuspended: 'Sospendi Referente',
-        titleReactivate: 'Riabilita Referente',
-        messageSuspended: 'Stai per sospendere ',
-        messageReactivate: 'Stai per riabilitare ',
-        message: ` <0>{{user}}</0>.<4/>Vuoi continuare?`,
+      deleteSuccess: 'Ruolo rimosso correttamente',
+      deleteError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
+      changeUserRoleStatusModal: {
+        suspend: {
+          title: 'Sospendi ruolo',
+          message:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+        },
+        reactivate: {
+          title: 'Riabilita ruolo',
+          message:
+            'Vuoi riabilitare <1>{{user}}</1> nel ruolo di <3>{{userRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
+        },
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      wantContinue: 'Vuoi continuare?',
-      changeUserStatusSuccess: {
-        title: 'REFERENTE {{userStatus}}',
-        message: 'Hai {{userStatus}} correttamente ',
-      },
+      changeUserRoleSuccess: 'Ruolo {{userStatus}} correttamente',
+      suspendRoleError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi',
   },
   userDetail: {
-    title: 'Dettaglio Referente',
+    title: 'Profilo Utente',
     name: 'NOME',
     surname: 'COGNOME',
     fiscalCode: 'CODICE FISCALE',
@@ -70,91 +73,77 @@ export default {
     institution: 'ENTE',
     editButton: 'Modifica',
     deleteButton: 'Elimina',
+    deleteUserButton: 'Elimina utente',
     backButton: 'Indietro',
     actions: {
       delete: {
-        title: 'RUOLO ELIMINATO',
-        message:
-          'Hai eliminato correttamente il ruolo <1>{{role}}</1> assegnato a <3>{{user}}</3>.',
+        userRoleDelete: 'Ruolo rimosso correttamente',
+        userDelete: 'Utente rimosso correttamente',
+        userDeleteError: "Non è stato possibile rimuovere l'utente. Riprova.",
       },
       modalDelete: {
-        title: 'Elimina Ruolo',
-        message:
-          'Stai per eliminare il ruolo <1> {{role}} </1> di <3> {{productTitle}} </3> assegnato a <4>{{user}}</4>.<5 />Vuoi continuare?',
-        confirmButton: 'Conferma',
+        moreRolesOnProduct: {
+          title: 'Rimuovi Ruolo',
+          message:
+            'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3>? <6 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        },
+        oneRoleOnProduct: {
+          title: 'Elimina Utente',
+          message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
+        },
+        haveMoreProducts:
+          'Stai per rimuovere <2>{{user}}</2> dal ruolo di <4>{{productRole}}</4>. <5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.',
+        removeRoleButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
       changeUserStatusModal: {
-        moreRolesOnProduct: {
-          titleSuspend: 'Sospendi Ruolo',
-          messageSuspend: 'Stai per sospendere il ruolo',
-          titleReactivate: 'Riabilita Ruolo',
-          messageReactivate: 'Stai per riabilitare il ruolo',
-          message:
-            '<0/> <1>{{transcodeProductRole}}</1> di <3>{{productTitle}}</3> assegnato a <5>{{partyAndUser}}</5>. <7></7>Vuoi continuare?',
+        suspend: {
+          title: 'Sospendi ruolo',
+          messageWithOneRole:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi riabilitarlo in qualsiasi momento.',
         },
-        oneRoleOnProduct: {
-          titleSuspend: 'Sospendi Referente',
-          messageSuspend: `Stai per sospendere il referente `,
-          titleReactivate: 'Riabilita Referente',
-          messageReactivate: 'Stai per riabilitare il referente',
-          message: `<0/> <1>{{partyAndUser}}<1/>. <3/>Vuoi continuare?`,
+        reactivate: {
+          title: 'Riabilita ruolo',
+          messageWithOneRole:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.',
+          messageWithMultipleRoles:
+            'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
-
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
-      changeUserStatus: {
-        moreRolesOnProduct: {
-          title: 'RUOLO {{userStatus}}',
-          message:
-            'Hai {{userStatus}} correttamente il ruolo <3>{{role}}</3> assegnato a <5>{{user}}</5>.',
-        },
-        oneRoleOnProduct: {
-          title: 'REFERENTE {{userStatus}}',
-          message: 'Hai {{userStatus}} correttamente il referente <3>{{user}}.',
-        },
-      },
+      changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
+      changeUserStatusSuspendError: 'Non è stato possibile sospendere il ruolo. Riprova.',
+      changeUserStatusRehabilitateError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
+      changeUserStatusRemoveError: 'Non è stato possibile rimuovere il ruolo. Riprova.',
       suspendRole: 'Sospendi',
       reactivateRole: 'Riabilita',
-      deleteButton: 'Elimina',
-      successfulAddRole: {
-        title: 'RUOLO AGGIUNTO',
-        messageRole: 'il ruolo',
-        messageRoles: 'i ruoli',
-        message: 'Hai aggiunto correttamente {{roles}} per il referente <4>{{user}}</4>',
-      },
-      addRoleError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        description: "C'è stato un errore durante l'aggiunta del ruolo per il referente {{user}}",
-        message:
-          "C'è stato un errore durante l'aggiunta del ruolo per il referente <1>{{user}}</1>.",
-      },
-      newRoleAssign: '+ Assegna ruolo',
+      deleteButton: 'Rimuovi',
+      successfulAddRole: 'Ruolo assegnato correttamente',
+      addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
+      newRoleAssign: '+ Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:
           'Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>',
-        confirmButton: 'Conferma',
+        confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
-      deleteUser: {
-        title: 'REFERENTE ELIMINATO',
-        message: 'Hai eliminato correttamente il referente <1>{{user}}</1>.',
-      },
       deleteUserModal: {
-        title: 'Elimina Referente',
-        message: 'Stai per eliminare il referente <1>{{user}}</1>.<2 />Vuoi continuare?',
+        title: 'Elimina utente',
+        message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
     },
     productSection: {
-      title: 'Prodotti',
+      title: 'Ruoli',
       description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
-      addButton: 'Aggiungi',
+      addButton: 'Assegna ruolo',
     },
-    pathDescription: 'Referenti',
+    pathDescription: 'Utenti',
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
@@ -164,41 +153,33 @@ export default {
   },
   userEdit: {
     addForm: {
-      title: 'Aggiungi un Referente',
-      subTitle: {
-        generic:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il {{institutionName}}',
-        vertical:
-          'Inserisci i dati della persona che vuoi autorizzare a gestire {{selectedProduct}}',
-      },
+      title: 'Aggiungi un nuovo utente',
+      subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: 'Inserisci il Codice Fiscale del referente',
+        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: 'Inserisci il nome del referente',
+        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: 'Inserisci il cognome del referente',
+        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: 'Inserisci l’indirizzo email istituzionale del referente',
+        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: 'Conferma l’indirizzo email istituzionale del referente',
+        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       product: {
-        title: 'Prodotto',
-        description: 'Seleziona il prodotto sul quale vuoi aggiungere il referente',
+        title: 'Seleziona il prodotto',
       },
       role: {
-        title: 'Ruolo',
-        description:
-          'Seleziona il ruolo che vuoi assegnare al referente relativo al prodotto selezionato',
+        title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
@@ -207,44 +188,37 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      saveUserSuccess: {
-        title: 'REFERENTE AGGIUNTO',
-        message: 'Hai aggiunto correttamente <1>{{user}}</1>.',
-      },
-      saveUserError: {
-        title: "ERRORE DURANTE L'AGGIUNTA",
-        message: "C'è stato un errore durante l'aggiunta del referente <1>{{user}}</1>.",
-      },
+      saveUserSuccess: 'Utente aggiunto correttamente',
+      saveUserError: "Non è stato possibile aggiungere l'utente. Riprova.",
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:
-          'Stai per assegnare a <1>{{user}}</1>i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
-        confirmButton: 'Conferma',
+          'Stai per assegnare a <1>{{user}}</1> i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
+        confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
     },
     editRegistryForm: {
-      title: 'Modifica Referente',
-      subTitle: 'Modifica i dati della persona che hai autorizzato a gestire.',
+      title: 'Modifica il profilo utente',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: 'Inserisci il Codice Fiscale del referente',
+        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: 'Inserisci il nome del referente',
+        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: 'Inserisci il cognome del referente',
+        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: 'Inserisci l’indirizzo email istituzionale del referente',
+        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: 'Conferma l’indirizzo email istituzionale del referente',
+        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
@@ -253,32 +227,29 @@ export default {
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
-      editUserSuccess: {
-        title: 'REFERENTE MODIFICATO',
-        message: 'Hai modificato correttamente i dati di <1>{{user}}</1>.',
-      },
-      editUserError: {
-        title: 'ERRORE DURANTE LA MODIFICA',
-        message: "C'è stato un errore durante la modifica del referente <1>{{user}}</1>.",
-      },
+      editUserSuccess: 'Profilo modificato correttamente',
+      editUserError: 'Si è verificato un errore durante la modifica del profilo. Riprova.',
     },
     addProduct: {
-      title: 'Aggiungi Prodotto',
-      subTitle: 'Assegna un prodotto al referente abilitato per {{institutionName}}',
+      title: 'Assegna un nuovo ruolo',
+      subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
       name: 'NOME',
       surname: 'COGNOME',
       fiscalCode: 'CODICE FISCALE',
     },
   },
   usersPage: {
-    title: 'Referenti',
+    title: 'Utenti',
     generic: {
       subTitle:
-        'Visualizza e gestisci i referenti abilitati alla gestione dei prodotti del tuo Ente.',
+        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     vertical: {
+      paths: {
+        description: 'Utenti',
+      },
       subTitle:
-        'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto {{selectedProduct}}',
+        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
   },
 };

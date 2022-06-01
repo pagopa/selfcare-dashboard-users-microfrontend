@@ -13,6 +13,7 @@ import {
   deletePartyUser,
   fetchPartyProductUsers,
   fetchPartyUser,
+  addUserProductRoles,
 } from '../usersService';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
@@ -40,11 +41,12 @@ beforeEach(() => {
   jest.spyOn(DashboardApi, 'activatePartyRelation');
   jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   jest.spyOn(DashboardApi, 'deletePartyRelation');
+  jest.spyOn(DashboardApi, 'addUserProductRoles');
 });
 
 test('Test fetch PartyUserDetails', async () => {
   const partyUserDetail = await fetchPartyUser(
-    mockedParties[0].institutionId,
+    mockedParties[0].partyId,
     mockedUsers[0].id,
     mockedUser,
     buildProductsMap(mockedPartyProducts)
@@ -54,10 +56,7 @@ test('Test fetch PartyUserDetails', async () => {
     institutionUserResource2PartyUserDetail(mockedInstitutionUserDetailsResource, {}, mockedUser)
   );
 
-  expect(DashboardApi.getPartyUser).toBeCalledWith(
-    mockedParties[0].institutionId,
-    mockedUsers[0].id
-  );
+  expect(DashboardApi.getPartyUser).toBeCalledWith(mockedParties[0].partyId, mockedUsers[0].id);
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
 });
 
@@ -87,7 +86,7 @@ describe('Test fetchPartyUsers', () => {
 
     expect(DashboardApi.getPartyUsers).toBeCalledTimes(1);
     expect(DashboardApi.getPartyUsers).toBeCalledWith(
-      mockedParties[0].institutionId,
+      mockedParties[0].partyId,
       undefined,
       'ADMIN',
       mockedProductRolesService
@@ -121,7 +120,7 @@ describe('Test fetchPartyUsers', () => {
 
     expect(DashboardApi.getPartyUsers).toBeCalledTimes(2);
     expect(DashboardApi.getPartyUsers).toBeCalledWith(
-      mockedParties[0].institutionId,
+      mockedParties[0].partyId,
       mockedPartyProducts[0].id,
       'LIMITED',
       undefined
@@ -155,7 +154,7 @@ test('Test fetchPartyProductUser', async () => {
   expect(DashboardApi.getPartyUsers).toBeCalledTimes(0);
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
   expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
-    mockedParties[0].institutionId,
+    mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     'LIMITED',
     undefined
@@ -170,16 +169,48 @@ test('Test savePartyUser', async () => {
     email: 'email',
     confirmEmail: 'email',
     productRoles: ['role'],
-    certification: true,
+    certifiedName: true,
+    certifiedSurname: true,
+    certifiedMail: true,
   };
 
-  await savePartyUser(mockedParties[0], mockedPartyProducts[0], user);
+  const newUserId = await savePartyUser(mockedParties[0], mockedPartyProducts[0], user);
 
   expect(DashboardApi.savePartyUser).toBeCalledWith(
-    mockedParties[0].institutionId,
+    mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     user
   );
+  expect(newUserId).toBe('newUserId');
+});
+
+test('Test addUserProductRoles', async () => {
+  const user: PartyUserOnCreation = {
+    name: 'Name',
+    surname: 'Surname',
+    taxCode: 'fiscalCode',
+    email: 'email',
+    confirmEmail: 'email',
+    productRoles: ['role'],
+    certifiedName: true,
+    certifiedSurname: true,
+    certifiedMail: true,
+  };
+
+  const userId = await addUserProductRoles(
+    mockedParties[0],
+    mockedPartyProducts[0],
+    'userId',
+    user
+  );
+
+  expect(DashboardApi.addUserProductRoles).toBeCalledWith(
+    mockedParties[0].partyId,
+    mockedPartyProducts[0].id,
+    'userId',
+    user
+  );
+  expect(userId).toBe('userId');
 });
 
 describe('Test updatePartyUserStatus', () => {
@@ -232,11 +263,11 @@ describe('Test updatePartyUserStatus', () => {
   });
 
   test('Test fetchUserRegistryByFiscalCode', async () => {
-    const userRegistry = await fetchUserRegistryByFiscalCode('TaxCode', 'institutionId');
+    const userRegistry = await fetchUserRegistryByFiscalCode('TaxCode', 'partyId');
 
     expect(userRegistry).toMatchObject(userResource2UserRegistry(mockedUserResource));
 
-    expect(DashboardApi.fetchUserRegistryByFiscalCode).toBeCalledWith('TaxCode', 'institutionId');
+    expect(DashboardApi.fetchUserRegistryByFiscalCode).toBeCalledWith('TaxCode', 'partyId');
   });
 });
 

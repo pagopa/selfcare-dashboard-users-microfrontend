@@ -23,7 +23,7 @@ type Props = {
   party: Party;
   product: Product;
   productsMap: ProductsMap;
-  onFetchStatusUpdate: (isFetching: boolean, count?: number) => void;
+  onFetchStatusUpdate: (isFetching: boolean, count: number, error: boolean) => void;
   userDetailUrl: string;
   filterConfiguration: UsersTableFiltersConfig;
   hideProductWhenLoading: boolean;
@@ -63,7 +63,7 @@ const UsersTableProduct = ({
       currentUser ?? ({ uid: 'NONE' } as User),
       productsMap,
       undefined,
-      filterConfiguration.productRoles
+      filterConfiguration.productRoles.filter((r) => r.productId === product.id)
     ).then((data) => data.content)
   );
 
@@ -74,7 +74,7 @@ const UsersTableProduct = ({
       filterConfiguration.productIds.length > 0 &&
       filterConfiguration.productIds.indexOf(product.id) === -1
     ) {
-      onFetchStatusUpdate(false, 0);
+      onFetchStatusUpdate(false, 0, false);
       setUsers({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } });
       setNoMoreData(true);
     } else {
@@ -101,7 +101,7 @@ const UsersTableProduct = ({
   }, [pageRequest]);
 
   const fetchUsers = () => {
-    onFetchStatusUpdate(true, users.content.length);
+    onFetchStatusUpdate(true, users.content.length, error);
     setLoading(true);
     fakePagedFetch(pageRequest?.page as PageRequest, pageRequest?.filterChanged as boolean)
       .then((r) => {
@@ -110,8 +110,9 @@ const UsersTableProduct = ({
             ? r
             : { content: users.content.concat(r.content), page: r.page };
         setUsers(nextUsers);
+        setError(false);
         setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
-        onFetchStatusUpdate(false, nextUsers.content.length);
+        onFetchStatusUpdate(false, nextUsers.content.length, false);
       })
       .catch((reason) => {
         handleErrors([
@@ -119,13 +120,13 @@ const UsersTableProduct = ({
             id: 'FETCH_PARTY_USERS',
             blocking: false,
             error: reason,
-            techDescription: `An error occurred while fetching party users ${party.institutionId} of product ${product} and filter ${filterConfiguration}`,
+            techDescription: `An error occurred while fetching party users ${party.partyId} of product ${product} and filter ${filterConfiguration}`,
             toNotify: true,
           },
         ]);
         setError(true);
         setUsers({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } });
-        onFetchStatusUpdate(false, 1);
+        onFetchStatusUpdate(false, 1, true);
       })
       .finally(() => {
         setLoading(false);
@@ -151,10 +152,10 @@ const UsersTableProduct = ({
     setUsers({ page: users.page, content: users.content.slice() });
   };
 
-  if (error) {
+  if (error && !loading) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
-    return (loading && hideProductWhenLoading && users.content.length === 0) ||
+    return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
       (!loading && users.content.length === 0) ? (
       <></>
     ) : (

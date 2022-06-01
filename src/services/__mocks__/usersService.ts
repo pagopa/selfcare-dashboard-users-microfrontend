@@ -47,7 +47,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // logged user
@@ -98,7 +97,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: true,
-    certification: true,
   },
 
   // use case SUSPENDED having just 1 product/role
@@ -125,7 +123,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // use case ACTIVE having 1 product and 2 roles (ACTIVE and SUSPENDED)
@@ -158,7 +155,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // use case SUSPENDED having 1 product and 2 roles
@@ -191,7 +187,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // use case SUSPENDED on 2 product, in 1 of them not logged user is not ADMIN
@@ -230,7 +225,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // use case ACTIVE on 1 product/role in which logged user is not ADMIN
@@ -257,7 +251,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 
   // use case ACTIVE on 1 product having 2 roles
@@ -290,7 +283,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   // use case ACTIVE on 2 product, both logged user is ADMIN: 1 product with 1 role, the other with 2 roles
   {
@@ -334,7 +326,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid10',
@@ -365,7 +356,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid11',
@@ -390,7 +380,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid12',
@@ -415,7 +404,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid13',
@@ -440,7 +428,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid14',
@@ -465,7 +452,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid15',
@@ -490,7 +476,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid16',
@@ -515,7 +500,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid17',
@@ -540,7 +524,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid18',
@@ -565,7 +548,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid19',
@@ -590,7 +572,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid20',
@@ -615,7 +596,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid21',
@@ -640,7 +620,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
   {
     id: 'uid22',
@@ -665,7 +644,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
     ],
     isCurrentUser: false,
-    certification: true,
   },
 ];
 
@@ -681,7 +659,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     name: 'Gruppo1',
     description:
       'groupId1: use case ACTIVE group having 1 user on product in which loggedUser is ADMIN',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -695,7 +673,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     name: 'Gruppo2',
     description:
       'groupId2: use case ACTIVE group having 1 user on product in which loggedUser is LIMITED',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-pn',
     status: 'ACTIVE',
     membersIds: ['uid7'],
@@ -709,7 +687,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     name: 'Gruppo3',
     description:
       'groupId3: use case SUSPENDED group having 2 users on product in which loggedUser is ADMIN',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'SUSPENDED',
     membersIds: ['uid', '0'],
@@ -723,7 +701,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     name: 'Gruppo4',
     description:
       'groupId4: use case SUSPENDED group having 2 user on product in which loggedUser is LIMITED',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-pn',
     status: 'SUSPENDED',
     membersIds: ['uid6', 'uid7'],
@@ -737,7 +715,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId5',
     name: 'Gruppo5',
     description: 'groupId5 : use case ACTIVE group having 1 user ACTIVE and 1 user SUSPENDED',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid', 'uid3'],
@@ -750,7 +728,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId6',
     name: 'Gruppo6',
     description: 'groupId6 : use case ACTIVE group which does not have a selected product',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: '',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -763,7 +741,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId7',
     name: 'Gruppo7',
     description: 'groupId7 : use case ACTIVE group with loggedUser which is ADMIN in prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['0'],
@@ -776,7 +754,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId8',
     name: 'Gruppo8',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -789,7 +767,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId9',
     name: 'Gruppo9',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -802,7 +780,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId10',
     name: 'Gruppo10',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -815,7 +793,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId11',
     name: 'Gruppo11',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -828,7 +806,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId12',
     name: 'Gruppo12',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -841,7 +819,7 @@ export const mockedGroups: Array<PartyGroupMock> = [
     id: 'groupId13',
     name: 'Gruppo13',
     description: 'Group to have a significant number on prod-io',
-    institutionId: 'onboarded',
+    partyId: 'onboarded',
     productId: 'prod-io',
     status: 'ACTIVE',
     membersIds: ['uid'],
@@ -857,11 +835,14 @@ export const mockedGroups: Array<PartyGroupMock> = [
 }));
 
 export const mockedUserRegistry: UserRegistry = {
+  id: 'id',
   taxCode: 'AAAAAA11A11A234S',
   name: 'franco',
   surname: 'rossi',
   email: 'f@r.com',
-  certification: true,
+  certifiedName: true,
+  certifiedSurname: true,
+  certifiedMail: true,
 };
 
 export const fetchPartyUsers = (
@@ -934,7 +915,14 @@ export const savePartyUser = (
   _party: Party,
   _product: Product,
   _user: PartyUserOnCreation
-): Promise<any> => new Promise((resolve) => resolve(200));
+): Promise<string> => new Promise((resolve) => resolve('newUserId'));
+
+export const addUserProductRoles = (
+  _party: Party,
+  _product: Product,
+  userId: string,
+  _user: PartyUserOnCreation
+): Promise<string> => new Promise((resolve) => resolve(userId));
 
 export const updatePartyUser = (_party: Party, _user: PartyUserOnEdit): Promise<any> =>
   new Promise((resolve) => resolve(200));
@@ -942,8 +930,29 @@ export const updatePartyUser = (_party: Party, _user: PartyUserOnEdit): Promise<
 export const fetchUserRegistryByFiscalCode = (_taxCode: string): Promise<UserRegistry> =>
   new Promise((resolve) => resolve(mockedUserRegistry));
 
+export const fetchUserRegistryById = (
+  partyId: string,
+  userId: string
+): Promise<UserRegistry | null> =>
+  fetchPartyUser(partyId, userId, {
+    email: '',
+    surname: '',
+    taxCode: '',
+    uid: '',
+    name: '',
+  } as User).then((user: PartyUserDetail | null) => ({
+    id: user?.id as string,
+    taxCode: user?.taxCode as string,
+    name: user?.name as string,
+    surname: user?.surname as string,
+    email: user?.email as string,
+    certifiedName: false,
+    certifiedSurname: false,
+    certifiedMail: false,
+  }));
+
 export const fetchPartyUser = (
-  _institutionId: string,
+  _partyId: string,
   userId: string,
   _currentUser: User
 ): Promise<PartyUserDetail | null> => {
@@ -1032,9 +1041,7 @@ export const fetchUserGroups = (
 ): Promise<Array<PartyGroup>> => {
   const userGroups = mockedGroups.filter(
     (g) =>
-      g.institutionId === party.institutionId &&
-      g.productId === product.id &&
-      g.membersIds.indexOf(userId) > -1
+      g.partyId === party.partyId && g.productId === product.id && g.membersIds.indexOf(userId) > -1
   );
   return new Promise((resolve) => resolve(userGroups));
 };

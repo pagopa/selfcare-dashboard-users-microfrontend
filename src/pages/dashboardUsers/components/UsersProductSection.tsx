@@ -14,7 +14,7 @@ type Props = {
   party: Party;
   product: Product;
   productsMap: ProductsMap;
-  onFetchStatusUpdate: (loading: boolean, noData: boolean) => void;
+  onFetchStatusUpdate: (loading: boolean, noData: boolean, error: boolean) => void;
   filters: UsersTableFiltersConfig;
   productsRolesMap: ProductsRolesMap;
 };
@@ -28,11 +28,13 @@ export default function UsersProductSection({
   onFetchStatusUpdate,
   filters,
 }: Props) {
-  const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
+  const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
   return (
     <Grid container direction="row">
-      {(!hideProductWhenLoading && fetchStatus.loading) || !fetchStatus.noData ? (
+      {(!hideProductWhenLoading && fetchStatus.loading) ||
+      fetchStatus.error ||
+      !fetchStatus.noData ? (
         <Grid item xs={12} sx={{ mt: 7 }}>
           <Typography variant="h2" id={product.id}>
             {product.title}
@@ -51,15 +53,15 @@ export default function UsersProductSection({
           productsMap={productsMap}
           productRolesLists={productsRolesMap[product.id]}
           filterConfiguration={filters}
-          onFetchStatusUpdate={(isFetching, count) => {
+          onFetchStatusUpdate={(isFetching, count, error) => {
             const noData = !count || count === 0;
-            setFetchStatus({ loading: isFetching, noData });
-            onFetchStatusUpdate(isFetching, noData);
+            setFetchStatus({ loading: isFetching, noData, error });
+            onFetchStatusUpdate(isFetching, noData, error);
           }}
           userDetailUrl={resolvePathVariables(
             DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
             {
-              institutionId: party.institutionId,
+              partyId: party.partyId,
             }
           )}
         />

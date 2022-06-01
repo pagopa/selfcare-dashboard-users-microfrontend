@@ -4,6 +4,7 @@ import { Store } from 'redux';
 import { i18n } from 'i18next';
 import { Theme } from '@mui/material';
 import { useMemo } from 'react';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { RouteConfig, RoutesObject } from '../routes';
 import { Party } from '../model/Party';
 import { Product, ProductsMap } from '../model/Product';
@@ -24,6 +25,7 @@ export type DashboardMicrocomponentsProps = {
   theme: Theme;
   store: Store<any, any>;
   i18n: i18n;
+  CONFIG: typeof CONFIG;
 };
 
 export type DashboardDecoratorsType = {

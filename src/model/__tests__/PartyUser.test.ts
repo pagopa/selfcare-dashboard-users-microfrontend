@@ -77,7 +77,6 @@ test('Test institutionUserResource2PartyUserDetail', () => {
     status: 'PENDING',
     role: 'LIMITED' as RoleEnum,
     email: 'address',
-    certification: true,
     products: [
       {
         id: 'productId',
@@ -107,7 +106,6 @@ test('Test institutionUserResource2PartyUserDetail', () => {
     status: 'PENDING',
     userRole: 'LIMITED',
     email: 'address',
-    certification: true,
     products: [
       {
         id: 'productId',
@@ -139,7 +137,6 @@ test('Test productUserResource2PartyProductUser', () => {
     status: 'PENDING',
     role: 'LIMITED' as RoleEnum,
     email: 'address',
-    certification: true,
     product: {
       id: 'productId',
       title: 'productTitle',

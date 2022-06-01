@@ -24,12 +24,6 @@ type Props = {
   productRolesList: ProductRolesLists;
 };
 
-const paths = [
-  {
-    description: 'Referenti',
-  },
-];
-
 const emptyFilters: UsersTableFiltersConfig = {
   productIds: [],
   productRoles: [],
@@ -43,8 +37,14 @@ function UsersProductPage({
   productRolesList,
 }: Props) {
   const showSelcRoleGrouped = false;
-
   const { t } = useTranslation();
+
+  const paths = [
+    {
+      description: t('usersPage.vertical.paths.description'),
+    },
+  ];
+
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
 
@@ -52,14 +52,12 @@ function UsersProductPage({
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
-      history.push(
-        resolvePathVariables(ENV.ROUTES.OVERVIEW, { institutionId: party.institutionId })
-      );
+      history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId: party.partyId }));
     }
-  }, [party.institutionId]);
+  }, [party.partyId]);
 
   useEffect(() => {
-    trackEvent('USER_LIST', { party_id: party.institutionId, product: selectedProduct.id });
+    trackEvent('USER_LIST', { party_id: party.partyId, product: selectedProduct.id });
   }, [selectedProduct]);
 
   return productRolesList ? (
@@ -73,12 +71,7 @@ function UsersProductPage({
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9} px={2}>
-        <TitleBox
-          title={t('usersPage.title')}
-          subTitle={t('usersPage.vertical.subTitle', {
-            selectedProduct: `${selectedProduct.title}`,
-          })}
-        />
+        <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.vertical.subTitle')} />
       </Grid>
       <Grid item xs={12} sx={{ height: '100%' }}>
         <Grid container direction="row" alignItems={'center'}>
@@ -94,7 +87,7 @@ function UsersProductPage({
               onFiltersChange={setFilters}
               addUserUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
-                { institutionId: party.institutionId, productId: selectedProduct.id }
+                { partyId: party.partyId, productId: selectedProduct.id }
               )}
               showSelcRoleGrouped={showSelcRoleGrouped}
             />
@@ -115,7 +108,7 @@ function UsersProductPage({
               userDetailUrl={resolvePathVariables(
                 DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path,
                 {
-                  institutionId: party.institutionId,
+                  partyId: party.partyId,
                   productId: selectedProduct.id,
                 }
               )}

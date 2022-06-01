@@ -16,8 +16,9 @@ const RoutingUsers = ({
   activeProducts,
   productsMap,
   decorators,
+  CONFIG,
 }: DashboardMicrofrontendPageProps) => (
-  <RemotePage store={store} history={history} i18n={i18n} theme={theme}>
+  <RemotePage store={store} history={history} i18n={i18n} theme={theme} CONFIG={CONFIG}>
     <Switch>
       {buildRoutes(
         party,
