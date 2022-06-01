@@ -126,8 +126,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
           goBack={goBack}
           party={party}
           userId={partyUser.id}
-          products={activeProducts.filter(
-            (p) => !partyUser.products.every((userProduct) => p.id === userProduct.id)
+          products={activeProducts.filter((p) =>
+            partyUser.products.every((userProduct) => p.id !== userProduct.id)
           )}
           productsRolesMap={productsRolesMap}
           initialFormData={
