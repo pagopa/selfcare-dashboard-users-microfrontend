@@ -12,7 +12,7 @@ const renderApp = async (partyId: string = 'onboarded', productId: string = 'pro
   const history = createMemoryHistory();
   history.push(`/dashboard/${partyId}/${productId}/users`);
   const output = renderComponent(undefined, history);
-  await waitFor(() => screen.getByText('Utenti'));
+  await waitFor(() => screen.getAllByText('Utenti'));
   await waitFor(() => screen.getByText('EMAIL'));
   return output;
 };
@@ -34,7 +34,7 @@ test('test routing user product list', async () => {
     '/dashboard/onboarded/prod-io/users',
     'Utenti',
     history,
-    'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto App IO'
+    'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
   );
 });
 
