@@ -128,7 +128,7 @@ export default {
         title: 'Assegna ruolo',
         message:
           'Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>',
-        confirmButton: 'Conferma',
+        confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
       deleteUserModal: {
@@ -194,7 +194,7 @@ export default {
         title: 'Assegna ruolo',
         message:
           'Stai per assegnare a <1>{{user}}</1> i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>',
-        confirmButton: 'Conferma',
+        confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
     },

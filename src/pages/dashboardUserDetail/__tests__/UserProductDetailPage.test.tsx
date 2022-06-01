@@ -51,7 +51,7 @@ test('Test: go to assign new role from CTA', async () => {
   expect(checkRole).toBeEnabled();
   fireEvent.click(checkRole);
 
-  fireEvent.click(screen.getByText('Conferma'));
+  fireEvent.click(screen.getByText('Assegna'));
 
   await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
   const notifies = store.getState().appState.userNotifies;
