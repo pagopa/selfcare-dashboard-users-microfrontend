@@ -60,42 +60,48 @@ test('test edit user anagraphic from row action', async () => {
 });
 
 test('test suspend user from row action', async () => {
-  await renderApp();
+  const { store } = await renderApp();
   const actionButton = screen.getByTestId('action-uid');
   fireEvent.click(actionButton);
   await waitFor(() => fireEvent.click(screen.getByText('Sospendi')));
   await waitFor(() => screen.getByText('Sospendi ruolo'));
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
-  expect({
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo sospeso correttamente',
   });
 });
 
 test('test rehabilitate user from row action', async () => {
-  await renderApp();
+  const { store } = await renderApp();
   const actionButton = screen.getByTestId('action-uid3');
   await waitFor(() => fireEvent.click(actionButton));
   await waitFor(() => fireEvent.click(screen.getByText('Riabilita')));
   await waitFor(() => screen.getByText('Riabilita ruolo'));
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
-  expect({
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo riabilitato correttamente',
   });
 });
 
 test('test delete user from row action', async () => {
-  await renderApp();
+  const { store } = await renderApp();
   const actionButton = screen.getByTestId('action-uid6');
   await waitFor(() => fireEvent.click(actionButton));
   await waitFor(() => fireEvent.click(screen.getByText('Rimuovi')));
   screen.getByText('Rimuovi ruolo');
   const confirmButton = screen.getByText('Conferma');
   fireEvent.click(confirmButton);
-  expect({
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo rimosso correttamente',
     message: '',

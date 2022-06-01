@@ -253,7 +253,7 @@ export default function AddUserForm({
       ? addUserProductRoles(party, userProduct as Product, userId, values)
       : savePartyUser(party, userProduct as Product, values)
     )
-      .then(() => {
+      .then((userId) => {
         unregisterUnloadEvent();
         trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
           party_id: party.partyId,
@@ -269,7 +269,18 @@ export default function AddUserForm({
           message: '',
         });
 
-        goBackInner();
+        history.push(
+          resolvePathVariables(
+            selectedProduct
+              ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path
+              : DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+            {
+              partyId: party.partyId,
+              productId: selectedProduct?.id ?? '',
+              userId,
+            }
+          )
+        );
       })
       .catch((reason) =>
         addError({

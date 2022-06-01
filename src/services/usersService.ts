@@ -146,12 +146,14 @@ export const savePartyUser = (
   party: Party,
   product: Product,
   user: PartyUserOnCreation
-): Promise<any> => {
+): Promise<string> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return savePartyUserMocked(party, product, user);
   } else {
-    return DashboardApi.savePartyUser(party.partyId, product.id, user);
+    return DashboardApi.savePartyUser(party.partyId, product.id, user).then(
+      (idResource) => idResource.id
+    );
   }
 };
 
@@ -160,12 +162,14 @@ export const addUserProductRoles = (
   product: Product,
   userId: string,
   user: PartyUserOnCreation
-): Promise<any> => {
+): Promise<string> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return addProductUserMocked(party, product, userId, user);
   } else {
-    return DashboardApi.addUserProductRoles(party.partyId, product.id, userId, user);
+    return DashboardApi.addUserProductRoles(party.partyId, product.id, userId, user).then(
+      (_) => userId
+    );
   }
 };
 

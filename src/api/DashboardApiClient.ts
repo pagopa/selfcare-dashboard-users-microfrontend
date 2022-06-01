@@ -10,6 +10,7 @@ import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResour
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
+import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -91,7 +92,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string,
     user: PartyUserOnCreation
-  ): Promise<void> => {
+  ): Promise<UserIdResource> => {
     const result = await apiClient.createInstitutionProductUserUsingPOST({
       institutionId,
       productId,
