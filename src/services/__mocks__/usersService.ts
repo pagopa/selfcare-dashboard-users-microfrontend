@@ -915,14 +915,14 @@ export const savePartyUser = (
   _party: Party,
   _product: Product,
   _user: PartyUserOnCreation
-): Promise<any> => new Promise((resolve) => resolve(200));
+): Promise<string> => new Promise((resolve) => resolve('newUserId'));
 
 export const addUserProductRoles = (
   _party: Party,
   _product: Product,
-  _userId: string,
+  userId: string,
   _user: PartyUserOnCreation
-): Promise<any> => new Promise((resolve) => resolve(200));
+): Promise<string> => new Promise((resolve) => resolve(userId));
 
 export const updatePartyUser = (_party: Party, _user: PartyUserOnEdit): Promise<any> =>
   new Promise((resolve) => resolve(200));

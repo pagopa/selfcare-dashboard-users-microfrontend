@@ -42,7 +42,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
               productRolesList={productRoles2ProductRolesList(mockedProductRoles)}
             />
           </Route>
-          <Route path="/dashboard/1/prod-io/users" exact={true}>
+          <Route path="/dashboard/1/prod-io/users/newUserId" exact={true}>
             Test Completato
           </Route>
           <Route path="*"> {history.location.pathname}</Route>
@@ -88,13 +88,15 @@ test('test with fields that respect rules, so enabled button', async () => {
   await waitFor(() => expect(button).toBeEnabled());
   await waitFor(() => fireEvent.click(button));
 
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/1/prod-io/users'));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/1/prod-io/users/newUserId')
+  );
   await waitFor(() => screen.getByText('Test Completato'));
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
-    title: 'Utente aggiunto correttamente',
+    title: 'Ruolo assegnato correttamente',
     message: '',
   });
 });

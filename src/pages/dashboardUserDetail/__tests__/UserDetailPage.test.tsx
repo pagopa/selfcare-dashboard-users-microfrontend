@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
@@ -50,26 +49,32 @@ test('Test: go to assign new role from CTA', async () => {
 });
 
 test('Test: suspend user', async () => {
-  await renderApp();
+  const { store } = await renderApp();
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
   screen.getByText('Sospendi ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  expect({
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo sospeso correttamente',
   });
 });
 
 test('Test: rehabilitate user', async () => {
-  await renderApp();
+  const { store } = await renderApp();
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
   screen.getByText('Riabilita ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  expect({
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo riabilitato correttamente',
   });

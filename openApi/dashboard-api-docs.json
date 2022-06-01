@@ -359,7 +359,14 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserIdResource"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -382,7 +389,7 @@
       "put": {
         "tags": ["institutions"],
         "summary": "addUserProductRoles",
-        "description": "${swagger.dashboard.institutions.api.addProductUser}",
+        "description": "Service to add a new role/product to a specific user",
         "operationId": "addUserProductRolesUsingPUT",
         "parameters": [
           {
@@ -1198,7 +1205,14 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserGroupIdResource"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -2086,6 +2100,17 @@
           "surname": {
             "type": "string",
             "description": "User's surname"
+          }
+        }
+      },
+      "UserGroupIdResource": {
+        "title": "UserGroupIdResource",
+        "required": ["id"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Users group's unique identifier"
           }
         }
       },
