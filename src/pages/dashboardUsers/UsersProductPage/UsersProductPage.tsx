@@ -24,12 +24,6 @@ type Props = {
   productRolesList: ProductRolesLists;
 };
 
-const paths = [
-  {
-    description: 'Referenti',
-  },
-];
-
 const emptyFilters: UsersTableFiltersConfig = {
   productIds: [],
   productRoles: [],
@@ -43,8 +37,14 @@ function UsersProductPage({
   productRolesList,
 }: Props) {
   const showSelcRoleGrouped = false;
-
   const { t } = useTranslation();
+
+  const paths = [
+    {
+      description: t('usersPage.vertical.paths.description'),
+    },
+  ];
+
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
 

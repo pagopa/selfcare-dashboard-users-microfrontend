@@ -245,6 +245,9 @@ export default {
         'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     vertical: {
+      paths: {
+        description: 'Utenti',
+      },
       subTitle:
         'Gestisci i Referenti Amministrativi e Operativi abilitati alla gestione del prodotto {{selectedProduct}}',
     },
