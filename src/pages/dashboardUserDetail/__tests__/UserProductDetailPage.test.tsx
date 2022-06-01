@@ -1,5 +1,4 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { store } from '../../../redux/store';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
@@ -16,7 +15,7 @@ const renderApp = async (
 ) => {
   const history = createMemoryHistory();
   history.push(`/dashboard/${partyId}/${productId}/users/${userId}`);
-  const output = renderComponent(store, history);
+  const output = renderComponent(undefined, history);
   await waitFor(() => screen.getByText('Profilo Utente'));
   return output;
 };
@@ -44,14 +43,19 @@ test('Test: go to users Page', async () => {
 });
 
 test('Test: go to assign new role from CTA', async () => {
-  await renderApp('onboarded', 'prod-io', 'uid16');
+  const { store } = await renderApp('onboarded', 'prod-io', 'uid16');
   const assignNewRoleButton = screen.getByText('+ Assegna un altro ruolo');
   fireEvent.click(assignNewRoleButton);
   screen.getByText('Assegna ruolo');
   const checkRole = document.querySelector('input[value="referente-dei-pagamenti"]');
   expect(checkRole).toBeEnabled();
   fireEvent.click(checkRole);
-  expect({
+
+  fireEvent.click(screen.getByText('Conferma'));
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo assegnato correttamente',
     message: '',
@@ -59,26 +63,32 @@ test('Test: go to assign new role from CTA', async () => {
 });
 
 test('Test: suspend user', async () => {
-  await renderApp('onboarded', 'prod-io', 'uid16');
+  const { store } = await renderApp('onboarded', 'prod-io', 'uid16');
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
   screen.getByText('Sospendi ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  expect({
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo sospeso correttamente',
   });
 });
 
 test('Test: rehabilitate user', async () => {
-  await renderApp('onboarded', 'prod-io', 'uid3');
+  const { store } = await renderApp('onboarded', 'prod-io', 'uid3');
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
   screen.getByText('Riabilita ruolo');
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
-  expect({
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo riabilitato correttamente',
     message: '',
@@ -86,14 +96,17 @@ test('Test: rehabilitate user', async () => {
 });
 
 test('Test: delete an user', async () => {
-  const { history } = await renderApp('onboarded', 'prod-io', 'uid');
+  const { store, history } = await renderApp('onboarded', 'prod-io', 'uid');
   const deleteButton = screen.getByRole('button', { name: 'Elimina utente' });
   fireEvent.click(deleteButton);
   screen.getAllByText('Elimina utente')[1];
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   fireEvent.click(confirmButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/prod-io/users'));
-  expect({
+
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+  const notifies = store.getState().appState.userNotifies;
+  expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Utente rimosso correttamente',
     message: '',

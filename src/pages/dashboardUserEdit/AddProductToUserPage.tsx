@@ -71,7 +71,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       </Grid>
       <Grid item xs={12} mb={9}>
         <Grid
-          container
+          item
           sx={{
             backgroundColor: '#FFFFFF',
             padding: '24px',

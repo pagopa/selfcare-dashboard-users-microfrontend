@@ -13,6 +13,7 @@ import {
   deletePartyUser,
   fetchPartyProductUsers,
   fetchPartyUser,
+  addUserProductRoles,
 } from '../usersService';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
@@ -40,6 +41,7 @@ beforeEach(() => {
   jest.spyOn(DashboardApi, 'activatePartyRelation');
   jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   jest.spyOn(DashboardApi, 'deletePartyRelation');
+  jest.spyOn(DashboardApi, 'addUserProductRoles');
 });
 
 test('Test fetch PartyUserDetails', async () => {
@@ -172,13 +174,43 @@ test('Test savePartyUser', async () => {
     certifiedMail: true,
   };
 
-  await savePartyUser(mockedParties[0], mockedPartyProducts[0], user);
+  const newUserId = await savePartyUser(mockedParties[0], mockedPartyProducts[0], user);
 
   expect(DashboardApi.savePartyUser).toBeCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     user
   );
+  expect(newUserId).toBe('newUserId');
+});
+
+test('Test addUserProductRoles', async () => {
+  const user: PartyUserOnCreation = {
+    name: 'Name',
+    surname: 'Surname',
+    taxCode: 'fiscalCode',
+    email: 'email',
+    confirmEmail: 'email',
+    productRoles: ['role'],
+    certifiedName: true,
+    certifiedSurname: true,
+    certifiedMail: true,
+  };
+
+  const userId = await addUserProductRoles(
+    mockedParties[0],
+    mockedPartyProducts[0],
+    'userId',
+    user
+  );
+
+  expect(DashboardApi.addUserProductRoles).toBeCalledWith(
+    mockedParties[0].partyId,
+    mockedPartyProducts[0].id,
+    'userId',
+    user
+  );
+  expect(userId).toBe('userId');
 });
 
 describe('Test updatePartyUserStatus', () => {

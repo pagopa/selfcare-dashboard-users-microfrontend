@@ -239,10 +239,9 @@ export default function UsersTableRolesFilter({
 
               return [
                 showSelcRoleGrouped ? (
-                  <Box mt={2}>
+                  <Box mt={2} key={selcRole}>
                     <FormControlLabel
                       sx={{ height: '70px', display: 'flex', alignItems: 'flex-start' }}
-                      key={selcRole}
                       label={
                         <Grid container sx={{ height: '100%' }}>
                           <Grid item>

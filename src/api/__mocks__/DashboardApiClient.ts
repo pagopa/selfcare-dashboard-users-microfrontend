@@ -7,6 +7,7 @@ import {
 } from '../generated/b4f-dashboard/InstitutionUserResource';
 import { SelcRoleEnum } from '../generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../generated/b4f-dashboard/ProductUserResource';
+import { UserIdResource } from '../generated/b4f-dashboard/UserIdResource';
 import { UserResource } from '../generated/b4f-dashboard/UserResource';
 
 export const mockedInstitutionUserDetailsResource: InstitutionUserDetailsResource = {
@@ -157,7 +158,7 @@ export const DashboardApi = {
     _institutionId: string,
     _productId: string,
     _user: PartyUserOnCreation
-  ): Promise<void> => new Promise((resolve) => resolve()),
+  ): Promise<UserIdResource> => new Promise((resolve) => resolve({ id: 'newUserId' })),
 
   suspendPartyRelation: async (_relationshipId: string): Promise<void> =>
     new Promise((resolve) => resolve()),
@@ -170,4 +171,11 @@ export const DashboardApi = {
 
   deletePartyRelation: async (_relationshipId: string): Promise<void> =>
     new Promise<void>((resolve) => resolve()),
+
+  addUserProductRoles: async (
+    _institutionId: string,
+    _productId: string,
+    _userId: string,
+    _user: PartyUserOnCreation
+  ): Promise<void> => new Promise<void>((resolve) => resolve()),
 };
