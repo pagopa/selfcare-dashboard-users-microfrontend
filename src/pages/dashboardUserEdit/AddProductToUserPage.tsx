@@ -121,34 +121,32 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         </Grid>
       </Grid>
 
-      {
-        partyUser.products.map((userProduct) => (
-          <Grid item xs={12} mb={9} key={userProduct.id}>
-            <AddUserForm
-              goBack={goBack}
-              party={party}
-              userId={partyUser.id}
-              products={activeProducts.filter((p) => p.id !== userProduct.id)}
-              productsRolesMap={productsRolesMap}
-              initialFormData={
-                {
-                  taxCode: partyUser.taxCode,
-                  name: partyUser.name,
-                  surname: partyUser.surname,
-                  email: partyUser.email,
-                  confirmEmail: partyUser.email,
-                  id: partyUser.id,
-                  productRoles: [],
-                  certifiedName: false,
-                  certifiedSurname: false,
-                  certifiedMail: false,
-                } as PartyUserOnCreation
-              }
-              canEditRegistryData={false}
-            />
-          </Grid>
-        ))[0]
-      }
+      <Grid item xs={12} mb={9}>
+        <AddUserForm
+          goBack={goBack}
+          party={party}
+          userId={partyUser.id}
+          products={activeProducts
+            .filter((p) => p.id)
+            .filter((p) => partyUser.products.map((userProduct) => p.id !== userProduct.id))}
+          productsRolesMap={productsRolesMap}
+          initialFormData={
+            {
+              taxCode: partyUser.taxCode,
+              name: partyUser.name,
+              surname: partyUser.surname,
+              email: partyUser.email,
+              confirmEmail: partyUser.email,
+              id: partyUser.id,
+              productRoles: [],
+              certifiedName: false,
+              certifiedSurname: false,
+              certifiedMail: false,
+            } as PartyUserOnCreation
+          }
+          canEditRegistryData={false}
+        />
+      </Grid>
     </Grid>
   );
 }
