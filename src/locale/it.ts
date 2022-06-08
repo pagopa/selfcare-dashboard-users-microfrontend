@@ -29,7 +29,7 @@ export default {
     },
     rowActions: {
       toolTipActions: 'Seleziona il tipo di azione',
-      toolTipInfo: 'Le azioni sono disponibili nel dettaglio del referente',
+      toolTipInfo: 'Le azioni sono disponibili nel profilo dell’utente',
       edit: 'Modifica',
       rehabilitate: 'Riabilita',
       suspend: 'Sospendi',
