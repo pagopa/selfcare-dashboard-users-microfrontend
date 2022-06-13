@@ -42,42 +42,40 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
   ];
 
   return (
-    <div style={{ width: '100%' }}>
-      <Grid
-        container
-        alignItems={'center'}
-        px={2}
-        mt={10}
-        sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-      >
-        <Grid item xs={12} mb={3}>
-          <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
-        </Grid>
-        <Grid item xs={12} mb={9}>
-          <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
-        </Grid>
-        <Grid item xs={12}>
-          <AddUserForm
-            party={party}
-            selectedProduct={selectedProduct}
-            products={activeProducts}
-            productsRolesMap={productsRolesMap}
-            canEditRegistryData={true}
-            initialFormData={{
-              taxCode: '',
-              name: '',
-              surname: '',
-              email: '',
-              confirmEmail: '',
-              productRoles: [],
-              certifiedMail: false,
-              certifiedName: false,
-              certifiedSurname: false,
-            }}
-          />
-        </Grid>
+    <Grid
+      container
+      alignItems={'center'}
+      px={2}
+      mt={10}
+      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+    >
+      <Grid item xs={12} mb={3}>
+        <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
-    </div>
+      <Grid item xs={12} mb={9}>
+        <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
+      </Grid>
+      <Grid item xs={12}>
+        <AddUserForm
+          party={party}
+          selectedProduct={selectedProduct}
+          products={activeProducts}
+          productsRolesMap={productsRolesMap}
+          canEditRegistryData={true}
+          initialFormData={{
+            taxCode: '',
+            name: '',
+            surname: '',
+            email: '',
+            confirmEmail: '',
+            productRoles: [],
+            certifiedMail: false,
+            certifiedName: false,
+            certifiedSurname: false,
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 }
 

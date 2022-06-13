@@ -128,81 +128,79 @@ function UserDetailPage({
   return !party ? (
     <></>
   ) : (
-    <div style={{ width: '100%' }}>
-      <Grid
-        container
-        alignItems={'center'}
-        px={2}
-        mt={10}
-        sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-      >
-        <Grid item xs={12} mb={3}>
-          <ProductNavigationBar paths={paths} />
+    <Grid
+      container
+      alignItems={'center'}
+      px={2}
+      mt={10}
+      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+    >
+      <Grid item xs={12} mb={3}>
+        <ProductNavigationBar paths={paths} />
+      </Grid>
+      <Grid item xs={12} mb={7}>
+        <Typography variant="h1">{t('userDetail.title')}</Typography>
+      </Grid>
+      <Grid container item sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
+        <Grid item xs={12} mb={9}>
+          <UserDetail
+            party={party}
+            userInfo={partyUser}
+            roleSection={''}
+            goEdit={goEdit}
+            productsMap={productsMap}
+          />
         </Grid>
-        <Grid item xs={12} mb={7}>
-          <Typography variant="h1">{t('userDetail.title')}</Typography>
+        <Grid item xs={11} mb={4}>
+          <Divider />
         </Grid>
-        <Grid container item sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
-          <Grid item xs={12} mb={9}>
-            <UserDetail
-              party={party}
-              userInfo={partyUser}
-              roleSection={''}
-              goEdit={goEdit}
-              productsMap={productsMap}
-            />
-          </Grid>
-          <Grid item xs={11} mb={4}>
-            <Divider />
-          </Grid>
-          <Grid container>
-            <UserProductSection
-              isProductDetailPage={isProductDetailPage}
-              partyUser={partyUser}
-              party={party}
-              fetchPartyUser={fetchPartyUser}
-              productsRolesMap={productsRolesMap}
-              products={activeProducts}
-            />
-          </Grid>
-        </Grid>
-        <Grid container item my={10} spacing={2}>
-          <Grid item xs={2}>
-            <Button
-              disableRipple
-              variant="outlined"
-              sx={{ height: '40px', width: '100%' }}
-              onClick={goBack}
-            >
-              {t('userDetail.backButton')}
-            </Button>
-          </Grid>
-          {partyUser.products.length === 1 &&
-            partyUser.products[0].roles.length === 1 &&
-            !partyUser.isCurrentUser &&
-            activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
-              <Grid item xs={2}>
-                <Button
-                  disableRipple
-                  variant="outlined"
-                  sx={{
-                    height: '40px',
-                    width: '100%',
-                    color: '#C02927',
-                    borderColor: '#C02927',
-                    '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-                  }}
-                  onClick={handleOpenDelete}
-                >
-                  {haveOneRoleAndOneProduct
-                    ? t('userDetail.deleteUserButton')
-                    : t('userDetail.deleteButton')}
-                </Button>
-              </Grid>
-            )}
+        <Grid container>
+          <UserProductSection
+            isProductDetailPage={isProductDetailPage}
+            partyUser={partyUser}
+            party={party}
+            fetchPartyUser={fetchPartyUser}
+            productsRolesMap={productsRolesMap}
+            products={activeProducts}
+          />
         </Grid>
       </Grid>
-    </div>
+      <Grid container item my={10} spacing={2}>
+        <Grid item xs={2}>
+          <Button
+            disableRipple
+            variant="outlined"
+            sx={{ height: '40px', width: '100%' }}
+            onClick={goBack}
+          >
+            {t('userDetail.backButton')}
+          </Button>
+        </Grid>
+        {partyUser.products.length === 1 &&
+          partyUser.products[0].roles.length === 1 &&
+          !partyUser.isCurrentUser &&
+          activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
+            <Grid item xs={2}>
+              <Button
+                disableRipple
+                variant="outlined"
+                sx={{
+                  height: '40px',
+                  width: '100%',
+                  color: '#C02927',
+                  borderColor: '#C02927',
+                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
+                }}
+                onClick={handleOpenDelete}
+              >
+                {haveOneRoleAndOneProduct
+                  ? t('userDetail.deleteUserButton')
+                  : t('userDetail.deleteButton')}
+              </Button>
+            </Grid>
+          )}
+      </Grid>
+    </Grid>
   );
 }
 export default withUserDetail(UserDetailPage);

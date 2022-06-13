@@ -74,90 +74,86 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   };
 
   return (
-    <div style={{ width: '100%' }}>
-      <Grid
-        container
-        px={2}
-        mt={10}
-        sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-      >
-        <Grid item xs={12}>
-          <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.generic.subTitle')} />
+    <Grid
+      container
+      px={2}
+      mt={10}
+      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+    >
+      <Grid item xs={12}>
+        <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.generic.subTitle')} />
+      </Grid>
+
+      {activeProducts.length > 1 && (
+        <Grid
+          item
+          xs={12}
+          mt={9}
+          sx={{
+            borderBottom: 1,
+            borderBottomWidth: '2px',
+            borderColor: 'divider',
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            backgroundColor: '#F5F6F7',
+          }}
+        >
+          <Tabs variant="fullWidth" scrollButtons="auto" value={activeSection}>
+            {activeProducts.map((p, i) => (
+              <Tab
+                key={p.id}
+                label={p.title}
+                component={HashLink}
+                to={`#${p.id}`}
+                value={i}
+                scroll={scrollWithOffset}
+              />
+            ))}
+          </Tabs>
         </Grid>
+      )}
 
-        {activeProducts.length > 1 && (
-          <Grid
-            item
-            xs={12}
-            mt={9}
-            sx={{
-              borderBottom: 1,
-              borderBottomWidth: '2px',
-              borderColor: 'divider',
-              position: 'sticky',
-              top: 0,
-              zIndex: 100,
-              backgroundColor: '#F5F6F7',
-            }}
-          >
-            <Tabs variant="fullWidth" scrollButtons="auto" value={activeSection}>
-              {activeProducts.map((p, i) => (
-                <Tab
-                  key={p.id}
-                  label={p.title}
-                  component={HashLink}
-                  to={`#${p.id}`}
-                  value={i}
-                  scroll={scrollWithOffset}
-                />
-              ))}
-            </Tabs>
+      <Grid item xs={12} sx={{ height: '100%' }}>
+        <Grid container direction="row" alignItems={'center'} mt={5}>
+          <Grid item xs={12}>
+            <UsersTableActions
+              disableFilters={loading}
+              loading={loading}
+              party={party}
+              products={activeProducts}
+              productsRolesMap={productsRolesMap}
+              filters={filters}
+              onFiltersChange={setFilters}
+              addUserUrl={resolvePathVariables(
+                DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
+                { partyId: party.partyId }
+              )}
+              showSelcRoleGrouped={showSelcRoleGrouped}
+            />
           </Grid>
-        )}
-
-        <Grid item xs={12} sx={{ height: '100%' }}>
-          <Grid container direction="row" alignItems={'center'} mt={5}>
-            <Grid item xs={12}>
-              <UsersTableActions
-                disableFilters={loading}
-                loading={loading}
+          {activeProducts.map((p, i) => (
+            <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
+              <UsersProductSection
+                hideProductWhenLoading={true}
                 party={party}
-                products={activeProducts}
-                productsRolesMap={productsRolesMap}
+                product={p}
+                productsMap={productsMap}
                 filters={filters}
-                onFiltersChange={setFilters}
-                addUserUrl={resolvePathVariables(
-                  DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
-                  { partyId: party.partyId }
-                )}
-                showSelcRoleGrouped={showSelcRoleGrouped}
+                productsRolesMap={productsRolesMap}
+                onFetchStatusUpdate={(loading, noData) => {
+                  setProductsFetchStatus((previousState) => ({
+                    ...previousState,
+                    [p.id]: { loading, noData },
+                  }));
+                }}
               />
             </Grid>
-            {activeProducts.map((p, i) => (
-              <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
-                <UsersProductSection
-                  hideProductWhenLoading={true}
-                  party={party}
-                  product={p}
-                  productsMap={productsMap}
-                  filters={filters}
-                  productsRolesMap={productsRolesMap}
-                  onFetchStatusUpdate={(loading, noData) => {
-                    setProductsFetchStatus((previousState) => ({
-                      ...previousState,
-                      [p.id]: { loading, noData },
-                    }));
-                  }}
-                />
-              </Grid>
-            ))}
-            {!loading && noData && (
-              <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
-            )}
-          </Grid>
+          ))}
+          {!loading && noData && <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />}
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
 

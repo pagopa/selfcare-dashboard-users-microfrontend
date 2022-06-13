@@ -36,41 +36,39 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   ];
 
   return (
-    <div style={{ width: '100%' }}>
-      <Grid
-        container
-        alignItems={'center'}
-        px={2}
-        mt={10}
-        sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-      >
-        <Grid item xs={12} mb={3}>
-          <ProductNavigationBar paths={paths} />
-        </Grid>
-        <Grid item xs={12} mb={9}>
-          <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
-        </Grid>
-        <Grid item xs={12}>
-          <AddUserForm
-            party={party}
-            products={activeProducts}
-            productsRolesMap={productsRolesMap}
-            initialFormData={{
-              taxCode: '',
-              name: '',
-              surname: '',
-              email: '',
-              confirmEmail: '',
-              certifiedMail: false,
-              certifiedName: false,
-              certifiedSurname: false,
-              productRoles: [],
-            }}
-            canEditRegistryData={true}
-          />
-        </Grid>
+    <Grid
+      container
+      alignItems={'center'}
+      px={2}
+      mt={10}
+      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+    >
+      <Grid item xs={12} mb={3}>
+        <ProductNavigationBar paths={paths} />
       </Grid>
-    </div>
+      <Grid item xs={12} mb={9}>
+        <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
+      </Grid>
+      <Grid item xs={12}>
+        <AddUserForm
+          party={party}
+          products={activeProducts}
+          productsRolesMap={productsRolesMap}
+          initialFormData={{
+            taxCode: '',
+            name: '',
+            surname: '',
+            email: '',
+            confirmEmail: '',
+            certifiedMail: false,
+            certifiedName: false,
+            certifiedSurname: false,
+            productRoles: [],
+          }}
+          canEditRegistryData={true}
+        />
+      </Grid>
+    </Grid>
   );
 }
 
