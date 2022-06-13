@@ -41,31 +41,10 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {t('userDetail.surname')}
               </Typography>
             </Grid>
-            <Grid container item alignContent="center">
-              <Grid item xs={3}>
-                <Typography variant="h6" className="CustomLabelStyle">
-                  {t('userDetail.institutionalEmail')}
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={9}
-                sx={{
-                  height: '100%',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: 'vertical' as const,
-                  overflowWrap: 'break-word',
-                  minWidth: 0,
-                  maxWidth: 0,
-                }}
-              >
-                <Typography variant="body2" className="CustomInfoStyle">
-                  {userInfo.email}
-                </Typography>
-              </Grid>
+            <Grid item xs={9}>
+              <CustomStyleCapitolized variant="body2">
+                {userInfo.surname.toLocaleLowerCase()}
+              </CustomStyleCapitolized>
             </Grid>
           </Grid>
           <Grid container item alignContent="center">
@@ -86,7 +65,21 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {t('userDetail.institutionalEmail')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid
+              item
+              xs={9}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflowWrap: 'break-word',
+                minWidth: 0,
+                maxWidth: 0,
+              }}
+            >
               <Typography variant="body2" className="CustomInfoStyle">
                 {userInfo.email}
               </Typography>
