@@ -343,12 +343,12 @@ export default function AddUserForm({
   });
 
   useEffect(() => {
-    if (formik.dirty) {
+    if (formik.dirty || !formik.isValid) {
       registerUnloadEvent();
     } else {
       unregisterUnloadEvent();
     }
-  }, [formik.dirty]);
+  }, [formik.dirty, !formik.isValid]);
 
   useEffect(() => {
     if (userProduct) {
