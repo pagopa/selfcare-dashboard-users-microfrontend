@@ -65,7 +65,21 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {t('userDetail.institutionalEmail')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid
+              item
+              xs={9}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflowWrap: 'break-word',
+                minWidth: 0,
+                maxWidth: 0,
+              }}
+            >
               <Typography variant="body2" className="CustomInfoStyle">
                 {userInfo.email}
               </Typography>
