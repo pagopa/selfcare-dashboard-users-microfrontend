@@ -141,7 +141,7 @@ function UserDetailPage({
       <Grid item xs={12} mb={7}>
         <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid container item sx={{ width: '985px', backgroundColor: '#FFFFFF', padding: 3 }}>
+      <Grid container item sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
         <Grid item xs={12} mb={9}>
           <UserDetail
             party={party}
