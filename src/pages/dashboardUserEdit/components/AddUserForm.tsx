@@ -25,7 +25,11 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
-import { fetchUserRegistryByFiscalCode, savePartyUser } from '../../../services/usersService';
+import {
+  fetchUserRegistryByFiscalCode,
+  savePartyUser,
+  addUserProductRoles,
+} from '../../../services/usersService';
 import {
   LOADING_TASK_SAVE_PARTY_USER,
   LOADING_TASK_FETCH_TAX_CODE,
@@ -42,7 +46,7 @@ const CustomTextField = styled(TextField)({
   '.MuiInput-root': {
     '&:after': {
       borderBottom: '2px solid #5C6F82',
-      color: 'green',
+      color: '#5C6F82',
     },
   },
   '.MuiInputLabel-root.Mui-focused': {
@@ -53,6 +57,11 @@ const CustomTextField = styled(TextField)({
     color: '#5C6F82',
     fontSize: '16px',
     fontWeight: '700',
+  },
+  label: {
+    '&.Mui-error': {
+      color: '#5C6F82 !important',
+    },
   },
   input: {
     '&::placeholder': {
@@ -77,6 +86,7 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
+  userId?: string;
   selectedProduct?: Product;
   products: Array<Product>;
   productsRolesMap: ProductsRolesMap;
@@ -87,6 +97,7 @@ type Props = {
 
 export default function AddUserForm({
   party,
+  userId,
   selectedProduct,
   products,
   productsRolesMap,
@@ -113,8 +124,12 @@ export default function AddUserForm({
   useEffect(() => {
     if (!initialFormData.taxCode) {
       if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
-        fetchTaxCode(validTaxcode, party.institutionId);
-      } else if (!validTaxcode && formik.values.certification === true) {
+        fetchTaxCode(validTaxcode, party.partyId);
+      } else if (
+        !validTaxcode &&
+        formik.values.certifiedName === true &&
+        formik.values.certifiedSurname === true
+      ) {
         void formik.setValues(
           {
             ...formik.values,
@@ -122,7 +137,8 @@ export default function AddUserForm({
             surname: formik.initialValues.surname,
             email: formik.initialValues.email,
             confirmEmail: '',
-            certification: formik.initialValues.certification,
+            certifiedName: formik.initialValues.certifiedName,
+            certifiedSurname: formik.initialValues.certifiedSurname,
           },
           true
         );
@@ -149,34 +165,39 @@ export default function AddUserForm({
             ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path
             : DASHBOARD_USERS_ROUTES.PARTY_USERS.path,
           {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
             productId: userProduct?.id ?? '',
           }
         )
       ));
 
-  const fetchTaxCode = (taxCode: string, institutionId: string) => {
+  const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
-    fetchUserRegistryByFiscalCode(taxCode, institutionId)
+    fetchUserRegistryByFiscalCode(taxCode, partyId)
       .then((userRegistry) => {
         void formik.setValues(
           {
             ...formik.values,
             name:
               userRegistry?.name ??
-              (formik.values.certification ? initialFormData.name : formik.values.name),
+              (formik.values.certifiedName ? initialFormData.name : formik.values.name),
             surname:
               userRegistry?.surname ??
-              (formik.values.certification ? initialFormData.surname : formik.values.surname),
+              (formik.values.certifiedSurname ? initialFormData.surname : formik.values.surname),
             email:
               userRegistry?.email ??
-              (formik.values.certification ? initialFormData.email : formik.values.email),
+              (formik.values.certifiedMail ? initialFormData.email : formik.values.email),
             confirmEmail: '',
-            certification:
-              userRegistry?.certification ??
-              (formik.values.certification
-                ? initialFormData.certification
-                : formik.values.certification),
+            certifiedName:
+              userRegistry?.certifiedName ??
+              (formik.values.certifiedName
+                ? initialFormData.certifiedName
+                : formik.values.certifiedName),
+            certifiedSurname:
+              userRegistry?.certifiedSurname ??
+              (formik.values.certifiedSurname
+                ? initialFormData.certifiedSurname
+                : formik.values.certifiedSurname),
           },
           true
         );
@@ -211,7 +232,8 @@ export default function AddUserForm({
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
-          : values.confirmEmail !== values.email
+          : values.email &&
+            values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.addForm.errors.mismatchEmail')
           : undefined,
         productRoles: values.productRoles?.length === 0 ? requiredError : undefined,
@@ -227,44 +249,50 @@ export default function AddUserForm({
 
   const save = (values: PartyUserOnCreation) => {
     setLoadingSaveUser(true);
-    savePartyUser(party, userProduct as Product, values)
-      .then(() => {
+    (userId
+      ? addUserProductRoles(party, userProduct as Product, userId, values)
+      : savePartyUser(party, userProduct as Product, values)
+    )
+      .then((userId) => {
         unregisterUnloadEvent();
-        trackEvent(initialFormData.taxCode ? 'USER_UPDATE' : 'USER_ADD', {
-          party_id: party.institutionId,
+        trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
+          party_id: party.partyId,
           product: userProduct?.id,
           product_role: values.productRoles,
         });
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: t('userEdit.addForm.saveUserSuccess.title'),
-          message: (
-            <>
-              <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
-                Hai aggiunto correttamente
-                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
-              </Trans>
-            </>
-          ),
+          title: userId
+            ? t('userDetail.actions.successfulAddRole')
+            : t('userEdit.addForm.saveUserSuccess'),
+          message: '',
         });
 
-        goBackInner();
+        history.push(
+          resolvePathVariables(
+            selectedProduct
+              ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path
+              : DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+            {
+              partyId: party.partyId,
+              productId: selectedProduct?.id ?? '',
+              userId,
+            }
+          )
+        );
       })
       .catch((reason) =>
         addError({
           id: 'SAVE_PARTY_USER',
           blocking: false,
           error: reason,
-          techDescription: `An error occurred while saving party user ${party.institutionId}`,
+          techDescription: `An error occurred while saving party user ${party.partyId}`,
           toNotify: true,
-          displayableTitle: t('userEdit.addForm.saveUserError.title'),
-          displayableDescription: (
-            <Trans i18nKey="userEdit.addForm.saveUserError.message">
-              {"C'è stato un errore durante l'aggiunta del referente "}
-              <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
-            </Trans>
-          ),
+          displayableTitle: userId
+            ? t('userDetail.actions.addRoleError')
+            : t('userEdit.addForm.saveUserError'),
+          displayableDescription: '',
           component: 'Toast',
         })
       )
@@ -289,7 +317,7 @@ export default function AddUserForm({
                 {{
                   roles: `${values.productRoles
                     .map((r) => productRoles?.groupByProductRole[r].title)
-                    .join(',')}`,
+                    .join(', ')}`,
                 }}
               </strong>
               {' sul prodotto '}
@@ -384,11 +412,18 @@ export default function AddUserForm({
   return (
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column">
+        <Grid
+          item
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           {canEditRegistryData ? (
             <>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'taxCode',
@@ -399,29 +434,29 @@ export default function AddUserForm({
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'name',
                       t('userEdit.addForm.name.label'),
                       t('userEdit.addForm.name.placeholder')
                     )}
-                    disabled={formik.values.certification || !validTaxcode}
+                    disabled={formik.values.certifiedName || !validTaxcode}
                   />
                 </Grid>
-                <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+                <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'surname',
                       t('userEdit.addForm.surname.label'),
                       t('userEdit.addForm.surname.placeholder')
                     )}
-                    disabled={formik.values.certification || !validTaxcode}
+                    disabled={formik.values.certifiedSurname || !validTaxcode}
                   />
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'email',
@@ -433,7 +468,7 @@ export default function AddUserForm({
                 </Grid>
               </Grid>
               <Grid item container spacing={3}>
-                <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+                <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps(
                       'confirmEmail',
@@ -449,12 +484,9 @@ export default function AddUserForm({
 
           {!selectedProduct ? (
             <Grid item container spacing={3}>
-              <Grid item xs={8} mb={3}>
+              <Grid item xs={10} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.product.title')}
-                </Typography>
-                <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  {t('userEdit.addForm.product.description')}
                 </Typography>
                 <RadioGroup aria-label="user" name="products" value={userProduct?.id ?? ''}>
                   {products
@@ -480,12 +512,9 @@ export default function AddUserForm({
 
           {productRoles && (
             <Grid item container spacing={3}>
-              <Grid item xs={8} mb={3}>
+              <Grid item xs={10} mb={3}>
                 <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
                   {t('userEdit.addForm.role.title')}
-                </Typography>
-                <Typography variant="subtitle2" sx={{ color: '#5C6F82' }} pb={3}>
-                  {t('userEdit.addForm.role.description')}
                 </Typography>
 
                 {Object.values(productRoles.groupBySelcRole).map((roles, selcRoleIndex) =>

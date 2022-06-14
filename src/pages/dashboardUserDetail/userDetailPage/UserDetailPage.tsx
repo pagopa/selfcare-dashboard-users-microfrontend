@@ -16,7 +16,6 @@ import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants'
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
-import UserSelcRole from './components/UserSelcRole';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -42,18 +41,21 @@ function UserDetailPage({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+
   const product = partyUser.products[0];
+  const haveOneRoleAndOneProduct =
+    partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.institutionId });
+      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId });
     }
   }, [party]);
 
   const goEdit = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -61,7 +63,7 @@ function UserDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
       })
     );
 
@@ -73,14 +75,8 @@ function UserDetailPage({
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
-          title: t('userDetail.actions.deleteUser.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.deleteUser.message">
-              {'Hai eliminato correttamente il referente '}
-              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
-              {'.'}
-            </Trans>
-          ),
+          title: t('userDetail.actions.delete.userDelete'),
+          message: '',
         });
       })
       .catch((reason) =>
@@ -88,6 +84,8 @@ function UserDetailPage({
           id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
           blocking: false,
           error: reason,
+          displayableTitle: t('userDetail.actions.delete.userDeleteError'),
+          displayableDescription: '',
           techDescription: `Something gone wrong while deleting role ${product.roles[0].relationshipId} for product ${product.title}`,
           toNotify: true,
         })
@@ -98,11 +96,11 @@ function UserDetailPage({
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'USER_DELETE_MODAL',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare il referente '}
+          {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
@@ -143,29 +141,29 @@ function UserDetailPage({
       <Grid item xs={12} mb={7}>
         <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid container item>
+      <Grid container item sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
         <Grid item xs={12} mb={9}>
           <UserDetail
             party={party}
             userInfo={partyUser}
-            roleSection={<UserSelcRole selcRole={partyUser.userRole} />}
+            roleSection={''}
             goEdit={goEdit}
             productsMap={productsMap}
           />
         </Grid>
-      </Grid>
-      <Grid item xs={11} mb={4}>
-        <Divider />
-      </Grid>
-      <Grid container item mb={9}>
-        <UserProductSection
-          isProductDetailPage={isProductDetailPage}
-          partyUser={partyUser}
-          party={party}
-          fetchPartyUser={fetchPartyUser}
-          productsRolesMap={productsRolesMap}
-          products={activeProducts}
-        />
+        <Grid item xs={11} mb={4}>
+          <Divider />
+        </Grid>
+        <Grid container>
+          <UserProductSection
+            isProductDetailPage={isProductDetailPage}
+            partyUser={partyUser}
+            party={party}
+            fetchPartyUser={fetchPartyUser}
+            productsRolesMap={productsRolesMap}
+            products={activeProducts}
+          />
+        </Grid>
       </Grid>
       <Grid container item my={10} spacing={2}>
         <Grid item xs={2}>
@@ -195,7 +193,9 @@ function UserDetailPage({
                 }}
                 onClick={handleOpenDelete}
               >
-                {t('userDetail.deleteButton')}
+                {haveOneRoleAndOneProduct
+                  ? t('userDetail.deleteUserButton')
+                  : t('userDetail.deleteButton')}
               </Button>
             </Grid>
           )}

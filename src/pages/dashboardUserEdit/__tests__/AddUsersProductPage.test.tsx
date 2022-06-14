@@ -34,7 +34,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
     <Provider store={store}>
       <Router history={history}>
         <Switch>
-          <Route path="/:institutionId/:productId" exact={true}>
+          <Route path="/:partyId/:productId" exact={true}>
             <AddUsersProductPage
               party={mockedParties[0]}
               activeProducts={mockedPartyProducts}
@@ -42,7 +42,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
               productRolesList={productRoles2ProductRolesList(mockedProductRoles)}
             />
           </Route>
-          <Route path="/dashboard/1/prod-io/users" exact={true}>
+          <Route path="/dashboard/1/prod-io/users/newUserId" exact={true}>
             Test Completato
           </Route>
           <Route path="*"> {history.location.pathname}</Route>
@@ -50,7 +50,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
       </Router>
     </Provider>
   );
-  await waitFor(() => screen.getByText('Ruolo'));
+  await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
   return { history, store };
 };
 
@@ -73,10 +73,10 @@ test('test with fields that respect rules, so enabled button', async () => {
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
 
-  await waitFor(() => expect(name).toBeEnabled());
+  await waitFor(() => expect(email).toBeEnabled());
 
-  fireEvent.change(name, { target: { value: fieldsValue.name } });
-  fireEvent.change(surname, { target: { value: fieldsValue.surname } });
+  // fireEvent.change(name, { target: { value: fieldsValue.name } });
+  // fireEvent.change(surname, { target: { value: fieldsValue.surname } });
   fireEvent.change(email, { target: { value: fieldsValue.email } });
   fireEvent.change(confirmEmail, { target: { value: fieldsValue.confirmEmail } });
 
@@ -88,26 +88,16 @@ test('test with fields that respect rules, so enabled button', async () => {
   await waitFor(() => expect(button).toBeEnabled());
   await waitFor(() => fireEvent.click(button));
 
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/1/prod-io/users'));
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/1/prod-io/users/newUserId')
+  );
   await waitFor(() => screen.getByText('Test Completato'));
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
-    title: 'REFERENTE AGGIUNTO',
-    message: (
-      <>
-        <Trans i18nKey="userEdit.addForm.saveUserSuccess.message">
-          Hai aggiunto correttamente
-          <strong>
-            {{
-              user: 'franco rossi',
-            }}
-          </strong>
-          .
-        </Trans>
-      </>
-    ),
+    title: 'Ruolo assegnato correttamente',
+    message: '',
   });
 });
 
@@ -121,8 +111,8 @@ test('test with taxCode field that respect rules, so all field are enabled', asy
   const confirmEmail = document.querySelector('#confirmEmail');
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
-  expect(name).toBeEnabled();
-  expect(surname).toBeEnabled();
+  // expect(name).toBeEnabled();
+  // expect(surname).toBeEnabled();
   expect(email).toBeEnabled();
   expect(confirmEmail).toBeEnabled();
 

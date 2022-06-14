@@ -31,7 +31,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.MAIN.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
             productId: selectedProduct.id,
           })
         ),
@@ -53,12 +53,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox
-          title={t('userEdit.addForm.title')}
-          subTitle={t('userEdit.addForm.subTitle.vertical', {
-            selectedProduct: `${selectedProduct.title}`,
-          })}
-        />
+        <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
       </Grid>
       <Grid item xs={12}>
         <AddUserForm
@@ -73,8 +68,10 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
             surname: '',
             email: '',
             confirmEmail: '',
-            certification: false,
             productRoles: [],
+            certifiedMail: false,
+            certifiedName: false,
+            certifiedSurname: false,
           }}
         />
       </Grid>

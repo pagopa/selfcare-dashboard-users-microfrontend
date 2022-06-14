@@ -51,7 +51,7 @@ function UserProductDetailPage({
     if (!userProduct) {
       history.push(
         resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.path, {
-          institutionId: party.institutionId,
+          partyId: party.partyId,
           productId: selectedProduct.id,
         })
       );
@@ -70,22 +70,18 @@ function UserProductDetailPage({
         goBack();
         addNotify({
           component: 'Toast',
-          id: 'DELETE_PARTY_USER',
-          title: t('userDetail.actions.deleteUser.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.deleteUser.message">
-              {'Hai eliminato correttamente il referente '}
-              <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
-              {'.'}
-            </Trans>
-          ),
+          id: 'DELETE_PARTY_USER_PRODUCT',
+          title: t('userDetail.actions.delete.userDelete'),
+          message: '',
         });
       })
       .catch((reason) =>
         addError({
-          id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
+          id: `DELETE_PARTY_USER_PRODUCT_ERROR-${partyUser.id}`,
           blocking: false,
           error: reason,
+          displayableTitle: t('userDetail.actions.delete.userDeleteError'),
+          displayableDescription: '',
           techDescription: `Something gone wrong while deleting role ${
             (userProduct as PartyUserProduct).roles[0].relationshipId
           } for product ${(userProduct as PartyUserProduct).title}`,
@@ -98,11 +94,11 @@ function UserProductDetailPage({
   const handleOpenDelete = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'PRODUCT_USER_DELETE_MODAL',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare il referente '}
+          {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
@@ -122,7 +118,7 @@ function UserProductDetailPage({
       resolvePathVariables(
         DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.EDIT_PARTY_PRODUCT_USER.path,
         {
-          institutionId: party.institutionId,
+          partyId: party.partyId,
           userId: partyUser.id,
           productId: selectedProduct.id,
         }
@@ -132,7 +128,7 @@ function UserProductDetailPage({
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.MAIN.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         productId: selectedProduct.id,
       })
     );
@@ -162,40 +158,42 @@ function UserProductDetailPage({
       <Grid item xs={12} mb={7}>
         <Typography variant="h1">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid container item>
-        <Grid item xs={12}>
-          <UserDetail
-            productsMap={productsMap}
+      <Grid sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
+        <Grid container item>
+          <Grid item xs={12}>
+            <UserDetail
+              productsMap={productsMap}
+              party={party}
+              userInfo={partyUser}
+              roleSection={<></>}
+              goEdit={goEdit}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={11} my={5}>
+          <Divider />
+        </Grid>
+        <Grid item xs={10}>
+          <UserProductRoles
+            showActions={true}
             party={party}
-            userInfo={partyUser}
-            roleSection={<></>}
-            goEdit={goEdit}
+            user={partyUser}
+            fetchPartyUser={fetchPartyUser}
+            userProduct={userProduct}
+            product={selectedProduct}
+            productRolesList={productRolesList}
+            canEdit={canEdit}
+            isProductDetailPage={isProductDetailPage}
           />
         </Grid>
-      </Grid>
-      <Grid item xs={11} my={5}>
-        <Divider />
-      </Grid>
-      <Grid item xs={10}>
-        <UserProductRoles
-          showActions={true}
-          party={party}
-          user={partyUser}
-          fetchPartyUser={fetchPartyUser}
-          userProduct={userProduct}
-          product={selectedProduct}
-          productRolesList={productRolesList}
-          canEdit={canEdit}
-          isProductDetailPage={isProductDetailPage}
-        />
-      </Grid>
-      <Grid container item xs={10} mt={3}>
-        <UserProductGroups
-          party={party}
-          user={partyUser}
-          product={selectedProduct}
-          canEdit={canEdit}
-        />
+        <Grid container item xs={10} mt={3}>
+          <UserProductGroups
+            party={party}
+            user={partyUser}
+            product={selectedProduct}
+            canEdit={canEdit}
+          />
+        </Grid>
       </Grid>
       <Grid container item my={10} spacing={2}>
         <Grid item xs={2}>
@@ -222,7 +220,7 @@ function UserProductDetailPage({
               }}
               onClick={handleOpenDelete}
             >
-              {t('userDetail.deleteButton')}
+              {t('userDetail.deleteUserButton')}
             </Button>
           </Grid>
         )}

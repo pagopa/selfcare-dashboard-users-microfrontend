@@ -29,7 +29,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const goBack = () =>
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
-        institutionId: party.institutionId,
+        partyId: party.partyId,
         userId: partyUser.id,
       })
     );
@@ -40,16 +40,13 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            institutionId: party.institutionId,
+            partyId: party.partyId,
           })
         ),
     },
     {
       description: partyUser.name + ' ' + partyUser.surname,
       onClick: goBack,
-    },
-    {
-      description: t('userPagesPath.addProduct'),
     },
   ];
 
@@ -73,7 +70,14 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <Grid container>
+        <Grid
+          item
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           <Grid item xs={10}>
             <Grid container spacing={2}>
               <Grid container item alignContent="center">
@@ -117,29 +121,32 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         </Grid>
       </Grid>
 
-      {partyUser.products.map((userProduct) => (
-        <Grid item xs={12} mb={9} key={userProduct.id}>
-          <AddUserForm
-            goBack={goBack}
-            party={party}
-            products={activeProducts.filter((p) => p.id !== userProduct.id)}
-            productsRolesMap={productsRolesMap}
-            initialFormData={
-              {
-                taxCode: partyUser.taxCode,
-                name: partyUser.name,
-                surname: partyUser.surname,
-                email: partyUser.email,
-                confirmEmail: partyUser.email,
-                id: partyUser.id,
-                productRoles: [],
-                certification: partyUser.certification,
-              } as PartyUserOnCreation
-            }
-            canEditRegistryData={false}
-          />
-        </Grid>
-      ))}
+      <Grid item xs={12} mb={9}>
+        <AddUserForm
+          goBack={goBack}
+          party={party}
+          userId={partyUser.id}
+          products={activeProducts.filter((p) =>
+            partyUser.products.every((userProduct) => p.id !== userProduct.id)
+          )}
+          productsRolesMap={productsRolesMap}
+          initialFormData={
+            {
+              taxCode: partyUser.taxCode,
+              name: partyUser.name,
+              surname: partyUser.surname,
+              email: partyUser.email,
+              confirmEmail: partyUser.email,
+              id: partyUser.id,
+              productRoles: [],
+              certifiedName: false,
+              certifiedSurname: false,
+              certifiedMail: false,
+            } as PartyUserOnCreation
+          }
+          canEditRegistryData={false}
+        />
+      </Grid>
     </Grid>
   );
 }

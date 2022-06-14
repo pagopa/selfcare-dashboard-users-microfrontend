@@ -5,11 +5,12 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
-import { savePartyUser } from '../../../services/usersService';
+import { addUserProductRoles } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
 type Props = {
@@ -49,52 +50,35 @@ export default function UserProductAddRoles({
 
     setOpen(false);
     setLoading(true);
-    savePartyUser(party, product, {
+    addUserProductRoles(party, product, user.id, {
       ...user,
       productRoles: newRoleSelected ?? [],
       confirmEmail: user.email,
+      certifiedName: false,
+      certifiedSurname: false,
+      certifiedMail: false,
     })
       .then((_) => {
-        const newRolesTitles = newRoleSelected.map(
-          (r) => productRolesList.groupByProductRole[r].title
-        );
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',
-          title: t('userDetail.actions.successfulAddRole.title'),
-          message: (
-            <Trans i18nKey="userDetail.actions.successfulAddRole.message">
-              {'Hai aggiunto correttamente '}
-              {newRolesTitles?.length === 1
-                ? t('userDetail.actions.successfulAddRole.messageRole')
-                : t('userDetail.actions.successfulAddRole.messageRoles')}
-              {{ roles: ` ${newRolesTitles?.join(',')} ` }}
-              {' per il referente '}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>
-            </Trans>
-          ),
+          title: t('userDetail.actions.successfulAddRole'),
+          message: '',
         });
         fetchPartyUser();
       })
-      .catch((error) =>
+      .catch((error) => {
         addError({
           component: 'Toast',
           id: `ADD_MULTI_ROLE_USER_ERROR-${user.id}`,
-          displayableTitle: t('userDetail.actions.addRoleError.title'),
-          techDescription: t('userDetail.actions.addRoleError.description', {
-            user: `${user.name} ${user.surname}`,
-          }),
+          displayableTitle: t('userDetail.actions.addRoleError'),
+          displayableDescription: '',
+          techDescription: `An error occurred while add role`,
           blocking: false,
           error,
           toNotify: true,
-          displayableDescription: (
-            <Trans i18nKey="userDetail.actions.addRoleError.message">
-              {"C'è stato un errore durante l'aggiunta del ruolo per il referente "}
-              <strong>{{ user: `${user.name} ${user.surname}` }}</strong>.
-            </Trans>
-          ),
-        })
-      )
+        });
+      })
       .finally(() => setLoading(false));
   };
 
@@ -148,7 +132,13 @@ export default function UserProductAddRoles({
               {'Assegna a '}
               <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
               {'un altro ruolo '}
-              <strong> {{ userRole: `${user.userRole}` }} </strong>
+              <strong>
+                {{
+                  userRole: `${t(
+                    roleLabels[userProduct.roles[0].selcRole].longLabelKey
+                  ).toLowerCase()}`,
+                }}
+              </strong>
               {' sul prodotto '}
               <strong> {{ productTitle: `${product.title}:` }} </strong>
             </Trans>

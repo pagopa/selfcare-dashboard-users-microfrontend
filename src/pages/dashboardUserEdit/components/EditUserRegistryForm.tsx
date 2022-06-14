@@ -9,11 +9,11 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
-import { PartyUserDetail, PartyUserOnEdit } from '../../../model/PartyUser';
+import { PartyUserOnEdit } from '../../../model/PartyUser';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -22,7 +22,7 @@ const CustomTextField = styled(TextField)({
   '.MuiInput-root': {
     '&:after': {
       borderBottom: '2px solid #5C6F82',
-      color: 'green',
+      color: '#5C6F82',
     },
   },
   '.MuiInputLabel-root.Mui-focused': {
@@ -41,6 +41,11 @@ const CustomTextField = styled(TextField)({
       opacity: '1',
     },
   },
+  label: {
+    '&.Mui-error': {
+      color: '#5C6F82 !important',
+    },
+  },
 });
 
 const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
@@ -48,7 +53,7 @@ const requiredError = 'Required';
 
 type Props = {
   party: Party;
-  user: PartyUserDetail;
+  user: PartyUserOnEdit;
   goBack: () => void;
 };
 
@@ -73,7 +78,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           : undefined,
         confirmEmail: !values.confirmEmail
           ? requiredError
-          : values.confirmEmail !== values.email
+          : values.email &&
+            values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
       }).filter(([_key, value]) => value)
@@ -88,20 +94,14 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         .then(() => {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
-            party_id: party.institutionId,
+            party_id: party.partyId,
             user: user.id,
           });
           addNotify({
             component: 'Toast',
             id: 'EDIT_PARTY_USER',
-            title: t('userEdit.editRegistryForm.editUserSuccess.title'),
-            message: (
-              <Trans i18nkey="userEdit.editRegistryForm.editUserSuccess.message">
-                {'Hai modificato correttamente i dati di '}
-                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>
-                {'.'}
-              </Trans>
-            ),
+            title: t('userEdit.editRegistryForm.editUserSuccess'),
+            message: '',
           });
           goBack();
         })
@@ -110,15 +110,10 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             id: 'EDIT_PARTY_USER_ERROR',
             blocking: false,
             error: reason,
-            techDescription: `An error occurred while editing party user ${user.id} of institution ${party.institutionId}`,
+            techDescription: `An error occurred while editing party user ${user.id} of institution ${party.partyId}`,
             toNotify: true,
-            displayableTitle: t('userEdit.editRegistryForm.editUserError.title'),
-            displayableDescription: (
-              <Trans i18nkey="userEdit.editRegistryForm.editUserError.message">
-                {"C'è stato un errore durante la modifica del referente "}
-                <strong>{{ user: `${values.name} ${values.surname}` }}</strong>.
-              </Trans>
-            ),
+            displayableTitle: t('userEdit.editRegistryForm.editUserError'),
+            displayableDescription: '',
             component: 'Toast',
           })
         )
@@ -165,9 +160,16 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   return (
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column">
+        <Grid
+          item
+          sx={{
+            backgroundColor: '#FFFFFF',
+            padding: '24px',
+          }}
+          xs={9}
+        >
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'taxCode',
@@ -179,29 +181,29 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'name',
                   t('userEdit.editRegistryForm.name.label'),
                   t('userEdit.editRegistryForm.name.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedName}
               />
             </Grid>
-            <Grid item xs={4} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'surname',
                   t('userEdit.editRegistryForm.surname.label'),
                   t('userEdit.editRegistryForm.surname.placeholder')
                 )}
-                disabled={formik.values.certification}
+                disabled={formik.values.certifiedSurname}
               />
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'email',
@@ -212,7 +214,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={8} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'confirmEmail',

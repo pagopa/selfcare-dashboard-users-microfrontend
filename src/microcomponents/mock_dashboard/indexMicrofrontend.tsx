@@ -37,7 +37,7 @@ ReactDOM.render(
             <Route path="*">
               <Redirect
                 to={resolvePathVariables(ENV.ROUTES.OVERVIEW, {
-                  institutionId: 'onboarded',
+                  partyId: 'onboarded',
                 })}
               />
             </Route>
