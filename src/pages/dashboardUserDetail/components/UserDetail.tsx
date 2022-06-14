@@ -29,7 +29,22 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {t('userDetail.name')}
               </Typography>
             </Grid>
-            <Grid item xs={9} className="userInfoStyle">
+            <Grid
+              item
+              xs={9}
+              className="userInfoStyle"
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflowWrap: 'break-word',
+                minWidth: 0,
+                maxWidth: 0,
+              }}
+            >
               <CustomStyleCapitolized variant="body2">
                 {userInfo.name.toLocaleLowerCase()}
               </CustomStyleCapitolized>
@@ -41,7 +56,21 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {t('userDetail.surname')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid
+              item
+              xs={9}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical' as const,
+                overflowWrap: 'break-word',
+                minWidth: 0,
+                maxWidth: 0,
+              }}
+            >
               <CustomStyleCapitolized variant="body2">
                 {userInfo.surname.toLocaleLowerCase()}
               </CustomStyleCapitolized>

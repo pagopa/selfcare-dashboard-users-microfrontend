@@ -68,7 +68,20 @@ function UsersProductPage({
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
       alignSelf="flex-start"
     >
-      <Grid item xs={12} mb={3} px={2}>
+      <Grid
+        xs={5}
+        mb={3}
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: 1,
+          WebkitBoxOrient: 'horizontal' as const,
+          overflowWrap: 'break-word',
+          minWidth: 0,
+          maxWidth: 0,
+        }}
+      >
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9} px={2}>
