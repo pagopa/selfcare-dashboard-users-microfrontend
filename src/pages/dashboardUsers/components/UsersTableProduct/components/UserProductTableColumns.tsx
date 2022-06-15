@@ -27,7 +27,7 @@ export function buildColumnDefs(
     {
       field: 'fullName',
       cellClassName: 'justifyContentBold',
-      headerName: 'NOME',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.name'),
       align: 'left',
       headerAlign: 'left',
       width: 275,
@@ -41,7 +41,7 @@ export function buildColumnDefs(
     {
       field: 'email',
       cellClassName: 'justifyContentNormal',
-      headerName: 'EMAIL',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.email'),
       align: 'left',
       headerAlign: 'left',
       width: 293,
@@ -54,7 +54,7 @@ export function buildColumnDefs(
     {
       field: 'userRole',
       cellClassName: 'justifyContentBold',
-      headerName: 'Ruolo',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.role'),
       align: 'left',
       headerAlign: 'left',
       width: 250,
