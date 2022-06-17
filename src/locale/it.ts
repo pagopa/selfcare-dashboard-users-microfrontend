@@ -231,6 +231,7 @@ export default {
       editUserError: 'Si è verificato un errore durante la modifica del profilo. Riprova.',
     },
     addProduct: {
+      navigation: 'Assegna ruolo',
       title: 'Assegna un nuovo ruolo',
       subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
       name: 'NOME',

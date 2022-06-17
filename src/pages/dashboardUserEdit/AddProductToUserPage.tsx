@@ -49,7 +49,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       onClick: goBack,
     },
     {
-      description: t('userEdit.addForm.addMultiRoleModal.title'),
+      description: t('userEdit.addProduct.navigation'),
     },
   ];
 
