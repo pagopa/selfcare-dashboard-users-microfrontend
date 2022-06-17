@@ -11,6 +11,13 @@ export default {
     editUser: 'Modifica il profilo utente',
   },
   usersTable: {
+    usersProductTableColumns: {
+      headerFields: {
+        name: 'NOME',
+        email: 'EMAIL',
+        role: 'RUOLO',
+      },
+    },
     filterRole: {
       placeholder: 'Tutti i ruoli',
       admin: {
