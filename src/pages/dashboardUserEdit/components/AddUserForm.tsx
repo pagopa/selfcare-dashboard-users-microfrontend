@@ -51,12 +51,12 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInputLabel-root.Mui-focused': {
     color: '#5C6F82',
-    fontWeight: '700',
+    fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
     color: '#5C6F82',
-    fontSize: '16px',
-    fontWeight: '700',
+    fontSize: 'fontSize',
+    fontWeight: 'fontWeightBold',
   },
   label: {
     '&.Mui-error': {
@@ -415,7 +415,7 @@ export default function AddUserForm({
         <Grid
           item
           sx={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'background.paper',
             padding: '24px',
           }}
           xs={9}
@@ -485,7 +485,14 @@ export default function AddUserForm({
           {!selectedProduct ? (
             <Grid item container spacing={3}>
               <Grid item xs={10} mb={3}>
-                <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
+                <Typography
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: 'fontSize',
+                    color: 'colorTextPrimary',
+                  }}
+                  pb={3}
+                >
                   {t('userEdit.addForm.product.title')}
                 </Typography>
                 <RadioGroup aria-label="user" name="products" value={userProduct?.id ?? ''}>
@@ -513,7 +520,14 @@ export default function AddUserForm({
           {productRoles && (
             <Grid item container spacing={3}>
               <Grid item xs={10} mb={3}>
-                <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
+                <Typography
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: 'fontSize',
+                    color: 'colorTextPrimary',
+                  }}
+                  pb={3}
+                >
                   {t('userEdit.addForm.role.title')}
                 </Typography>
 

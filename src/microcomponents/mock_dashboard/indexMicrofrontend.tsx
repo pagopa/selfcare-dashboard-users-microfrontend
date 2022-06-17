@@ -5,7 +5,7 @@ import '@pagopa/selfcare-common-frontend/index.css';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from '@pagopa/mui-italia/theme';
+import { theme } from '@pagopa/mui-italia';
 import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { store } from '../../redux/store';

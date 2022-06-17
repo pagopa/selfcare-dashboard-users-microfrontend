@@ -53,7 +53,12 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox title={t('userEdit.addForm.title')} subTitle={t('userEdit.addForm.subTitle')} />
+        <TitleBox
+          variantTitle="h4"
+          variantSubTitle="body1"
+          title={t('userEdit.addForm.title')}
+          subTitle={t('userEdit.addForm.subTitle')}
+        />
       </Grid>
       <Grid item xs={12}>
         <AddUserForm

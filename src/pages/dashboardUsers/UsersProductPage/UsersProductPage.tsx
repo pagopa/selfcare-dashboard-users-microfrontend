@@ -72,7 +72,12 @@ function UsersProductPage({
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9} px={2}>
-        <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.vertical.subTitle')} />
+        <TitleBox
+          variantTitle="h4"
+          variantSubTitle="body1"
+          title={t('usersPage.title')}
+          subTitle={t('usersPage.vertical.subTitle')}
+        />
       </Grid>
       <Grid item xs={12} sx={{ height: '100%' }}>
         <Grid container direction="row" alignItems={'center'}>

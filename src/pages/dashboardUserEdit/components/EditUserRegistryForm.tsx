@@ -27,12 +27,12 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInputLabel-root.Mui-focused': {
     color: '#5C6F82',
-    fontWeight: '700',
+    fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
     color: '#5C6F82',
-    fontSize: '16px',
-    fontWeight: '700',
+    fontSize: 'fontSize',
+    fontWeight: 'fontWeightBold',
   },
   input: {
     '&::placeholder': {
@@ -163,7 +163,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         <Grid
           item
           sx={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'background.paper',
             padding: '24px',
           }}
           xs={9}
