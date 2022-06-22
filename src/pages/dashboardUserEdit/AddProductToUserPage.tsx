@@ -48,6 +48,9 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       description: partyUser.name + ' ' + partyUser.surname,
       onClick: goBack,
     },
+    {
+      description: t('userEdit.addProduct.navigation'),
+    },
   ];
 
   return (
