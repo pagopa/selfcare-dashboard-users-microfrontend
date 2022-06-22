@@ -176,7 +176,7 @@ export default function AddUserForm({
 
   const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
-    fetchUserRegistryByFiscalCode(taxCode, partyId)
+    fetchUserRegistryByFiscalCode(taxCode.toUpperCase(), partyId)
       .then((userRegistry) => {
         void formik.setValues(
           {
