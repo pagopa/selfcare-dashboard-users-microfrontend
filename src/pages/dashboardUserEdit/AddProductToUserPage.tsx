@@ -66,6 +66,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox
+          variantTitle="h4"
+          variantSubTitle="body1"
           title={t('userEdit.addProduct.title')}
           subTitle={t('userEdit.addProduct.subTitle', {
             institutionName: `${party.description}`,
@@ -76,7 +78,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         <Grid
           item
           sx={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'background.paper',
             padding: '24px',
           }}
           xs={9}
