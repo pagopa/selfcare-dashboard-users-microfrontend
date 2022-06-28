@@ -50,12 +50,11 @@ export default function UserProductDetail({
                     aria-label={'Suspended'}
                     variant="outlined"
                     sx={{
-                      fontWeight: '600',
                       fontSize: '14px',
                       background: '#E0E0E0',
                       borderRadius: '16px',
                       border: 'none',
-                      width: '76px',
+                      width: '78px',
                       height: '24px',
                       display: 'flex',
                       alignItems: 'center',

@@ -32,7 +32,7 @@ export default function UserProductSection({
       <Grid item xs={10}>
         <Grid container item>
           <Grid item mb={1} xs={12}>
-            <Typography variant="h3" sx={{ fontSize: '20px' }}>
+            <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
               {t('userDetail.productSection.title')}
             </Typography>
           </Grid>
@@ -51,6 +51,7 @@ export default function UserProductSection({
           <Grid item xs={2}>
             <Button
               variant="contained"
+              sx={{ height: '40px', width: '100%' }}
               onClick={() =>
                 history.push(
                   resolvePathVariables(
