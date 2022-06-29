@@ -34,7 +34,6 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               xs={9}
               className="userInfoStyle"
               sx={{
-                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
@@ -60,7 +59,6 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               item
               xs={9}
               sx={{
-                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
@@ -98,7 +96,6 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               item
               xs={9}
               sx={{
-                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',

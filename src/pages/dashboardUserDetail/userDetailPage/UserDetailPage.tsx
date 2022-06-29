@@ -136,17 +136,14 @@ function UserDetailPage({
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
       <Grid
-        xs={5}
+        xs={9}
         mb={3}
         sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'horizontal' as const,
-          overflowWrap: 'break-word',
-          minWidth: 0,
-          maxWidth: 0,
+          WebkitLineClamp: '2',
+          WebkitBoxOrient: 'vertical',
         }}
       >
         <ProductNavigationBar paths={paths} />

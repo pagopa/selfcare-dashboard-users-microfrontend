@@ -156,14 +156,12 @@ function UserProductDetailPage({
         xs={5}
         mb={3}
         sx={{
-          overflow: 'hidden',
+          display: 'inline-grid',
           textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'horizontal' as const,
-          overflowWrap: 'break-word',
-          minWidth: 0,
-          maxWidth: 0,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          lineClamp: 2,
+          lineHeight: '10px',
         }}
       >
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />

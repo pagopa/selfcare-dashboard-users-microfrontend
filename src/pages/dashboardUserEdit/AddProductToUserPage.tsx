@@ -59,14 +59,14 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
       <Grid
-        xs={5}
+        xs={9}
         mb={3}
         sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'horizontal' as const,
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical' as const,
           overflowWrap: 'break-word',
           minWidth: 0,
           maxWidth: 0,
@@ -99,7 +99,22 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                     {t('userEdit.addProduct.name')}
                   </Typography>
                 </Grid>
-                <Grid item xs={9} className="partyUserStyle">
+                <Grid
+                  item
+                  xs={9}
+                  className="partyUserStyle"
+                  sx={{
+                    height: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical' as const,
+                    overflowWrap: 'break-word',
+                    minWidth: 0,
+                    maxWidth: 0,
+                  }}
+                >
                   <CustomTextTransform variant="body2" className="CustomInfoStyle">
                     {partyUser.name.toLocaleLowerCase()}
                   </CustomTextTransform>
@@ -111,7 +126,21 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                     {t('userEdit.addProduct.surname')}
                   </Typography>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid
+                  item
+                  xs={9}
+                  sx={{
+                    height: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical' as const,
+                    overflowWrap: 'break-word',
+                    minWidth: 0,
+                    maxWidth: 0,
+                  }}
+                >
                   <CustomTextTransform variant="body2" className="CustomInfoStyle">
                     {partyUser.surname}
                   </CustomTextTransform>

@@ -48,21 +48,19 @@ function EditUserRegistryPage({ party, user }: Props) {
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid
-        xs={5}
-        mb={3}
-        sx={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'horizontal' as const,
-          overflowWrap: 'break-word',
-          minWidth: 0,
-          maxWidth: 0,
-        }}
-      >
-        <ProductNavigationBar paths={paths} />
+      <Grid xs={9} mb={3}>
+        <Grid
+          sx={{
+            display: '-moz-initial',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            lineClamp: 2,
+            lineHeight: '10px',
+          }}
+        >
+          <ProductNavigationBar paths={paths} />
+        </Grid>
       </Grid>
       <Grid item xs={12} mb={9}>
         <TitleBox title={t('userEdit.editRegistryForm.title')} />
