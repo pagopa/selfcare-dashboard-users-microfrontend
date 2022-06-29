@@ -27,12 +27,12 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInputLabel-root.Mui-focused': {
     color: '#5C6F82',
-    fontWeight: '700',
+    fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
     color: '#5C6F82',
-    fontSize: '16px',
-    fontWeight: '700',
+    fontSize: 'fontSize',
+    fontWeight: 'fontWeightBold',
   },
   input: {
     '&::placeholder': {
@@ -56,6 +56,8 @@ type Props = {
   user: PartyUserOnEdit;
   goBack: () => void;
 };
+
+type TextTransform = 'uppercase' | 'lowercase';
 
 export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const { t } = useTranslation();
@@ -90,7 +92,11 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
     validate,
     onSubmit: (values) => {
       setLoadingSaveUser(true);
-      updatePartyUser(party, values)
+      updatePartyUser(party, {
+        ...values,
+        taxCode: values.taxCode.toUpperCase(),
+        email: values.email.toLowerCase(),
+      })
         .then(() => {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
@@ -129,7 +135,12 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
     }
   }, [formik.dirty]);
 
-  const baseTextFieldProps = (field: keyof PartyUserOnEdit, label: string, placeholder: string) => {
+  const baseTextFieldProps = (
+    field: keyof PartyUserOnEdit,
+    label: string,
+    placeholder: string,
+    textTransform?: TextTransform
+  ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
 
     return {
@@ -154,6 +165,11 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           paddingLeft: '16px',
         },
       },
+      inputProps: {
+        style: {
+          textTransform,
+        },
+      },
     };
   };
 
@@ -163,7 +179,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         <Grid
           item
           sx={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'background.paper',
             padding: '24px',
           }}
           xs={9}
@@ -174,7 +190,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                 {...baseTextFieldProps(
                   'taxCode',
                   t('userEdit.editRegistryForm.fiscalCode.label'),
-                  t('userEdit.editRegistryForm.fiscalCode.placeholder')
+                  t('userEdit.editRegistryForm.fiscalCode.placeholder'),
+                  'uppercase'
                 )}
                 disabled={true}
               />
@@ -208,7 +225,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                 {...baseTextFieldProps(
                   'email',
                   t('userEdit.editRegistryForm.institutionalEmail.label'),
-                  t('userEdit.editRegistryForm.institutionalEmail.placeholder')
+                  t('userEdit.editRegistryForm.institutionalEmail.placeholder'),
+                  'lowercase'
                 )}
               />
             </Grid>
@@ -219,7 +237,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
                 {...baseTextFieldProps(
                   'confirmEmail',
                   t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
-                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.placeholder')
+                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.placeholder'),
+                  'lowercase'
                 )}
               />
             </Grid>

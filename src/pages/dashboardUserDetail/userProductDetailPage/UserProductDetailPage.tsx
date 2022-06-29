@@ -167,9 +167,9 @@ function UserProductDetailPage({
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
       <Grid item xs={12} mb={7}>
-        <Typography variant="h1">{t('userDetail.title')}</Typography>
+        <Typography variant="h4">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid sx={{ backgroundColor: '#FFFFFF', padding: 3 }}>
+      <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
         <Grid container item>
           <Grid item xs={12}>
             <UserDetail

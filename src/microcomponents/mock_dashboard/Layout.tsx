@@ -1,10 +1,9 @@
 import { Grid, Box } from '@mui/material';
 import { Footer, Header } from '@pagopa/selfcare-common-frontend';
-import {
-  useUnloadEventLogout,
-  useUnloadEventOnExit,
-} from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
 
 type Props = {
   children?: React.ReactNode;
@@ -12,7 +11,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   const onExit = useUnloadEventOnExit();
-  const onLogout = useUnloadEventLogout();
+  const loggedUser = useSelector(userSelectors.selectLoggedUser);
 
   return (
     <Box
@@ -24,16 +23,23 @@ export default function Layout({ children }: Props) {
     >
       <Header
         withSecondHeader={true}
-        subHeaderChild={"SUBHEADER"}
-        onExitAction={onLogout}
+        onExit={onExit}
+        assistanceEmail="assistance@selfcare.it"
+        loggedUser={
+          loggedUser
+            ? {
+                id: loggedUser ? loggedUser.uid : '',
+                name: loggedUser?.name,
+                surname: loggedUser?.surname,
+                email: loggedUser?.email,
+              }
+            : false
+        }
       />
       <Grid container direction="row" flexGrow={1}>
         {children}
       </Grid>
-      <Footer
-        assistanceEmail="assistance@selfcare.it"
-        onExit={onExit}
-      />
+      <Footer onExit={onExit} loggedUser={!!loggedUser} />
     </Box>
   );
 }

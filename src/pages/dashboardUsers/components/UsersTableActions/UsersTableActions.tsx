@@ -60,7 +60,7 @@ export default function UsersTableActions({
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ py: '10px' }}
+          sx={{ py: '10px', height: '40px', width: '100%' }}
           onClick={() => onExit(() => history.push(addUserUrl))}
         >
           {t('usersTable.addButton')}

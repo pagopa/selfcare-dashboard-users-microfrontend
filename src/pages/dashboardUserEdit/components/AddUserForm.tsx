@@ -51,12 +51,12 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInputLabel-root.Mui-focused': {
     color: '#5C6F82',
-    fontWeight: '700',
+    fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
     color: '#5C6F82',
-    fontSize: '16px',
-    fontWeight: '700',
+    fontSize: 'fontSize',
+    fontWeight: 'fontWeightBold',
   },
   label: {
     '&.Mui-error': {
@@ -68,6 +68,7 @@ const CustomTextField = styled(TextField)({
       fontStyle: 'italic',
       color: '#5C6F82',
       opacity: '1',
+      textTransform: 'none',
     },
   },
 });
@@ -94,6 +95,8 @@ type Props = {
   initialFormData: PartyUserOnCreation;
   goBack?: () => void;
 };
+
+type TextTransform = 'uppercase' | 'lowercase';
 
 export default function AddUserForm({
   party,
@@ -173,7 +176,7 @@ export default function AddUserForm({
 
   const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
-    fetchUserRegistryByFiscalCode(taxCode, partyId)
+    fetchUserRegistryByFiscalCode(taxCode.toUpperCase(), partyId)
       .then((userRegistry) => {
         void formik.setValues(
           {
@@ -249,16 +252,22 @@ export default function AddUserForm({
 
   const save = (values: PartyUserOnCreation) => {
     setLoadingSaveUser(true);
+    const values2submit = {
+      ...values,
+      taxCode: values.taxCode.toUpperCase(),
+      email: values.email.toLowerCase(),
+    };
+
     (userId
-      ? addUserProductRoles(party, userProduct as Product, userId, values)
-      : savePartyUser(party, userProduct as Product, values)
+      ? addUserProductRoles(party, userProduct as Product, userId, values2submit)
+      : savePartyUser(party, userProduct as Product, values2submit)
     )
       .then((userId) => {
         unregisterUnloadEvent();
         trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
           party_id: party.partyId,
           product: userProduct?.id,
-          product_role: values.productRoles,
+          product_role: values2submit.productRoles,
         });
         addNotify({
           component: 'Toast',
@@ -332,7 +341,12 @@ export default function AddUserForm({
               {<br></br>}
             </Trans>
           ),
-          onConfirm: () => save(values),
+          onConfirm: () =>
+            save({
+              ...values,
+              taxCode: values.taxCode.toUpperCase(),
+              email: values.email.toLowerCase(),
+            }),
           confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),
           closeLabel: t('userEdit.addForm.addMultiRoleModal.closeButton'),
         });
@@ -343,12 +357,12 @@ export default function AddUserForm({
   });
 
   useEffect(() => {
-    if (formik.dirty) {
+    if (formik.dirty || userProduct) {
       registerUnloadEvent();
     } else {
       unregisterUnloadEvent();
     }
-  }, [formik.dirty]);
+  }, [formik.dirty, userProduct]);
 
   useEffect(() => {
     if (userProduct) {
@@ -380,7 +394,8 @@ export default function AddUserForm({
   const baseTextFieldProps = (
     field: keyof PartyUserOnCreation,
     label: string,
-    placeholder: string
+    placeholder: string,
+    textTransform?: TextTransform
   ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
 
@@ -406,6 +421,11 @@ export default function AddUserForm({
           paddingLeft: '16px',
         },
       },
+      inputProps: {
+        style: {
+          textTransform,
+        },
+      },
     };
   };
 
@@ -415,7 +435,7 @@ export default function AddUserForm({
         <Grid
           item
           sx={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'background.paper',
             padding: '24px',
           }}
           xs={9}
@@ -428,7 +448,8 @@ export default function AddUserForm({
                     {...baseTextFieldProps(
                       'taxCode',
                       t('userEdit.addForm.fiscalCode.label'),
-                      t('userEdit.addForm.fiscalCode.placeholder')
+                      t('userEdit.addForm.fiscalCode.placeholder'),
+                      'uppercase'
                     )}
                   />
                 </Grid>
@@ -461,7 +482,8 @@ export default function AddUserForm({
                     {...baseTextFieldProps(
                       'email',
                       t('userEdit.addForm.institutionalEmail.label'),
-                      t('userEdit.addForm.institutionalEmail.placeholder')
+                      t('userEdit.addForm.institutionalEmail.placeholder'),
+                      'lowercase'
                     )}
                     disabled={!validTaxcode}
                   />
@@ -473,7 +495,8 @@ export default function AddUserForm({
                     {...baseTextFieldProps(
                       'confirmEmail',
                       t('userEdit.addForm.confirmInstitutionalEmail.label'),
-                      t('userEdit.addForm.confirmInstitutionalEmail.placeholder')
+                      t('userEdit.addForm.confirmInstitutionalEmail.placeholder'),
+                      'lowercase'
                     )}
                     disabled={!validTaxcode}
                   />
@@ -485,7 +508,14 @@ export default function AddUserForm({
           {!selectedProduct ? (
             <Grid item container spacing={3}>
               <Grid item xs={10} mb={3}>
-                <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
+                <Typography
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: 'fontSize',
+                    color: 'colorTextPrimary',
+                  }}
+                  pb={3}
+                >
                   {t('userEdit.addForm.product.title')}
                 </Typography>
                 <RadioGroup aria-label="user" name="products" value={userProduct?.id ?? ''}>
@@ -513,7 +543,14 @@ export default function AddUserForm({
           {productRoles && (
             <Grid item container spacing={3}>
               <Grid item xs={10} mb={3}>
-                <Typography variant="h6" sx={{ fontWeight: '700', color: '#5C6F82' }} pb={3}>
+                <Typography
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: 'fontSize',
+                    color: 'colorTextPrimary',
+                  }}
+                  pb={3}
+                >
                   {t('userEdit.addForm.role.title')}
                 </Typography>
 

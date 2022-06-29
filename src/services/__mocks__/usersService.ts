@@ -917,9 +917,34 @@ export const fetchPartyProductUsers = (
 
 export const savePartyUser = (
   _party: Party,
-  _product: Product,
-  _user: PartyUserOnCreation
-): Promise<string> => new Promise((resolve) => resolve('newUserId'));
+  product: Product,
+  user: PartyUserOnCreation
+): Promise<string> => {
+  // eslint-disable-next-line functional/immutable-data
+  mockedUsers.push({
+    id: 'newUserId',
+    taxCode: user.taxCode,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    isCurrentUser: false,
+    products: [
+      {
+        id: product.id,
+        title: product.title,
+        roles: user.productRoles.map((r) => ({
+          relationshipId: 'relationshipId',
+          role: r,
+          selcRole: 'ADMIN',
+          status: 'ACTIVE',
+        })),
+      },
+    ],
+  });
+  return new Promise((resolve) => resolve('newUserId'));
+};
 
 export const addUserProductRoles = (
   _party: Party,
@@ -928,8 +953,18 @@ export const addUserProductRoles = (
   _user: PartyUserOnCreation
 ): Promise<string> => new Promise((resolve) => resolve(userId));
 
-export const updatePartyUser = (_party: Party, _user: PartyUserOnEdit): Promise<any> =>
-  new Promise((resolve) => resolve(200));
+export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<any> => {
+  const userToUpdate = mockedUsers.find((u) => u.id === user.id);
+  if (userToUpdate) {
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.name = user.name;
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.surname = user.surname;
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.email = user.email;
+  }
+  return new Promise((resolve) => resolve(200));
+};
 
 export const fetchUserRegistryByFiscalCode = (_taxCode: string): Promise<UserRegistry> =>
   new Promise((resolve) => resolve(mockedUserRegistry));

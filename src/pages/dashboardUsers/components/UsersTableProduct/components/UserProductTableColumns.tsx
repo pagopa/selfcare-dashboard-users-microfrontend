@@ -27,7 +27,7 @@ export function buildColumnDefs(
     {
       field: 'fullName',
       cellClassName: 'justifyContentBold',
-      headerName: 'NOME',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.name'),
       align: 'left',
       headerAlign: 'left',
       width: 275,
@@ -41,7 +41,7 @@ export function buildColumnDefs(
     {
       field: 'email',
       cellClassName: 'justifyContentNormal',
-      headerName: 'EMAIL',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.email'),
       align: 'left',
       headerAlign: 'left',
       width: 293,
@@ -54,7 +54,7 @@ export function buildColumnDefs(
     {
       field: 'userRole',
       cellClassName: 'justifyContentBold',
-      headerName: 'Ruolo',
+      headerName: i18n.t('usersTable.usersProductTableColumns.headerFields.role'),
       align: 'left',
       headerAlign: 'left',
       width: 250,
@@ -152,7 +152,7 @@ function showCustmHeader(params: GridColumnHeaderParams) {
     <React.Fragment>
       <Typography
         color="text.secondary"
-        sx={{ fontSize: '14px', fontWeight: '700', outline: 'none', paddingLeft: 1 }}
+        sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', outline: 'none', paddingLeft: 1 }}
       >
         {params.colDef.headerName}
       </Typography>
@@ -174,8 +174,15 @@ function showName(
         <>
           <Grid container sx={{ width: '100%' }}>
             <Grid item xs={showChip ? 7 : 12} sx={{ width: '100%' }}>
-              <Typography variant="h6" color={isSuspended ? '#9E9E9E' : undefined}>
-                {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
+              <Typography
+                variant="body2"
+                color={isSuspended ? '#9E9E9E' : undefined}
+                sx={{ fontWeight: 'fontWeightBold' }}
+              >
+                {params.row.surname}
+              </Typography>
+              <Typography variant="body2" color={isSuspended ? '#9E9E9E' : undefined}>
+                {params.row.isCurrentUser ? '(tu)' : ''}
               </Typography>
             </Grid>
             {showChip && (
@@ -230,7 +237,7 @@ function showRoles(
               <Grid item key={r.relationshipId}>
                 <Typography
                   color={isSuspended || r.status === 'SUSPENDED' ? '#9E9E9E' : undefined}
-                  sx={{ fontSize: '14px', fontWeight: '700', outline: 'none' }}
+                  sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', outline: 'none' }}
                 >
                   {productRolesLists.groupByProductRole[r.role]
                     ? productRolesLists.groupByProductRole[r.role].title
