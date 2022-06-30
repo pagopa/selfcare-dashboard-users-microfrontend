@@ -120,14 +120,12 @@ function renderCell(
     >
       <div
         style={{
-          verticalAlign: 'middle',
-          height: '100%',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical' as const,
           width: '100%',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical' as const,
           paddingBottom: '8px',
           color: params.row.status === 'SUSPENDED' ? '#9E9E9E' : undefined,
           fontSize: '14px',
