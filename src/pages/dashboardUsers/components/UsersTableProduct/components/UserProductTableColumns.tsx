@@ -177,10 +177,7 @@ function showName(
                 color={isSuspended ? '#9E9E9E' : undefined}
                 sx={{ fontWeight: 'fontWeightBold' }}
               >
-                {params.row.surname}
-              </Typography>
-              <Typography variant="body2" color={isSuspended ? '#9E9E9E' : undefined}>
-                {params.row.isCurrentUser ? '(tu)' : ''}
+                {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
               </Typography>
             </Grid>
             {showChip && (
