@@ -48,22 +48,11 @@ function EditUserRegistryPage({ party, user }: Props) {
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid xs={9} mb={3}>
-        <Grid
-          sx={{
-            display: '-moz-initial',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            lineClamp: 2,
-            lineHeight: '10px',
-          }}
-        >
-          <ProductNavigationBar paths={paths} />
-        </Grid>
+      <Grid item xs={12} mb={3}>
+        <ProductNavigationBar paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>
-        <TitleBox variantTitle="h4" title={t('userEdit.editRegistryForm.title')} />
+        <TitleBox title={t('userEdit.editRegistryForm.title')} />
       </Grid>
       <Grid item xs={12}>
         {user ? (

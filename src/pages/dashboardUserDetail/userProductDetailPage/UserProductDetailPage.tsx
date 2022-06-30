@@ -152,18 +152,7 @@ function UserProductDetailPage({
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid
-        xs={5}
-        mb={3}
-        sx={{
-          display: 'inline-grid',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          lineClamp: 2,
-          lineHeight: '10px',
-        }}
-      >
+      <Grid item xs={12} mb={3}>
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
       <Grid item xs={12} mb={7}>
