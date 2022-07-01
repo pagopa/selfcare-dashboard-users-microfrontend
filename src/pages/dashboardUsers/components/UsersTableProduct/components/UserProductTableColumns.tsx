@@ -1,4 +1,4 @@
-import { Chip, Typography, Grid, Tooltip } from '@mui/material';
+import { Chip, Typography, Grid, IconButton } from '@mui/material';
 import {
   GridColDef,
   GridColumnHeaderParams,
@@ -6,21 +6,18 @@ import {
   GridValueGetterParams,
 } from '@mui/x-data-grid';
 import React, { CSSProperties, ReactNode } from 'react';
-import { InfoOutlined } from '@mui/icons-material';
 import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
-import { PartyProductUser, PartyUserProduct } from '../../../../../model/PartyUser';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Box } from '@mui/system';
+import { PartyProductUser } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
-import { Party, UserStatus } from '../../../../../model/Party';
+
 import { Product } from '../../../../../model/Product';
-import UserProductRowActions from './UserProductRowActions';
 
 export function buildColumnDefs(
-  canEdit: boolean,
-  party: Party,
   _product: Product,
   onRowClick: (partyUser: PartyProductUser) => void,
-  onDelete: (user: PartyProductUser) => void,
-  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void,
+
   productRolesLists: ProductRolesLists
 ) {
   return [
@@ -37,6 +34,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => showName(params, false, onRowClick),
       sortable: false,
+      flex: 2,
     },
     {
       field: 'email',
@@ -50,6 +48,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => renderCell(params, undefined, onRowClick),
       sortable: false,
+      flex: 2,
     },
     {
       field: 'userRole',
@@ -63,6 +62,7 @@ export function buildColumnDefs(
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
+      flex: 2,
     },
     {
       field: 'status',
@@ -75,6 +75,7 @@ export function buildColumnDefs(
       editable: false,
       renderCell: (params) => showStatus(params, onRowClick),
       sortable: false,
+      flex: 1,
     },
     {
       field: 'azioni',
@@ -85,11 +86,9 @@ export function buildColumnDefs(
       hideSortIcons: true,
       disableColumnMenu: true,
       editable: false,
-      renderCell: (p) =>
-        canEdit
-          ? showActions(party, p, productRolesLists, onDelete, onStatusUpdate)
-          : renderCell(p, '', onRowClick),
+      renderCell: (p) => showActions(p, onRowClick),
       sortable: false,
+      flex: 1,
     },
   ] as Array<GridColDef>;
 }
@@ -103,7 +102,6 @@ function renderCell(
   return (
     <div
       style={{
-        backgroundColor: 'white',
         width: '100%',
         height: '100%',
         paddingRight: '24px',
@@ -111,7 +109,6 @@ function renderCell(
         paddingTop: '-16px',
         paddingBottom: '-16px',
         marginTop: '16px',
-        // marginBottom:'16px',
         borderBottom: '1px solid #CCD4DC',
         cursor: 'pointer',
         ...overrideStyle,
@@ -174,7 +171,7 @@ function showName(
             <Grid item xs={showChip ? 7 : 12} sx={{ width: '100%' }}>
               <Typography
                 variant="body2"
-                color={isSuspended ? '#9E9E9E' : undefined}
+                color={isSuspended ? 'text.disabled' : 'primary.main'}
                 sx={{ fontWeight: 'fontWeightBold' }}
               >
                 {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
@@ -261,33 +258,19 @@ function showStatus(
 }
 
 function showActions(
-  party: Party,
-  users: GridRenderCellParams<PartyProductUser>,
-  productRolesLists: ProductRolesLists,
-  onDelete: (user: PartyProductUser) => void,
-  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void
+  p: GridRenderCellParams<PartyProductUser>,
+  onRowClick: (partyUser: PartyProductUser) => void
 ) {
-  const row = users.row as PartyProductUser;
-  const userProduct = row.product as PartyUserProduct;
   return renderCell(
-    users,
-    row.isCurrentUser || (userProduct?.roles?.length ?? 2) > 1 ? (
-      <Tooltip
-        aria-label={'InfoAction'}
-        title={i18n.t('usersTable.rowActions.toolTipInfo') as string}
+    p,
+    <Box width="100%">
+      <IconButton
+        onClick={onRowClick ? () => onRowClick(p.row) : undefined}
+        sx={{ '&:hover': { backgroundColor: 'transparent' }, width: '100%' }}
       >
-        <InfoOutlined sx={{ color: '#5C6F82', paddingTop: 1, boxSizing: 'unset' }} />
-      </Tooltip>
-    ) : (
-      <UserProductRowActions
-        party={party}
-        partyUser={row}
-        partyUserProduct={userProduct}
-        productRolesList={productRolesLists}
-        onDelete={onDelete}
-        onStatusUpdate={onStatusUpdate}
-      />
-    ),
+        <ArrowForwardIosIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
+      </IconButton>
+    </Box>,
     undefined,
     { paddingLeft: 0, paddingRight: 0, textAlign: 'center' }
   );

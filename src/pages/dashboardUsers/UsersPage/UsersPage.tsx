@@ -74,12 +74,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   };
 
   return (
-    <Grid
-      container
-      px={2}
-      mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-    >
+    <Grid container px={2} mt={10} sx={{ backgroundColor: 'transparent !important' }}>
       <Grid item xs={12}>
         <TitleBox
           variantTitle="h4"

@@ -133,7 +133,7 @@ function UserDetailPage({
       alignItems={'center'}
       px={2}
       mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+      sx={{ backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12} mb={3}>
         <ProductNavigationBar paths={paths} />

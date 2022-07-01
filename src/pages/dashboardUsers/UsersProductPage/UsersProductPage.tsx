@@ -65,7 +65,7 @@ function UsersProductPage({
       container
       px={2}
       mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+      sx={{ backgroundColor: 'transparent !important' }}
       alignSelf="flex-start"
     >
       <Grid item xs={12} mb={3} px={2}>

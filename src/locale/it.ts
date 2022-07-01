@@ -13,9 +13,9 @@ export default {
   usersTable: {
     usersProductTableColumns: {
       headerFields: {
-        name: 'NOME',
-        email: 'EMAIL',
-        role: 'RUOLO',
+        name: 'Nome',
+        email: 'Email',
+        role: 'Ruolo',
       },
     },
     filterRole: {
