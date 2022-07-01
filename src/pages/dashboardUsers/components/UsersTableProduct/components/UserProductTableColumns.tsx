@@ -1,4 +1,4 @@
-import { Chip, Typography, Grid, Tooltip } from '@mui/material';
+import { Chip, Typography, Grid, Tooltip, Box } from '@mui/material';
 import {
   GridColDef,
   GridColumnHeaderParams,
@@ -118,8 +118,8 @@ function renderCell(
       }}
       onClick={onRowClick ? () => onRowClick(params.row) : undefined}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
@@ -132,7 +132,7 @@ function renderCell(
         }}
       >
         {value}
-      </div>
+      </Box>
     </div>
   );
 }
@@ -175,11 +175,28 @@ function showName(
               <Typography
                 variant="body2"
                 color={isSuspended ? '#9E9E9E' : undefined}
-                sx={{ fontWeight: 'fontWeightBold' }}
+                sx={{
+                  fontWeight: 'fontWeightBold',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical' as const,
+                }}
               >
                 {params.row.surname}
               </Typography>
-              <Typography variant="body2" color={isSuspended ? '#9E9E9E' : undefined}>
+              <Typography
+                variant="body2"
+                color={isSuspended ? '#9E9E9E' : undefined}
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical' as const,
+                }}
+              >
                 {params.row.isCurrentUser ? '(tu)' : ''}
               </Typography>
             </Grid>
