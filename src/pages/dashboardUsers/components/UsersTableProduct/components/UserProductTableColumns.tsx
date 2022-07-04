@@ -165,6 +165,7 @@ function showName(
 ) {
   const isSuspended = isUserSuspended(params.row as PartyProductUser);
   const showChip = canShowChip && isSuspended;
+
   return (
     <React.Fragment>
       {renderCell(
