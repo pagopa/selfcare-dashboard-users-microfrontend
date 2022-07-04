@@ -12,7 +12,7 @@ import { buildColumnDefs } from './UserProductTableColumns';
 import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
 
-const rowHeight = 81;
+const rowHeight = 64;
 const headerHeight = 56;
 
 interface UsersTableProps {

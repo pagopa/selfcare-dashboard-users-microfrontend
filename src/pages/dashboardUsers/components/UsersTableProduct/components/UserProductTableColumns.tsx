@@ -120,7 +120,7 @@ function renderCell(
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: 3,
+          WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical' as const,
           paddingBottom: '8px',
           width: '100%',
@@ -171,7 +171,7 @@ function showName(
             <Grid item xs={showChip ? 7 : 12} sx={{ width: '100%' }}>
               <Typography
                 variant="body2"
-                color={isSuspended ? 'text.disabled' : 'primary.main'}
+                color="primary.main"
                 sx={{ fontWeight: 'fontWeightBold' }}
               >
                 {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
@@ -201,9 +201,9 @@ function TableChip({ text }: { text: string }) {
       aria-label={'Suspended'}
       sx={{
         fontSize: '14px',
-        fontWeight: '600',
-        color: '#17324D',
-        backgroundColor: '#E0E0E0',
+        fontWeight: 'fontWeightMedium',
+        color: 'colorTextPrimary',
+        backgroundColor: 'warning.light',
         paddingBottom: '1px',
         height: '24px',
       }}
@@ -266,7 +266,13 @@ function showActions(
     <Box width="100%">
       <IconButton
         onClick={onRowClick ? () => onRowClick(p.row) : undefined}
-        sx={{ '&:hover': { backgroundColor: 'transparent' }, width: '100%' }}
+        sx={{
+          '&:hover': { backgroundColor: 'transparent' },
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          pr: 2,
+        }}
       >
         <ArrowForwardIosIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
       </IconButton>
