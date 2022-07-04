@@ -1,21 +1,20 @@
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import React, { useEffect, useMemo } from 'react';
-import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Box, FormControl, Select, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
+import { ProductRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
-import { UsersTableFiltersConfig } from './UsersTableFilters';
 
 const CustomSelect = styled(Select)({
-  '.MuiInput-root': {
+  '& .MuiInput-root': {
     cursor: 'pointer',
   },
-  '.MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input': {
+  '& .MuiSelect-select.MuiSelect-outlined': {
     cursor: 'pointer',
+    paddingTop: '7px',
+    paddingBottom: '7px',
   },
 });
 const MenuProps = {
@@ -29,20 +28,28 @@ const MenuProps = {
 type Props = {
   productRolesList: Array<ProductRole>;
   productRolesSelected: Array<ProductRole>;
-  filters: UsersTableFiltersConfig;
-  onFiltersChange: (f: UsersTableFiltersConfig) => void;
-  disableFilters: boolean;
   showSelcRoleGrouped: boolean;
+  setProductRoleCheckedBySelcRole: React.Dispatch<
+    React.SetStateAction<{
+      ADMIN: ProductRolesGroupByTitle;
+      LIMITED: ProductRolesGroupByTitle;
+    }>
+  >;
+  productRoleCheckedBySelcRole: {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
+  productFiltered: {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
+  productList: (productRoles: Array<ProductRole>) => {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
 };
 
 type ProductRolesGroupByTitle = { [title: string]: Array<ProductRole> };
-
-const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupByTitle =>
-  roles.reduce((acc, r) => {
-    // eslint-disable-next-line functional/immutable-data
-    acc[r.title] = (acc[r.title] ?? []).concat([r]);
-    return acc;
-  }, {} as ProductRolesGroupByTitle);
 
 const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
 const labels = {
@@ -56,45 +63,18 @@ const labels = {
   },
 };
 
-const productList = (
-  productRoles: Array<ProductRole>
-): {
-  [selcRole in UserRole]: ProductRolesGroupByTitle;
-} =>
-  Object.fromEntries(
-    Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
-      selcRole,
-      productRolesGroupByTitle(roles),
-    ])
-  ) as {
-    [selcRole in UserRole]: ProductRolesGroupByTitle;
-  };
-
 export default function UsersTableRolesFilter({
   productRolesSelected,
   productRolesList,
-  onFiltersChange,
-  filters,
-  disableFilters,
   showSelcRoleGrouped,
+  setProductRoleCheckedBySelcRole,
+  productRoleCheckedBySelcRole,
+  productFiltered,
+  productList,
 }: Props) {
   const { t } = useTranslation();
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
-  const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
-
-  const [open, setOpen] = React.useState(false);
-  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
-    [selcRole in UserRole]: ProductRolesGroupByTitle;
-  }>(emptySelcRoleGroup);
-
-  const nextProductRolesFilter = useMemo(
-    () =>
-      Object.values(productRoleCheckedBySelcRole)
-        .flatMap((groupByTitle) => Object.values(groupByTitle))
-        .flatMap((x) => x),
-    [productRoleCheckedBySelcRole]
-  );
 
   useEffect(() => {
     if (productRolesSelected) {
@@ -138,7 +118,6 @@ export default function UsersTableRolesFilter({
                 }}
                 checked={isSelected}
                 onChange={() => {
-                  setOpen(true);
                   const nextSelcGroupSelected = isSelected
                     ? Object.fromEntries(
                         Object.entries(selcGroupSelected).filter(([t, _rs]) => t !== title)
@@ -178,40 +157,10 @@ export default function UsersTableRolesFilter({
     <Box>
       <FormControl sx={{ width: 300 }} variant="standard">
         <CustomSelect
-          onClick={() => setOpen(!open)}
           multiple
           MenuProps={MenuProps}
-          variant="standard"
+          variant="outlined"
           displayEmpty
-          native={false}
-          onClose={() => {
-            setOpen(false);
-            setProductRoleCheckedBySelcRole(productFiltered);
-          }}
-          open={open}
-          IconComponent={() =>
-            open ? (
-              <KeyboardArrowDownIcon
-                id="keyboardArrowDownIcon"
-                color="primary"
-                sx={{ transform: 'rotate(-180deg)', cursor: 'pointer' }}
-              />
-            ) : (
-              <KeyboardArrowDownIcon
-                id="keyboardArrowDownIcon"
-                color="primary"
-                sx={{ transform: 'rotate(0deg)', cursor: 'pointer' }}
-                onClick={() => {
-                  if (disableFilters) {
-                    setOpen(false);
-                  } else {
-                    setOpen(true);
-                  }
-                }}
-              />
-            )
-          }
-          inputProps={{ onClick: () => setOpen(!open) }}
           value={selcGroups.flatMap((s) =>
             selcGroupTotallySelected[s]
               ? [t(labels[s].titleKey)]
@@ -225,7 +174,20 @@ export default function UsersTableRolesFilter({
                 </Box>
               );
             }
-            return selected.join(', ');
+            return (
+              <Typography
+                sx={{
+                  display: 'inline-block',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  width: '100%',
+                  fontWeight: 'fontWeightMedium',
+                }}
+              >
+                {selected.join(', ')}
+              </Typography>
+            );
           }}
           sx={{
             '.MuiInput-input:focus': { backgroundColor: 'transparent' },
@@ -265,7 +227,6 @@ export default function UsersTableRolesFilter({
                           checked={isSelected}
                           indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
                           onChange={() => {
-                            setOpen(true);
                             const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
                             setProductRoleCheckedBySelcRole({
                               ...productRoleCheckedBySelcRole,
@@ -280,42 +241,6 @@ export default function UsersTableRolesFilter({
                 children(selcRole, selcGroup, selcGroupSelected),
               ];
             })}
-            <Grid container spacing={1} display="flex" justifyContent="center" py={3}>
-              <Grid item xs={12}>
-                <Button
-                  disabled={isEqual(productRolesSelected, nextProductRolesFilter)}
-                  sx={{ width: '100%', height: '32px' }}
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  onClick={() => {
-                    setOpen(false);
-                    onFiltersChange({
-                      ...filters,
-                      productIds: nextProductRolesFilter.map((f) => f.productId),
-                      productRoles: nextProductRolesFilter,
-                    });
-                  }}
-                >
-                  {t('usersTable.filterRole.addFiltersButton')}
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  disabled={nextProductRolesFilter.length === 0}
-                  sx={{ width: '100%', height: '32px' }}
-                  color="primary"
-                  variant="outlined"
-                  type="submit"
-                  onClick={() => {
-                    setOpen(false);
-                    onFiltersChange({ ...filters, productIds: [], productRoles: [] });
-                  }}
-                >
-                  {t('usersTable.filterRole.deleteFiltersButton')}
-                </Button>
-              </Grid>
-            </Grid>
           </Box>
         </CustomSelect>
       </FormControl>

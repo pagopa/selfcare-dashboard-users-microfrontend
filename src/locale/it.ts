@@ -29,7 +29,7 @@ export default {
         description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
       },
       addFiltersButton: 'Filtra',
-      deleteFiltersButton: 'Cancella filtri',
+      deleteFiltersButton: 'Annulla filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',

@@ -1,11 +1,14 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { Box } from '@mui/system';
+import { isEqual } from 'lodash';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import UsersTableProduct from '../components/UsersTableProduct/UsersTableProduct';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -13,9 +16,14 @@ import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTa
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import UserTableNoData from '../components/UserTableNoData';
 import { ENV } from '../../../utils/env';
-import { Party } from '../../../model/Party';
+import { Party, UserRole } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import { ProductRolesLists } from '../../../model/ProductRole';
+import {
+  ProductRole,
+  productRolesGroupBySelcRole,
+  ProductRolesLists,
+} from '../../../model/ProductRole';
+import { ProductRolesGroupByTitle } from '../UsersPage/UsersPage';
 
 type Props = {
   party: Party;
@@ -55,6 +63,39 @@ function UsersProductPage({
     DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
     { partyId: party.partyId, productId: selectedProduct.id }
   );
+
+  const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
+  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
+    [selcRole in UserRole]: ProductRolesGroupByTitle;
+  }>(emptySelcRoleGroup);
+
+  const nextProductRolesFilter = useMemo(
+    () =>
+      Object.values(productRoleCheckedBySelcRole)
+        .flatMap((groupByTitle) => Object.values(groupByTitle))
+        .flatMap((x) => x),
+    [productRoleCheckedBySelcRole]
+  );
+  const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupByTitle =>
+    roles.reduce((acc, r) => {
+      // eslint-disable-next-line functional/immutable-data
+      acc[r.title] = (acc[r.title] ?? []).concat([r]);
+      return acc;
+    }, {} as ProductRolesGroupByTitle);
+  const productList = (
+    productRoles: Array<ProductRole>
+  ): {
+    [selcRole in UserRole]: ProductRolesGroupByTitle;
+  } =>
+    Object.fromEntries(
+      Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
+        selcRole,
+        productRolesGroupByTitle(roles),
+      ])
+    ) as {
+      [selcRole in UserRole]: ProductRolesGroupByTitle;
+    };
+  const productFiltered = useMemo(() => productList(filters.productRoles), [filters.productRoles]);
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
@@ -96,22 +137,60 @@ function UsersProductPage({
       </Grid>
       <Grid item xs={12} sx={{ height: '100%' }} mt={5}>
         <Grid container direction="row" alignItems={'center'}>
-          <Grid item xs={12}>
-            <UsersTableActions
-              disableFilters={fetchStatus.loading}
-              loading={fetchStatus.loading}
-              party={party}
-              products={activeProducts}
-              selectedProduct={selectedProduct}
-              productsRolesMap={{ [selectedProduct.id]: productRolesList }}
-              filters={filters}
-              onFiltersChange={setFilters}
-              // addUserUrl={resolvePathVariables(
-              //   DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
-              //   { partyId: party.partyId, productId: selectedProduct.id }
-              // )}
-              showSelcRoleGrouped={showSelcRoleGrouped}
-            />
+          <Grid item xs={12} display="flex" justifyContent="flex-end">
+            <Box>
+              <UsersTableActions
+                disableFilters={fetchStatus.loading}
+                loading={fetchStatus.loading}
+                party={party}
+                products={activeProducts}
+                productsRolesMap={{ [selectedProduct.id]: productRolesList }}
+                filters={filters}
+                showSelcRoleGrouped={showSelcRoleGrouped}
+                setProductRoleCheckedBySelcRole={setProductRoleCheckedBySelcRole}
+                productRoleCheckedBySelcRole={productRoleCheckedBySelcRole}
+                productFiltered={productFiltered}
+                productList={productList}
+              />
+            </Box>
+            <Box display="flex" alignItems="flex-end" justifyContent="center">
+              <Button
+                disabled={isEqual(filters.productRoles, nextProductRolesFilter)}
+                sx={{ height: '40px' }}
+                color="primary"
+                variant="outlined"
+                type="submit"
+                onClick={() =>
+                  setFilters({
+                    productIds: nextProductRolesFilter.map((f) => f.productId),
+                    productRoles: nextProductRolesFilter,
+                  })
+                }
+              >
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    color: nextProductRolesFilter.length === 0 ? 'text.disabled' : 'primary.main',
+                  }}
+                >
+                  {t('usersTable.filterRole.addFiltersButton')}
+                </Typography>
+              </Button>
+            </Box>
+            <Box ml={3} display="flex" alignItems="center" justifyContent="center">
+              <ButtonNaked
+                component="button"
+                disabled={nextProductRolesFilter.length === 0}
+                sx={{ color: 'primary.main' }}
+                onClick={() => {
+                  setFilters(emptyFilters);
+                  setProductRoleCheckedBySelcRole(productFiltered);
+                }}
+              >
+                {t('usersTable.filterRole.deleteFiltersButton')}
+              </ButtonNaked>
+            </Box>
           </Grid>
           <Grid item xs={12} mt={5}>
             <UsersTableProduct

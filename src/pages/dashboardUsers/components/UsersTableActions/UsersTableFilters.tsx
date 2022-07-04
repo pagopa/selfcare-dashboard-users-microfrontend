@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import { Product } from '../../../../model/Product';
 import { ProductRole, ProductsRolesMap } from '../../../../model/ProductRole';
+import { ProductRolesGroupByTitle } from '../../UsersPage/UsersPage';
 import UsersTableRolesFilter from './UsersTableRolesFilter';
 
 export type UsersTableFiltersConfig = {
@@ -11,20 +12,38 @@ export type UsersTableFiltersConfig = {
 };
 interface UsersSearchFilterProps {
   products: Array<Product>;
-  selectedProduct?: Product;
   disableFilters: boolean;
   filters: UsersTableFiltersConfig;
-  onFiltersChange: (f: UsersTableFiltersConfig) => void;
   productsRolesMap: ProductsRolesMap;
   showSelcRoleGrouped: boolean;
+  setProductRoleCheckedBySelcRole: React.Dispatch<
+    React.SetStateAction<{
+      ADMIN: ProductRolesGroupByTitle;
+      LIMITED: ProductRolesGroupByTitle;
+    }>
+  >;
+  productRoleCheckedBySelcRole: {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
+  productFiltered: {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
+  productList: (productRoles: Array<ProductRole>) => {
+    ADMIN: ProductRolesGroupByTitle;
+    LIMITED: ProductRolesGroupByTitle;
+  };
 }
 
 export default function UsersTableFilters({
   filters,
-  onFiltersChange,
   productsRolesMap,
-  disableFilters,
   showSelcRoleGrouped,
+  setProductRoleCheckedBySelcRole,
+  productRoleCheckedBySelcRole,
+  productFiltered,
+  productList,
 }: UsersSearchFilterProps) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
@@ -33,12 +52,13 @@ export default function UsersTableFilters({
   return (
     <Grid container direction="row" alignItems={'center'} columnSpacing={2}>
       <UsersTableRolesFilter
-        disableFilters={disableFilters}
         productRolesSelected={filters.productRoles}
         productRolesList={productRolesList}
-        onFiltersChange={onFiltersChange}
-        filters={filters}
         showSelcRoleGrouped={showSelcRoleGrouped}
+        setProductRoleCheckedBySelcRole={setProductRoleCheckedBySelcRole}
+        productRoleCheckedBySelcRole={productRoleCheckedBySelcRole}
+        productFiltered={productFiltered}
+        productList={productList}
       />
     </Grid>
   );

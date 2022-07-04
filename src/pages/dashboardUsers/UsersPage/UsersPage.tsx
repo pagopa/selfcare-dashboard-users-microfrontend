@@ -1,4 +1,4 @@
-import { Grid, Tab, Tabs, Button } from '@mui/material';
+import { Grid, Tab, Tabs, Button, Box, Typography } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import React, { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
@@ -8,15 +8,18 @@ import useScrollSpy from 'react-use-scrollspy';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { isEqual } from 'lodash';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import { Product, ProductsMap } from '../../../model/Product';
-import { Party } from '../../../model/Party';
+import { Party, UserRole } from '../../../model/Party';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import UsersProductSection from '../components/UsersProductSection';
 import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
 import UserTableNoData from '../components/UserTableNoData';
-import { ProductsRolesMap } from '../../../model/ProductRole';
+import { ProductRole, ProductsRolesMap } from '../../../model/ProductRole';
 import { ENV } from '../../../utils/env';
+import { productRolesGroupBySelcRole } from '../../../model/ProductRole';
 
 interface Props {
   party: Party;
@@ -29,6 +32,7 @@ const emptyFilters: UsersTableFiltersConfig = {
   productIds: [],
   productRoles: [],
 };
+export type ProductRolesGroupByTitle = { [title: string]: Array<ProductRole> };
 
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
   const showSelcRoleGrouped = true;
@@ -80,6 +84,39 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   };
   const moretThanOneActiveProduct = activeProducts.length > 1;
 
+  const emptySelcRoleGroup = { ADMIN: {}, LIMITED: {} };
+  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
+    [selcRole in UserRole]: ProductRolesGroupByTitle;
+  }>(emptySelcRoleGroup);
+
+  const nextProductRolesFilter = useMemo(
+    () =>
+      Object.values(productRoleCheckedBySelcRole)
+        .flatMap((groupByTitle) => Object.values(groupByTitle))
+        .flatMap((x) => x),
+    [productRoleCheckedBySelcRole]
+  );
+  const productRolesGroupByTitle = (roles: Array<ProductRole>): ProductRolesGroupByTitle =>
+    roles.reduce((acc, r) => {
+      // eslint-disable-next-line functional/immutable-data
+      acc[r.title] = (acc[r.title] ?? []).concat([r]);
+      return acc;
+    }, {} as ProductRolesGroupByTitle);
+  const productList = (
+    productRoles: Array<ProductRole>
+  ): {
+    [selcRole in UserRole]: ProductRolesGroupByTitle;
+  } =>
+    Object.fromEntries(
+      Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
+        selcRole,
+        productRolesGroupByTitle(roles),
+      ])
+    ) as {
+      [selcRole in UserRole]: ProductRolesGroupByTitle;
+    };
+  const productFiltered = useMemo(() => productList(filters.productRoles), [filters.productRoles]);
+
   return (
     <Grid container px={2} mt={10} sx={{ backgroundColor: 'transparent !important' }}>
       <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
@@ -100,18 +137,63 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           {t('usersTable.addButton')}
         </Button>
       </Grid>
-      <Grid item xs={12} mt={5}>
-        <UsersTableActions
-          disableFilters={loading}
-          loading={loading}
-          party={party}
-          products={activeProducts}
-          productsRolesMap={productsRolesMap}
-          filters={filters}
-          onFiltersChange={setFilters}
-          showSelcRoleGrouped={showSelcRoleGrouped}
-        />
+      <Grid item xs={12} mt={5} display="flex" justifyContent="flex-end">
+        <Box>
+          <UsersTableActions
+            disableFilters={loading}
+            loading={loading}
+            party={party}
+            products={activeProducts}
+            productsRolesMap={productsRolesMap}
+            filters={filters}
+            showSelcRoleGrouped={showSelcRoleGrouped}
+            setProductRoleCheckedBySelcRole={setProductRoleCheckedBySelcRole}
+            productRoleCheckedBySelcRole={productRoleCheckedBySelcRole}
+            productFiltered={productFiltered}
+            productList={productList}
+          />
+        </Box>
+        <Box display="flex" alignItems="flex-end" justifyContent="center">
+          <Button
+            disabled={isEqual(filters.productRoles, nextProductRolesFilter)}
+            sx={{ height: '40px' }}
+            color="primary"
+            variant="outlined"
+            type="submit"
+            onClick={() =>
+              setFilters({
+                productIds: nextProductRolesFilter.map((f) => f.productId),
+                productRoles: nextProductRolesFilter,
+              })
+            }
+          >
+            <Typography
+              variant="caption"
+              sx={{
+                fontWeight: 'fontWeightBold',
+                color: nextProductRolesFilter.length === 0 ? 'text.disabled' : 'primary.main',
+              }}
+            >
+              {t('usersTable.filterRole.addFiltersButton')}
+            </Typography>
+          </Button>
+        </Box>
+        <Box ml={3} display="flex" alignItems="center" justifyContent="center">
+          <ButtonNaked
+            component="button"
+            disabled={nextProductRolesFilter.length === 0}
+            sx={{ color: 'primary.main' }}
+            weight="default"
+            onClick={() => {
+              setFilters(emptyFilters);
+              setProductRoleCheckedBySelcRole(productFiltered);
+            }}
+          >
+            {t('usersTable.filterRole.deleteFiltersButton')}
+          </ButtonNaked>
+        </Box>
       </Grid>
+
       {moretThanOneActiveProduct && (
         <Grid
           item
