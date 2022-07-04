@@ -57,7 +57,7 @@ function EditUserRegistryProductPage({ party, user, selectedProduct }: Props) {
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid item xs={12} mb={3}>
+      <Grid xs={12} mb={3}>
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
       <Grid item xs={12} mb={9}>
