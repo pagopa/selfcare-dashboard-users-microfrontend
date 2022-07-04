@@ -1,4 +1,4 @@
-import { Chip, Typography, Grid, IconButton } from '@mui/material';
+import { Chip, Typography, Grid, IconButton, Box } from '@mui/material';
 import {
   GridColDef,
   GridColumnHeaderParams,
@@ -8,7 +8,6 @@ import {
 import React, { CSSProperties, ReactNode } from 'react';
 import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Box } from '@mui/system';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
 
@@ -99,6 +98,7 @@ function renderCell(
   onRowClick?: (partyUser: PartyProductUser) => void,
   overrideStyle: CSSProperties = {}
 ) {
+  const isSuspended = isUserSuspended(params.row as PartyProductUser);
   return (
     <div
       style={{
@@ -115,8 +115,8 @@ function renderCell(
       }}
       onClick={onRowClick ? () => onRowClick(params.row) : undefined}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
@@ -124,12 +124,13 @@ function renderCell(
           WebkitBoxOrient: 'vertical' as const,
           paddingBottom: '8px',
           width: '100%',
-          color: params.row.status === 'SUSPENDED' ? '#9E9E9E' : undefined,
+          color:
+            isSuspended || params.row.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
           fontSize: '14px',
         }}
       >
         {value}
-      </div>
+      </Box>
     </div>
   );
 }
@@ -162,6 +163,7 @@ function showName(
 ) {
   const isSuspended = isUserSuspended(params.row as PartyProductUser);
   const showChip = canShowChip && isSuspended;
+
   return (
     <React.Fragment>
       {renderCell(
@@ -172,7 +174,14 @@ function showName(
               <Typography
                 variant="body2"
                 color="primary.main"
-                sx={{ fontWeight: 'fontWeightBold' }}
+                sx={{
+                  fontWeight: 'fontWeightBold',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical' as const,
+                }}
               >
                 {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
               </Typography>
@@ -206,6 +215,7 @@ function TableChip({ text }: { text: string }) {
         backgroundColor: 'warning.light',
         paddingBottom: '1px',
         height: '24px',
+        cursor: 'pointer',
       }}
     />
   );
@@ -228,8 +238,11 @@ function showRoles(
             ) => (
               <Grid item key={r.relationshipId}>
                 <Typography
-                  color={isSuspended || r.status === 'SUSPENDED' ? '#9E9E9E' : undefined}
-                  sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', outline: 'none' }}
+                  variant="caption"
+                  color={
+                    isSuspended || r.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary'
+                  }
+                  sx={{ outline: 'none' }}
                 >
                   {productRolesLists.groupByProductRole[r.role]
                     ? productRolesLists.groupByProductRole[r.role].title
@@ -271,7 +284,8 @@ function showActions(
           width: '100%',
           display: 'flex',
           justifyContent: 'flex-end',
-          pr: 2,
+          pr: 4,
+          cursor: 'pointer',
         }}
       >
         <ArrowForwardIosIcon sx={{ color: 'primary.main', fontSize: 'small' }} />

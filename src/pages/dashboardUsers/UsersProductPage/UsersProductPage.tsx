@@ -68,7 +68,7 @@ function UsersProductPage({
       sx={{ backgroundColor: 'transparent !important' }}
       alignSelf="flex-start"
     >
-      <Grid item xs={12} mb={3} px={2}>
+      <Grid item xs={12} mb={3}>
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9} px={2}>
