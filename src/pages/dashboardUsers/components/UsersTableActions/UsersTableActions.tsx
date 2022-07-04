@@ -1,9 +1,5 @@
-import { Grid, Button, useTheme } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useHistory } from 'react-router-dom';
-import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { Grid, useTheme } from '@mui/material';
 import MDSpinner from 'react-md-spinner';
-import { useTranslation } from 'react-i18next';
 import { Product } from '../../../../model/Product';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -14,7 +10,6 @@ interface UsersSearchProps {
   selectedProduct?: Product;
   products: Array<Product>;
   productsRolesMap: ProductsRolesMap;
-  addUserUrl: string;
   disableFilters: boolean;
   loading: boolean;
   filters: UsersTableFiltersConfig;
@@ -26,17 +21,13 @@ export default function UsersTableActions({
   selectedProduct,
   products,
   productsRolesMap,
-  addUserUrl,
   disableFilters,
   loading,
   filters,
   onFiltersChange,
   showSelcRoleGrouped,
 }: UsersSearchProps) {
-  const { t } = useTranslation();
   const theme = useTheme();
-  const history = useHistory();
-  const onExit = useUnloadEventOnExit();
 
   return (
     <Grid container direction="row" justifyContent={'flex-end'} alignItems={'center'} px={2}>
@@ -55,16 +46,6 @@ export default function UsersTableActions({
           productsRolesMap={productsRolesMap}
           showSelcRoleGrouped={showSelcRoleGrouped}
         />
-      </Grid>
-      <Grid item pl={4}>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ py: '10px', height: '40px', width: '100%' }}
-          onClick={() => onExit(() => history.push(addUserUrl))}
-        >
-          {t('usersTable.addButton')}
-        </Button>
       </Grid>
     </Grid>
   );

@@ -69,7 +69,7 @@ export default {
       reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
-    addButton: 'Aggiungi',
+    addButton: 'Aggiungi utente',
   },
   userDetail: {
     title: 'Profilo Utente',

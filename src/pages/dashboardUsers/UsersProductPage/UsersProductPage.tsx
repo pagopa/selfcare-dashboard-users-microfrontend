@@ -1,10 +1,11 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import UsersTableProduct from '../components/UsersTableProduct/UsersTableProduct';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -49,6 +50,11 @@ function UsersProductPage({
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
 
   const history = useHistory();
+  const onExit = useUnloadEventOnExit();
+  const addUserUrl = resolvePathVariables(
+    DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
+    { partyId: party.partyId, productId: selectedProduct.id }
+  );
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
@@ -71,7 +77,7 @@ function UsersProductPage({
       <Grid item xs={12} mb={3}>
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
-      <Grid item xs={12} mb={9} px={2}>
+      <Grid item xs={9} px={2}>
         <TitleBox
           variantTitle="h4"
           variantSubTitle="body1"
@@ -79,7 +85,16 @@ function UsersProductPage({
           subTitle={t('usersPage.vertical.subTitle')}
         />
       </Grid>
-      <Grid item xs={12} sx={{ height: '100%' }}>
+      <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-end">
+        <Button
+          variant="contained"
+          sx={{ height: '40px', width: '163px' }}
+          onClick={() => onExit(() => history.push(addUserUrl))}
+        >
+          {t('usersTable.addButton')}
+        </Button>
+      </Grid>
+      <Grid item xs={12} sx={{ height: '100%' }} mt={5}>
         <Grid container direction="row" alignItems={'center'}>
           <Grid item xs={12}>
             <UsersTableActions
@@ -91,14 +106,14 @@ function UsersProductPage({
               productsRolesMap={{ [selectedProduct.id]: productRolesList }}
               filters={filters}
               onFiltersChange={setFilters}
-              addUserUrl={resolvePathVariables(
-                DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
-                { partyId: party.partyId, productId: selectedProduct.id }
-              )}
+              // addUserUrl={resolvePathVariables(
+              //   DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.ADD_PARTY_PRODUCT_USER.path,
+              //   { partyId: party.partyId, productId: selectedProduct.id }
+              // )}
               showSelcRoleGrouped={showSelcRoleGrouped}
             />
           </Grid>
-          <Grid item xs={12} mt={6}>
+          <Grid item xs={12} mt={5}>
             <UsersTableProduct
               hideProductWhenLoading={true}
               incrementalLoad={false}
