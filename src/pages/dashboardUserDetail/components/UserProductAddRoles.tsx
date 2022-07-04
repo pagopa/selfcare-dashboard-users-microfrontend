@@ -118,8 +118,11 @@ export default function UserProductAddRoles({
           setOpen(true);
         }}
         component="button"
+        sx={{ textDecoration: 'none' }}
       >
-        <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
+        <Typography
+          sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightRegular', color: '#0073E6' }}
+        >
           {t('userDetail.actions.newRoleAssign')}
         </Typography>
       </Link>

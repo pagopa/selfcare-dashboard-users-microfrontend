@@ -60,12 +60,11 @@ export default function UserProductRoles({
                       aria-label={'Suspended'}
                       variant="outlined"
                       sx={{
-                        fontWeight: '600',
                         fontSize: '14px',
                         background: '#E0E0E0',
                         border: 'none',
                         borderRadius: '16px',
-                        width: '76px',
+                        width: '78px',
                         height: '24px',
                       }}
                     />

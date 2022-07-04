@@ -108,7 +108,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
           <Button
             disableRipple
             variant="contained"
-            sx={{ height: '40px', width: '120px' }}
+            sx={{ height: '40px', width: '100%' }}
             onClick={goEdit}
           >
             {t('userDetail.editButton')}

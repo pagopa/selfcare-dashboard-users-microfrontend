@@ -36,7 +36,7 @@ export default function UsersProductSection({
       fetchStatus.error ||
       !fetchStatus.noData ? (
         <Grid item xs={12} sx={{ mt: 7 }}>
-          <Typography variant="h2" id={product.id}>
+          <Typography sx={{ fontWeight: 'fontWeightMedium' }} id={product.id}>
             {product.title}
           </Typography>
         </Grid>

@@ -81,7 +81,12 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12}>
-        <TitleBox title={t('usersPage.title')} subTitle={t('usersPage.generic.subTitle')} />
+        <TitleBox
+          variantTitle="h4"
+          variantSubTitle="body1"
+          title={t('usersPage.title')}
+          subTitle={t('usersPage.generic.subTitle')}
+        />
       </Grid>
 
       {activeProducts.length > 1 && (

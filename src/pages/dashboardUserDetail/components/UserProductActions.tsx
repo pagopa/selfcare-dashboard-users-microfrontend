@@ -275,8 +275,8 @@ export default function UserProductActions({
       {showActions && !user.isCurrentUser && canEdit && (
         <Grid container item>
           <Grid item xs={6}>
-            <Link onClick={handleOpen} component="button">
-              <Typography variant="h3" sx={{ fontSize: '16px', color: '#0073E6' }}>
+            <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
+              <Typography variant="caption" sx={{ fontWeight: 'fontWeightBold', color: '#0073E6' }}>
                 {role.status === 'SUSPENDED'
                   ? t('userDetail.actions.reactivateRole')
                   : role.status === 'ACTIVE'
@@ -288,8 +288,13 @@ export default function UserProductActions({
           {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
             !user.isCurrentUser && (
               <Grid item xs={6}>
-                <Link color="error" onClick={handleOpenDelete} component="button">
-                  <Typography variant="h3" sx={{ fontSize: '16px', color: '#C02927' }}>
+                <Link
+                  color="error"
+                  onClick={handleOpenDelete}
+                  component="button"
+                  sx={{ textDecoration: 'none' }}
+                >
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#C02927' }}>
                     {t('userDetail.actions.deleteButton')}
                   </Typography>
                 </Link>
