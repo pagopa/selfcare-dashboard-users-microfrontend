@@ -49,20 +49,7 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid
-        xs={5}
-        mb={3}
-        sx={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'horizontal' as const,
-          overflowWrap: 'break-word',
-          minWidth: 0,
-          maxWidth: 0,
-        }}
-      >
+      <Grid item xs={12} mb={3}>
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
       </Grid>
       <Grid item xs={12} mb={9}>

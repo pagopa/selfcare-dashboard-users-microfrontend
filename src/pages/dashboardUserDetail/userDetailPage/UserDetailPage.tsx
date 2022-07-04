@@ -135,7 +135,7 @@ function UserDetailPage({
       mt={10}
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
-      <Grid xs={9} mb={3}>
+      <Grid item xs={12} mb={3}>
         <ProductNavigationBar paths={paths} />
       </Grid>
       <Grid item xs={12} mb={7}>

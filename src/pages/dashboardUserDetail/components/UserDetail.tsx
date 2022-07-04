@@ -34,6 +34,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               xs={9}
               className="userInfoStyle"
               sx={{
+                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
@@ -59,6 +60,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               item
               xs={9}
               sx={{
+                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
@@ -96,6 +98,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
               item
               xs={9}
               sx={{
+                height: '100%',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 display: '-webkit-box',
@@ -134,7 +137,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
           <Button
             disableRipple
             variant="contained"
-            sx={{ height: '40px', width: '100%' }}
+            sx={{ height: '40px', width: '120px' }}
             onClick={goEdit}
           >
             {t('userDetail.editButton')}
