@@ -135,6 +135,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
       {userInfo.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
         <Grid item xs={2}>
           <Button
+            disabled={userInfo.status === 'SUSPENDED'}
             disableRipple
             variant="contained"
             sx={{ height: '40px', width: '120px' }}
