@@ -9,7 +9,7 @@ import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/use
 import { Box } from '@mui/system';
 import { isEqual } from 'lodash';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import ProductNavigationBar from '../../../components/ProductNavigationBar';
+// import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import UsersTableProduct from '../components/UsersTableProduct/UsersTableProduct';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
 import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
@@ -48,11 +48,11 @@ function UsersProductPage({
   const showSelcRoleGrouped = false;
   const { t } = useTranslation();
 
-  const paths = [
-    {
-      description: t('usersPage.vertical.paths.description'),
-    },
-  ];
+  // const paths = [
+  //   {
+  //     description: t('usersPage.vertical.paths.description'),
+  //   },
+  // ];
 
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false });
@@ -96,7 +96,7 @@ function UsersProductPage({
       [selcRole in UserRole]: ProductRolesGroupByTitle;
     };
   const productFiltered = useMemo(() => productList(filters.productRoles), [filters.productRoles]);
-
+  const noFilter = nextProductRolesFilter.length === 0;
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
       history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId: party.partyId }));
@@ -115,9 +115,9 @@ function UsersProductPage({
       sx={{ backgroundColor: 'transparent !important' }}
       alignSelf="flex-start"
     >
-      <Grid item xs={12} mb={3}>
+      {/* <Grid item xs={12} mb={3}>
         <ProductNavigationBar selectedProduct={selectedProduct} paths={paths} />
-      </Grid>
+      </Grid> */}
       <Grid item xs={9} px={2}>
         <TitleBox
           variantTitle="h4"
@@ -167,22 +167,16 @@ function UsersProductPage({
                   })
                 }
               >
-                <Typography
-                  variant="caption"
-                  sx={{
-                    fontWeight: 'fontWeightBold',
-                    color: nextProductRolesFilter.length === 0 ? 'text.disabled' : 'primary.main',
-                  }}
-                >
-                  {t('usersTable.filterRole.addFiltersButton')}
-                </Typography>
+                {t('usersTable.filterRole.addFiltersButton')}
               </Button>
             </Box>
             <Box ml={3} display="flex" alignItems="center" justifyContent="center">
               <ButtonNaked
                 component="button"
-                disabled={nextProductRolesFilter.length === 0}
-                sx={{ color: 'primary.main' }}
+                disabled={noFilter}
+                sx={{
+                  color: noFilter ? 'text.disabled' : 'primary.main',
+                }}
                 onClick={() => {
                   setFilters(emptyFilters);
                   setProductRoleCheckedBySelcRole(productFiltered);
@@ -193,6 +187,9 @@ function UsersProductPage({
             </Box>
           </Grid>
           <Grid item xs={12} mt={5}>
+            <Typography sx={{ fontWeight: 'fontWeightMedium' }} id={selectedProduct.id}>
+              {selectedProduct.title}
+            </Typography>
             <UsersTableProduct
               hideProductWhenLoading={true}
               incrementalLoad={false}
