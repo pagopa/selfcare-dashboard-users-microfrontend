@@ -71,7 +71,7 @@ export default function UserProductRoles({
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={6}>
+              <Grid item xs={9}>
                 <CustomTextTransform
                   variant="body2"
                   sx={{

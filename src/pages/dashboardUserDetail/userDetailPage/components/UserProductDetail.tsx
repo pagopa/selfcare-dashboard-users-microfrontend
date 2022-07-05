@@ -34,7 +34,7 @@ export default function UserProductDetail({
 
   return (
     <>
-      <Grid item xs={10}>
+      <Grid item xs={12}>
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
@@ -56,7 +56,7 @@ export default function UserProductDetail({
                 </Box>
               </Box>
 
-              <Box ml={2}>
+              <Box ml={4} display="flex" justifyContent="center" alignItems={'center'}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
                     label={t('userDetail.statusLabel')}
@@ -64,7 +64,7 @@ export default function UserProductDetail({
                     variant="outlined"
                     sx={{
                       fontSize: '14px',
-                      background: '#E0E0E0',
+                      background: '#FFCB46',
                       borderRadius: '16px',
                       border: 'none',
                       width: '78px',
@@ -78,7 +78,7 @@ export default function UserProductDetail({
             </Grid>
           </Grid>
 
-          <Grid item xs={3} display="flex" alignItems="center" ml="-10px">
+          <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
             <UserProductActions
               showActions={showActionOnProduct}
               party={party}

@@ -153,8 +153,8 @@ export default {
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
-    group: 'GRUPPO',
-    role: 'RUOLO',
+    group: 'Gruppi',
+    role: 'Ruolo',
     statusLabel: 'Sospeso',
   },
   userEdit: {

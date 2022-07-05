@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Chip, Grid, Typography, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
@@ -21,6 +21,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
   const [userGroups, setUserGroups] = useState<Array<PartyGroup>>([]);
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
+  const theme = useTheme();
 
   useEffect(() => {
     if (canEdit) {
@@ -53,9 +54,17 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
           </Grid>
           <Grid item xs={9}>
             {userGroups?.map((g) => (
-              <Typography key={g.id} variant="body2">
-                {g.name}
-              </Typography>
+              <Chip
+                label={g.name}
+                key={g.id}
+                sx={{
+                  borderRadius: theme.spacing(0.5),
+                  mr: 1,
+                  mb: 1,
+                  backgroundColor: '#F5F5F5',
+                  height: '22px',
+                }}
+              />
             ))}
           </Grid>
         </Grid>

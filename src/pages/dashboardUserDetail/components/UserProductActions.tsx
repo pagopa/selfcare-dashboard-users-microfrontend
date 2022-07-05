@@ -1,4 +1,4 @@
-import { Link, Grid, Typography } from '@mui/material';
+import { Link, Typography, Box } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
@@ -29,8 +29,8 @@ export default function UserProductActions({
   product,
   fetchPartyUser,
   productRolesList,
-  canEdit,
   isProductDetailPage,
+  canEdit,
 }: Props) {
   const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
@@ -273,10 +273,23 @@ export default function UserProductActions({
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
-        <Grid container item>
-          <Grid item xs={6}>
+        <Box display="flex" justifyContent="flex-end">
+          {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
+            !user.isCurrentUser && (
+              <Box mr={3}>
+                <Link onClick={handleOpenDelete} component="button" sx={{ textDecoration: 'none' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+                    {t('userDetail.actions.deleteButton')}
+                  </Typography>
+                </Link>
+              </Box>
+            )}
+          <Box>
             <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
-              <Typography variant="caption" sx={{ fontWeight: 'fontWeightBold', color: '#0073E6' }}>
+              <Typography
+                variant="caption"
+                sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+              >
                 {role.status === 'SUSPENDED'
                   ? t('userDetail.actions.reactivateRole')
                   : role.status === 'ACTIVE'
@@ -284,23 +297,8 @@ export default function UserProductActions({
                   : ''}
               </Typography>
             </Link>
-          </Grid>
-          {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
-            !user.isCurrentUser && (
-              <Grid item xs={6}>
-                <Link
-                  color="error"
-                  onClick={handleOpenDelete}
-                  component="button"
-                  sx={{ textDecoration: 'none' }}
-                >
-                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#C02927' }}>
-                    {t('userDetail.actions.deleteButton')}
-                  </Typography>
-                </Link>
-              </Grid>
-            )}
-        </Grid>
+          </Box>
+        </Box>
       )}
     </>
   );
