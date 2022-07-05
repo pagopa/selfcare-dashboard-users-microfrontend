@@ -109,9 +109,7 @@ export default function UserProductDetail({
           isProductDetailPage={isProductDetailPage}
         />
       </Grid>
-      <Grid container item xs={12} mt={3}>
-        <UserProductGroups product={product} party={party} user={partyUser} canEdit={canEdit} />
-      </Grid>
+      <UserProductGroups product={product} party={party} user={partyUser} canEdit={canEdit} />
     </>
   );
 }

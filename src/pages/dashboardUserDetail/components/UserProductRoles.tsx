@@ -124,7 +124,7 @@ export default function UserProductRoles({
       {canEdit && (
         <Grid container>
           <Grid item xs={3} />
-          <Grid item xs={9}>
+          <Grid item xs={9} mt={3}>
             <UserProductAddRoles
               party={party}
               user={user}

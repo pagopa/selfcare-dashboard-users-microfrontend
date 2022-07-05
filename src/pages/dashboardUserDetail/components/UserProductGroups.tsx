@@ -44,31 +44,33 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
   }, [user.id, party, product, canEdit]);
 
   return (
-    <>
-      {userGroups.length > 0 && canEdit && (
-        <Grid container>
-          <Grid item xs={3}>
-            <Typography className="CustomLabelStyle" variant="h6">
-              {t('userDetail.group')}
-            </Typography>
+    userGroups && (
+      <>
+        {userGroups.length > 0 && canEdit && (
+          <Grid container item xs={12} mt={3}>
+            <Grid item xs={3}>
+              <Typography className="CustomLabelStyle" variant="h6">
+                {t('userDetail.group')}
+              </Typography>
+            </Grid>
+            <Grid item xs={9}>
+              {userGroups?.map((g) => (
+                <Chip
+                  label={g.name}
+                  key={g.id}
+                  sx={{
+                    borderRadius: theme.spacing(0.5),
+                    mr: 1,
+                    mb: 1,
+                    backgroundColor: '#F5F5F5',
+                    height: '22px',
+                  }}
+                />
+              ))}
+            </Grid>
           </Grid>
-          <Grid item xs={9}>
-            {userGroups?.map((g) => (
-              <Chip
-                label={g.name}
-                key={g.id}
-                sx={{
-                  borderRadius: theme.spacing(0.5),
-                  mr: 1,
-                  mb: 1,
-                  backgroundColor: '#F5F5F5',
-                  height: '22px',
-                }}
-              />
-            ))}
-          </Grid>
-        </Grid>
-      )}
-    </>
+        )}
+      </>
+    )
   );
 }

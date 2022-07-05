@@ -121,7 +121,7 @@ export default function UserProductAddRoles({
         sx={{ textDecoration: 'none' }}
       >
         <Typography
-          sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightRegular', color: '#0073E6' }}
+          sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightBold', color: 'primary.main' }}
         >
           {t('userDetail.actions.newRoleAssign')}
         </Typography>
