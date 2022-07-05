@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Grid, Tooltip, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
@@ -7,6 +7,7 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { Trans, useTranslation } from 'react-i18next';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import UserDetail from '../components/UserDetail';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -117,6 +118,7 @@ function UserDetailPage({
 
   const paths = [
     {
+      icon: PeopleAltIcon,
       description: t('userDetail.pathDescription'),
       onClick: goBack,
     },
@@ -128,79 +130,116 @@ function UserDetailPage({
   return !party ? (
     <></>
   ) : (
-    <Grid
-      container
-      alignItems={'center'}
-      px={2}
-      mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-    >
-      <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} />
-      </Grid>
-      <Grid item xs={12} mb={7}>
-        <Typography variant="h4">{t('userDetail.title')}</Typography>
-      </Grid>
-      <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid item xs={12} mb={9}>
-          <UserDetail
-            party={party}
-            userInfo={partyUser}
-            roleSection={''}
-            goEdit={goEdit}
-            productsMap={productsMap}
-          />
+    <div style={{ width: '100%' }}>
+      <Grid
+        container
+        alignItems={'center'}
+        xs={8}
+        px={2}
+        mt={10}
+        sx={{
+          backgroundColor: 'transparent !important',
+        }}
+      >
+        <Grid item xs={12} mb={3}>
+          <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
-        <Grid item xs={11} mb={4}>
-          <Divider />
-        </Grid>
-        <Grid container>
-          <UserProductSection
-            isProductDetailPage={isProductDetailPage}
-            partyUser={partyUser}
-            party={party}
-            fetchPartyUser={fetchPartyUser}
-            productsRolesMap={productsRolesMap}
-            products={activeProducts}
-          />
-        </Grid>
-      </Grid>
-      <Grid container item my={10} spacing={2}>
-        <Grid item xs={2}>
-          <Button
-            disableRipple
-            variant="outlined"
-            sx={{ height: '40px', width: '100%' }}
-            onClick={goBack}
-          >
-            {t('userDetail.backButton')}
-          </Button>
-        </Grid>
-        {partyUser.products.length === 1 &&
-          partyUser.products[0].roles.length === 1 &&
-          !partyUser.isCurrentUser &&
-          activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
-            <Grid item xs={2}>
+        <Grid container item mb={4}>
+          <Grid item xs={10}>
+            <Tooltip
+              title={
+                partyUser.name.length + partyUser.surname.length > 20
+                  ? `${partyUser.name} ${partyUser.surname}`
+                  : ''
+              }
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  display: 'inline-block',
+                  width: '100%',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {partyUser.name} {partyUser.surname}
+              </Typography>
+            </Tooltip>
+          </Grid>
+          {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
               <Button
+                disabled={partyUser.status === 'SUSPENDED'}
                 disableRipple
                 variant="outlined"
-                sx={{
-                  height: '40px',
-                  width: '100%',
-                  color: '#C02927',
-                  borderColor: '#C02927',
-                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-                }}
-                onClick={handleOpenDelete}
+                sx={{ height: '40px' }}
+                onClick={goEdit}
               >
-                {haveOneRoleAndOneProduct
-                  ? t('userDetail.deleteUserButton')
-                  : t('userDetail.deleteButton')}
+                {t('userDetail.editButton')}
               </Button>
             </Grid>
           )}
+        </Grid>
+
+        <Grid container item>
+          <Grid item xs={12} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
+            <UserDetail
+              userInfo={partyUser}
+              roleSection={''}
+              goEdit={goEdit}
+              productsMap={productsMap}
+            />
+          </Grid>
+
+          <Grid container>
+            <UserProductSection
+              isProductDetailPage={isProductDetailPage}
+              partyUser={partyUser}
+              party={party}
+              fetchPartyUser={fetchPartyUser}
+              productsRolesMap={productsRolesMap}
+              products={activeProducts}
+            />
+          </Grid>
+        </Grid>
+        <Grid container item my={10} spacing={2}>
+          <Grid item xs={2}>
+            <Button
+              disableRipple
+              variant="outlined"
+              sx={{ height: '40px', width: '100%' }}
+              onClick={goBack}
+            >
+              {t('userDetail.backButton')}
+            </Button>
+          </Grid>
+          {partyUser.products.length === 1 &&
+            partyUser.products[0].roles.length === 1 &&
+            !partyUser.isCurrentUser &&
+            activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
+              <Grid item xs={2}>
+                <Button
+                  disableRipple
+                  variant="outlined"
+                  sx={{
+                    height: '40px',
+                    width: '100%',
+                    color: '#C02927',
+                    borderColor: '#C02927',
+                    '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
+                  }}
+                  onClick={handleOpenDelete}
+                >
+                  {haveOneRoleAndOneProduct
+                    ? t('userDetail.deleteUserButton')
+                    : t('userDetail.deleteButton')}
+                </Button>
+              </Grid>
+            )}
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 export default withUserDetail(UserDetailPage);

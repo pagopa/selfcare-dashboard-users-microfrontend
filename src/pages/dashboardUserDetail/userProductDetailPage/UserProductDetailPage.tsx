@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -153,27 +153,30 @@ function UserProductDetailPage({
       sx={{ width: '985px', backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
+        <ProductNavigationBar
+          paths={paths}
+          selectedProduct={selectedProduct}
+          showBackComponent={false}
+          goBack={goBack}
+        />
       </Grid>
       <Grid item xs={12} mb={7}>
         <Typography variant="h4">{t('userDetail.title')}</Typography>
       </Grid>
-      <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid container item>
+      <Grid>
+        <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
           <Grid item xs={12}>
             <UserDetail
               productsMap={productsMap}
-              party={party}
+              // party={party}
               userInfo={partyUser}
               roleSection={<></>}
               goEdit={goEdit}
             />
           </Grid>
         </Grid>
-        <Grid item xs={11} my={5}>
-          <Divider />
-        </Grid>
-        <Grid item xs={10}>
+
+        <Grid item xs={10} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
           <UserProductRoles
             showActions={true}
             party={party}

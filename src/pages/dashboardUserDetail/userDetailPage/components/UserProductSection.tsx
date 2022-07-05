@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, Divider } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
@@ -29,29 +29,25 @@ export default function UserProductSection({
   const history = useHistory();
   return (
     <>
-      <Grid item xs={10}>
-        <Grid container item>
-          <Grid item mb={1} xs={12}>
-            <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
-              {t('userDetail.productSection.title')}
-            </Typography>
-          </Grid>
-          <Grid item mb={1} xs={12}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {t('userDetail.productSection.description')}
-            </Typography>
-          </Grid>
-        </Grid>
+      <Grid item xs={10} mb={3}>
+        <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
+          {t('userDetail.productSection.title')}
+        </Typography>
       </Grid>
 
       {!partyUser.isCurrentUser &&
         products
           .filter((p) => p.userRole === 'ADMIN')
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
-          <Grid item xs={2}>
+          <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
             <Button
               variant="contained"
-              sx={{ height: '40px', width: '100%' }}
+              sx={{
+                height: '40px',
+                width: '135px',
+                fontSize: '14px',
+                fontWeight: 'fontWeightBold',
+              }}
               onClick={() =>
                 history.push(
                   resolvePathVariables(
@@ -68,10 +64,15 @@ export default function UserProductSection({
             </Button>
           </Grid>
         )}
-      {partyUser.products.map((userProduct, index) => {
+      {partyUser.products.map((userProduct) => {
         const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
         return (
-          <Grid item xs={12} key={userProduct.id}>
+          <Grid
+            item
+            xs={12}
+            key={userProduct.id}
+            sx={{ backgroundColor: 'background.paper', padding: 3 }}
+          >
             <UserProductDetail
               partyUser={partyUser}
               party={party}
@@ -82,11 +83,11 @@ export default function UserProductSection({
               product={product}
               isProductDetailPage={isProductDetailPage}
             />
-            {index !== partyUser.products.length - 1 && (
+            {/* {index !== partyUser.products.length - 1 && (
               <Grid item xs={11} my={4}>
                 <Divider />
               </Grid>
-            )}
+            )} */}
           </Grid>
         );
       })}

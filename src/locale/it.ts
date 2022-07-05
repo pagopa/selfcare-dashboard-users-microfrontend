@@ -73,10 +73,10 @@ export default {
   },
   userDetail: {
     title: 'Profilo Utente',
-    name: 'NOME',
-    surname: 'COGNOME',
-    fiscalCode: 'CODICE FISCALE',
-    institutionalEmail: 'EMAIL ISTITUZIONALE',
+    name: 'Nome',
+    surname: 'Cognome',
+    fiscalCode: 'Codice Fiscale',
+    institutionalEmail: 'Email istituzionale',
     institution: 'ENTE',
     editButton: 'Modifica',
     deleteButton: 'Elimina',
@@ -147,7 +147,6 @@ export default {
     },
     productSection: {
       title: 'Ruoli',
-      description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
       addButton: 'Assegna ruolo',
     },
     pathDescription: 'Utenti',

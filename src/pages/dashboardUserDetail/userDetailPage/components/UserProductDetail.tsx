@@ -1,4 +1,4 @@
-import { Grid, Typography, Chip, Box } from '@mui/material';
+import { Grid, Typography, Chip, Box, Divider } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
@@ -38,11 +38,24 @@ export default function UserProductDetail({
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              <Box>
-                <Typography variant="h6" sx={{ fontSize: '18px' }}>
-                  {product.title}
-                </Typography>
+              <Box display="flex">
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  mr={2}
+                  height="32px"
+                  width="32px"
+                >
+                  <img src={product.logo} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontSize: '18px' }}>
+                    {product.title}
+                  </Typography>
+                </Box>
               </Box>
+
               <Box ml={2}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
@@ -64,6 +77,7 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
+
           <Grid item xs={3} display="flex" alignItems="center" ml="-10px">
             <UserProductActions
               showActions={showActionOnProduct}
@@ -79,7 +93,10 @@ export default function UserProductDetail({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12} my={3}>
+        <Divider sx={{ borderColor: 'background.default' }} />
+      </Grid>
+      <Grid item xs={12}>
         <UserProductRoles
           showActions={!showActionOnProduct}
           party={party}
@@ -92,7 +109,7 @@ export default function UserProductDetail({
           isProductDetailPage={isProductDetailPage}
         />
       </Grid>
-      <Grid container item xs={10} mt={3}>
+      <Grid container item xs={12} mt={3}>
         <UserProductGroups product={product} party={party} user={partyUser} canEdit={canEdit} />
       </Grid>
     </>

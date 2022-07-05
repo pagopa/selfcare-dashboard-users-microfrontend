@@ -1,6 +1,5 @@
-import { Button, Grid, Typography, styled } from '@mui/material';
+import { Grid, Typography, styled, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Party } from '../../../model/Party';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
 
@@ -10,14 +9,31 @@ const CustomStyleCapitolized = styled(Typography)({
 });
 
 type Props = {
-  party: Party;
   roleSection: React.ReactNode;
   userInfo: PartyUserDetail;
   goEdit: () => void;
   productsMap: ProductsMap;
 };
 
-export default function UserDetail({ roleSection, userInfo, party, goEdit, productsMap }: Props) {
+const labelStyle = {
+  fontSize: 'fontSize',
+  fontWeight: 'fontWeightRegular',
+  color: 'colorTextPrimary',
+};
+const infoStyle = {
+  fontSize: 'fontSize',
+  fontWeight: 'fontWeightMedium',
+  color: 'colorTextPrimary',
+};
+const truncateText = {
+  display: 'inline-block',
+  width: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+};
+
+export default function UserDetail({ roleSection, userInfo }: Props) {
   const { t } = useTranslation();
   return (
     <Grid container>
@@ -25,36 +41,7 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
         <Grid container spacing={2}>
           <Grid container item alignContent="center">
             <Grid item xs={3}>
-              <Typography variant="h6" className="CustomLabelStyle">
-                {t('userDetail.name')}
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={9}
-              className="userInfoStyle"
-              sx={{
-                height: '100%',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical' as const,
-                overflowWrap: 'break-word',
-                minWidth: 0,
-                maxWidth: 0,
-              }}
-            >
-              <CustomStyleCapitolized variant="body2">
-                {userInfo.name.toLocaleLowerCase()}
-              </CustomStyleCapitolized>
-            </Grid>
-          </Grid>
-          <Grid container item alignContent="center">
-            <Grid item xs={3}>
-              <Typography variant="h6" className="CustomLabelStyle">
-                {t('userDetail.surname')}
-              </Typography>
+              <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
             </Grid>
             <Grid
               item
@@ -71,28 +58,52 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 maxWidth: 0,
               }}
             >
-              <CustomStyleCapitolized variant="body2">
-                {userInfo.surname.toLocaleLowerCase()}
-              </CustomStyleCapitolized>
+              <Tooltip title={userInfo.name.length > 20 ? userInfo.name.toLocaleLowerCase() : ''}>
+                <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+                  {userInfo.name.toLocaleLowerCase()}
+                </CustomStyleCapitolized>
+              </Tooltip>
             </Grid>
           </Grid>
           <Grid container item alignContent="center">
             <Grid item xs={3}>
-              <Typography variant="h6" className="CustomLabelStyle">
-                {t('userDetail.fiscalCode')}
-              </Typography>
+              <Typography sx={labelStyle}>{t('userDetail.surname')}</Typography>
+            </Grid>
+            <Grid
+              item
+              xs={9}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical' as const,
+                overflowWrap: 'break-word',
+                minWidth: 0,
+                maxWidth: 0,
+              }}
+            >
+              <Tooltip
+                title={userInfo.surname.length > 20 ? userInfo.surname.toLocaleLowerCase() : ''}
+              >
+                <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+                  {userInfo.surname.toLocaleLowerCase()}
+                </CustomStyleCapitolized>
+              </Tooltip>
+            </Grid>
+          </Grid>
+          <Grid container item alignContent="center">
+            <Grid item xs={3}>
+              <Typography sx={labelStyle}>{t('userDetail.fiscalCode')}</Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="body2" className="CustomInfoStyle">
-                {userInfo.taxCode}
-              </Typography>
+              <Typography sx={infoStyle}>{userInfo.taxCode}</Typography>
             </Grid>
           </Grid>
           <Grid container item alignContent="center">
             <Grid item xs={3}>
-              <Typography variant="h6" className="CustomLabelStyle">
-                {t('userDetail.institutionalEmail')}
-              </Typography>
+              <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
             </Grid>
             <Grid
               item
@@ -109,14 +120,15 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 maxWidth: 0,
               }}
             >
-              <Typography variant="body2" className="CustomInfoStyle">
-                {userInfo.email}
-              </Typography>
+              <Tooltip title={userInfo.email.length > 20 ? userInfo.email.toLocaleLowerCase() : ''}>
+                <Typography sx={{ ...infoStyle, ...truncateText }}>{userInfo.email}</Typography>
+              </Tooltip>
             </Grid>
           </Grid>
-          <Grid container item alignContent="center">
+          {/* <Grid container item alignContent="center">
             <Grid item xs={3}>
-              <Typography variant="h6" className="CustomLabelStyle">
+              <Typography 
+              >
                 {t('userDetail.institution')}
               </Typography>
             </Grid>
@@ -125,26 +137,15 @@ export default function UserDetail({ roleSection, userInfo, party, goEdit, produ
                 {party.description}
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
 
-          <Grid container item alignContent="center">
-            {roleSection}
-          </Grid>
+          {roleSection && (
+            <Grid container item alignContent="center">
+              {roleSection}
+            </Grid>
+          )}
         </Grid>
       </Grid>
-      {userInfo.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-        <Grid item xs={2}>
-          <Button
-            disabled={userInfo.status === 'SUSPENDED'}
-            disableRipple
-            variant="contained"
-            sx={{ height: '40px', width: '120px' }}
-            onClick={goEdit}
-          >
-            {t('userDetail.editButton')}
-          </Button>
-        </Grid>
-      )}
     </Grid>
   );
 }

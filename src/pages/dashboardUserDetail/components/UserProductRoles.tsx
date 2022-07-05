@@ -1,11 +1,7 @@
-import { Box, Chip, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Box, Chip, Grid, Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import {
-  ProductRolesLists,
-  transcodeProductRole2Description,
-  transcodeProductRole2Title,
-} from '../../../model/ProductRole';
+import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { ProductRolesLists } from '../../../model/ProductRole';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -54,14 +50,14 @@ export default function UserProductRoles({
               {p.status === 'SUSPENDED' &&
                 (isProductDetailPage ||
                   userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
-                  <Box ml={8}>
+                  <Box ml={8} display="flex" justifyContent="center" alignItems="center">
                     <Chip
                       label={t('userDetail.statusLabel')}
                       aria-label={'Suspended'}
                       variant="outlined"
                       sx={{
                         fontSize: '14px',
-                        background: '#E0E0E0',
+                        background: 'warning.main',
                         border: 'none',
                         borderRadius: '16px',
                         width: '78px',
@@ -75,13 +71,19 @@ export default function UserProductRoles({
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <CustomTextTransform
                   variant="body2"
-                  sx={{ color: p.status === 'SUSPENDED' ? '#A2ADB8' : '#000000' }}
+                  sx={{
+                    color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                    fontSize: 'fontSize',
+                    fontWeight: 'fontWeightMedium',
+                  }}
                 >
-                  {transcodeProductRole2Title(p.role, productRolesList)}
-                  <Tooltip title={transcodeProductRole2Description(p.role, productRolesList)}>
+                  {t(roleLabels[party.userRole].longLabelKey)}
+
+                  {/* {transcodeProductRole2Title(p.role, productRolesList)} */}
+                  {/* <Tooltip title={transcodeProductRole2Description(p.role, productRolesList)}>
                     <IconButton
                       disableRipple
                       sx={{ padding: '0px', '&:hover': { backgroundColor: 'transparent' } }}
@@ -90,10 +92,19 @@ export default function UserProductRoles({
                         sx={{ padding: '6px', color: '#A2ADB8', marginLeft: '8px' }}
                       />
                     </IconButton>
-                  </Tooltip>
+                  </Tooltip> */}
                 </CustomTextTransform>
+                <Typography
+                  sx={{
+                    fontSize: 'fontSize',
+                    fontWeight: 'fontWeightRegular',
+                    color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                  }}
+                >
+                  {t(roleLabels[party.userRole].descriptionKey)}
+                </Typography>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <UserProductActions
                   showActions={showActions}
                   party={party}
