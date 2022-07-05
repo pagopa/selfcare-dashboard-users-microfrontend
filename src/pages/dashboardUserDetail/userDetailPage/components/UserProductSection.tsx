@@ -71,7 +71,7 @@ export default function UserProductSection({
             item
             xs={12}
             key={userProduct.id}
-            sx={{ backgroundColor: 'background.paper', padding: 3 }}
+            sx={{ backgroundColor: 'background.paper', padding: 3, mb: 2 }}
           >
             <UserProductDetail
               partyUser={partyUser}
@@ -83,11 +83,6 @@ export default function UserProductSection({
               product={product}
               isProductDetailPage={isProductDetailPage}
             />
-            {/* {index !== partyUser.products.length - 1 && (
-              <Grid item xs={11} my={4}>
-                <Divider />
-              </Grid>
-            )} */}
           </Grid>
         );
       })}
