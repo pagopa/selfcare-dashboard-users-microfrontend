@@ -49,16 +49,16 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInput-root': {
     '&:after': {
-      borderBottom: '2px solid #5C6F82',
-      color: '#5C6F82',
+      borderBottom: '2px solid text.primary',
+      color: 'text.primary',
     },
   },
   '.MuiInputLabel-root.Mui-focused': {
-    color: '#5C6F82',
+    color: 'text.primary',
     fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
-    color: '#5C6F82',
+    color: 'text.primary',
     fontSize: 'fontSize',
     fontWeight: 'fontWeightBold',
   },
@@ -70,9 +70,9 @@ const CustomTextField = styled(TextField)({
   input: {
     '&::placeholder': {
       fontStyle: 'italic',
-      color: '#5C6F82',
+      color: 'text.primary',
       opacity: '1',
-      textTransform: 'none',
+      textTransform: 'nome',
     },
   },
 });
