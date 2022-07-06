@@ -12,7 +12,7 @@ const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') 
   const history = createMemoryHistory();
   history.push(`/dashboard/${partyId}/users/${userId}`);
   const output = renderComponent(undefined, history);
-  await waitFor(() => screen.getByText('Profilo Utente'));
+  await waitFor(() => screen.getByText('Nome'));
   return output;
 };
 

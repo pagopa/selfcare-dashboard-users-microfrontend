@@ -146,11 +146,12 @@ function UserProductDetailPage({
 
   return userProduct ? (
     <Grid
+      xs={8}
       container
       alignItems={'center'}
       px={2}
       mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+      sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12} mb={3}>
         <ProductNavigationBar
@@ -160,8 +161,23 @@ function UserProductDetailPage({
           goBack={goBack}
         />
       </Grid>
-      <Grid item xs={12} mb={7}>
-        <Typography variant="h4">{t('userDetail.title')}</Typography>
+      <Grid container item mb={4}>
+        <Grid item xs={10}>
+          <Typography variant="h4">{t('userDetail.title')}</Typography>
+        </Grid>
+        {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+          <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+            <Button
+              disabled={partyUser.status === 'SUSPENDED'}
+              disableRipple
+              variant="outlined"
+              sx={{ height: '40px' }}
+              onClick={goEdit}
+            >
+              {t('userDetail.editButton')}
+            </Button>
+          </Grid>
+        )}
       </Grid>
       <Grid>
         <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>

@@ -204,7 +204,7 @@ function UserDetailPage({
           </Grid>
         </Grid>
         <Grid container item my={10} spacing={2}>
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <Button
               disableRipple
               variant="outlined"
@@ -213,7 +213,7 @@ function UserDetailPage({
             >
               {t('userDetail.backButton')}
             </Button>
-          </Grid>
+          </Grid> */}
           {partyUser.products.length === 1 &&
             partyUser.products[0].roles.length === 1 &&
             !partyUser.isCurrentUser &&

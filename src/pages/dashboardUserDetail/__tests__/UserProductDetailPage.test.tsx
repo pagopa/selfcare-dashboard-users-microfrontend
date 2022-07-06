@@ -16,7 +16,7 @@ const renderApp = async (
   const history = createMemoryHistory();
   history.push(`/dashboard/${partyId}/${productId}/users/${userId}`);
   const output = renderComponent(undefined, history);
-  await waitFor(() => screen.getByText('Profilo Utente'));
+  await waitFor(() => screen.getByText('Nome'));
   return output;
 };
 
