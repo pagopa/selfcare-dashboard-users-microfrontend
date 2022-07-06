@@ -29,7 +29,7 @@ export default function UserProductSection({
   const history = useHistory();
   return (
     <>
-      <Grid item xs={10} mb={3}>
+      <Grid item xs={9} mb={3}>
         <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
           {t('userDetail.productSection.title')}
         </Typography>
@@ -39,12 +39,12 @@ export default function UserProductSection({
         products
           .filter((p) => p.userRole === 'ADMIN')
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
-          <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+          <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-start">
             <Button
               variant="contained"
               sx={{
                 height: '40px',
-                width: '135px',
+
                 fontSize: '14px',
                 fontWeight: 'fontWeightBold',
               }}

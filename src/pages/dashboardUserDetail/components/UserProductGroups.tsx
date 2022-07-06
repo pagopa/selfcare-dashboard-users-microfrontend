@@ -4,7 +4,7 @@ import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { useTranslation } from 'react-i18next';
 import { fetchUserGroups } from '../../../services/usersService';
-import { PartyUserDetail } from '../../../model/PartyUser';
+import { checkSuspendedUser, PartyUserDetail } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
@@ -22,6 +22,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const theme = useTheme();
+  const isUserSuspended = checkSuspendedUser(user);
 
   useEffect(() => {
     if (canEdit) {
@@ -59,6 +60,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
                   label={g.name}
                   key={g.id}
                   sx={{
+                    color: isUserSuspended ? 'text.disabled' : 'colorTextPrimary',
                     borderRadius: theme.spacing(0.5),
                     mr: 1,
                     mb: 1,

@@ -79,8 +79,7 @@ export default {
     institutionalEmail: 'Email istituzionale',
     institution: 'ENTE',
     editButton: 'Modifica',
-    deleteButton: 'Elimina',
-    deleteUserButton: 'Elimina utente',
+    deleteButton: 'Rimuovi',
     backButton: 'Indietro',
     actions: {
       delete: {
@@ -130,7 +129,7 @@ export default {
       deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
-      newRoleAssign: '+ Assegna un altro ruolo',
+      newRoleAssign: 'Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:

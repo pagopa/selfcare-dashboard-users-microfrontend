@@ -274,16 +274,15 @@ export default function UserProductActions({
     <>
       {showActions && !user.isCurrentUser && canEdit && (
         <Box display="flex" justifyContent="flex-end">
-          {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
-            !user.isCurrentUser && (
-              <Box mr={3}>
-                <Link onClick={handleOpenDelete} component="button" sx={{ textDecoration: 'none' }}>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
-                    {t('userDetail.actions.deleteButton')}
-                  </Typography>
-                </Link>
-              </Box>
-            )}
+          {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
+            <Box mr={3}>
+              <Link onClick={handleOpenDelete} component="button" sx={{ textDecoration: 'none' }}>
+                <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+                  {t('userDetail.actions.deleteButton')}
+                </Typography>
+              </Link>
+            </Box>
+          )}
           <Box>
             <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
               <Typography

@@ -8,6 +8,7 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify'
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { Trans, useTranslation } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import UserDetail from '../components/UserDetail';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -44,8 +45,8 @@ function UserDetailPage({
   const addNotify = useUserNotify();
 
   const product = partyUser.products[0];
-  const haveOneRoleAndOneProduct =
-    partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
+  // const haveOneRoleAndOneProduct =
+  //   partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
   useEffect(() => {
     if (party) {
@@ -204,24 +205,12 @@ function UserDetailPage({
           </Grid>
         </Grid>
         <Grid container item my={10} spacing={2}>
-          {/* <Grid item xs={2}>
-            <Button
-              disableRipple
-              variant="outlined"
-              sx={{ height: '40px', width: '100%' }}
-              onClick={goBack}
-            >
-              {t('userDetail.backButton')}
-            </Button>
-          </Grid> */}
           {partyUser.products.length === 1 &&
             partyUser.products[0].roles.length === 1 &&
             !partyUser.isCurrentUser &&
             activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
               <Grid item xs={2}>
-                <Button
-                  disableRipple
-                  variant="outlined"
+                <ButtonNaked
                   sx={{
                     height: '40px',
                     width: '100%',
@@ -231,10 +220,8 @@ function UserDetailPage({
                   }}
                   onClick={handleOpenDelete}
                 >
-                  {haveOneRoleAndOneProduct
-                    ? t('userDetail.deleteUserButton')
-                    : t('userDetail.deleteButton')}
-                </Button>
+                  {t('userDetail.deleteButton')}
+                </ButtonNaked>
               </Grid>
             )}
         </Grid>
