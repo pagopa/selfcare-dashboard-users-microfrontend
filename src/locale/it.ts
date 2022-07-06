@@ -22,11 +22,11 @@ export default {
       placeholder: 'Tutti i ruoli',
       admin: {
         title: 'Amministratore',
-        description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+        description: 'Ha tutti i permessi e gestisce gli utenti',
       },
       limited: {
         title: 'Operatore',
-        description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+        description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
       addFiltersButton: 'Filtra',
       deleteFiltersButton: 'Annulla filtri',

@@ -2,11 +2,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import React, { useEffect, useMemo } from 'react';
 import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { ButtonNaked } from '@pagopa/mui-italia';
+import { useTheme } from '@mui/material';
+import MDSpinner from 'react-md-spinner';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
@@ -24,7 +25,6 @@ const CustomSelect = styled(Select)({
 const MenuProps = {
   PaperProps: {
     style: {
-      marginLeft: '12px',
       width: '300px',
     },
   },
@@ -36,6 +36,7 @@ type Props = {
   onFiltersChange: (f: UsersTableFiltersConfig) => void;
   disableFilters: boolean;
   showSelcRoleGrouped: boolean;
+  loading: boolean;
 };
 
 type ProductRolesGroupByTitle = { [title: string]: Array<ProductRole> };
@@ -78,8 +79,8 @@ export default function UsersTableRolesFilter({
   productRolesList,
   onFiltersChange,
   filters,
-  disableFilters,
   showSelcRoleGrouped,
+  loading,
 }: Props) {
   const { t } = useTranslation();
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
@@ -128,7 +129,7 @@ export default function UsersTableRolesFilter({
             label={
               <Typography
                 variant="body2"
-                sx={{ color: 'black', fontSize: '14px' }}
+                sx={{ color: 'black', fontSize: '14px', fontWeight: 'fontWeightMedium' }}
               >{`${title}`}</Typography>
             }
             control={
@@ -176,11 +177,16 @@ export default function UsersTableRolesFilter({
       ) as { [userRole in UserRole]: boolean },
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
-
+  const theme = useTheme();
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
       <FormControl variant="standard">
-        <Box display="flex" alignItems="flex-end">
+        <Box display="flex" alignItems="center">
+          {loading && (
+            <Box mr={3} display="flex">
+              <MDSpinner singleColor={theme.palette.primary.main} />
+            </Box>
+          )}
           <Box width="100%" mr={2}>
             <CustomSelect
               onClick={() => setOpen(!open)}
@@ -190,28 +196,6 @@ export default function UsersTableRolesFilter({
               displayEmpty
               native={false}
               open={open}
-              IconComponent={() =>
-                open ? (
-                  <KeyboardArrowDownIcon
-                    id="keyboardArrowDownIcon"
-                    color="primary"
-                    sx={{ transform: 'rotate(-180deg)', cursor: 'pointer' }}
-                  />
-                ) : (
-                  <KeyboardArrowDownIcon
-                    id="keyboardArrowDownIcon"
-                    color="primary"
-                    sx={{ transform: 'rotate(0deg)', cursor: 'pointer' }}
-                    onClick={() => {
-                      if (disableFilters) {
-                        setOpen(false);
-                      } else {
-                        setOpen(true);
-                      }
-                    }}
-                  />
-                )
-              }
               inputProps={{ onClick: () => setOpen(!open) }}
               value={selcGroups.flatMap((s) =>
                 selcGroupTotallySelected[s]
@@ -256,13 +240,13 @@ export default function UsersTableRolesFilter({
                     showSelcRoleGrouped ? (
                       <Box mt={2} key={selcRole}>
                         <FormControlLabel
-                          sx={{ height: '70px', display: 'flex', alignItems: 'flex-start' }}
+                          sx={{ height: '60px', display: 'flex', alignItems: 'flex-start' }}
                           label={
                             <Grid container sx={{ height: '100%' }}>
                               <Grid item>
                                 <Typography
                                   variant="body2"
-                                  sx={{ color: 'black', fontStyle: 'italic' }}
+                                  sx={{ color: 'colorTextPrimary', fontWeight: 'fontWeightMedium' }}
                                 >
                                   {t(labels[selcRole].titleKey)}
                                 </Typography>

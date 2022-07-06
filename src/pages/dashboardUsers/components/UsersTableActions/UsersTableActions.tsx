@@ -1,5 +1,4 @@
-import { Grid, useTheme } from '@mui/material';
-import MDSpinner from 'react-md-spinner';
+import { Box } from '@mui/system';
 import { Product } from '../../../../model/Product';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -27,16 +26,9 @@ export default function UsersTableActions({
   onFiltersChange,
   showSelcRoleGrouped,
 }: UsersSearchProps) {
-  const theme = useTheme();
-
   return (
-    <Grid container direction="row" justifyContent={'flex-end'} alignItems={'center'} px={2}>
-      {loading && (
-        <Grid item pr={4}>
-          <MDSpinner singleColor={theme.palette.primary.main} />
-        </Grid>
-      )}
-      <Grid item width="100%">
+    <Box>
+      <Box width="100%">
         <UsersTableFilters
           selectedProduct={selectedProduct}
           disableFilters={disableFilters}
@@ -45,8 +37,9 @@ export default function UsersTableActions({
           products={products}
           productsRolesMap={productsRolesMap}
           showSelcRoleGrouped={showSelcRoleGrouped}
+          loading={loading}
         />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }
