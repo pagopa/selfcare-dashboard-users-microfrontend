@@ -39,61 +39,58 @@ export default function UserProductRoles({
   return (
     <Grid container item xs={12}>
       {userProduct.roles.map((p) => (
-        <Grid container item key={p.relationshipId}>
+        <Grid container item key={p.relationshipId} mt={2}>
           <Grid item xs={3}>
             <Grid container item>
               <Box>
-                <Typography variant="h6" className="CustomLabelStyle">
+                <Typography
+                  sx={{
+                    fontSize: 'fontSize',
+                    fontWeight: 'fontWeightRegular',
+                    color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                  }}
+                >
                   {t('userDetail.role')}
                 </Typography>
               </Box>
-              {p.status === 'SUSPENDED' &&
-                (isProductDetailPage ||
-                  userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
-                  <Box ml={8} display="flex" justifyContent="center" alignItems="center">
-                    <Chip
-                      label={t('userDetail.statusLabel')}
-                      aria-label={'Suspended'}
-                      variant="outlined"
-                      sx={{
-                        fontSize: '14px',
-                        background: 'warning.main',
-                        border: 'none',
-                        borderRadius: '16px',
-                        width: '78px',
-                        height: '24px',
-                      }}
-                    />
-                  </Box>
-                )}
             </Grid>
           </Grid>
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={9}>
-                <CustomTextTransform
-                  variant="body2"
-                  sx={{
-                    color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
-                    fontSize: 'fontSize',
-                    fontWeight: 'fontWeightMedium',
-                  }}
-                >
-                  {t(roleLabels[party.userRole].longLabelKey)}
-
-                  {/* {transcodeProductRole2Title(p.role, productRolesList)} */}
-                  {/* <Tooltip title={transcodeProductRole2Description(p.role, productRolesList)}>
-                    <IconButton
-                      disableRipple
-                      sx={{ padding: '0px', '&:hover': { backgroundColor: 'transparent' } }}
+              <Grid item xs={8}>
+                <Box display="flex">
+                  <Box>
+                    <CustomTextTransform
+                      sx={{
+                        color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                        fontSize: 'fontSize',
+                        fontWeight: 'fontWeightMedium',
+                      }}
                     >
-                      <InfoOutlinedIcon
-                        sx={{ padding: '6px', color: '#A2ADB8', marginLeft: '8px' }}
-                      />
-                    </IconButton>
-                  </Tooltip> */}
-                </CustomTextTransform>
+                      {t(roleLabels[party.userRole].longLabelKey)}
+                    </CustomTextTransform>
+                  </Box>
+                  {p.status === 'SUSPENDED' &&
+                    (isProductDetailPage ||
+                      userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
+                      <Box display="flex" justifyContent="center" alignItems="center" ml={1}>
+                        <Chip
+                          label={t('userDetail.statusLabel')}
+                          aria-label={'Suspended'}
+                          variant="outlined"
+                          sx={{
+                            fontSize: '14px',
+                            background: '#FFCB46',
+                            border: 'none',
+                            borderRadius: '16px',
+                            width: '78px',
+                            height: '24px',
+                          }}
+                        />
+                      </Box>
+                    )}
+                </Box>
                 <Typography
                   sx={{
                     fontSize: 'fontSize',
@@ -104,7 +101,7 @@ export default function UserProductRoles({
                   {t(roleLabels[party.userRole].descriptionKey)}
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <UserProductActions
                   showActions={showActions}
                   party={party}

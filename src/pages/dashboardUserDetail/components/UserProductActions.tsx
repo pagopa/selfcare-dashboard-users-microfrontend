@@ -275,7 +275,7 @@ export default function UserProductActions({
       {showActions && !user.isCurrentUser && canEdit && (
         <Box display="flex" justifyContent="flex-end">
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
-            <Box mr={3}>
+            <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
               <Link onClick={handleOpenDelete} component="button" sx={{ textDecoration: 'none' }}>
                 <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
                   {t('userDetail.actions.deleteButton')}
@@ -283,7 +283,7 @@ export default function UserProductActions({
               </Link>
             </Box>
           )}
-          <Box>
+          <Box width="52px">
             <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
               <Typography
                 variant="caption"
