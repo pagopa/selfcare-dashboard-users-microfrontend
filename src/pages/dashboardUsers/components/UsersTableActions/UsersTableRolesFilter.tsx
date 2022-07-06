@@ -6,16 +6,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
 
 const CustomSelect = styled(Select)({
-  '.MuiInput-root': {
+  '& .MuiInput-root': {
     cursor: 'pointer',
   },
-  '.MuiSelect-select.MuiSelect-standard.MuiInput-input.MuiInputBase-input': {
+  '& .MuiSelect-select.MuiSelect-outlined': {
     cursor: 'pointer',
+    paddingTop: '7px',
+    paddingBottom: '7px',
   },
 });
 const MenuProps = {
@@ -175,149 +178,166 @@ export default function UsersTableRolesFilter({
   );
 
   return (
-    <Box>
-      <FormControl sx={{ width: 300 }} variant="standard">
-        <CustomSelect
-          onClick={() => setOpen(!open)}
-          multiple
-          MenuProps={MenuProps}
-          variant="standard"
-          displayEmpty
-          native={false}
-          onClose={() => {
-            setOpen(false);
-            setProductRoleCheckedBySelcRole(productFiltered);
-          }}
-          open={open}
-          IconComponent={() =>
-            open ? (
-              <KeyboardArrowDownIcon
-                id="keyboardArrowDownIcon"
-                color="primary"
-                sx={{ transform: 'rotate(-180deg)', cursor: 'pointer' }}
-              />
-            ) : (
-              <KeyboardArrowDownIcon
-                id="keyboardArrowDownIcon"
-                color="primary"
-                sx={{ transform: 'rotate(0deg)', cursor: 'pointer' }}
-                onClick={() => {
-                  if (disableFilters) {
-                    setOpen(false);
-                  } else {
-                    setOpen(true);
-                  }
-                }}
-              />
-            )
-          }
-          inputProps={{ onClick: () => setOpen(!open) }}
-          value={selcGroups.flatMap((s) =>
-            selcGroupTotallySelected[s]
-              ? [t(labels[s].titleKey)]
-              : Object.keys(productRoleCheckedBySelcRole[s])
-          )}
-          renderValue={(selected: any) => {
-            if (selected.length === 0) {
-              return (
-                <Box sx={{ fontStyle: 'normal', cursor: 'pointer' }}>
-                  {t('usersTable.filterRole.placeholder')}
-                </Box>
-              );
-            }
-            return selected.join(', ');
-          }}
-          sx={{
-            '.MuiInput-input:focus': { backgroundColor: 'transparent' },
-          }}
-        >
-          <Box px={3} mt={showSelcRoleGrouped ? 0 : 1}>
-            {selcGroups.map((selcRole) => {
-              const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
-              const selcGroup = selcRoleGroup[selcRole];
-              const isSelected = selcGroupTotallySelected[selcRole];
+    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+      <FormControl variant="standard">
+        <Box display="flex" alignItems="flex-end">
+          <Box width="100%" mr={2}>
+            <CustomSelect
+              onClick={() => setOpen(!open)}
+              multiple
+              MenuProps={MenuProps}
+              variant="outlined"
+              displayEmpty
+              native={false}
+              open={open}
+              IconComponent={() =>
+                open ? (
+                  <KeyboardArrowDownIcon
+                    id="keyboardArrowDownIcon"
+                    color="primary"
+                    sx={{ transform: 'rotate(-180deg)', cursor: 'pointer' }}
+                  />
+                ) : (
+                  <KeyboardArrowDownIcon
+                    id="keyboardArrowDownIcon"
+                    color="primary"
+                    sx={{ transform: 'rotate(0deg)', cursor: 'pointer' }}
+                    onClick={() => {
+                      if (disableFilters) {
+                        setOpen(false);
+                      } else {
+                        setOpen(true);
+                      }
+                    }}
+                  />
+                )
+              }
+              inputProps={{ onClick: () => setOpen(!open) }}
+              value={selcGroups.flatMap((s) =>
+                selcGroupTotallySelected[s]
+                  ? [t(labels[s].titleKey)]
+                  : Object.keys(productRoleCheckedBySelcRole[s])
+              )}
+              renderValue={(selected: any) => {
+                if (selected.length === 0) {
+                  return (
+                    <Box sx={{ fontStyle: 'normal', cursor: 'pointer' }}>
+                      {t('usersTable.filterRole.placeholder')}
+                    </Box>
+                  );
+                }
+                return (
+                  <Typography
+                    sx={{
+                      display: 'inline-block',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      width: '100%',
+                      fontWeight: 'fontWeightMedium',
+                    }}
+                  >
+                    {selected.join(', ')}
+                  </Typography>
+                );
+              }}
+              sx={{
+                width: '320px',
+                '.MuiInput-input:focus': { backgroundColor: 'transparent' },
+              }}
+            >
+              <Box px={3} mt={showSelcRoleGrouped ? 0 : 1}>
+                {selcGroups.map((selcRole) => {
+                  const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
+                  const selcGroup = selcRoleGroup[selcRole];
+                  const isSelected = selcGroupTotallySelected[selcRole];
 
-              return [
-                showSelcRoleGrouped ? (
-                  <Box mt={2} key={selcRole}>
-                    <FormControlLabel
-                      sx={{ height: '70px', display: 'flex', alignItems: 'flex-start' }}
-                      label={
-                        <Grid container sx={{ height: '100%' }}>
-                          <Grid item>
-                            <Typography
-                              variant="body2"
-                              sx={{ color: 'black', fontStyle: 'italic' }}
-                            >
-                              {t(labels[selcRole].titleKey)}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body2" sx={{ color: '#475A6D', fontSize: '12px' }}>
-                              {t(labels[selcRole].descriptionKey)}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      }
-                      control={
-                        <Checkbox
-                          sx={{ padding: '0 9px' }}
-                          checked={isSelected}
-                          indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
-                          onChange={() => {
-                            setOpen(true);
-                            const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
-                            setProductRoleCheckedBySelcRole({
-                              ...productRoleCheckedBySelcRole,
-                              [selcRole]: nextSelcGroupSelected,
-                            });
-                          }}
+                  return [
+                    showSelcRoleGrouped ? (
+                      <Box mt={2} key={selcRole}>
+                        <FormControlLabel
+                          sx={{ height: '70px', display: 'flex', alignItems: 'flex-start' }}
+                          label={
+                            <Grid container sx={{ height: '100%' }}>
+                              <Grid item>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: 'black', fontStyle: 'italic' }}
+                                >
+                                  {t(labels[selcRole].titleKey)}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: '#475A6D', fontSize: '12px' }}
+                                >
+                                  {t(labels[selcRole].descriptionKey)}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          }
+                          control={
+                            <Checkbox
+                              sx={{ padding: '0 9px' }}
+                              checked={isSelected}
+                              indeterminate={
+                                !isSelected && Object.keys(selcGroupSelected).length > 0
+                              }
+                              onChange={() => {
+                                setOpen(true);
+                                const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
+                                setProductRoleCheckedBySelcRole({
+                                  ...productRoleCheckedBySelcRole,
+                                  [selcRole]: nextSelcGroupSelected,
+                                });
+                              }}
+                            />
+                          }
                         />
-                      }
-                    />
-                  </Box>
-                ) : undefined,
-                children(selcRole, selcGroup, selcGroupSelected),
-              ];
-            })}
-            <Grid container spacing={1} display="flex" justifyContent="center" py={3}>
-              <Grid item xs={12}>
-                <Button
-                  disabled={isEqual(productRolesSelected, nextProductRolesFilter)}
-                  sx={{ width: '100%', height: '32px' }}
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  onClick={() => {
-                    setOpen(false);
-                    onFiltersChange({
-                      ...filters,
-                      productIds: nextProductRolesFilter.map((f) => f.productId),
-                      productRoles: nextProductRolesFilter,
-                    });
-                  }}
-                >
-                  {t('usersTable.filterRole.addFiltersButton')}
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  disabled={nextProductRolesFilter.length === 0}
-                  sx={{ width: '100%', height: '32px' }}
-                  color="primary"
-                  variant="outlined"
-                  type="submit"
-                  onClick={() => {
-                    setOpen(false);
-                    onFiltersChange({ ...filters, productIds: [], productRoles: [] });
-                  }}
-                >
-                  {t('usersTable.filterRole.deleteFiltersButton')}
-                </Button>
-              </Grid>
-            </Grid>
+                      </Box>
+                    ) : undefined,
+                    children(selcRole, selcGroup, selcGroupSelected),
+                  ];
+                })}
+              </Box>
+            </CustomSelect>
           </Box>
-        </CustomSelect>
+          <Box display="flex" sx={{ width: '100%' }}>
+            <Box mr={4}>
+              <Button
+                disabled={isEqual(productRolesSelected, nextProductRolesFilter)}
+                sx={{ height: '40px' }}
+                color="primary"
+                variant="outlined"
+                type="submit"
+                onClick={() => {
+                  setOpen(false);
+                  onFiltersChange({
+                    ...filters,
+                    productIds: nextProductRolesFilter.map((f) => f.productId),
+                    productRoles: nextProductRolesFilter,
+                  });
+                }}
+              >
+                {t('usersTable.filterRole.addFiltersButton')}
+              </Button>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <ButtonNaked
+                disabled={nextProductRolesFilter.length === 0}
+                sx={{ width: '100%', height: '32px' }}
+                color="primary"
+                onClick={() => {
+                  setOpen(false);
+                  onFiltersChange({ ...filters, productIds: [], productRoles: [] });
+                }}
+              >
+                {t('usersTable.filterRole.deleteFiltersButton')}
+              </ButtonNaked>
+            </Box>
+          </Box>
+        </Box>
       </FormControl>
     </Box>
   );

@@ -36,7 +36,7 @@ export default function UsersTableActions({
           <MDSpinner singleColor={theme.palette.primary.main} />
         </Grid>
       )}
-      <Grid item>
+      <Grid item width="100%">
         <UsersTableFilters
           selectedProduct={selectedProduct}
           disableFilters={disableFilters}
