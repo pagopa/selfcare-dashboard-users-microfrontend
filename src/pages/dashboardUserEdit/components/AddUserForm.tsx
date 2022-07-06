@@ -72,7 +72,7 @@ const CustomTextField = styled(TextField)({
       fontStyle: 'italic',
       color: 'text.primary',
       opacity: '1',
-      textTransform: 'nome',
+      textTransform: 'none',
     },
   },
 });
