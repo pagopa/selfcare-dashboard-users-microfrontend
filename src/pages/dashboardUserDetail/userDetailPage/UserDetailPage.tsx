@@ -16,7 +16,7 @@ import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import { ProductsRolesMap } from '../../../model/ProductRole';
+import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -101,13 +101,32 @@ function UserDetailPage({
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare '}
+          {'Vuoi rimuovere '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
-          {'.'}
+          {'dal ruolo di'}
+          <strong>
+            {{
+              role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
+            }}
+          </strong>
+          {'?'}
           <br />
-          {'Vuoi continuare?'}
+          <br />
+          {'Se lo rimuovi da'}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{
+              product: product.title,
+            }}
+          </strong>
+          {' il profilo dell’utente verrà eliminato '}
+          <br />
+          {' dall’Area Riservata, poiché non è presente in altri prodotti.'}
+          <br />
+          {' Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i'}
+          <br />
+          {' suoi dati anagrafici.'}
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
@@ -133,10 +152,11 @@ function UserDetailPage({
     <div style={{ width: '100%' }}>
       <Grid
         container
+        item
         alignItems={'center'}
         xs={8}
         px={2}
-        mt={10}
+        mt={4}
         sx={{
           backgroundColor: 'transparent !important',
         }}

@@ -138,8 +138,9 @@ export default {
         closeButton: 'Annulla',
       },
       deleteUserModal: {
-        title: 'Elimina utente',
-        message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
+        title: 'Rimuovi ruolo',
+        message:
+          'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3> ? <5/> <6/> Se lo rimuovi da <8>{{product}}</8>, il profilo dell’utente verrà eliminato <10/>dall’Area Riservata, poiché non è presente in altri prodotti.<12/> Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i<14/> suoi dati anagrafici.',
         confirmButton: 'Conferma',
         closeButton: 'Annulla',
       },
