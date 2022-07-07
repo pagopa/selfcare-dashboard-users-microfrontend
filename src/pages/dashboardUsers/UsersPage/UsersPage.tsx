@@ -81,7 +81,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const moretThanOneActiveProduct = activeProducts.length > 1;
 
   return (
-    <Grid container px={2} mt={4} sx={{ backgroundColor: 'transparent !important' }}>
+    <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
       <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
         <TitleBox
           variantTitle="h4"
@@ -142,7 +142,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         </Grid>
       )}
 
-      <Grid item xs={12} sx={{ height: '100%' }}>
+      <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
         <Grid
           container
           direction="row"

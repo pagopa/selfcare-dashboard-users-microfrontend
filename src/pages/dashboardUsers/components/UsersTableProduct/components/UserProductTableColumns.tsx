@@ -33,7 +33,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => showName(params, false, onRowClick),
       sortable: false,
-      flex: 3,
+      flex: 4,
     },
     {
       field: 'email',
@@ -47,7 +47,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => renderCell(params, undefined, onRowClick),
       sortable: false,
-      flex: 3,
+      flex: 4,
     },
     {
       field: 'userRole',
@@ -61,7 +61,7 @@ export function buildColumnDefs(
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
-      flex: 3,
+      flex: 4,
     },
     {
       field: 'status',
