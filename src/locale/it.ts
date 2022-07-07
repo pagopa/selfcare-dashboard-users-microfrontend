@@ -189,7 +189,7 @@ export default {
         title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
-      confirmButton: 'Conferma',
+      continueButton: 'Continua',
       errors: {
         invalidFiscalCode: 'Il Codice Fiscale inserito non è valido ',
         invalidEmail: 'L’indirizzo email non è valido',

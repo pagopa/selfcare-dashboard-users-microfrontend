@@ -6,7 +6,7 @@ import { renderComponent } from '../../../remotes/__tests__/RenderComponents/Ren
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
-jest.setTimeout(6000);
+jest.setTimeout(10000);
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
