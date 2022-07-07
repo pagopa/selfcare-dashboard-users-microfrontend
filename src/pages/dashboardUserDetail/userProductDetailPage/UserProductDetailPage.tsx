@@ -179,7 +179,7 @@ function UserProductDetailPage({
           </Grid>
         )}
       </Grid>
-      <Grid>
+      <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
         <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
           <Grid item xs={12}>
             <UserDetail
@@ -192,7 +192,7 @@ function UserProductDetailPage({
           </Grid>
         </Grid>
 
-        <Grid item xs={10} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
+        <Grid item xs={10} mb={4}>
           <UserProductRoles
             showActions={true}
             party={party}
@@ -239,7 +239,7 @@ function UserProductDetailPage({
               }}
               onClick={handleOpenDelete}
             >
-              {t('userDetail.deleteUserButton')}
+              {t('userDetail.deleteButton')}
             </Button>
           </Grid>
         )}
