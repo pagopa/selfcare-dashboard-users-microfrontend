@@ -18,6 +18,7 @@ type Props = {
   canEdit: boolean;
   product: Product;
   isProductDetailPage: boolean;
+  handleOpenDelete: () => void;
 };
 
 export default function UserProductDetail({
@@ -29,6 +30,7 @@ export default function UserProductDetail({
   canEdit,
   product,
   isProductDetailPage,
+  handleOpenDelete,
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
@@ -91,6 +93,7 @@ export default function UserProductDetail({
                 productRolesList={productRolesList}
                 canEdit={canEdit}
                 isProductDetailPage={isProductDetailPage}
+                handleOpenDelete={handleOpenDelete}
               />
             </Grid>
           ) : (

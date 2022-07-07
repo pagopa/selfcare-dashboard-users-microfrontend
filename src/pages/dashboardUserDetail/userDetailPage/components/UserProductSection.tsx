@@ -16,6 +16,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
   products: Array<Product>;
   isProductDetailPage: boolean;
+  handleOpenDelete: () => void;
 };
 export default function UserProductSection({
   partyUser,
@@ -24,6 +25,7 @@ export default function UserProductSection({
   productsRolesMap,
   products,
   isProductDetailPage,
+  handleOpenDelete,
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
@@ -82,6 +84,7 @@ export default function UserProductSection({
               canEdit={product?.userRole === 'ADMIN' && product.status === 'ACTIVE'}
               product={product}
               isProductDetailPage={isProductDetailPage}
+              handleOpenDelete={handleOpenDelete}
             />
           </Grid>
         );

@@ -20,6 +20,7 @@ type Props = {
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   isProductDetailPage: boolean;
+  handleOpenDelete?: () => void;
 };
 export default function UserProductActions({
   showActions,
@@ -30,6 +31,7 @@ export default function UserProductActions({
   fetchPartyUser,
   productRolesList,
   isProductDetailPage,
+  handleOpenDelete,
   canEdit,
 }: Props) {
   const { t } = useTranslation();
@@ -39,7 +41,7 @@ export default function UserProductActions({
   const moreRolesOnProduct = product.roles.length > 1;
   const haveMoreProducts = user.products.length > 1;
 
-  const onDelete = () => {
+  const onDeleteMoreRole = () => {
     setLoading(true);
     deletePartyUser(party, user, product, role)
       .then((_) => {
@@ -50,7 +52,7 @@ export default function UserProductActions({
           title: moreRolesOnProduct
             ? t('userDetail.actions.delete.userRoleDelete')
             : t('userDetail.actions.delete.userDelete'),
-          message: '',
+          message: 'test test',
         });
       })
       .catch((error) =>
@@ -69,7 +71,7 @@ export default function UserProductActions({
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleOpenDelete = () => {
+  const handleOpenDeleteMoreRole = () => {
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
@@ -119,8 +121,16 @@ export default function UserProductActions({
       ),
       confirmLabel: t('userDetail.actions.modalDelete.removeRoleButton'),
       closeLabel: t('userDetail.actions.modalDelete.closeButton'),
-      onConfirm: onDelete,
+      onConfirm: onDeleteMoreRole,
     });
+  };
+
+  const handleDelete = () => {
+    if (user.products[0].roles.length === 1 && handleOpenDelete && user.products.length === 1) {
+      handleOpenDelete();
+    } else {
+      handleOpenDeleteMoreRole();
+    }
   };
 
   const confirmChangeStatus = () => {
@@ -276,7 +286,7 @@ export default function UserProductActions({
         <Box display="flex" justifyContent="flex-end">
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
             <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
-              <Link onClick={handleOpenDelete} component="button" sx={{ textDecoration: 'none' }}>
+              <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
                 <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
                   {t('userDetail.actions.deleteButton')}
                 </Typography>

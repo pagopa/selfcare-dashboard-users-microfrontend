@@ -3,23 +3,22 @@ import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-// import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-// import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
-// import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import { useTranslation } from 'react-i18next';
+import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
+import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
+import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-// import { ButtonNaked } from '@pagopa/mui-italia';
 import UserDetail from '../components/UserDetail';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
-// import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import UserProductSection from './components/UserProductSection';
-// import { deletePartyUser } from './../../../services/usersService';
+import { deletePartyUser } from './../../../services/usersService';
 
 type Props = {
   partyUser: PartyUserDetail;
@@ -40,11 +39,11 @@ function UserDetailPage({
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
-  // const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
-  // const addError = useErrorDispatcher();
-  // const addNotify = useUserNotify();
+  const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
+  const addError = useErrorDispatcher();
+  const addNotify = useUserNotify();
 
-  // const product = partyUser.products[0];
+  const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =
   //   partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
@@ -69,53 +68,53 @@ function UserDetailPage({
       })
     );
 
-  // const onDelete = () => {
-  //   setLoading(true);
-  //   deletePartyUser(party, partyUser, product, product.roles[0])
-  //     .then((_) => {
-  //       goBack();
-  //       addNotify({
-  //         component: 'Toast',
-  //         id: 'DELETE_PARTY_USER',
-  //         title: t('userDetail.actions.delete.userDelete'),
-  //         message: '',
-  //       });
-  //     })
-  //     .catch((reason) =>
-  //       addError({
-  //         id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
-  //         blocking: false,
-  //         error: reason,
-  //         displayableTitle: t('userDetail.actions.delete.userDeleteError'),
-  //         displayableDescription: '',
-  //         techDescription: `Something gone wrong while deleting role ${product.roles[0].relationshipId} for product ${product.title}`,
-  //         toNotify: true,
-  //       })
-  //     )
-  //     .finally(() => setLoading(false));
-  // };
+  const onDelete = () => {
+    setLoading(true);
+    deletePartyUser(party, partyUser, product, product.roles[0])
+      .then((_) => {
+        goBack();
+        addNotify({
+          component: 'Toast',
+          id: 'DELETE_PARTY_USER',
+          title: t('userDetail.actions.delete.userDelete'),
+          message: '',
+        });
+      })
+      .catch((reason) =>
+        addError({
+          id: `DELETE_PARTY_USER_ERROR-${partyUser.id}`,
+          blocking: false,
+          error: reason,
+          displayableTitle: t('userDetail.actions.delete.userDeleteError'),
+          displayableDescription: '',
+          techDescription: `Something gone wrong while deleting role ${product.roles[0].relationshipId} for product ${product.title}`,
+          toNotify: true,
+        })
+      )
+      .finally(() => setLoading(false));
+  };
 
-  // const handleOpenDelete = () => {
-  //   addNotify({
-  //     component: 'SessionModal',
-  //     id: 'USER_DELETE_MODAL',
-  //     title: t('userDetail.actions.deleteUserModal.title'),
-  //     message: (
-  //       <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-  //         {'Stai per eliminare '}
-  //         <strong style={{ textTransform: 'capitalize' }}>
-  //           {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
-  //         </strong>
-  //         {'.'}
-  //         <br />
-  //         {'Vuoi continuare?'}
-  //       </Trans>
-  //     ),
-  //     confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
-  //     closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
-  //     onConfirm: onDelete,
-  //   });
-  // };
+  const handleOpenDelete = () => {
+    addNotify({
+      component: 'SessionModal',
+      id: 'USER_DELETE_MODAL',
+      title: t('userDetail.actions.deleteUserModal.title'),
+      message: (
+        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
+          {'Stai per eliminare '}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
+          </strong>
+          {'.'}
+          <br />
+          {'Vuoi continuare?'}
+        </Trans>
+      ),
+      confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
+      closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
+      onConfirm: onDelete,
+    });
+  };
 
   const paths = [
     {
@@ -157,6 +156,7 @@ function UserDetailPage({
               <Typography
                 variant="h4"
                 sx={{
+                  lineHeight: '38px !important',
                   display: 'inline-block',
                   width: '100%',
                   whiteSpace: 'nowrap',
@@ -201,30 +201,10 @@ function UserDetailPage({
               fetchPartyUser={fetchPartyUser}
               productsRolesMap={productsRolesMap}
               products={activeProducts}
+              handleOpenDelete={handleOpenDelete}
             />
           </Grid>
         </Grid>
-        {/* <Grid container item my={10} spacing={2}>
-          {partyUser.products.length === 1 &&
-            partyUser.products[0].roles.length === 1 &&
-            !partyUser.isCurrentUser &&
-            activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
-              <Grid item xs={2}>
-                <ButtonNaked
-                  sx={{
-                    height: '40px',
-                    width: '100%',
-                    color: '#C02927',
-                    borderColor: '#C02927',
-                    '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-                  }}
-                  onClick={handleOpenDelete}
-                >
-                  {t('userDetail.deleteButton')}
-                </ButtonNaked>
-              </Grid>
-            )}
-        </Grid> */}
       </Grid>
     </div>
   );
