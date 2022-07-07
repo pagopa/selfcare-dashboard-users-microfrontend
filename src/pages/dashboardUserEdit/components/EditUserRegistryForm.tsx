@@ -21,29 +21,25 @@ const CustomTextField = styled(TextField)({
   },
   '.MuiInput-root': {
     '&:after': {
-      borderBottom: '2px solid #5C6F82',
-      color: '#5C6F82',
+      borderBottom: '2px solid text.primary',
+      color: 'text.primary',
     },
   },
   '.MuiInputLabel-root.Mui-focused': {
-    color: '#5C6F82',
+    color: 'text.primary',
     fontWeight: 'fontWeightBold',
   },
   '.MuiInputLabel-root': {
-    color: '#5C6F82',
+    color: 'text.primary',
     fontSize: 'fontSize',
     fontWeight: 'fontWeightBold',
   },
   input: {
     '&::placeholder': {
       fontStyle: 'italic',
-      color: '#5C6F82',
+      color: 'text.primary',
       opacity: '1',
-    },
-  },
-  label: {
-    '&.Mui-error': {
-      color: '#5C6F82 !important',
+      textTransform: 'none',
     },
   },
 });
@@ -152,17 +148,16 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
       error: isError,
       helperText: isError ? formik.errors[field] : undefined,
       required: true,
-      variant: 'standard' as const,
+      variant: 'outlined' as const,
       onChange: formik.handleChange,
       sx: { width: '100%' },
       InputProps: {
         style: {
-          fontSize: '16px',
-          fontWeight: 400,
+          fontSize: 'fontSize',
+          fontWeight: 'fontWeightMedium',
           lineHeight: '24px',
-          color: '#5C6F82',
+          color: 'text.primary',
           textAlign: 'start' as const,
-          paddingLeft: '16px',
         },
       },
       inputProps: {
@@ -177,20 +172,23 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
     <React.Fragment>
       <form onSubmit={formik.handleSubmit}>
         <Grid
-          item
+          container
+          direction="column"
           sx={{
             backgroundColor: 'background.paper',
-            padding: '24px',
+            paddingTop: 3,
+            paddingLeft: 3,
+            paddingRight: 3,
+            paddingBottom: 1,
           }}
-          xs={9}
         >
           <Grid item container spacing={3}>
-            <Grid item xs={10} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'taxCode',
                   t('userEdit.editRegistryForm.fiscalCode.label'),
-                  t('userEdit.editRegistryForm.fiscalCode.placeholder'),
+                  '',
                   'uppercase'
                 )}
                 disabled={true}
@@ -198,46 +196,38 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
-                {...baseTextFieldProps(
-                  'name',
-                  t('userEdit.editRegistryForm.name.label'),
-                  t('userEdit.editRegistryForm.name.placeholder')
-                )}
+                {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
                 disabled={formik.values.certifiedName}
               />
             </Grid>
-            <Grid item xs={5} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
-                {...baseTextFieldProps(
-                  'surname',
-                  t('userEdit.editRegistryForm.surname.label'),
-                  t('userEdit.editRegistryForm.surname.placeholder')
-                )}
+                {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
                 disabled={formik.values.certifiedSurname}
               />
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'email',
                   t('userEdit.editRegistryForm.institutionalEmail.label'),
-                  t('userEdit.editRegistryForm.institutionalEmail.placeholder'),
+                  '',
                   'lowercase'
                 )}
               />
             </Grid>
           </Grid>
           <Grid item container spacing={3}>
-            <Grid item xs={10} mb={4} sx={{ height: '75px' }}>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps(
                   'confirmEmail',
                   t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
-                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.placeholder'),
+                  '',
                   'lowercase'
                 )}
               />
@@ -245,21 +235,15 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           </Grid>
         </Grid>
 
-        <Grid item container spacing={3}>
-          <Grid item xs={3} mt={8}>
-            <Button
-              sx={{ width: '100%' }}
-              color="primary"
-              variant="outlined"
-              onClick={() => onExit(goBack)}
-            >
+        <Grid item container justifyContent="space-between" mt={5}>
+          <Grid item xs={3} display="flex" justifyContent="flex-start">
+            <Button color="primary" variant="outlined" onClick={() => onExit(goBack)}>
               {t('userEdit.editRegistryForm.backButton')}
             </Button>
           </Grid>
-          <Grid item xs={3} mt={8}>
+          <Grid item xs={3} display="flex" justifyContent="flex-end">
             <Button
               disabled={!formik.dirty || !formik.isValid}
-              sx={{ width: '100%' }}
               color="primary"
               variant="contained"
               type="submit"
