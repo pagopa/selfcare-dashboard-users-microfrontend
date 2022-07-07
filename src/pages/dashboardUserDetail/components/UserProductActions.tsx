@@ -52,7 +52,7 @@ export default function UserProductActions({
           title: moreRolesOnProduct
             ? t('userDetail.actions.delete.userRoleDelete')
             : t('userDetail.actions.delete.userDelete'),
-          message: 'test test',
+          message: '',
         });
       })
       .catch((error) =>
