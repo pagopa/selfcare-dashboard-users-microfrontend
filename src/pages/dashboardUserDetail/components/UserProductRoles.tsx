@@ -39,7 +39,7 @@ export default function UserProductRoles({
   return (
     <Grid container item xs={12}>
       {userProduct.roles.map((p) => (
-        <Grid container item key={p.relationshipId} mt={2}>
+        <Grid container item key={p.relationshipId} mt={3}>
           <Grid item xs={3}>
             <Grid container item>
               <Box>

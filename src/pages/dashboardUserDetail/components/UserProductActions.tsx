@@ -275,7 +275,10 @@ export default function UserProductActions({
             </Trans>
           )
         ),
-      confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
+      confirmLabel:
+        role.status === 'SUSPENDED'
+          ? t('userDetail.actions.changeUserStatusModal.confirmButton')
+          : t('userDetail.actions.changeUserStatusModal.confirmButtonSuspend'),
       closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
       onConfirm: confirmChangeStatus,
     });
@@ -293,7 +296,7 @@ export default function UserProductActions({
               </Link>
             </Box>
           )}
-          <Box width="52px">
+          <Box width="52px" display="flex">
             <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
               <Typography
                 variant="caption"

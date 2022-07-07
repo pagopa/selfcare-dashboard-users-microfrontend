@@ -117,7 +117,8 @@ export default {
           messageWithMultipleRoles:
             'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
-        confirmButton: 'Conferma',
+        confirmButton: 'Riabilita',
+        confirmButtonSuspend: 'Sospendi',
         closeButton: 'Annulla',
       },
       changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
@@ -141,7 +142,7 @@ export default {
         title: 'Rimuovi ruolo',
         message:
           'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3> ? <5/> <6/> Se lo rimuovi da <8>{{product}}</8>, il profilo dell’utente verrà eliminato <10/>dall’Area Riservata, poiché non è presente in altri prodotti.<12/> Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i<14/> suoi dati anagrafici.',
-        confirmButton: 'Conferma',
+        confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
     },

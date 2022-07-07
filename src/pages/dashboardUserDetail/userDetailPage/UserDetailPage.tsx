@@ -155,8 +155,8 @@ function UserDetailPage({
         item
         alignItems={'center'}
         xs={8}
-        px={2}
-        mt={4}
+        pl={3}
+        mt={3}
         sx={{
           backgroundColor: 'transparent !important',
         }}
@@ -176,12 +176,8 @@ function UserDetailPage({
               <Typography
                 variant="h4"
                 sx={{
-                  lineHeight: '38px !important',
-                  display: 'inline-block',
                   width: '100%',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
+                  wordWrap: 'break-word',
                 }}
               >
                 {partyUser.name} {partyUser.surname}

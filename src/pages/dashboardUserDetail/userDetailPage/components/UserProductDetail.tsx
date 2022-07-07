@@ -97,11 +97,15 @@ export default function UserProductDetail({
               />
             </Grid>
           ) : (
-            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              <Tooltip title={t('userDetail.infoIcon')}>
-                <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-              </Tooltip>
-            </Grid>
+            <>
+              {!partyUser.isCurrentUser && (
+                <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+                  <Tooltip title={t('userDetail.infoIcon')}>
+                    <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+                  </Tooltip>
+                </Grid>
+              )}
+            </>
           )}
         </Grid>
       </Grid>
