@@ -95,9 +95,9 @@ function UserProductDetailPage({
     addNotify({
       component: 'SessionModal',
       id: 'PRODUCT_USER_DELETE_MODAL',
-      title: t('userDetail.actions.deleteUserModal.title'),
+      title: t('userDetail.actions.deleteProductUserModal.title'),
       message: (
-        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
+        <Trans i18nKey="userDetail.actions.deleteProductUserModal.message">
           {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
@@ -107,8 +107,8 @@ function UserProductDetailPage({
           {'Vuoi continuare?'}
         </Trans>
       ),
-      confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
-      closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
+      confirmLabel: t('userDetail.actions.deleteProductUserModal.confirmButton'),
+      closeLabel: t('userDetail.actions.deleteProductUserModal.closeButton'),
       onConfirm: onDelete,
     });
   };
@@ -146,6 +146,7 @@ function UserProductDetailPage({
 
   return userProduct ? (
     <Grid
+      item
       xs={8}
       container
       alignItems={'center'}
@@ -154,12 +155,7 @@ function UserProductDetailPage({
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12} mb={3}>
-        <ProductNavigationBar
-          paths={paths}
-          selectedProduct={selectedProduct}
-          showBackComponent={false}
-          goBack={goBack}
-        />
+        <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
       <Grid container item mb={4}>
         <Grid item xs={10}>

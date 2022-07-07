@@ -53,7 +53,7 @@ test('Test: suspend user', async () => {
   const suspendUserButton = screen.getByText('Sospendi');
   fireEvent.click(suspendUserButton);
   screen.getByText('Sospendi ruolo');
-  const confirmButton = screen.getByRole('button', { name: 'Conferma' });
+  const confirmButton = screen.getByRole('button', { name: 'Sospendi' });
   fireEvent.click(confirmButton);
 
   await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
@@ -69,7 +69,7 @@ test('Test: rehabilitate user', async () => {
   const rehabilitateUserButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(rehabilitateUserButton);
   screen.getByText('Riabilita ruolo');
-  const confirmButton = screen.getByRole('button', { name: 'Conferma' });
+  const confirmButton = screen.getByRole('button', { name: 'Riabilita' });
   fireEvent.click(confirmButton);
 
   await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
@@ -82,10 +82,10 @@ test('Test: rehabilitate user', async () => {
 
 test('Test: delete a user', async () => {
   const { history, store } = await renderApp();
-  const deleteButton = screen.getByRole('button', { name: 'Elimina utente' });
+  const deleteButton = screen.getByRole('button', { name: 'Rimuovi' });
   fireEvent.click(deleteButton);
-  screen.getAllByText('Elimina utente')[1];
-  const confirmButton = screen.getByRole('button', { name: 'Conferma' });
+  screen.getAllByText('Rimuovi ruolo')[1];
+  const confirmButton = screen.getByRole('button', { name: 'Rimuovi' });
   fireEvent.click(confirmButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
   const notifies = store.getState().appState.userNotifies;

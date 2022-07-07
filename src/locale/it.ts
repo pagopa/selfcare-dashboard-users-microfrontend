@@ -145,6 +145,12 @@ export default {
         confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
+      deleteProductUserModal: {
+        title: 'Rimuovi ruolo',
+        message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
+        confirmButton: 'Rimuovi',
+        closeButton: 'Annulla',
+      },
     },
     productSection: {
       title: 'Ruoli',
