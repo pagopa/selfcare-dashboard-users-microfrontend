@@ -34,7 +34,6 @@ export default function UserProductDetail({
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
-
   return (
     <>
       <Grid item xs={12}>
@@ -81,7 +80,13 @@ export default function UserProductDetail({
             </Grid>
           </Grid>
 
-          {canEdit ? (
+          {product.authorized === false && !partyUser.isCurrentUser ? (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              <Tooltip title={t('userDetail.infoIcon')}>
+                <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+              </Tooltip>
+            </Grid>
+          ) : (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <UserProductActions
                 showActions={showActionOnProduct}
@@ -96,16 +101,6 @@ export default function UserProductDetail({
                 handleOpenDelete={handleOpenDelete}
               />
             </Grid>
-          ) : (
-            <>
-              {!partyUser.isCurrentUser && (
-                <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-                  <Tooltip title={t('userDetail.infoIcon')}>
-                    <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-                  </Tooltip>
-                </Grid>
-              )}
-            </>
           )}
         </Grid>
       </Grid>
