@@ -1,5 +1,6 @@
-import { Grid, Typography, Chip, Box } from '@mui/material';
+import { Grid, Typography, Chip, Box, Divider, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Party } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
@@ -17,6 +18,7 @@ type Props = {
   canEdit: boolean;
   product: Product;
   isProductDetailPage: boolean;
+  handleOpenDelete: () => void;
 };
 
 export default function UserProductDetail({
@@ -28,22 +30,35 @@ export default function UserProductDetail({
   canEdit,
   product,
   isProductDetailPage,
+  handleOpenDelete,
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
-
   return (
     <>
-      <Grid item xs={10}>
+      <Grid item xs={12}>
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              <Box>
-                <Typography variant="h6" sx={{ fontSize: '18px' }}>
-                  {product.title}
-                </Typography>
+              <Box display="flex">
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  mr={2}
+                  height="32px"
+                  width="32px"
+                >
+                  <img src={product.logo} />
+                </Box>
+                <Box>
+                  <Typography variant="h6" sx={{ fontSize: '18px' }}>
+                    {product.title}
+                  </Typography>
+                </Box>
               </Box>
-              <Box ml={2}>
+
+              <Box ml={4} display="flex" justifyContent="center" alignItems={'center'}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
                     label={t('userDetail.statusLabel')}
@@ -51,7 +66,7 @@ export default function UserProductDetail({
                     variant="outlined"
                     sx={{
                       fontSize: '14px',
-                      background: '#E0E0E0',
+                      background: '#FFCB46',
                       borderRadius: '16px',
                       border: 'none',
                       width: '78px',
@@ -64,22 +79,35 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
-          <Grid item xs={3} display="flex" alignItems="center" ml="-10px">
-            <UserProductActions
-              showActions={showActionOnProduct}
-              party={party}
-              role={userProduct.roles[0]}
-              user={partyUser}
-              fetchPartyUser={fetchPartyUser}
-              product={userProduct}
-              productRolesList={productRolesList}
-              canEdit={canEdit}
-              isProductDetailPage={isProductDetailPage}
-            />
-          </Grid>
+
+          {product.authorized === false && !partyUser.isCurrentUser ? (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              <Tooltip title={t('userDetail.infoIcon')}>
+                <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+              </Tooltip>
+            </Grid>
+          ) : (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              <UserProductActions
+                showActions={showActionOnProduct}
+                party={party}
+                role={userProduct.roles[0]}
+                user={partyUser}
+                fetchPartyUser={fetchPartyUser}
+                product={userProduct}
+                productRolesList={productRolesList}
+                canEdit={canEdit}
+                isProductDetailPage={isProductDetailPage}
+                handleOpenDelete={handleOpenDelete}
+              />
+            </Grid>
+          )}
         </Grid>
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12} my={3}>
+        <Divider sx={{ borderColor: 'background.default' }} />
+      </Grid>
+      <Grid item xs={12}>
         <UserProductRoles
           showActions={!showActionOnProduct}
           party={party}
@@ -92,9 +120,7 @@ export default function UserProductDetail({
           isProductDetailPage={isProductDetailPage}
         />
       </Grid>
-      <Grid container item xs={10} mt={3}>
-        <UserProductGroups product={product} party={party} user={partyUser} canEdit={canEdit} />
-      </Grid>
+      <UserProductGroups product={product} party={party} user={partyUser} canEdit={canEdit} />
     </>
   );
 }
