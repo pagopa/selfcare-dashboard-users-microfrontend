@@ -1,5 +1,6 @@
-import { Grid, Typography, Chip, Box, Divider } from '@mui/material';
+import { Grid, Typography, Chip, Box, Divider, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Party } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
@@ -78,19 +79,27 @@ export default function UserProductDetail({
             </Grid>
           </Grid>
 
-          <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-            <UserProductActions
-              showActions={showActionOnProduct}
-              party={party}
-              role={userProduct.roles[0]}
-              user={partyUser}
-              fetchPartyUser={fetchPartyUser}
-              product={userProduct}
-              productRolesList={productRolesList}
-              canEdit={canEdit}
-              isProductDetailPage={isProductDetailPage}
-            />
-          </Grid>
+          {canEdit ? (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              <UserProductActions
+                showActions={showActionOnProduct}
+                party={party}
+                role={userProduct.roles[0]}
+                user={partyUser}
+                fetchPartyUser={fetchPartyUser}
+                product={userProduct}
+                productRolesList={productRolesList}
+                canEdit={canEdit}
+                isProductDetailPage={isProductDetailPage}
+              />
+            </Grid>
+          ) : (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              <Tooltip title={t('userDetail.infoIcon')}>
+                <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+              </Tooltip>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12} my={3}>

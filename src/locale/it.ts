@@ -155,6 +155,7 @@ export default {
     group: 'Gruppi',
     role: 'Ruolo',
     statusLabel: 'Sospeso',
+    infoIcon: 'Non hai i permessi per gestire questo prodotto',
   },
   userEdit: {
     addForm: {
