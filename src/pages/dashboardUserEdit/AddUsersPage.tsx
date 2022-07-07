@@ -2,10 +2,13 @@ import { Grid } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useTranslation } from 'react-i18next';
 import { PeopleAlt } from '@mui/icons-material';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { useHistory } from 'react-router-dom';
 import { Product } from '../../model/Product';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
 import { ProductsRolesMap } from '../../model/ProductRole';
+import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import AddUserForm from './components/AddUserForm';
 
 type Props = {
@@ -16,9 +19,10 @@ type Props = {
 
 function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
+  const history = useHistory();
 
   const goBack = () => {
-    history.back();
+    history.goBack();
     /*
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -31,7 +35,12 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     {
       description: t('userPagesPath.detailRedirect'),
       icon: PeopleAlt,
-      onClick: goBack,
+      onClick: () =>
+        history.push(
+          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
+            partyId: party.partyId,
+          })
+        ),
     },
     {
       description: t('userPagesPath.addUser'),

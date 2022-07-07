@@ -62,11 +62,6 @@ const CustomTextField = styled(TextField)({
     fontSize: 'fontSize',
     fontWeight: 'fontWeightBold',
   },
-  label: {
-    '&.Mui-error': {
-      color: '#5C6F82 !important',
-    },
-  },
   input: {
     '&::placeholder': {
       fontStyle: 'italic',
@@ -507,8 +502,8 @@ export default function AddUserForm({
                 <InputLabel
                   id="select-label-products"
                   sx={{
-                    '.MuiInputLabel-root.Mui-focused': {
-                      color: 'text.primary',
+                    color: !validTaxcode ? 'text.disabled' : '',
+                    '& .MuiInputLabel-root.Mui-focused': {
                       fontWeight: 'fontWeightMedium',
                       fontSize: 'fontSize',
                       whiteSpace: 'nowrap',
