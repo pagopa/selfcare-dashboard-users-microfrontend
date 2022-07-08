@@ -13,7 +13,7 @@ const renderApp = async (partyId: string = 'onboarded', productId: string = 'pro
   history.push(`/dashboard/${partyId}/${productId}/users`);
   const output = renderComponent(undefined, history);
   await waitFor(() => screen.getAllByText('Utenti'));
-  await waitFor(() => screen.getByText('EMAIL'));
+  await waitFor(() => screen.getByText('Email'));
   return output;
 };
 
