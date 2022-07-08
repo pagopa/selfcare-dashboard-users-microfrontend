@@ -171,23 +171,18 @@ export default {
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       product: {
         title: 'Seleziona il prodotto',
@@ -216,23 +211,18 @@ export default {
       title: 'Modifica il profilo utente',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',

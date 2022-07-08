@@ -3,7 +3,6 @@ import {
   FormControlLabel,
   Grid,
   TextField,
-  Divider,
   Radio,
   Button,
   Typography,
@@ -442,19 +441,17 @@ export default function AddUserForm({
         >
           {canEditRegistryData ? (
             <>
-              <Grid item spacing={3}>
-                <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps(
-                      'taxCode',
-                      t('userEdit.addForm.fiscalCode.label'),
-                      '',
-                      'uppercase'
-                    )}
-                  />
-                </Grid>
+              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+                <CustomTextField
+                  {...baseTextFieldProps(
+                    'taxCode',
+                    t('userEdit.addForm.fiscalCode.label'),
+                    '',
+                    'uppercase'
+                  )}
+                />
               </Grid>
-              <Grid item container spacing={3} mb={3}>
+              <Grid container spacing={2}>
                 <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
                   <CustomTextField
                     {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
@@ -468,31 +465,27 @@ export default function AddUserForm({
                   />
                 </Grid>
               </Grid>
-              <Grid item spacing={3}>
-                <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps(
-                      'email',
-                      t('userEdit.addForm.institutionalEmail.label'),
-                      '',
-                      'lowercase'
-                    )}
-                    disabled={!validTaxcode}
-                  />
-                </Grid>
+              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+                <CustomTextField
+                  {...baseTextFieldProps(
+                    'email',
+                    t('userEdit.addForm.institutionalEmail.label'),
+                    '',
+                    'lowercase'
+                  )}
+                  disabled={!validTaxcode}
+                />
               </Grid>
-              <Grid item spacing={3}>
-                <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps(
-                      'confirmEmail',
-                      t('userEdit.addForm.confirmInstitutionalEmail.label'),
-                      '',
-                      'lowercase'
-                    )}
-                    disabled={!validTaxcode}
-                  />
-                </Grid>
+              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+                <CustomTextField
+                  {...baseTextFieldProps(
+                    'confirmEmail',
+                    t('userEdit.addForm.confirmInstitutionalEmail.label'),
+                    '',
+                    'lowercase'
+                  )}
+                  disabled={!validTaxcode}
+                />
               </Grid>
             </>
           ) : undefined}
@@ -556,15 +549,15 @@ export default function AddUserForm({
                   fontSize: 'fontSize',
                   color: 'colorTextPrimary',
                 }}
-                pb={3}
+                pb={2}
               >
                 {t('userEdit.addForm.role.title')}
               </Typography>
 
-              {Object.values(productRoles.groupBySelcRole).map((roles, selcRoleIndex) =>
+              {Object.values(productRoles.groupBySelcRole).map((roles) =>
                 roles
                   .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
-                  .map((p, index) => (
+                  .map((p) => (
                     <Box key={p.productRole}>
                       <CustomFormControlLabel
                         sx={{ marginTop: 0 }}
@@ -576,7 +569,10 @@ export default function AddUserForm({
                           <>
                             <Typography
                               variant="body1"
-                              sx={{ fontWeight: 'fontWeightRegular', fontSize: '18px' }}
+                              sx={{
+                                fontWeight: 'fontWeightRegular',
+                                fontSize: '18px',
+                              }}
                             >
                               {p.title}
                             </Typography>
@@ -586,6 +582,7 @@ export default function AddUserForm({
                                 fontWeight: 'fontWeightRegular',
                                 fontSize: 'fontSize',
                                 color: '#5C6F82',
+                                marginBottom: 1,
                               }}
                             >
                               {p.description}
@@ -594,11 +591,6 @@ export default function AddUserForm({
                         }
                         onClick={validTaxcode ? () => addRole(p) : undefined}
                       />
-
-                      {(index !== roles.length - 1 ||
-                        selcRoleIndex !== Object.keys(productRoles.groupBySelcRole).length - 1) && (
-                        <Divider sx={{ borderColor: '#CFDCE6', my: '8px' }} />
-                      )}
                     </Box>
                   ))
               )}
