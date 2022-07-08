@@ -238,9 +238,9 @@ export default {
       navigation: 'Assegna ruolo',
       title: 'Assegna un nuovo ruolo',
       subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
-      name: 'NOME',
-      surname: 'COGNOME',
-      fiscalCode: 'CODICE FISCALE',
+      name: 'Nome',
+      surname: 'Cognome',
+      fiscalCode: 'Codice fiscale',
     },
   },
   usersPage: {
