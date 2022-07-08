@@ -25,7 +25,7 @@ test('render test', async () => {
 
 test('test back button', async () => {
   const { history } = await renderApp();
-  const backButton = screen.getByText('Indietro');
+  const backButton = screen.getAllByText('Indietro')[1];
   expect(backButton).toBeEnabled();
   fireEvent.click(backButton);
   await waitFor(() =>

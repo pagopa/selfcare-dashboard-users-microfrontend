@@ -179,59 +179,52 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             paddingTop: 3,
             paddingLeft: 3,
             paddingRight: 3,
-            paddingBottom: 1,
           }}
         >
-          <Grid item container spacing={3}>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                {...baseTextFieldProps(
-                  'taxCode',
-                  t('userEdit.editRegistryForm.fiscalCode.label'),
-                  '',
-                  'uppercase'
-                )}
-                disabled={true}
-              />
-            </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              {...baseTextFieldProps(
+                'taxCode',
+                t('userEdit.editRegistryForm.fiscalCode.label'),
+                '',
+                'uppercase'
+              )}
+              disabled={true}
+            />
           </Grid>
-          <Grid item container spacing={3}>
-            <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
+          <Grid item container spacing={3} mb={3}>
+            <Grid item xs={6} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
                 disabled={formik.values.certifiedName}
               />
             </Grid>
-            <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
+            <Grid item xs={6} mb={1} sx={{ height: '75px' }}>
               <CustomTextField
                 {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
                 disabled={formik.values.certifiedSurname}
               />
             </Grid>
           </Grid>
-          <Grid item container spacing={3}>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                {...baseTextFieldProps(
-                  'email',
-                  t('userEdit.editRegistryForm.institutionalEmail.label'),
-                  '',
-                  'lowercase'
-                )}
-              />
-            </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              {...baseTextFieldProps(
+                'email',
+                t('userEdit.editRegistryForm.institutionalEmail.label'),
+                '',
+                'lowercase'
+              )}
+            />
           </Grid>
-          <Grid item container spacing={3}>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                {...baseTextFieldProps(
-                  'confirmEmail',
-                  t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
-                  '',
-                  'lowercase'
-                )}
-              />
-            </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              {...baseTextFieldProps(
+                'confirmEmail',
+                t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
+                '',
+                'lowercase'
+              )}
+            />
           </Grid>
         </Grid>
 

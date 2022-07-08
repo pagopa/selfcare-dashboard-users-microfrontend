@@ -60,46 +60,48 @@ function EditUserRegistryProductPage({ party, user, selectedProduct }: Props) {
     <Grid
       container
       alignItems={'center'}
-      px={2}
-      mt={10}
+      px={3}
+      mt={4}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid xs={12} mb={2}>
-        <ProductNavigationBar
-          paths={paths}
-          selectedProduct={selectedProduct}
-          showBackComponent={true}
-          goBack={goBack}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TitleBox
-          variantTitle="h4"
-          variantSubTitle="body1"
-          title={t('userEdit.editRegistryForm.title')}
-          mbTitle={5}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        {user ? (
-          <EditUserRegistryForm
-            party={party}
-            user={{
-              id: user.id,
-              taxCode: user.taxCode,
-              name: user.name,
-              surname: user.surname,
-              email: user.email,
-              certifiedName: user.certifiedName,
-              certifiedSurname: user.certifiedSurname,
-              certifiedMail: user.certifiedMail,
-              confirmEmail: '',
-            }}
+      <Grid container item xs={8}>
+        <Grid item xs={12} mb={2}>
+          <ProductNavigationBar
+            paths={paths}
+            selectedProduct={selectedProduct}
+            showBackComponent={true}
             goBack={goBack}
           />
-        ) : (
-          t('userEdit.editRegistryForm.errors.userNotFind')
-        )}
+        </Grid>
+        <Grid item xs={12}>
+          <TitleBox
+            variantTitle="h4"
+            variantSubTitle="body1"
+            title={t('userEdit.editRegistryForm.title')}
+            mbTitle={5}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {user ? (
+            <EditUserRegistryForm
+              party={party}
+              user={{
+                id: user.id,
+                taxCode: user.taxCode,
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                certifiedName: user.certifiedName,
+                certifiedSurname: user.certifiedSurname,
+                certifiedMail: user.certifiedMail,
+                confirmEmail: '',
+              }}
+              goBack={goBack}
+            />
+          ) : (
+            t('userEdit.editRegistryForm.errors.userNotFind')
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );
