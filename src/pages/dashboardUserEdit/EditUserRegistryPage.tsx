@@ -52,7 +52,7 @@ function EditUserRegistryPage({ party, user }: Props) {
       container
       alignItems={'center'}
       px={3}
-      mt={4}
+      mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
       <Grid container item xs={8}>
