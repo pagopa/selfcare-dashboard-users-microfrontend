@@ -73,14 +73,13 @@ export default {
   },
   userDetail: {
     title: 'Profilo Utente',
-    name: 'NOME',
-    surname: 'COGNOME',
-    fiscalCode: 'CODICE FISCALE',
-    institutionalEmail: 'EMAIL ISTITUZIONALE',
+    name: 'Nome',
+    surname: 'Cognome',
+    fiscalCode: 'Codice Fiscale',
+    institutionalEmail: 'Email istituzionale',
     institution: 'ENTE',
     editButton: 'Modifica',
-    deleteButton: 'Elimina',
-    deleteUserButton: 'Elimina utente',
+    deleteButton: 'Rimuovi',
     backButton: 'Indietro',
     actions: {
       delete: {
@@ -118,7 +117,8 @@ export default {
           messageWithMultipleRoles:
             'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
-        confirmButton: 'Conferma',
+        confirmButton: 'Riabilita',
+        confirmButtonSuspend: 'Sospendi',
         closeButton: 'Annulla',
       },
       changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
@@ -130,7 +130,7 @@ export default {
       deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
-      newRoleAssign: '+ Assegna un altro ruolo',
+      newRoleAssign: 'Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:
@@ -139,24 +139,31 @@ export default {
         closeButton: 'Annulla',
       },
       deleteUserModal: {
-        title: 'Elimina utente',
+        title: 'Rimuovi ruolo',
+        message:
+          'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3> ? <5/> <6/> Se lo rimuovi da <8>{{product}}</8>, il profilo dell’utente verrà eliminato <10/>dall’Area Riservata, poiché non è presente in altri prodotti.<12/> Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i<14/> suoi dati anagrafici.',
+        confirmButton: 'Rimuovi',
+        closeButton: 'Annulla',
+      },
+      deleteProductUserModal: {
+        title: 'Rimuovi ruolo',
         message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
-        confirmButton: 'Conferma',
+        confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
     },
     productSection: {
       title: 'Ruoli',
-      description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
       addButton: 'Assegna ruolo',
     },
     pathDescription: 'Utenti',
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
-    group: 'GRUPPO',
-    role: 'RUOLO',
+    group: 'Gruppi',
+    role: 'Ruolo',
     statusLabel: 'Sospeso',
+    infoIcon: 'Non hai i permessi per gestire questo prodotto',
   },
   userEdit: {
     addForm: {
@@ -189,7 +196,7 @@ export default {
         title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
-      confirmButton: 'Conferma',
+      continueButton: 'Continua',
       errors: {
         invalidFiscalCode: 'Il Codice Fiscale inserito non è valido ',
         invalidEmail: 'L’indirizzo email non è valido',

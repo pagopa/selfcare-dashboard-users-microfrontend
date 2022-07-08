@@ -128,3 +128,6 @@ export const productUserResource2PartyProductUser = (
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
+
+export const checkSuspendedUser = (partyUser: PartyUser): boolean =>
+  partyUser.products.every((p) => p.roles.every((r) => r.status === 'SUSPENDED'));
