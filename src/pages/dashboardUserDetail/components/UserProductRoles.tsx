@@ -1,7 +1,10 @@
 import { Box, Chip, Grid, Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
-import { ProductRolesLists } from '../../../model/ProductRole';
+import {
+  ProductRolesLists,
+  transcodeProductRole2Description,
+  transcodeProductRole2Title,
+} from '../../../model/ProductRole';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -68,7 +71,7 @@ export default function UserProductRoles({
                         fontWeight: 'fontWeightMedium',
                       }}
                     >
-                      {t(roleLabels[party.userRole].longLabelKey)}
+                      {transcodeProductRole2Title(p.role, productRolesList)}
                     </CustomTextTransform>
                   </Box>
                   {p.status === 'SUSPENDED' &&
@@ -98,7 +101,7 @@ export default function UserProductRoles({
                     color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
                   }}
                 >
-                  {t(roleLabels[party.userRole].descriptionKey)}
+                  {transcodeProductRole2Description(p.role, productRolesList)}
                 </Typography>
               </Grid>
               <Grid item xs={4}>
