@@ -58,9 +58,9 @@ function AddUsersProductPage({ party, selectedProduct, activeProducts, productRo
     <Grid
       container
       alignItems={'center'}
-      px={2}
-      mt={10}
-      sx={{ backgroundColor: 'transparent !important' }}
+      px={3}
+      mt={3}
+      sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
       <Grid container item xs={8}>
         <Grid item xs={12} mb={2}>
