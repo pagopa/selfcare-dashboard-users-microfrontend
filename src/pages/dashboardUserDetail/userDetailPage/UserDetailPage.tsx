@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
@@ -6,7 +6,8 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import UserDetail from '../components/UserDetail';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -15,7 +16,7 @@ import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import { ProductsRolesMap } from '../../../model/ProductRole';
+import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -43,8 +44,8 @@ function UserDetailPage({
   const addNotify = useUserNotify();
 
   const product = partyUser.products[0];
-  const haveOneRoleAndOneProduct =
-    partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
+  // const haveOneRoleAndOneProduct =
+  //   partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
 
   useEffect(() => {
     if (party) {
@@ -100,13 +101,32 @@ function UserDetailPage({
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
         <Trans i18nKey="userDetail.actions.deleteUserModal.message">
-          {'Stai per eliminare '}
+          {'Vuoi rimuovere '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
-          {'.'}
+          {'dal ruolo di'}
+          <strong>
+            {{
+              role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
+            }}
+          </strong>
+          {'?'}
           <br />
-          {'Vuoi continuare?'}
+          <br />
+          {'Se lo rimuovi da'}
+          <strong style={{ textTransform: 'capitalize' }}>
+            {{
+              product: product.title,
+            }}
+          </strong>
+          {' il profilo dell’utente verrà eliminato '}
+          <br />
+          {' dall’Area Riservata, poiché non è presente in altri prodotti.'}
+          <br />
+          {' Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i'}
+          <br />
+          {' suoi dati anagrafici.'}
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
@@ -117,6 +137,7 @@ function UserDetailPage({
 
   const paths = [
     {
+      icon: PeopleAltIcon,
       description: t('userDetail.pathDescription'),
       onClick: goBack,
     },
@@ -144,7 +165,7 @@ function UserDetailPage({
       <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
         <Grid item xs={12} mb={9}>
           <UserDetail
-            party={party}
+            // party={party}
             userInfo={partyUser}
             roleSection={''}
             goEdit={goEdit}
@@ -162,6 +183,7 @@ function UserDetailPage({
             fetchPartyUser={fetchPartyUser}
             productsRolesMap={productsRolesMap}
             products={activeProducts}
+            handleOpenDelete={handleOpenDelete}
           />
         </Grid>
       </Grid>
@@ -176,29 +198,63 @@ function UserDetailPage({
             {t('userDetail.backButton')}
           </Button>
         </Grid>
-        {partyUser.products.length === 1 &&
-          partyUser.products[0].roles.length === 1 &&
-          !partyUser.isCurrentUser &&
-          activeProducts.find((p) => p.id === partyUser.products[0].id)?.userRole === 'ADMIN' && (
-            <Grid item xs={2}>
+        <Grid container item mb={4}>
+          <Grid item xs={10}>
+            <Tooltip
+              title={
+                partyUser.name.length + partyUser.surname.length > 20
+                  ? `${partyUser.name} ${partyUser.surname}`
+                  : ''
+              }
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  width: '100%',
+                  wordWrap: 'break-word',
+                }}
+              >
+                {partyUser.name} {partyUser.surname}
+              </Typography>
+            </Tooltip>
+          </Grid>
+          {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
               <Button
+                disabled={partyUser.status === 'SUSPENDED'}
                 disableRipple
                 variant="outlined"
-                sx={{
-                  height: '40px',
-                  width: '100%',
-                  color: '#C02927',
-                  borderColor: '#C02927',
-                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-                }}
-                onClick={handleOpenDelete}
+                sx={{ height: '40px' }}
+                onClick={goEdit}
               >
-                {haveOneRoleAndOneProduct
-                  ? t('userDetail.deleteUserButton')
-                  : t('userDetail.deleteButton')}
+                {t('userDetail.editButton')}
               </Button>
             </Grid>
           )}
+        </Grid>
+
+        <Grid container item>
+          <Grid item xs={12} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
+            <UserDetail
+              userInfo={partyUser}
+              roleSection={''}
+              goEdit={goEdit}
+              productsMap={productsMap}
+            />
+          </Grid>
+
+          <Grid container>
+            <UserProductSection
+              isProductDetailPage={isProductDetailPage}
+              partyUser={partyUser}
+              party={party}
+              fetchPartyUser={fetchPartyUser}
+              productsRolesMap={productsRolesMap}
+              products={activeProducts}
+              handleOpenDelete={handleOpenDelete}
+            />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

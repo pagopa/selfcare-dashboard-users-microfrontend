@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -95,9 +95,9 @@ function UserProductDetailPage({
     addNotify({
       component: 'SessionModal',
       id: 'PRODUCT_USER_DELETE_MODAL',
-      title: t('userDetail.actions.deleteUserModal.title'),
+      title: t('userDetail.actions.deleteProductUserModal.title'),
       message: (
-        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
+        <Trans i18nKey="userDetail.actions.deleteProductUserModal.message">
           {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
@@ -107,8 +107,8 @@ function UserProductDetailPage({
           {'Vuoi continuare?'}
         </Trans>
       ),
-      confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
-      closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
+      confirmLabel: t('userDetail.actions.deleteProductUserModal.confirmButton'),
+      closeLabel: t('userDetail.actions.deleteProductUserModal.closeButton'),
       onConfirm: onDelete,
     });
   };
@@ -146,34 +146,49 @@ function UserProductDetailPage({
 
   return userProduct ? (
     <Grid
+      item
+      xs={8}
       container
       alignItems={'center'}
       px={2}
-      mt={10}
+      mt={3}
       sx={{ backgroundColor: 'transparent !important' }}
     >
       <Grid item xs={12} mb={3}>
         <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
       </Grid>
-      <Grid item xs={12} mb={7}>
-        <Typography variant="h4">{t('userDetail.title')}</Typography>
+      <Grid container item mb={4}>
+        <Grid item xs={10}>
+          <Typography variant="h4">{t('userDetail.title')}</Typography>
+        </Grid>
+        {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+          <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+            <Button
+              disabled={partyUser.status === 'SUSPENDED'}
+              disableRipple
+              variant="outlined"
+              sx={{ height: '40px' }}
+              onClick={goEdit}
+            >
+              {t('userDetail.editButton')}
+            </Button>
+          </Grid>
+        )}
       </Grid>
       <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid container item>
+        <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
           <Grid item xs={12}>
             <UserDetail
               productsMap={productsMap}
-              party={party}
+              // party={party}
               userInfo={partyUser}
               roleSection={<></>}
               goEdit={goEdit}
             />
           </Grid>
         </Grid>
-        <Grid item xs={11} my={5}>
-          <Divider />
-        </Grid>
-        <Grid item xs={10}>
+
+        <Grid item xs={10} mb={4}>
           <UserProductRoles
             showActions={true}
             party={party}
@@ -220,7 +235,7 @@ function UserProductDetailPage({
               }}
               onClick={handleOpenDelete}
             >
-              {t('userDetail.deleteUserButton')}
+              {t('userDetail.deleteButton')}
             </Button>
           </Grid>
         )}
