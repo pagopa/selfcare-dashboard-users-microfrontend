@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, Tooltip, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
@@ -149,54 +149,20 @@ function UserDetailPage({
   return !party ? (
     <></>
   ) : (
-    <Grid
-      container
-      alignItems={'center'}
-      px={2}
-      mt={10}
-      sx={{ backgroundColor: 'transparent !important' }}
-    >
-      <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} />
-      </Grid>
-      <Grid item xs={12} mb={7}>
-        <Typography variant="h4">{t('userDetail.title')}</Typography>
-      </Grid>
-      <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid item xs={12} mb={9}>
-          <UserDetail
-            // party={party}
-            userInfo={partyUser}
-            roleSection={''}
-            goEdit={goEdit}
-            productsMap={productsMap}
-          />
-        </Grid>
-        <Grid item xs={11} mb={4}>
-          <Divider />
-        </Grid>
-        <Grid container>
-          <UserProductSection
-            isProductDetailPage={isProductDetailPage}
-            partyUser={partyUser}
-            party={party}
-            fetchPartyUser={fetchPartyUser}
-            productsRolesMap={productsRolesMap}
-            products={activeProducts}
-            handleOpenDelete={handleOpenDelete}
-          />
-        </Grid>
-      </Grid>
-      <Grid container item my={10} spacing={2}>
-        <Grid item xs={2}>
-          <Button
-            disableRipple
-            variant="outlined"
-            sx={{ height: '40px', width: '100%' }}
-            onClick={goBack}
-          >
-            {t('userDetail.backButton')}
-          </Button>
+    <div style={{ width: '100%' }}>
+      <Grid
+        container
+        item
+        alignItems={'center'}
+        xs={8}
+        pl={3}
+        mt={3}
+        sx={{
+          backgroundColor: 'transparent !important',
+        }}
+      >
+        <Grid item xs={12} mb={3}>
+          <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid container item mb={4}>
           <Grid item xs={10}>
@@ -256,7 +222,7 @@ function UserDetailPage({
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 export default withUserDetail(UserDetailPage);
