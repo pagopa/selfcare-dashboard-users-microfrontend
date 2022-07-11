@@ -61,12 +61,12 @@ function UserDetailPage({
       })
     );
 
-  const goBack = () =>
-    history.push(
-      resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-        partyId: party.partyId,
-      })
-    );
+  const goBack = () => history.goBack();
+  // history.push(
+  //   resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
+  //     partyId: party.partyId,
+  //   })
+  // );
 
   const onDelete = () => {
     setLoading(true);
@@ -139,7 +139,12 @@ function UserDetailPage({
     {
       icon: PeopleAltIcon,
       description: t('userDetail.pathDescription'),
-      onClick: goBack,
+      onClick: () =>
+        history.push(
+          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
+            partyId: party.partyId,
+          })
+        ),
     },
     {
       description: partyUser.name + ' ' + partyUser.surname,
