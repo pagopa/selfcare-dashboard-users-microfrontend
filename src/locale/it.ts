@@ -13,23 +13,23 @@ export default {
   usersTable: {
     usersProductTableColumns: {
       headerFields: {
-        name: 'NOME',
-        email: 'EMAIL',
-        role: 'RUOLO',
+        name: 'Nome',
+        email: 'Email',
+        role: 'Ruolo',
       },
     },
     filterRole: {
       placeholder: 'Tutti i ruoli',
       admin: {
         title: 'Amministratore',
-        description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+        description: 'Ha tutti i permessi e gestisce gli utenti',
       },
       limited: {
         title: 'Operatore',
-        description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+        description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
       addFiltersButton: 'Filtra',
-      deleteFiltersButton: 'Cancella filtri',
+      deleteFiltersButton: 'Annulla filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
@@ -69,7 +69,7 @@ export default {
       reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
-    addButton: 'Aggiungi',
+    addButton: 'Aggiungi utente',
   },
   userDetail: {
     title: 'Profilo Utente',
