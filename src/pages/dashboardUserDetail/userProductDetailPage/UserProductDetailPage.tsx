@@ -145,102 +145,104 @@ function UserProductDetailPage({
   const isProductDetailPage = true;
 
   return userProduct ? (
-    <Grid
-      item
-      xs={8}
-      container
-      alignItems={'center'}
-      px={2}
-      mt={3}
-      sx={{ backgroundColor: 'transparent !important' }}
-    >
-      <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
-      </Grid>
-      <Grid container item mb={4}>
-        <Grid item xs={10}>
-          <Typography variant="h4">{t('userDetail.title')}</Typography>
+    <div style={{ width: '100%' }}>
+      <Grid
+        item
+        xs={8}
+        container
+        alignItems={'center'}
+        px={2}
+        mt={3}
+        sx={{ backgroundColor: 'transparent !important' }}
+      >
+        <Grid item xs={12} mb={3}>
+          <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
         </Grid>
-        {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-          <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
-            <Button
-              disabled={partyUser.status === 'SUSPENDED'}
-              disableRipple
-              variant="outlined"
-              sx={{ height: '40px' }}
-              onClick={goEdit}
-            >
-              {t('userDetail.editButton')}
-            </Button>
+        <Grid container item mb={4}>
+          <Grid item xs={10}>
+            <Typography variant="h4">{t('userDetail.title')}</Typography>
           </Grid>
-        )}
-      </Grid>
-      <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-          <Grid item xs={12}>
-            <UserDetail
-              productsMap={productsMap}
-              // party={party}
-              userInfo={partyUser}
-              roleSection={<></>}
-              goEdit={goEdit}
+          {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+              <Button
+                disabled={partyUser.status === 'SUSPENDED'}
+                disableRipple
+                variant="outlined"
+                sx={{ height: '40px' }}
+                onClick={goEdit}
+              >
+                {t('userDetail.editButton')}
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+        <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
+          <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
+            <Grid item xs={12}>
+              <UserDetail
+                productsMap={productsMap}
+                // party={party}
+                userInfo={partyUser}
+                roleSection={<></>}
+                goEdit={goEdit}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={10} mb={4}>
+            <UserProductRoles
+              showActions={true}
+              party={party}
+              user={partyUser}
+              fetchPartyUser={fetchPartyUser}
+              userProduct={userProduct}
+              product={selectedProduct}
+              productRolesList={productRolesList}
+              canEdit={canEdit}
+              isProductDetailPage={isProductDetailPage}
+            />
+          </Grid>
+          <Grid container item xs={10} mt={3}>
+            <UserProductGroups
+              party={party}
+              user={partyUser}
+              product={selectedProduct}
+              canEdit={canEdit}
             />
           </Grid>
         </Grid>
-
-        <Grid item xs={10} mb={4}>
-          <UserProductRoles
-            showActions={true}
-            party={party}
-            user={partyUser}
-            fetchPartyUser={fetchPartyUser}
-            userProduct={userProduct}
-            product={selectedProduct}
-            productRolesList={productRolesList}
-            canEdit={canEdit}
-            isProductDetailPage={isProductDetailPage}
-          />
-        </Grid>
-        <Grid container item xs={10} mt={3}>
-          <UserProductGroups
-            party={party}
-            user={partyUser}
-            product={selectedProduct}
-            canEdit={canEdit}
-          />
-        </Grid>
-      </Grid>
-      <Grid container item my={10} spacing={2}>
-        <Grid item xs={2}>
-          <Button
-            disableRipple
-            variant="outlined"
-            sx={{ height: '40px', width: '100%' }}
-            onClick={goBack}
-          >
-            {t('userDetail.backButton')}
-          </Button>
-        </Grid>
-        {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
+        <Grid container item my={10} spacing={2}>
           <Grid item xs={2}>
             <Button
               disableRipple
               variant="outlined"
-              sx={{
-                height: '40px',
-                width: '100%',
-                color: '#C02927',
-                borderColor: '#C02927',
-                '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-              }}
-              onClick={handleOpenDelete}
+              sx={{ height: '40px', width: '100%' }}
+              onClick={goBack}
             >
-              {t('userDetail.deleteButton')}
+              {t('userDetail.backButton')}
             </Button>
           </Grid>
-        )}
+          {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
+            <Grid item xs={2}>
+              <Button
+                disableRipple
+                variant="outlined"
+                sx={{
+                  height: '40px',
+                  width: '100%',
+                  color: '#C02927',
+                  borderColor: '#C02927',
+                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
+                }}
+                onClick={handleOpenDelete}
+              >
+                {t('userDetail.deleteButton')}
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   ) : (
     <></>
   );

@@ -81,96 +81,100 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const moretThanOneActiveProduct = activeProducts.length > 1;
 
   return (
-    <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
-      <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
-        <TitleBox
-          variantTitle="h4"
-          variantSubTitle="body1"
-          title={t('usersPage.title')}
-          subTitle={t('usersPage.generic.subTitle')}
-          mbTitle={2}
-        />
-      </Grid>
-      <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-end">
-        <Button
-          variant="contained"
-          sx={{ height: '40px', width: '163px' }}
-          onClick={() => onExit(() => history.push(addUserUrl))}
-        >
-          {t('usersTable.addButton')}
-        </Button>
-      </Grid>
-      <Grid item xs={12} mt={5}>
-        <UsersTableActions
-          disableFilters={loading}
-          loading={loading}
-          party={party}
-          products={activeProducts}
-          productsRolesMap={productsRolesMap}
-          filters={filters}
-          onFiltersChange={setFilters}
-          showSelcRoleGrouped={showSelcRoleGrouped}
-        />
-      </Grid>
-      {moretThanOneActiveProduct && (
-        <Grid
-          item
-          xs={12}
-          mt={5}
-          sx={{
-            borderBottom: 1,
-            borderBottomWidth: '2px',
-            borderColor: 'divider',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            backgroundColor: '#F5F6F7',
-          }}
-        >
-          <Tabs variant="fullWidth" scrollButtons="auto" value={activeSection}>
-            {activeProducts.map((p, i) => (
-              <Tab
-                key={p.id}
-                label={p.title}
-                component={HashLink}
-                to={`#${p.id}`}
-                value={i}
-                scroll={scrollWithOffset}
-              />
-            ))}
-          </Tabs>
+    <div style={{ width: '100%' }}>
+      <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
+        <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
+          <TitleBox
+            variantTitle="h4"
+            variantSubTitle="body1"
+            title={t('usersPage.title')}
+            subTitle={t('usersPage.generic.subTitle')}
+            mbTitle={2}
+          />
         </Grid>
-      )}
+        <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-end">
+          <Button
+            variant="contained"
+            sx={{ height: '40px', width: '163px' }}
+            onClick={() => onExit(() => history.push(addUserUrl))}
+          >
+            {t('usersTable.addButton')}
+          </Button>
+        </Grid>
+        <Grid item xs={12} mt={5}>
+          <UsersTableActions
+            disableFilters={loading}
+            loading={loading}
+            party={party}
+            products={activeProducts}
+            productsRolesMap={productsRolesMap}
+            filters={filters}
+            onFiltersChange={setFilters}
+            showSelcRoleGrouped={showSelcRoleGrouped}
+          />
+        </Grid>
+        {moretThanOneActiveProduct && (
+          <Grid
+            item
+            xs={12}
+            mt={5}
+            sx={{
+              borderBottom: 1,
+              borderBottomWidth: '2px',
+              borderColor: 'divider',
+              position: 'sticky',
+              top: 0,
+              zIndex: 100,
+              backgroundColor: '#F5F6F7',
+            }}
+          >
+            <Tabs variant="fullWidth" scrollButtons="auto" value={activeSection}>
+              {activeProducts.map((p, i) => (
+                <Tab
+                  key={p.id}
+                  label={p.title}
+                  component={HashLink}
+                  to={`#${p.id}`}
+                  value={i}
+                  scroll={scrollWithOffset}
+                />
+              ))}
+            </Tabs>
+          </Grid>
+        )}
 
-      <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
-        <Grid
-          container
-          direction="row"
-          alignItems={'center'}
-          mt={moretThanOneActiveProduct ? 0 : 5}
-        >
-          {activeProducts.map((p, i) => (
-            <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
-              <UsersProductSection
-                hideProductWhenLoading={true}
-                party={party}
-                product={p}
-                productsMap={productsMap}
-                filters={filters}
-                productsRolesMap={productsRolesMap}
-                onFetchStatusUpdate={(loading, noData) => {
-                  setProductsFetchStatus((previousState) => ({
-                    ...previousState,
-                    [p.id]: { loading, noData },
-                  }));
-                }}
-              />
-            </Grid>
-          ))}
-          {!loading && noData && <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />}
+        <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
+          <Grid
+            container
+            direction="row"
+            alignItems={'center'}
+            mt={moretThanOneActiveProduct ? 0 : 5}
+          >
+            {activeProducts.map((p, i) => (
+              <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
+                <UsersProductSection
+                  hideProductWhenLoading={true}
+                  party={party}
+                  product={p}
+                  productsMap={productsMap}
+                  filters={filters}
+                  productsRolesMap={productsRolesMap}
+                  onFetchStatusUpdate={(loading, noData) => {
+                    setProductsFetchStatus((previousState) => ({
+                      ...previousState,
+                      [p.id]: { loading, noData },
+                    }));
+                  }}
+                />
+              </Grid>
+            ))}
+            {!loading && noData && (
+              <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
+            )}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 
