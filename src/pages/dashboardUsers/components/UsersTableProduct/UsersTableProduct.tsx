@@ -67,8 +67,6 @@ const UsersTableProduct = ({
     ).then((data) => data.content)
   );
 
-  const canEdit = product.userRole === 'ADMIN' && product.status === 'ACTIVE';
-
   useEffect(() => {
     if (
       filterConfiguration.productIds.length > 0 &&
@@ -167,7 +165,6 @@ const UsersTableProduct = ({
         product={product}
         productRolesLists={productRolesLists}
         users={users.content}
-        canEdit={canEdit}
         page={users.page}
         sort={pageRequest?.page.sort}
         fetchPage={(page, size, refetch = false) =>

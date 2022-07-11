@@ -1,4 +1,4 @@
-import { Link, Grid, Typography } from '@mui/material';
+import { Link, Typography, Box } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
@@ -20,6 +20,7 @@ type Props = {
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   isProductDetailPage: boolean;
+  handleOpenDelete?: () => void;
 };
 export default function UserProductActions({
   showActions,
@@ -29,8 +30,9 @@ export default function UserProductActions({
   product,
   fetchPartyUser,
   productRolesList,
-  canEdit,
   isProductDetailPage,
+  handleOpenDelete,
+  canEdit,
 }: Props) {
   const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
@@ -39,7 +41,7 @@ export default function UserProductActions({
   const moreRolesOnProduct = product.roles.length > 1;
   const haveMoreProducts = user.products.length > 1;
 
-  const onDelete = () => {
+  const onDeleteMoreRole = () => {
     setLoading(true);
     deletePartyUser(party, user, product, role)
       .then((_) => {
@@ -69,7 +71,7 @@ export default function UserProductActions({
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleOpenDelete = () => {
+  const handleOpenDeleteMoreRole = () => {
     addNotify({
       component: 'SessionModal',
       id: 'Notify_Example',
@@ -119,8 +121,16 @@ export default function UserProductActions({
       ),
       confirmLabel: t('userDetail.actions.modalDelete.removeRoleButton'),
       closeLabel: t('userDetail.actions.modalDelete.closeButton'),
-      onConfirm: onDelete,
+      onConfirm: onDeleteMoreRole,
     });
+  };
+
+  const handleDelete = () => {
+    if (user.products[0].roles.length === 1 && handleOpenDelete && user.products.length === 1) {
+      handleOpenDelete();
+    } else {
+      handleOpenDeleteMoreRole();
+    }
   };
 
   const confirmChangeStatus = () => {
@@ -265,7 +275,10 @@ export default function UserProductActions({
             </Trans>
           )
         ),
-      confirmLabel: t('userDetail.actions.changeUserStatusModal.confirmButton'),
+      confirmLabel:
+        role.status === 'SUSPENDED'
+          ? t('userDetail.actions.changeUserStatusModal.confirmButton')
+          : t('userDetail.actions.changeUserStatusModal.confirmButtonSuspend'),
       closeLabel: t('userDetail.actions.changeUserStatusModal.closeButton'),
       onConfirm: confirmChangeStatus,
     });
@@ -273,10 +286,22 @@ export default function UserProductActions({
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
-        <Grid container item>
-          <Grid item xs={6}>
+        <Box display="flex" justifyContent="flex-end">
+          {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
+            <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
+              <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
+                <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+                  {t('userDetail.actions.deleteButton')}
+                </Typography>
+              </Link>
+            </Box>
+          )}
+          <Box width="52px" display="flex">
             <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
-              <Typography variant="caption" sx={{ fontWeight: 'fontWeightBold', color: '#0073E6' }}>
+              <Typography
+                variant="caption"
+                sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+              >
                 {role.status === 'SUSPENDED'
                   ? t('userDetail.actions.reactivateRole')
                   : role.status === 'ACTIVE'
@@ -284,23 +309,8 @@ export default function UserProductActions({
                   : ''}
               </Typography>
             </Link>
-          </Grid>
-          {(moreRolesOnProduct || (!isProductDetailPage && user.products.length > 1)) &&
-            !user.isCurrentUser && (
-              <Grid item xs={6}>
-                <Link
-                  color="error"
-                  onClick={handleOpenDelete}
-                  component="button"
-                  sx={{ textDecoration: 'none' }}
-                >
-                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#C02927' }}>
-                    {t('userDetail.actions.deleteButton')}
-                  </Typography>
-                </Link>
-              </Grid>
-            )}
-        </Grid>
+          </Box>
+        </Box>
       )}
     </>
   );

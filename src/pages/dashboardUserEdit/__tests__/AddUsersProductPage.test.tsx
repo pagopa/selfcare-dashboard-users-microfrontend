@@ -57,7 +57,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
 test('test with empty fields, so disabled button', async () => {
   await renderApp();
 
-  const button = screen.getByRole('button', { name: 'Conferma' });
+  const button = screen.getByRole('button', { name: 'Continua' });
 
   expect(button).toBeDisabled();
 });
@@ -84,7 +84,7 @@ test('test with fields that respect rules, so enabled button', async () => {
   expect(checkbox).toBeEnabled();
   fireEvent.click(checkbox);
 
-  const button = screen.getByText('Conferma');
+  const button = screen.getByText('Continua');
   await waitFor(() => expect(button).toBeEnabled());
   await waitFor(() => fireEvent.click(button));
 

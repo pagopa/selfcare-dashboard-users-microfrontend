@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, Divider } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
   products: Array<Product>;
   isProductDetailPage: boolean;
+  handleOpenDelete: () => void;
 };
 export default function UserProductSection({
   partyUser,
@@ -24,34 +25,31 @@ export default function UserProductSection({
   productsRolesMap,
   products,
   isProductDetailPage,
+  handleOpenDelete,
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
   return (
     <>
-      <Grid item xs={10}>
-        <Grid container item>
-          <Grid item mb={1} xs={12}>
-            <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
-              {t('userDetail.productSection.title')}
-            </Typography>
-          </Grid>
-          <Grid item mb={1} xs={12}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {t('userDetail.productSection.description')}
-            </Typography>
-          </Grid>
-        </Grid>
+      <Grid item xs={9} mb={3}>
+        <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
+          {t('userDetail.productSection.title')}
+        </Typography>
       </Grid>
 
       {!partyUser.isCurrentUser &&
         products
           .filter((p) => p.userRole === 'ADMIN')
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
-          <Grid item xs={2}>
+          <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-start">
             <Button
               variant="contained"
-              sx={{ height: '40px', width: '100%' }}
+              sx={{
+                height: '40px',
+
+                fontSize: '14px',
+                fontWeight: 'fontWeightBold',
+              }}
               onClick={() =>
                 history.push(
                   resolvePathVariables(
@@ -68,10 +66,15 @@ export default function UserProductSection({
             </Button>
           </Grid>
         )}
-      {partyUser.products.map((userProduct, index) => {
+      {partyUser.products.map((userProduct) => {
         const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
         return (
-          <Grid item xs={12} key={userProduct.id}>
+          <Grid
+            item
+            xs={12}
+            key={userProduct.id}
+            sx={{ backgroundColor: 'background.paper', padding: 3, mb: 2 }}
+          >
             <UserProductDetail
               partyUser={partyUser}
               party={party}
@@ -81,12 +84,8 @@ export default function UserProductSection({
               canEdit={product?.userRole === 'ADMIN' && product.status === 'ACTIVE'}
               product={product}
               isProductDetailPage={isProductDetailPage}
+              handleOpenDelete={handleOpenDelete}
             />
-            {index !== partyUser.products.length - 1 && (
-              <Grid item xs={11} my={4}>
-                <Divider />
-              </Grid>
-            )}
           </Grid>
         );
       })}

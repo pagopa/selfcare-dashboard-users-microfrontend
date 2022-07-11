@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel, Link, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import SessionModal from '@pagopa/selfcare-common-frontend/components/SessionModal';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -6,6 +6,8 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify'
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { ButtonNaked } from '@pagopa/mui-italia';
+import AddIcon from '@mui/icons-material/Add';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -113,19 +115,17 @@ export default function UserProductAddRoles({
   return userProduct.roles.length < selcRoleProductRoleList.length &&
     selcRoleProductRoleList[0].multiroleAllowed ? (
     <>
-      <Link
+      <ButtonNaked
+        component="button"
         onClick={() => {
           setOpen(true);
         }}
-        component="button"
-        sx={{ textDecoration: 'none' }}
+        startIcon={<AddIcon fontSize="medium" />}
+        sx={{ color: 'primary.main' }}
+        weight="default"
       >
-        <Typography
-          sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightRegular', color: '#0073E6' }}
-        >
-          {t('userDetail.actions.newRoleAssign')}
-        </Typography>
-      </Link>
+        {t('userDetail.actions.newRoleAssign')}
+      </ButtonNaked>
       <SessionModal
         open={open}
         title={t('userDetail.actions.newRoleAssignModal.title')}

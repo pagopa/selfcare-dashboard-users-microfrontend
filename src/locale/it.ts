@@ -13,23 +13,23 @@ export default {
   usersTable: {
     usersProductTableColumns: {
       headerFields: {
-        name: 'NOME',
-        email: 'EMAIL',
-        role: 'RUOLO',
+        name: 'Nome',
+        email: 'Email',
+        role: 'Ruolo',
       },
     },
     filterRole: {
       placeholder: 'Tutti i ruoli',
       admin: {
         title: 'Amministratore',
-        description: 'tutti i ruoli abilitati alla gestione dei prodotti e di Self Care',
+        description: 'Ha tutti i permessi e gestisce gli utenti',
       },
       limited: {
         title: 'Operatore',
-        description: 'tutti i ruoli ruoli autorizzati a operare sui prodotti',
+        description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
       addFiltersButton: 'Filtra',
-      deleteFiltersButton: 'Cancella filtri',
+      deleteFiltersButton: 'Annulla filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
@@ -69,18 +69,17 @@ export default {
       reactivateRoleError: 'Non è stato possibile riabilitare il ruolo. Riprova.',
     },
     loadMore: 'Carica altri',
-    addButton: 'Aggiungi',
+    addButton: 'Aggiungi utente',
   },
   userDetail: {
     title: 'Profilo Utente',
-    name: 'NOME',
-    surname: 'COGNOME',
-    fiscalCode: 'CODICE FISCALE',
-    institutionalEmail: 'EMAIL ISTITUZIONALE',
+    name: 'Nome',
+    surname: 'Cognome',
+    fiscalCode: 'Codice Fiscale',
+    institutionalEmail: 'Email istituzionale',
     institution: 'ENTE',
     editButton: 'Modifica',
-    deleteButton: 'Elimina',
-    deleteUserButton: 'Elimina utente',
+    deleteButton: 'Rimuovi',
     backButton: 'Indietro',
     actions: {
       delete: {
@@ -118,7 +117,8 @@ export default {
           messageWithMultipleRoles:
             'Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.',
         },
-        confirmButton: 'Conferma',
+        confirmButton: 'Riabilita',
+        confirmButtonSuspend: 'Sospendi',
         closeButton: 'Annulla',
       },
       changeUserStatusSuccess: 'Ruolo {{userStatus}} correttamente',
@@ -130,7 +130,7 @@ export default {
       deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
-      newRoleAssign: '+ Assegna un altro ruolo',
+      newRoleAssign: 'Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
         message:
@@ -139,24 +139,31 @@ export default {
         closeButton: 'Annulla',
       },
       deleteUserModal: {
-        title: 'Elimina utente',
+        title: 'Rimuovi ruolo',
+        message:
+          'Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3> ? <5/> <6/> Se lo rimuovi da <8>{{product}}</8>, il profilo dell’utente verrà eliminato <10/>dall’Area Riservata, poiché non è presente in altri prodotti.<12/> Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i<14/> suoi dati anagrafici.',
+        confirmButton: 'Rimuovi',
+        closeButton: 'Annulla',
+      },
+      deleteProductUserModal: {
+        title: 'Rimuovi ruolo',
         message: 'Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?',
-        confirmButton: 'Conferma',
+        confirmButton: 'Rimuovi',
         closeButton: 'Annulla',
       },
     },
     productSection: {
       title: 'Ruoli',
-      description: 'Qui trovi tutti i dati dei prodotti relativi al tuo profilo',
       addButton: 'Assegna ruolo',
     },
     pathDescription: 'Utenti',
     selfCareRole: 'RUOLO SU SELF CARE',
     suspended: 'sospeso',
     rehabilitated: 'riabilitato',
-    group: 'GRUPPO',
-    role: 'RUOLO',
+    group: 'Gruppi',
+    role: 'Ruolo',
     statusLabel: 'Sospeso',
+    infoIcon: 'Non hai i permessi per gestire questo prodotto',
   },
   userEdit: {
     addForm: {
@@ -164,23 +171,18 @@ export default {
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       product: {
         title: 'Seleziona il prodotto',
@@ -189,7 +191,7 @@ export default {
         title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       backButton: 'Indietro',
-      confirmButton: 'Conferma',
+      continueButton: 'Continua',
       errors: {
         invalidFiscalCode: 'Il Codice Fiscale inserito non è valido ',
         invalidEmail: 'L’indirizzo email non è valido',
@@ -209,23 +211,18 @@ export default {
       title: 'Modifica il profilo utente',
       fiscalCode: {
         label: 'Codice Fiscale',
-        placeholder: "Inserisci il Codice Fiscale dell'utente",
       },
       name: {
         label: 'Nome',
-        placeholder: "Inserisci il nome dell'utente",
       },
       surname: {
         label: 'Cognome',
-        placeholder: "Inserisci il cognome dell'utente",
       },
       institutionalEmail: {
         label: 'Email istituzionale',
-        placeholder: "Inserisci l’indirizzo email istituzionale dell'utente",
       },
       confirmInstitutionalEmail: {
         label: 'Conferma email',
-        placeholder: "Conferma l’indirizzo email istituzionale dell'utente",
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
@@ -241,9 +238,9 @@ export default {
       navigation: 'Assegna ruolo',
       title: 'Assegna un nuovo ruolo',
       subTitle: "Seleziona il prodotto e il ruolo che vuoi assegnare all'utente.",
-      name: 'NOME',
-      surname: 'COGNOME',
-      fiscalCode: 'CODICE FISCALE',
+      name: 'Nome',
+      surname: 'Cognome',
+      fiscalCode: 'Codice fiscale',
     },
   },
   usersPage: {

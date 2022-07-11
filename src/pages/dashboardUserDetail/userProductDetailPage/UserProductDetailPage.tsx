@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -95,9 +95,9 @@ function UserProductDetailPage({
     addNotify({
       component: 'SessionModal',
       id: 'PRODUCT_USER_DELETE_MODAL',
-      title: t('userDetail.actions.deleteUserModal.title'),
+      title: t('userDetail.actions.deleteProductUserModal.title'),
       message: (
-        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
+        <Trans i18nKey="userDetail.actions.deleteProductUserModal.message">
           {'Stai per eliminare '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
@@ -107,8 +107,8 @@ function UserProductDetailPage({
           {'Vuoi continuare?'}
         </Trans>
       ),
-      confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
-      closeLabel: t('userDetail.actions.deleteUserModal.closeButton'),
+      confirmLabel: t('userDetail.actions.deleteProductUserModal.confirmButton'),
+      closeLabel: t('userDetail.actions.deleteProductUserModal.closeButton'),
       onConfirm: onDelete,
     });
   };
@@ -145,87 +145,104 @@ function UserProductDetailPage({
   const isProductDetailPage = true;
 
   return userProduct ? (
-    <Grid
-      container
-      alignItems={'center'}
-      px={2}
-      mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
-    >
-      <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
-      </Grid>
-      <Grid item xs={12} mb={7}>
-        <Typography variant="h4">{t('userDetail.title')}</Typography>
-      </Grid>
-      <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
-        <Grid container item>
-          <Grid item xs={12}>
-            <UserDetail
-              productsMap={productsMap}
+    <div style={{ width: '100%' }}>
+      <Grid
+        item
+        xs={8}
+        container
+        alignItems={'center'}
+        px={2}
+        mt={3}
+        sx={{ backgroundColor: 'transparent !important' }}
+      >
+        <Grid item xs={12} mb={3}>
+          <ProductNavigationBar paths={paths} selectedProduct={selectedProduct} />
+        </Grid>
+        <Grid container item mb={4}>
+          <Grid item xs={10}>
+            <Typography variant="h4">{t('userDetail.title')}</Typography>
+          </Grid>
+          {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+              <Button
+                disabled={partyUser.status === 'SUSPENDED'}
+                disableRipple
+                variant="outlined"
+                sx={{ height: '40px' }}
+                onClick={goEdit}
+              >
+                {t('userDetail.editButton')}
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+        <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
+          <Grid container item sx={{ backgroundColor: 'background.paper', padding: 3 }}>
+            <Grid item xs={12}>
+              <UserDetail
+                productsMap={productsMap}
+                // party={party}
+                userInfo={partyUser}
+                roleSection={<></>}
+                goEdit={goEdit}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid item xs={10} mb={4}>
+            <UserProductRoles
+              showActions={true}
               party={party}
-              userInfo={partyUser}
-              roleSection={<></>}
-              goEdit={goEdit}
+              user={partyUser}
+              fetchPartyUser={fetchPartyUser}
+              userProduct={userProduct}
+              product={selectedProduct}
+              productRolesList={productRolesList}
+              canEdit={canEdit}
+              isProductDetailPage={isProductDetailPage}
+            />
+          </Grid>
+          <Grid container item xs={10} mt={3}>
+            <UserProductGroups
+              party={party}
+              user={partyUser}
+              product={selectedProduct}
+              canEdit={canEdit}
             />
           </Grid>
         </Grid>
-        <Grid item xs={11} my={5}>
-          <Divider />
-        </Grid>
-        <Grid item xs={10}>
-          <UserProductRoles
-            showActions={true}
-            party={party}
-            user={partyUser}
-            fetchPartyUser={fetchPartyUser}
-            userProduct={userProduct}
-            product={selectedProduct}
-            productRolesList={productRolesList}
-            canEdit={canEdit}
-            isProductDetailPage={isProductDetailPage}
-          />
-        </Grid>
-        <Grid container item xs={10} mt={3}>
-          <UserProductGroups
-            party={party}
-            user={partyUser}
-            product={selectedProduct}
-            canEdit={canEdit}
-          />
-        </Grid>
-      </Grid>
-      <Grid container item my={10} spacing={2}>
-        <Grid item xs={2}>
-          <Button
-            disableRipple
-            variant="outlined"
-            sx={{ height: '40px', width: '100%' }}
-            onClick={goBack}
-          >
-            {t('userDetail.backButton')}
-          </Button>
-        </Grid>
-        {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
+        <Grid container item my={10} spacing={2}>
           <Grid item xs={2}>
             <Button
               disableRipple
               variant="outlined"
-              sx={{
-                height: '40px',
-                width: '100%',
-                color: '#C02927',
-                borderColor: '#C02927',
-                '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
-              }}
-              onClick={handleOpenDelete}
+              sx={{ height: '40px', width: '100%' }}
+              onClick={goBack}
             >
-              {t('userDetail.deleteUserButton')}
+              {t('userDetail.backButton')}
             </Button>
           </Grid>
-        )}
+          {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
+            <Grid item xs={2}>
+              <Button
+                disableRipple
+                variant="outlined"
+                sx={{
+                  height: '40px',
+                  width: '100%',
+                  color: '#C02927',
+                  borderColor: '#C02927',
+                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
+                }}
+                onClick={handleOpenDelete}
+              >
+                {t('userDetail.deleteButton')}
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   ) : (
     <></>
   );

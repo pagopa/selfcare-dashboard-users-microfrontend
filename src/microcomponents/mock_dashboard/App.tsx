@@ -70,7 +70,9 @@ const App = ({
   const productsRolesMap = party
     ? products?.reduce((acc: ProductsRolesMap, p: Product) => {
         // eslint-disable-next-line functional/immutable-data
-        acc[p.id] = productRoles2ProductRolesList(mockedProductRoles);
+        acc[p.id] = productRoles2ProductRolesList(
+          mockedProductRoles.map((r) => ({ ...r, productId: p.id }))
+        );
         return acc;
       }, {} as ProductsRolesMap)
     : undefined;
