@@ -35,7 +35,7 @@ test('Test: go to users Page', async () => {
   const { history } = await renderApp();
   const backButton = screen.getByRole('button', { name: 'Indietro' });
   fireEvent.click(backButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
+  await waitFor(() => expect(history.location.pathname).toBe('/'));
 });
 
 test('Test: go to assign new role from CTA', async () => {
@@ -87,7 +87,7 @@ test('Test: delete a user', async () => {
   screen.getAllByText('Rimuovi ruolo')[1];
   const confirmButton = screen.getByRole('button', { name: 'Rimuovi' });
   fireEvent.click(confirmButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
+  await waitFor(() => expect(history.location.pathname).toBe('/'));
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
