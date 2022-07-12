@@ -306,50 +306,92 @@ export default function AddUserForm({
       .finally(() => setLoadingSaveUser(false));
   };
 
+  const addOneRoleModal = (values: PartyUserOnCreation) => {
+    addNotify({
+      component: 'SessionModal',
+      id: 'ONE_ROLE_USER',
+      title: t('userEdit.addForm.addOneRoleModal.title'),
+      message: (
+        <Trans i18nKey="userEdit.addForm.addOneRoleModal.message">
+          {'Vuoi assegnare a '}
+          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
+          {'il ruolo di '}
+          <strong>
+            {{
+              role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+            }}
+          </strong>
+          {' sul prodotto '}
+          <strong>{{ productTitle: `${userProduct?.title}` }}</strong>
+          {'?'}
+          {
+            <>
+              <br></br>
+              <br></br>
+            </>
+          }
+        </Trans>
+      ),
+      onConfirm: () =>
+        save({
+          ...values,
+          taxCode: values.taxCode.toUpperCase(),
+          email: values.email.toLowerCase(),
+        }),
+      confirmLabel: t('userEdit.addForm.addOneRoleModal.confirmButton'),
+      closeLabel: t('userEdit.addForm.addOneRoleModal.closeButton'),
+    });
+  };
+
+  const addMultiRoleModal = (values: PartyUserOnCreation) => {
+    addNotify({
+      component: 'SessionModal',
+      id: 'MULTI_ROLE_USER',
+      title: t('userEdit.addForm.addMultiRoleModal.title'),
+      message: (
+        <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
+          {'Stai per assegnare a '}
+          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
+          {`i ruoli `}
+          <strong>
+            {{
+              roles: `${values.productRoles
+                .map((r) => productRoles?.groupByProductRole[r].title)
+                .join(', ')}`,
+            }}
+          </strong>
+          {' sul prodotto '}
+          <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
+          {
+            <>
+              <br></br>
+              <br></br>
+            </>
+          }
+          {' Confermi di voler continuare?'}
+          {<br></br>}
+        </Trans>
+      ),
+      // eslint-disable-next-line sonarjs/no-identical-functions
+      onConfirm: () =>
+        save({
+          ...values,
+          taxCode: values.taxCode.toUpperCase(),
+          email: values.email.toLowerCase(),
+        }),
+      confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),
+      closeLabel: t('userEdit.addForm.addMultiRoleModal.closeButton'),
+    });
+  };
+
   const formik = useFormik<PartyUserOnCreation>({
     initialValues: initialFormData,
     validate,
     onSubmit: (values) => {
       if (values.productRoles.length >= 2) {
-        addNotify({
-          component: 'SessionModal',
-          id: 'MULTI_ROLE_USER',
-          title: t('userEdit.addForm.addMultiRoleModal.title'),
-          message: (
-            <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
-              {'Stai per assegnare a '}
-              <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
-              {`i ruoli `}
-              <strong>
-                {{
-                  roles: `${values.productRoles
-                    .map((r) => productRoles?.groupByProductRole[r].title)
-                    .join(', ')}`,
-                }}
-              </strong>
-              {' sul prodotto '}
-              <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
-              {
-                <>
-                  <br></br>
-                  <br></br>
-                </>
-              }
-              {' Confermi di voler continuare?'}
-              {<br></br>}
-            </Trans>
-          ),
-          onConfirm: () =>
-            save({
-              ...values,
-              taxCode: values.taxCode.toUpperCase(),
-              email: values.email.toLowerCase(),
-            }),
-          confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),
-          closeLabel: t('userEdit.addForm.addMultiRoleModal.closeButton'),
-        });
+        addMultiRoleModal(values);
       } else {
-        save(values);
+        addOneRoleModal(values);
       }
     },
   });
