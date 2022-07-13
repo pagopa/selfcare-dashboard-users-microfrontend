@@ -120,13 +120,9 @@ function UserDetailPage({
               product: product.title,
             }}
           </strong>
-          {' il profilo dell’utente verrà eliminato '}
-          <br />
-          {' dall’Area Riservata, poiché non è presente in altri prodotti.'}
-          <br />
-          {' Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i'}
-          <br />
-          {' suoi dati anagrafici.'}
+          {
+            ' il profilo dell’utente verrà eliminato dall’Area Riservata, poiché non è presente in altri prodotti. Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i suoi dati anagrafici.'
+          }
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
