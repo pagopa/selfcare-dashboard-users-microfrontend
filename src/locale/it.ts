@@ -206,6 +206,13 @@ export default {
         confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
+      addOneRoleModal: {
+        title: 'Assegna ruolo',
+        message:
+          'Vuoi assegnare a <1>{{user}}</1> il ruolo di <3>{{role}}</3> per <5>{{productTitle}}</5>?<7><8></8><9></9></7>',
+        confirmButton: 'Assegna',
+        closeButton: 'Annulla',
+      },
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
