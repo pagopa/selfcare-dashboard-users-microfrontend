@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from '../../../redux/store';
 import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
@@ -88,17 +89,34 @@ test('test with fields that respect rules, so enabled button', async () => {
   await waitFor(() => expect(button).toBeEnabled());
   await waitFor(() => fireEvent.click(button));
 
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/dashboard/1/prod-io/users/newUserId')
-  );
-  await waitFor(() => screen.getByText('Test Completato'));
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
   expect(notifies[0]).toMatchObject({
-    component: 'Toast',
-    title: 'Ruolo assegnato correttamente',
-    message: '',
+    component: 'SessionModal',
+    title: 'Assegna ruolo',
+    message: (
+      <Trans i18nKey="userEdit.addForm.addOneRoleModal.message">
+        {'Vuoi assegnare a '}
+        <strong>{{ user: 'franco rossi ' }}</strong>
+        {'il ruolo di '}
+        <strong>
+          {{
+            role: 'Incaricato Ente Creditore',
+          }}
+        </strong>
+        {' sul prodotto '}
+        <strong>{{ productTitle: 'App IO' }}</strong>
+        {'?'}
+        {
+          <>
+            <br></br>
+            <br></br>
+          </>
+        }
+      </Trans>
+    ),
   });
+  await waitFor(() => fireEvent.click(button));
 });
 
 test('test with taxCode field that respect rules, so all field are enabled', async () => {
