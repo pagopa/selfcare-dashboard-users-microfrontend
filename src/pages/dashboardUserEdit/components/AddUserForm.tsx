@@ -41,6 +41,7 @@ import { Product } from '../../../model/Product';
 import { PartyUserOnCreation } from '../../../model/PartyUser';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { UserRegistry } from '../../../model/UserRegistry';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -172,46 +173,48 @@ export default function AddUserForm({
         )
       ));
 
+  const errorNotify = (errors: any, taxCode: string) =>
+    addError({
+      id: 'FETCH_TAX_CODE',
+      blocking: false,
+      error: errors,
+      techDescription: `An error occurred while fetching Tax Code of Product ${taxCode}`,
+      toNotify: true,
+    });
+
+  const buildFormValues = (userRegistry: UserRegistry | null) => {
+    void formik.setValues({
+      ...formik.values,
+      name:
+        userRegistry?.name ??
+        (formik.values.certifiedName ? initialFormData.name : formik.values.name),
+      surname:
+        userRegistry?.surname ??
+        (formik.values.certifiedSurname ? initialFormData.surname : formik.values.surname),
+      email:
+        userRegistry?.email ??
+        (formik.values.certifiedName || formik.values.certifiedSurname
+          ? initialFormData.email
+          : formik.values.email),
+      confirmEmail: '',
+      certifiedName:
+        userRegistry?.certifiedName ??
+        (formik.values.certifiedName ? initialFormData.certifiedName : formik.values.certifiedName),
+      certifiedSurname:
+        userRegistry?.certifiedSurname ??
+        (formik.values.certifiedSurname
+          ? initialFormData.certifiedSurname
+          : formik.values.certifiedSurname),
+    });
+  };
+
   const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
     fetchUserRegistryByFiscalCode(taxCode.toUpperCase(), partyId)
       .then((userRegistry) => {
-        void formik.setValues(
-          {
-            ...formik.values,
-            name:
-              userRegistry?.name ??
-              (formik.values.certifiedName ? initialFormData.name : formik.values.name),
-            surname:
-              userRegistry?.surname ??
-              (formik.values.certifiedSurname ? initialFormData.surname : formik.values.surname),
-            email:
-              userRegistry?.email ??
-              (formik.values.certifiedMail ? initialFormData.email : formik.values.email),
-            confirmEmail: '',
-            certifiedName:
-              userRegistry?.certifiedName ??
-              (formik.values.certifiedName
-                ? initialFormData.certifiedName
-                : formik.values.certifiedName),
-            certifiedSurname:
-              userRegistry?.certifiedSurname ??
-              (formik.values.certifiedSurname
-                ? initialFormData.certifiedSurname
-                : formik.values.certifiedSurname),
-          },
-          true
-        );
+        buildFormValues(userRegistry);
       })
-      .catch((errors) =>
-        addError({
-          id: 'FETCH_TAX_CODE',
-          blocking: false,
-          error: errors,
-          techDescription: `An error occurred while fetching Tax Code of Product ${taxCode}`,
-          toNotify: true,
-        })
-      )
+      .catch((errors) => errorNotify(errors, taxCode))
       .finally(() => setLoadingFetchTaxCode(false));
   };
 
