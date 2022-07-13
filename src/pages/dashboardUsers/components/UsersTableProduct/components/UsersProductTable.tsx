@@ -12,7 +12,7 @@ import { buildColumnDefs } from './UserProductTableColumns';
 import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
 
-const rowHeight = 81;
+const rowHeight = 64;
 const headerHeight = 56;
 
 interface UsersTableProps {
@@ -23,7 +23,6 @@ interface UsersTableProps {
   users: Array<PartyProductUser>;
   product: Product;
   productRolesLists: ProductRolesLists;
-  canEdit: boolean;
   fetchPage: (page?: number, size?: number, refetch?: boolean) => void;
   page: Page;
   sort?: string;
@@ -55,13 +54,14 @@ const CustomDataGrid = styled(DataGrid)({
   '.MuiDataGrid-cell ': { padding: '0px', borderBottom: 'none' },
   '.MuiDataGrid-columnHeaders': { borderBottom: 'none' },
   '.MuiDataGrid-row': {
-    borderBottom: '1px solid #CCD4DC',
+    backgroundColor: 'white',
+    marginBottom: '-1px',
     '&.Mui-selected': {
       backgroundColor: 'transparent',
       '&:hover': { backgroundColor: 'transparent' },
     },
     '&:hover': {
-      backgroundColor: 'transparent',
+      backgroundColor: 'rgba(23, 50, 77, 0.04)',
     },
   },
   '.justifyContentNormal': {
@@ -98,27 +98,20 @@ export default function UsersProductTable({
   loading,
   fetchPage,
   noMoreData,
-  party,
   product,
   productRolesLists,
-  canEdit,
   users,
   page,
   sort,
   onSortRequest,
   onRowClick,
-  onDelete,
-  onStatusUpdate,
 }: UsersTableProps) {
   const sortSplitted = sort && sort !== '' ? sort.split(',') : undefined;
 
   const columns: Array<GridColDef> = buildColumnDefs(
-    canEdit,
-    party,
     product,
     onRowClick,
-    onDelete,
-    onStatusUpdate,
+
     productRolesLists
   );
 

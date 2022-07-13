@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+// import { Grid } from '@mui/material';
 import { Product } from '../../../../model/Product';
 import { ProductRole, ProductsRolesMap } from '../../../../model/ProductRole';
 import UsersTableRolesFilter from './UsersTableRolesFilter';
@@ -17,6 +17,7 @@ interface UsersSearchFilterProps {
   onFiltersChange: (f: UsersTableFiltersConfig) => void;
   productsRolesMap: ProductsRolesMap;
   showSelcRoleGrouped: boolean;
+  loading: boolean;
 }
 
 export default function UsersTableFilters({
@@ -25,21 +26,21 @@ export default function UsersTableFilters({
   productsRolesMap,
   disableFilters,
   showSelcRoleGrouped,
+  loading,
 }: UsersSearchFilterProps) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
   );
 
   return (
-    <Grid container direction="row" alignItems={'center'} columnSpacing={2}>
-      <UsersTableRolesFilter
-        disableFilters={disableFilters}
-        productRolesSelected={filters.productRoles}
-        productRolesList={productRolesList}
-        onFiltersChange={onFiltersChange}
-        filters={filters}
-        showSelcRoleGrouped={showSelcRoleGrouped}
-      />
-    </Grid>
+    <UsersTableRolesFilter
+      disableFilters={disableFilters}
+      productRolesSelected={filters.productRoles}
+      productRolesList={productRolesList}
+      onFiltersChange={onFiltersChange}
+      filters={filters}
+      showSelcRoleGrouped={showSelcRoleGrouped}
+      loading={loading}
+    />
   );
 }

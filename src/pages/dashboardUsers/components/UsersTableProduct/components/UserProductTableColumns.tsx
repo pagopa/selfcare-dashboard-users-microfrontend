@@ -1,4 +1,4 @@
-import { Chip, Typography, Grid, Tooltip } from '@mui/material';
+import { Chip, Typography, Grid, IconButton, Box } from '@mui/material';
 import {
   GridColDef,
   GridColumnHeaderParams,
@@ -6,21 +6,17 @@ import {
   GridValueGetterParams,
 } from '@mui/x-data-grid';
 import React, { CSSProperties, ReactNode } from 'react';
-import { InfoOutlined } from '@mui/icons-material';
 import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
-import { PartyProductUser, PartyUserProduct } from '../../../../../model/PartyUser';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { PartyProductUser } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
-import { Party, UserStatus } from '../../../../../model/Party';
+
 import { Product } from '../../../../../model/Product';
-import UserProductRowActions from './UserProductRowActions';
 
 export function buildColumnDefs(
-  canEdit: boolean,
-  party: Party,
   _product: Product,
   onRowClick: (partyUser: PartyProductUser) => void,
-  onDelete: (user: PartyProductUser) => void,
-  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void,
+
   productRolesLists: ProductRolesLists
 ) {
   return [
@@ -37,6 +33,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => showName(params, false, onRowClick),
       sortable: false,
+      flex: 4,
     },
     {
       field: 'email',
@@ -50,6 +47,7 @@ export function buildColumnDefs(
       renderHeader: showCustmHeader,
       renderCell: (params) => renderCell(params, undefined, onRowClick),
       sortable: false,
+      flex: 4,
     },
     {
       field: 'userRole',
@@ -63,6 +61,7 @@ export function buildColumnDefs(
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
+      flex: 4,
     },
     {
       field: 'status',
@@ -75,6 +74,7 @@ export function buildColumnDefs(
       editable: false,
       renderCell: (params) => showStatus(params, onRowClick),
       sortable: false,
+      flex: 1,
     },
     {
       field: 'azioni',
@@ -85,11 +85,9 @@ export function buildColumnDefs(
       hideSortIcons: true,
       disableColumnMenu: true,
       editable: false,
-      renderCell: (p) =>
-        canEdit
-          ? showActions(party, p, productRolesLists, onDelete, onStatusUpdate)
-          : renderCell(p, '', onRowClick),
+      renderCell: (p) => showActions(p, onRowClick),
       sortable: false,
+      flex: 1,
     },
   ] as Array<GridColDef>;
 }
@@ -100,10 +98,10 @@ function renderCell(
   onRowClick?: (partyUser: PartyProductUser) => void,
   overrideStyle: CSSProperties = {}
 ) {
+  const isSuspended = isUserSuspended(params.row as PartyProductUser);
   return (
     <div
       style={{
-        backgroundColor: 'white',
         width: '100%',
         height: '100%',
         paddingRight: '24px',
@@ -111,28 +109,28 @@ function renderCell(
         paddingTop: '-16px',
         paddingBottom: '-16px',
         marginTop: '16px',
-        // marginBottom:'16px',
         borderBottom: '1px solid #CCD4DC',
         cursor: 'pointer',
         ...overrideStyle,
       }}
       onClick={onRowClick ? () => onRowClick(params.row) : undefined}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           display: '-webkit-box',
-          WebkitLineClamp: 3,
+          WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical' as const,
           paddingBottom: '8px',
           width: '100%',
-          color: params.row.status === 'SUSPENDED' ? '#9E9E9E' : undefined,
+          color:
+            isSuspended || params.row.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
           fontSize: '14px',
         }}
       >
         {value}
-      </div>
+      </Box>
     </div>
   );
 }
@@ -165,6 +163,7 @@ function showName(
 ) {
   const isSuspended = isUserSuspended(params.row as PartyProductUser);
   const showChip = canShowChip && isSuspended;
+
   return (
     <React.Fragment>
       {renderCell(
@@ -174,13 +173,17 @@ function showName(
             <Grid item xs={showChip ? 7 : 12} sx={{ width: '100%' }}>
               <Typography
                 variant="body2"
-                color={isSuspended ? '#9E9E9E' : undefined}
-                sx={{ fontWeight: 'fontWeightBold' }}
+                color="primary.main"
+                sx={{
+                  fontWeight: 'fontWeightBold',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical' as const,
+                }}
               >
-                {params.row.surname}
-              </Typography>
-              <Typography variant="body2" color={isSuspended ? '#9E9E9E' : undefined}>
-                {params.row.isCurrentUser ? '(tu)' : ''}
+                {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
               </Typography>
             </Grid>
             {showChip && (
@@ -207,11 +210,12 @@ function TableChip({ text }: { text: string }) {
       aria-label={'Suspended'}
       sx={{
         fontSize: '14px',
-        fontWeight: '600',
-        color: '#17324D',
-        backgroundColor: '#E0E0E0',
+        fontWeight: 'fontWeightMedium',
+        color: 'colorTextPrimary',
+        backgroundColor: 'warning.light',
         paddingBottom: '1px',
         height: '24px',
+        cursor: 'pointer',
       }}
     />
   );
@@ -234,8 +238,11 @@ function showRoles(
             ) => (
               <Grid item key={r.relationshipId}>
                 <Typography
-                  color={isSuspended || r.status === 'SUSPENDED' ? '#9E9E9E' : undefined}
-                  sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', outline: 'none' }}
+                  variant="caption"
+                  color={
+                    isSuspended || r.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary'
+                  }
+                  sx={{ outline: 'none' }}
                 >
                   {productRolesLists.groupByProductRole[r.role]
                     ? productRolesLists.groupByProductRole[r.role].title
@@ -264,33 +271,26 @@ function showStatus(
 }
 
 function showActions(
-  party: Party,
-  users: GridRenderCellParams<PartyProductUser>,
-  productRolesLists: ProductRolesLists,
-  onDelete: (user: PartyProductUser) => void,
-  onStatusUpdate: (user: PartyProductUser, nextStatus: UserStatus) => void
+  p: GridRenderCellParams<PartyProductUser>,
+  onRowClick: (partyUser: PartyProductUser) => void
 ) {
-  const row = users.row as PartyProductUser;
-  const userProduct = row.product as PartyUserProduct;
   return renderCell(
-    users,
-    row.isCurrentUser || (userProduct?.roles?.length ?? 2) > 1 ? (
-      <Tooltip
-        aria-label={'InfoAction'}
-        title={i18n.t('usersTable.rowActions.toolTipInfo') as string}
+    p,
+    <Box width="100%">
+      <IconButton
+        onClick={onRowClick ? () => onRowClick(p.row) : undefined}
+        sx={{
+          '&:hover': { backgroundColor: 'transparent' },
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          pr: 4,
+          cursor: 'pointer',
+        }}
       >
-        <InfoOutlined sx={{ color: '#5C6F82', paddingTop: 1, boxSizing: 'unset' }} />
-      </Tooltip>
-    ) : (
-      <UserProductRowActions
-        party={party}
-        partyUser={row}
-        partyUserProduct={userProduct}
-        productRolesList={productRolesLists}
-        onDelete={onDelete}
-        onStatusUpdate={onStatusUpdate}
-      />
-    ),
+        <ArrowForwardIosIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
+      </IconButton>
+    </Box>,
     undefined,
     { paddingLeft: 0, paddingRight: 0, textAlign: 'center' }
   );

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
+import { PeopleAlt } from '@mui/icons-material';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import withUserRegistry, { withUserRegistryProps } from '../../decorators/withUserRegistry';
@@ -14,13 +15,18 @@ function EditUserRegistryPage({ party, user }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const goBack = () =>
+  const goBack = () => {
+    history.goBack();
+    /*
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
         userId: user.id,
         partyId: party.partyId,
       })
     );
+    */
+  };
+
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
@@ -30,6 +36,7 @@ function EditUserRegistryPage({ party, user }: Props) {
             partyId: party.partyId,
           })
         ),
+      icon: PeopleAlt,
     },
     {
       description: `${user.name} ${user.surname}`,
@@ -44,36 +51,43 @@ function EditUserRegistryPage({ party, user }: Props) {
     <Grid
       container
       alignItems={'center'}
-      px={2}
-      mt={10}
-      sx={{ width: '985px', backgroundColor: 'transparent !important' }}
+      px={3}
+      mt={3}
+      sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid item xs={12} mb={3}>
-        <ProductNavigationBar paths={paths} />
-      </Grid>
-      <Grid item xs={12} mb={9}>
-        <TitleBox variantTitle="h4" title={t('userEdit.editRegistryForm.title')} />
-      </Grid>
-      <Grid item xs={12}>
-        {user ? (
-          <EditUserRegistryForm
-            party={party}
-            user={{
-              id: user.id,
-              taxCode: user.taxCode,
-              name: user.name,
-              surname: user.surname,
-              email: user.email,
-              certifiedName: user.certifiedName,
-              certifiedSurname: user.certifiedSurname,
-              certifiedMail: user.certifiedMail,
-              confirmEmail: '',
-            }}
-            goBack={goBack}
+      <Grid container item xs={8}>
+        <Grid item xs={12} mb={2}>
+          <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
+        </Grid>
+        <Grid item xs={12}>
+          <TitleBox
+            variantTitle="h4"
+            variantSubTitle="body1"
+            title={t('userEdit.editRegistryForm.title')}
+            mbTitle={5}
           />
-        ) : (
-          t('userEdit.editRegistryForm.errors.userNotFind')
-        )}
+        </Grid>
+        <Grid item xs={12}>
+          {user ? (
+            <EditUserRegistryForm
+              party={party}
+              user={{
+                id: user.id,
+                taxCode: user.taxCode,
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                certifiedName: user.certifiedName,
+                certifiedSurname: user.certifiedSurname,
+                certifiedMail: user.certifiedMail,
+                confirmEmail: '',
+              }}
+              goBack={goBack}
+            />
+          ) : (
+            t('userEdit.editRegistryForm.errors.userNotFind')
+          )}
+        </Grid>
       </Grid>
     </Grid>
   );
