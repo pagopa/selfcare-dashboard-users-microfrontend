@@ -105,7 +105,7 @@ function UserDetailPage({
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
-          {'dal ruolo di'}
+          {' dal ruolo di '}
           <strong>
             {{
               role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
@@ -114,7 +114,7 @@ function UserDetailPage({
           {'?'}
           <br />
           <br />
-          {'Se lo rimuovi da'}
+          {'Se lo rimuovi da '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{
               product: product.title,
