@@ -4,6 +4,8 @@ import '../../../locale';
 import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
 
+jest.setTimeout(6000);
+
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
