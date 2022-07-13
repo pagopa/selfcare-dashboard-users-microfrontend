@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { fetchUserGroups } from '../../../services/usersService';
 import { checkSuspendedUser, PartyUserDetail } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
 
 type Props = {
   user: PartyUserDetail;
@@ -23,6 +26,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
   const addError = useErrorDispatcher();
   const theme = useTheme();
   const isUserSuspended = checkSuspendedUser(user);
+  const history = useHistory();
 
   useEffect(() => {
     if (canEdit) {
@@ -57,6 +61,14 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
             <Grid item xs={9}>
               {userGroups?.map((g) => (
                 <Chip
+                  onClick={() =>
+                    history.push(
+                      resolvePathVariables(ENV.ROUTES.GROUP_DETAIL, {
+                        partyId: party.partyId,
+                        groupId: g.id,
+                      })
+                    )
+                  }
                   label={g.name}
                   key={g.id}
                   sx={{
@@ -66,6 +78,7 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
                     mb: 1,
                     backgroundColor: '#F5F5F5',
                     height: '22px',
+                    cursor: 'pointer',
                   }}
                 />
               ))}
