@@ -15,9 +15,8 @@ function EditUserRegistryPage({ party, user }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const goBack = () => {
-    history.goBack();
-    /*
+  const goBack = () => history.goBack();
+  /*
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
         userId: user.id,
@@ -25,7 +24,6 @@ function EditUserRegistryPage({ party, user }: Props) {
       })
     );
     */
-  };
 
   const paths = [
     {
@@ -40,7 +38,16 @@ function EditUserRegistryPage({ party, user }: Props) {
     },
     {
       description: `${user.name} ${user.surname}`,
-      onClick: goBack,
+      onClick: () =>
+        history.push(
+          resolvePathVariables(
+            DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+            {
+              partyId: party.partyId,
+              userId: user.id,
+            }
+          )
+        ),
     },
     {
       description: t('userPagesPath.editUser'),
