@@ -194,7 +194,7 @@ export default function AddUserForm({
         (formik.values.certifiedSurname ? initialFormData.surname : formik.values.surname),
       email:
         userRegistry?.email ??
-        (formik.values.certifiedName && formik.values.certifiedSurname
+        (formik.values.certifiedName || formik.values.certifiedSurname
           ? initialFormData.email
           : formik.values.email),
       confirmEmail: '',
