@@ -17,9 +17,8 @@ type Props = {
   user: PartyUserDetail;
   party: Party;
   product: Product;
-  canEdit: boolean;
 };
-export default function UserProductGroups({ user, party, product, canEdit }: Props) {
+export default function UserProductGroups({ user, party, product }: Props) {
   const { t } = useTranslation();
   const [userGroups, setUserGroups] = useState<Array<PartyGroup>>([]);
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
@@ -29,29 +28,27 @@ export default function UserProductGroups({ user, party, product, canEdit }: Pro
   const history = useHistory();
 
   useEffect(() => {
-    if (canEdit) {
-      setLoading(true);
-      fetchUserGroups(user.id, party, product)
-        .then((groups) => {
-          setUserGroups(groups);
+    setLoading(true);
+    fetchUserGroups(user.id, party, product)
+      .then((groups) => {
+        setUserGroups(groups);
+      })
+      .catch((reason) =>
+        addError({
+          id: `FETCH_USER_GROUPS_ERROR-${user.id}`,
+          blocking: false,
+          error: reason,
+          techDescription: `Something gone wrong while fetching user groups for product ${product.title}`,
+          toNotify: true,
         })
-        .catch((reason) =>
-          addError({
-            id: `FETCH_USER_GROUPS_ERROR-${user.id}`,
-            blocking: false,
-            error: reason,
-            techDescription: `Something gone wrong while fetching user groups for product ${product.title}`,
-            toNotify: true,
-          })
-        )
-        .finally(() => setLoading(false));
-    }
-  }, [user.id, party, product, canEdit]);
+      )
+      .finally(() => setLoading(false));
+  }, [user.id, party, product]);
 
   return (
     userGroups && (
       <>
-        {userGroups.length > 0 && canEdit && (
+        {userGroups.length > 0 && (
           <Grid container item xs={12} mt={3}>
             <Grid item xs={3}>
               <Typography className="CustomLabelStyle" variant="h6">

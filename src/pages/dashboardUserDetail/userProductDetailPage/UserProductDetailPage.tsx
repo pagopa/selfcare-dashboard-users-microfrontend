@@ -203,12 +203,7 @@ function UserProductDetailPage({
             />
           </Grid>
           <Grid container item xs={10} mt={3}>
-            <UserProductGroups
-              party={party}
-              user={partyUser}
-              product={selectedProduct}
-              canEdit={canEdit}
-            />
+            <UserProductGroups party={party} user={partyUser} product={selectedProduct} />
           </Grid>
         </Grid>
         <Grid container item my={10} spacing={2}>
