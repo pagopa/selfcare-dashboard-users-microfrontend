@@ -290,7 +290,7 @@ export default function UserProductActions({
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
             <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
               <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
-                <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error' }}>
+                <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
                   {t('userDetail.actions.deleteButton')}
                 </Typography>
               </Link>
