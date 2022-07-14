@@ -1,4 +1,4 @@
-import { Button, Grid, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
@@ -190,16 +190,23 @@ function UserDetailPage({
             </Tooltip>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
-              <Button
-                disabled={partyUser.status === 'SUSPENDED'}
-                disableRipple
-                variant="outlined"
-                sx={{ height: '40px' }}
-                onClick={goEdit}
+            <Grid item xs={2}>
+              <Stack
+                direction="row"
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="flex-start"
               >
-                {t('userDetail.editButton')}
-              </Button>
+                <Button
+                  disabled={partyUser.status === 'SUSPENDED'}
+                  disableRipple
+                  variant="outlined"
+                  sx={{ height: '40px' }}
+                  onClick={goEdit}
+                >
+                  {t('userDetail.editButton')}
+                </Button>
+              </Stack>
             </Grid>
           )}
         </Grid>
