@@ -104,7 +104,7 @@ export default function UserProductDetail({
           )}
         </Grid>
       </Grid>
-      <Grid item xs={12} my={3}>
+      <Grid item xs={12} mt={3}>
         <Divider sx={{ borderColor: 'background.default' }} />
       </Grid>
       <Grid item xs={12}>
