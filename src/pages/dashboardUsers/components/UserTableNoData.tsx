@@ -1,4 +1,4 @@
-import { Grid, Link, Typography } from '@mui/material';
+import { Box, Grid, Link, Typography } from '@mui/material';
 import { Trans } from 'react-i18next';
 import { ReactComponent as DissatisfiedIcon } from '../../../assets/dissatisfied-face.svg';
 
@@ -18,7 +18,9 @@ export default function UserTableNoData({ removeFilters }: Props) {
       }}
       justifyContent="center"
     >
-      <DissatisfiedIcon />
+      <Box mr={2}>
+        <DissatisfiedIcon />
+      </Box>
       <Typography>
         <Trans i18nKey="usersTable.filterRole.noDataFilter">
           {'I filtri che hai applicato non hanno dato nessun risultato. '}

@@ -105,7 +105,7 @@ function UserDetailPage({
           <strong style={{ textTransform: 'capitalize' }}>
             {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
           </strong>
-          {'dal ruolo di'}
+          {' dal ruolo di '}
           <strong>
             {{
               role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
@@ -114,19 +114,15 @@ function UserDetailPage({
           {'?'}
           <br />
           <br />
-          {'Se lo rimuovi da'}
+          {'Se lo rimuovi da '}
           <strong style={{ textTransform: 'capitalize' }}>
             {{
               product: product.title,
             }}
           </strong>
-          {' il profilo dell’utente verrà eliminato '}
-          <br />
-          {' dall’Area Riservata, poiché non è presente in altri prodotti.'}
-          <br />
-          {' Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i'}
-          <br />
-          {' suoi dati anagrafici.'}
+          {
+            ' il profilo dell’utente verrà eliminato dall’Area Riservata, poiché non è presente in altri prodotti. Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i suoi dati anagrafici.'
+          }
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
