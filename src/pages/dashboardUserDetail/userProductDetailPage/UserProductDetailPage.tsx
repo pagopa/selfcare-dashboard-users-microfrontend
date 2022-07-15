@@ -211,8 +211,8 @@ function UserProductDetailPage({
             />
           </Grid>
         </Grid>
-        <Grid container item my={10} spacing={2}>
-          <Stack direction="row">
+        <Stack direction="row" my={10} spacing={2}>
+          <Stack direction="row" display="flex" alignItems="flex-start">
             <Button
               disableRipple
               variant="outlined"
@@ -223,7 +223,7 @@ function UserProductDetailPage({
             </Button>
           </Stack>
           {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
-            <Stack direction="row">
+            <Stack direction="row" display="flex">
               <Button
                 disableRipple
                 variant="outlined"
@@ -238,7 +238,7 @@ function UserProductDetailPage({
               </Button>
             </Stack>
           )}
-        </Grid>
+        </Stack>
       </Grid>
     </div>
   ) : (
