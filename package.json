@@ -1,6 +1,6 @@
 {
   "name": "selfcare-dashboard-users-microfrontend",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "dependencies": {
     "@mui/icons-material": "^5.8.2",
