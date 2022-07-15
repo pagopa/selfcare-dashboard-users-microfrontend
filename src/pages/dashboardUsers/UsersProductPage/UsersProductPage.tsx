@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Stack } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
@@ -86,14 +86,16 @@ function UsersProductPage({
             subTitle={t('usersPage.vertical.subTitle')}
           />
         </Grid>
-        <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-end">
-          <Button
-            variant="contained"
-            sx={{ height: '40px', width: '163px' }}
-            onClick={() => onExit(() => history.push(addUserUrl))}
-          >
-            {t('usersTable.addButton')}
-          </Button>
+        <Grid item xs={3}>
+          <Stack direction="row" display="flex" justifyContent="flex-end" alignItems="flex-end">
+            <Button
+              variant="contained"
+              sx={{ height: '48px', width: '163px' }}
+              onClick={() => onExit(() => history.push(addUserUrl))}
+            >
+              {t('usersTable.addButton')}
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} sx={{ height: '100%' }} mt={5}>
           <Grid container direction="row" alignItems={'center'}>

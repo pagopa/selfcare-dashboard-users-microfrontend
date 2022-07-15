@@ -14,6 +14,7 @@ import {
   InputLabel,
   FormControl,
   OutlinedInput,
+  Stack,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
@@ -643,13 +644,13 @@ export default function AddUserForm({
           )}
         </Grid>
 
-        <Grid item container justifyContent="space-between" mt={5}>
-          <Grid item xs={3} display="flex" justifyContent="flex-start">
+        <Stack direction="row" justifyContent="space-between" mt={5}>
+          <Stack display="flex" justifyContent="flex-start">
             <Button color="primary" variant="outlined" onClick={() => onExit(goBackInner)}>
               {t('userEdit.addForm.backButton')}
             </Button>
-          </Grid>
-          <Grid item xs={3} display="flex" justifyContent="flex-end">
+          </Stack>
+          <Stack display="flex" justifyContent="flex-end">
             <Button
               disabled={!formik.dirty || !formik.isValid}
               color="primary"
@@ -658,8 +659,8 @@ export default function AddUserForm({
             >
               {t('userEdit.addForm.continueButton')}
             </Button>
-          </Grid>
-        </Grid>
+          </Stack>
+        </Stack>
       </form>
     </React.Fragment>
   );
