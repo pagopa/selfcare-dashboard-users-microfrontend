@@ -77,7 +77,8 @@ const UsersTableProduct = ({
       setNoMoreData(true);
     } else {
       const requestPage = incrementalLoad ? 0 : pageRequest?.page?.page ?? 0;
-      const requestPageSize = pageRequest?.page?.size ?? initialPageSize;
+      // TODO: const requestPageSize = pageRequest?.page?.size ?? initialPageSize;
+      const requestPageSize = initialPageSize;
       setUsers({
         content: [],
         page: { number: requestPage, size: requestPageSize, totalElements: 0, totalPages: 0 },
@@ -96,7 +97,7 @@ const UsersTableProduct = ({
     if (pageRequest) {
       fetchUsers();
     }
-  }, [pageRequest]);
+  }, [pageRequest, initialPageSize]);
 
   const fetchUsers = () => {
     onFetchStatusUpdate(true, users.content.length, error);
