@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
@@ -163,7 +163,7 @@ function UserProductDetailPage({
             <Typography variant="h4">{t('userDetail.title')}</Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2} display="flex" justifyContent="flex-end" alignItems="flex-start">
+            <Stack direction="row" display="flex" justifyContent="flex-end" alignItems="flex-start">
               <Button
                 disabled={partyUser.status === 'SUSPENDED'}
                 disableRipple
@@ -173,7 +173,7 @@ function UserProductDetailPage({
               >
                 {t('userDetail.editButton')}
               </Button>
-            </Grid>
+            </Stack>
           )}
         </Grid>
         <Grid sx={{ backgroundColor: 'background.paper', padding: 3 }}>
@@ -206,8 +206,8 @@ function UserProductDetailPage({
             <UserProductGroups party={party} user={partyUser} product={selectedProduct} />
           </Grid>
         </Grid>
-        <Grid container item my={10} spacing={2}>
-          <Grid item xs={2}>
+        <Stack direction="row" my={10} spacing={2}>
+          <Stack direction="row" display="flex" alignItems="flex-start">
             <Button
               disableRipple
               variant="outlined"
@@ -216,26 +216,24 @@ function UserProductDetailPage({
             >
               {t('userDetail.backButton')}
             </Button>
-          </Grid>
+          </Stack>
           {userProduct.roles.length === 1 && !partyUser.isCurrentUser && canEdit && (
-            <Grid item xs={2}>
+            <Stack direction="row" display="flex">
               <Button
                 disableRipple
                 variant="outlined"
+                color="error"
                 sx={{
                   height: '40px',
                   width: '100%',
-                  color: '#C02927',
-                  borderColor: '#C02927',
-                  '&:hover': { borderColor: '#C02927', backgroundColor: 'transparent' },
                 }}
                 onClick={handleOpenDelete}
               >
                 {t('userDetail.deleteButton')}
               </Button>
-            </Grid>
+            </Stack>
           )}
-        </Grid>
+        </Stack>
       </Grid>
     </div>
   ) : (
