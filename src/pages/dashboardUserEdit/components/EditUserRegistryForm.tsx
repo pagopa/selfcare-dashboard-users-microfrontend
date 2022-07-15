@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid, TextField, Button, styled } from '@mui/material';
+import { Grid, TextField, Button, styled, Stack } from '@mui/material';
 import { useFormik } from 'formik';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
@@ -228,13 +228,13 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           </Grid>
         </Grid>
 
-        <Grid item container justifyContent="space-between" mt={5}>
-          <Grid item xs={3} display="flex" justifyContent="flex-start">
+        <Stack direction="row" justifyContent="space-between" mt={5}>
+          <Stack display="flex" justifyContent="flex-start">
             <Button color="primary" variant="outlined" onClick={() => onExit(goBack)}>
               {t('userEdit.editRegistryForm.backButton')}
             </Button>
-          </Grid>
-          <Grid item xs={3} display="flex" justifyContent="flex-end">
+          </Stack>
+          <Stack display="flex" justifyContent="flex-end">
             <Button
               disabled={!formik.dirty || !formik.isValid}
               color="primary"
@@ -243,8 +243,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             >
               {t('userEdit.editRegistryForm.confirmButton')}
             </Button>
-          </Grid>
-        </Grid>
+          </Stack>
+        </Stack>
       </form>
     </React.Fragment>
   );
