@@ -72,6 +72,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => trackEvent('USER_LIST', { party_id: party.partyId }), [party]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [!selectedProductSection]);
+
   const setSelectedProductSection = (productId?: string) =>
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
@@ -159,14 +163,18 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               <Tab
                 label={t('usersTable.tabAll')}
                 value="all"
-                onClick={() => setSelectedProductSection(undefined)}
+                onClick={() => {
+                  setSelectedProductSection(undefined);
+                }}
               />
               {activeProducts.map((p) => (
                 <Tab
                   key={p.id}
                   label={p.title}
                   value={p.id}
-                  onClick={() => setSelectedProductSection(p.id)}
+                  onClick={() => {
+                    setSelectedProductSection(p.id);
+                  }}
                 />
               ))}
             </Tabs>
