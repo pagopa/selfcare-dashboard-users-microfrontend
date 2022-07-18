@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
@@ -41,29 +41,30 @@ export default function UserProductSection({
         products
           .filter((p) => p.userRole === 'ADMIN')
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
-          <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-start">
-            <Button
-              variant="contained"
-              sx={{
-                height: '40px',
-
-                fontSize: '14px',
-                fontWeight: 'fontWeightBold',
-              }}
-              onClick={() =>
-                history.push(
-                  resolvePathVariables(
-                    DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PRODUCT.path,
-                    {
-                      partyId: party.partyId,
-                      userId: partyUser.id,
-                    }
+          <Grid item xs={3}>
+            <Stack direction="row" display="flex" justifyContent="flex-end" alignItems="flex-start">
+              <Button
+                variant="contained"
+                sx={{
+                  height: '40px',
+                  fontSize: '14px',
+                  fontWeight: 'fontWeightBold',
+                }}
+                onClick={() =>
+                  history.push(
+                    resolvePathVariables(
+                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PRODUCT.path,
+                      {
+                        partyId: party.partyId,
+                        userId: partyUser.id,
+                      }
+                    )
                   )
-                )
-              }
-            >
-              {t('userDetail.productSection.addButton')}
-            </Button>
+                }
+              >
+                {t('userDetail.productSection.addButton')}
+              </Button>
+            </Stack>
           </Grid>
         )}
       {partyUser.products.map((userProduct) => {

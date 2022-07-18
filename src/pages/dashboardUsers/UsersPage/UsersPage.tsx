@@ -1,4 +1,4 @@
-import { Grid, Tab, Tabs, Button } from '@mui/material';
+import { Grid, Tab, Tabs, Button, Stack } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
@@ -119,14 +119,16 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             mbTitle={2}
           />
         </Grid>
-        <Grid item xs={3} display="flex" justifyContent="flex-end" alignItems="flex-end">
-          <Button
-            variant="contained"
-            sx={{ height: '40px', width: '163px' }}
-            onClick={() => onExit(() => history.push(addUserUrl))}
-          >
-            {t('usersTable.addButton')}
-          </Button>
+        <Grid item xs={3}>
+          <Stack mt={5} display="flex" justifyContent="flex-end" alignItems="flex-end">
+            <Button
+              variant="contained"
+              sx={{ height: '48px', width: '163px' }}
+              onClick={() => onExit(() => history.push(addUserUrl))}
+            >
+              {t('usersTable.addButton')}
+            </Button>
+          </Stack>
         </Grid>
         <Grid item xs={12} mt={5}>
           <UsersTableActions
