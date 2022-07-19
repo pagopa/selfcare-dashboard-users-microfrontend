@@ -65,7 +65,7 @@ variables:
     react_app_url_api_party_process: '$(PROD_REACT_APP_URL_API_PARTY_PROCESS)'
     react_app_url_api_dashboard: '$(PROD_REACT_APP_URL_API_DASHBOARD)'
 
-    react_app_enable_assistance: 'false'
+    react_app_enable_assistance: 'true'
 
     react_app_one_trust_base_url: '$(PROD_REACT_APP_URL_CDN)/ot'
     react_app_analytics_enabled: '$(PROD_ANALYTICS_ENABLED)'
