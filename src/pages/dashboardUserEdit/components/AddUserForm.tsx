@@ -540,8 +540,6 @@ export default function AddUserForm({
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
                   id="select-label-products"
-                  role="inputlabelproducts"
-                  data-testid="inputlabelproducts"
                   sx={{
                     color: !validTaxcode ? 'text.disabled' : '',
                     '& .MuiInputLabel-root.Mui-focused': {
@@ -556,8 +554,6 @@ export default function AddUserForm({
                 <Select
                   fullWidth
                   aria-label="user"
-                  data-testid="select-products"
-                  role={'listitem'}
                   name="products"
                   value={userProduct?.title ?? ''}
                   labelId="select-label-products"

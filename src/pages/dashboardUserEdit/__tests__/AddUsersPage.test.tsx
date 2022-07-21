@@ -18,6 +18,8 @@ import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mock
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
+jest.setTimeout(6000);
+
 const fieldsValue = {
   taxCode: 'AAAAAA11A11A234S',
   name: 'franco',
@@ -39,10 +41,9 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
             <AddUsersPage
               party={mockedParties[0]}
               activeProducts={mockedPartyProducts}
-              productsRolesMap={
-                productRoles2ProductRolesList(mockedProductRoles)
-                  .groupByPartyRole as unknown as ProductsRolesMap
-              }
+              productsRolesMap={{
+                [mockedPartyProducts[0].id]: productRoles2ProductRolesList(mockedProductRoles),
+              }}
             />
           </Route>
           <Route path="/dashboard/1/users/newUserId" exact={true}>
@@ -67,12 +68,12 @@ test('test with empty fields, so disabled button', async () => {
 test('test with fields that respect rules, so enabled button', async () => {
   const { store } = await renderApp();
 
-  const taxCode = document.querySelector('#taxCode');
-  const name = document.querySelector('#name');
-  const surname = document.querySelector('#surname');
-  const email = document.querySelector('#email');
-  const confirmEmail = document.querySelector('#confirmEmail');
-  const products = screen.getByTestId('select-products');
+  const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
+  const name = document.querySelector('#name') as HTMLInputElement;
+  const surname = document.querySelector('#surname') as HTMLInputElement;
+  const email = document.querySelector('#email') as HTMLInputElement;
+  const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
+  const products = screen.getByRole('button', { name: 'Seleziona il prodotto ​' });
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
 
@@ -84,20 +85,16 @@ test('test with fields that respect rules, so enabled button', async () => {
   fireEvent.change(confirmEmail, { target: { value: fieldsValue.confirmEmail } });
 
   fireEvent.change(products, { target: { name: 'products' } });
-  await waitFor(() => fireEvent.click(products));
+  await waitFor(() => fireEvent.mouseDown(products));
 
-  await waitFor(() => screen.getByText('App IO'));
+  const selectedProduct = screen.getByTestId('product: prod-io');
+  await waitFor(() => fireEvent.click(selectedProduct));
 
-  const selection = screen.getByRole('textbox', { name: 'inputlabelproducts' });
-  await waitFor(() => fireEvent.click(selection));
-  const options = screen.getByTestId('product: prod-io');
-  await waitFor(() => fireEvent.click(options));
-
-  const checkbox = document.querySelector(
+  await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
+  const selectedProductRole = document.querySelector(
     'input[value="incaricato-ente-creditore"]'
-  ) as HTMLElement;
-  expect(checkbox).toBeEnabled();
-  fireEvent.click(checkbox);
+  ) as HTMLInputElement;
+  fireEvent.click(selectedProductRole);
 
   const button = screen.getByText('Continua');
   await waitFor(() => expect(button).toBeEnabled());
@@ -141,12 +138,14 @@ test('test with taxCode field that respect rules, so all field are enabled', asy
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
+  const products = screen.getByRole('button', { name: 'Seleziona il prodotto ​' });
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
   expect(name).toBeEnabled();
   expect(surname).toBeEnabled();
   expect(email).toBeEnabled();
   expect(confirmEmail).toBeEnabled();
+  expect(products).toBeEnabled();
 
   await waitFor(() => {
     const checkbox = document.querySelector('input[value="incaricato-ente-creditore"]');
@@ -170,8 +169,6 @@ test('test with empty taxCode field, so all field are disabled', async () => {
   expect(email).toBeDisabled();
   expect(confirmEmail).toBeDisabled();
 
-  await waitFor(() => expect(document.querySelector('select-label-products')).toBeNull());
-
   await waitFor(() => {
     const checkbox = document.querySelector('input[value="incaricato-ente-creditore"]');
     expect(checkbox).toBeNull();
@@ -186,7 +183,6 @@ test('test with taxCode field that doesnt respect rules, so all field are disabl
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
-  const selectProduct = document.querySelector('select-label-products') as HTMLInputElement;
 
   fireEvent.change(taxCode, { target: { value: 'AAAAA23' } });
   await waitFor(() => expect((taxCode as HTMLInputElement).value).toBe('AAAAA23'));
@@ -194,7 +190,6 @@ test('test with taxCode field that doesnt respect rules, so all field are disabl
   expect(surname).toBeDisabled();
   expect(email).toBeDisabled();
   expect(confirmEmail).toBeDisabled();
-  expect(selectProduct).toBeNull();
 
   const checkbox = document.querySelector('input[value="incaricato-ente-creditore"]');
   expect(checkbox).toBeNull();
