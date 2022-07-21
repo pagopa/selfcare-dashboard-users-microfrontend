@@ -14,7 +14,7 @@ function UsersProductPage({ selectedProduct, party }: Props) {
     <Redirect
       to={resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
         partyId: party.partyId,
-      }).concat('#' + `${selectedProduct.id}`)}
+      }).concat(`#${selectedProduct.id}`)}
     />
   );
 }

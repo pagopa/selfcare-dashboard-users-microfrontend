@@ -74,7 +74,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [!selectedProductSection]);
+  }, [selectedProductSection]);
 
   const setSelectedProductSection = (productId?: string) =>
     // eslint-disable-next-line functional/immutable-data
