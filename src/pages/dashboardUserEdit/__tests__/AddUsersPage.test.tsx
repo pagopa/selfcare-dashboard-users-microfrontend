@@ -56,7 +56,7 @@ const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
   return { history, store };
 };
 
-test.skip('test with empty fields, so disabled button', async () => {
+test('test with empty fields, so disabled button', async () => {
   await renderApp();
 
   const button = screen.getByRole('button', { name: 'Continua' });
@@ -133,7 +133,7 @@ test('test with fields that respect rules, so enabled button', async () => {
   await waitFor(() => fireEvent.click(button));
 });
 
-test.skip('test with taxCode field that respect rules, so all field are enabled', async () => {
+test('test with taxCode field that respect rules, so all field are enabled', async () => {
   await renderApp();
 
   const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
@@ -154,7 +154,7 @@ test.skip('test with taxCode field that respect rules, so all field are enabled'
   });
 });
 
-test.skip('test with empty taxCode field, so all field are disabled', async () => {
+test('test with empty taxCode field, so all field are disabled', async () => {
   await renderApp();
 
   const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
@@ -178,7 +178,7 @@ test.skip('test with empty taxCode field, so all field are disabled', async () =
   });
 });
 
-test.skip('test with taxCode field that doesnt respect rules, so all field are disabled', async () => {
+test('test with taxCode field that doesnt respect rules, so all field are disabled', async () => {
   await renderApp();
 
   const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
