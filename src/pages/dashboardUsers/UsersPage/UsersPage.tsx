@@ -72,10 +72,6 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => trackEvent('USER_LIST', { party_id: party.partyId }), [party]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [selectedProductSection]);
-
   const setSelectedProductSection = (productId?: string) =>
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
