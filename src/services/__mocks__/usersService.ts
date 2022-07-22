@@ -84,7 +84,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
         ],
       },
       {
-        title: 'App IO',
+        title: 'PagoPa',
         id: 'prod-pagopa',
         roles: [
           {
@@ -859,13 +859,19 @@ export const fetchPartyUsers = (
 ): Promise<PageResource<PartyUser>> => {
   const filteredContent = mockedUsers
     .filter((u) => {
-      if (selcRole && !u.products.find((p) => p.roles.find((r) => selcRole === r.selcRole))) {
+      const userProductsFilter = product
+        ? u.products.filter((p) => p.id === product.id)
+        : u.products;
+      if (
+        selcRole &&
+        !userProductsFilter.find((p) => p.roles.find((r) => selcRole === r.selcRole))
+      ) {
         return false;
       }
       if (
         productRoles &&
         productRoles.length > 0 &&
-        !u.products.find((p) =>
+        !userProductsFilter.find((p) =>
           p.roles.find((r) => productRoles.map((r) => r.productRole).indexOf(r.role) > -1)
         )
       ) {

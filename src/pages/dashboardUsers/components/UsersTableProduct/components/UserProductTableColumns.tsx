@@ -108,7 +108,6 @@ function renderCell(
         paddingLeft: '24px',
         paddingTop: '-16px',
         paddingBottom: '-16px',
-        marginTop: '16px',
         borderBottom: '1px solid #CCD4DC',
         cursor: 'pointer',
         ...overrideStyle,
@@ -122,7 +121,6 @@ function renderCell(
           display: '-webkit-box',
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical' as const,
-          paddingBottom: '8px',
           width: '100%',
           color:
             isSuspended || params.row.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',

@@ -2,7 +2,7 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest'
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
 import { handleErrors } from '@pagopa/selfcare-common-frontend/services/errorService';
 import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PageResource } from '@pagopa/selfcare-common-frontend/model/PageResource';
 import useFakePagination from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
 import { useHistory } from 'react-router-dom';
@@ -67,6 +67,8 @@ const UsersTableProduct = ({
     ).then((data) => data.content)
   );
 
+  const previousInitialPageSize = useRef(initialPageSize);
+
   useEffect(() => {
     if (
       filterConfiguration.productIds.length > 0 &&
@@ -77,7 +79,12 @@ const UsersTableProduct = ({
       setNoMoreData(true);
     } else {
       const requestPage = incrementalLoad ? 0 : pageRequest?.page?.page ?? 0;
-      const requestPageSize = pageRequest?.page?.size ?? initialPageSize;
+      const requestPageSize =
+        previousInitialPageSize.current !== initialPageSize
+          ? initialPageSize
+          : pageRequest?.page?.size ?? initialPageSize;
+      // eslint-disable-next-line functional/immutable-data
+      previousInitialPageSize.current = initialPageSize;
       setUsers({
         content: [],
         page: { number: requestPage, size: requestPageSize, totalElements: 0, totalPages: 0 },
@@ -90,7 +97,7 @@ const UsersTableProduct = ({
         },
       });
     }
-  }, [filterConfiguration, product]);
+  }, [filterConfiguration, product, initialPageSize]);
 
   useEffect(() => {
     if (pageRequest) {
