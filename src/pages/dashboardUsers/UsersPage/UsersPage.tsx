@@ -145,13 +145,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           </Grid>
         )}
 
-        <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
-          <Grid
-            container
-            direction="row"
-            alignItems={'center'}
-            mt={moretThanOneActiveProduct ? 0 : 5}
-          >
+        <Grid
+          item
+          xs={12}
+          sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}
+          mt={moretThanOneActiveProduct ? 0 : 5}
+        >
+          <Grid container direction="row" alignItems={'center'}>
             {activeProducts.map((p, i) => (
               <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
                 <UsersProductSection
