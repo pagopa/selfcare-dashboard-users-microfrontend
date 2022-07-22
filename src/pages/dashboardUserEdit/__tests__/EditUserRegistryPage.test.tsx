@@ -2,20 +2,16 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { Trans } from 'react-i18next';
-import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentProductUser.test';
+import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 
 jest.setTimeout(6000);
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
-const renderApp = async (
-  partyId: string = 'onboarded',
-  productId: string = 'prod-io',
-  userId: string = 'uid'
-) => {
+const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
-  history.push(`/dashboard/${partyId}/${productId}/users/${userId}/edit`);
+  history.push(`/dashboard/${partyId}/users/${userId}/edit`);
   const output = renderComponent(undefined, history);
   await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
   return output;

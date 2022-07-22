@@ -1,10 +1,8 @@
 import { Grid, Tab, Tabs, Button, Stack } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { HashLink } from 'react-router-hash-link';
-import useScrollSpy from 'react-use-scrollspy';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
@@ -31,7 +29,11 @@ const emptyFilters: UsersTableFiltersConfig = {
 };
 
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
-  const showSelcRoleGrouped = true;
+  const selectedProductSection =
+    window.location.hash !== '' ? window.location.hash.substring(1) : undefined;
+  const selectedProducts = activeProducts.filter(
+    (p: Product) => !selectedProductSection || p.id === selectedProductSection
+  );
 
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [noData, setNoData] = useState(false);
@@ -45,11 +47,15 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     { partyId: party.partyId }
   );
 
-  const [productsFetchStatus, setProductsFetchStatus] = useState<
-    Record<string, { loading: boolean; noData: boolean }>
-  >(() =>
-    Object.fromEntries(activeProducts.map((p) => [[p.id], { loading: true, noData: false }]))
-  );
+  const initProductFetchStatus = () =>
+    Object.fromEntries(selectedProducts.map((p) => [[p.id], { loading: true, noData: false }]));
+  const [productsFetchStatus, setProductsFetchStatus] =
+    useState<Record<string, { loading: boolean; noData: boolean }>>(initProductFetchStatus);
+
+  useEffect(() => {
+    setFilters(emptyFilters);
+    setProductsFetchStatus(initProductFetchStatus);
+  }, [selectedProductSection]);
 
   useEffect(() => {
     if (party.userRole !== 'ADMIN') {
@@ -66,19 +72,36 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => trackEvent('USER_LIST', { party_id: party.partyId }), [party]);
 
-  const prodSectionRefs = useMemo(
-    () => activeProducts.map((_) => React.createRef<HTMLDivElement>()),
-    [activeProducts]
+  const setSelectedProductSection = (productId?: string) =>
+    // eslint-disable-next-line functional/immutable-data
+    (window.location.hash = productId ?? '');
+
+  const mappedProducts = (p: Product) => (
+    <Grid key={p.id} item xs={12}>
+      <UsersProductSection
+        hideProductWhenLoading={true}
+        party={party}
+        product={p}
+        productsMap={productsMap}
+        filters={filters}
+        productsRolesMap={productsRolesMap}
+        onFetchStatusUpdate={(loading, noData) => {
+          setProductsFetchStatus((previousState) => ({
+            ...previousState,
+            [p.id]: { loading, noData },
+          }));
+        }}
+        incrementalLoad={!selectedProductSection}
+      />
+    </Grid>
   );
 
-  const activeSection = useScrollSpy({ sectionElementRefs: prodSectionRefs, offsetPx: -80 });
+  const productsSection = useMemo(
+    () => selectedProducts.map(mappedProducts),
+    [selectedProductSection, filters]
+  );
 
-  const scrollWithOffset = (el: HTMLElement) => {
-    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-    const yOffset = -80;
-    window.scrollTo({ top: yCoordinate + yOffset, behavior: 'smooth' });
-  };
-  const moretThanOneActiveProduct = activeProducts.length > 1;
+  const moreThanOneActiveProduct = activeProducts.length > 1;
 
   return (
     <div style={{ width: '100%' }}>
@@ -109,13 +132,17 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             loading={loading}
             party={party}
             products={activeProducts}
-            productsRolesMap={productsRolesMap}
+            productsRolesMap={
+              !selectedProductSection
+                ? productsRolesMap
+                : { [selectedProductSection]: productsRolesMap[selectedProductSection] }
+            }
             filters={filters}
             onFiltersChange={setFilters}
-            showSelcRoleGrouped={showSelcRoleGrouped}
+            showSelcRoleGrouped={!selectedProductSection}
           />
         </Grid>
-        {moretThanOneActiveProduct && (
+        {moreThanOneActiveProduct && (
           <Grid
             item
             xs={12}
@@ -130,46 +157,36 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               backgroundColor: '#F5F6F7',
             }}
           >
-            <Tabs variant="fullWidth" scrollButtons="auto" value={activeSection}>
-              {activeProducts.map((p, i) => (
+            <Tabs variant="fullWidth" scrollButtons="auto" value={selectedProductSection ?? 'all'}>
+              <Tab
+                label={t('usersTable.tabAll')}
+                value="all"
+                onClick={() => {
+                  setSelectedProductSection(undefined);
+                }}
+              />
+              {activeProducts.map((p) => (
                 <Tab
                   key={p.id}
                   label={p.title}
-                  component={HashLink}
-                  to={`#${p.id}`}
-                  value={i}
-                  scroll={scrollWithOffset}
+                  value={p.id}
+                  onClick={() => {
+                    setSelectedProductSection(p.id);
+                  }}
                 />
               ))}
             </Tabs>
           </Grid>
         )}
 
-        <Grid
-          item
-          xs={12}
-          sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}
-          mt={moretThanOneActiveProduct ? 0 : 5}
-        >
-          <Grid container direction="row" alignItems={'center'}>
-            {activeProducts.map((p, i) => (
-              <Grid key={p.id} item xs={12} ref={prodSectionRefs[i]}>
-                <UsersProductSection
-                  hideProductWhenLoading={true}
-                  party={party}
-                  product={p}
-                  productsMap={productsMap}
-                  filters={filters}
-                  productsRolesMap={productsRolesMap}
-                  onFetchStatusUpdate={(loading, noData) => {
-                    setProductsFetchStatus((previousState) => ({
-                      ...previousState,
-                      [p.id]: { loading, noData },
-                    }));
-                  }}
-                />
-              </Grid>
-            ))}
+        <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
+          <Grid
+            container
+            direction="row"
+            alignItems={'center'}
+            mt={moreThanOneActiveProduct ? 0 : 5}
+          >
+            {productsSection}
             {!loading && noData && (
               <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
             )}

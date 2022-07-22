@@ -17,6 +17,7 @@ type Props = {
   onFetchStatusUpdate: (loading: boolean, noData: boolean, error: boolean) => void;
   filters: UsersTableFiltersConfig;
   productsRolesMap: ProductsRolesMap;
+  incrementalLoad: boolean;
 };
 
 export default function UsersProductSection({
@@ -27,6 +28,7 @@ export default function UsersProductSection({
   hideProductWhenLoading,
   onFetchStatusUpdate,
   filters,
+  incrementalLoad,
 }: Props) {
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
@@ -45,9 +47,11 @@ export default function UsersProductSection({
       )}
       <Grid item xs={12}>
         <UsersTableProduct
-          incrementalLoad={true}
+          incrementalLoad={incrementalLoad}
           hideProductWhenLoading={hideProductWhenLoading}
-          initialPageSize={ENV.PARTY_USERS_PAGE_SIZE}
+          initialPageSize={
+            incrementalLoad ? ENV.PARTY_USERS_PAGE_SIZE : ENV.PARTY_PRODUCT_USERS_PAGE_SIZE
+          }
           party={party}
           product={product}
           productsMap={productsMap}

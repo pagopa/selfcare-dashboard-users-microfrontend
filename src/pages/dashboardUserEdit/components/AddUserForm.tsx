@@ -572,6 +572,7 @@ export default function AddUserForm({
                       <MenuItem
                         key={p.id}
                         value={p.id}
+                        data-testid={`product: ${p.id}`}
                         sx={{
                           fontSize: 'fontSize',
                           fontWeight: 'fontWeightMedium',
