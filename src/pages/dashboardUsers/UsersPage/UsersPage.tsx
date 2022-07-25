@@ -179,13 +179,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           </Grid>
         )}
 
-        <Grid item xs={12} sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}>
-          <Grid
-            container
-            direction="row"
-            alignItems={'center'}
-            mt={moreThanOneActiveProduct ? 0 : 5}
-          >
+        <Grid
+          item
+          xs={12}
+          sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}
+          mt={moreThanOneActiveProduct ? 0 : 5}
+        >
+          <Grid container direction="row" alignItems={'center'}>
             {productsSection}
             {!loading && noData && (
               <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
