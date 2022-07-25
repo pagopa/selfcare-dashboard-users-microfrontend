@@ -108,6 +108,7 @@ function renderCell(
         paddingLeft: '24px',
         paddingTop: '-16px',
         paddingBottom: '-16px',
+        marginTop: '8px',
         borderBottom: '1px solid #CCD4DC',
         cursor: 'pointer',
         ...overrideStyle,
