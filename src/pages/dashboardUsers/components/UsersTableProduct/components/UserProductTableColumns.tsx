@@ -61,20 +61,20 @@ export function buildColumnDefs(
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
-      flex: 4,
+      flex: 3,
     },
     {
       field: 'status',
       cellClassName: 'justifyContentNormalRight',
       headerName: '',
-      align: 'center',
+      align: 'right',
       width: 82,
       hideSortIcons: true,
       disableColumnMenu: true,
       editable: false,
       renderCell: (params) => showStatus(params, onRowClick),
       sortable: false,
-      flex: 1,
+      flex: 2,
     },
     {
       field: 'azioni',
@@ -265,7 +265,7 @@ function showStatus(
   return renderCell(params, <>{showChip && <TableChip text="Sospeso" />}</>, onRowClick, {
     paddingLeft: 0,
     paddingRight: 0,
-    textAlign: 'center',
+    textAlign: 'right',
   });
 }
 
