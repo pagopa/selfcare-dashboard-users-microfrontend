@@ -69,7 +69,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     >
       <Grid container item xs={8}>
         <Grid item xs={12}>
-          <ProductNavigationBar paths={paths} showBackComponent={false} goBack={goBack} />
+          <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid item xs={12}>
           <TitleBox
