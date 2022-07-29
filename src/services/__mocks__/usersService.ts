@@ -6,6 +6,7 @@ import {
   extractPageRequest,
 } from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
 import { cloneDeep } from 'lodash';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { Party, UserRole, UserStatus } from '../../model/Party';
 import {
   BasePartyUser,
@@ -843,7 +844,7 @@ export const mockedUserRegistry: UserRegistry = {
   taxCode: 'AAAAAA11A11A234S',
   name: 'franco',
   surname: 'rossi',
-  email: 'f@r.com',
+  email: 'email@example.com' as EmailString,
   certifiedName: true,
   certifiedSurname: true,
   certifiedMail: true,
@@ -990,7 +991,7 @@ export const fetchUserRegistryById = (
     taxCode: user?.taxCode as string,
     name: user?.name as string,
     surname: user?.surname as string,
-    email: user?.email as string,
+    email: user?.email as EmailString,
     certifiedName: false,
     certifiedSurname: false,
     certifiedMail: false,

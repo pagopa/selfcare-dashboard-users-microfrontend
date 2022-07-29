@@ -1,4 +1,5 @@
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { InstitutionUserResource } from '../api/generated/b4f-dashboard/InstitutionUserResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
@@ -58,7 +59,7 @@ export type PartyUserOnEdit = {
   taxCode: string;
   name: string;
   surname: string;
-  email: string;
+  email: EmailString;
   confirmEmail: string;
   certifiedName: boolean;
   certifiedSurname: boolean;
