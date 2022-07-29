@@ -24,6 +24,7 @@ export default function UsersTableFilters({
   filters,
   onFiltersChange,
   productsRolesMap,
+  products,
   disableFilters,
   showSelcRoleGrouped,
   loading,
@@ -31,12 +32,14 @@ export default function UsersTableFilters({
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
   );
+  const activeProducts = products?.filter((p) => p.status === 'ACTIVE');
 
   return (
     <UsersTableRolesFilter
       disableFilters={disableFilters}
       productRolesSelected={filters.productRoles}
       productRolesList={productRolesList}
+      activeProducts={activeProducts}
       onFiltersChange={onFiltersChange}
       filters={filters}
       showSelcRoleGrouped={showSelcRoleGrouped}

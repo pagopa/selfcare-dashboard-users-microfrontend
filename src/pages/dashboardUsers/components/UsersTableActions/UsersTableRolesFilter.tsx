@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import MDSpinner from 'react-md-spinner';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
 import { UserRole } from '../../../../model/Party';
+import { Product } from '../../../../model/Product';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
 
 const CustomSelect = styled(Select)({
@@ -32,6 +33,7 @@ const MenuProps = {
 type Props = {
   productRolesList: Array<ProductRole>;
   productRolesSelected: Array<ProductRole>;
+  activeProducts: Array<Product>;
   filters: UsersTableFiltersConfig;
   onFiltersChange: (f: UsersTableFiltersConfig) => void;
   disableFilters: boolean;
@@ -77,13 +79,21 @@ const productList = (
 export default function UsersTableRolesFilter({
   productRolesSelected,
   productRolesList,
+  activeProducts,
   onFiltersChange,
   filters,
   showSelcRoleGrouped,
   loading,
 }: Props) {
+  const activeProductRolesList = productRolesList.filter((p) =>
+    activeProducts.filter((active) => active.id !== p.productId)
+  );
+
   const { t } = useTranslation();
-  const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
+  const selcRoleGroup = useMemo(
+    () => productList(activeProductRolesList),
+    [activeProductRolesList]
+  );
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
 
