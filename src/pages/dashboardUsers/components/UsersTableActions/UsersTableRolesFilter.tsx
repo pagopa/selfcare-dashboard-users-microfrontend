@@ -85,8 +85,8 @@ export default function UsersTableRolesFilter({
   showSelcRoleGrouped,
   loading,
 }: Props) {
-  const activeProductRolesList = productRolesList.filter((p) =>
-    activeProducts.filter((active) => active.id !== p.productId)
+  const activeProductRolesList = productRolesList.filter((role) =>
+    activeProducts.filter((activeProduct) => activeProduct.id === role.productId)
   );
 
   const { t } = useTranslation();

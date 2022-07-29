@@ -32,7 +32,7 @@ export default function UsersTableFilters({
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
   );
-  const activeProducts = products?.filter((p) => p.status === 'ACTIVE');
+  const activeProducts = products.filter((p) => p.status === 'ACTIVE');
 
   return (
     <UsersTableRolesFilter
