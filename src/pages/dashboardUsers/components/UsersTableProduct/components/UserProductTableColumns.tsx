@@ -61,20 +61,20 @@ export function buildColumnDefs(
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
       renderHeader: showCustmHeader,
       sortable: false,
-      flex: 4,
+      flex: 3,
     },
     {
       field: 'status',
       cellClassName: 'justifyContentNormalRight',
       headerName: '',
-      align: 'center',
+      align: 'right',
       width: 82,
       hideSortIcons: true,
       disableColumnMenu: true,
       editable: false,
       renderCell: (params) => showStatus(params, onRowClick),
       sortable: false,
-      flex: 1,
+      flex: 2,
     },
     {
       field: 'azioni',
@@ -108,7 +108,7 @@ function renderCell(
         paddingLeft: '24px',
         paddingTop: '-16px',
         paddingBottom: '-16px',
-        marginTop: '16px',
+        marginTop: '8px',
         borderBottom: '1px solid #CCD4DC',
         cursor: 'pointer',
         ...overrideStyle,
@@ -122,7 +122,6 @@ function renderCell(
           display: '-webkit-box',
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical' as const,
-          paddingBottom: '8px',
           width: '100%',
           color:
             isSuspended || params.row.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
@@ -266,7 +265,7 @@ function showStatus(
   return renderCell(params, <>{showChip && <TableChip text="Sospeso" />}</>, onRowClick, {
     paddingLeft: 0,
     paddingRight: 0,
-    textAlign: 'center',
+    textAlign: 'right',
   });
 }
 

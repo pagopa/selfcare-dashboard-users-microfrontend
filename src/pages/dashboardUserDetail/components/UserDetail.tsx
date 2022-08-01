@@ -4,7 +4,7 @@ import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
 
 const CustomStyleCapitolized = styled(Typography)({
-  color: '#000000',
+  color: 'colorTextPrimary',
   textTransform: 'capitalize',
 });
 
@@ -26,6 +26,7 @@ const infoStyle = {
   color: 'colorTextPrimary',
 };
 const truncateText = {
+  height: '100%',
   display: 'inline-block',
   width: '100%',
   whiteSpace: 'nowrap',
@@ -33,58 +34,43 @@ const truncateText = {
   textOverflow: 'ellipsis',
 };
 
+const titleTooltipMaxCh = 20;
+
 export default function UserDetail({ roleSection, userInfo }: Props) {
   const { t } = useTranslation();
   return (
     <Grid item xs={12}>
       <Grid container spacing={1}>
+        {/* name */}
         <Grid container item alignItems={'center'}>
           <Grid item xs={3}>
             <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
           </Grid>
-          <Grid
-            item
-            xs={9}
-            sx={{
-              height: '100%',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
-              overflowWrap: 'break-word',
-              minWidth: 0,
-              maxWidth: 0,
-            }}
-          >
-            <Tooltip title={userInfo.name.length > 20 ? userInfo.name.toLocaleLowerCase() : ''}>
+          <Grid item xs={9} display="flex" alignItems={'center'}>
+            <Tooltip
+              title={
+                userInfo.name.length > titleTooltipMaxCh ? userInfo.name.toLocaleLowerCase() : ''
+              }
+            >
               <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
                 {userInfo.name.toLocaleLowerCase()}
               </CustomStyleCapitolized>
             </Tooltip>
           </Grid>
         </Grid>
+
+        {/* surname */}
         <Grid container item alignItems={'center'}>
           <Grid item xs={3}>
             <Typography sx={labelStyle}>{t('userDetail.surname')}</Typography>
           </Grid>
-          <Grid
-            item
-            xs={9}
-            sx={{
-              height: '100%',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
-              overflowWrap: 'break-word',
-              minWidth: 0,
-              maxWidth: 0,
-            }}
-          >
+          <Grid item xs={9} display="flex" alignItems={'center'}>
             <Tooltip
-              title={userInfo.surname.length > 20 ? userInfo.surname.toLocaleLowerCase() : ''}
+              title={
+                userInfo.surname.length > titleTooltipMaxCh
+                  ? userInfo.surname.toLocaleLowerCase()
+                  : ''
+              }
             >
               <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
                 {userInfo.surname.toLocaleLowerCase()}
@@ -92,35 +78,33 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
             </Tooltip>
           </Grid>
         </Grid>
+
+        {/* taxcode */}
         <Grid container item alignItems={'center'}>
           <Grid item xs={3}>
             <Typography sx={labelStyle}>{t('userDetail.fiscalCode')}</Typography>
           </Grid>
-          <Grid item xs={9}>
-            <Typography sx={infoStyle}>{userInfo.taxCode}</Typography>
+          <Grid item xs={9} display="flex" alignItems={'center'}>
+            <Typography sx={{ ...infoStyle, color: 'colorTextPrimary' }}>
+              {userInfo.taxCode}
+            </Typography>
           </Grid>
         </Grid>
+
+        {/* email */}
         <Grid container item alignItems={'center'}>
           <Grid item xs={3}>
             <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
           </Grid>
-          <Grid
-            item
-            xs={9}
-            sx={{
-              height: '100%',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical' as const,
-              overflowWrap: 'break-word',
-              minWidth: 0,
-              maxWidth: 0,
-            }}
-          >
-            <Tooltip title={userInfo.email.length > 20 ? userInfo.email.toLocaleLowerCase() : ''}>
-              <Typography sx={{ ...infoStyle, ...truncateText }}>{userInfo.email}</Typography>
+          <Grid item xs={9} display="flex" alignItems={'center'}>
+            <Tooltip
+              title={
+                userInfo.email.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
+              }
+            >
+              <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
+                {userInfo.email}
+              </Typography>
             </Tooltip>
           </Grid>
         </Grid>

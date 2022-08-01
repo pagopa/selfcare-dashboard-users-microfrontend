@@ -70,6 +70,7 @@ export default {
     },
     loadMore: 'Carica altri',
     addButton: 'Aggiungi utente',
+    tabAll: 'Tutti',
   },
   userDetail: {
     title: 'Profilo Utente',

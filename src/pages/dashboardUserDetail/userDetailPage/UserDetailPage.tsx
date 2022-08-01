@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useEffect } from 'react';
@@ -167,23 +167,15 @@ function UserDetailPage({
         </Grid>
         <Grid container item mb={4}>
           <Grid item xs={10}>
-            <Tooltip
-              title={
-                partyUser.name.length + partyUser.surname.length > 20
-                  ? `${partyUser.name} ${partyUser.surname}`
-                  : ''
-              }
+            <Typography
+              variant="h4"
+              sx={{
+                width: '100%',
+                wordWrap: 'break-word',
+              }}
             >
-              <Typography
-                variant="h4"
-                sx={{
-                  width: '100%',
-                  wordWrap: 'break-word',
-                }}
-              >
-                {partyUser.name} {partyUser.surname}
-              </Typography>
-            </Tooltip>
+              {partyUser.name} {partyUser.surname}
+            </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
             <Grid item xs={2}>
