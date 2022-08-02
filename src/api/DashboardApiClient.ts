@@ -1,6 +1,7 @@
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
@@ -99,7 +100,7 @@ export const DashboardApi = {
       body: {
         productRoles: user.productRoles,
         taxCode: user.taxCode,
-        email: user.certifiedMail ? undefined : user.email,
+        email: (user.certifiedMail ? undefined : user.email) as EmailString,
         surname: user.certifiedSurname ? undefined : user.surname,
         name: user.certifiedName ? undefined : user.name,
       },
