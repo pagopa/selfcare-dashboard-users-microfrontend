@@ -2515,11 +2515,18 @@
           }
         }
       },
-      "PageInfo": {
-        "title": "PageInfo",
-        "required": ["number", "size", "totalElements", "totalPages"],
+      "PageOfUserGroupPlainResource": {
+        "title": "PageOfUserGroupPlainResource",
+        "required": ["content", "number", "size", "totalElements", "totalPages"],
         "type": "object",
         "properties": {
+          "content": {
+            "type": "array",
+            "description": "The page content",
+            "items": {
+              "$ref": "#/components/schemas/UserGroupPlainResource"
+            }
+          },
           "number": {
             "type": "integer",
             "description": "The number of the current page",
@@ -2539,24 +2546,6 @@
             "type": "integer",
             "description": "The number of total pages",
             "format": "int32"
-          }
-        }
-      },
-      "PageOfUserGroupPlainResource": {
-        "title": "PageOfUserGroupPlainResource",
-        "required": ["content", "page"],
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "array",
-            "description": "The page content",
-            "items": {
-              "$ref": "#/components/schemas/UserGroupPlainResource"
-            }
-          },
-          "page": {
-            "description": "The extra data about the page settings",
-            "$ref": "#/components/schemas/PageInfo"
           }
         }
       },
