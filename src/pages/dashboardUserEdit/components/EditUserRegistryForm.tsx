@@ -10,6 +10,7 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { useTranslation } from 'react-i18next';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
@@ -91,7 +92,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
       updatePartyUser(party, {
         ...values,
         taxCode: values.taxCode.toUpperCase(),
-        email: values.email.toLowerCase(),
+        email: values.email.toLowerCase() as EmailString,
       })
         .then(() => {
           unregisterUnloadEvent();
