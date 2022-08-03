@@ -273,7 +273,7 @@ export const fetchUserGroups = (
     return fetchUserGroupsMocked(party, product, userId);
   } else {
     return DashboardApi.fetchUserGroups(party.partyId, product.id, userId).then(
-      (resources) => resources?.map(usersGroupPlainResource2PartyGroup) ?? []
+      (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
     );
   }
 };
