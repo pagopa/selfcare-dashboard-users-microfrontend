@@ -9,9 +9,9 @@ import { createClient, WithDefaultsT } from './generated/b4f-dashboard/client';
 import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
-import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
+import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -174,7 +174,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string,
     userId: string
-  ): Promise<Array<UserGroupPlainResource>> => {
+  ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       productId,
