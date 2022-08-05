@@ -22,6 +22,7 @@ type Props = {
   initialPageSize: number;
   party: Party;
   product: Product;
+  selected: boolean;
   productsMap: ProductsMap;
   onFetchStatusUpdate: (isFetching: boolean, count: number, error: boolean) => void;
   userDetailUrl: string;
@@ -34,6 +35,7 @@ const UsersTableProduct = ({
   incrementalLoad,
   initialPageSize,
   party,
+  selected,
   product,
   productsMap,
   productRolesLists,
@@ -78,7 +80,7 @@ const UsersTableProduct = ({
       setUsers({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } });
       setNoMoreData(true);
     } else {
-      const requestPage = incrementalLoad ? 0 : pageRequest?.page?.page ?? 0;
+      const requestPage = incrementalLoad ? 0 : selected ? 0 : pageRequest?.page?.page ?? 0;
       const requestPageSize =
         previousInitialPageSize.current !== initialPageSize
           ? initialPageSize

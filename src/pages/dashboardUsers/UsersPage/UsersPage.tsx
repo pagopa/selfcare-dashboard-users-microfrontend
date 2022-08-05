@@ -82,6 +82,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         hideProductWhenLoading={true}
         party={party}
         product={p}
+        selected={p.id === selectedProductSection}
         productsMap={productsMap}
         filters={filters}
         productsRolesMap={productsRolesMap}
