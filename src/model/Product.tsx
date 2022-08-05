@@ -5,6 +5,7 @@ export type Product = {
   description: string;
   id: string;
   logo?: string;
+  logoBgColor?: string;
   title: string;
   urlBO: string;
   urlPublic?: string;
