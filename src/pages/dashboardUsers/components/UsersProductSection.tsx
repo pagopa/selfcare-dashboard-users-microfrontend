@@ -13,6 +13,7 @@ type Props = {
   hideProductWhenLoading: boolean;
   party: Party;
   product: Product;
+  selected: boolean;
   productsMap: ProductsMap;
   onFetchStatusUpdate: (loading: boolean, noData: boolean, error: boolean) => void;
   filters: UsersTableFiltersConfig;
@@ -24,6 +25,7 @@ export default function UsersProductSection({
   party,
   product,
   productsMap,
+  selected,
   productsRolesMap,
   hideProductWhenLoading,
   onFetchStatusUpdate,
@@ -53,6 +55,7 @@ export default function UsersProductSection({
             incrementalLoad ? ENV.PARTY_USERS_PAGE_SIZE : ENV.PARTY_PRODUCT_USERS_PAGE_SIZE
           }
           party={party}
+          selected={selected}
           product={product}
           productsMap={productsMap}
           productRolesLists={productsRolesMap[product.id]}

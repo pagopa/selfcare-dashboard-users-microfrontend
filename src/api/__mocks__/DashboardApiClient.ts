@@ -1,3 +1,4 @@
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
 import { InstitutionUserDetailsResource } from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
@@ -17,7 +18,7 @@ export const mockedInstitutionUserDetailsResource: InstitutionUserDetailsResourc
   surname: 'Surname',
   status: 'PENDING',
   role: 'LIMITED' as RoleEnum,
-  email: 'address',
+  email: 'email@example.com' as EmailString,
   products: [
     {
       id: 'productId',
@@ -41,7 +42,7 @@ export const mockedInstitutionUserResource: Array<InstitutionUserResource> = [
     surname: 'Surname',
     status: 'PENDING',
     role: 'LIMITED' as RoleEnum,
-    email: 'address',
+    email: 'email@example.com' as EmailString,
     products: [
       {
         id: 'productId',
@@ -63,7 +64,7 @@ export const mockedInstitutionUserResource: Array<InstitutionUserResource> = [
     surname: 'Surname2',
     status: 'ACTIVE',
     role: 'ADMIN' as RoleEnum,
-    email: 'address',
+    email: 'email@example.com' as EmailString,
     products: [
       {
         id: 'productId2',
@@ -88,7 +89,7 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
     surname: 'Surname',
     status: 'PENDING',
     role: 'LIMITED' as RoleEnum,
-    email: 'address',
+    email: 'email@example.com' as EmailString,
     product: {
       id: 'prod-io',
       title: 'App IO',
@@ -108,7 +109,7 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
     surname: 'Surname2',
     status: 'ACTIVE',
     role: 'ADMIN' as RoleEnum,
-    email: 'address2',
+    email: 'email@example.com' as EmailString,
     product: {
       id: 'prod-io',
       title: 'App IO',

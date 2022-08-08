@@ -1,6 +1,7 @@
 import { Grid, Typography, Chip, Box, Divider, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { ProductAvatar } from '@pagopa/mui-italia';
 import { Party } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
@@ -40,7 +41,7 @@ export default function UserProductDetail({
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              <Box display="flex">
+              <Box display="flex" alignItems="center">
                 <Box
                   display="flex"
                   flexDirection="column"
@@ -49,7 +50,11 @@ export default function UserProductDetail({
                   height="32px"
                   width="32px"
                 >
-                  <img src={product.logo} />
+                  <ProductAvatar
+                    size={'small'}
+                    logoUrl={product.logo ?? ''}
+                    logoBgColor={product.logoBgColor ?? ''}
+                  />
                 </Box>
                 <Box>
                   <Typography variant="h6" sx={{ fontSize: '18px' }}>

@@ -1,6 +1,7 @@
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
@@ -8,9 +9,9 @@ import { createClient, WithDefaultsT } from './generated/b4f-dashboard/client';
 import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
-import { UserGroupPlainResource } from './generated/b4f-dashboard/UserGroupPlainResource';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
+import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -99,7 +100,7 @@ export const DashboardApi = {
       body: {
         productRoles: user.productRoles,
         taxCode: user.taxCode,
-        email: user.certifiedMail ? undefined : user.email,
+        email: (user.certifiedMail ? undefined : user.email) as EmailString,
         surname: user.certifiedSurname ? undefined : user.surname,
         name: user.certifiedName ? undefined : user.name,
       },
@@ -173,7 +174,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string,
     userId: string
-  ): Promise<Array<UserGroupPlainResource>> => {
+  ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       productId,

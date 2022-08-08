@@ -1,3 +1,4 @@
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { UserResource } from '../api/generated/b4f-dashboard/UserResource';
 
 export type UserRegistry = {
@@ -5,7 +6,7 @@ export type UserRegistry = {
   taxCode: string;
   name: string;
   surname: string;
-  email: string;
+  email: EmailString;
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;
@@ -16,7 +17,7 @@ export const userResource2UserRegistry = (resource: UserResource): UserRegistry 
   taxCode: resource.fiscalCode,
   name: resource.name ? resource.name?.value : '',
   surname: resource.familyName ? resource.familyName?.value : '',
-  email: resource.email ? resource.email?.value : '',
+  email: (resource.email ? resource.email?.value : '') as EmailString,
   certifiedName: resource.name ? resource.name?.certified : false,
   certifiedSurname: resource.familyName ? resource.familyName?.certified : false,
   certifiedMail: resource.email ? resource.email?.certified : false,
