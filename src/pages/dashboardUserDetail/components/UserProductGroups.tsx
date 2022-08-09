@@ -55,7 +55,7 @@ export default function UserProductGroups({ user, party, product }: Props) {
                 sx={{
                   fontSize: 'fontSize',
                   fontWeight: 'fontWeightRegular',
-                  color: 'colorTextPrimary',
+                  color: isUserSuspended ? 'text.disabled' : 'colorTextPrimary',
                 }}
               >
                 {t('userDetail.group')}
