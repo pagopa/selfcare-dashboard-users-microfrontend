@@ -51,7 +51,13 @@ export default function UserProductGroups({ user, party, product }: Props) {
         {userGroups.length > 0 && (
           <Grid container item xs={12} mt={3}>
             <Grid item xs={3}>
-              <Typography className="CustomLabelStyle" variant="h6">
+              <Typography
+                sx={{
+                  fontSize: 'fontSize',
+                  fontWeight: 'fontWeightRegular',
+                  color: 'colorTextPrimary',
+                }}
+              >
                 {t('userDetail.group')}
               </Typography>
             </Grid>
