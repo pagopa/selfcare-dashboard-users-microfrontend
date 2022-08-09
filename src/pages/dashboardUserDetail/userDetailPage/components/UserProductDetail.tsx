@@ -125,7 +125,12 @@ export default function UserProductDetail({
           isProductDetailPage={isProductDetailPage}
         />
       </Grid>
-      <UserProductGroups product={product} party={party} user={partyUser} />
+      <UserProductGroups
+        product={product}
+        party={party}
+        user={partyUser}
+        userProduct={userProduct}
+      />
     </>
   );
 }
