@@ -87,7 +87,7 @@ export default function UserProductDetail({
 
           {product.authorized === false && !partyUser.isCurrentUser ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              <Tooltip title={t('userDetail.infoIcon')}>
+              <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
                 <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
               </Tooltip>
             </Grid>
