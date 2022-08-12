@@ -253,6 +253,8 @@ export default function UserProductRowActions({
       <Tooltip
         aria-label="SelectAction"
         title={t('usersTable.rowActions.toolTipActions') as string}
+        placement="top"
+        arrow={true}
       >
         <IconButton data-testid={`action-${partyUser.id}`} onClick={handleClick}>
           <MoreVertIcon color="primary" />
