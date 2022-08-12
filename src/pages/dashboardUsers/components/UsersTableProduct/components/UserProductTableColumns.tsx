@@ -249,7 +249,11 @@ function showRoles(
             )
           )}
         </Grid>,
-        onRowClick
+        onRowClick,
+        {
+          paddingLeft: 0,
+          paddingRight: 0,
+        }
       )}
     </React.Fragment>
   );

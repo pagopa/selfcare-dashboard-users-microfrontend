@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { fetchUserGroups } from '../../../services/usersService';
-import { checkSuspendedUser, PartyUserDetail } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
@@ -17,15 +17,16 @@ type Props = {
   user: PartyUserDetail;
   party: Party;
   product: Product;
+  userProduct: PartyUserProduct;
 };
-export default function UserProductGroups({ user, party, product }: Props) {
+export default function UserProductGroups({ user, party, product, userProduct }: Props) {
   const { t } = useTranslation();
   const [userGroups, setUserGroups] = useState<Array<PartyGroup>>([]);
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const theme = useTheme();
-  const isUserSuspended = checkSuspendedUser(user);
   const history = useHistory();
+  const userProductRoleSuspended = userProduct.roles.every((p) => p.status === 'SUSPENDED');
 
   useEffect(() => {
     setLoading(true);
@@ -51,7 +52,13 @@ export default function UserProductGroups({ user, party, product }: Props) {
         {userGroups.length > 0 && (
           <Grid container item xs={12} mt={3}>
             <Grid item xs={3}>
-              <Typography className="CustomLabelStyle" variant="h6">
+              <Typography
+                sx={{
+                  fontSize: 'fontSize',
+                  fontWeight: 'fontWeightRegular',
+                  color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
+                }}
+              >
                 {t('userDetail.group')}
               </Typography>
             </Grid>
@@ -69,7 +76,7 @@ export default function UserProductGroups({ user, party, product }: Props) {
                   label={g.name}
                   key={g.id}
                   sx={{
-                    color: isUserSuspended ? 'text.disabled' : 'colorTextPrimary',
+                    color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
                     borderRadius: theme.spacing(0.5),
                     mr: 1,
                     mb: 1,
