@@ -51,6 +51,8 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
               title={
                 userInfo.name.length > titleTooltipMaxCh ? userInfo.name.toLocaleLowerCase() : ''
               }
+              placement="top"
+              arrow={true}
             >
               <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
                 {userInfo.name.toLocaleLowerCase()}
@@ -71,6 +73,8 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
                   ? userInfo.surname.toLocaleLowerCase()
                   : ''
               }
+              placement="top"
+              arrow={true}
             >
               <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
                 {userInfo.surname.toLocaleLowerCase()}
@@ -101,6 +105,8 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
               title={
                 userInfo.email.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
               }
+              placement="top"
+              arrow={true}
             >
               <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
                 {userInfo.email}
