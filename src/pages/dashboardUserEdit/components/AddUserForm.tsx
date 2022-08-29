@@ -120,6 +120,7 @@ export default function AddUserForm({
   const [validTaxcode, setValidTaxcode] = useState<string>();
   const [userProduct, setUserProduct] = useState<Product>();
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
+  const [productInPage, setProductInPage] = useState<boolean>();
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
@@ -173,6 +174,16 @@ export default function AddUserForm({
           }
         )
       ));
+
+  useEffect(() => {
+    const isEnabled = products.filter(
+      (p) => p.authorized && p.userRole === 'ADMIN' && p.status === 'ACTIVE'
+    );
+    setProductInPage(Object.keys(isEnabled).length === 1);
+    if (productInPage) {
+      setUserProduct(isEnabled[0]);
+    }
+  }, [productInPage]);
 
   const errorNotify = (errors: any, taxCode: string) =>
     addError({
@@ -557,7 +568,7 @@ export default function AddUserForm({
                   name="products"
                   value={userProduct?.title ?? ''}
                   labelId="select-label-products"
-                  disabled={!validTaxcode}
+                  disabled={!validTaxcode || productInPage}
                   variant="outlined"
                   renderValue={(userProduct) => (
                     <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
@@ -594,7 +605,7 @@ export default function AddUserForm({
                 sx={{
                   fontWeight: 'fontWeightMedium',
                   fontSize: 'fontSize',
-                  color: 'colorTextPrimary',
+                  color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
                 }}
                 pb={2}
               >
@@ -619,6 +630,7 @@ export default function AddUserForm({
                               sx={{
                                 fontWeight: 'fontWeightRegular',
                                 fontSize: '18px',
+                                color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
                               }}
                             >
                               {p.title}
@@ -628,7 +640,7 @@ export default function AddUserForm({
                               sx={{
                                 fontWeight: 'fontWeightRegular',
                                 fontSize: 'fontSize',
-                                color: '#5C6F82',
+                                color: !validTaxcode ? 'text.disabled' : 'text.secondary',
                                 marginBottom: 1,
                               }}
                             >
