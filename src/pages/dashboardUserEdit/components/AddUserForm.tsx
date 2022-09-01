@@ -279,7 +279,7 @@ export default function AddUserForm({
         unregisterUnloadEvent();
         trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
           party_id: party.partyId,
-          product: userProduct?.id,
+          product_id: userProduct?.id,
           product_role: values2submit.productRoles,
         });
         addNotify({

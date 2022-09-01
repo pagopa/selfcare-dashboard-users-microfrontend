@@ -203,7 +203,7 @@ export const updatePartyUserStatus = (
   } else if (status === 'SUSPENDED') {
     trackEvent('USER_SUSPEND', {
       party_id: party.partyId,
-      product: product.id,
+      product_id: product.id,
       product_role: user.userRole,
     });
     return DashboardApi.suspendPartyRelation(role.relationshipId);
@@ -266,7 +266,7 @@ export const fetchUserGroups = (
 ): Promise<Array<PartyGroup>> => {
   trackEvent('GET_USER_GROUPS', {
     party_id: party.partyId,
-    product: product.id,
+    product_id: product.id,
   });
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
