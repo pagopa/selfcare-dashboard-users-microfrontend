@@ -277,7 +277,7 @@ export default function AddUserForm({
     )
       .then((userId) => {
         unregisterUnloadEvent();
-        trackEvent(userId ? 'USER_UPDATE' : 'USER_ADD', {
+        trackEvent(initialFormData.taxCode ? 'USER_ADD_ROLE' : 'USER_ADD', {
           party_id: party.partyId,
           product_id: userProduct?.id,
           product_role: values2submit.productRoles,
@@ -285,7 +285,7 @@ export default function AddUserForm({
         addNotify({
           component: 'Toast',
           id: 'SAVE_PARTY_USER',
-          title: userId
+          title: initialFormData.taxCode
             ? t('userDetail.actions.successfulAddRole')
             : t('userEdit.addForm.saveUserSuccess'),
           message: '',
