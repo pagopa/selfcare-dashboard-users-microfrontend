@@ -8,6 +8,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { roleLabels } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import AddIcon from '@mui/icons-material/Add';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -61,6 +62,11 @@ export default function UserProductAddRoles({
       certifiedMail: false,
     })
       .then((_) => {
+        trackEvent('USER_ADD_ROLE', {
+          party_id: party.partyId,
+          product_id: product.id,
+          product_role: newRoleSelected,
+        });
         addNotify({
           component: 'Toast',
           id: 'ADD_MULTI_ROLE_USER',

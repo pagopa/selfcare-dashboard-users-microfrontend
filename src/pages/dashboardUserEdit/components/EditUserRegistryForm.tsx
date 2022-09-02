@@ -98,7 +98,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
             party_id: party.partyId,
-            user: user.id,
+            user_id: user.id,
           });
           addNotify({
             component: 'Toast',
