@@ -132,7 +132,7 @@ export default function UsersProductTable({
                 ? () =>
                     loading ? (
                       <UserProductLoading />
-                    ) : !noMoreData ? (
+                    ) : !noMoreData && !(users.length === page.totalElements) ? (
                       <UserTableLoadMoreData fetchNextPage={fetchPage} />
                     ) : (
                       <></>
