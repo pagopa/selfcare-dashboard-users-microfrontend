@@ -1901,20 +1901,20 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pagopa/mui-italia@^0.6.38":
-  version "0.6.38"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.6.38.tgz#afa3d3d711780daa32d10ee2367d503a4af583d3"
-  integrity sha512-EHmI0i62l+Zvu/2jzgwAs6BxyaidWWUH4YaOHKuyLcivOIWeJu4RRo8ZQoTh30oLvzItQwaoDVGXSKwRU9eVPw==
+"@pagopa/mui-italia@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.7.0.tgz#165ac4406b8b85b8729861d6fe189c6726a5951a"
+  integrity sha512-9r2MJ0yEgrZDSlSCZE4yj8/N/ojgMTS1faWx3DQ1E7KqrHr6+Urd12AKQPu5VO0NtIw5Vn1gLvAjypA0T+xWbw==
   dependencies:
     "@fontsource/titillium-web" "^4.5.8"
     clsx "^1.1.1"
     fp-ts "^2.12.1"
     io-ts "^2.2.16"
 
-"@pagopa/mui-italia@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.7.0.tgz#165ac4406b8b85b8729861d6fe189c6726a5951a"
-  integrity sha512-9r2MJ0yEgrZDSlSCZE4yj8/N/ojgMTS1faWx3DQ1E7KqrHr6+Urd12AKQPu5VO0NtIw5Vn1gLvAjypA0T+xWbw==
+"@pagopa/mui-italia@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.7.1.tgz#336cd69cf4ea68ef465648b4d6a1843c85b6fe4c"
+  integrity sha512-8OEO03/M1jRbEVzQLe+Iay8mNhpKdOTd28HS3ItkheQsdBjc+bz7dIJAUjem8Hrin+eOjaUD8w56PL9kIY8N9w==
   dependencies:
     "@fontsource/titillium-web" "^4.5.8"
     clsx "^1.1.1"
