@@ -116,9 +116,11 @@ const UsersTableProduct = ({
           pageRequest?.page.page === 0 || !incrementalLoad
             ? r
             : { content: users.content.concat(r.content), page: r.page };
+        const moreThanTenUsersProduct =
+          r.page.totalElements - ((pageRequest?.page as PageRequest).size - r.content.length) > 10;
         setUsers(nextUsers);
         setError(false);
-        setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
+        setNoMoreData(!moreThanTenUsersProduct);
         onFetchStatusUpdate(false, nextUsers.content.length, false);
       })
       .catch((reason) => {
