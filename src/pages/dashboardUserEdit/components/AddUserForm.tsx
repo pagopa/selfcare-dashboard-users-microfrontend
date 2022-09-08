@@ -43,6 +43,7 @@ import { PartyUserOnCreation } from '../../../model/PartyUser';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
+import verifyMatchWithTaxcode from './verifyMatchWithTaxCode';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -234,8 +235,16 @@ export default function AddUserForm({
   const validate = (values: Partial<PartyUserOnCreation>) => {
     const errors = Object.fromEntries(
       Object.entries({
-        name: !values.name ? requiredError : undefined,
-        surname: !values.surname ? requiredError : undefined,
+        name: !values.name
+          ? requiredError
+          : verifyMatchWithTaxcode(values.name, '', values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.name')
+          : undefined,
+        surname: !values.surname
+          ? requiredError
+          : verifyMatchWithTaxcode('', values.surname, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.surname')
+          : undefined,
         taxCode: !values.taxCode
           ? requiredError
           : !taxCodeRegexp.test(values.taxCode)

@@ -15,6 +15,7 @@ import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
+import verifyMatchWithTaxcode from './verifyMatchWithTaxCode';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -68,8 +69,16 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
       Object.entries({
-        name: !values.name ? requiredError : undefined,
-        surname: !values.surname ? requiredError : undefined,
+        name: !values.name
+          ? requiredError
+          : verifyMatchWithTaxcode(values.name, '', values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.name')
+          : undefined,
+        surname: !values.surname
+          ? requiredError
+          : verifyMatchWithTaxcode('', values.surname, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.surname')
+          : undefined,
         email: !values.email
           ? requiredError
           : !emailRegexp.test(values.email)
