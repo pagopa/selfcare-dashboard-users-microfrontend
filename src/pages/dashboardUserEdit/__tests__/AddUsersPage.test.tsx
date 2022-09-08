@@ -21,7 +21,7 @@ jest.mock('../../../services/usersService');
 jest.setTimeout(6000);
 
 const fieldsValue = {
-  taxCode: 'AAAAAA11A11A234S',
+  taxCode: 'RSSFNC92B44C123K',
   name: 'franco',
   surname: 'rossi',
   email: 'NAME@SURNAME.COM',
