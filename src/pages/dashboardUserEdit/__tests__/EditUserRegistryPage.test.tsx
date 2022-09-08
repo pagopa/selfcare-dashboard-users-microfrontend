@@ -67,9 +67,10 @@ test('test with email and confirm email modified and equal, so enabled button an
   expect(confirmButton).toBeEnabled();
   fireEvent.click(confirmButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe('/'));
+  expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid/edit');
+
   const notifies = store.getState().appState.userNotifies;
-  expect(notifies).toHaveLength(1);
+  expect(notifies).toHaveLength(0);
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Profilo modificato correttamente',
