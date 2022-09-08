@@ -167,6 +167,10 @@ export default {
     infoIcon: 'Non hai i permessi per gestire questo prodotto',
   },
   userEdit: {
+    mismatchWithTaxCode: {
+      name: 'Nome non corretto o diverso dal Codice Fiscale',
+      surname: 'Cognome non corretto o diverso dal Codice Fiscale',
+    },
     addForm: {
       title: 'Aggiungi un nuovo utente',
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',

@@ -28,6 +28,8 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -234,8 +236,16 @@ export default function AddUserForm({
   const validate = (values: Partial<PartyUserOnCreation>) => {
     const errors = Object.fromEntries(
       Object.entries({
-        name: !values.name ? requiredError : undefined,
-        surname: !values.surname ? requiredError : undefined,
+        name: !values.name
+          ? requiredError
+          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.name')
+          : undefined,
+        surname: !values.surname
+          ? requiredError
+          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.surname')
+          : undefined,
         taxCode: !values.taxCode
           ? requiredError
           : !taxCodeRegexp.test(values.taxCode)
