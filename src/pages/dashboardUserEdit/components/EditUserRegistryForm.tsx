@@ -11,6 +11,8 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { useTranslation } from 'react-i18next';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
@@ -68,8 +70,16 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
       Object.entries({
-        name: !values.name ? requiredError : undefined,
-        surname: !values.surname ? requiredError : undefined,
+        name: !values.name
+          ? requiredError
+          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.name')
+          : undefined,
+        surname: !values.surname
+          ? requiredError
+          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.surname')
+          : undefined,
         email: !values.email
           ? requiredError
           : !emailRegexp.test(values.email)
