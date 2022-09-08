@@ -28,6 +28,8 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -43,7 +45,6 @@ import { PartyUserOnCreation } from '../../../model/PartyUser';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
-import verifyMatchWithTaxcode from './verifyMatchWithTaxCode';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -237,12 +238,12 @@ export default function AddUserForm({
       Object.entries({
         name: !values.name
           ? requiredError
-          : verifyMatchWithTaxcode(values.name, '', values.taxCode)
+          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
           ? t('userEdit.mismatchWithTaxCode.name')
           : undefined,
         surname: !values.surname
           ? requiredError
-          : verifyMatchWithTaxcode('', values.surname, values.taxCode)
+          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
           ? t('userEdit.mismatchWithTaxCode.surname')
           : undefined,
         taxCode: !values.taxCode

@@ -11,11 +11,12 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { useTranslation } from 'react-i18next';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
-import verifyMatchWithTaxcode from './verifyMatchWithTaxCode';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -71,12 +72,12 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
       Object.entries({
         name: !values.name
           ? requiredError
-          : verifyMatchWithTaxcode(values.name, '', values.taxCode)
+          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
           ? t('userEdit.mismatchWithTaxCode.name')
           : undefined,
         surname: !values.surname
           ? requiredError
-          : verifyMatchWithTaxcode('', values.surname, values.taxCode)
+          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
           ? t('userEdit.mismatchWithTaxCode.surname')
           : undefined,
         email: !values.email
