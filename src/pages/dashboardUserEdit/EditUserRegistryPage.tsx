@@ -16,6 +16,7 @@ function EditUserRegistryPage({ party, user }: Props) {
   const history = useHistory();
 
   const goBack = () => history.goBack();
+
   /*
     history.push(
       resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
