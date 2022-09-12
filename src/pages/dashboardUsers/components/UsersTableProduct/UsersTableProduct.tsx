@@ -159,7 +159,7 @@ const UsersTableProduct = ({
     setUsers({ page: users.page, content: users.content.slice() });
   };
 
-  if (error && !loading) {
+  if (error && !loading && users.content.length === 0) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
     return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
