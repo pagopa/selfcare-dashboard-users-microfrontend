@@ -103,7 +103,9 @@ const UsersTableProduct = ({
 
   useEffect(() => {
     if (pageRequest) {
-      setUsers({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } });
+      if (error) {
+        setError(false);
+      }
       fetchUsers();
     }
   }, [pageRequest]);
