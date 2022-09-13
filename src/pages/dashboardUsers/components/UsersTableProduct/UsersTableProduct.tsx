@@ -103,6 +103,7 @@ const UsersTableProduct = ({
 
   useEffect(() => {
     if (pageRequest) {
+      setUsers({ content: [], page: { number: 0, size: 0, totalElements: 0, totalPages: 0 } });
       fetchUsers();
     }
   }, [pageRequest]);
@@ -159,7 +160,7 @@ const UsersTableProduct = ({
     setUsers({ page: users.page, content: users.content.slice() });
   };
 
-  if (error && !loading) {
+  if (error && !loading && users.content.length === 0) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
     return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
