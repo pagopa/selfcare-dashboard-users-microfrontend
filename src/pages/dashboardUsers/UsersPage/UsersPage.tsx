@@ -188,6 +188,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         >
           <Grid container direction="row" alignItems={'center'}>
             {productsSection}
+
             {!loading && noData && (
               <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
             )}
