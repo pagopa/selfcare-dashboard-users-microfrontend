@@ -173,11 +173,15 @@ export const DashboardApi = {
 
   fetchUserGroups: async (
     institutionId: string,
+    pageRequest: PageRequest,
     productId: string,
     userId: string
   ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
       productId,
       userId,
     });
