@@ -130,7 +130,17 @@ export default {
       reactivateRole: 'Riabilita',
       deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
+      successfulAddUserToGroup: 'Utente assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
+      newGroupAssign: 'Assegna gruppo',
+      newGroupAssignModal: {
+        title: 'Assegna gruppo',
+        message:
+          'Seleziona il gruppo che vuoi assegnare a <1>{{user}}</1> per il prodotto <3>{{productTitle}}</3>',
+        groupPlaceholder: 'Seleziona il gruppo',
+        confirmButton: 'Assegna gruppo',
+        closeButton: 'Annulla',
+      },
       newRoleAssign: 'Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
