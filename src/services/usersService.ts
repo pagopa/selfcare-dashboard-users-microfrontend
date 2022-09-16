@@ -261,6 +261,7 @@ export const fetchUserRegistryById = (
 
 export const fetchUserGroups = (
   party: Party,
+  pageRequest: PageRequest,
   product: Product,
   userId: string,
 ): Promise<Array<PartyGroup>> => {
@@ -272,7 +273,7 @@ export const fetchUserGroups = (
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, product, userId);
   } else {
-    return DashboardApi.fetchUserGroups(party.partyId, product.id, userId).then(
+    return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
       (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
     );
   }
