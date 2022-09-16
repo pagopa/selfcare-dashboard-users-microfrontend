@@ -271,7 +271,7 @@ export const fetchUserGroups = (
   });
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
-    return fetchUserGroupsMocked(party, product, userId);
+    return fetchUserGroupsMocked(party, pageRequest, product, userId);
   } else {
     return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
       (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
