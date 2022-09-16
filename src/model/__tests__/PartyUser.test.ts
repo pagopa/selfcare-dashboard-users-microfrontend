@@ -11,6 +11,8 @@ import {
   institutionUserResource2PartyUser,
   institutionUserResource2PartyUserDetail,
   productUserResource2PartyProductUser,
+  partyUserDetail2User,
+  PartyUserDetail
 } from '../PartyUser';
 
 test('Test institutionUserResource2PartyUserDetail', () => {
@@ -183,4 +185,43 @@ test('Test productUserResource2PartyProductUser', () => {
     productUserResource2PartyProductUser(productUserResource, mockedPartyProducts[0], mockedUser)
       .isCurrentUser
   ).toBeTruthy();
+});
+
+
+test('Test partyUserDetail2User', () => {
+  const partyUserDetail: PartyUserDetail = {
+    id: '1',
+    taxCode: 'fiscalCode',
+    name: 'Name',
+    surname: 'Surname',
+    status: 'PENDING',
+    email: 'address',
+    userRole: 'LIMITED',
+    isCurrentUser: false,
+    products: [
+      {
+        id: 'productId',
+        title: 'productTitle',
+        roles: [
+          {
+            relationshipId: 'relationshipId',
+            role: 'productRole',
+            selcRole: SelcRoleEnum.ADMIN,
+            status: 'ACTIVE',
+          },
+        ],
+      },
+    ],
+  };
+
+  const user = partyUserDetail2User(
+    partyUserDetail
+  );
+  expect(user).toStrictEqual({
+    uid: '1',
+    taxCode: 'fiscalCode',
+    name: 'Name',
+    surname: 'Surname',
+    email: 'address',
+  });
 });
