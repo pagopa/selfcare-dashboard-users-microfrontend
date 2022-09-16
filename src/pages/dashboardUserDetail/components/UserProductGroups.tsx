@@ -87,7 +87,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
 
   const executeFetchUserGroups = () => {
     setLoading(true);
-    fetchUserGroups(party, product, user.id)
+    fetchUserGroups(party, pageRequest, product, user.id)
       .then((groups) => {
         setUserGroups(groups);
       })
