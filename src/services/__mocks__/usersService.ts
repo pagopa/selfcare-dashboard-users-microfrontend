@@ -1082,6 +1082,7 @@ export const deletePartyUser = (
 
 export const fetchUserGroups = (
   party: Party,
+  _pageRequest: PageRequest,
   product: Product,
   userId: string
 ): Promise<Array<PartyGroup>> => {
