@@ -103,12 +103,15 @@ const UsersTableProduct = ({
 
   useEffect(() => {
     if (pageRequest) {
-      if (error) {
-        setError(false);
-      }
       fetchUsers();
     }
   }, [pageRequest]);
+
+  useEffect(() => {
+    if (filterConfiguration) {
+      setError(false);
+    }
+  }, [filterConfiguration]);
 
   const fetchUsers = () => {
     onFetchStatusUpdate(true, users.content.length, error);
@@ -162,7 +165,7 @@ const UsersTableProduct = ({
     setUsers({ page: users.page, content: users.content.slice() });
   };
 
-  if (error && !loading && users.content.length === 0) {
+  if (error && !loading) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
     return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
