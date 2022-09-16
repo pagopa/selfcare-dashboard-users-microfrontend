@@ -130,5 +130,15 @@ export const productUserResource2PartyProductUser = (
   isCurrentUser: currentUser.uid === resource.id,
 });
 
+export const partyUserDetail2User = (
+  partyUserDetail: PartyUserDetail
+): User => ({
+  uid: partyUserDetail.id,
+  taxCode: partyUserDetail.taxCode,
+  name: partyUserDetail.name,
+  surname: partyUserDetail.surname,
+  email: partyUserDetail.email,
+});
+
 export const checkSuspendedUser = (partyUser: PartyUser): boolean =>
   partyUser.products.every((p) => p.roles.every((r) => r.status === 'SUSPENDED'));

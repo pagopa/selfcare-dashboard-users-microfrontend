@@ -260,9 +260,9 @@ export const fetchUserRegistryById = (
 };
 
 export const fetchUserGroups = (
-  userId: string,
   party: Party,
-  product: Product
+  product: Product,
+  userId: string,
 ): Promise<Array<PartyGroup>> => {
   trackEvent('GET_USER_GROUPS', {
     party_id: party.partyId,

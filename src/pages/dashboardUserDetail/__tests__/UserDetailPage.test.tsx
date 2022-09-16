@@ -1,10 +1,19 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  getAllByText,
+  getByRole,
+  getByText,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
 jest.mock('../../../services/usersService');
+jest.mock('../../../services/groupsService');
 
 jest.setTimeout(10000);
 
@@ -77,6 +86,36 @@ test('Test: rehabilitate user', async () => {
   expect(notifies[0]).toMatchObject({
     component: 'Toast',
     title: 'Ruolo riabilitato correttamente',
+  });
+});
+
+test('Test: assign group to user', async () => {
+  const { store } = await renderApp();
+  const assignGroupButton = await waitFor(() =>
+    getByText(document.body, 'Assegna gruppo', { exact: false })
+  );
+  fireEvent.click(assignGroupButton);
+
+  const dialogNode = getByRole(document.body, 'dialog');
+  const assignGroupButtonConfirm = getAllByText(dialogNode, 'Assegna gruppo', { exact: false })[1];
+  expect(assignGroupButtonConfirm).toBeDisabled();
+
+  const selectGroup = screen.getByTestId('group-select');
+  const button = within(selectGroup).getByRole('button');
+  fireEvent.mouseDown(button);
+
+  await waitFor(() => fireEvent.click(screen.getByText('Gruppo7')));
+
+  await waitFor(() => expect(assignGroupButtonConfirm).toBeEnabled());
+
+  await waitFor(() => fireEvent.click(assignGroupButtonConfirm));
+
+  const notifies = await waitFor(() => store.getState().appState.userNotifies);
+  await waitFor(() => expect(store.getState().appState.userNotifies).toHaveLength(1));
+
+  expect(notifies[0]).toMatchObject({
+    component: 'Toast',
+    title: 'Utente assegnato correttamente',
   });
 });
 
