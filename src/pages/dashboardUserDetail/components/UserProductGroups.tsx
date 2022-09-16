@@ -14,7 +14,6 @@ import SessionModal from '@pagopa/selfcare-common-frontend/components/SessionMod
 import { useEffect, useState } from 'react';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
@@ -59,11 +58,6 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     if (selectedGroup) {
       addMemberToUserGroup(selectedGroup.id, currentUser.uid)
         .then((_) => {
-          trackEvent('ADD_USER_TO_GROUP', {
-            party_id: party.partyId,
-            product_id: product.id,
-            group_id: selectedGroup.id,
-          });
           addNotify({
             component: 'Toast',
             id: 'ADD_USER_TO_GROUP',
@@ -186,89 +180,94 @@ export default function UserProductGroups({ user, party, product, userProduct }:
                     }}
                   />
                 ))}
-              {userGroupsComplement.length > 0 && (
-                <Grid>
-                  <ButtonNaked
-                    id="newGroupAssignModalOpen"
-                    component="button"
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                    sx={{ color: 'primary.main', fontWeight: 'bold' }}
-                    weight="default"
-                  >
-                    + {t('userDetail.actions.newGroupAssign')}
-                  </ButtonNaked>
-                  <SessionModal
-                    open={open}
-                    title={t('userDetail.actions.newGroupAssignModal.title')}
-                    message={
-                      <>
-                        <Trans i18nKey="userDetail.actions.newGroupAssignModal.message">
-                          {'Seleziona il gruppo che vuoi assegnare a '}
-                          <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
-                          {'per il prodotto '}
-                          <strong> {{ productTitle: `${product.title}.` }} </strong>
-                        </Trans>
-                        <FormControl sx={{ width: '100%', mt: 2 }}>
-                          <InputLabel
-                            id="select-label-products"
-                            sx={{
-                              '.MuiInputLabel-root.Mui-focused': {
-                                color: 'text.primary',
-                                fontWeight: 'fontWeightBold',
-                              },
-                            }}
-                          >
-                            {t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
-                          </InputLabel>
-                          <Select
-                            id="group-select"
-                            data-testid="group-select"
-                            fullWidth
-                            value={selectedGroup?.name ?? ''}
-                            displayEmpty
-                            variant="outlined"
-                            labelId="select-label-groups"
-                            label={t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
-                            input={
-                              <OutlinedInput
-                                label={t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
-                              />
-                            }
-                            renderValue={(selectedGroup) => (
-                              <Typography
-                                sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}
-                              >
-                                {selectedGroup}
-                              </Typography>
-                            )}
-                          >
-                            {userGroupsComplement.map((g: PartyGroup, index) => (
-                              <MenuItem
-                                key={index}
-                                value={g.name}
-                                sx={{ fontSize: '14px', color: '#000000' }}
-                                onClick={() => setSelectedGroup(g)}
-                              >
-                                {g.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </>
-                    }
-                    onConfirm={handleAssignNewGroup}
-                    onConfirmEnabled={selectedGroup ? true : false}
-                    handleClose={() => {
-                      setOpen(false);
-                      setSelectedGroup(undefined);
-                    }}
-                    onConfirmLabel={t('userDetail.actions.newGroupAssignModal.confirmButton')}
-                    onCloseLabel={t('userDetail.actions.newGroupAssignModal.closeButton')}
-                  />
-                </Grid>
-              )}
+              {product.authorized === true &&
+                product?.userRole === 'ADMIN' &&
+                product.status === 'ACTIVE' &&
+                userGroupsComplement.length > 0 && (
+                  <Grid>
+                    <ButtonNaked
+                      id="newGroupAssignModalOpen"
+                      component="button"
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                      sx={{ color: 'primary.main', fontWeight: 'bold' }}
+                      weight="default"
+                    >
+                      + {t('userDetail.actions.newGroupAssign')}
+                    </ButtonNaked>
+                    <SessionModal
+                      open={open}
+                      title={t('userDetail.actions.newGroupAssignModal.title')}
+                      message={
+                        <>
+                          <Trans i18nKey="userDetail.actions.newGroupAssignModal.message">
+                            {'Seleziona il gruppo che vuoi assegnare a '}
+                            <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
+                            {'per il prodotto '}
+                            <strong> {{ productTitle: `${product.title}.` }} </strong>
+                          </Trans>
+                          <FormControl sx={{ width: '100%', mt: 2 }}>
+                            <InputLabel
+                              id="select-label-products"
+                              sx={{
+                                '.MuiInputLabel-root.Mui-focused': {
+                                  color: 'text.primary',
+                                  fontWeight: 'fontWeightBold',
+                                },
+                              }}
+                            >
+                              {t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
+                            </InputLabel>
+                            <Select
+                              id="group-select"
+                              data-testid="group-select"
+                              fullWidth
+                              value={selectedGroup?.name ?? ''}
+                              displayEmpty
+                              variant="outlined"
+                              labelId="select-label-groups"
+                              label={t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
+                              input={
+                                <OutlinedInput
+                                  label={t(
+                                    'userDetail.actions.newGroupAssignModal.groupPlaceholder'
+                                  )}
+                                />
+                              }
+                              renderValue={(selectedGroup) => (
+                                <Typography
+                                  sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}
+                                >
+                                  {selectedGroup}
+                                </Typography>
+                              )}
+                            >
+                              {userGroupsComplement.map((g: PartyGroup, index) => (
+                                <MenuItem
+                                  key={index}
+                                  value={g.name}
+                                  sx={{ fontSize: '14px', color: '#000000' }}
+                                  onClick={() => setSelectedGroup(g)}
+                                >
+                                  {g.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </>
+                      }
+                      onConfirm={handleAssignNewGroup}
+                      onConfirmEnabled={selectedGroup ? true : false}
+                      handleClose={() => {
+                        setOpen(false);
+                        setSelectedGroup(undefined);
+                      }}
+                      onConfirmLabel={t('userDetail.actions.newGroupAssignModal.confirmButton')}
+                      onCloseLabel={t('userDetail.actions.newGroupAssignModal.closeButton')}
+                    />
+                  </Grid>
+                )}
             </Grid>
           </Grid>
         )}
