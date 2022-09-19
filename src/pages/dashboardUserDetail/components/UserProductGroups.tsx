@@ -38,6 +38,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   const pageRequest = { page: 0, size: 100 };
   const [userGroups, setUserGroups] = useState<Array<PartyGroup>>([]);
   const [productGroups, setProductGroups] = useState<Array<PartyGroup>>([]);
+  const [activeProductGroups, setActiveProductGroups] = useState<Array<PartyGroup>>([]);
   const [userGroupsComplement, setUserGroupsComplement] = useState<Array<PartyGroup>>([]);
   const [selectedGroup, setSelectedGroup] = useState<PartyGroup>();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
@@ -112,6 +113,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     fetchPartyGroups(party, product, currentUser, pageRequest)
       .then((r) => {
         setProductGroups(r.content);
+        setActiveProductGroups(r.content.filter((g) => g.status === 'ACTIVE'));
       })
       .catch((reason) => {
         addError({
@@ -128,8 +130,6 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   }, []);
 
   useEffect(() => {
-    const activeProductGroups = productGroups.filter((g) => g.status === 'ACTIVE');
-
     if (userGroups.length > 0 && activeProductGroups.length > 0) {
       setUserGroupsComplement(
         activeProductGroups.filter((g) => !userGroups.find((element) => element.id === g.id))
@@ -137,12 +137,12 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     } else {
       setUserGroupsComplement(activeProductGroups);
     }
-  }, [productGroups, userGroups]);
+  }, [productGroups, userGroups, activeProductGroups]);
 
   return (
     userGroups && (
       <>
-        {userGroups.length > 0 && (
+        {activeProductGroups.length > 0 && (
           <Grid container item xs={12} mt={3}>
             <Grid item xs={3}>
               <Typography
