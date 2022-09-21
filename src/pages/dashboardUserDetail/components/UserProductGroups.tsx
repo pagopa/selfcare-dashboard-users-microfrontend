@@ -89,7 +89,11 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     }
   }, [productGroups, userGroups, activeProductGroups]);
 
-  return (!product.authorized && userGroups?.length > 0) || activeProductGroups.length > 0 ? (
+  return userGroups?.length > 0 ||
+    (product.authorized &&
+      product?.userRole === 'ADMIN' &&
+      product.status === 'ACTIVE' &&
+      userGroupsComplement.length > 0) ? (
     <Grid container item xs={12} mt={3}>
       <Grid item xs={3}>
         <Typography
