@@ -1,22 +1,10 @@
-import {
-  Chip,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { ButtonNaked } from '@pagopa/mui-italia';
-import SessionModal from '@pagopa/selfcare-common-frontend/components/SessionModal';
+import { Chip, Grid, Typography, useTheme } from '@mui/material';
+
 import { useEffect, useState } from 'react';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { fetchUserGroups } from '../../../services/usersService';
 import { PartyUserDetail, PartyUserProduct, partyUserDetail2User } from '../../../model/PartyUser';
@@ -25,7 +13,8 @@ import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
-import { addMemberToUserGroup, fetchPartyGroups } from '../../../services/groupsService';
+import { fetchPartyGroups } from '../../../services/groupsService';
+import AddUserToGroupButton from './AddUserToGroupButton';
 
 type Props = {
   user: PartyUserDetail;
@@ -40,51 +29,12 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   const [productGroups, setProductGroups] = useState<Array<PartyGroup>>([]);
   const [activeProductGroups, setActiveProductGroups] = useState<Array<PartyGroup>>([]);
   const [userGroupsComplement, setUserGroupsComplement] = useState<Array<PartyGroup>>([]);
-  const [selectedGroup, setSelectedGroup] = useState<PartyGroup>();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
-  const [open, setOpen] = useState(false);
-  const addError = useErrorDispatcher();
   const theme = useTheme();
   const history = useHistory();
-
-  const addNotify = useUserNotify();
-
+  const addError = useErrorDispatcher();
   const currentUser = partyUserDetail2User(user);
-
   const userProductRoleSuspended = userProduct.roles.every((p) => p.status === 'SUSPENDED');
-
-  const handleAssignNewGroup = () => {
-    setOpen(false);
-    setLoading(true);
-    if (selectedGroup) {
-      addMemberToUserGroup(selectedGroup.id, currentUser.uid)
-        .then((_) => {
-          addNotify({
-            component: 'Toast',
-            id: 'ADD_USER_TO_GROUP',
-            title: t('userDetail.actions.successfulAddUserToGroup'),
-            message: '',
-          });
-          executeFetchUserGroups();
-        })
-        .catch((error) => {
-          addError({
-            component: 'Toast',
-            id: `ADD_USER_TO_GROUP_ERROR-${user.id}`,
-            displayableTitle: t('userDetail.actions.addRoleError'),
-            displayableDescription: '',
-            techDescription: `An error occurred while adding user to group`,
-            blocking: false,
-            error,
-            toNotify: true,
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-          setSelectedGroup(undefined);
-        });
-    }
-  };
 
   const executeFetchUserGroups = () => {
     setLoading(true);
@@ -139,139 +89,60 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     }
   }, [productGroups, userGroups, activeProductGroups]);
 
-  return (
-    userGroups && (
-      <>
-        {activeProductGroups.length > 0 && (
-          <Grid container item xs={12} mt={3}>
-            <Grid item xs={3}>
-              <Typography
-                sx={{
-                  fontSize: 'fontSize',
-                  fontWeight: 'fontWeightRegular',
-                  color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
-                }}
-              >
-                {t('userDetail.group')}
-              </Typography>
-            </Grid>
-            <Grid item xs={9}>
-              {userGroups.length > 0 &&
-                userGroups?.map((g) => (
-                  <Chip
-                    onClick={() =>
-                      history.push(
-                        resolvePathVariables(ENV.ROUTES.GROUP_DETAIL, {
-                          partyId: party.partyId,
-                          groupId: g.id,
-                        })
-                      )
-                    }
-                    label={g.name}
-                    key={g.id}
-                    sx={{
-                      color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
-                      borderRadius: theme.spacing(0.5),
-                      mr: 1,
-                      mb: 1,
-                      backgroundColor: '#F5F5F5',
-                      height: '22px',
-                      cursor: 'pointer',
-                    }}
-                  />
-                ))}
-              {product.authorized === true &&
-                product?.userRole === 'ADMIN' &&
-                product.status === 'ACTIVE' &&
-                userGroupsComplement.length > 0 && (
-                  <Grid>
-                    <ButtonNaked
-                      id="newGroupAssignModalOpen"
-                      component="button"
-                      onClick={() => {
-                        setOpen(true);
-                      }}
-                      sx={{ color: 'primary.main', fontWeight: 'bold' }}
-                      weight="default"
-                    >
-                      + {t('userDetail.actions.newGroupAssign')}
-                    </ButtonNaked>
-                    <SessionModal
-                      open={open}
-                      title={t('userDetail.actions.newGroupAssignModal.title')}
-                      message={
-                        <>
-                          <Trans i18nKey="userDetail.actions.newGroupAssignModal.message">
-                            {'Seleziona il gruppo che vuoi assegnare a '}
-                            <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
-                            {'per il prodotto '}
-                            <strong> {{ productTitle: `${product.title}.` }} </strong>
-                          </Trans>
-                          <FormControl sx={{ width: '100%', mt: 2 }}>
-                            <InputLabel
-                              id="select-label-products"
-                              sx={{
-                                '.MuiInputLabel-root.Mui-focused': {
-                                  color: 'text.primary',
-                                  fontWeight: 'fontWeightBold',
-                                },
-                              }}
-                            >
-                              {t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
-                            </InputLabel>
-                            <Select
-                              id="group-select"
-                              data-testid="group-select"
-                              fullWidth
-                              value={selectedGroup?.name ?? ''}
-                              displayEmpty
-                              variant="outlined"
-                              labelId="select-label-groups"
-                              label={t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
-                              input={
-                                <OutlinedInput
-                                  label={t(
-                                    'userDetail.actions.newGroupAssignModal.groupPlaceholder'
-                                  )}
-                                />
-                              }
-                              renderValue={(selectedGroup) => (
-                                <Typography
-                                  sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}
-                                >
-                                  {selectedGroup}
-                                </Typography>
-                              )}
-                            >
-                              {userGroupsComplement.map((g: PartyGroup, index) => (
-                                <MenuItem
-                                  key={index}
-                                  value={g.name}
-                                  sx={{ fontSize: '14px', color: '#000000' }}
-                                  onClick={() => setSelectedGroup(g)}
-                                >
-                                  {g.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </>
-                      }
-                      onConfirm={handleAssignNewGroup}
-                      onConfirmEnabled={selectedGroup ? true : false}
-                      handleClose={() => {
-                        setOpen(false);
-                        setSelectedGroup(undefined);
-                      }}
-                      onConfirmLabel={t('userDetail.actions.newGroupAssignModal.confirmButton')}
-                      onCloseLabel={t('userDetail.actions.newGroupAssignModal.closeButton')}
-                    />
-                  </Grid>
-                )}
-            </Grid>
-          </Grid>
-        )}
-      </>
-    )
+
+  return userGroups?.length > 0 || activeProductGroups.length > 0 ? (
+    <Grid container item xs={12} mt={3}>
+      <Grid item xs={3}>
+        <Typography
+          sx={{
+            fontSize: 'fontSize',
+            fontWeight: 'fontWeightRegular',
+            color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
+          }}
+        >
+          {t('userDetail.group')}
+        </Typography>
+      </Grid>
+      <Grid item xs={9}>
+        {userGroups.length > 0 &&
+          userGroups?.map((g) => (
+            <Chip
+              onClick={() =>
+                history.push(
+                  resolvePathVariables(ENV.ROUTES.GROUP_DETAIL, {
+                    partyId: party.partyId,
+                    groupId: g.id,
+                  })
+                )
+              }
+              label={g.name}
+              key={g.id}
+              sx={{
+                color: userProductRoleSuspended ? 'text.disabled' : 'colorTextPrimary',
+                borderRadius: theme.spacing(0.5),
+                mr: 1,
+                mb: 1,
+                backgroundColor: '#F5F5F5',
+                height: '22px',
+                cursor: 'pointer',
+              }}
+            />
+          ))}
+        {product.authorized === true &&
+          product?.userRole === 'ADMIN' &&
+          product.status === 'ACTIVE' &&
+          userGroupsComplement.length > 0 && (
+            <AddUserToGroupButton
+              user={user}
+              currentUser={currentUser}
+              product={product}
+              userGroupsComplement={userGroupsComplement}
+              executeFetchUserGroups={executeFetchUserGroups}
+            />
+          )}
+      </Grid>
+    </Grid>
+  ) : (
+    <></>
   );
 }
