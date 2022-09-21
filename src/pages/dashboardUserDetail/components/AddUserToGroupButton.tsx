@@ -12,6 +12,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { SessionModal, useErrorDispatcher, useUserNotify } from '@pagopa/selfcare-common-frontend';
 import { useEffect, useState } from 'react';
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import AddIcon from '@mui/icons-material/Add';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
@@ -83,10 +84,11 @@ export default function AddUserToGroupButton({
         onClick={() => {
           setOpen(true);
         }}
-        sx={{ color: 'primary.main', fontWeight: 'bold' }}
+        startIcon={<AddIcon fontSize="medium" />}
+        sx={{ color: 'primary.main' }}
         weight="default"
       >
-        + {t('userDetail.actions.newGroupAssign')}
+        {t('userDetail.actions.newGroupAssign')}
       </ButtonNaked>
       <SessionModal
         open={open}
