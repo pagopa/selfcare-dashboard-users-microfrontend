@@ -49,7 +49,7 @@ function UserDetailPage({
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId, user_id: partyUser.id });
+      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId });
     }
   }, [party]);
 
