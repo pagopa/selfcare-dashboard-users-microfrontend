@@ -119,6 +119,7 @@ export default function AddUserToGroupButton({
                 fullWidth
                 value={selectedGroup?.name ?? ''}
                 displayEmpty
+                disabled={userGroupsComplement.length === 1}
                 variant="outlined"
                 labelId="select-label-groups"
                 label={t('userDetail.actions.newGroupAssignModal.groupPlaceholder')}
