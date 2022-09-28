@@ -137,6 +137,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
           userGroupsComplement.length > 0 && (
             <AddUserToGroupButton
               user={user}
+              party={party}
               currentUser={currentUser}
               product={product}
               userGroupsComplement={userGroupsComplement}

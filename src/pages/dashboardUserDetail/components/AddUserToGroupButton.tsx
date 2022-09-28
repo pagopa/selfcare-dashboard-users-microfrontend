@@ -13,13 +13,16 @@ import { SessionModal, useErrorDispatcher, useUserNotify } from '@pagopa/selfcar
 import { useEffect, useState } from 'react';
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
 import AddIcon from '@mui/icons-material/Add';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { addMemberToUserGroup } from '../../../services/groupsService';
+import { Party } from '../../../model/Party';
 
 type AddUserToGroupButtonProps = {
   user: PartyUserDetail;
+  party: Party;
   currentUser: User;
   product: Product;
   userGroupsComplement: Array<PartyGroup>;
@@ -28,6 +31,7 @@ type AddUserToGroupButtonProps = {
 
 export default function AddUserToGroupButton({
   user,
+  party,
   currentUser,
   product,
   userGroupsComplement,
@@ -44,6 +48,10 @@ export default function AddUserToGroupButton({
     if (selectedGroup) {
       addMemberToUserGroup(selectedGroup.id, currentUser.uid)
         .then((_) => {
+          trackEvent('GROUP_USER_ADD', {
+            party_id: party.partyId,
+            product_id: product.id,
+          });
           addNotify({
             component: 'Toast',
             id: 'ADD_USER_TO_GROUP',
