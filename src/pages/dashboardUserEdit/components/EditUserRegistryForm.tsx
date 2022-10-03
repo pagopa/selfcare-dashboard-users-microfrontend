@@ -11,10 +11,15 @@ import {
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { useTranslation } from 'react-i18next';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
+import { useHistory } from 'react-router-dom';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -61,6 +66,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const history = useHistory();
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
@@ -68,8 +74,16 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
       Object.entries({
-        name: !values.name ? requiredError : undefined,
-        surname: !values.surname ? requiredError : undefined,
+        name: !values.name
+          ? requiredError
+          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.name')
+          : undefined,
+        surname: !values.surname
+          ? requiredError
+          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
+          ? t('userEdit.mismatchWithTaxCode.surname')
+          : undefined,
         email: !values.email
           ? requiredError
           : !emailRegexp.test(values.email)
@@ -98,7 +112,6 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
             party_id: party.partyId,
-            user_id: user.id,
           });
           addNotify({
             component: 'Toast',
@@ -231,7 +244,23 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
 
         <Stack direction="row" justifyContent="space-between" mt={5}>
           <Stack display="flex" justifyContent="flex-start">
-            <Button color="primary" variant="outlined" onClick={() => onExit(goBack)}>
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={() =>
+                onExit(() =>
+                  history.push(
+                    resolvePathVariables(
+                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+                      {
+                        partyId: party.partyId,
+                        userId: user.id,
+                      }
+                    )
+                  )
+                )
+              }
+            >
               {t('userEdit.editRegistryForm.backButton')}
             </Button>
           </Stack>

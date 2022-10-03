@@ -107,6 +107,12 @@ const UsersTableProduct = ({
     }
   }, [pageRequest]);
 
+  useEffect(() => {
+    if (filterConfiguration) {
+      setError(false);
+    }
+  }, [filterConfiguration]);
+
   const fetchUsers = () => {
     onFetchStatusUpdate(true, users.content.length, error);
     setLoading(true);

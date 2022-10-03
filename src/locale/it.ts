@@ -54,7 +54,7 @@ export default {
         suspend: {
           title: 'Sospendi ruolo',
           message:
-            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. <8 />Puoi riabilitarlo in qualsiasi momento.',
         },
         reactivate: {
           title: 'Riabilita ruolo',
@@ -107,7 +107,7 @@ export default {
         suspend: {
           title: 'Sospendi ruolo',
           messageWithOneRole:
-            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. Puoi riabilitarlo in qualsiasi momento.',
+            'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. <8 />Puoi riabilitarlo in qualsiasi momento.',
           messageWithMultipleRoles:
             'Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi riabilitarlo in qualsiasi momento.',
         },
@@ -130,7 +130,17 @@ export default {
       reactivateRole: 'Riabilita',
       deleteButton: 'Rimuovi',
       successfulAddRole: 'Ruolo assegnato correttamente',
+      successfulAddUserToGroup: 'Utente assegnato correttamente',
       addRoleError: 'Non è stato possibile assegnare il ruolo. Riprova.',
+      newGroupAssign: 'Assegna gruppo',
+      newGroupAssignModal: {
+        title: 'Assegna gruppo',
+        message:
+          'Seleziona il gruppo che vuoi assegnare a <1>{{user}}</1> per il prodotto <3>{{productTitle}}</3>',
+        groupPlaceholder: 'Seleziona il gruppo',
+        confirmButton: 'Assegna gruppo',
+        closeButton: 'Annulla',
+      },
       newRoleAssign: 'Assegna un altro ruolo',
       newRoleAssignModal: {
         title: 'Assegna ruolo',
@@ -167,6 +177,10 @@ export default {
     infoIcon: 'Non hai i permessi per gestire questo prodotto',
   },
   userEdit: {
+    mismatchWithTaxCode: {
+      name: 'Nome non corretto o diverso dal Codice Fiscale',
+      surname: 'Cognome non corretto o diverso dal Codice Fiscale',
+    },
     addForm: {
       title: 'Aggiungi un nuovo utente',
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',

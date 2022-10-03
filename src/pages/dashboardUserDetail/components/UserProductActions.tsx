@@ -227,7 +227,9 @@ export default function UserProductActions({
                 productTitle: `${product.title}`,
               }}
             </strong>
-            . {' Puoi riabilitarlo in qualsiasi momento.'}
+            .
+            <br />
+            {' Puoi riabilitarlo in qualsiasi momento.'}
           </Trans>
         ) : role.status === 'SUSPENDED' && moreRolesOnProduct ? (
           <Trans i18nKey="userDetail.actions.changeUserStatusModal.reactivate.messageWithMultipleRoles">

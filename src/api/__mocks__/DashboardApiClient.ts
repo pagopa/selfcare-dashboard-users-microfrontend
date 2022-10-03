@@ -1,3 +1,4 @@
+import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
@@ -8,6 +9,10 @@ import {
 } from '../generated/b4f-dashboard/InstitutionUserResource';
 import { SelcRoleEnum } from '../generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../generated/b4f-dashboard/ProductUserResource';
+import {
+  StatusEnum,
+  UserGroupPlainResource,
+} from '../generated/b4f-dashboard/UserGroupPlainResource';
 import { UserIdResource } from '../generated/b4f-dashboard/UserIdResource';
 import { UserResource } from '../generated/b4f-dashboard/UserResource';
 
@@ -133,6 +138,22 @@ export const mockedUserResource: UserResource = {
   email: { certified: true, value: 'gigi.v@email.com' },
 };
 
+export const userGroupPlainResourceArray: Array<UserGroupPlainResource> = [
+  {
+    description: 'groupId1: descriptoion',
+    id: 'groupId1',
+    institutionId: 'onboarded',
+    membersCount: 1,
+    name: 'Gruppo1',
+    productId: 'prod-io',
+    status: StatusEnum.ACTIVE,
+    createdAt: new Date('2022-01-01'),
+    createdBy: 'uid',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedBy: 'uid',
+  },
+];
+
 export const DashboardApi = {
   getPartyUser: async (
     _institutionId: string,
@@ -179,4 +200,17 @@ export const DashboardApi = {
     _userId: string,
     _user: PartyUserOnCreation
   ): Promise<void> => new Promise<void>((resolve) => resolve()),
+
+  fetchPartyGroups: async (
+    _productId: string,
+    _institutionId: string,
+    _pageRequest: PageRequest
+  ): Promise<Array<UserGroupPlainResource>> =>
+    new Promise((resolve) => resolve(userGroupPlainResourceArray)),
+
+    addMemberToUserGroup: async (
+      _id: string,
+      _userId: string,
+    ): Promise<void> => 
+    new Promise((resolve) => resolve()),
 };

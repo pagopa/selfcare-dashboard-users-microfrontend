@@ -136,7 +136,9 @@ export default function UserProductRowActions({
               productTitle: `${partyUser.product.title}`,
             }}
           </strong>
-          . {' Puoi riabilitarlo in qualsiasi momento.'}
+          .
+          <br />
+          {' Puoi riabilitarlo in qualsiasi momento.'}
         </Trans>
       ) : (
         <Trans i18nKey="usersTable.rowActions.changeUserRoleStatusModal.reactivate.message">

@@ -3,6 +3,7 @@ import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
+import { store } from '../../../redux/store';
 
 jest.setTimeout(6000);
 
@@ -26,7 +27,7 @@ test('test back button', async () => {
   const backButton = screen.getAllByText('Indietro')[1];
   expect(backButton).toBeEnabled();
   fireEvent.click(backButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/'));
+  await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid'));
 });
 
 test('test with no modify, so disabled button', async () => {
@@ -67,11 +68,7 @@ test('test with email and confirm email modified and equal, so enabled button an
   expect(confirmButton).toBeEnabled();
   fireEvent.click(confirmButton);
 
-  await waitFor(() => expect(history.location.pathname).toBe('/'));
-  const notifies = store.getState().appState.userNotifies;
-  expect(notifies).toHaveLength(1);
-  expect(notifies[0]).toMatchObject({
-    component: 'Toast',
-    title: 'Profilo modificato correttamente',
-  });
+  await waitFor(() =>
+    expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid/edit')
+  );
 });

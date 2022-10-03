@@ -2,6 +2,7 @@ import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage'
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
@@ -172,14 +173,45 @@ export const DashboardApi = {
 
   fetchUserGroups: async (
     institutionId: string,
+    pageRequest: PageRequest,
     productId: string,
     userId: string
   ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
       productId,
       userId,
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
+
+  fetchPartyGroups: async (
+    productId: string,
+    institutionId: string,
+    pageRequest: PageRequest
+  ): Promise<PageOfUserGroupPlainResource> => {
+    const result = await apiClient.getUserGroupsUsingGET({
+      institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      productId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  addMemberToUserGroup: async (
+    id: string,
+    userId: string,
+  ): Promise<void> => {
+    const result = await apiClient.addMemberToUserGroupUsingPOST({
+      id,
+      userId,
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
 };
