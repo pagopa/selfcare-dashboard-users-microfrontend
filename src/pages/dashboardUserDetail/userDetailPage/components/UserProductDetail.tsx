@@ -54,6 +54,7 @@ export default function UserProductDetail({
                     size={'small'}
                     logoUrl={product.logo ?? ''}
                     logoBgColor={product.logoBgColor ?? ''}
+                    logoAltText={`${product.title} logo`}
                   />
                 </Box>
                 <Box>
