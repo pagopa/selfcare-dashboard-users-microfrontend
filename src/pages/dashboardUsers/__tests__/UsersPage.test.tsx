@@ -22,11 +22,11 @@ const renderApp = async (partyId: string = 'onboarded') => {
   return output;
 };
 
-test.skip('test render', async () => {
+test('test render', async () => {
   await renderApp();
 });
 
-test.skip('test add new user', async () => {
+test('test add new user', async () => {
   const { history } = await renderApp();
   const addNewUserButton = screen.getByRole('button', { name: 'Aggiungi utente' });
   fireEvent.click(addNewUserButton);
