@@ -39,8 +39,9 @@ test('test filter users from role', async () => {
   const filterButton = screen.getByRole('button', { name: 'Filtra' });
   expect(filterButton).toBeDisabled();
   const rolesFilter = screen.getByRole('button', { name: 'Tutti i ruoli' });
-  await waitFor(() => fireEvent.click(rolesFilter));
-  fireEvent.click(screen.getByTestId('userRole: ADMIN'));
+  fireEvent.mouseDown(rolesFilter);
+  const userRole = screen.getAllByText('Amministratore')[0];
+  fireEvent.click(userRole);
   expect(filterButton).toBeEnabled();
   fireEvent.click(filterButton);
   screen.getAllByText('Incaricato Ente Creditore');
