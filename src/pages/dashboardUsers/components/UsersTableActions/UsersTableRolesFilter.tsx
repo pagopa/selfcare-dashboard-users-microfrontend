@@ -261,7 +261,6 @@ export default function UsersTableRolesFilter({
                     <MenuItem
                       onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
                       key={selcRole}
-                      data-testid={`userRole: ${selcRole}`}
                     >
                       <FormControlLabel
                         sx={{
