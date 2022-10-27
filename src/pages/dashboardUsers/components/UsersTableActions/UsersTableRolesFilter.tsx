@@ -1,7 +1,7 @@
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import React, { useEffect, useMemo } from 'react';
-import { Box, Button, FormControl, Select, Grid, Typography } from '@mui/material';
+import { Box, Button, FormControl, Select, Typography, Grid, MenuItem } from '@mui/material';
 import { styled } from '@mui/system';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -83,11 +83,12 @@ export default function UsersTableRolesFilter({
   loading,
 }: Props) {
   const { t } = useTranslation();
+  const theme = useTheme();
+
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
 
-  const [open, setOpen] = React.useState(false);
   const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
     [selcRole in UserRole]: ProductRolesGroupByTitle;
   }>(emptySelcRoleGroup);
@@ -108,24 +109,57 @@ export default function UsersTableRolesFilter({
     }
   }, [productRolesSelected]);
 
+  const handleUserRole = (
+    isSelected: boolean,
+    selcGroup: ProductRolesGroupByTitle,
+    selcRole: UserRole
+  ) => {
+    const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
+    setProductRoleCheckedBySelcRole({
+      ...productRoleCheckedBySelcRole,
+      [selcRole]: nextSelcGroupSelected,
+    });
+  };
+
+  const handleProductRole = (
+    isSelected: boolean,
+    selcGroupSelected: ProductRolesGroupByTitle,
+    selcRole: UserRole,
+    title: string,
+    roles: Array<ProductRole>
+  ) => {
+    const nextSelcGroupSelected = isSelected
+      ? Object.fromEntries(Object.entries(selcGroupSelected).filter(([t, _rs]) => t !== title))
+      : { ...selcGroupSelected, [title]: roles };
+    setProductRoleCheckedBySelcRole({
+      ...productRoleCheckedBySelcRole,
+      [selcRole]: nextSelcGroupSelected,
+    });
+  };
+
   const children = (
     selcRole: UserRole,
     selcGroup: ProductRolesGroupByTitle,
     selcGroupSelected: ProductRolesGroupByTitle
-  ) => (
-    <Box
-      key={`${selcRole}-children`}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        ml: showSelcRoleGrouped ? 2 : 0,
-      }}
-    >
-      {Object.entries(selcGroup).map(([title, roles]) => {
-        const isSelected = !!selcGroupSelected[title];
-        return (
+  ) =>
+    Object.entries(selcGroup).map(([title, roles]) => {
+      const isSelected = !!selcGroupSelected[title];
+      return (
+        <MenuItem
+          key={`${selcRole}-children-${title}`}
+          sx={{
+            display: 'flex',
+            ml: showSelcRoleGrouped ? 3 : 1,
+            mb: 1,
+          }}
+          onClick={() => handleProductRole(isSelected, selcGroupSelected, selcRole, title, roles)}
+        >
           <FormControlLabel
             key={title}
+            sx={{ height: '30px' }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             label={
               <Typography
                 variant="body2"
@@ -141,25 +175,15 @@ export default function UsersTableRolesFilter({
                   },
                 }}
                 checked={isSelected}
-                onChange={() => {
-                  setOpen(true);
-                  const nextSelcGroupSelected = isSelected
-                    ? Object.fromEntries(
-                        Object.entries(selcGroupSelected).filter(([t, _rs]) => t !== title)
-                      )
-                    : { ...selcGroupSelected, [title]: roles };
-                  setProductRoleCheckedBySelcRole({
-                    ...productRoleCheckedBySelcRole,
-                    [selcRole]: nextSelcGroupSelected,
-                  });
-                }}
+                onChange={() =>
+                  handleProductRole(isSelected, selcGroupSelected, selcRole, title, roles)
+                }
               />
             }
           />
-        );
-      })}
-    </Box>
-  );
+        </MenuItem>
+      );
+    });
 
   const isSelcGroupTotallySelected = (selcRole: UserRole) => {
     const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
@@ -177,7 +201,7 @@ export default function UsersTableRolesFilter({
       ) as { [userRole in UserRole]: boolean },
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
-  const theme = useTheme();
+
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
       <FormControl variant="standard">
@@ -189,14 +213,11 @@ export default function UsersTableRolesFilter({
           )}
           <Box width="100%" mr={2}>
             <CustomSelect
-              onClick={() => setOpen(!open)}
               multiple
               MenuProps={MenuProps}
               variant="outlined"
               displayEmpty
               native={false}
-              open={open}
-              inputProps={{ onClick: () => setOpen(!open) }}
               value={selcGroups.flatMap((s) =>
                 selcGroupTotallySelected[s]
                   ? [t(labels[s].titleKey)]
@@ -230,61 +251,61 @@ export default function UsersTableRolesFilter({
                 '.MuiInput-input:focus': { backgroundColor: 'transparent' },
               }}
             >
-              <Box px={3} mt={showSelcRoleGrouped ? 0 : 1}>
-                {selcGroups.map((selcRole) => {
-                  const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
-                  const selcGroup = selcRoleGroup[selcRole];
-                  const isSelected = selcGroupTotallySelected[selcRole];
+              {selcGroups.map((selcRole) => {
+                const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
+                const selcGroup = selcRoleGroup[selcRole];
+                const isSelected = selcGroupTotallySelected[selcRole];
 
-                  return [
-                    showSelcRoleGrouped ? (
-                      <Box mt={2} key={selcRole}>
-                        <FormControlLabel
-                          sx={{ height: '60px', display: 'flex', alignItems: 'flex-start' }}
-                          label={
-                            <Grid container sx={{ height: '100%' }}>
-                              <Grid item>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: 'colorTextPrimary', fontWeight: 'fontWeightMedium' }}
-                                >
-                                  {t(labels[selcRole].titleKey)}
-                                </Typography>
-                              </Grid>
-                              <Grid item>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: '#475A6D', fontSize: '12px' }}
-                                >
-                                  {t(labels[selcRole].descriptionKey)}
-                                </Typography>
-                              </Grid>
+                return [
+                  showSelcRoleGrouped ? (
+                    <MenuItem
+                      onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
+                      key={selcRole}
+                    >
+                      <FormControlLabel
+                        sx={{
+                          height: '60px',
+                          padding: 1,
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        label={
+                          <Grid container sx={{ height: '100%', whiteSpace: 'normal' }}>
+                            <Grid item>
+                              <Typography
+                                variant="body2"
+                                sx={{ color: 'colorTextPrimary', fontWeight: 'fontWeightMedium' }}
+                              >
+                                {t(labels[selcRole].titleKey)}
+                              </Typography>
                             </Grid>
-                          }
-                          control={
-                            <Checkbox
-                              sx={{ padding: '0 9px' }}
-                              checked={isSelected}
-                              indeterminate={
-                                !isSelected && Object.keys(selcGroupSelected).length > 0
-                              }
-                              onChange={() => {
-                                setOpen(true);
-                                const nextSelcGroupSelected = isSelected ? {} : { ...selcGroup };
-                                setProductRoleCheckedBySelcRole({
-                                  ...productRoleCheckedBySelcRole,
-                                  [selcRole]: nextSelcGroupSelected,
-                                });
-                              }}
-                            />
-                          }
-                        />
-                      </Box>
-                    ) : undefined,
-                    children(selcRole, selcGroup, selcGroupSelected),
-                  ];
-                })}
-              </Box>
+                            <Grid item>
+                              <Typography
+                                variant="body2"
+                                sx={{ color: '#475A6D', fontSize: '12px' }}
+                              >
+                                {t(labels[selcRole].descriptionKey)}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        }
+                        control={
+                          <Checkbox
+                            sx={{ padding: '0 9px' }}
+                            checked={isSelected}
+                            indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
+                            onChange={() => handleUserRole(isSelected, selcGroup, selcRole)}
+                          />
+                        }
+                      />
+                    </MenuItem>
+                  ) : undefined,
+                  children(selcRole, selcGroup, selcGroupSelected),
+                ];
+              })}
             </CustomSelect>
           </Box>
           <Box display="flex" sx={{ width: '100%' }}>
@@ -296,7 +317,6 @@ export default function UsersTableRolesFilter({
                 variant="outlined"
                 type="submit"
                 onClick={() => {
-                  setOpen(false);
                   onFiltersChange({
                     ...filters,
                     productIds: nextProductRolesFilter.map((f) => f.productId),
@@ -313,7 +333,6 @@ export default function UsersTableRolesFilter({
                 sx={{ width: '100%', height: '32px' }}
                 color="primary"
                 onClick={() => {
-                  setOpen(false);
                   onFiltersChange({ ...filters, productIds: [], productRoles: [] });
                 }}
               >
