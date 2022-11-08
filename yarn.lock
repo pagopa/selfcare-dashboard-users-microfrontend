@@ -1366,10 +1366,10 @@
     lodash.isundefined "^3.0.1"
     lodash.uniq "^4.5.0"
 
-"@fontsource/titillium-web@^4.5.8":
-  version "4.5.8"
-  resolved "https://registry.yarnpkg.com/@fontsource/titillium-web/-/titillium-web-4.5.8.tgz#1bebb1daf86b02c7c8d816071a850121904f7b56"
-  integrity sha512-9sOpgikaqh9qvYRYLnk7C0PSIU4GNt17Qtw3txUwLioRcLWiL0OeNDE1vndC1NzeWII6AicTRMOoMTbthRuFIw==
+"@fontsource/dm-mono@^4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/dm-mono/-/dm-mono-4.5.10.tgz#2d033549b4fe75ab8e26c5e74081f1ba5aa65519"
+  integrity sha512-cVd0L+tz1PrrNyClnpeJvRtVdvtB69L9PJ4sBm3t2ZCcbzKCa3MmW9duljKeRxTfQh3YTZpevnD14uWumRJYzA==
 
 "@fontsource/titillium-web@^4.5.9":
   version "4.5.9"
@@ -1906,21 +1906,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@pagopa/mui-italia@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.7.0.tgz#165ac4406b8b85b8729861d6fe189c6726a5951a"
-  integrity sha512-9r2MJ0yEgrZDSlSCZE4yj8/N/ojgMTS1faWx3DQ1E7KqrHr6+Urd12AKQPu5VO0NtIw5Vn1gLvAjypA0T+xWbw==
+"@pagopa/mui-italia@^0.8.2", "@pagopa/mui-italia@^0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.8.3.tgz#53e88e3116f937474069eb493053367e11b73d65"
+  integrity sha512-oOIhbpMYiDfSXmwmBjFeyGbGCCHRQJUs2RUt5eVrO+7zsyvaG548ZYeZfqHhkem72hmu4eCHOAS3Es+qvFPirw==
   dependencies:
-    "@fontsource/titillium-web" "^4.5.8"
-    clsx "^1.1.1"
-    fp-ts "^2.12.1"
-    io-ts "^2.2.16"
-
-"@pagopa/mui-italia@^0.7.5":
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.7.5.tgz#5ac314eb169ae88f4dd525e24c083e9b4b95455d"
-  integrity sha512-f7a/6NAXCj3zENmeDJjz40Zw8ot7uIQwOoxI7sqUFlbOYsXqiBaseQGIgYezkPJA2US9ku3Ac+Ua43I8ZvH5zw==
-  dependencies:
+    "@fontsource/dm-mono" "^4.5.10"
     "@fontsource/titillium-web" "^4.5.9"
     clsx "^1.2.1"
     fp-ts "^2.12.3"
@@ -1940,10 +1931,10 @@
     write-yaml-file "^4.1.3"
     yargs "^15.0.1"
 
-"@pagopa/selfcare-common-frontend@^1.12.11":
-  version "1.12.11"
-  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.12.11.tgz#cd726f1e178ac6819bdbe4db8f0457f617a288b8"
-  integrity sha512-MFTrNawQCkG5dZARK2bRWRalP1tXjXjESSok36LYwOnQ8Jio0xhletMu7WcLGBfvvrZSUe/Q60zNTASuPF3qLg==
+"@pagopa/selfcare-common-frontend@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.13.0.tgz#8f507ec2c07d39320b523d256aabd6992279a67e"
+  integrity sha512-gmoKJsui7tovU0yiyI/TH8UPAF2vEG0mc2K1GTUTfKyl60ONVipbUxVPMtdhiNC64gcEid1SDHZqyxvyuJCG8Q==
   dependencies:
     "@emotion/react" "^11.4.1"
     "@emotion/styled" "^11.3.0"
@@ -1951,7 +1942,7 @@
     "@mui/lab" "^5.0.0-alpha.80"
     "@mui/material" "^5.8.2"
     "@mui/system" "^5.8.1"
-    "@pagopa/mui-italia" "^0.7.0"
+    "@pagopa/mui-italia" "^0.8.2"
     "@pagopa/ts-commons" "^10.2.1"
     "@reduxjs/toolkit" "^1.6.2"
     "@types/lodash" "^4.14.172"
@@ -5705,7 +5696,7 @@ forwarded@0.2.0:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
   integrity sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==
 
-fp-ts@^2.11.0, fp-ts@^2.11.5, fp-ts@^2.12.1:
+fp-ts@^2.11.0, fp-ts@^2.11.5:
   version "2.12.1"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.12.1.tgz#e389488bfd1507af06bd5965e97367edcd4fabad"
   integrity sha512-oxvgqUYR6O9VkKXrxkJ0NOyU0FrE705MeqgBUMEPWyTu6Pwn768cJbHChw2XOBlgFLKfIHxjr2OOBFpv2mUGZw==
