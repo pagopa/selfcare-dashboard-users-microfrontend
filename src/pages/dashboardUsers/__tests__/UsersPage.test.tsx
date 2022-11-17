@@ -1,7 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
@@ -13,7 +12,7 @@ const renderApp = async (partyId: string = 'onboarded') => {
   const history = createMemoryHistory();
   history.push(`/dashboard/${partyId}/users`);
   const output = renderComponent(undefined, history);
-  await waitFor(() => screen.getByText('Utenti'));
+  await waitFor(() => screen.getByText('Nome'));
   await waitFor(() =>
     screen.getByText(
       'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
@@ -40,9 +39,9 @@ test('test filter users from role', async () => {
   const filterButton = screen.getByRole('button', { name: 'Filtra' });
   expect(filterButton).toBeDisabled();
   const rolesFilter = screen.getByRole('button', { name: 'Tutti i ruoli' });
-  fireEvent.click(rolesFilter);
-  const adminRole = screen.getByRole('checkbox', { name: 'Amministratore' });
-  fireEvent.click(adminRole);
+  fireEvent.mouseDown(rolesFilter);
+  const userRole = screen.getAllByText('Amministratore')[0];
+  fireEvent.click(userRole);
   expect(filterButton).toBeEnabled();
   fireEvent.click(filterButton);
   screen.getAllByText('Incaricato Ente Creditore');
