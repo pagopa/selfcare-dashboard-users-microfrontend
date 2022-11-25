@@ -1,3 +1,5 @@
+import { ProductOnBoardingStatusEnum } from '../../../api/generated/b4f-dashboard/ProductsResource';
+import { StatusEnum } from '../../../api/generated/b4f-dashboard/SubProductResource';
 import { Product } from '../../../model/Product';
 import { ProductRole } from '../../../model/ProductRole';
 
@@ -8,7 +10,8 @@ export const mockedPartyProducts: Array<Product> = [
     description: 'App IO description',
     id: 'prod-io',
     authorized: true,
-    status: 'ACTIVE',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     userRole: 'ADMIN',
     activationDateTime: new Date(2021, 1, 1),
     urlPublic: 'https://io.italia.it/ ',
@@ -20,7 +23,8 @@ export const mockedPartyProducts: Array<Product> = [
     title: 'Piattaforma Notifiche',
     description: 'Piattaforma Notifiche description',
     authorized: false,
-    status: 'ACTIVE',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     urlBO: 'http://notifiche/bo?token=<IdentityToken>',
     activationDateTime: new Date(2021, 1, 2),
     urlPublic: 'http://notifiche/public',
@@ -32,7 +36,8 @@ export const mockedPartyProducts: Array<Product> = [
     description: 'Pagamenti pagoPA description',
     authorized: true,
     tag: 'Vecchio Portale',
-    status: 'ACTIVE',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     urlBO: 'http://pagopa/bo#token=<IdentityToken>',
     activationDateTime: new Date(2021, 1, 3),
     urlPublic: 'http://pagopa/public',
@@ -43,7 +48,8 @@ export const mockedPartyProducts: Array<Product> = [
     description: "Verifica l'abbinamento di un IBAN ad un CF di un cittadino o di un'impresa.",
     id: 'prod-ciban',
     authorized: false,
-    status: 'PENDING',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     urlBO: 'http://checkiban/bo#token=<IdentityToken>',
     urlPublic: 'http://www.google.it',
   },
@@ -54,7 +60,8 @@ export const mockedPartyProducts: Array<Product> = [
     description: 'Richiedi la convenzione e gestisci i dati e le agevolazioni da offrire.',
     urlBO: 'http://cgn/bo#token=<IdentityToken>',
     authorized: false,
-    status: 'INACTIVE',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     urlPublic: undefined,
   },
   {
@@ -65,7 +72,8 @@ export const mockedPartyProducts: Array<Product> = [
     urlBO: 'http://PDND/bo#token=<IdentityToken>',
     authorized: true,
     userRole: 'ADMIN',
-    status: 'ACTIVE',
+    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
+    status:StatusEnum.ACTIVE,
     urlPublic: undefined,
   },
 ];
