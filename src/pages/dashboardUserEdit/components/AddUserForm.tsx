@@ -179,7 +179,7 @@ export default function AddUserForm({
 
   useEffect(() => {
     const isEnabled = products.filter(
-      (p) => p.authorized && p.userRole === 'ADMIN' && p.status === 'ACTIVE'
+      (p) => p.authorized && p.userRole === 'ADMIN' && p.productOnBoardingStatus === 'ACTIVE'
     );
     setProductInPage(Object.keys(isEnabled).length === 1);
     if (productInPage) {

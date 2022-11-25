@@ -1,3 +1,5 @@
+import { ProductOnBoardingStatusEnum } from '../api/generated/b4f-dashboard/ProductsResource';
+import { StatusEnum } from '../api/generated/b4f-dashboard/SubProductResource';
 import { UserRole } from './Party';
 
 export type Product = {
@@ -12,7 +14,10 @@ export type Product = {
   tag?: string;
   userRole?: UserRole;
   authorized?: boolean;
-  status: 'ACTIVE' | 'INACTIVE' | 'PENDING';
+  // onboarding status of product. Products that have, or have not, completed the onboarding process.
+  productOnBoardingStatus: ProductOnBoardingStatusEnum;
+  // product status.The intrinsic state of the product. Product status is unrelated to product onboarding status.
+  status: StatusEnum;
 };
 
 export type ProductsMap = { [id: string]: Product };
