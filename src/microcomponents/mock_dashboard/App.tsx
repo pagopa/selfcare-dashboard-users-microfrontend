@@ -65,7 +65,9 @@ const App = ({
 
   const party = mockedParties.find((p) => p.partyId === partyId);
   const products = party ? mockedPartyProducts : undefined;
-  const activeProducts = products ? products.filter((p) => p.status === 'ACTIVE') : undefined;
+  const activeProducts = products
+    ? products.filter((p) => p.productOnBoardingStatus === 'ACTIVE')
+    : undefined;
   const productsMap = products ? buildProductsMap(products) : undefined;
   const productsRolesMap = party
     ? products?.reduce((acc: ProductsRolesMap, p: Product) => {
