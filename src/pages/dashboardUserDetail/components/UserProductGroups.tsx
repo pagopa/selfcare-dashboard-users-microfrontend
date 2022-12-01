@@ -92,7 +92,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   return userGroups?.length > 0 ||
     (product.authorized &&
       product?.userRole === 'ADMIN' &&
-      product.status === 'ACTIVE' &&
+      product.productOnBoardingStatus === 'ACTIVE' &&
       userGroupsComplement.length > 0) ? (
     <Grid container item xs={12} mt={3}>
       <Grid item xs={3}>
@@ -133,7 +133,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
           ))}
         {product.authorized &&
           product?.userRole === 'ADMIN' &&
-          product.status === 'ACTIVE' &&
+          product.productOnBoardingStatus === 'ACTIVE' &&
           userGroupsComplement.length > 0 && (
             <AddUserToGroupButton
               user={user}

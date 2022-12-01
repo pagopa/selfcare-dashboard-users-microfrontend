@@ -12,7 +12,9 @@ import {
   institutionUserResource2PartyUserDetail,
   productUserResource2PartyProductUser,
   partyUserDetail2User,
-  PartyUserDetail
+  PartyUserDetail,
+  PartyUser,
+  checkSuspendedUser,
 } from '../PartyUser';
 
 test('Test institutionUserResource2PartyUserDetail', () => {
@@ -187,7 +189,6 @@ test('Test productUserResource2PartyProductUser', () => {
   ).toBeTruthy();
 });
 
-
 test('Test partyUserDetail2User', () => {
   const partyUserDetail: PartyUserDetail = {
     id: '1',
@@ -214,9 +215,7 @@ test('Test partyUserDetail2User', () => {
     ],
   };
 
-  const user = partyUserDetail2User(
-    partyUserDetail
-  );
+  const user = partyUserDetail2User(partyUserDetail);
   expect(user).toStrictEqual({
     uid: '1',
     taxCode: 'fiscalCode',
@@ -224,4 +223,32 @@ test('Test partyUserDetail2User', () => {
     surname: 'Surname',
     email: 'address',
   });
+});
+
+test('Test checkSuspendedUser', () => {
+  const suspendedUser: PartyUser = {
+    id: '12',
+    name: 'Pino',
+    surname: 'Pi',
+    email: 'pino.pi@comunedi.com',
+    isCurrentUser: true,
+    userRole: 'ADMIN',
+    products: [
+      {
+        id: 'productId',
+        title: 'productTitle',
+        roles: [
+          {
+            relationshipId: 'relationshipId',
+            role: 'productRole',
+            selcRole: SelcRoleEnum.ADMIN,
+            status: 'SUSPENDED',
+          },
+        ],
+      },
+    ],
+    status: 'SUSPENDED',
+  };
+  const isSuspended = checkSuspendedUser(suspendedUser);
+  expect(isSuspended).toBeTruthy();
 });
