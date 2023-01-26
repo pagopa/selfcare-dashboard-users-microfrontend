@@ -30,6 +30,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsS
 import { Trans, useTranslation } from 'react-i18next';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
+import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -248,7 +249,7 @@ export default function AddUserForm({
           : undefined,
         taxCode: !values.taxCode
           ? requiredError
-          : !taxCodeRegexp.test(values.taxCode)
+          : !taxCodeRegexp.test(values.taxCode) || verifyChecksumMatchWithTaxCode(values.taxCode)
           ? t('userEdit.addForm.errors.invalidFiscalCode')
           : undefined,
         email: !values.email
