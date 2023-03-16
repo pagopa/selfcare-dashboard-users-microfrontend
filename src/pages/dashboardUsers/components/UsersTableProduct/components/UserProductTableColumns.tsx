@@ -241,8 +241,8 @@ function showRoles(
                   }
                   sx={{ outline: 'none' }}
                 >
-                  {productRolesLists.groupByProductRole[r.role]
-                    ? productRolesLists.groupByProductRole[r.role].title
+                  {productRolesLists?.groupByProductRole[r.role]
+                    ? productRolesLists?.groupByProductRole[r.role].title
                     : r.role}
                 </Typography>
               </Grid>

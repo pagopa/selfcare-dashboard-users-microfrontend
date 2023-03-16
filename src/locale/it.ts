@@ -271,12 +271,9 @@ export default {
       subTitle:
         'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
-    vertical: {
-      paths: {
-        description: 'Utenti',
-      },
+    pnpg: {
       subTitle:
-        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
+        'Gestisci gli utenti che possono accedere a Piattaforma Notifiche per conto di {{ businessName }}.',
     },
   },
 };

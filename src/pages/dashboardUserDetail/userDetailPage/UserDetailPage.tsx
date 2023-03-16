@@ -43,6 +43,8 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
 
+  console.log(partyUser);
+
   const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =
   //   partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
