@@ -35,7 +35,7 @@ export default function UserProductDetail({
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
-  const isProdPnpgProduct = product.id !== 'prod-pn-pg';
+  const isProdPnpgProduct = product.id === 'prod-pn-pg';
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function UserProductDetail({
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              {isProdPnpgProduct && (
+              {!isProdPnpgProduct && (
                 <Box display="flex" alignItems="center">
                   <Box
                     display="flex"
@@ -89,7 +89,7 @@ export default function UserProductDetail({
             </Grid>
           </Grid>
 
-          {isProdPnpgProduct && product.authorized === false && !partyUser.isCurrentUser ? (
+          {!isProdPnpgProduct && product.authorized === false && !partyUser.isCurrentUser ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
                 <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
