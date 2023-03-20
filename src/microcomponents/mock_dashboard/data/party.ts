@@ -103,4 +103,33 @@ export const mockedParties: Array<Party> = [
     urlLogo:
       'https://selcdcheckoutsa.z6.web.core.windows.net/institutions/7784b9d3-e834-4342-a6ef-d0566b058af2/logo.png',
   },
+  // Use case introduced for selfcare pnpg
+  {
+    userRole: 'ADMIN',
+    description: "TOD'S S.P.A",
+    urlLogo: 'image',
+    status: 'ACTIVE',
+    partyId: '5b321318-3df7-48c1-87c8-2865e6707c3d',
+    digitalAddress: '',
+    fiscalCode: '01113570442',
+    category: '',
+    externalId: '01113570442',
+    originId: 'originId1',
+    origin: 'IPA',
+    institutionType: 'Azienda privata',
+  },
+  {
+    userRole: 'ADMIN',
+    description: 'DIEGO DELLA VALLE & C. S.R.L.',
+    urlLogo: 'image',
+    status: 'ACTIVE',
+    partyId: '6b11b97c-a659-4f0d-a8cc-316e11b1025f',
+    digitalAddress: '',
+    fiscalCode: '01501320442',
+    category: '',
+    externalId: '01501320442',
+    originId: 'originId1',
+    origin: 'IPA',
+    institutionType: 'Azienda privata',
+  },
 ];

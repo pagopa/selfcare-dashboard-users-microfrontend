@@ -3,7 +3,7 @@ import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { Product, ProductsMap } from '../../../model/Product';
@@ -76,6 +76,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
 
+  const isProdPnpg = selectedProducts[0].id === 'prod-pn-pg';
+
   const mappedProducts = (p: Product) => (
     <Grid key={p.id} item xs={12}>
       <UsersProductSection
@@ -93,6 +95,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           }));
         }}
         incrementalLoad={!selectedProductSection}
+        isProdPnpg={isProdPnpg}
       />
     </Grid>
   );
@@ -112,7 +115,16 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             variantTitle="h4"
             variantSubTitle="body1"
             title={t('usersPage.title')}
-            subTitle={t('usersPage.generic.subTitle')}
+            subTitle={
+              !isProdPnpg
+                ? t('usersPage.generic.subTitle')
+                : ((
+                    <Trans i18next="usersPage.pnpg.subTitle">
+                      Gestisci gli utenti che possono accedere a Piattaforma Notifiche per conto di{' '}
+                      {{ businessName: party.description }}.
+                    </Trans>
+                  ) as unknown as string)
+            }
             mbTitle={2}
           />
         </Grid>

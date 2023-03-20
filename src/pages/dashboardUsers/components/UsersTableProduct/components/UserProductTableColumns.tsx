@@ -10,13 +10,11 @@ import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { ProductRolesLists } from '../../../../../model/ProductRole';
-
 import { Product } from '../../../../../model/Product';
 
 export function buildColumnDefs(
   _product: Product,
   onRowClick: (partyUser: PartyProductUser) => void,
-
   productRolesLists: ProductRolesLists
 ) {
   return [
@@ -241,8 +239,8 @@ function showRoles(
                   }
                   sx={{ outline: 'none' }}
                 >
-                  {productRolesLists.groupByProductRole[r.role]
-                    ? productRolesLists.groupByProductRole[r.role].title
+                  {productRolesLists?.groupByProductRole[r.role]
+                    ? productRolesLists?.groupByProductRole[r.role].title
                     : r.role}
                 </Typography>
               </Grid>

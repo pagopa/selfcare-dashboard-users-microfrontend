@@ -43,6 +43,8 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
 
+  const isProdPnpg = activeProducts[0].id === 'prod-pn-pg';
+
   const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =
   //   partyUser.products.length === 1 && partyUser.products[0].roles.length === 1;
@@ -199,8 +201,16 @@ function UserDetailPage({
           )}
         </Grid>
 
-        <Grid container item>
-          <Grid item xs={12} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
+        <Grid container item sx={{ backgroundColor: isProdPnpg ? 'background.paper' : undefined }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              backgroundColor: isProdPnpg ? 'background.paper' : 'background.default',
+              padding: 3,
+            }}
+            mb={isProdPnpg ? 1 : 4}
+          >
             <UserDetail
               userInfo={partyUser}
               roleSection={''}

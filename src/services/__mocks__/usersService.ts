@@ -650,6 +650,97 @@ export const mockedUsers: Array<PartyUserDetail> = [
     ],
     isCurrentUser: false,
   },
+  // Use cases introduced for selfcare PNPG
+  {
+    id: 'uid60',
+    taxCode: 'TAXCOD04A00A121P',
+    name: 'Marco',
+    surname: 'Marchetti',
+    email: 'marco.m@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'referente-tecnico',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+          {
+            relationshipId: 'rel4_2',
+            role: 'operatore-sicurezza',
+            selcRole: 'LIMITED',
+            status: 'SUSPENDED',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
+  {
+    id: 'uid61',
+    taxCode: 'TAXCOD04A00A421P',
+    name: 'Fabio',
+    surname: 'Lopez',
+    email: 'fabio.l@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'referente-tecnico',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+          {
+            relationshipId: 'rel4_2',
+            role: 'operatore-sicurezza',
+            selcRole: 'LIMITED',
+            status: 'SUSPENDED',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
+  {
+    id: 'uid62',
+    taxCode: 'TAXCOD14A00A521P',
+    name: 'Marco',
+    surname: 'Marchisio',
+    email: 'marco.m@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'referente-tecnico',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+          {
+            relationshipId: 'rel4_2',
+            role: 'operatore-sicurezza',
+            selcRole: 'LIMITED',
+            status: 'SUSPENDED',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
 ];
 
 type PartyGroupMock = PartyGroup & {

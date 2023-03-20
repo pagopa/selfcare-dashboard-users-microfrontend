@@ -70,14 +70,14 @@ export const transcodeProductRole2Title = (
   productRole: string,
   productRolesList: ProductRolesLists
 ) =>
-  productRolesList.groupByProductRole[productRole]
-    ? productRolesList.groupByProductRole[productRole].title
+  productRolesList?.groupByProductRole[productRole]
+    ? productRolesList?.groupByProductRole[productRole].title
     : productRole;
 
 export const transcodeProductRole2Description = (
   productRole: string,
   productRolesList: ProductRolesLists
 ) =>
-  productRolesList.groupByProductRole[productRole]
-    ? productRolesList.groupByProductRole[productRole].description
+  productRolesList?.groupByProductRole[productRole]
+    ? productRolesList?.groupByProductRole[productRole].description
     : productRole;
