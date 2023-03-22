@@ -43,7 +43,7 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
 
-  const isProdPnpg = activeProducts[0].id === 'prod-pn-pg';
+  const isProdPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
   const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =

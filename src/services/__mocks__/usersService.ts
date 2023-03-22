@@ -49,7 +49,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
     ],
     isCurrentUser: false,
   },
-
   // logged user
   {
     id: '0',
@@ -80,6 +79,19 @@ export const mockedUsers: Array<PartyUserDetail> = [
             relationshipId: 'rel2',
             role: 'referente-tecnico',
             selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+      // Use case introduced for selfcare pnpg
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel2',
+            role: 'Amministratore',
+            selcRole: 'ADMIN',
             status: 'ACTIVE',
           },
         ],
@@ -666,15 +678,9 @@ export const mockedUsers: Array<PartyUserDetail> = [
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'referente-tecnico',
+            role: 'Amministratore',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
-          },
-          {
-            relationshipId: 'rel4_2',
-            role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
-            status: 'SUSPENDED',
           },
         ],
       },
@@ -696,15 +702,9 @@ export const mockedUsers: Array<PartyUserDetail> = [
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'referente-tecnico',
+            role: 'Tecnico',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
-          },
-          {
-            relationshipId: 'rel4_2',
-            role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
-            status: 'SUSPENDED',
           },
         ],
       },
@@ -726,15 +726,9 @@ export const mockedUsers: Array<PartyUserDetail> = [
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'referente-tecnico',
+            role: 'Tecnico',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
-          },
-          {
-            relationshipId: 'rel4_2',
-            role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
-            status: 'SUSPENDED',
           },
         ],
       },
@@ -936,6 +930,32 @@ export const mockedGroups: Array<PartyGroupMock> = [
     createdByUserId: 'uid',
     modifiedAt: new Date('2022-01-01 16:00'),
     modifiedByUserId: 'uid',
+  },
+  {
+    id: 'groupId15',
+    name: 'Gruppo15',
+    description: 'groupId15 : use case ACTIVE group with loggedUser which is ADMIN in prod-pn-pg',
+    partyId: 'onboarded',
+    productId: 'prod-io',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: '0',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: '0',
+  },
+  {
+    id: 'groupId16',
+    name: 'Gruppo16',
+    description: 'groupId16 : use case ACTIVE group with loggedUser which is ADMIN in prod-pn-pg',
+    partyId: 'onboarded',
+    productId: 'prod-io',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: '0',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: '0',
   },
 ].map((o) => ({
   ...o,

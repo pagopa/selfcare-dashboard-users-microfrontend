@@ -184,6 +184,9 @@ export default {
     addForm: {
       title: 'Aggiungi un nuovo utente',
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
+      userData: {
+        label: 'Dati utente',
+      },
       fiscalCode: {
         label: 'Codice Fiscale',
       },
