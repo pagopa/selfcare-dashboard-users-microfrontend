@@ -7,12 +7,8 @@ import {
 } from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
 import { cloneDeep } from 'lodash';
 import { Party } from '../../model/Party';
-import { Product,  } from '../../model/Product';
-import {
-  PartyGroup,
-
-  PartyGroupStatus,
-} from '../../model/PartyGroup';
+import { Product } from '../../model/Product';
+import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
 type PartyGroupMock = PartyGroup & {
   membersIds: Array<string>;
@@ -211,12 +207,64 @@ export const mockedGroups: Array<PartyGroupMock> = [
     modifiedAt: new Date('2022-01-01 16:00'),
     modifiedByUserId: 'uid',
   },
+  // Use case introduced for selfcare-pnpg
+  {
+    id: 'groupId15',
+    name: 'Gruppo15',
+    description: 'Group to have a significant number on prod-pn-pg',
+    partyId: '5b321318-3df7-48c1-87c8-2865e6707c3d',
+    productId: 'prod-pn-pg',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: 'uid',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: 'uid',
+  },
+  {
+    id: 'groupId16',
+    name: 'Gruppo16',
+    description: 'Group to have a significant number on prod-pn-pg',
+    partyId: '5b321318-3df7-48c1-87c8-2865e6707c3d',
+    productId: 'prod-pn-pg',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: 'uid',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: 'uid',
+  },
+  {
+    id: 'groupId17',
+    name: 'Gruppo17',
+    description: 'Group to have a significant number on prod-pn-pg',
+    partyId: '6b11b97c-a659-4f0d-a8cc-316e11b1025f',
+    productId: 'prod-pn-pg',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: 'uid',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: 'uid',
+  },
+  {
+    id: 'groupId18',
+    name: 'Gruppo18',
+    description: 'Group to have a significant number on prod-pn-pg',
+    partyId: '6b11b97c-a659-4f0d-a8cc-316e11b1025f',
+    productId: 'prod-pn-pg',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: 'uid',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: 'uid',
+  },
 ].map((o) => ({
   ...o,
   membersCount: o.membersIds.length,
   status: o.status as PartyGroupStatus,
 }));
-
 
 export const fetchPartyGroups = (
   party: Party,
@@ -242,7 +290,5 @@ export const fetchPartyGroups = (
   );
 };
 
-export const addMemberToUserGroup = (
-  _id: string,
-  userId: string,
-): Promise<string> => new Promise((resolve) => resolve(userId));
+export const addMemberToUserGroup = (_id: string, userId: string): Promise<string> =>
+  new Promise((resolve) => resolve(userId));

@@ -106,7 +106,7 @@ export const mockedParties: Array<Party> = [
   // Use case introduced for selfcare pnpg
   {
     userRole: 'ADMIN',
-    description: "TOD'S S.P.A",
+    description: 'BusinessName1',
     urlLogo: 'image',
     status: 'ACTIVE',
     partyId: '5b321318-3df7-48c1-87c8-2865e6707c3d',
@@ -120,7 +120,7 @@ export const mockedParties: Array<Party> = [
   },
   {
     userRole: 'ADMIN',
-    description: 'DIEGO DELLA VALLE & C. S.R.L.',
+    description: 'BusinessName2',
     urlLogo: 'image',
     status: 'ACTIVE',
     partyId: '6b11b97c-a659-4f0d-a8cc-316e11b1025f',

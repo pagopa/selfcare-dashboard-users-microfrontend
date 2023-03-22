@@ -76,7 +76,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
 
-  const isProdPnpg = selectedProducts[0].id === 'prod-pn-pg';
+  const isProdPnpg = !!selectedProducts.find((p) => p.id === 'prod-pn-pg');
 
   const mappedProducts = (p: Product) => (
     <Grid key={p.id} item xs={12}>
@@ -195,7 +195,11 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         <Grid
           item
           xs={12}
-          sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}
+          sx={{
+            backgroundColor: 'background.default',
+            px: isProdPnpg ? 0 : 3,
+            pb: isProdPnpg ? 0 : 3,
+          }}
           mt={moreThanOneActiveProduct ? 0 : 5}
         >
           <Grid container direction="row" alignItems={'center'}>
