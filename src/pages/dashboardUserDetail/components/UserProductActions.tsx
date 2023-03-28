@@ -40,6 +40,7 @@ export default function UserProductActions({
   const addNotify = useUserNotify();
   const moreRolesOnProduct = product.roles.length > 1;
   const haveMoreProducts = user.products.length > 1;
+  const isProdPnpg = product.id === 'prod-pn-pg';
 
   const onDeleteMoreRole = () => {
     setLoading(true);
@@ -288,7 +289,7 @@ export default function UserProductActions({
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
-        <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" justifyContent={!isProdPnpg ? 'flex-end' : 'normal'}>
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
             <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
               <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
@@ -298,20 +299,26 @@ export default function UserProductActions({
               </Link>
             </Box>
           )}
-          <Box width="52px" display="flex">
-            <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
-              <Typography
-                variant="caption"
-                sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+          {!isProdPnpg && (
+            <Box width="52px" display="flex">
+              <Link
+                onClick={handleOpen}
+                component="button"
+                sx={{ textDecoration: 'none!important' }}
               >
-                {role.status === 'SUSPENDED'
-                  ? t('userDetail.actions.reactivateRole')
-                  : role.status === 'ACTIVE'
-                  ? t('userDetail.actions.suspendRole')
-                  : ''}
-              </Typography>
-            </Link>
-          </Box>
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+                >
+                  {role.status === 'SUSPENDED'
+                    ? t('userDetail.actions.reactivateRole')
+                    : role.status === 'ACTIVE'
+                    ? t('userDetail.actions.suspendRole')
+                    : ''}
+                </Typography>
+              </Link>
+            </Box>
+          )}
         </Box>
       )}
     </>

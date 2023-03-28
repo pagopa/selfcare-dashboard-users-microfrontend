@@ -89,27 +89,29 @@ export default function UserProductDetail({
             </Grid>
           </Grid>
 
-          {!isProdPnpg && product.authorized === false && !partyUser.isCurrentUser ? (
+          {product.authorized === false && !partyUser.isCurrentUser ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
                 <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
               </Tooltip>
             </Grid>
           ) : (
-            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              <UserProductActions
-                showActions={showActionOnProduct}
-                party={party}
-                role={userProduct.roles[0]}
-                user={partyUser}
-                fetchPartyUser={fetchPartyUser}
-                product={userProduct}
-                productRolesList={productRolesList}
-                canEdit={canEdit}
-                isProductDetailPage={isProductDetailPage}
-                handleOpenDelete={handleOpenDelete}
-              />
-            </Grid>
+            !isProdPnpg && (
+              <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+                <UserProductActions
+                  showActions={showActionOnProduct}
+                  party={party}
+                  role={userProduct.roles[0]}
+                  user={partyUser}
+                  fetchPartyUser={fetchPartyUser}
+                  product={userProduct}
+                  productRolesList={productRolesList}
+                  canEdit={canEdit}
+                  isProductDetailPage={isProductDetailPage}
+                  handleOpenDelete={handleOpenDelete}
+                />
+              </Grid>
+            )
           )}
         </Grid>
       </Grid>
