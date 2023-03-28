@@ -73,12 +73,18 @@ export default function UserProductSection({
         )}
       {partyUser.products.map((userProduct) => {
         const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
+        const isProdPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
         return (
           <Grid
             item
-            xs={12}
+            xs={!isProdPnpg ? 12 : 8}
             key={userProduct.id}
-            sx={{ backgroundColor: 'background.paper', padding: 3, mb: 2 }}
+            sx={{
+              backgroundColor: 'background.paper',
+              padding: !isProdPnpg ? 3 : 0,
+              paddingLeft: isProdPnpg ? 3 : 0,
+              mb: 2,
+            }}
           >
             <UserProductDetail
               partyUser={partyUser}

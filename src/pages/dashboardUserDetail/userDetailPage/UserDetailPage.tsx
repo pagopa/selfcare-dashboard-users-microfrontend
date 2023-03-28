@@ -9,14 +9,19 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import UserDetail from '../components/UserDetail';
-import { PartyUserDetail } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProductRole } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
+import {
+  ProductRolesLists,
+  ProductsRolesMap,
+  transcodeProductRole2Title,
+} from '../../../model/ProductRole';
+import UserProductActions from '../components/UserProductActions';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -29,6 +34,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function UserDetailPage({
   partyUser,
   fetchPartyUser,
@@ -167,8 +173,8 @@ function UserDetailPage({
         <Grid item xs={12} mb={3}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
-        <Grid container item mb={4}>
-          <Grid item xs={10}>
+        <Grid container item mb={4} xs={12}>
+          <Grid item xs={!isProdPnpg ? 10 : 8}>
             <Typography
               variant="h4"
               sx={{
@@ -184,8 +190,8 @@ function UserDetailPage({
               <Stack
                 direction="row"
                 display="flex"
-                justifyContent="flex-end"
-                alignItems="flex-start"
+                justifyContent={!isProdPnpg ? 'flex-end' : 'normal'}
+                alignItems={!isProdPnpg ? 'flex-start' : 'normal'}
               >
                 <Button
                   disabled={partyUser.status === 'SUSPENDED'}
@@ -199,6 +205,21 @@ function UserDetailPage({
               </Stack>
             </Grid>
           )}
+          {isProdPnpg && (
+            <Grid item xs={2} sx={{ display: 'flex', alignItems: 'center' }}>
+              <UserProductActions
+                canEdit={true}
+                fetchPartyUser={fetchPartyUser}
+                isProductDetailPage={isProductDetailPage}
+                party={party}
+                product={product}
+                productRolesList={productsRolesMap as unknown as ProductRolesLists} // TODO FIX ME
+                role={productsRolesMap as unknown as PartyUserProductRole} // TODO FIX ME
+                showActions={true}
+                user={partyUser}
+              />
+            </Grid>
+          )}
         </Grid>
 
         <Grid container item sx={{ backgroundColor: isProdPnpg ? 'background.paper' : undefined }}>
@@ -207,7 +228,9 @@ function UserDetailPage({
             xs={12}
             sx={{
               backgroundColor: isProdPnpg ? 'background.paper' : 'background.default',
-              padding: 3,
+              padding: !isProdPnpg ? 3 : 0,
+              paddingTop: isProdPnpg ? 3 : 0,
+              paddingLeft: isProdPnpg ? 3 : 0,
             }}
             mb={isProdPnpg ? 1 : 4}
           >
