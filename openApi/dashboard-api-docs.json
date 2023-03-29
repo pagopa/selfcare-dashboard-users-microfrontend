@@ -3282,7 +3282,7 @@
       },
       "InstitutionUserDetailsResource": {
         "title": "InstitutionUserDetailsResource",
-        "required": ["email", "fiscalCode", "id", "name", "products", "role", "status", "surname"],
+        "required": ["fiscalCode", "id", "name", "products", "role", "status", "surname"],
         "type": "object",
         "properties": {
           "email": {
@@ -3328,7 +3328,7 @@
       },
       "InstitutionUserResource": {
         "title": "InstitutionUserResource",
-        "required": ["email", "id", "name", "products", "role", "status", "surname"],
+        "required": ["id", "name", "products", "role", "status", "surname"],
         "type": "object",
         "properties": {
           "email": {

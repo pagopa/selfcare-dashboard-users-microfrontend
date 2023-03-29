@@ -174,7 +174,7 @@ function UserDetailPage({
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid container item mb={4} xs={12}>
-          <Grid item xs={!isProdPnpg ? 10 : 8}>
+          <Grid item xs={!isProdPnpg ? 10 : 6}>
             <Typography
               variant="h4"
               sx={{
@@ -186,7 +186,12 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2}>
+            <Grid
+              item
+              xs={!isProdPnpg ? 2 : 4}
+              display="flex"
+              justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}
+            >
               <Stack
                 direction="row"
                 display="flex"

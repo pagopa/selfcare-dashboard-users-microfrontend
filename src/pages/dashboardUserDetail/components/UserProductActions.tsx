@@ -44,7 +44,8 @@ export default function UserProductActions({
 
   const onDeleteMoreRole = () => {
     setLoading(true);
-    deletePartyUser(party, user, product, role)
+    const userRole = !isProdPnpg ? role : product.roles[0];
+    deletePartyUser(party, user, product, userRole)
       .then((_) => {
         fetchPartyUser();
         addNotify({
@@ -75,7 +76,7 @@ export default function UserProductActions({
   const handleOpenDeleteMoreRole = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'DELETE_MODAL',
       title:
         moreRolesOnProduct || (!moreRolesOnProduct && haveMoreProducts)
           ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
@@ -289,7 +290,7 @@ export default function UserProductActions({
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
-        <Box display="flex" justifyContent={!isProdPnpg ? 'flex-end' : 'normal'}>
+        <Box display="flex" justifyContent="flex-end" pl={isProdPnpg ? 8 : 0}>
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
             <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
               <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
