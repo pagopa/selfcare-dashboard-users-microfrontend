@@ -30,10 +30,10 @@ export default function UserProductSection({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const isPnpgProduct = products[0].id === 'prod-pn-pg';
+  const isProdPnpg = products[0].id === 'prod-pn-pg';
   return (
     <>
-      {!isPnpgProduct && (
+      {!isProdPnpg && (
         <Grid item xs={9} mb={3}>
           <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
             {t('userDetail.productSection.title')}
@@ -73,7 +73,6 @@ export default function UserProductSection({
         )}
       {partyUser.products.map((userProduct) => {
         const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
-        const isProdPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
         return (
           <Grid
             item
@@ -82,7 +81,6 @@ export default function UserProductSection({
             sx={{
               backgroundColor: 'background.paper',
               padding: !isProdPnpg ? 3 : 0,
-              paddingLeft: isProdPnpg ? 3 : 0,
               mb: 2,
             }}
           >

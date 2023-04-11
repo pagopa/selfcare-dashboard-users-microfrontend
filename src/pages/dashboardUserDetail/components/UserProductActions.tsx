@@ -290,7 +290,7 @@ export default function UserProductActions({
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
-        <Box display="flex" justifyContent="flex-end" pl={isProdPnpg ? 8 : 0}>
+        <Box display="flex" justifyContent="flex-end">
           {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
             <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
               <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>

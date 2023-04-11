@@ -174,7 +174,7 @@ function UserDetailPage({
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid container item mb={4} xs={12}>
-          <Grid item xs={!isProdPnpg ? 10 : 6}>
+          <Grid item xs={10}>
             <Typography
               variant="h4"
               sx={{
@@ -186,17 +186,13 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid
-              item
-              xs={!isProdPnpg ? 2 : 4}
-              display="flex"
-              justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}
-            >
+            <Grid item xs={2} display="flex" justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}>
               <Stack
                 direction="row"
                 display="flex"
-                justifyContent={!isProdPnpg ? 'flex-end' : 'normal'}
-                alignItems={!isProdPnpg ? 'flex-start' : 'normal'}
+                justifyContent={'flex-end'}
+                alignItems={!isProdPnpg ? 'flex-start' : 'center'}
+                spacing={isProdPnpg ? 4 : 0}
               >
                 <Button
                   disabled={partyUser.status === 'SUSPENDED'}
@@ -207,35 +203,39 @@ function UserDetailPage({
                 >
                   {t('userDetail.editButton')}
                 </Button>
+                {isProdPnpg && (
+                  <UserProductActions
+                    canEdit={true}
+                    fetchPartyUser={fetchPartyUser}
+                    isProductDetailPage={isProductDetailPage}
+                    party={party}
+                    product={product}
+                    productRolesList={productsRolesMap as unknown as ProductRolesLists} // TODO FIX ME
+                    role={productsRolesMap as unknown as PartyUserProductRole} // TODO FIX ME
+                    showActions={true}
+                    user={partyUser}
+                  />
+                )}
               </Stack>
-            </Grid>
-          )}
-          {isProdPnpg && (
-            <Grid item xs={2} sx={{ display: 'flex', alignItems: 'center' }}>
-              <UserProductActions
-                canEdit={true}
-                fetchPartyUser={fetchPartyUser}
-                isProductDetailPage={isProductDetailPage}
-                party={party}
-                product={product}
-                productRolesList={productsRolesMap as unknown as ProductRolesLists} // TODO FIX ME
-                role={productsRolesMap as unknown as PartyUserProductRole} // TODO FIX ME
-                showActions={true}
-                user={partyUser}
-              />
             </Grid>
           )}
         </Grid>
 
-        <Grid container item sx={{ backgroundColor: isProdPnpg ? 'background.paper' : undefined }}>
+        <Grid
+          container
+          item
+          sx={{
+            backgroundColor: isProdPnpg ? 'background.paper' : undefined,
+            padding: !isProdPnpg ? 3 : 0,
+            paddingTop: isProdPnpg ? 3 : 0,
+            paddingLeft: isProdPnpg ? 3 : 0,
+          }}
+        >
           <Grid
             item
             xs={12}
             sx={{
               backgroundColor: isProdPnpg ? 'background.paper' : 'background.default',
-              padding: !isProdPnpg ? 3 : 0,
-              paddingTop: isProdPnpg ? 3 : 0,
-              paddingLeft: isProdPnpg ? 3 : 0,
             }}
             mb={isProdPnpg ? 1 : 4}
           >

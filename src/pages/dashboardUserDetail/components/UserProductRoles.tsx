@@ -64,7 +64,7 @@ export default function UserProductRoles({
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={8} sx={{ marginLeft: isProdPnpg ? '74px' : 0 }}>
+              <Grid item xs={8} sx={{ marginLeft: isProdPnpg ? 9 : 0 }}>
                 <Box display="flex">
                   <Box>
                     <CustomTextTransform
