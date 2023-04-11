@@ -9,18 +9,14 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import UserDetail from '../components/UserDetail';
-import { PartyUserDetail, PartyUserProductRole } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import {
-  ProductRolesLists,
-  ProductsRolesMap,
-  transcodeProductRole2Title,
-} from '../../../model/ProductRole';
+import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import UserProductActions from '../components/UserProductActions';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
@@ -210,8 +206,8 @@ function UserDetailPage({
                     isProductDetailPage={isProductDetailPage}
                     party={party}
                     product={product}
-                    productRolesList={productsRolesMap as unknown as ProductRolesLists} // TODO FIX ME
-                    role={productsRolesMap as unknown as PartyUserProductRole} // TODO FIX ME
+                    productRolesList={productsRolesMap[partyUser.id]}
+                    role={partyUser.products[0].roles[0]}
                     showActions={true}
                     user={partyUser}
                   />
