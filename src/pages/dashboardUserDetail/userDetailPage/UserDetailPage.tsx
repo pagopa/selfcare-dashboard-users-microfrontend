@@ -9,18 +9,14 @@ import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorD
 import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import UserDetail from '../components/UserDetail';
-import { PartyUserDetail, PartyUserProductRole } from '../../../model/PartyUser';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
-import {
-  ProductRolesLists,
-  ProductsRolesMap,
-  transcodeProductRole2Title,
-} from '../../../model/ProductRole';
+import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import UserProductActions from '../components/UserProductActions';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
@@ -174,7 +170,7 @@ function UserDetailPage({
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid container item mb={4} xs={12}>
-          <Grid item xs={!isProdPnpg ? 10 : 6}>
+          <Grid item xs={10}>
             <Typography
               variant="h4"
               sx={{
@@ -186,17 +182,13 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid
-              item
-              xs={!isProdPnpg ? 2 : 4}
-              display="flex"
-              justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}
-            >
+            <Grid item xs={2} display="flex" justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}>
               <Stack
                 direction="row"
                 display="flex"
-                justifyContent={!isProdPnpg ? 'flex-end' : 'normal'}
-                alignItems={!isProdPnpg ? 'flex-start' : 'normal'}
+                justifyContent={'flex-end'}
+                alignItems={!isProdPnpg ? 'flex-start' : 'center'}
+                spacing={isProdPnpg ? 4 : 0}
               >
                 <Button
                   disabled={partyUser.status === 'SUSPENDED'}
@@ -207,35 +199,39 @@ function UserDetailPage({
                 >
                   {t('userDetail.editButton')}
                 </Button>
+                {isProdPnpg && (
+                  <UserProductActions
+                    canEdit={true}
+                    fetchPartyUser={fetchPartyUser}
+                    isProductDetailPage={isProductDetailPage}
+                    party={party}
+                    product={product}
+                    productRolesList={productsRolesMap[partyUser.id]}
+                    role={partyUser.products[0].roles[0]}
+                    showActions={true}
+                    user={partyUser}
+                  />
+                )}
               </Stack>
-            </Grid>
-          )}
-          {isProdPnpg && (
-            <Grid item xs={2} sx={{ display: 'flex', alignItems: 'center' }}>
-              <UserProductActions
-                canEdit={true}
-                fetchPartyUser={fetchPartyUser}
-                isProductDetailPage={isProductDetailPage}
-                party={party}
-                product={product}
-                productRolesList={productsRolesMap as unknown as ProductRolesLists} // TODO FIX ME
-                role={productsRolesMap as unknown as PartyUserProductRole} // TODO FIX ME
-                showActions={true}
-                user={partyUser}
-              />
             </Grid>
           )}
         </Grid>
 
-        <Grid container item sx={{ backgroundColor: isProdPnpg ? 'background.paper' : undefined }}>
+        <Grid
+          container
+          item
+          sx={{
+            backgroundColor: isProdPnpg ? 'background.paper' : undefined,
+            padding: !isProdPnpg ? 3 : 0,
+            paddingTop: isProdPnpg ? 3 : 0,
+            paddingLeft: isProdPnpg ? 3 : 0,
+          }}
+        >
           <Grid
             item
             xs={12}
             sx={{
               backgroundColor: isProdPnpg ? 'background.paper' : 'background.default',
-              padding: !isProdPnpg ? 3 : 0,
-              paddingTop: isProdPnpg ? 3 : 0,
-              paddingLeft: isProdPnpg ? 3 : 0,
             }}
             mb={isProdPnpg ? 1 : 4}
           >
