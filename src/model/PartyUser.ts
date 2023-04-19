@@ -74,7 +74,7 @@ export const institutionUserResource2PartyUser = (
   id: resource.id,
   name: resource.name,
   surname: resource.surname,
-  email: resource.email,
+  email: resource?.email as EmailString,
   userRole: resource.role,
   products: ([] as Array<PartyUserProduct>).concat(
     resource.products.map((p) => productInfoResource2PartyUserProduct(p, productsMap[p.id]))
@@ -92,7 +92,7 @@ export const institutionUserResource2PartyUserDetail = (
   taxCode: resource.fiscalCode,
   name: resource.name,
   surname: resource.surname,
-  email: resource.email,
+  email: resource?.email as EmailString,
   userRole: resource.role,
   products: ([] as Array<PartyUserProduct>).concat(
     resource.products.map((p) => productInfoResource2PartyUserProduct(p, productsMap[p.id]))
@@ -123,21 +123,19 @@ export const productUserResource2PartyProductUser = (
   id: resource.id,
   name: resource.name,
   surname: resource.surname,
-  email: resource.email,
+  email: resource?.email as EmailString,
   userRole: resource.role,
   product: productInfoResource2PartyUserProduct(resource.product, product),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
 
-export const partyUserDetail2User = (
-  partyUserDetail: PartyUserDetail
-): User => ({
+export const partyUserDetail2User = (partyUserDetail: PartyUserDetail): User => ({
   uid: partyUserDetail.id,
   taxCode: partyUserDetail.taxCode,
   name: partyUserDetail.name,
   surname: partyUserDetail.surname,
-  email: partyUserDetail.email,
+  email: partyUserDetail.email as EmailString,
 });
 
 export const checkSuspendedUser = (partyUser: PartyUser): boolean =>

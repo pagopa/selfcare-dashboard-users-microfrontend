@@ -39,6 +39,9 @@ export default function UserProductRoles({
   isProductDetailPage,
 }: Props) {
   const { t } = useTranslation();
+
+  const isProdPnpg = product.id === 'prod-pn-pg';
+
   return (
     <Grid container item xs={12}>
       {userProduct.roles.map((p) => (
@@ -61,7 +64,7 @@ export default function UserProductRoles({
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={8}>
+              <Grid item xs={8} sx={{ marginLeft: isProdPnpg ? 9 : 0 }}>
                 <Box display="flex">
                   <Box>
                     <CustomTextTransform
@@ -104,19 +107,21 @@ export default function UserProductRoles({
                   {transcodeProductRole2Description(p.role, productRolesList)}
                 </Typography>
               </Grid>
-              <Grid item xs={4}>
-                <UserProductActions
-                  showActions={showActions}
-                  party={party}
-                  user={user}
-                  fetchPartyUser={fetchPartyUser}
-                  role={p}
-                  product={userProduct}
-                  productRolesList={productRolesList}
-                  canEdit={canEdit}
-                  isProductDetailPage={isProductDetailPage}
-                />
-              </Grid>
+              {!isProdPnpg && (
+                <Grid item xs={4}>
+                  <UserProductActions
+                    showActions={showActions}
+                    party={party}
+                    user={user}
+                    fetchPartyUser={fetchPartyUser}
+                    role={p}
+                    product={userProduct}
+                    productRolesList={productRolesList}
+                    canEdit={canEdit}
+                    isProductDetailPage={isProductDetailPage}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

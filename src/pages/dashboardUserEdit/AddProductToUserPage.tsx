@@ -59,6 +59,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     },
   ];
 
+  const prodPnpg = activeProducts.find((p) => p.id === 'prod-pn-pg');
+
   return (
     <Grid
       container
@@ -203,6 +205,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               } as PartyUserOnCreation
             }
             canEditRegistryData={false}
+            selectedProduct={prodPnpg ?? undefined}
           />
         </Grid>
       </Grid>

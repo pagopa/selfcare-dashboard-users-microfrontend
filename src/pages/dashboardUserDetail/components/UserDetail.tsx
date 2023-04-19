@@ -103,13 +103,13 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
           <Grid item xs={9} display="flex" alignItems={'center'}>
             <Tooltip
               title={
-                userInfo.email.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
+                userInfo.email?.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
               }
               placement="top"
               arrow={true}
             >
               <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
-                {userInfo.email}
+                {userInfo?.email ?? '-'}
               </Typography>
             </Tooltip>
           </Grid>

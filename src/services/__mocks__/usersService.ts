@@ -49,7 +49,6 @@ export const mockedUsers: Array<PartyUserDetail> = [
     ],
     isCurrentUser: false,
   },
-
   // logged user
   {
     id: '0',
@@ -80,6 +79,19 @@ export const mockedUsers: Array<PartyUserDetail> = [
             relationshipId: 'rel2',
             role: 'referente-tecnico',
             selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+      // Use case introduced for selfcare pnpg
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel2',
+            role: 'Amministratore',
+            selcRole: 'ADMIN',
             status: 'ACTIVE',
           },
         ],
@@ -650,6 +662,79 @@ export const mockedUsers: Array<PartyUserDetail> = [
     ],
     isCurrentUser: false,
   },
+  // Use cases introduced for selfcare PNPG
+  {
+    id: 'uid60',
+    taxCode: 'TAXCOD04A00A121P',
+    name: 'Marco',
+    surname: 'Marchetti',
+    email: 'marco.m@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'Amministratore',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
+  {
+    id: 'uid61',
+    taxCode: 'TAXCOD04A00A421P',
+    name: 'Fabio',
+    surname: 'Lopez',
+    email: 'fabio.l@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'Tecnico',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
+  {
+    id: 'uid62',
+    taxCode: 'TAXCOD14A00A521P',
+    name: 'Marco',
+    surname: 'Marchisio',
+    email: 'marco.m@comune.milano.it',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'Tecnico',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
 ];
 
 type PartyGroupMock = PartyGroup & {
@@ -845,6 +930,32 @@ export const mockedGroups: Array<PartyGroupMock> = [
     createdByUserId: 'uid',
     modifiedAt: new Date('2022-01-01 16:00'),
     modifiedByUserId: 'uid',
+  },
+  {
+    id: 'groupId15',
+    name: 'Gruppo15',
+    description: 'groupId15 : use case ACTIVE group with loggedUser which is ADMIN in prod-pn-pg',
+    partyId: 'onboarded',
+    productId: 'prod-io',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: '0',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: '0',
+  },
+  {
+    id: 'groupId16',
+    name: 'Gruppo16',
+    description: 'groupId16 : use case ACTIVE group with loggedUser which is ADMIN in prod-pn-pg',
+    partyId: 'onboarded',
+    productId: 'prod-io',
+    status: 'ACTIVE',
+    membersIds: ['0'],
+    createdAt: new Date('2022-01-01'),
+    createdByUserId: '0',
+    modifiedAt: new Date('2022-01-01 16:00'),
+    modifiedByUserId: '0',
   },
 ].map((o) => ({
   ...o,

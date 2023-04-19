@@ -29,13 +29,17 @@ export default function UserProductSection({
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+
+  const isProdPnpg = products[0].id === 'prod-pn-pg';
   return (
     <>
-      <Grid item xs={9} mb={3}>
-        <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
-          {t('userDetail.productSection.title')}
-        </Typography>
-      </Grid>
+      {!isProdPnpg && (
+        <Grid item xs={9} mb={3}>
+          <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
+            {t('userDetail.productSection.title')}
+          </Typography>
+        </Grid>
+      )}
 
       {!partyUser.isCurrentUser &&
         products
@@ -72,9 +76,13 @@ export default function UserProductSection({
         return (
           <Grid
             item
-            xs={12}
+            xs={!isProdPnpg ? 12 : 8}
             key={userProduct.id}
-            sx={{ backgroundColor: 'background.paper', padding: 3, mb: 2 }}
+            sx={{
+              backgroundColor: 'background.paper',
+              padding: !isProdPnpg ? 3 : 0,
+              mb: 2,
+            }}
           >
             <UserProductDetail
               partyUser={partyUser}

@@ -184,6 +184,9 @@ export default {
     addForm: {
       title: 'Aggiungi un nuovo utente',
       subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
+      userData: {
+        label: 'Dati utente',
+      },
       fiscalCode: {
         label: 'Codice Fiscale',
       },
@@ -271,12 +274,9 @@ export default {
       subTitle:
         'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
-    vertical: {
-      paths: {
-        description: 'Utenti',
-      },
+    pnpg: {
       subTitle:
-        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
+        'Gestisci gli utenti che possono accedere a Piattaforma Notifiche per conto di {{ businessName }}.',
     },
   },
 };
