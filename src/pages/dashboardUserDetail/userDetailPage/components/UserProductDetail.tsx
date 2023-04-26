@@ -35,7 +35,7 @@ export default function UserProductDetail({
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
-  const isProdPnpg = product.id === 'prod-pn-pg';
+  const isPnpg = product.id.startsWith('prod-pn-pg');
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function UserProductDetail({
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              {!isProdPnpg && (
+              {!isPnpg && (
                 <Box display="flex" alignItems="center">
                   <Box
                     display="flex"
@@ -96,7 +96,7 @@ export default function UserProductDetail({
               </Tooltip>
             </Grid>
           ) : (
-            !isProdPnpg && (
+            !isPnpg && (
               <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
                 <UserProductActions
                   showActions={showActionOnProduct}

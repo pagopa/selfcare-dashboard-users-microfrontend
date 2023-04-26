@@ -128,7 +128,7 @@ export default function AddUserForm({
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
 
-  const isProdPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
+  const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
@@ -511,7 +511,7 @@ export default function AddUserForm({
         >
           {canEditRegistryData ? (
             <>
-              {isProdPnpg && (
+              {isPnpg && (
                 <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
                   {t('userEdit.addForm.userData.label')}
                 </Typography>
@@ -564,7 +564,7 @@ export default function AddUserForm({
               </Grid>
             </>
           ) : undefined}
-          {!selectedProduct && !isProdPnpg ? (
+          {!selectedProduct && !isPnpg ? (
             <Grid item xs={12} mb={3}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
