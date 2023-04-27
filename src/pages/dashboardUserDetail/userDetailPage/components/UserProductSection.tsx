@@ -30,10 +30,10 @@ export default function UserProductSection({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const isProdPnpg = products[0].id === 'prod-pn-pg';
+  const isPnpg = products[0].id.startsWith('prod-pn-pg');
   return (
     <>
-      {!isProdPnpg && (
+      {!isPnpg && (
         <Grid item xs={9} mb={3}>
           <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
             {t('userDetail.productSection.title')}
@@ -76,11 +76,11 @@ export default function UserProductSection({
         return (
           <Grid
             item
-            xs={!isProdPnpg ? 12 : 8}
+            xs={!isPnpg ? 12 : 8}
             key={userProduct.id}
             sx={{
               backgroundColor: 'background.paper',
-              padding: !isProdPnpg ? 3 : 0,
+              padding: !isPnpg ? 3 : 0,
               mb: 2,
             }}
           >

@@ -275,8 +275,7 @@ export default {
         'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     pnpg: {
-      subTitle:
-        'Gestisci gli utenti che possono accedere a Piattaforma Notifiche per conto di {{ businessName }}.',
+      subTitle: 'Gestisci gli utenti che possono leggere le notifiche di {{ businessName}}.',
     },
   },
 };

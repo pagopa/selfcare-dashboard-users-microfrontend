@@ -40,11 +40,11 @@ export default function UserProductActions({
   const addNotify = useUserNotify();
   const moreRolesOnProduct = product.roles.length > 1;
   const haveMoreProducts = user.products.length > 1;
-  const isProdPnpg = product.id === 'prod-pn-pg';
+  const isPnpg = product.id.startsWith('prod-pn-pg');
 
   const onDeleteMoreRole = () => {
     setLoading(true);
-    const userRole = !isProdPnpg ? role : product.roles[0];
+    const userRole = !isPnpg ? role : product.roles[0];
     deletePartyUser(party, user, product, userRole)
       .then((_) => {
         fetchPartyUser();
@@ -300,7 +300,7 @@ export default function UserProductActions({
               </Link>
             </Box>
           )}
-          {!isProdPnpg && (
+          {!isPnpg && (
             <Box width="52px" display="flex">
               <Link
                 onClick={handleOpen}

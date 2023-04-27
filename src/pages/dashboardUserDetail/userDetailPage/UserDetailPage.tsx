@@ -45,7 +45,7 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
 
-  const isProdPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
+  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
   const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =
@@ -182,13 +182,13 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2} display="flex" justifyContent={!isProdPnpg ? 'normal' : 'flex-end'}>
+            <Grid item xs={2} display="flex" justifyContent={!isPnpg ? 'normal' : 'flex-end'}>
               <Stack
                 direction="row"
                 display="flex"
                 justifyContent={'flex-end'}
-                alignItems={!isProdPnpg ? 'flex-start' : 'center'}
-                spacing={isProdPnpg ? 4 : 0}
+                alignItems={!isPnpg ? 'flex-start' : 'center'}
+                spacing={isPnpg ? 4 : 0}
               >
                 <Button
                   disabled={partyUser.status === 'SUSPENDED'}
@@ -199,7 +199,7 @@ function UserDetailPage({
                 >
                   {t('userDetail.editButton')}
                 </Button>
-                {isProdPnpg && (
+                {isPnpg && (
                   <UserProductActions
                     canEdit={true}
                     fetchPartyUser={fetchPartyUser}
@@ -221,19 +221,19 @@ function UserDetailPage({
           container
           item
           sx={{
-            backgroundColor: isProdPnpg ? 'background.paper' : undefined,
-            padding: !isProdPnpg ? 3 : 0,
-            paddingTop: isProdPnpg ? 3 : 0,
-            paddingLeft: isProdPnpg ? 3 : 0,
+            backgroundColor: isPnpg ? 'background.paper' : undefined,
+            padding: !isPnpg ? 3 : 0,
+            paddingTop: isPnpg ? 3 : 0,
+            paddingLeft: isPnpg ? 3 : 0,
           }}
         >
           <Grid
             item
             xs={12}
             sx={{
-              backgroundColor: isProdPnpg ? 'background.paper' : 'background.default',
+              backgroundColor: isPnpg ? 'background.paper' : 'background.default',
             }}
-            mb={isProdPnpg ? 1 : 4}
+            mb={isPnpg ? 1 : 4}
           >
             <UserDetail
               userInfo={partyUser}

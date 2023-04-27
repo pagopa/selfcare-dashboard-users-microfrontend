@@ -40,7 +40,7 @@ export default function UserProductRoles({
 }: Props) {
   const { t } = useTranslation();
 
-  const isProdPnpg = product.id === 'prod-pn-pg';
+  const isPnpg = product.id.startsWith('prod-pn-pg');
 
   return (
     <Grid container item xs={12}>
@@ -64,7 +64,7 @@ export default function UserProductRoles({
 
           <Grid item xs={9}>
             <Grid item container>
-              <Grid item xs={8} sx={{ marginLeft: isProdPnpg ? 9 : 0 }}>
+              <Grid item xs={8} sx={{ marginLeft: isPnpg ? 9 : 0 }}>
                 <Box display="flex">
                   <Box>
                     <CustomTextTransform
@@ -107,7 +107,7 @@ export default function UserProductRoles({
                   {transcodeProductRole2Description(p.role, productRolesList)}
                 </Typography>
               </Grid>
-              {!isProdPnpg && (
+              {!isPnpg && (
                 <Grid item xs={4}>
                   <UserProductActions
                     showActions={showActions}

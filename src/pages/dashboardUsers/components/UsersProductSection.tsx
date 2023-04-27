@@ -19,7 +19,7 @@ type Props = {
   filters: UsersTableFiltersConfig;
   productsRolesMap: ProductsRolesMap;
   incrementalLoad: boolean;
-  isProdPnpg?: boolean;
+  isPnpg?: boolean;
 };
 
 export default function UsersProductSection({
@@ -32,7 +32,7 @@ export default function UsersProductSection({
   onFetchStatusUpdate,
   filters,
   incrementalLoad,
-  isProdPnpg,
+  isPnpg,
 }: Props) {
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
@@ -41,7 +41,7 @@ export default function UsersProductSection({
       {((!hideProductWhenLoading && fetchStatus.loading) ||
         fetchStatus.error ||
         !fetchStatus.noData) &&
-      !isProdPnpg ? (
+      !isPnpg ? (
         <Grid item xs={12} sx={{ mt: 3 }}>
           <Typography sx={{ fontWeight: 'fontWeightMedium' }} id={product.id}>
             {product.title}
