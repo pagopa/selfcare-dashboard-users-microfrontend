@@ -47,7 +47,9 @@ export default function UserProductActions({
     const userRole = !isPnpg ? role : product.roles[0];
     deletePartyUser(party, user, product, userRole)
       .then((_) => {
-        fetchPartyUser();
+        if (moreRolesOnProduct) {
+          fetchPartyUser();
+        }
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
