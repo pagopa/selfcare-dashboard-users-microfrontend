@@ -306,7 +306,7 @@ export default function AddUserForm({
 
         history.push(
           resolvePathVariables(
-            selectedProduct
+            selectedProduct && !isPnpg
               ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path
               : DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
             {
