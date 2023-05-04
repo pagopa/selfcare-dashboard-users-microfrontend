@@ -85,7 +85,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
       },
       // Use case introduced for selfcare pnpg
       {
-        title: 'Piattaforma Notifiche Persone Giuridiche',
+        title: 'SEND',
         id: 'prod-pn-pg',
         roles: [
           {
@@ -673,7 +673,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     status: 'ACTIVE',
     products: [
       {
-        title: 'Piattaforma Notifiche Persone Giuridiche',
+        title: 'SEND',
         id: 'prod-pn-pg',
         roles: [
           {
@@ -697,12 +697,12 @@ export const mockedUsers: Array<PartyUserDetail> = [
     status: 'ACTIVE',
     products: [
       {
-        title: 'Piattaforma Notifiche Persone Giuridiche',
+        title: 'SEND',
         id: 'prod-pn-pg',
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'Tecnico',
+            role: 'Gestore Notifiche',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
           },
@@ -721,12 +721,12 @@ export const mockedUsers: Array<PartyUserDetail> = [
     status: 'ACTIVE',
     products: [
       {
-        title: 'Piattaforma Notifiche Persone Giuridiche',
+        title: 'SEND',
         id: 'prod-pn-pg',
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'Tecnico',
+            role: 'Gestore Notifiche',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
           },

@@ -76,7 +76,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
 
-  const isProdPnpg = !!selectedProducts.find((p) => p.id === 'prod-pn-pg');
+  const isPnpg = !!selectedProducts.find((p) => p.id === 'prod-pn-pg');
 
   const mappedProducts = (p: Product) => (
     <Grid key={p.id} item xs={12}>
@@ -95,7 +95,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           }));
         }}
         incrementalLoad={!selectedProductSection}
-        isProdPnpg={isProdPnpg}
+        isPnpg={isPnpg}
       />
     </Grid>
   );
@@ -116,11 +116,11 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             variantSubTitle="body1"
             title={t('usersPage.title')}
             subTitle={
-              !isProdPnpg
+              !isPnpg
                 ? t('usersPage.generic.subTitle')
                 : ((
                     <Trans i18next="usersPage.pnpg.subTitle">
-                      Gestisci gli utenti che possono accedere a Piattaforma Notifiche per conto di{' '}
+                      Gestisci gli utenti che possono leggere le notifiche di{' '}
                       {{ businessName: party.description }}.
                     </Trans>
                   ) as unknown as string)
@@ -197,8 +197,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           xs={12}
           sx={{
             backgroundColor: 'background.default',
-            px: isProdPnpg ? 0 : 3,
-            pb: isProdPnpg ? 0 : 3,
+            px: isPnpg ? 0 : 3,
+            pb: isPnpg ? 0 : 3,
           }}
           mt={moreThanOneActiveProduct ? 0 : 5}
         >
