@@ -47,8 +47,6 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     },
   ];
 
-  const prodPnpg = activeProducts.find((p) => p.id === 'prod-pn-pg');
-
   return (
     <Grid
       container
@@ -88,7 +86,6 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
               productRoles: [],
             }}
             canEditRegistryData={true}
-            selectedProduct={prodPnpg ?? undefined}
           />
         </Grid>
       </Grid>
