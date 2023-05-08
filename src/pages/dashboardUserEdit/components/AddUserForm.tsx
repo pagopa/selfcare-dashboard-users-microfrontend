@@ -130,7 +130,7 @@ export default function AddUserForm({
   const onExit = useUnloadEventOnExit();
 
   const isPnpgTheOnlyProduct =
-    !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 0;
+    !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
