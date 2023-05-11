@@ -124,7 +124,7 @@ function renderCell(
           fontSize: '14px',
         }}
       >
-        {value}
+        {value ?? '-'}
       </Box>
     </div>
   );

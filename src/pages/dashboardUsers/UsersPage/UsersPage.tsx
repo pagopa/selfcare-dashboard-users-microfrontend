@@ -77,6 +77,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     (window.location.hash = productId ?? '');
 
   const isPnpg = !!selectedProducts.find((p) => p.id === 'prod-pn-pg');
+  const isPnpgTheOnlyProduct =
+    !!selectedProducts.find((p) => p.id === 'prod-pn-pg') && selectedProducts.length === 1;
 
   const mappedProducts = (p: Product) => (
     <Grid key={p.id} item xs={12}>
@@ -95,7 +97,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           }));
         }}
         incrementalLoad={!selectedProductSection}
-        isPnpg={isPnpg}
+        isPnpgTheOnlyProduct={isPnpgTheOnlyProduct}
       />
     </Grid>
   );
