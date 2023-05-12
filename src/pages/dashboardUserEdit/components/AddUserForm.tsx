@@ -129,6 +129,7 @@ export default function AddUserForm({
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
 
+  const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
 
@@ -513,7 +514,7 @@ export default function AddUserForm({
         >
           {canEditRegistryData ? (
             <>
-              {isPnpgTheOnlyProduct && (
+              {isPnpg && (
                 <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
                   {t('userEdit.addForm.userData.label')}
                 </Typography>
