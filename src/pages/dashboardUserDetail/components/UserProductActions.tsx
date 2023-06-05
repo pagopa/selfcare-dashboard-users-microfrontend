@@ -2,12 +2,15 @@ import { Link, Typography, Box } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { Trans, useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import { Party, UserStatus } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
 import { deletePartyUser } from './../../../services/usersService';
 
 type Props = {
@@ -38,14 +41,22 @@ export default function UserProductActions({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const history = useHistory();
+
   const moreRolesOnProduct = product.roles.length > 1;
   const haveMoreProducts = user.products.length > 1;
+  const isPnpg = product.id.startsWith('prod-pn-pg');
 
   const onDeleteMoreRole = () => {
     setLoading(true);
-    deletePartyUser(party, user, product, role)
+    const userRole = !isPnpg ? role : product.roles[0];
+    deletePartyUser(party, user, product, userRole)
       .then((_) => {
-        fetchPartyUser();
+        if (moreRolesOnProduct) {
+          fetchPartyUser();
+        } else {
+          history.push(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
+        }
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
@@ -74,7 +85,7 @@ export default function UserProductActions({
   const handleOpenDeleteMoreRole = () => {
     addNotify({
       component: 'SessionModal',
-      id: 'Notify_Example',
+      id: 'DELETE_MODAL',
       title:
         moreRolesOnProduct || (!moreRolesOnProduct && haveMoreProducts)
           ? t('userDetail.actions.modalDelete.moreRolesOnProduct.title')
@@ -298,20 +309,26 @@ export default function UserProductActions({
               </Link>
             </Box>
           )}
-          <Box width="52px" display="flex">
-            <Link onClick={handleOpen} component="button" sx={{ textDecoration: 'none!important' }}>
-              <Typography
-                variant="caption"
-                sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+          {!isPnpg && (
+            <Box width="52px" display="flex">
+              <Link
+                onClick={handleOpen}
+                component="button"
+                sx={{ textDecoration: 'none!important' }}
               >
-                {role.status === 'SUSPENDED'
-                  ? t('userDetail.actions.reactivateRole')
-                  : role.status === 'ACTIVE'
-                  ? t('userDetail.actions.suspendRole')
-                  : ''}
-              </Typography>
-            </Link>
-          </Box>
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: 'fontWeightBold', color: 'primary.main' }}
+                >
+                  {role.status === 'SUSPENDED'
+                    ? t('userDetail.actions.reactivateRole')
+                    : role.status === 'ACTIVE'
+                    ? t('userDetail.actions.suspendRole')
+                    : ''}
+                </Typography>
+              </Link>
+            </Box>
+          )}
         </Box>
       )}
     </>

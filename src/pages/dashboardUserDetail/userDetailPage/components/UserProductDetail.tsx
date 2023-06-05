@@ -35,35 +35,38 @@ export default function UserProductDetail({
 }: Props) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
+  const isPnpg = product.id.startsWith('prod-pn-pg');
+
   return (
     <>
       <Grid item xs={12}>
         <Grid container mb={2}>
           <Grid item xs={7}>
             <Grid container item>
-              <Box display="flex" alignItems="center">
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  mr={2}
-                  height="32px"
-                  width="32px"
-                >
-                  <ProductAvatar
-                    size={'small'}
-                    logoUrl={product.logo ?? ''}
-                    logoBgColor={product.logoBgColor ?? ''}
-                    logoAltText={`${product.title} logo`}
-                  />
+              {!isPnpg && (
+                <Box display="flex" alignItems="center">
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    mr={2}
+                    height="32px"
+                    width="32px"
+                  >
+                    <ProductAvatar
+                      size={'small'}
+                      logoUrl={product.logo ?? ''}
+                      logoBgColor={product.logoBgColor ?? ''}
+                      logoAltText={`${product.title} logo`}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography variant="h6" sx={{ fontSize: '18px' }}>
+                      {product.title}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box>
-                  <Typography variant="h6" sx={{ fontSize: '18px' }}>
-                    {product.title}
-                  </Typography>
-                </Box>
-              </Box>
-
+              )}
               <Box ml={4} display="flex" justifyContent="center" alignItems={'center'}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
@@ -93,20 +96,22 @@ export default function UserProductDetail({
               </Tooltip>
             </Grid>
           ) : (
-            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              <UserProductActions
-                showActions={showActionOnProduct}
-                party={party}
-                role={userProduct.roles[0]}
-                user={partyUser}
-                fetchPartyUser={fetchPartyUser}
-                product={userProduct}
-                productRolesList={productRolesList}
-                canEdit={canEdit}
-                isProductDetailPage={isProductDetailPage}
-                handleOpenDelete={handleOpenDelete}
-              />
-            </Grid>
+            !isPnpg && (
+              <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+                <UserProductActions
+                  showActions={showActionOnProduct}
+                  party={party}
+                  role={userProduct.roles[0]}
+                  user={partyUser}
+                  fetchPartyUser={fetchPartyUser}
+                  product={userProduct}
+                  productRolesList={productRolesList}
+                  canEdit={canEdit}
+                  isProductDetailPage={isProductDetailPage}
+                  handleOpenDelete={handleOpenDelete}
+                />
+              </Grid>
+            )
           )}
         </Grid>
       </Grid>

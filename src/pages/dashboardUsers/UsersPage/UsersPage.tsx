@@ -3,7 +3,7 @@ import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { Product, ProductsMap } from '../../../model/Product';
@@ -76,6 +76,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     // eslint-disable-next-line functional/immutable-data
     (window.location.hash = productId ?? '');
 
+  const isPnpg = !!selectedProducts.find((p) => p.id === 'prod-pn-pg');
+  const isPnpgTheOnlyProduct =
+    !!selectedProducts.find((p) => p.id === 'prod-pn-pg') && selectedProducts.length === 1;
+
   const mappedProducts = (p: Product) => (
     <Grid key={p.id} item xs={12}>
       <UsersProductSection
@@ -93,6 +97,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           }));
         }}
         incrementalLoad={!selectedProductSection}
+        isPnpgTheOnlyProduct={isPnpgTheOnlyProduct}
       />
     </Grid>
   );
@@ -112,7 +117,16 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             variantTitle="h4"
             variantSubTitle="body1"
             title={t('usersPage.title')}
-            subTitle={t('usersPage.generic.subTitle')}
+            subTitle={
+              !isPnpg
+                ? t('usersPage.generic.subTitle')
+                : ((
+                    <Trans i18next="usersPage.pnpg.subTitle">
+                      Gestisci gli utenti che possono leggere le notifiche di{' '}
+                      {{ businessName: party.description }}.
+                    </Trans>
+                  ) as unknown as string)
+            }
             mbTitle={2}
           />
         </Grid>
@@ -183,7 +197,11 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         <Grid
           item
           xs={12}
-          sx={{ backgroundColor: 'background.default', px: 3, pb: 3 }}
+          sx={{
+            backgroundColor: 'background.default',
+            px: isPnpg ? 0 : 3,
+            pb: isPnpg ? 0 : 3,
+          }}
           mt={moreThanOneActiveProduct ? 0 : 5}
         >
           <Grid container direction="row" alignItems={'center'}>

@@ -29,13 +29,17 @@ export default function UserProductSection({
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+
+  const isPnpgTheOnlyProduct = products[0].id.startsWith('prod-pn-pg') && products.length === 1;
   return (
     <>
-      <Grid item xs={9} mb={3}>
-        <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
-          {t('userDetail.productSection.title')}
-        </Typography>
-      </Grid>
+      {!isPnpgTheOnlyProduct && (
+        <Grid item xs={9} mb={3}>
+          <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
+            {t('userDetail.productSection.title')}
+          </Typography>
+        </Grid>
+      )}
 
       {!partyUser.isCurrentUser &&
         products
@@ -70,26 +74,32 @@ export default function UserProductSection({
       {partyUser.products.map((userProduct) => {
         const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
         return (
-          <Grid
-            item
-            xs={12}
-            key={userProduct.id}
-            sx={{ backgroundColor: 'background.paper', padding: 3, mb: 2 }}
-          >
-            <UserProductDetail
-              partyUser={partyUser}
-              party={party}
-              fetchPartyUser={fetchPartyUser}
-              userProduct={userProduct}
-              productRolesList={productsRolesMap[userProduct.id]}
-              canEdit={
-                product?.userRole === 'ADMIN' && product.productOnBoardingStatus === 'ACTIVE'
-              }
-              product={product}
-              isProductDetailPage={isProductDetailPage}
-              handleOpenDelete={handleOpenDelete}
-            />
-          </Grid>
+          product && (
+            <Grid
+              item
+              xs={!isPnpgTheOnlyProduct ? 12 : 8}
+              key={userProduct.id}
+              sx={{
+                backgroundColor: 'background.paper',
+                padding: !isPnpgTheOnlyProduct ? 3 : 0,
+                mb: 2,
+              }}
+            >
+              <UserProductDetail
+                partyUser={partyUser}
+                party={party}
+                fetchPartyUser={fetchPartyUser}
+                userProduct={userProduct}
+                productRolesList={productsRolesMap[userProduct.id]}
+                canEdit={
+                  product?.userRole === 'ADMIN' && product.productOnBoardingStatus === 'ACTIVE'
+                }
+                product={product}
+                isProductDetailPage={isProductDetailPage}
+                handleOpenDelete={handleOpenDelete}
+              />
+            </Grid>
+          )
         );
       })}
     </>

@@ -17,6 +17,7 @@ import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants'
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
+import UserProductActions from '../components/UserProductActions';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -29,6 +30,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function UserDetailPage({
   partyUser,
   fetchPartyUser,
@@ -42,6 +44,8 @@ function UserDetailPage({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+
+  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
   const product = partyUser.products[0];
   // const haveOneRoleAndOneProduct =
@@ -165,7 +169,7 @@ function UserDetailPage({
         <Grid item xs={12} mb={3}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
-        <Grid container item mb={4}>
+        <Grid container item mb={4} xs={12}>
           <Grid item xs={10}>
             <Typography
               variant="h4"
@@ -178,12 +182,13 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2}>
+            <Grid item xs={2} display="flex" justifyContent={!isPnpg ? 'normal' : 'flex-end'}>
               <Stack
                 direction="row"
                 display="flex"
-                justifyContent="flex-end"
-                alignItems="flex-start"
+                justifyContent={'flex-end'}
+                alignItems={!isPnpg ? 'flex-start' : 'center'}
+                spacing={isPnpg ? 4 : 0}
               >
                 <Button
                   disabled={partyUser.status === 'SUSPENDED'}
@@ -194,13 +199,42 @@ function UserDetailPage({
                 >
                   {t('userDetail.editButton')}
                 </Button>
+                {isPnpg && (
+                  <UserProductActions
+                    canEdit={true}
+                    fetchPartyUser={fetchPartyUser}
+                    isProductDetailPage={isProductDetailPage}
+                    party={party}
+                    product={product}
+                    productRolesList={productsRolesMap[partyUser.id]}
+                    role={partyUser.products[0].roles[0]}
+                    showActions={true}
+                    user={partyUser}
+                  />
+                )}
               </Stack>
             </Grid>
           )}
         </Grid>
 
-        <Grid container item>
-          <Grid item xs={12} sx={{ backgroundColor: 'background.default', padding: 3 }} mb={4}>
+        <Grid
+          container
+          item
+          sx={{
+            backgroundColor: isPnpg ? 'background.paper' : undefined,
+            padding: !isPnpg ? 3 : 0,
+            paddingTop: isPnpg ? 3 : 0,
+            paddingLeft: isPnpg ? 3 : 0,
+          }}
+        >
+          <Grid
+            item
+            xs={12}
+            sx={{
+              backgroundColor: isPnpg ? 'background.paper' : 'background.default',
+            }}
+            mb={isPnpg ? 1 : 4}
+          >
             <UserDetail
               userInfo={partyUser}
               roleSection={''}

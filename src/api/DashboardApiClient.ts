@@ -203,15 +203,12 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
-  addMemberToUserGroup: async (
-    id: string,
-    userId: string,
-  ): Promise<void> => {
+  addMemberToUserGroup: async (id: string, userId: string): Promise<void> => {
     const result = await apiClient.addMemberToUserGroupUsingPOST({
       id,
       userId,
     });
-    return extractResponse(result, 204, onRedirectToLogin);
-  },
 
+    return extractResponse(result, 204, onRedirectToLogin, 404);
+  },
 };

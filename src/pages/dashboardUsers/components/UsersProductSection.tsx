@@ -19,6 +19,8 @@ type Props = {
   filters: UsersTableFiltersConfig;
   productsRolesMap: ProductsRolesMap;
   incrementalLoad: boolean;
+  isPnpg?: boolean;
+  isPnpgTheOnlyProduct?: boolean;
 };
 
 export default function UsersProductSection({
@@ -31,14 +33,16 @@ export default function UsersProductSection({
   onFetchStatusUpdate,
   filters,
   incrementalLoad,
+  isPnpgTheOnlyProduct,
 }: Props) {
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
   return (
     <Grid container direction="row">
-      {(!hideProductWhenLoading && fetchStatus.loading) ||
-      fetchStatus.error ||
-      !fetchStatus.noData ? (
+      {((!hideProductWhenLoading && fetchStatus.loading) ||
+        fetchStatus.error ||
+        !fetchStatus.noData) &&
+      !isPnpgTheOnlyProduct ? (
         <Grid item xs={12} sx={{ mt: 3 }}>
           <Typography sx={{ fontWeight: 'fontWeightMedium' }} id={product.id}>
             {product.title}

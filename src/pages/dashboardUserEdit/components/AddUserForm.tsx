@@ -101,6 +101,7 @@ type Props = {
 
 type TextTransform = 'uppercase' | 'lowercase';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function AddUserForm({
   party,
   userId,
@@ -127,6 +128,10 @@ export default function AddUserForm({
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
+
+  const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
+  const isPnpgTheOnlyProduct =
+    !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
@@ -304,7 +309,7 @@ export default function AddUserForm({
 
         history.push(
           resolvePathVariables(
-            selectedProduct
+            selectedProduct && !isPnpgTheOnlyProduct
               ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path
               : DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
             {
@@ -509,6 +514,11 @@ export default function AddUserForm({
         >
           {canEditRegistryData ? (
             <>
+              {isPnpg && (
+                <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
+                  {t('userEdit.addForm.userData.label')}
+                </Typography>
+              )}
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
                   {...baseTextFieldProps(
@@ -557,7 +567,7 @@ export default function AddUserForm({
               </Grid>
             </>
           ) : undefined}
-          {!selectedProduct ? (
+          {!selectedProduct && !isPnpgTheOnlyProduct ? (
             <Grid item xs={12} mb={3}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel

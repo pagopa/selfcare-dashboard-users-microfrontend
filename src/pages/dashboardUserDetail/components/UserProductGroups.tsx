@@ -22,6 +22,8 @@ type Props = {
   product: Product;
   userProduct: PartyUserProduct;
 };
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function UserProductGroups({ user, party, product, userProduct }: Props) {
   const { t } = useTranslation();
   const pageRequest = { page: 0, size: 100 };
@@ -35,6 +37,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   const addError = useErrorDispatcher();
   const currentUser = partyUserDetail2User(user);
   const userProductRoleSuspended = userProduct.roles.every((p) => p.status === 'SUSPENDED');
+  const isPnpg = product.id.startsWith('prod-pn-pg');
 
   const executeFetchUserGroups = () => {
     setLoading(true);
@@ -106,7 +109,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
           {t('userDetail.group')}
         </Typography>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={9} pl={isPnpg ? 9 : 0}>
         {userGroups.length > 0 &&
           userGroups?.map((g) => (
             <Chip
