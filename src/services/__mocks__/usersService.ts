@@ -732,6 +732,18 @@ export const mockedUsers: Array<PartyUserDetail> = [
           },
         ],
       },
+      {
+        title: 'SEND coll',
+        id: 'prod-pn-pg-coll',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'Gestore Notifiche',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
     ],
     isCurrentUser: false,
   },
