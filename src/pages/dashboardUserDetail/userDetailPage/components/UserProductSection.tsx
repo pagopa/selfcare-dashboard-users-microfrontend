@@ -30,11 +30,13 @@ export default function UserProductSection({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const isPnpgTheOnlyProduct = products[0].id.startsWith('prod-pn-pg') && products.length === 1;
+  const isPnpgProduct = products[0].id.startsWith('prod-pn-pg');
+  const isPnpgTheOnlyProduct = isPnpgProduct && products.length === 1;
+
   return (
     <>
       {!isPnpgTheOnlyProduct && (
-        <Grid item xs={9} mb={3}>
+        <Grid item xs={isPnpgProduct ? 2 : 9} mb={3}>
           <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
             {t('userDetail.productSection.title')}
           </Typography>
@@ -77,11 +79,11 @@ export default function UserProductSection({
           product && (
             <Grid
               item
-              xs={!isPnpgTheOnlyProduct ? 12 : 8}
+              xs={12}
               key={userProduct.id}
               sx={{
                 backgroundColor: 'background.paper',
-                padding: !isPnpgTheOnlyProduct ? 3 : 0,
+                padding: !isPnpgProduct ? 3 : 0,
                 mb: 2,
               }}
             >
