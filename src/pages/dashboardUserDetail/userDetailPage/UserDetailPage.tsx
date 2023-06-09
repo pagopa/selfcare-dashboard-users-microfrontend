@@ -137,7 +137,7 @@ function UserDetailPage({
 
   const paths = [
     {
-      icon: PeopleAltIcon,
+      icon: !isPnpg ? PeopleAltIcon : undefined,
       description: t('userDetail.pathDescription'),
       onClick: () =>
         history.push(
