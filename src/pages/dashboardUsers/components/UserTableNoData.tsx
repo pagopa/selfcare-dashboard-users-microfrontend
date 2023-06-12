@@ -15,6 +15,7 @@ export default function UserTableNoData({ removeFilters }: Props) {
         mt: 7,
         padding: 2,
         backgroundColor: 'white',
+        borderRadius: '4px',
       }}
       justifyContent="center"
     >

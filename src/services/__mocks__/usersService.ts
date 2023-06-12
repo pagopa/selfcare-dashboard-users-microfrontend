@@ -670,7 +670,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     surname: 'Marchetti',
     email: 'marco.m@comune.milano.it',
     userRole: 'ADMIN',
-    status: 'ACTIVE',
+    status: 'SUSPENDED',
     products: [
       {
         title: 'SEND',

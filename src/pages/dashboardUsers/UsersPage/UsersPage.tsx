@@ -111,7 +111,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   return (
     <div style={{ width: '100%' }}>
-      <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
+      <Grid container p={2} ml={1} sx={{ backgroundColor: 'transparent !important' }}>
         <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
           <TitleBox
             variantTitle="h4"
@@ -163,9 +163,6 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             xs={12}
             mt={5}
             sx={{
-              borderBottom: 1,
-              borderBottomWidth: '2px',
-              borderColor: 'divider',
               position: 'sticky',
               top: 0,
               zIndex: 100,
@@ -198,9 +195,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           item
           xs={12}
           sx={{
-            backgroundColor: 'background.default',
-            px: isPnpg ? 0 : 3,
-            pb: isPnpg ? 0 : 3,
+            backgroundColor: '#EEEEEE',
+            px: isPnpgTheOnlyProduct ? 0 : 3,
+            pb: isPnpgTheOnlyProduct ? 0 : 3,
           }}
           mt={moreThanOneActiveProduct ? 0 : 5}
         >
