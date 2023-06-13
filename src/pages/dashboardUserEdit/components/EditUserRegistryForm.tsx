@@ -197,6 +197,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
         >
           <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
+              size="small"
               {...baseTextFieldProps(
                 'taxCode',
                 t('userEdit.editRegistryForm.fiscalCode.label'),
@@ -209,12 +210,14 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           <Grid item container spacing={2} mb={3}>
             <Grid item xs={6} sx={{ height: '75px' }}>
               <CustomTextField
+                size="small"
                 {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
                 disabled={formik.values.certifiedName}
               />
             </Grid>
             <Grid item xs={6} sx={{ height: '75px' }}>
               <CustomTextField
+                size="small"
                 {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
                 disabled={formik.values.certifiedSurname}
               />
@@ -222,6 +225,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           </Grid>
           <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
+              size="small"
               {...baseTextFieldProps(
                 'email',
                 t('userEdit.editRegistryForm.institutionalEmail.label'),
@@ -232,6 +236,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
           </Grid>
           <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
+              size="small"
               {...baseTextFieldProps(
                 'confirmEmail',
                 t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),

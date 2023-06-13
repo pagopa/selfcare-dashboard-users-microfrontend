@@ -31,10 +31,12 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     ); */
   };
 
+  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
+
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: PeopleAlt,
+      icon: !isPnpg ? PeopleAlt : undefined,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
