@@ -63,10 +63,10 @@ const CustomDataGrid = styled(DataGrid)({
       backgroundColor: 'rgba(23, 50, 77, 0.04)',
     },
   },
-  '.MuiDataGrid-row:first-child': { borderRadius: '8px 8px 0 0' },
-  '.MuiDataGrid-row:last-child': { borderRadius: '0 0 8px 8px' },
+  '.MuiDataGrid-row:first-child': { borderRadius: '4px 4px 0 0' },
+  '.MuiDataGrid-row:last-child': { borderRadius: '0 0 4px 4px' },
   '.MuiDataGrid-row:first-child:last-child': {
-    borderRadius: '8px',
+    borderRadius: '4px',
   },
   '.justifyContentNormal': {
     fontSize: '16px',
