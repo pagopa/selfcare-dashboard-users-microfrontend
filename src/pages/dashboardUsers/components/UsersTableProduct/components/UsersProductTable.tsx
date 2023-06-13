@@ -63,6 +63,11 @@ const CustomDataGrid = styled(DataGrid)({
       backgroundColor: 'rgba(23, 50, 77, 0.04)',
     },
   },
+  '.MuiDataGrid-row:first-child': { borderRadius: '8px 8px 0 0' },
+  '.MuiDataGrid-row:last-child': { borderRadius: '0 0 8px 8px' },
+  '.MuiDataGrid-row:first-child:last-child': {
+    borderRadius: '8px',
+  },
   '.justifyContentNormal': {
     fontSize: '16px',
     fontWeight: 'normal',
@@ -96,13 +101,7 @@ export default function UsersProductTable({
   onRowClick,
 }: UsersTableProps) {
   const sortSplitted = sort && sort !== '' ? sort.split(',') : undefined;
-
-  const columns: Array<GridColDef> = buildColumnDefs(
-    product,
-    onRowClick,
-
-    productRolesLists
-  );
+  const columns: Array<GridColDef> = buildColumnDefs(product, onRowClick, productRolesLists);
 
   return (
     <React.Fragment>
