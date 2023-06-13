@@ -197,10 +197,10 @@ export default {
         label: 'Cognome',
       },
       institutionalEmail: {
-        label: 'Email istituzionale',
+        label: 'E-mail istituzionale',
       },
       confirmInstitutionalEmail: {
-        label: 'Conferma email',
+        label: 'Conferma e-mail',
       },
       product: {
         title: 'Seleziona il prodotto',
@@ -244,10 +244,10 @@ export default {
         label: 'Cognome',
       },
       institutionalEmail: {
-        label: 'Email istituzionale',
+        label: 'E-mail istituzionale',
       },
       confirmInstitutionalEmail: {
-        label: 'Conferma email',
+        label: 'Conferma e-mail',
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',
