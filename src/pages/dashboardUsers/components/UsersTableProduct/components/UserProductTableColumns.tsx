@@ -28,7 +28,7 @@ export function buildColumnDefs(
       editable: false,
       disableColumnMenu: true,
       valueGetter: getFullName,
-      renderHeader: showCustmHeader,
+      renderHeader: showCustomHeader,
       renderCell: (params) => showName(params, false, onRowClick),
       sortable: false,
       flex: 4,
@@ -42,7 +42,7 @@ export function buildColumnDefs(
       width: 293,
       editable: false,
       disableColumnMenu: true,
-      renderHeader: showCustmHeader,
+      renderHeader: showCustomHeader,
       renderCell: (params) => renderCell(params, undefined, onRowClick),
       sortable: false,
       flex: 4,
@@ -57,7 +57,7 @@ export function buildColumnDefs(
       editable: false,
       disableColumnMenu: true,
       renderCell: (params) => showRoles(params, productRolesLists, onRowClick),
-      renderHeader: showCustmHeader,
+      renderHeader: showCustomHeader,
       sortable: false,
       flex: 3,
     },
@@ -138,12 +138,16 @@ function getFullName(params: GridValueGetterParams) {
   return `${params.row.name} ${params.row.surname} ${params.row.status}`;
 }
 
-function showCustmHeader(params: GridColumnHeaderParams) {
+function showCustomHeader(params: GridColumnHeaderParams) {
   return (
     <React.Fragment>
       <Typography
-        color="text.secondary"
-        sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', outline: 'none', paddingLeft: 1 }}
+        sx={{
+          fontSize: '16px',
+          fontWeight: 'fontWeightMedium',
+          outline: 'none',
+          paddingLeft: '14px',
+        }}
       >
         {params.colDef.headerName}
       </Typography>
@@ -178,7 +182,10 @@ function showName(
                   WebkitBoxOrient: 'vertical' as const,
                 }}
               >
-                {params.row.name} {params.row.surname} {params.row.isCurrentUser ? '(tu)' : ''}
+                {params.row.name} {params.row.surname}{' '}
+                {params.row.isCurrentUser
+                  ? i18n.t('usersTable.usersProductTableColumns.rows.isCurrentUser')
+                  : ''}
               </Typography>
             </Grid>
             {showChip && (
@@ -187,7 +194,9 @@ function showName(
                 xs={5}
                 sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
               >
-                <TableChip text="Sospeso" />
+                <TableChip
+                  text={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')}
+                />
               </Grid>
             )}
           </Grid>
@@ -226,7 +235,7 @@ function showRoles(
     <React.Fragment>
       {renderCell(
         params,
-        <Grid container direction="column">
+        <Grid container direction="column" paddingLeft={3}>
           {(params.row as PartyProductUser).product.roles?.map(
             (
               r // load just the actual product
@@ -262,11 +271,20 @@ function showStatus(
   onRowClick: (partyUser: PartyProductUser) => void
 ) {
   const showChip = isUserSuspended(params.row as PartyProductUser);
-  return renderCell(params, <>{showChip && <TableChip text="Sospeso" />}</>, onRowClick, {
-    paddingLeft: 0,
-    paddingRight: 0,
-    textAlign: 'right',
-  });
+  return renderCell(
+    params,
+    <>
+      {showChip && (
+        <TableChip text={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')} />
+      )}
+    </>,
+    onRowClick,
+    {
+      paddingLeft: 0,
+      paddingRight: 0,
+      textAlign: 'right',
+    }
+  );
 }
 
 function showActions(
