@@ -36,7 +36,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: !isPnpg ? PeopleAlt : undefined,
+      icon: isPnpg ? undefined : PeopleAlt,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
