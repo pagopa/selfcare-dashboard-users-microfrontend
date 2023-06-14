@@ -531,21 +531,19 @@ export default function AddUserForm({
                   )}
                 />
               </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    size="small"
-                    {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                    disabled={formik.values.certifiedName || !validTaxcode}
-                  />
-                </Grid>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    size="small"
-                    {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                    disabled={formik.values.certifiedSurname || !validTaxcode}
-                  />
-                </Grid>
+              <Grid item xs={12} mb={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <CustomTextField
+                  size="small"
+                  style={{ width: '49%' }}
+                  {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+                  disabled={formik.values.certifiedName || !validTaxcode}
+                />
+                <CustomTextField
+                  size="small"
+                  style={{ width: '49%' }}
+                  {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+                  disabled={formik.values.certifiedSurname || !validTaxcode}
+                />
               </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField

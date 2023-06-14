@@ -677,8 +677,20 @@ export const mockedUsers: Array<PartyUserDetail> = [
         id: 'prod-pn-pg',
         roles: [
           {
-            relationshipId: 'rel4',
-            role: 'Amministratore',
+            relationshipId: 'relTest1',
+            role: 'testRole1',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+          {
+            relationshipId: 'relTest2',
+            role: 'testRole2',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+          {
+            relationshipId: 'relTest3',
+            role: 'testRole3',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
           },
