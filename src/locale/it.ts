@@ -220,7 +220,7 @@ export default {
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
       saveUserSuccess: 'Utente aggiunto correttamente',
-      saveUserError: "Non è stato possibile aggiungere l'utente. Riprova.",
+      saveUserError: 'Hai già aggiunto questo utente.',
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:
