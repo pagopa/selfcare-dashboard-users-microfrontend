@@ -235,7 +235,7 @@ function showRoles(
     <React.Fragment>
       {renderCell(
         params,
-        <Grid container direction="column" paddingLeft={3}>
+        <Grid container direction="column" sx={{ display: 'contents' }}>
           {(params.row as PartyProductUser).product.roles?.map(
             (
               r // load just the actual product
@@ -246,7 +246,7 @@ function showRoles(
                   color={
                     isSuspended || r.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary'
                   }
-                  sx={{ outline: 'none' }}
+                  sx={{ outline: 'none', paddingLeft: 3 }}
                 >
                   {productRolesLists?.groupByProductRole[r.role]
                     ? productRolesLists?.groupByProductRole[r.role].title

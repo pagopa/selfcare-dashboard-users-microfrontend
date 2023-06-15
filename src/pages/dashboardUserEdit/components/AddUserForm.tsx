@@ -510,6 +510,7 @@ export default function AddUserForm({
             paddingTop: 3,
             paddingLeft: 3,
             paddingRight: 3,
+            borderRadius: '4px',
           }}
         >
           {canEditRegistryData ? (
@@ -521,6 +522,7 @@ export default function AddUserForm({
               )}
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'taxCode',
                     t('userEdit.addForm.fiscalCode.label'),
@@ -529,22 +531,23 @@ export default function AddUserForm({
                   )}
                 />
               </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                    disabled={formik.values.certifiedName || !validTaxcode}
-                  />
-                </Grid>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                    disabled={formik.values.certifiedSurname || !validTaxcode}
-                  />
-                </Grid>
+              <Grid item xs={12} mb={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <CustomTextField
+                  size="small"
+                  style={{ width: '49%' }}
+                  {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+                  disabled={formik.values.certifiedName || !validTaxcode}
+                />
+                <CustomTextField
+                  size="small"
+                  style={{ width: '49%' }}
+                  {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+                  disabled={formik.values.certifiedSurname || !validTaxcode}
+                />
               </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'email',
                     t('userEdit.addForm.institutionalEmail.label'),
@@ -556,6 +559,7 @@ export default function AddUserForm({
               </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'confirmEmail',
                     t('userEdit.addForm.confirmInstitutionalEmail.label'),
@@ -572,6 +576,7 @@ export default function AddUserForm({
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
                   id="select-label-products"
+                  size="small"
                   sx={{
                     color: !validTaxcode ? 'text.disabled' : '',
                     '& .MuiInputLabel-root.Mui-focused': {
@@ -585,6 +590,7 @@ export default function AddUserForm({
                 </InputLabel>
                 <Select
                   fullWidth
+                  size="small"
                   aria-label="user"
                   name="products"
                   value={userProduct?.title ?? ''}
