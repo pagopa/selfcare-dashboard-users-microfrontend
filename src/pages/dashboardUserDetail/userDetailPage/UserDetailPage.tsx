@@ -159,7 +159,7 @@ function UserDetailPage({
         container
         item
         alignItems={'center'}
-        xs={8}
+        xs={12}
         pl={3}
         mt={3}
         sx={{
