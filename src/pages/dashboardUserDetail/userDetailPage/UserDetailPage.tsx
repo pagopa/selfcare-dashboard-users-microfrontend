@@ -18,6 +18,7 @@ import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import UserProductActions from '../components/UserProductActions';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -40,6 +41,7 @@ function UserDetailPage({
   productsMap,
 }: Props) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile('lg');
   const history = useHistory();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
@@ -154,18 +156,17 @@ function UserDetailPage({
   return !party ? (
     <></>
   ) : (
-    <div style={{ width: '100%' }}>
-      <Grid
-        container
-        item
-        alignItems={'center'}
-        xs={8}
-        pl={3}
-        mt={3}
-        sx={{
-          backgroundColor: 'transparent !important',
-        }}
-      >
+    <Grid
+      container
+      item
+      alignItems={'center'}
+      p={3}
+      sx={{
+        width: '100%',
+        backgroundColor: 'transparent !important',
+      }}
+    >
+      <Grid container item xs={isMobile ? 12 : 8}>
         <Grid item xs={12} mb={3}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
@@ -216,7 +217,6 @@ function UserDetailPage({
             </Grid>
           )}
         </Grid>
-
         <Grid
           container
           item
@@ -225,6 +225,7 @@ function UserDetailPage({
             padding: !isPnpg ? 3 : 0,
             paddingTop: isPnpg ? 3 : 0,
             paddingLeft: isPnpg ? 3 : 0,
+            borderRadius: '4px',
           }}
         >
           <Grid
@@ -242,7 +243,6 @@ function UserDetailPage({
               productsMap={productsMap}
             />
           </Grid>
-
           <Grid container>
             <UserProductSection
               isProductDetailPage={isProductDetailPage}
@@ -256,7 +256,7 @@ function UserDetailPage({
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
 export default withUserDetail(UserDetailPage);
