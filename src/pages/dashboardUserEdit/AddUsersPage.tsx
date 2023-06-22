@@ -9,6 +9,7 @@ import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import AddUserForm from './components/AddUserForm';
 
 type Props = {
@@ -20,6 +21,7 @@ type Props = {
 function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+  const isMobile = useIsMobile('lg');
 
   const goBack = () => {
     history.goBack();
@@ -57,7 +59,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={8}>
+      <Grid container item xs={isMobile ? 12 : 8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
