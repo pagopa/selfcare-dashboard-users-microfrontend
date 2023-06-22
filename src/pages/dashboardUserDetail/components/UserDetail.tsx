@@ -19,6 +19,8 @@ const labelStyle = {
   fontSize: 'fontSize',
   fontWeight: 'fontWeightRegular',
   color: 'colorTextPrimary',
+  width: '100%',
+  wordWrap: 'break-word',
 };
 const infoStyle = {
   fontSize: 'fontSize',
@@ -39,101 +41,70 @@ const titleTooltipMaxCh = 20;
 export default function UserDetail({ roleSection, userInfo }: Props) {
   const { t } = useTranslation();
   return (
-    <Grid item xs={12}>
-      <Grid container spacing={1}>
-        {/* name */}
-        <Grid container item alignItems={'center'}>
-          <Grid item xs={3}>
-            <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
-          </Grid>
-          <Grid item xs={9} display="flex" alignItems={'center'}>
-            <Tooltip
-              title={
-                userInfo.name.length > titleTooltipMaxCh ? userInfo.name.toLocaleLowerCase() : ''
-              }
-              placement="top"
-              arrow={true}
-            >
-              <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
-                {userInfo.name.toLocaleLowerCase()}
-              </CustomStyleCapitolized>
-            </Tooltip>
-          </Grid>
-        </Grid>
-
-        {/* surname */}
-        <Grid container item alignItems={'center'}>
-          <Grid item xs={3}>
-            <Typography sx={labelStyle}>{t('userDetail.surname')}</Typography>
-          </Grid>
-          <Grid item xs={9} display="flex" alignItems={'center'}>
-            <Tooltip
-              title={
-                userInfo.surname.length > titleTooltipMaxCh
-                  ? userInfo.surname.toLocaleLowerCase()
-                  : ''
-              }
-              placement="top"
-              arrow={true}
-            >
-              <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
-                {userInfo.surname.toLocaleLowerCase()}
-              </CustomStyleCapitolized>
-            </Tooltip>
-          </Grid>
-        </Grid>
-
-        {/* taxcode */}
-        <Grid container item alignItems={'center'}>
-          <Grid item xs={3}>
-            <Typography sx={labelStyle}>{t('userDetail.fiscalCode')}</Typography>
-          </Grid>
-          <Grid item xs={9} display="flex" alignItems={'center'}>
-            <Typography sx={{ ...infoStyle, color: 'colorTextPrimary' }}>
-              {userInfo.taxCode}
-            </Typography>
-          </Grid>
-        </Grid>
-
-        {/* email */}
-        <Grid container item alignItems={'center'}>
-          <Grid item xs={3}>
-            <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
-          </Grid>
-          <Grid item xs={9} display="flex" alignItems={'center'}>
-            <Tooltip
-              title={
-                userInfo.email?.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
-              }
-              placement="top"
-              arrow={true}
-            >
-              <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
-                {userInfo?.email ?? '-'}
-              </Typography>
-            </Tooltip>
-          </Grid>
-        </Grid>
-        {/* <Grid container item alignContent="center">
-            <Grid item xs={3}>
-              <Typography 
-              >
-                {t('userDetail.institution')}
-              </Typography>
-            </Grid>
-            <Grid item xs={9}>
-              <Typography variant="body2" className="CustomInfoStyle">
-                {party.description}
-              </Typography>
-            </Grid>
-          </Grid> */}
-
-        {roleSection && (
-          <Grid container item alignContent="center" alignItems={'center'}>
-            {roleSection}
-          </Grid>
-        )}
+    <Grid container spacing={1} xs={12}>
+      {/* name */}
+      <Grid item xs={3}>
+        <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
       </Grid>
+      <Grid item xs={9} display="flex" alignItems={'center'}>
+        <Tooltip
+          title={userInfo.name.length > titleTooltipMaxCh ? userInfo.name.toLocaleLowerCase() : ''}
+          placement="top"
+          arrow={true}
+        >
+          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+            {userInfo.name.toLocaleLowerCase()}
+          </CustomStyleCapitolized>
+        </Tooltip>
+      </Grid>
+      {/* surname */}
+      <Grid item xs={3}>
+        <Typography sx={labelStyle}>{t('userDetail.surname')}</Typography>
+      </Grid>
+      <Grid item xs={9} display="flex" alignItems={'center'}>
+        <Tooltip
+          title={
+            userInfo.surname.length > titleTooltipMaxCh ? userInfo.surname.toLocaleLowerCase() : ''
+          }
+          placement="top"
+          arrow={true}
+        >
+          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+            {userInfo.surname.toLocaleLowerCase()}
+          </CustomStyleCapitolized>
+        </Tooltip>
+      </Grid>
+      {/* taxcode */}
+      <Grid item xs={3}>
+        <Typography sx={labelStyle}>{t('userDetail.fiscalCode')}</Typography>
+      </Grid>
+      <Grid item xs={9} display="flex" alignItems={'center'}>
+        <Typography sx={{ ...infoStyle, ...labelStyle, color: 'colorTextPrimary' }}>
+          {userInfo.taxCode}
+        </Typography>
+      </Grid>
+      {/* email */}
+      <Grid item xs={3}>
+        <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
+      </Grid>
+      <Grid item xs={9} display="flex" alignItems={'center'}>
+        <Tooltip
+          title={
+            userInfo.email?.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
+          }
+          placement="top"
+          arrow={true}
+        >
+          <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
+            {userInfo?.email ?? '-'}
+          </Typography>
+        </Tooltip>
+      </Grid>
+      {roleSection && (
+        <Grid container item alignContent="center" alignItems={'center'}>
+          {roleSection}
+        </Grid>
+      )}
     </Grid>
   );
 }

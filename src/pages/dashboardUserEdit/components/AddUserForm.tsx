@@ -31,6 +31,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
+import { theme } from '@pagopa/mui-italia';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -46,6 +47,7 @@ import { PartyUserOnCreation } from '../../../model/PartyUser';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -118,6 +120,7 @@ export default function AddUserForm({
 
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const isMobile = useIsMobile('lg');
 
   const history = useHistory();
 
@@ -531,16 +534,28 @@ export default function AddUserForm({
                   )}
                 />
               </Grid>
-              <Grid item xs={12} mb={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid
+                item
+                xs={12}
+                mb={3}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  [theme.breakpoints.down('lg')]: {
+                    flexDirection: 'column',
+                    width: '100%',
+                  },
+                }}
+              >
                 <CustomTextField
                   size="small"
-                  style={{ width: '49%' }}
+                  style={{ width: isMobile ? '100%' : '49%' }}
                   {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
                   disabled={formik.values.certifiedName || !validTaxcode}
                 />
                 <CustomTextField
                   size="small"
-                  style={{ width: '49%' }}
+                  style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
                   {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
                   disabled={formik.values.certifiedSurname || !validTaxcode}
                 />

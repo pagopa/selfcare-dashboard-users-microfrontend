@@ -15,11 +15,13 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/uti
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { theme } from '@pagopa/mui-italia';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -63,6 +65,7 @@ type TextTransform = 'uppercase' | 'lowercase';
 
 export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile('lg');
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
@@ -207,15 +210,34 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               disabled={true}
             />
           </Grid>
-          <Grid item container spacing={2} mb={3}>
-            <Grid item xs={6} sx={{ height: '75px' }}>
+          <Grid
+            item
+            container
+            spacing={2}
+            mb={isMobile ? 3 : 1}
+            sx={{
+              [theme.breakpoints.down('lg')]: {
+                flexDirection: 'column',
+              },
+            }}
+          >
+            <Grid item xs={isMobile ? 12 : 6} sx={{ height: '75px' }}>
               <CustomTextField
                 size="small"
                 {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
                 disabled={formik.values.certifiedName}
               />
             </Grid>
-            <Grid item xs={6} sx={{ height: '75px' }}>
+            <Grid
+              item
+              xs={isMobile ? 12 : 6}
+              sx={{
+                height: '75px',
+                [theme.breakpoints.down('lg')]: {
+                  marginTop: 1,
+                },
+              }}
+            >
               <CustomTextField
                 size="small"
                 {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
