@@ -32,8 +32,8 @@ export default {
         title: 'Operatore',
         description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
-      addFiltersButton: 'Filtra',
-      deleteFiltersButton: 'Rimuovi filtri',
+      addFilters: 'Filtra',
+      deleteFilters: 'Rimuovi filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',

@@ -1,4 +1,3 @@
-import { Box } from '@mui/system';
 import { Product } from '../../../../model/Product';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -14,6 +13,7 @@ interface UsersSearchProps {
   filters: UsersTableFiltersConfig;
   onFiltersChange: (filter: UsersTableFiltersConfig) => void;
   showSelcRoleGrouped: boolean;
+  setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UsersTableActions({
@@ -25,21 +25,19 @@ export default function UsersTableActions({
   filters,
   onFiltersChange,
   showSelcRoleGrouped,
+  setOpenDialogMobile,
 }: UsersSearchProps) {
   return (
-    <Box>
-      <Box width="100%">
-        <UsersTableFilters
-          selectedProduct={selectedProduct}
-          disableFilters={disableFilters}
-          filters={filters}
-          onFiltersChange={onFiltersChange}
-          products={products}
-          productsRolesMap={productsRolesMap}
-          showSelcRoleGrouped={showSelcRoleGrouped}
-          loading={loading}
-        />
-      </Box>
-    </Box>
+    <UsersTableFilters
+      selectedProduct={selectedProduct}
+      disableFilters={disableFilters}
+      filters={filters}
+      onFiltersChange={onFiltersChange}
+      products={products}
+      productsRolesMap={productsRolesMap}
+      showSelcRoleGrouped={showSelcRoleGrouped}
+      loading={loading}
+      setOpenDialogMobile={setOpenDialogMobile}
+    />
   );
 }
