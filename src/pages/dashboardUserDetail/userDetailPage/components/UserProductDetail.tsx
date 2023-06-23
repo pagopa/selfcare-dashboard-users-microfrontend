@@ -67,7 +67,7 @@ export default function UserProductDetail({
                   </Box>
                 </Box>
               )}
-              <Box ml={4} display="flex" justifyContent="center" alignItems={'center'}>
+              <Box ml={isPnpg ? 0 : 4} display="flex" justifyContent="center" alignItems={'center'}>
                 {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
                   <Chip
                     label={t('userDetail.statusLabel')}

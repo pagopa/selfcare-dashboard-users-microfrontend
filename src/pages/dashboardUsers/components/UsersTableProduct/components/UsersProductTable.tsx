@@ -113,7 +113,7 @@ export default function UsersProductTable({
   party,
 }: UsersTableProps) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile('md');
+  const isMobile = useIsMobile('lg');
   const history = useHistory();
 
   const sortSplitted = sort && sort !== '' ? sort.split(',') : undefined;

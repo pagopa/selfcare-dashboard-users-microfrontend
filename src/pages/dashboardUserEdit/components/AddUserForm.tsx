@@ -699,13 +699,30 @@ export default function AddUserForm({
           )}
         </Grid>
 
-        <Stack direction="row" justifyContent="space-between" mt={5}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          mt={5}
+          sx={{
+            [theme.breakpoints.down('lg')]: {
+              flexDirection: 'column',
+            },
+          }}
+        >
           <Stack display="flex" justifyContent="flex-start">
             <Button color="primary" variant="outlined" onClick={() => onExit(goBackInner)}>
               {t('userEdit.addForm.backButton')}
             </Button>
           </Stack>
-          <Stack display="flex" justifyContent="flex-end">
+          <Stack
+            display="flex"
+            justifyContent="flex-end"
+            sx={{
+              [theme.breakpoints.down('lg')]: {
+                marginTop: 2,
+              },
+            }}
+          >
             <Button
               disabled={!formik.dirty || !formik.isValid}
               color="primary"
