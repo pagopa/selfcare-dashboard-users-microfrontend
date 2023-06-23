@@ -221,7 +221,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
               },
             }}
           >
-            <Grid item xs={isMobile ? 12 : 6} sx={{ height: '75px' }}>
+            <Grid item xs={12} lg={6} sx={{ height: '75px' }}>
               <CustomTextField
                 size="small"
                 {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
@@ -230,7 +230,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
             </Grid>
             <Grid
               item
-              xs={isMobile ? 12 : 6}
+              xs={12}
+              lg={6}
               sx={{
                 height: '75px',
                 [theme.breakpoints.down('lg')]: {
