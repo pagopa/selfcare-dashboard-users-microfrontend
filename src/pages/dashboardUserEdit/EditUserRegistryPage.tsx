@@ -7,14 +7,12 @@ import { PeopleAlt } from '@mui/icons-material';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import withUserRegistry, { withUserRegistryProps } from '../../decorators/withUserRegistry';
-import { useIsMobile } from '../../hooks/useIsMobile';
 import EditUserRegistryForm from './components/EditUserRegistryForm';
 
 type Props = withUserRegistryProps;
 
 function EditUserRegistryPage({ party, user }: Props) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile('lg');
   const history = useHistory();
 
   const goBack = () => history.goBack();
@@ -65,7 +63,7 @@ function EditUserRegistryPage({ party, user }: Props) {
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={isMobile ? 12 : 8}>
+      <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>

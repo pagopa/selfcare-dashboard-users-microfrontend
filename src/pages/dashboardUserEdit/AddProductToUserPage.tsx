@@ -39,10 +39,12 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     */
   };
 
+  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
+
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: PeopleAlt,
+      icon: isPnpg ? undefined : PeopleAlt,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -69,7 +71,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={8}>
+      <Grid container item xs={12} lg={8}>
         <Grid item xs={12}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>
@@ -104,7 +106,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                   </Grid>
                   <Grid
                     item
-                    xs={9}
+                    xs={12}
+                    lg={9}
                     className="partyUserStyle"
                     sx={{
                       height: '100%',
@@ -114,8 +117,6 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical' as const,
                       overflowWrap: 'break-word',
-                      minWidth: 0,
-                      maxWidth: 0,
                     }}
                   >
                     <CustomTextTransform
@@ -136,7 +137,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                   </Grid>
                   <Grid
                     item
-                    xs={9}
+                    xs={12}
+                    lg={9}
                     sx={{
                       height: '100%',
                       overflow: 'hidden',
@@ -145,8 +147,6 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical' as const,
                       overflowWrap: 'break-word',
-                      minWidth: 0,
-                      maxWidth: 0,
                     }}
                   >
                     <CustomTextTransform
@@ -165,7 +165,19 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                       {t('userEdit.addProduct.fiscalCode')}
                     </Typography>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid
+                    item
+                    xs={12}
+                    lg={9}
+                    sx={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical' as const,
+                      overflowWrap: 'break-word',
+                    }}
+                  >
                     <CustomTextTransform
                       color="text.primary"
                       fontWeight="fontWeightMedium"

@@ -140,7 +140,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           </Grid>
           <Grid
             item
-            xs={isMobile ? 12 : 3}
+            xs={12}
+            md={3}
             flexDirection={isMobile ? 'row-reverse' : 'row'}
             mt={isMobile ? 3 : 5}
             display="flex"
