@@ -2,6 +2,7 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
+import { theme } from '@pagopa/mui-italia';
 import { PartyUserDetail } from '../../../../model/PartyUser';
 import { Party } from '../../../../model/Party';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
@@ -36,7 +37,16 @@ export default function UserProductSection({
   return (
     <>
       {!isPnpgTheOnlyProduct && (
-        <Grid item xs={isPnpgProduct ? 2 : 9} mb={3}>
+        <Grid
+          item
+          xs={isPnpgProduct ? 2 : 9}
+          mb={3}
+          sx={{
+            [theme.breakpoints.down('sm')]: {
+              marginBottom: 1,
+            },
+          }}
+        >
           <Typography sx={{ fontSize: '24px', fontWeight: 'fontWeightMedium' }}>
             {t('userDetail.productSection.title')}
           </Typography>
@@ -45,10 +55,21 @@ export default function UserProductSection({
 
       {!partyUser.isCurrentUser &&
         products
-          .filter((p) => p.userRole === 'ADMIN')
+          .filter((p) => p.userRole === 'ADMIN' && p.status === 'ACTIVE')
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
-          <Grid item xs={3}>
-            <Stack direction="row" display="flex" justifyContent="flex-end" alignItems="flex-start">
+          <Grid item xs={12} sm={3}>
+            <Stack
+              direction="row"
+              display="flex"
+              justifyContent="flex-end"
+              alignItems="flex-start"
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  justifyContent: 'flex-start',
+                  marginBottom: 2,
+                },
+              }}
+            >
               <Button
                 variant="contained"
                 sx={{
