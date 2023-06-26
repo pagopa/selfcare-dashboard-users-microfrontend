@@ -8,6 +8,7 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify'
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
 import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import { theme } from '@pagopa/mui-italia';
 import UserDetail from '../components/UserDetail';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -181,7 +182,19 @@ function UserDetailPage({
             </Typography>
           </Grid>
           {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
-            <Grid item xs={2} display="flex" justifyContent={!isPnpg ? 'normal' : 'flex-end'}>
+            <Grid
+              item
+              xs={12}
+              sm={2}
+              display="flex"
+              justifyContent={!isPnpg ? 'normal' : 'flex-end'}
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  justifyContent: 'flex-start',
+                  marginTop: 3,
+                },
+              }}
+            >
               <Stack
                 direction="row"
                 display="flex"
