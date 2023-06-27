@@ -17,6 +17,10 @@ export default {
         email: 'Email',
         role: 'Ruolo',
       },
+      rows: {
+        isCurrentUser: '(tu)',
+        suspendedChip: 'Sospeso',
+      },
     },
     filterRole: {
       placeholder: 'Tutti i ruoli',
@@ -28,8 +32,8 @@ export default {
         title: 'Operatore',
         description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
-      addFiltersButton: 'Filtra',
-      deleteFiltersButton: 'Annulla filtri',
+      addFilters: 'Filtra',
+      deleteFilters: 'Rimuovi filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
       errorOnFetch: 'Spiacenti, qualcosa è andato storto. <1><2>Riprova</2></1>.',
@@ -197,10 +201,10 @@ export default {
         label: 'Cognome',
       },
       institutionalEmail: {
-        label: 'Email istituzionale',
+        label: 'E-mail istituzionale',
       },
       confirmInstitutionalEmail: {
-        label: 'Conferma email',
+        label: 'Conferma e-mail',
       },
       product: {
         title: 'Seleziona il prodotto',
@@ -216,7 +220,7 @@ export default {
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
       saveUserSuccess: 'Utente aggiunto correttamente',
-      saveUserError: "Non è stato possibile aggiungere l'utente. Riprova.",
+      saveUserError: 'Hai già aggiunto questo utente.',
       addMultiRoleModal: {
         title: 'Assegna ruolo',
         message:
@@ -244,10 +248,10 @@ export default {
         label: 'Cognome',
       },
       institutionalEmail: {
-        label: 'Email istituzionale',
+        label: 'E-mail istituzionale',
       },
       confirmInstitutionalEmail: {
-        label: 'Conferma email',
+        label: 'Conferma e-mail',
       },
       backButton: 'Indietro',
       confirmButton: 'Conferma',

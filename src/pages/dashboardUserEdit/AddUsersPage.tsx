@@ -31,10 +31,12 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     ); */
   };
 
+  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
+
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: PeopleAlt,
+      icon: isPnpg ? undefined : PeopleAlt,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -55,7 +57,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={8}>
+      <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
         </Grid>

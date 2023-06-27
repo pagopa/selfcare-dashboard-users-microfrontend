@@ -6,6 +6,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/rou
 import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import { Product, ProductsMap } from '../../../model/Product';
 import { Party } from '../../../model/Party';
 import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
@@ -15,6 +16,8 @@ import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTa
 import UserTableNoData from '../components/UserTableNoData';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { ENV } from '../../../utils/env';
+import { useIsMobile } from '../../../hooks/useIsMobile';
+import MobileFilter from '../components/MobileFilter';
 
 interface Props {
   party: Party;
@@ -28,6 +31,7 @@ const emptyFilters: UsersTableFiltersConfig = {
   productRoles: [],
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
   const selectedProductSection =
     window.location.hash !== '' ? window.location.hash.substring(1) : undefined;
@@ -38,10 +42,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const [filters, setFilters] = useState<UsersTableFiltersConfig>(emptyFilters);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
 
   const { t } = useTranslation();
   const history = useHistory();
   const onExit = useUnloadEventOnExit();
+  const isMobile = useIsMobile('md');
+
   const addUserUrl = resolvePathVariables(
     DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
     { partyId: party.partyId }
@@ -112,36 +119,63 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
-        <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="flex-end">
-          <TitleBox
-            variantTitle="h4"
-            variantSubTitle="body1"
-            title={t('usersPage.title')}
-            subTitle={
-              !isPnpg
-                ? t('usersPage.generic.subTitle')
-                : ((
-                    <Trans i18next="usersPage.pnpg.subTitle">
-                      Gestisci gli utenti che possono leggere le notifiche di{' '}
-                      {{ businessName: party.description }}.
-                    </Trans>
-                  ) as unknown as string)
-            }
-            mbTitle={2}
-          />
+        <Grid container xs={12} sx={{ display: 'flex' }}>
+          <Grid item xs={9} alignItems="flex-end">
+            <TitleBox
+              variantTitle="h4"
+              variantSubTitle="body1"
+              title={t('usersPage.title')}
+              subTitle={
+                !isPnpg
+                  ? t('usersPage.generic.subTitle')
+                  : ((
+                      <Trans i18next="usersPage.pnpg.subTitle">
+                        Gestisci gli utenti che possono leggere le notifiche di{' '}
+                        {{ businessName: party.description }}.
+                      </Trans>
+                    ) as unknown as string)
+              }
+              mbTitle={2}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={3}
+            flexDirection={isMobile ? 'row-reverse' : 'row'}
+            mt={isMobile ? 3 : 5}
+            display="flex"
+            justifyContent="flex-end"
+          >
+            <Stack>
+              <Button
+                variant="contained"
+                sx={{ height: '48px', width: '163px' }}
+                onClick={() => onExit(() => history.push(addUserUrl))}
+              >
+                {t('usersTable.addButton')}
+              </Button>
+            </Stack>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Stack mt={5} display="flex" justifyContent="flex-end" alignItems="flex-end">
-            <Button
-              variant="contained"
-              sx={{ height: '48px', width: '163px' }}
-              onClick={() => onExit(() => history.push(addUserUrl))}
-            >
-              {t('usersTable.addButton')}
-            </Button>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} mt={5}>
+        <MobileFilter
+          loading={loading}
+          activeProducts={activeProducts}
+          filters={filters}
+          openDialogMobile={openDialogMobile}
+          party={party}
+          productsRolesMap={productsRolesMap}
+          selectedProductSection={selectedProductSection}
+          setFilters={setFilters}
+          setOpenDialogMobile={setOpenDialogMobile}
+        />
+        {isMobile ? (
+          <Grid item mt={isMobile ? 3 : 0}>
+            <ButtonNaked color="primary" onClick={() => setOpenDialogMobile(true)}>
+              {t('usersTable.filterRole.addFilters')}
+            </ButtonNaked>
+          </Grid>
+        ) : (
           <UsersTableActions
             disableFilters={loading}
             loading={loading}
@@ -154,18 +188,16 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             }
             filters={filters}
             onFiltersChange={setFilters}
-            showSelcRoleGrouped={!selectedProductSection}
+            showSelcRoleGrouped={isPnpg ? false : !selectedProductSection}
+            setOpenDialogMobile={setOpenDialogMobile}
           />
-        </Grid>
+        )}
         {moreThanOneActiveProduct && (
           <Grid
             item
             xs={12}
-            mt={5}
+            mt={isMobile ? 2 : 5}
             sx={{
-              borderBottom: 1,
-              borderBottomWidth: '2px',
-              borderColor: 'divider',
               position: 'sticky',
               top: 0,
               zIndex: 100,
@@ -198,9 +230,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           item
           xs={12}
           sx={{
-            backgroundColor: 'background.default',
-            px: isPnpg ? 0 : 3,
-            pb: isPnpg ? 0 : 3,
+            backgroundColor: '#EEEEEE',
+            px: isPnpgTheOnlyProduct ? 0 : 3,
+            pb: isPnpgTheOnlyProduct ? 0 : 3,
           }}
           mt={moreThanOneActiveProduct ? 0 : 5}
         >

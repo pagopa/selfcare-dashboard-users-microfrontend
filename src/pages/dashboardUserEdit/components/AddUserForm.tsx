@@ -31,6 +31,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
+import { theme } from '@pagopa/mui-italia';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -46,6 +47,7 @@ import { PartyUserOnCreation } from '../../../model/PartyUser';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -118,6 +120,7 @@ export default function AddUserForm({
 
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const isMobile = useIsMobile('lg');
 
   const history = useHistory();
 
@@ -510,6 +513,7 @@ export default function AddUserForm({
             paddingTop: 3,
             paddingLeft: 3,
             paddingRight: 3,
+            borderRadius: '4px',
           }}
         >
           {canEditRegistryData ? (
@@ -521,6 +525,7 @@ export default function AddUserForm({
               )}
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'taxCode',
                     t('userEdit.addForm.fiscalCode.label'),
@@ -529,22 +534,35 @@ export default function AddUserForm({
                   )}
                 />
               </Grid>
-              <Grid container spacing={2}>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                    disabled={formik.values.certifiedName || !validTaxcode}
-                  />
-                </Grid>
-                <Grid item xs={6} mb={3} sx={{ height: '75px' }}>
-                  <CustomTextField
-                    {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                    disabled={formik.values.certifiedSurname || !validTaxcode}
-                  />
-                </Grid>
+              <Grid
+                item
+                xs={12}
+                mb={3}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  [theme.breakpoints.down('lg')]: {
+                    flexDirection: 'column',
+                    width: '100%',
+                  },
+                }}
+              >
+                <CustomTextField
+                  size="small"
+                  style={{ width: isMobile ? '100%' : '49%' }}
+                  {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+                  disabled={formik.values.certifiedName || !validTaxcode}
+                />
+                <CustomTextField
+                  size="small"
+                  style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
+                  {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+                  disabled={formik.values.certifiedSurname || !validTaxcode}
+                />
               </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'email',
                     t('userEdit.addForm.institutionalEmail.label'),
@@ -556,6 +574,7 @@ export default function AddUserForm({
               </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
+                  size="small"
                   {...baseTextFieldProps(
                     'confirmEmail',
                     t('userEdit.addForm.confirmInstitutionalEmail.label'),
@@ -572,6 +591,7 @@ export default function AddUserForm({
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
                   id="select-label-products"
+                  size="small"
                   sx={{
                     color: !validTaxcode ? 'text.disabled' : '',
                     '& .MuiInputLabel-root.Mui-focused': {
@@ -585,6 +605,7 @@ export default function AddUserForm({
                 </InputLabel>
                 <Select
                   fullWidth
+                  size="small"
                   aria-label="user"
                   name="products"
                   value={userProduct?.title ?? ''}
@@ -678,13 +699,30 @@ export default function AddUserForm({
           )}
         </Grid>
 
-        <Stack direction="row" justifyContent="space-between" mt={5}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          mt={5}
+          sx={{
+            [theme.breakpoints.down('lg')]: {
+              flexDirection: 'column',
+            },
+          }}
+        >
           <Stack display="flex" justifyContent="flex-start">
             <Button color="primary" variant="outlined" onClick={() => onExit(goBackInner)}>
               {t('userEdit.addForm.backButton')}
             </Button>
           </Stack>
-          <Stack display="flex" justifyContent="flex-end">
+          <Stack
+            display="flex"
+            justifyContent="flex-end"
+            sx={{
+              [theme.breakpoints.down('lg')]: {
+                marginTop: 2,
+              },
+            }}
+          >
             <Button
               disabled={!formik.dirty || !formik.isValid}
               color="primary"

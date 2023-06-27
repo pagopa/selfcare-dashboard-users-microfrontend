@@ -1,4 +1,3 @@
-// import { Grid } from '@mui/material';
 import { Product } from '../../../../model/Product';
 import { ProductRole, ProductsRolesMap } from '../../../../model/ProductRole';
 import UsersTableRolesFilter from './UsersTableRolesFilter';
@@ -18,6 +17,7 @@ interface UsersSearchFilterProps {
   productsRolesMap: ProductsRolesMap;
   showSelcRoleGrouped: boolean;
   loading: boolean;
+  setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UsersTableFilters({
@@ -27,6 +27,7 @@ export default function UsersTableFilters({
   disableFilters,
   showSelcRoleGrouped,
   loading,
+  setOpenDialogMobile,
 }: UsersSearchFilterProps) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
@@ -41,6 +42,7 @@ export default function UsersTableFilters({
       filters={filters}
       showSelcRoleGrouped={showSelcRoleGrouped}
       loading={loading}
+      setOpenDialogMobile={setOpenDialogMobile}
     />
   );
 }

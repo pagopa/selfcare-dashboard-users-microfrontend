@@ -670,17 +670,29 @@ export const mockedUsers: Array<PartyUserDetail> = [
     surname: 'Marchetti',
     email: 'marco.m@comune.milano.it',
     userRole: 'ADMIN',
-    status: 'ACTIVE',
+    status: 'SUSPENDED',
     products: [
       {
         title: 'SEND',
         id: 'prod-pn-pg',
         roles: [
           {
-            relationshipId: 'rel4',
-            role: 'Amministratore',
+            relationshipId: 'relTest1',
+            role: 'testRole1',
             selcRole: 'LIMITED',
-            status: 'ACTIVE',
+            status: 'SUSPENDED',
+          },
+          {
+            relationshipId: 'relTest2',
+            role: 'testRole2',
+            selcRole: 'LIMITED',
+            status: 'SUSPENDED',
+          },
+          {
+            relationshipId: 'relTest3',
+            role: 'testRole3',
+            selcRole: 'LIMITED',
+            status: 'SUSPENDED',
           },
         ],
       },
@@ -723,6 +735,18 @@ export const mockedUsers: Array<PartyUserDetail> = [
       {
         title: 'SEND',
         id: 'prod-pn-pg',
+        roles: [
+          {
+            relationshipId: 'rel4',
+            role: 'Gestore Notifiche',
+            selcRole: 'LIMITED',
+            status: 'ACTIVE',
+          },
+        ],
+      },
+      {
+        title: 'SEND coll',
+        id: 'prod-pn-pg-coll',
         roles: [
           {
             relationshipId: 'rel4',
