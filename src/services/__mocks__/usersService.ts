@@ -759,6 +759,42 @@ export const mockedUsers: Array<PartyUserDetail> = [
     ],
     isCurrentUser: false,
   },
+  {
+    id: 'uid63',
+    taxCode: 'DNNGRL83A01C352D',
+    name: 'Gabriele',
+    surname: 'Rossi',
+    email: 'mock@mockpec.com',
+    userRole: 'ADMIN',
+    status: 'ACTIVE',
+    products: [
+      {
+        id: 'prod-pn-pg',
+        title: 'Piattaforma Notifiche Persone Giuridiche',
+        roles: [
+          {
+            relationshipId: 'd83a7eb3-bbb8-4b18-8230-ed74740b4c29',
+            role: 'pg-operator',
+            status: 'ACTIVE',
+            selcRole: 'LIMITED',
+          },
+        ],
+      },
+      {
+        id: 'prod-pn-pg-uat',
+        title: 'PNPG UAT',
+        roles: [
+          {
+            relationshipId: '14be375d-f82e-446b-b7f8-5c2a271315ea',
+            role: 'pg-admin',
+            status: 'ACTIVE',
+            selcRole: 'ADMIN',
+          },
+        ],
+      },
+    ],
+    isCurrentUser: false,
+  },
 ];
 
 type PartyGroupMock = PartyGroup & {
