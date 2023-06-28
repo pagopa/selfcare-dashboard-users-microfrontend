@@ -135,6 +135,7 @@ export default function AddUserForm({
   const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
+  const pnpgProduct = products.find((p) => p.id === 'prod-pn-pg');
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
@@ -170,6 +171,12 @@ export default function AddUserForm({
   useEffect(() => {
     setUserProduct(selectedProduct);
   }, [selectedProduct]);
+
+  useEffect(() => {
+    if (isPnpgTheOnlyProduct && initialFormData.taxCode === '') {
+      setUserProduct(pnpgProduct);
+    }
+  }, []);
 
   const goBackInner =
     goBack ??
