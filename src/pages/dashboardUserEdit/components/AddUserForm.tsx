@@ -706,39 +706,24 @@ export default function AddUserForm({
           )}
         </Grid>
 
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          mt={5}
-          sx={{
-            [theme.breakpoints.down('lg')]: {
-              flexDirection: 'column',
-            },
-          }}
-        >
-          <Stack display="flex" justifyContent="flex-start">
-            <Button color="primary" variant="outlined" onClick={() => onExit(goBackInner)}>
-              {t('userEdit.addForm.backButton')}
-            </Button>
-          </Stack>
-          <Stack
-            display="flex"
-            justifyContent="flex-end"
-            sx={{
-              [theme.breakpoints.down('lg')]: {
-                marginTop: 2,
-              },
-            }}
+        <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="medium"
+            onClick={() => onExit(goBackInner)}
           >
-            <Button
-              disabled={!formik.dirty || !formik.isValid}
-              color="primary"
-              variant="contained"
-              type="submit"
-            >
-              {t('userEdit.addForm.continueButton')}
-            </Button>
-          </Stack>
+            {t('userEdit.addForm.backButton')}
+          </Button>
+          <Button
+            disabled={!formik.dirty || !formik.isValid}
+            color="primary"
+            variant="contained"
+            type="submit"
+            size="medium"
+          >
+            {t('userEdit.addForm.continueButton')}
+          </Button>
         </Stack>
       </form>
     </React.Fragment>
