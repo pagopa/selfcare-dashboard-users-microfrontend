@@ -41,7 +41,7 @@ const titleTooltipMaxCh = 20;
 export default function UserDetail({ roleSection, userInfo }: Props) {
   const { t } = useTranslation();
   return (
-    <Grid container spacing={1} xs={12}>
+    <Grid container spacing={1} xs={12} m={2}>
       {/* name */}
       <Grid item xs={3}>
         <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
