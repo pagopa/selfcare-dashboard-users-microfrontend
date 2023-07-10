@@ -135,6 +135,7 @@ export default function AddUserForm({
   const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
+  const pnpgProduct = products.find((p) => p.id === 'prod-pn-pg');
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
@@ -170,6 +171,12 @@ export default function AddUserForm({
   useEffect(() => {
     setUserProduct(selectedProduct);
   }, [selectedProduct]);
+
+  useEffect(() => {
+    if (isPnpgTheOnlyProduct && initialFormData.taxCode === '') {
+      setUserProduct(pnpgProduct);
+    }
+  }, []);
 
   const goBackInner =
     goBack ??
@@ -699,39 +706,24 @@ export default function AddUserForm({
           )}
         </Grid>
 
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          mt={5}
-          sx={{
-            [theme.breakpoints.down('lg')]: {
-              flexDirection: 'column',
-            },
-          }}
-        >
-          <Stack display="flex" justifyContent="flex-start">
-            <Button color="primary" variant="outlined" onClick={() => onExit(goBackInner)}>
-              {t('userEdit.addForm.backButton')}
-            </Button>
-          </Stack>
-          <Stack
-            display="flex"
-            justifyContent="flex-end"
-            sx={{
-              [theme.breakpoints.down('lg')]: {
-                marginTop: 2,
-              },
-            }}
+        <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
+          <Button
+            color="primary"
+            variant="outlined"
+            size="medium"
+            onClick={() => onExit(goBackInner)}
           >
-            <Button
-              disabled={!formik.dirty || !formik.isValid}
-              color="primary"
-              variant="contained"
-              type="submit"
-            >
-              {t('userEdit.addForm.continueButton')}
-            </Button>
-          </Stack>
+            {t('userEdit.addForm.backButton')}
+          </Button>
+          <Button
+            disabled={!formik.dirty || !formik.isValid}
+            color="primary"
+            variant="contained"
+            type="submit"
+            size="medium"
+          >
+            {t('userEdit.addForm.continueButton')}
+          </Button>
         </Stack>
       </form>
     </React.Fragment>
