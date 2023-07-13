@@ -1917,10 +1917,10 @@
     fp-ts "^2.12.3"
     io-ts "^2.2.18"
 
-"@pagopa/mui-italia@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.9.8.tgz#37dcac064985dd1b8f2caae090e95cceb70c86a3"
-  integrity sha512-Ktmf0GqdldOTCbFhZ9elnNMCRFswxiXNWDc4wCpbzvgvY3pOhdVBkaq4LUjqCFXYO209RZ8Sv5mCGImO+gulgg==
+"@pagopa/mui-italia@^0.9.11":
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.9.11.tgz#ff12d71de84e20f25b30577eda98eea76fc2ce1d"
+  integrity sha512-EVoCNoqdgL0piVGxJwgdv5ftP9dqzgz8388JDHwD88Bef5I8kE8q0RKjpMo+WW8jfGlfcYNXggARE0XxVxvpWQ==
   dependencies:
     "@fontsource/dm-mono" "^4.5.10"
     "@fontsource/titillium-web" "^4.5.9"
