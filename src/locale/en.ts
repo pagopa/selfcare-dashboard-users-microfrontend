@@ -17,6 +17,10 @@ export default {
         email: 'Email',
         role: 'Role',
       },
+      rows: {
+        isCurrentUser: '(you)',
+        suspendedChip: 'Suspended',
+      },
     },
     filterRole: {
       placeholder: 'All roles',

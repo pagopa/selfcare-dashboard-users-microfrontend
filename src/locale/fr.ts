@@ -17,6 +17,10 @@ export default {
         email: 'E-mail',
         role: 'Fonction',
       },
+      rows: {
+        isCurrentUser: '(toi)',
+        suspendedChip: 'Suspendue',
+      },
     },
     filterRole: {
       placeholder: 'Toutes les fonctions',

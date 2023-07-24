@@ -17,6 +17,10 @@ export default {
         email: 'E-pošta',
         role: 'Vloga',
       },
+      rows: {
+        isCurrentUser: '(ti)',
+        suspendedChip: 'Odstavljen',
+      },
     },
     filterRole: {
       placeholder: 'Vse vloge',

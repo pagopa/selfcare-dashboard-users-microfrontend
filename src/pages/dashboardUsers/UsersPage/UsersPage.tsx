@@ -3,7 +3,7 @@ import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
 import { useEffect, useMemo, useState } from 'react';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
 import { ButtonNaked } from '@pagopa/mui-italia';
@@ -128,12 +128,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               subTitle={
                 !isPnpg
                   ? t('usersPage.generic.subTitle')
-                  : ((
-                      <Trans i18next="usersPage.pnpg.subTitle">
-                        Gestisci gli utenti che possono leggere le notifiche di{' '}
-                        {{ businessName: party.description }}.
-                      </Trans>
-                    ) as unknown as string)
+                  : t('usersPage.pnpg.subTitle', { businessName: party.description })
               }
               mbTitle={2}
             />
