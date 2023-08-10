@@ -52,7 +52,7 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$');
+const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,5}$');
 const requiredError = 'Required';
 
 type Props = {
