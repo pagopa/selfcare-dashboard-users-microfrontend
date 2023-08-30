@@ -55,7 +55,9 @@ export default function UserProductSection({
 
       {!partyUser.isCurrentUser &&
         products
-          .filter((p) => p.userRole === 'ADMIN' && p.status === 'ACTIVE')
+          .filter((p) =>
+            party.products.map((mp) => mp.userRole === 'ADMIN' && p.status === 'ACTIVE')
+          )
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
           <Grid item xs={12} sm={3}>
             <Stack
@@ -95,7 +97,9 @@ export default function UserProductSection({
           </Grid>
         )}
       {partyUser.products.map((userProduct) => {
-        const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
+        const product = party.products.find(() =>
+          products.map((p) => p.id === userProduct.id)
+        ) as Product; // admin role will always see all products
         return (
           product && (
             <Grid
@@ -115,7 +119,9 @@ export default function UserProductSection({
                 userProduct={userProduct}
                 productRolesList={productsRolesMap[userProduct.id]}
                 canEdit={
-                  product?.userRole === 'ADMIN' && product.productOnBoardingStatus === 'ACTIVE'
+                  !!party.products.filter(
+                    (p) => p.userRole === 'ADMIN' && p.productOnBoardingStatus === 'ACTIVE'
+                  )
                 }
                 product={product}
                 isProductDetailPage={isProductDetailPage}
