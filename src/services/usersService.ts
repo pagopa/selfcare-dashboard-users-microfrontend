@@ -89,7 +89,7 @@ export const fetchPartyProductUsers = (
       productRoles
     );
   } else {
-    if (product.userRole === 'ADMIN') {
+    if (party.products.find((p) => product.id === p.productId && p.userRole === 'ADMIN')) {
       // This API is allowed only for ADMIN users
       return DashboardApi.getPartyProductUsers(
         party.partyId,
@@ -146,7 +146,7 @@ export const savePartyUser = (
   party: Party,
   product: Product,
   user: PartyUserOnCreation
-): Promise<string> => {
+): Promise<string | undefined> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return savePartyUserMocked(party, product, user);

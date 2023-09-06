@@ -1,9 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
-import { Trans } from 'react-i18next';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
-import { store } from '../../../redux/store';
 
 jest.setTimeout(6000);
 

@@ -1,57 +1,93 @@
-import { ProductOnBoardingStatusEnum } from '../../../api/generated/b4f-dashboard/ProductsResource';
 import { StatusEnum } from '../../../api/generated/b4f-dashboard/SubProductResource';
 import { Product } from '../../../model/Product';
 import { ProductRole } from '../../../model/ProductRole';
 
 export const mockedPartyProducts: Array<Product> = [
   {
-    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-io/logo.png',
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-io/logo.svg',
     title: 'App IO',
     description: 'App IO description',
     id: 'prod-io',
-    authorized: true,
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
-    userRole: 'ADMIN',
+    status: StatusEnum.ACTIVE,
     activationDateTime: new Date(2021, 1, 1),
     urlPublic: 'https://io.italia.it/ ',
     urlBO: 'https://io.selfcare.pagopa.it/path/acs?token=<IdentityToken>',
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [
+      {
+        id: 'prod-io-premium',
+        title: 'Premium',
+        status: StatusEnum.ACTIVE,
+      },
+    ],
+    logoBgColor: 'primary.main',
+    delegable: true,
   },
   {
-    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-pn/logo.png',
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-pn/logo.svg',
     id: 'prod-pn',
     title: 'Piattaforma Notifiche',
     description: 'Piattaforma Notifiche description',
-    authorized: false,
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
+    status: StatusEnum.ACTIVE,
     urlBO: 'http://notifiche/bo?token=<IdentityToken>',
     activationDateTime: new Date(2021, 1, 2),
     urlPublic: 'http://notifiche/public',
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    backOfficeEnvironmentConfigurations: [
+      {
+        environment: 'test1',
+        url: 'www.test1.com',
+      },
+      {
+        environment: 'test2',
+        url: 'www.test2.com',
+      },
+    ],
+    subProducts: [],
+    logoBgColor: 'pagoPA.main',
+    delegable: false,
   },
   {
-    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-pagopa/logo.png',
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-pagopa/logo.svg',
     id: 'prod-pagopa',
     title: 'Pagamenti pagoPA',
     description: 'Pagamenti pagoPA description',
-    authorized: true,
     tag: 'Vecchio Portale',
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
+    status: StatusEnum.ACTIVE,
     urlBO: 'http://pagopa/bo#token=<IdentityToken>',
     activationDateTime: new Date(2021, 1, 3),
     urlPublic: 'http://pagopa/public',
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [],
+    logoBgColor: 'pagoPA.main',
+    backOfficeEnvironmentConfigurations: [
+      {
+        environment: 'test1',
+        url: 'www.test1.com',
+      },
+      {
+        environment: 'test2',
+        url: 'www.test2.com',
+      },
+    ],
+    delegable: true,
   },
   {
-    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-ciban/logo.png',
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-ciban/logo.svg',
     title: 'Check-IBAN',
     description: "Verifica l'abbinamento di un IBAN ad un CF di un cittadino o di un'impresa.",
     id: 'prod-ciban',
-    authorized: false,
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
+    status: StatusEnum.ACTIVE,
     urlBO: 'http://checkiban/bo#token=<IdentityToken>',
     urlPublic: 'http://www.google.it',
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [],
+    logoBgColor: 'checkIban.main',
+    delegable: false,
   },
   {
     logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-cgn/logo.png',
@@ -59,25 +95,43 @@ export const mockedPartyProducts: Array<Product> = [
     title: 'Carta Giovani',
     description: 'Richiedi la convenzione e gestisci i dati e le agevolazioni da offrire.',
     urlBO: 'http://cgn/bo#token=<IdentityToken>',
-    authorized: false,
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
+    status: StatusEnum.ACTIVE,
     urlPublic: undefined,
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [],
+    logoBgColor: undefined,
+    delegable: false,
   },
   {
-    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-interop/logo.png',
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-interop/logo.svg',
     id: 'prod-interop',
-    title: 'PDND',
+    title: 'Interoperabilità',
     description: 'Condividi dati con altri Enti in maniera semplice, sicura ed economica.',
     urlBO: 'http://PDND/bo#token=<IdentityToken>',
-    authorized: true,
-    userRole: 'ADMIN',
-    productOnBoardingStatus:ProductOnBoardingStatusEnum.ACTIVE,
-    status:StatusEnum.ACTIVE,
+    status: StatusEnum.ACTIVE,
     urlPublic: undefined,
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [],
+    logoBgColor: undefined,
+    delegable: false,
+  },
+  {
+    logo: 'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/prod-interop/logo.svg',
+    id: 'prod-interop-coll',
+    title: 'Interoperabilità Collaudo',
+    description: 'Condividi dati con altri Enti in maniera semplice, sicura ed economica.',
+    urlBO: 'http://COLL/bo#token=<IdentityToken>',
+    status: StatusEnum.TESTING,
+    urlPublic: undefined,
+    imageUrl:
+      'https://selcdcheckoutsa.z6.web.core.windows.net/resources/products/default/depict-image.jpeg',
+    subProducts: [],
+    logoBgColor: undefined,
+    delegable: false,
   },
 ];
-
 export const mockedProductRoles: Array<ProductRole> = [
   {
     productId: 'PRODID',

@@ -181,7 +181,7 @@ function UserDetailPage({
               {partyUser.name} {partyUser.surname}
             </Typography>
           </Grid>
-          {partyUser.products.find((p) => productsMap[p.id]?.userRole === 'ADMIN') && (
+          {partyUser.userRole === 'ADMIN' && (
             <Grid
               item
               xs={12}
@@ -234,8 +234,6 @@ function UserDetailPage({
           sx={{
             backgroundColor: isPnpg ? 'background.paper' : undefined,
             padding: !isPnpg ? 3 : 0,
-            paddingTop: isPnpg ? 3 : 0,
-            paddingLeft: isPnpg ? 3 : 0,
             borderRadius: '4px',
           }}
         >
@@ -254,7 +252,7 @@ function UserDetailPage({
               productsMap={productsMap}
             />
           </Grid>
-          <Grid container>
+          <Grid container pl={isPnpg ? 3 : 0}>
             <UserProductSection
               isProductDetailPage={isProductDetailPage}
               partyUser={partyUser}

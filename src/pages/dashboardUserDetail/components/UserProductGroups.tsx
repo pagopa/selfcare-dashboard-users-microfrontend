@@ -23,6 +23,7 @@ type Props = {
   userProduct: PartyUserProduct;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function UserProductGroups({ user, party, product, userProduct }: Props) {
   const { t } = useTranslation();
   const pageRequest = { page: 0, size: 100 };
@@ -90,11 +91,15 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     }
   }, [productGroups, userGroups, activeProductGroups]);
 
-  return userGroups?.length > 0 ||
-    (product.authorized &&
-      product?.userRole === 'ADMIN' &&
-      product.productOnBoardingStatus === 'ACTIVE' &&
-      userGroupsComplement.length > 0) ? (
+  const onboardedAdminProduct = party.products.find(
+    (pp) =>
+      pp.productId === product.id &&
+      pp.authorized &&
+      pp.userRole === 'ADMIN' &&
+      pp.productOnBoardingStatus === 'ACTIVE'
+  );
+
+  return userGroups?.length > 0 || (onboardedAdminProduct && userGroupsComplement.length > 0) ? (
     <Grid container item xs={12} mt={3}>
       <Grid item xs={3}>
         <Typography
@@ -132,19 +137,16 @@ export default function UserProductGroups({ user, party, product, userProduct }:
               }}
             />
           ))}
-        {product.authorized &&
-          product?.userRole === 'ADMIN' &&
-          product.productOnBoardingStatus === 'ACTIVE' &&
-          userGroupsComplement.length > 0 && (
-            <AddUserToGroupButton
-              user={user}
-              party={party}
-              currentUser={currentUser}
-              product={product}
-              userGroupsComplement={userGroupsComplement}
-              executeFetchUserGroups={executeFetchUserGroups}
-            />
-          )}
+        {onboardedAdminProduct && userGroupsComplement.length > 0 && (
+          <AddUserToGroupButton
+            user={user}
+            party={party}
+            currentUser={currentUser}
+            product={product}
+            userGroupsComplement={userGroupsComplement}
+            executeFetchUserGroups={executeFetchUserGroups}
+          />
+        )}
       </Grid>
     </Grid>
   ) : (

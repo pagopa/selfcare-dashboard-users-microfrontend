@@ -57,6 +57,7 @@ const App = ({
 }: {
   AppRouting: (props: DashboardMicrofrontendPageProps) => Array<React.ReactNode>;
   store: ReturnType<typeof createStore>;
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const { partyId } = useParams<UrlParams>();
   const history = useHistory();
@@ -66,7 +67,11 @@ const App = ({
   const party = mockedParties.find((p) => p.partyId === partyId);
   const products = party ? mockedPartyProducts : undefined;
   const activeProducts = products
-    ? products.filter((p) => p.productOnBoardingStatus === 'ACTIVE')
+    ? products?.filter((p) =>
+        party?.products.some(
+          (ap) => ap.productId === p.id && ap.productOnBoardingStatus === 'ACTIVE'
+        )
+      )
     : undefined;
   const productsMap = products ? buildProductsMap(products) : undefined;
   const productsRolesMap = party
