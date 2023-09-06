@@ -13,12 +13,12 @@ export type UserRegistry = {
 };
 
 export const userResource2UserRegistry = (resource: UserResource): UserRegistry => ({
-  id: resource.id,
-  taxCode: resource.fiscalCode,
-  name: resource.name ? resource.name?.value : '',
-  surname: resource.familyName ? resource.familyName?.value : '',
+  id: resource.id ?? '',
+  taxCode: resource.fiscalCode ?? '',
+  name: resource.name?.value ?? '',
+  surname: resource.familyName?.value ?? '',
   email: (resource.email ? resource.email?.value : '') as EmailString,
-  certifiedName: resource.name ? resource.name?.certified : false,
-  certifiedSurname: resource.familyName ? resource.familyName?.certified : false,
-  certifiedMail: resource.email ? resource.email?.certified : false,
+  certifiedName: resource.name?.certified ?? false,
+  certifiedSurname: resource.familyName?.certified ?? false,
+  certifiedMail: resource.email?.certified ?? false,
 });

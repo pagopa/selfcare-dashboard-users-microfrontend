@@ -194,12 +194,19 @@ export default function AddUserForm({
       ));
 
   useEffect(() => {
-    const isEnabled = products.filter(
-      (p) => p.authorized && p.userRole === 'ADMIN' && p.productOnBoardingStatus === 'ACTIVE'
+    const isEnabled = products.filter((p) =>
+      party.products.some(
+        (pp) =>
+          p.id === pp.productId &&
+          pp.authorized &&
+          pp.userRole === 'ADMIN' &&
+          pp.productOnBoardingStatus === 'ACTIVE'
+      )
     );
+
     setProductInPage(Object.keys(isEnabled).length === 1);
     if (productInPage) {
-      setUserProduct(isEnabled[0]);
+      setUserProduct(isEnabled[0] as Product);
     }
   }, [productInPage]);
 
@@ -325,7 +332,7 @@ export default function AddUserForm({
             {
               partyId: party.partyId,
               productId: selectedProduct?.id ?? '',
-              userId,
+              userId: userId ?? '',
             }
           )
         );
@@ -627,7 +634,9 @@ export default function AddUserForm({
                   input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
                 >
                   {products
-                    .filter((p) => p.userRole === 'ADMIN')
+                    .filter((p) =>
+                      party.products.some((pp) => p.id === pp.productId && pp.userRole === 'ADMIN')
+                    )
                     .map((p) => (
                       <MenuItem
                         key={p.id}

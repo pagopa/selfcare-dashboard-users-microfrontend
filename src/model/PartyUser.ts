@@ -71,14 +71,18 @@ export const institutionUserResource2PartyUser = (
   productsMap: ProductsMap,
   currentUser: User
 ): PartyUser => ({
-  id: resource.id,
-  name: resource.name,
-  surname: resource.surname,
+  id: resource.id ?? '',
+  name: resource.name ?? '',
+  surname: resource.surname ?? '',
   email: resource?.email as EmailString,
-  userRole: resource.role,
-  products: ([] as Array<PartyUserProduct>).concat(
-    resource.products.map((p) => productInfoResource2PartyUserProduct(p, productsMap[p.id]))
-  ),
+  userRole: resource.role as UserRole,
+  products: resource.products
+    ? ([] as Array<PartyUserProduct>).concat(
+        resource.products.map((p) =>
+          productInfoResource2PartyUserProduct(p, productsMap[p.id as string])
+        )
+      )
+    : [],
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
@@ -88,15 +92,19 @@ export const institutionUserResource2PartyUserDetail = (
   productsMap: ProductsMap,
   currentUser: User
 ): PartyUserDetail => ({
-  id: resource.id,
-  taxCode: resource.fiscalCode,
-  name: resource.name,
-  surname: resource.surname,
+  id: resource.id ?? '',
+  taxCode: resource.fiscalCode ?? '',
+  name: resource.name ?? '',
+  surname: resource.surname ?? '',
   email: resource?.email as EmailString,
-  userRole: resource.role,
-  products: ([] as Array<PartyUserProduct>).concat(
-    resource.products.map((p) => productInfoResource2PartyUserProduct(p, productsMap[p.id]))
-  ),
+  userRole: resource.role as UserRole,
+  products: resource.products
+    ? ([] as Array<PartyUserProduct>).concat(
+        resource.products.map((p) =>
+          productInfoResource2PartyUserProduct(p, productsMap[p.id as string])
+        )
+      )
+    : [],
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
@@ -105,14 +113,14 @@ export const productInfoResource2PartyUserProduct = (
   productInfo: ProductInfoResource,
   product: Product
 ): PartyUserProduct => ({
-  id: productInfo.id,
+  id: productInfo.id ?? '',
   title: productInfo.title ?? product.title,
-  roles: productInfo.roleInfos.map((r) => ({
+  roles: productInfo.roleInfos?.map((r) => ({
     relationshipId: r.relationshipId,
     role: r.role,
     selcRole: r.selcRole as UserRole,
     status: r.status as UserStatus,
-  })),
+  })) as Array<PartyUserProductRole>,
 });
 
 export const productUserResource2PartyProductUser = (
@@ -120,21 +128,21 @@ export const productUserResource2PartyProductUser = (
   product: Product,
   currentUser: User
 ): PartyProductUser => ({
-  id: resource.id,
-  name: resource.name,
-  surname: resource.surname,
+  id: resource.id ?? '',
+  name: resource.name ?? '',
+  surname: resource.surname ?? '',
   email: resource?.email as EmailString,
-  userRole: resource.role,
-  product: productInfoResource2PartyUserProduct(resource.product, product),
+  userRole: resource.role as UserRole,
+  product: productInfoResource2PartyUserProduct(resource.product as ProductInfoResource, product),
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
 
 export const partyUserDetail2User = (partyUserDetail: PartyUserDetail): User => ({
-  uid: partyUserDetail.id,
+  uid: partyUserDetail.id ?? '',
   taxCode: partyUserDetail.taxCode,
-  name: partyUserDetail.name,
-  surname: partyUserDetail.surname,
+  name: partyUserDetail.name ?? '',
+  surname: partyUserDetail.surname ?? '',
   email: partyUserDetail.email as EmailString,
 });
 
