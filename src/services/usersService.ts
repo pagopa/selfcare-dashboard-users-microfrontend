@@ -89,7 +89,7 @@ export const fetchPartyProductUsers = (
       productRoles
     );
   } else {
-    if (party.products.filter((p) => p.userRole === 'ADMIN')) {
+    if (party.products.find((p) => product.id === p.productId && p.userRole === 'ADMIN')) {
       // This API is allowed only for ADMIN users
       return DashboardApi.getPartyProductUsers(
         party.partyId,
