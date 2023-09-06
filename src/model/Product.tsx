@@ -1,5 +1,5 @@
-import { ProductsResource } from '../api/generated/b4f-dashboard/ProductsResource';
-import { StatusEnum, SubProductResource } from '../api/generated/b4f-dashboard/SubProductResource';
+import { ProductsResource, StatusEnum } from '../api/generated/b4f-dashboard/ProductsResource';
+import { SubProductResource } from '../api/generated/b4f-dashboard/SubProductResource';
 
 export type Product = {
   activationDateTime?: Date;

@@ -194,8 +194,14 @@ export default function AddUserForm({
       ));
 
   useEffect(() => {
-    const isEnabled = party.products.filter(
-      (p) => p.authorized && p.userRole === 'ADMIN' && p.productOnBoardingStatus === 'ACTIVE'
+    const isEnabled = products.filter((p) =>
+      party.products.some(
+        (pp) =>
+          p.id === pp.productId &&
+          pp.authorized &&
+          pp.userRole === 'ADMIN' &&
+          pp.productOnBoardingStatus === 'ACTIVE'
+      )
     );
 
     setProductInPage(Object.keys(isEnabled).length === 1);
@@ -627,25 +633,25 @@ export default function AddUserForm({
                   )}
                   input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
                 >
-                  {party.products.filter(
-                    (partyP) =>
-                      partyP.userRole === 'ADMIN' &&
-                      products.map((p) => (
-                        <MenuItem
-                          key={p.id}
-                          value={p.id}
-                          data-testid={`product: ${p.id}`}
-                          sx={{
-                            fontSize: 'fontSize',
-                            fontWeight: 'fontWeightMedium',
-                            color: 'text.primary',
-                          }}
-                          onClick={validTaxcode ? () => setUserProduct(p) : undefined}
-                        >
-                          {p.title}
-                        </MenuItem>
-                      ))
-                  )}
+                  {products
+                    .filter((p) =>
+                      party.products.some((pp) => p.id === pp.productId && pp.userRole === 'ADMIN')
+                    )
+                    .map((p) => (
+                      <MenuItem
+                        key={p.id}
+                        value={p.id}
+                        data-testid={`product: ${p.id}`}
+                        sx={{
+                          fontSize: 'fontSize',
+                          fontWeight: 'fontWeightMedium',
+                          color: 'text.primary',
+                        }}
+                        onClick={validTaxcode ? () => setUserProduct(p) : undefined}
+                      >
+                        {p.title}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>

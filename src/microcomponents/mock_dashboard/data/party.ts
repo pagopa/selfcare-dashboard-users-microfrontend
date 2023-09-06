@@ -74,9 +74,20 @@ export const mockedParties: Array<Party> = [
     supportEmail: '',
     products: [
       {
+        productId: 'prod-io',
+        authorized: true,
+        productOnBoardingStatus: ProductOnBoardingStatusEnum.ACTIVE,
+        userRole: 'ADMIN',
+        billing: {
+          vatNumber: '81001510528',
+          recipientCode: 'FLGKROWP',
+          publicServices: true,
+        },
+      },
+      {
         productId: 'prod-pagopa',
         authorized: true,
-        productOnBoardingStatus: ProductOnBoardingStatusEnum.PENDING,
+        productOnBoardingStatus: ProductOnBoardingStatusEnum.ACTIVE,
         userRole: 'ADMIN',
         billing: {
           vatNumber: '81001510528',
@@ -97,7 +108,7 @@ export const mockedParties: Array<Party> = [
       },
     ],
     status: undefined,
-    userRole: undefined,
+    userRole: 'ADMIN',
   },
   {
     description: 'Comune di Milano',
@@ -141,7 +152,7 @@ export const mockedParties: Array<Party> = [
       },
     ],
     status: undefined,
-    userRole: undefined,
+    userRole: 'ADMIN',
   },
   {
     description: 'Comune di Roma',
@@ -212,7 +223,7 @@ export const mockedParties: Array<Party> = [
       },
     ],
     status: undefined,
-    userRole: undefined,
+    userRole: 'ADMIN',
   },
   {
     description: 'Comune di Napoli',
@@ -281,7 +292,7 @@ export const mockedParties: Array<Party> = [
       },
     ],
     status: undefined,
-    userRole: undefined,
+    userRole: 'ADMIN',
   },
   // Use case of party with status "TOBEVALIDATED"
   {

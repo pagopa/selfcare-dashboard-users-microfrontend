@@ -97,9 +97,7 @@ export default function UserProductSection({
           </Grid>
         )}
       {partyUser.products.map((userProduct) => {
-        const product = party.products.find(() =>
-          products.map((p) => p.id === userProduct.id)
-        ) as Product; // admin role will always see all products
+        const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
         return (
           product && (
             <Grid
