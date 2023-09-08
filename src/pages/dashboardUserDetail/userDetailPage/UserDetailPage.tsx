@@ -181,7 +181,7 @@ function UserDetailPage({
               {partyUser.name} {partyUser.surname}
             </Typography>
           </Grid>
-          {partyUser.userRole === 'ADMIN' && (
+          {party.userRole === 'ADMIN' && (
             <Grid
               item
               xs={12}
