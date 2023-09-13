@@ -54,9 +54,9 @@ export default function UserProductSection({
       )}
 
       {!partyUser.isCurrentUser &&
-        products
+        !!products
           .filter((p) =>
-            party.products.map((mp) => mp.userRole === 'ADMIN' && p.status === 'ACTIVE')
+            party.products.some((mp) => mp.userRole === 'ADMIN' && p.status === 'ACTIVE')
           )
           .find((p) => !partyUser.products.find((pu) => pu.id === p.id)) && (
           <Grid item xs={12} sm={3}>
@@ -117,8 +117,13 @@ export default function UserProductSection({
                 userProduct={userProduct}
                 productRolesList={productsRolesMap[userProduct.id]}
                 canEdit={
-                  !!party.products.filter(
-                    (p) => p.userRole === 'ADMIN' && p.productOnBoardingStatus === 'ACTIVE'
+                  !!party.products.find((p) =>
+                    partyUser.products.find(
+                      (pu) =>
+                        pu.id === p.productId &&
+                        p.userRole === 'ADMIN' &&
+                        p.productOnBoardingStatus === 'ACTIVE'
+                    )
                   )
                 }
                 product={product}
