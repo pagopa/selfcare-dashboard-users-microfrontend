@@ -90,7 +90,7 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
       <Grid item xs={9} display="flex" alignItems={'center'}>
         <Tooltip
           title={
-            userInfo.email?.length > titleTooltipMaxCh ? userInfo.email.toLocaleLowerCase() : ''
+            userInfo?.email?.length > titleTooltipMaxCh ? userInfo?.email?.toLocaleLowerCase() : ''
           }
           placement="top"
           arrow={true}

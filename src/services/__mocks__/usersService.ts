@@ -27,7 +27,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
-    taxCode: 'AAAAAA11A11A123K',
+    taxCode: 'VRDLNE80A01F205I',
     name: 'Elena',
     surname: 'Verdi',
     email: 'simone.v@comune.milano.it',

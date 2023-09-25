@@ -278,7 +278,7 @@ export const fetchPartyGroups = (
       if (u.partyId !== party.partyId) {
         return false;
       }
-      return product.id.indexOf(u.productId) > -1;
+      return product.id.indexOf(u.productId as string) > -1;
     })
     .map((u) => cloneDeep(u));
 
