@@ -22,6 +22,7 @@ import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -52,7 +53,6 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,5}$');
 const requiredError = 'Required';
 
 type Props = {

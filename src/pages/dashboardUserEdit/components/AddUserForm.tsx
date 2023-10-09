@@ -48,6 +48,7 @@ import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -87,7 +88,6 @@ const CustomFormControlLabel = styled(FormControlLabel)({
 const taxCodeRegexp = new RegExp(
   '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
 );
-const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,5}$');
 const requiredError = 'Required';
 
 type Props = {
