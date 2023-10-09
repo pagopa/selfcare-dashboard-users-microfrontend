@@ -16,13 +16,13 @@ import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { theme } from '@pagopa/mui-italia';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {

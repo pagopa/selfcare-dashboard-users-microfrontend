@@ -32,6 +32,7 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/uti
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
 import { theme } from '@pagopa/mui-italia';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -48,7 +49,6 @@ import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { UserRegistry } from '../../../model/UserRegistry';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
