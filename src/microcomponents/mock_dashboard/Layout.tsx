@@ -4,6 +4,7 @@ import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/use
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
+import { ENV } from '../../utils/env';
 
 type Props = {
   children?: React.ReactNode;
@@ -35,6 +36,9 @@ export default function Layout({ children }: Props) {
               }
             : false
         }
+        onDocumentationClick={() => {
+          window.open(ENV.URL_DOCUMENTATION, '_blank');
+        }}
       />
       <Grid container direction="row" flexGrow={1}>
         {children}
