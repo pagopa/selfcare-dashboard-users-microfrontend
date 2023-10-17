@@ -2,85 +2,85 @@ export default {
   session: {
     expired: {
       title: 'Session expirée',
-      message: 'Vous allez être redirigé(e) vers la page de connexion...',
+      message: 'Vous allez être redirigé vers la page de connexion...',
     },
   },
   userPagesPath: {
     detailRedirect: 'Utilisateurs',
     addUser: 'Ajouter un nouvel utilisateur',
-    editUser: 'Modifier le profil utilisateur',
+    editUser: 'Modifier le profil de l’utilisateur',
   },
   usersTable: {
     usersProductTableColumns: {
       headerFields: {
         name: 'Prénom',
-        email: 'E-mail',
+        email: 'Adresse e-mail',
         role: 'Fonction',
       },
       rows: {
-        isCurrentUser: '(toi)',
-        suspendedChip: 'Suspendue',
+        isCurrentUser: '(vous)',
+        suspendedChip: 'Suspendu',
       },
     },
     filterRole: {
       placeholder: 'Toutes les fonctions',
       admin: {
         title: 'Administrateur',
-        description: 'Il dispose de toutes les autorisations et gère les utilisateurs',
+        description: 'A toutes les autorisations et gère les utilisateurs',
       },
       limited: {
         title: 'Opérateur',
-        description: 'Il gère l’intégration technologique et/ou le fonctionnement des services',
+        description: 'Gère l’intégration technologique et/ou le fonctionnement des services',
       },
       addFilters: 'Filtrer',
-      deleteFilters: 'Annuler les filtres',
+      deleteFilters: 'Supprimer les filtres',
       noDataFilter:
         'Les filtres que vous avez appliqués n’ont donné aucun résultat. <1><2>Supprimer les filtres</2></1>.',
-      errorOnFetch: 'Désolé, une erreur s’est produite. <1><2>Réessayer</2></1>.',
+      errorOnFetch: 'Désolé, quelque chose s’est mal passé. <1><2>Veuillez réessayer</2></1>.',
     },
     rowActions: {
-      toolTipActions: 'Sélectionner le type d’action',
+      toolTipActions: 'Sélectionnez le type d’action',
       toolTipInfo: 'Les actions sont disponibles dans le profil de l’utilisateur',
       edit: 'Modifier',
-      rehabilitate: 'Réhabiliter',
+      rehabilitate: 'Réinitialiser',
       suspend: 'Suspendre',
       delete: 'Supprimer',
       deleteModal: {
-        title: 'Supprimer fonction',
+        title: 'Supprimer le rôle',
         message:
-          'Vous êtes sur le point de supprimer <1>{{user}}</1> de la fonction de <3>{{userRole}} </3>.<5 />En cas de suppression, il/elle ne pourra plus utiliser <7>{{productTitle}}</7>. <9 />Vous pourrez réattribuer la fonction à tout moment.',
+          'Vous allez supprimer <1>{{user}} </1> du rôle de <3>{{userRole}} </3>.<5 />Si vous le retirez, il ne pourra plus travailler sur <7>{{productTitle}} </7>. <9 />Vous pouvez réaffecter le rôle à tout moment.',
         confirmButton: 'Confirmer',
         closeButton: 'Annuler',
       },
-      deleteSuccess: 'Fonction supprimée correctement',
-      deleteError: 'Il n’a pas été possible de supprimer la fonction. Réessayer.',
+      deleteSuccess: 'Rôle supprimé correctement',
+      deleteError: 'Impossible de supprimer le rôle. Réessayer.',
       changeUserRoleStatusModal: {
         suspend: {
-          title: 'Suspendre fonction',
+          title: 'Suspendre le rôle',
           message:
-            'Voulez-vous suspendre <1>{{user}}</1> de la fonction de <3>{{userRole}} </3> ?<4 />En cas de suspension, il/elle ne pourra plus utiliser <6>{{productTitle}}</6>. <8 />Vous pourrez le/la réhabiliter à tout moment.',
+            'Voulez-vous suspendre <1>{{user}} </1> du rôle de <3>{{userRole}} </3> ?<4 />Si vous le suspendez, il ne pourra plus travailler sur <6>{{productTitle}} </6>. <8 />Vous pouvez le réactiver à tout moment.',
         },
         reactivate: {
-          title: 'Réhabiliter fonction',
+          title: 'Réhabiliter le rôle',
           message:
-            'Voulez-vous réhabiliter <1>{{user}}</1> à la fonction de <3>{{userRole}} </3> ?<4 />En cas de réhabilitation, il/elle pourra à nouveau utiliser <6>{{productTitle}}</6>.<8 /> Vous pourrez à nouveau suspendre la fonction à tout moment.',
+            'Voulez-vous réhabiliter <1>{{user}} </1> dans le rôle de <3>{{userRole}} </3> ?<4 />Si vous le réhabilitez, il pourra à nouveau travailler sur <6>{{productTitle}} </6>.<8 /> Vous pouvez le suspendre à tout moment.',
         },
         confirmButton: 'Confirmer',
         closeButton: 'Annuler',
       },
-      changeUserRoleSuccess: 'Fonction {{userStatus}} correctement',
-      suspendRoleError: 'Il n’a pas été possible de suspendre la fonction. Réessayer.',
-      reactivateRoleError: 'Il n’a pas été possible de réhabiliter la fonction. Réessayer.',
+      changeUserRoleSuccess: 'Rôle  {{userStatus}} correctement',
+      suspendRoleError: 'Impossible de suspendre le rôle. Réessayer.',
+      reactivateRoleError: 'Le rôle n’a pas pu être réhabilité. Réessayer.',
     },
-    loadMore: 'Charger autres',
+    loadMore: 'Charger d’autres',
     addButton: 'Ajouter utilisateur',
     tabAll: 'Tous',
   },
   userDetail: {
     title: 'Profil utilisateur',
     name: 'Prénom',
-    surname: 'Nom',
-    fiscalCode: 'Code d’identification fiscale',
+    surname: 'Nom de famille',
+    fiscalCode: 'Numéro fiscal',
     institutionalEmail: 'E-mail institutionnel',
     institution: 'ORGANISME',
     editButton: 'Modifier',
@@ -88,120 +88,118 @@ export default {
     backButton: 'Retour',
     actions: {
       delete: {
-        userRoleDelete: 'Fonction supprimée correctement',
+        userRoleDelete: 'Rôle supprimé correctement',
         userDelete: 'Utilisateur supprimé correctement',
-        userDeleteError: 'Il n’a pas été possible de supprimer l’utilisateur. Réessayer.',
+        userDeleteError: 'Impossible de supprimer l’utilisateur. Réessayer.',
       },
       modalDelete: {
         moreRolesOnProduct: {
-          title: 'Supprimer la fonction',
+          title: 'Supprimer le rôle',
           message:
-            'Voulez-vous supprimer <1>{{user}}</1> de la fonction de <3>{{role}}</3> ? <6 />Vous pourrez réattribuer la fonction à tout moment.',
+            'Voulez-vous supprimer <1>{{user}} </1> du rôle de <3>{{role}} </3> ? <6 />Vous pouvez réaffecter le rôle à tout moment.',
         },
         oneRoleOnProduct: {
           title: 'Supprimer utilisateur',
-          message:
-            'Vous êtes sur le point de supprimer <1>{{user}}</1>.<3 />Voulez-vous continuer ?',
+          message: 'Vous allez supprimer <1>{{user}} </1>.<3 />Voulez-vous continuer ?',
         },
         haveMoreProducts:
-          'Vous êtes sur le point de supprimer<2>{{user}}</2> de la fonction de <4>{{productRole}}</4>. <5 />En cas de suppression, il/elle ne pourra plus utiliser <7>{{productTitle}}</7>. <9 />Vous pourrez réattribuer la fonction à tout moment.',
+          'Vous allez supprimer <2>{{user}} </2> du rôle de <4>{{productRole}} </4>. <5 />Si vous le retirez, il ne pourra plus travailler sur <7>{{productTitle}} </7>. <9 />Vous pouvez réaffecter le rôle à tout moment.',
         removeRoleButton: 'Supprimer',
         closeButton: 'Annuler',
       },
       changeUserStatusModal: {
         suspend: {
-          title: 'Suspendre fonction',
+          title: 'Suspendre le rôle',
           messageWithOneRole:
-            'Voulez-vous suspendre <1>{{user}}</1> de la fonction de <3>{{productRole}}</3> ?<4 />En cas de suspension, il/elle ne pourra plus utiliser <6>{{productTitle}}</6>. <8 />Vous pourrez le/la réhabiliter à tout moment.',
+            'Voulez-vous suspendre <1>{{user}} </1> du rôle de <3>{{productRole}} </3> ?<4 />Si vous le suspendez, il ne pourra plus travailler sur <6>{{productTitle}} </6>. <8 />Vous pouvez le réactiver à tout moment.',
           messageWithMultipleRoles:
-            'Voulez-vous suspendre <1>{{user}}</1> de la fonction de <3>{{productRole}}</3> ?<4 />Vous pourrez réhabiliter la fonction à tout moment.',
+            'Voulez-vous suspendre <1>{{user}} </1> du rôle de <3>{{productRole}} </3> ?<8 />Vous pouvez le réactiver à tout moment.',
         },
         reactivate: {
-          title: 'Réhabiliter fonction',
+          title: 'Réhabiliter le rôle',
           messageWithOneRole:
-            'Voulez-vous réhabiliter <1>{{user}}</1> à la fonction de <3>{{productRole}}</3> ?<4 />En cas de réhabilitation, il/elle pourra à nouveau utiliser <6>{{productTitle}}</6>.<8 /> Vous pourrez à nouveau suspendre la fonction à tout moment.',
+            'Voulez-vous réhabiliter <1>{{user}} </1> dans le rôle de <3>{{productRole}} </3> ?<4 />Si vous le réhabilitez, il pourra à nouveau travailler sur <6>{{productTitle}} </6>.<8 /> Vous pouvez le suspendre à tout moment.',
           messageWithMultipleRoles:
-            'Voulez-vous réhabiliter <1>{{user}}</1> à la fonction de <3>{{productRole}}</3> ?<4 /> Vous pourrez à nouveau suspendre la fonction à tout moment.',
+            'Voulez-vous réhabiliter <1>{{user}} </1> dans le rôle de <3>{{productRole}} </3> ?<8 /> Vous pouvez le suspendre à tout moment.',
         },
-        confirmButton: 'Réhabiliter',
+        confirmButton: 'Réinitialiser',
         confirmButtonSuspend: 'Suspendre',
         closeButton: 'Annuler',
       },
-      changeUserStatusSuccess: 'Fonction {{userStatus}} correctement',
-      changeUserStatusSuspendError: 'Il n’a pas été possible de suspendre la fonction. Réessayer.',
-      changeUserStatusRehabilitateError:
-        'Il n’a pas été possible de réhabiliter la fonction. Réessayer.',
-      changeUserStatusRemoveError: 'Il n’a pas été possible de supprimer la fonction. Réessayer.',
+      changeUserStatusSuccess: 'Rôle  {{userStatus}} correctement',
+      changeUserStatusSuspendError: 'Impossible de suspendre le rôle. Réessayer.',
+      changeUserStatusRehabilitateError: 'Le rôle n’a pas pu être réhabilité. Réessayer.',
+      changeUserStatusRemoveError: 'Impossible de supprimer le rôle. Réessayer.',
       suspendRole: 'Suspendre',
-      reactivateRole: 'Réhabiliter',
+      reactivateRole: 'Réinitialiser',
       deleteButton: 'Supprimer',
-      successfulAddRole: 'Fonction attribuée correctement',
-      successfulAddUserToGroup: 'Utilisateur attribué correctement',
-      addRoleError: 'Il n’a pas été possible d’attribuer la fonction. Réessayer.',
-      newGroupAssign: 'Attribuer un groupe',
+      successfulAddRole: 'Rôle affecté correctement',
+      successfulAddUserToGroup: 'Utilisateur affecté correctement',
+      addRoleError: 'Impossible d’affecter le rôle. Réessayer.',
+      newGroupAssign: 'affecter un groupe',
       newGroupAssignModal: {
-        title: 'Attribuer un groupe',
+        title: 'affecter un groupe',
         message:
-          'Sélectionner le groupe que vous souhaitez attribuer à <1>{{user}}</1> pour le produit <3>{{productTitle}}</3>',
+          'Sélectionnez le groupe que vous souhaitez affecter à <1>{{user}} </1> pour le produit <3>{{productTitle}} </3>',
         groupPlaceholder: 'Sélectionner le groupe',
-        confirmButton: 'Attribuer un groupe',
+        confirmButton: 'affecter un groupe',
         closeButton: 'Annuler',
       },
-      newRoleAssign: 'Attribuer une autre fonction',
+      newRoleAssign: 'affecter un autre rôle',
       newRoleAssignModal: {
-        title: 'Attribuer fonction',
+        title: 'affecter un rôle',
         message:
-          'Attribuer un autre rôle <3>{{userRole}}</3> à <1>{{user}}</1> sur le produit <5>{{productTitle}}</5>',
-        confirmButton: 'Attribuer',
+          'affecter à <1>{{user}} </1> un autre rôle <3>{{userRole}} </3> sur le produit <5>{{productTitle}} </5>',
+        confirmButton: 'Affecter',
         closeButton: 'Annuler',
       },
       deleteUserModal: {
-        title: 'Supprimer fonction',
+        title: 'Supprimer le rôle',
         message:
-          'Voulez-vous supprimer <1>{{user}}</1> de la fonction de <3>{{role}}</3> ? <5/> <6/> En cas de suppression de <8>{{product}}</8>, le profil de l’utilisateur sera supprimé de l’Espace réservé car il n’apparaît dans aucun autre produit. Il sera possible d’ajouter cet utilisateur en saisissant à nouveau ses données personnelles.',
+          'Voulez-vous supprimer <1>{{user}} </1> du rôle de <3>{{role}} </3> ? <5/> <6/> Si vous le supprimez de <8>{{product}} </8>, le profil de l’utilisateur sera supprimé de la zone réservée, car il n’est pas présent dans d’autres produits. Vous pourrez à nouveau ajouter l’utilisateur, mais vous devrez saisir à nouveau ses données personnelles.',
         confirmButton: 'Supprimer',
         closeButton: 'Annuler',
       },
       deleteProductUserModal: {
-        title: 'Supprimer fonction',
-        message: 'Vous êtes sur le point de supprimer <1>{{user}}</1>.<3 />Voulez-vous continuer ?',
+        title: 'Supprimer le rôle',
+        message: 'Vous allez supprimer <1>{{user}} </1>.<3 />Voulez-vous continuer ?',
         confirmButton: 'Supprimer',
         closeButton: 'Annuler',
       },
     },
     productSection: {
-      title: 'Fonctions',
-      addButton: 'Attribuer fonction',
+      title: 'Rôles',
+      addButton: 'affecter un rôle',
     },
     pathDescription: 'Utilisateurs',
-    selfCareRole: 'FONCTION SUR SELF CARE',
+    selfCareRole: 'RÔLE DANS LES SOINS PERSONNELS',
     suspended: 'suspendu',
-    rehabilitated: 'réhabilité',
+    rehabilitated: 'réaffecté',
     group: 'Groupes',
     role: 'Fonction',
-    statusLabel: 'Suspendue',
+    statusLabel: 'Suspendu',
     infoIcon: 'Vous n’avez pas la permission de gérer ce produit',
   },
   userEdit: {
     mismatchWithTaxCode: {
-      name: 'Nom incorrect ou différent de celui figurant sur le code d’identification fiscale',
-      surname: 'Nom incorrect ou différent de celui figurant sur le code d’identification fiscale',
+      name: 'Nom incorrect ou différent du code fiscal',
+      surname: 'Nom incorrect ou différent du code fiscal',
     },
     addForm: {
       title: 'Ajouter un nouvel utilisateur',
       subTitle:
-        'Saisir les informations concernant l’utilisateur, sélectionner un produit et lui attribuer une fonction.',
+        'Saisissez les données de l’utilisateur, sélectionnez un produit et affectez-lui un rôle.',
       userData: {
-        label: 'Informations utilisateur',
+        label: 'Données de l’utilisateur',
       },
       fiscalCode: {
-        label: 'Code d’identification fiscale',
+        label: 'Numéro fiscal',
       },
       name: {
         label: 'Prénom',
       },
       surname: {
-        label: 'Nom',
+        label: 'Nom de famille',
       },
       institutionalEmail: {
         label: 'E-mail institutionnel',
@@ -210,45 +208,45 @@ export default {
         label: 'Confirmer e-mail',
       },
       product: {
-        title: 'Sélectionner le produit',
+        title: 'Sélection du produit',
       },
       role: {
-        title: 'Sélectionner la fonction que vous souhaitez attribuer à l’utilisateur',
+        title: 'Sélectionnez le rôle que vous souhaitez affecter à l’utilisateur',
       },
       backButton: 'Retour',
       continueButton: 'Continuer',
       errors: {
-        invalidFiscalCode: 'Le code d’identification fiscale saisi est invalide ',
-        invalidEmail: 'L’adresse e-mail est invalide',
+        invalidFiscalCode: 'Le code saisi est incorrect ',
+        invalidEmail: 'L’adresse email n’est pas valide',
         mismatchEmail: 'Les adresses e-mail ne correspondent pas',
       },
       saveUserSuccess: 'Utilisateur ajouté correctement',
-      saveUserError: 'Il n’a pas été possible d’ajouter l’utilisateur. Réessayer.',
+      saveUserError: 'Vous avez déjà ajouté cet utilisateur.',
       addMultiRoleModal: {
-        title: 'Attribuer fonction',
+        title: 'affecter un rôle',
         message:
-          'Vous êtes sur le point d’affecter les fonctions de <3>{{roles}}</3> sur le produit <5>{{productTitle}}</5><6><7></7><8></8></6> à <1>{{user}}</1>Souhaitez-vous vraiment continuer ?<9></9>',
-        confirmButton: 'Attribuer',
+          'Vous allez affecter à <1>{{user}} </1> les rôles <3>{{roles}} </3> sur le produit <5>{{productTitle}} </5><6><7></7><8></8></6>Confirmez-vous vouloir continuer ?<9></9>',
+        confirmButton: 'Affecter',
         closeButton: 'Annuler',
       },
       addOneRoleModal: {
-        title: 'Attribuer fonction',
+        title: 'affecter un rôle',
         message:
-          'Voulez-vous attribuer la fonction de <3>{{role}}</3> à <1>{{user}}</1> pour <5>{{productTitle}}</5> ?<7><8></8><9></9></7>',
-        confirmButton: 'Attribuer',
+          'Voulez-vous affecter à <1>{{user}} </1> le rôle de <3>{{role}} </3> pour <5>{{productTitle}} </5> ?<7><8></8><9></9></7>',
+        confirmButton: 'Affecter',
         closeButton: 'Annuler',
       },
     },
     editRegistryForm: {
-      title: 'Modifier le profil utilisateur',
+      title: 'Modifier le profil de l’utilisateur',
       fiscalCode: {
-        label: 'Code d’identification fiscale',
+        label: 'Numéro fiscal',
       },
       name: {
         label: 'Prénom',
       },
       surname: {
-        label: 'Nom',
+        label: 'Nom de famille',
       },
       institutionalEmail: {
         label: 'E-mail institutionnel',
@@ -259,31 +257,30 @@ export default {
       backButton: 'Retour',
       confirmButton: 'Confirmer',
       errors: {
-        userNotFind: 'Impossible de trouver l’utilisateur souhaité',
-        invalidEmail: 'L’adresse e-mail est invalide',
+        userNotFind: 'Impossible d’identifier l’utilisateur souhaité',
+        invalidEmail: 'L’adresse email n’est pas valide',
         mismatchEmail: 'Les adresses e-mail ne correspondent pas',
       },
-      editUserSuccess: 'Profil modifié correctement',
+      editUserSuccess: 'Profil modifié avec succès',
       editUserError: 'Une erreur s’est produite lors de la modification du profil. Réessayer.',
     },
     addProduct: {
-      navigation: 'Attribuer fonction',
-      title: 'Attribuer une nouvelle fonction',
-      subTitle:
-        'Sélectionner le produit et la fonction que vous souhaitez attribuer à l’utilisateur.',
+      navigation: 'affecter un rôle',
+      title: 'affecter un nouveau rôle',
+      subTitle: 'Sélectionnez le produit et le rôle que vous souhaitez affecter à l’utilisateur.',
       name: 'Prénom',
-      surname: 'Nom',
-      fiscalCode: 'Code d’identification fiscale',
+      surname: 'Nom de famille',
+      fiscalCode: 'Code fiscal',
     },
   },
   usersPage: {
     title: 'Utilisateurs',
     generic: {
       subTitle:
-        'Afficher et gérer les fonctions attribuées aux utilisateurs pour les produits auxquels l’organisme a adhéré.',
+        'Visualisez et gérez les rôles affectés aux utilisateurs pour les produits auxquels l’organisme a adhéré.',
     },
     pnpg: {
-      subTitle: 'Gérer les utilisateurs habilités à lire les notifications de {{ businessName}}.',
+      subTitle: 'Gérez les utilisateurs qui peuvent lire les notifications de{{ businessName}}.',
     },
   },
 };
