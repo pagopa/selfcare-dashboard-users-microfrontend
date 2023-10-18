@@ -2,7 +2,7 @@ export default {
   session: {
     expired: {
       title: 'Sitzung abgelaufen',
-      message: 'Du wirst zur Log-in-Seite weitergeleitet ...',
+      message: 'Du wirst zur Login-Seite weitergeleitet...',
     },
   },
   userPagesPath: {
@@ -29,18 +29,18 @@ export default {
         description: 'Hat alle Berechtigungen und verwaltet Benutzer',
       },
       limited: {
-        title: 'Bediener',
+        title: 'Bearbeiter',
         description: 'Verwaltet die technologische Integration und/oder den Betrieb der Dienste',
       },
       addFilters: 'Filtern',
-      deleteFilters: 'Filter löschen',
+      deleteFilters: 'Filter entfernen',
       noDataFilter:
-        'Die angewendeten Filter lieferten keine Ergebnisse. <1><2>Filter entfernen</2></1>.',
-      errorOnFetch: 'Es ist leider ein Fehler aufgetreten. <1><2>Erneut versuchen</2></1>.',
+        'Die von dir angewendeten Filter ergaben keine Ergebnisse. <1><2> Filter entfernen </2></1>.',
+      errorOnFetch: 'Es ist leider ein Fehler aufgetreten. <1><2>Nochmals versuchen</2></1>.',
     },
     rowActions: {
       toolTipActions: 'Art der Aktion wählen',
-      toolTipInfo: 'Die Aktionen sind im Benutzerprofil verfügbar',
+      toolTipInfo: 'Aktionen stehen im Benutzerprofil zur Verfügung',
       edit: 'Bearbeiten',
       rehabilitate: 'Reaktivieren',
       suspend: 'Aussetzen',
@@ -48,29 +48,29 @@ export default {
       deleteModal: {
         title: 'Rolle entfernen',
         message:
-          'Du bist dabei, <1>{{user}}</1> aus der Rolle <3>{{userRole}}</3> zu entfernen.<5 />Nachdem Entfernen ist ein Zugriff auf <7>{{productTitle}}</7> nicht mehr möglich. <9 />Die Rolle kann jederzeit erneut zugewiesen werden.',
+          'Du bist dabei, <1>{{user}} </1> aus der Rolle des <3>{{userRole}} </3> zu entfernen.<5 />Wenn du ihn entfernst, kann er nicht mehr auf <7>{{productTitle}}</7> zugreifen. <9 />Du kannst die Rolle jederzeit neu zuweisen.',
         confirmButton: 'Bestätigen',
         closeButton: 'Abbrechen',
       },
       deleteSuccess: 'Rolle erfolgreich entfernt',
-      deleteError: 'Die Rolle konnte nicht entfernt werden. Erneut versuchen.',
+      deleteError: 'Die Rolle konnte nicht entfernt werden. Nochmals versuchen.',
       changeUserRoleStatusModal: {
         suspend: {
           title: 'Rolle aussetzen',
           message:
-            'Willst du <1>{{user}}</1> aus der Rolle <3>{{userRole}}</3> aussetzen?<4 />Nachdem Aussetzen ist ein Zugriff auf <6>{{productTitle}}</6> nicht mehr möglich. <8 />Der Benutzer kann jederzeit reaktiviert werden.',
+            'Möchtest du <1>{{user}}</1> von der Rolle des <3>{{userRole}}</3> aussetzen?<4 />Wenn du ihn aussetzt, kann er nicht mehr auf <6>{{productTitle}}</6> zugreifen. <8 />Du kannst ihn jederzeit wieder aktivieren.',
         },
         reactivate: {
           title: 'Rolle reaktivieren',
           message:
-            'Willst du für <1>{{user}}</1> die Rolle <3>{{userRole}}</3> reaktivieren?<4 />Durch das Reaktivieren ist ein Zugriff auf <6>{{productTitle}}</6> erneut möglich.<8 /> Der Benutzer kann jederzeit erneut ausgesetzt werden.',
+            'Möchtest du <1>{{user}}</1> als <3>{{userRole}}</3> reaktivieren?<4 />Wenn du ihn reaktivierst kann er wieder auf <6>{{productTitle}}</6> zugreifen.<8 /> Du kannst ihn jederzeit wieder aussetzen.',
         },
         confirmButton: 'Bestätigen',
         closeButton: 'Abbrechen',
       },
-      changeUserRoleSuccess: 'Rolle {{userStatus}} erfolgreich',
-      suspendRoleError: 'Die Rolle konnte nicht ausgesetzt werden. Erneut versuchen.',
-      reactivateRoleError: 'Die Rolle konnte nicht reaktiviert werden. Erneut versuchen.',
+      changeUserRoleSuccess: 'Rolle {{userStatus}} korrekt',
+      suspendRoleError: 'Die Rolle konnte nicht ausgesetzt werden. Nochmals versuchen.',
+      reactivateRoleError: 'Die Rolle konnte nicht reaktiviert werden. Nochmals versuchen.',
     },
     loadMore: 'Weitere laden',
     addButton: 'Benutzer hinzufügen',
@@ -81,7 +81,7 @@ export default {
     name: 'Vorname',
     surname: 'Nachname',
     fiscalCode: 'Steuernummer',
-    institutionalEmail: 'Institutionelle E-Mail',
+    institutionalEmail: 'Institutionelle E-Mail-Adresse',
     institution: 'KÖRPERSCHAFT',
     editButton: 'Bearbeiten',
     deleteButton: 'Entfernen',
@@ -90,20 +90,20 @@ export default {
       delete: {
         userRoleDelete: 'Rolle erfolgreich entfernt',
         userDelete: 'Benutzer erfolgreich entfernt',
-        userDeleteError: 'Der Benutzer konnte nicht entfernt werden. Erneut versuchen.',
+        userDeleteError: 'Der Benutzer konnte nicht entfernt werden. Nochmals versuchen.',
       },
       modalDelete: {
         moreRolesOnProduct: {
           title: 'Rolle entfernen',
           message:
-            'Willst du <1>{{user}}</1> aus der Rolle <3>{{role}}</3> entfernen? <6 />Die Rolle kann jederzeit erneut zugewiesen werden.',
+            'Möchtest du <1>{{user}}</1> aus der Rolle des <3>{{role}}</3> entfernen? <6 />Du kannst die Rolle jederzeit neu zuweisen.',
         },
         oneRoleOnProduct: {
           title: 'Benutzer löschen',
-          message: 'Du bist dabei, <1>{{user}}</1> zu entfernen.<3 />Möchtest du fortfahren?',
+          message: 'Du bist dabei, <1>{{user}}</1> zu löschen.<3 />Möchtest du fortfahren?',
         },
         haveMoreProducts:
-          'Du bist dabei, <2>{{user}}</2> aus der Rolle <4>{{productRole}}</4> zu entfernen. <5 />Nachdem Entfernen ist ein Zugriff auf <7>{{productTitle}}</7> nicht mehr möglich. <9 />Die Rolle kann jederzeit erneut zugewiesen werden.',
+          'Du wirst <2>{{user}}</2> aus der Rolle des <4>{{productRole}}</4> entfernen. <5 />Wenn du ihn entfernst, kann er nicht mehr auf <7>{{productTitle}}</7> zugreifen. <9 />Du kannst die Rolle jederzeit neu zuweisen.',
         removeRoleButton: 'Entfernen',
         closeButton: 'Abbrechen',
       },
@@ -111,38 +111,38 @@ export default {
         suspend: {
           title: 'Rolle aussetzen',
           messageWithOneRole:
-            'Willst du <1>{{user}}</1> aus der Rolle <3>{{productRole}}</3> aussetzen?<4 />Nachdem Aussetzen ist ein Zugriff auf <6>{{productTitle}}</6> nicht mehr möglich. <8 />Der Benutzer kann jederzeit reaktiviert werden.',
+            'Möchtest du <1>{{user}}</1> aus der Rolle des <3>{{productRole}}</3> entfernen?<4 />Wenn du ihn aussetzt, kann er nicht mehr auf <6>{{productTitle}}</6> zugreifen. <8 />Du kannst ihn jederzeit wieder aktivieren.',
           messageWithMultipleRoles:
-            'Willst du <1>{{user}}</1> aus der Rolle <3>{{productRole}}</3> aussetzen?<4 />Der Benutzer kann jederzeit reaktiviert werden.',
+            'Möchtest du <1>{{user}}</1> aus der Rolle des <3>{{productRole}}</3> entfernen?<4 />Du kannst ihn jederzeit wieder aktivieren.',
         },
         reactivate: {
           title: 'Rolle reaktivieren',
           messageWithOneRole:
-            'Willst du für <1>{{user}}</1> die Rolle <3>{{productRole}}</3> reaktivieren?<4 />Durch das Reaktivieren ist ein Zugriff auf <6>{{productTitle}}</6> erneut möglich.<8 /> Der Benutzer kann jederzeit erneut ausgesetzt werden.',
+            'Möchtest du <1>{{user}}</1> in der Rolle des <3>{{productRole}}</3> reaktivieren?<4 />Wenn du ihn reaktivierst kann er wieder auf <6>{{productTitle}}</6> zugreifen.<8 /> Du kannst ihn jederzeit wieder aussetzen.',
           messageWithMultipleRoles:
-            'Willst du für <1>{{user}}</1> die Rolle <3>{{productRole}}</3> reaktivieren?<4 />Der Benutzer kann jederzeit ausgesetzt werden.',
+            'Möchtest du <1>{{user}}</1> in der Rolle des <3>{{productRole}}</3> reaktivieren?<4 />Du kannst ihn jederzeit wieder aussetzen.',
         },
         confirmButton: 'Reaktivieren',
         confirmButtonSuspend: 'Aussetzen',
         closeButton: 'Abbrechen',
       },
-      changeUserStatusSuccess: 'Rolle {{userStatus}} erfolgreich',
-      changeUserStatusSuspendError: 'Die Rolle konnte nicht ausgesetzt werden. Erneut versuchen.',
+      changeUserStatusSuccess: 'Rolle {{userStatus}} korrekt',
+      changeUserStatusSuspendError: 'Die Rolle konnte nicht ausgesetzt werden. Nochmals versuchen.',
       changeUserStatusRehabilitateError:
-        'Die Rolle konnte nicht reaktiviert werden. Erneut versuchen.',
-      changeUserStatusRemoveError: 'Die Rolle konnte nicht entfernt werden. Erneut versuchen.',
+        'Die Rolle konnte nicht reaktiviert werden. Nochmals versuchen.',
+      changeUserStatusRemoveError: 'Die Rolle konnte nicht entfernt werden. Nochmals versuchen.',
       suspendRole: 'Aussetzen',
       reactivateRole: 'Reaktivieren',
       deleteButton: 'Entfernen',
       successfulAddRole: 'Rolle erfolgreich zugewiesen',
       successfulAddUserToGroup: 'Benutzer erfolgreich zugewiesen',
-      addRoleError: 'Die Rolle konnte nicht zugewiesen werden. Erneut versuchen.',
+      addRoleError: 'Die Rolle konnte nicht zugewiesen werden. Nochmals versuchen.',
       newGroupAssign: 'Gruppe zuweisen',
       newGroupAssignModal: {
         title: 'Gruppe zuweisen',
         message:
           'Wähle die Gruppe aus, die du <1>{{user}}</1> für das Produkt <3>{{productTitle}}</3> zuweisen möchtest',
-        groupPlaceholder: 'Gruppe auswählen',
+        groupPlaceholder: 'Gruppe wählen',
         confirmButton: 'Gruppe zuweisen',
         closeButton: 'Abbrechen',
       },
@@ -150,20 +150,20 @@ export default {
       newRoleAssignModal: {
         title: 'Rolle zuweisen',
         message:
-          'Weise <1>{{user}}</1> eine andere Rolle <3>{{userRole}}</3> für Produkt <5>{{productTitle}}</5> zu',
+          'Weise <1>{{user}}</1> eine weitere Rolle <3>{{userRole}}</3> für das Produkt <5>{{productTitle}}</5> zu',
         confirmButton: 'Zuweisen',
         closeButton: 'Abbrechen',
       },
       deleteUserModal: {
         title: 'Rolle entfernen',
         message:
-          'Willst du <1>{{user}}</1> aus der Rolle <3>{{role}}</3> entfernen? <5/> <6/> Wenn du den Benutzer aus <8>{{product}}</8> entfernst, wird das Benutzerprofil aus dem reservierten Bereich gelöscht, da es in anderen Produkten nicht vorhanden ist. Du kannst den Benutzer erneut hinzufügen, musst jedoch seine persönlichen Daten erneut eingeben.',
+          'Möchtest du <1>{{user}}</1> aus der Rolle des <3>{{role}}</3> entfernen? <5/> <6/> Wenn du ihn aus <8>{{product}}</8> entfernst, wird das Benutzerprofil aus dem reservierten Bereich gelöscht, da es in anderen Produkten nicht vorhanden ist. Du kannst den Benutzer erneut hinzufügen, musst jedoch seine Stammdaten erneut eingeben.',
         confirmButton: 'Entfernen',
         closeButton: 'Abbrechen',
       },
       deleteProductUserModal: {
         title: 'Rolle entfernen',
-        message: 'Du bist dabei, <1>{{user}}</1> zu entfernen.<3 />Möchtest du fortfahren?',
+        message: 'Du bist dabei, <1>{{user}}</1> zu löschen.<3 />Möchtest du fortfahren?',
         confirmButton: 'Entfernen',
         closeButton: 'Abbrechen',
       },
@@ -179,16 +179,16 @@ export default {
     group: 'Gruppen',
     role: 'Rolle',
     statusLabel: 'Ausgesetzt',
-    infoIcon: 'Du hast keine Berechtigung zur Verwaltung dieses Produkts',
+    infoIcon: 'Du besitzt keine Berechtigung zur Verwaltung dieses Produkts',
   },
   userEdit: {
     mismatchWithTaxCode: {
-      name: 'Unkorrekter oder von der Steuernummer abweichender Vorname',
-      surname: 'Unkorrekter oder von der Steuernummer abweichender Nachname',
+      name: 'Falscher Name oder abweichend von der Steuernummer',
+      surname: 'Falscher oder von der Steuernummer abweichender Nachname',
     },
     addForm: {
       title: 'Neuen Benutzer hinzufügen',
-      subTitle: 'Daten des Benutzers eingeben, ein Produkt auswählen und eine Rolle zuweisen.',
+      subTitle: 'Gib die Benutzerdaten ein, wähle ein Produkt aus und weise ihm eine Rolle zu.',
       userData: {
         label: 'Benutzerdaten',
       },
@@ -202,10 +202,10 @@ export default {
         label: 'Nachname',
       },
       institutionalEmail: {
-        label: 'Institutionelle E-Mail',
+        label: 'Institutionelle E-Mail-Adresse',
       },
       confirmInstitutionalEmail: {
-        label: 'E-Mail-Bestätigung',
+        label: 'E-Mail-Adresse bestätigen',
       },
       product: {
         title: 'Produkt wählen',
@@ -214,25 +214,25 @@ export default {
         title: 'Wähle die Rolle aus, die du dem Benutzer zuweisen möchtest',
       },
       backButton: 'Zurück',
-      continueButton: 'Weiter',
+      continueButton: 'Fortfahren',
       errors: {
         invalidFiscalCode: 'Die eingegebene Steuernummer ist ungültig ',
         invalidEmail: 'Die E-Mail-Adresse ist ungültig',
         mismatchEmail: 'Die E-Mail-Adressen stimmen nicht überein',
       },
       saveUserSuccess: 'Benutzer erfolgreich hinzugefügt',
-      saveUserError: 'Benutzer konnte nicht hinzugefügt werden. Erneut versuchen.',
+      saveUserError: 'Du hast diesen Benutzer bereits hinzugefügt.',
       addMultiRoleModal: {
         title: 'Rolle zuweisen',
         message:
-          'Du bist dabei, <1>{{user}}</1> die Rollen <3>{{roles}}</3> für das Produkt zuzuweisen <5>{{productTitle}}</5><6><7></7><8></8></6>Bestätigst du, dass du fortfahren möchtest?<9></9>',
+          'Du bist dabei <1>{{user}}</1> die Rollen <3>{{roles}}</3> dem Produkt <5>{{productTitle}}</5><6><7></7><8></8></6> zuzuweisen. Möchtest du fortfahren?<9></9>',
         confirmButton: 'Zuweisen',
         closeButton: 'Abbrechen',
       },
       addOneRoleModal: {
         title: 'Rolle zuweisen',
         message:
-          'Willst du <1>{{user}}</1> die Rolle <3>{{role}}</3> für <5>{{productTitle}}</5> zuweisen?<7><8></8><9></9></7>',
+          'Möchtest du <1>{{user}}</1> die Rolle von <3>{{role}}</3> für <5>{{productTitle}}</5> zuweisen?<7><8></8><9></9></7>',
         confirmButton: 'Zuweisen',
         closeButton: 'Abbrechen',
       },
@@ -249,10 +249,10 @@ export default {
         label: 'Nachname',
       },
       institutionalEmail: {
-        label: 'Institutionelle E-Mail',
+        label: 'Institutionelle E-Mail-Adresse',
       },
       confirmInstitutionalEmail: {
-        label: 'E-Mail-Bestätigung',
+        label: 'E-Mail-Adresse bestätigen',
       },
       backButton: 'Zurück',
       confirmButton: 'Bestätigen',
@@ -262,12 +262,12 @@ export default {
         mismatchEmail: 'Die E-Mail-Adressen stimmen nicht überein',
       },
       editUserSuccess: 'Profil erfolgreich geändert',
-      editUserError: 'Beim Bearbeiten der Datei ist ein Fehler aufgetreten. Erneut versuchen.',
+      editUserError: 'Beim Bearbeiten der Datei ist ein Fehler aufgetreten. Nochmals versuchen.',
     },
     addProduct: {
       navigation: 'Rolle zuweisen',
       title: 'Eine neue Rolle zuweisen',
-      subTitle: 'Wähle das Produkt und die Rolle, die du dem Benutzer zuweisen möchtest.',
+      subTitle: 'Wähle das Produkt und die Rolle aus, die du dem Benutzer zuweisen möchtest.',
       name: 'Vorname',
       surname: 'Nachname',
       fiscalCode: 'Steuernummer',
@@ -277,11 +277,10 @@ export default {
     title: 'Benutzer',
     generic: {
       subTitle:
-        'Anzeigen und Verwalten der den Benutzern zugewiesenen Rollen für die Produkte, die die Körperschaft betreffen.',
+        'Anzeigen und Verwalten der den Benutzern zugewiesenen Rollen für die Produkte, die die Körperschaft bearbeitet.',
     },
     pnpg: {
-      subTitle:
-        'Verwalten der Benutzer, die zum Aufrufen der Bescheide von {{ businessName}} berechtigt sind.',
+      subTitle: 'Verwalten der Nutzer, die die Bescheide von {{ businessName}} lesen können.',
     },
   },
 };
