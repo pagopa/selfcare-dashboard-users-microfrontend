@@ -1,8 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { StatusEnum } from '../../../../../../api/generated/b4f-dashboard/SubProductResource';
 import { mockedParties } from '../../../../../../microcomponents/mock_dashboard/data/party';
-import { UserStatus } from '../../../../../../model/Party';
+import { mockedPartyProducts } from '../../../../../../microcomponents/mock_dashboard/data/product';
 import { PartyProductUser } from '../../../../../../model/PartyUser';
 import { renderWithProviders } from '../../../../../../utils/test-utils';
 import UsersProductTable from '../UsersProductTable';
@@ -13,7 +12,7 @@ jest.mock('../../../../../../hooks/useIsMobile', () => {
   };
 });
 
-const mockedPartyProductUsers: PartyProductUser[] = [
+export const mockedPartyProductUsers: PartyProductUser[] = [
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
@@ -53,22 +52,7 @@ test('should render UserProductTable on mobile view', async () => {
       noMoreData={false}
       party={mockedParties[0]}
       users={mockedPartyProductUsers}
-      product={{
-        activationDateTime: undefined,
-        description: '',
-        id: 'prod-io',
-        logo: '',
-        title: 'App IO',
-        urlBO: '',
-        backOfficeEnvironmentConfigurations: undefined,
-        urlPublic: undefined,
-        tag: undefined,
-        status: StatusEnum.ACTIVE,
-        imageUrl: '',
-        subProducts: undefined,
-        logoBgColor: undefined,
-        delegable: true,
-      }}
+      product={mockedPartyProducts[0]}
       productRolesLists={{
         list: [],
         groupByPartyRole: {
@@ -130,22 +114,7 @@ test('should render UserProductTable not on mobile view', async () => {
       noMoreData={false}
       party={mockedParties[0]}
       users={mockedPartyProductUsers}
-      product={{
-        activationDateTime: undefined,
-        description: '',
-        id: 'prod-io',
-        logo: '',
-        title: 'App IO',
-        urlBO: '',
-        backOfficeEnvironmentConfigurations: undefined,
-        urlPublic: undefined,
-        tag: undefined,
-        status: StatusEnum.ACTIVE,
-        imageUrl: '',
-        subProducts: undefined,
-        logoBgColor: undefined,
-        delegable: true,
-      }}
+      product={mockedPartyProducts[0]}
       productRolesLists={{
         list: [],
         groupByPartyRole: {

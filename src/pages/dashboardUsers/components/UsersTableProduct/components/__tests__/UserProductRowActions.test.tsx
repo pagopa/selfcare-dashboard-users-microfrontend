@@ -11,13 +11,13 @@ jest.mock('react-router-dom', () => ({
 
 test('should navigate to correct path when productId is truthy and Suspend user action', async () => {
   const onDelete = jest.fn();
-
   const onStatusUpdate = jest.fn();
 
   const { history } = renderWithProviders(
     <UserProductRowActions
       party={mockedParties[0]}
       partyUser={{
+        // use case status status and  isCurrent user true
         id: '123',
         name: 'John',
         surname: 'Doe',
