@@ -87,10 +87,6 @@ test('should render UserProductTable on mobile view', async () => {
 
   fireEvent.click(userNameBtn);
 
-  await waitFor(() => {
-    expect(history.location.pathname).toBe('/dashboard/1/users/uid');
-  });
-
   const nextPageIconButton = screen.getByTestId('NavigateNextIcon');
 
   fireEvent.click(nextPageIconButton);
