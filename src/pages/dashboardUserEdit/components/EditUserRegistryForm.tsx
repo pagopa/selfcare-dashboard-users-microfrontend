@@ -16,6 +16,7 @@ import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/
 import { useHistory } from 'react-router-dom';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { theme } from '@pagopa/mui-italia';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';
@@ -52,7 +53,6 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,5}$');
 const requiredError = 'Required';
 
 type Props = {

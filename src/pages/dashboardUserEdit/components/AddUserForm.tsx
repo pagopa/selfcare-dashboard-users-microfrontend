@@ -32,6 +32,7 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/uti
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
 import { theme } from '@pagopa/mui-italia';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,
@@ -87,7 +88,6 @@ const CustomFormControlLabel = styled(FormControlLabel)({
 const taxCodeRegexp = new RegExp(
   '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
 );
-const emailRegexp = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,5}$');
 const requiredError = 'Required';
 
 type Props = {
