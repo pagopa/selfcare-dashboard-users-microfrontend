@@ -38,7 +38,7 @@ export const mockedPartyProductUsers: PartyProductUser[] = [
   },
 ];
 
-test.skip('should render UserProductTable on mobile view', async () => {
+test('should render UserProductTable on mobile view', async () => {
   jest.requireMock('../../../../../../hooks/useIsMobile').useIsMobile.mockReturnValue(true);
   const onRowClick = jest.fn();
   const fetchPage = jest.fn((page?: number, size?: number, refetch?: boolean) => {
@@ -96,7 +96,7 @@ test.skip('should render UserProductTable on mobile view', async () => {
   fireEvent.click(previousPageIconButton);
 });
 
-test.skip('should render UserProductTable not on mobile view', async () => {
+test('should render UserProductTable not on mobile view', async () => {
   jest.requireMock('../../../../../../hooks/useIsMobile').useIsMobile.mockReturnValue(false);
   const onRowClick = jest.fn();
   const fetchPage = jest.fn((page?: number, size?: number, refetch?: boolean) => {

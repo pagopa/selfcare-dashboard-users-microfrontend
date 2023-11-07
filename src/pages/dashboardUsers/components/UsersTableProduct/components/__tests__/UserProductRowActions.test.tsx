@@ -9,7 +9,7 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ productId: 'mockedProductId' }),
 }));
 
-test.skip('should navigate to correct path when productId is truthy and Suspend user action', async () => {
+test('should navigate to correct path when productId is truthy and Suspend user action', async () => {
   const onDelete = jest.fn();
   const onStatusUpdate = jest.fn();
 
@@ -95,7 +95,7 @@ test.skip('should navigate to correct path when productId is truthy and Suspend 
   fireEvent.click(suspendButton);
 });
 
-test.skip('Should be able to reabilitate suspended user', async () => {
+test('Should be able to reabilitate suspended user', async () => {
   const onDelete = jest.fn();
 
   const onStatusUpdate = jest.fn();

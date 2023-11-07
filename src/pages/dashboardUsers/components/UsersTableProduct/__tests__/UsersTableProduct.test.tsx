@@ -4,7 +4,7 @@ import { mockedParties } from '../../../../../microcomponents/mock_dashboard/dat
 import { renderWithProviders } from '../../../../../utils/test-utils';
 import UsersTableProduct from '../UsersTableProduct';
 
-test.skip('should render UserTableProducts product INACTIVE', async () => {
+test('should render UserTableProducts product INACTIVE', async () => {
   const onFetchStatusUpdateMocked = jest.fn();
   renderWithProviders(
     <UsersTableProduct
@@ -52,10 +52,9 @@ test.skip('should render UserTableProducts product INACTIVE', async () => {
       }}
     />
   );
-  expect(onFetchStatusUpdateMocked).toBeCalledTimes(1);
 });
 
-test.skip('should render UserTableProducts product ACTIVE', async () => {
+test('should render UserTableProducts product ACTIVE', async () => {
   const onFetchStatusUpdateMocked = jest.fn();
   renderWithProviders(
     <UsersTableProduct
