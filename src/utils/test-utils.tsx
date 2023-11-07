@@ -12,6 +12,7 @@ import { createStore } from '../redux/store';
  * @param {ReturnType<typeof createMemoryHistory>} injectedHistory - An optional injected history object. If not provided, a new memory history object will be created.
  * @return {Object} An object containing the store and history objects.
  */
+
 export const renderWithProviders = (
   component: React.ReactElement,
   injectedStore?: ReturnType<typeof createStore>,
