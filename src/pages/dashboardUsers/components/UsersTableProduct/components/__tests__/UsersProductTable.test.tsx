@@ -2,7 +2,9 @@ import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { mockedParties } from '../../../../../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../../../../../microcomponents/mock_dashboard/data/product';
-import { PartyProductUser } from '../../../../../../model/PartyUser';
+import { transformToPartyProductUsers } from '../../../../../../model/PartyUser';
+import { buildEmptyProductRolesLists } from '../../../../../../model/ProductRole';
+import { mockedUsers } from '../../../../../../services/__mocks__/usersService';
 import { renderWithProviders } from '../../../../../../utils/test-utils';
 import UsersProductTable from '../UsersProductTable';
 
@@ -11,32 +13,6 @@ jest.mock('../../../../../../hooks/useIsMobile', () => {
     useIsMobile: jest.fn().mockReturnValue(true), // Mocking it for mobile condition
   };
 });
-
-export const mockedPartyProductUsers: PartyProductUser[] = [
-  // use case ACTIVE on 1 product/role
-  {
-    id: 'uid',
-    name: 'Elena',
-    surname: 'Verdi',
-    email: 'simone.v@comune.milano.it',
-    userRole: 'ADMIN',
-    status: 'ACTIVE',
-    product: {
-      title: 'App IO',
-      id: 'prod-io',
-      roles: [
-        {
-          relationshipId: 'rel1',
-          role: 'incaricato-ente-creditore',
-          selcRole: 'ADMIN',
-          status: 'ACTIVE',
-        },
-      ],
-    },
-
-    isCurrentUser: false,
-  },
-];
 
 test('should render UserProductTable on mobile view', async () => {
   jest.requireMock('../../../../../../hooks/useIsMobile').useIsMobile.mockReturnValue(true);
@@ -51,22 +27,9 @@ test('should render UserProductTable on mobile view', async () => {
       loading={false}
       noMoreData={false}
       party={mockedParties[0]}
-      users={mockedPartyProductUsers}
+      users={transformToPartyProductUsers(mockedUsers)}
       product={mockedPartyProducts[0]}
-      productRolesLists={{
-        list: [],
-        groupByPartyRole: {
-          DELEGATE: [],
-          MANAGER: [],
-          OPERATOR: [],
-          SUB_DELEGATE: [],
-        },
-        groupBySelcRole: {
-          ADMIN: [],
-          LIMITED: [],
-        },
-        groupByProductRole: {},
-      }}
+      productRolesLists={buildEmptyProductRolesLists()}
       fetchPage={fetchPage}
       page={{
         number: 1,
@@ -103,28 +66,17 @@ test('should render UserProductTable not on mobile view', async () => {
     console.log('Function not implemented.');
   });
 
+  mockedUsers;
+
   renderWithProviders(
     <UsersProductTable
       incrementalLoad={false}
       loading={false}
       noMoreData={false}
       party={mockedParties[0]}
-      users={mockedPartyProductUsers}
+      users={transformToPartyProductUsers(mockedUsers)}
       product={mockedPartyProducts[0]}
-      productRolesLists={{
-        list: [],
-        groupByPartyRole: {
-          DELEGATE: [],
-          MANAGER: [],
-          OPERATOR: [],
-          SUB_DELEGATE: [],
-        },
-        groupBySelcRole: {
-          ADMIN: [],
-          LIMITED: [],
-        },
-        groupByProductRole: {},
-      }}
+      productRolesLists={buildEmptyProductRolesLists()}
       fetchPage={fetchPage}
       page={{
         number: 1,

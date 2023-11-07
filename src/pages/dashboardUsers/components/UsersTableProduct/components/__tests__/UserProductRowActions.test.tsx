@@ -1,6 +1,15 @@
 import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
+import { mockedUser } from '../../../../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import { SelcRoleEnum } from '../../../../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
+import {
+  ProductUserResource,
+  RoleEnum,
+} from '../../../../../../api/generated/b4f-dashboard/ProductUserResource';
 import { mockedParties } from '../../../../../../microcomponents/mock_dashboard/data/party';
+import { mockedPartyProducts } from '../../../../../../microcomponents/mock_dashboard/data/product';
+import { productUserResource2PartyProductUser } from '../../../../../../model/PartyUser';
+import { buildEmptyProductRolesLists } from '../../../../../../model/ProductRole';
 import { renderWithProviders } from '../../../../../../utils/test-utils';
 import UserProductRowActions from '../UserProductRowActions';
 
@@ -13,31 +22,37 @@ test('should navigate to correct path when productId is truthy and Suspend user 
   const onDelete = jest.fn();
   const onStatusUpdate = jest.fn();
 
+  const productUserResource: ProductUserResource = {
+    id: '1',
+    name: 'Name',
+    surname: 'Surname',
+    status: 'ACTIVE',
+    role: 'LIMITED' as RoleEnum,
+    email: 'address',
+    product: {
+      id: 'productId',
+      title: 'productTitle',
+      roleInfos: [
+        {
+          relationshipId: 'relationshipId',
+          role: 'productRole',
+          selcRole: SelcRoleEnum.ADMIN,
+          status: 'ACTIVE',
+        },
+      ],
+    },
+  };
+
+  const partyUser = productUserResource2PartyProductUser(
+    productUserResource,
+    mockedPartyProducts[0],
+    mockedUser
+  );
+
   const { history } = renderWithProviders(
     <UserProductRowActions
       party={mockedParties[0]}
-      partyUser={{
-        // use case status status and  isCurrent user true
-        id: '123',
-        name: 'John',
-        surname: 'Doe',
-        email: 'john.doe@example.com',
-        userRole: 'ADMIN',
-        status: 'ACTIVE',
-        isCurrentUser: true,
-        product: {
-          id: 'productIdTest',
-          title: 'productTitle',
-          roles: [
-            {
-              relationshipId: 'relationshipId',
-              role: 'productRole',
-              selcRole: 'ADMIN',
-              status: 'ACTIVE',
-            },
-          ],
-        },
-      }}
+      partyUser={partyUser}
       partyUserProduct={{
         id: 'partyUserProductId',
         title: '',
@@ -50,26 +65,13 @@ test('should navigate to correct path when productId is truthy and Suspend user 
           },
         ],
       }}
-      productRolesList={{
-        list: [],
-        groupByPartyRole: {
-          DELEGATE: [],
-          MANAGER: [],
-          OPERATOR: [],
-          SUB_DELEGATE: [],
-        },
-        groupBySelcRole: {
-          ADMIN: [],
-          LIMITED: [],
-        },
-        groupByProductRole: {},
-      }}
+      productRolesList={buildEmptyProductRolesLists()}
       onDelete={onDelete}
       onStatusUpdate={onStatusUpdate}
     />
   );
 
-  const actionsTootilip = screen.getByTestId('action-123');
+  const actionsTootilip = screen.getByTestId('action-1');
   expect(actionsTootilip).toBeInTheDocument();
 
   fireEvent.click(actionsTootilip);
@@ -78,7 +80,7 @@ test('should navigate to correct path when productId is truthy and Suspend user 
 
   fireEvent.click(modifyButton);
 
-  const editPartyUserPath = `/dashboard/1/mockedProductId/users/123/edit`;
+  const editPartyUserPath = `/dashboard/1/mockedProductId/users/1/edit`;
 
   expect(history.location.pathname).toBe(editPartyUserPath);
 
@@ -136,20 +138,7 @@ test('Should be able to reabilitate suspended user', async () => {
           },
         ],
       }}
-      productRolesList={{
-        list: [],
-        groupByPartyRole: {
-          DELEGATE: [],
-          MANAGER: [],
-          OPERATOR: [],
-          SUB_DELEGATE: [],
-        },
-        groupBySelcRole: {
-          ADMIN: [],
-          LIMITED: [],
-        },
-        groupByProductRole: {},
-      }}
+      productRolesList={buildEmptyProductRolesLists()}
       onDelete={onDelete}
       onStatusUpdate={onStatusUpdate}
     />

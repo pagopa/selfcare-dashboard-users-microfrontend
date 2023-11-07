@@ -148,3 +148,15 @@ export const partyUserDetail2User = (partyUserDetail: PartyUserDetail): User => 
 
 export const checkSuspendedUser = (partyUser: PartyUser): boolean =>
   partyUser.products.every((p) => p.roles.every((r) => r.status === 'SUSPENDED'));
+
+export const transformToPartyProductUsers = (
+  mockedUsers: Array<PartyUserDetail>
+): Array<PartyProductUser> =>
+  mockedUsers.map((user) => ({
+    ...user,
+    product: {
+      id: user.products[0].id,
+      title: user.products[0].title,
+      roles: user.products[0].roles,
+    },
+  }));
