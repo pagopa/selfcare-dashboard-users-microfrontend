@@ -122,6 +122,19 @@ export default function UsersProductTable({
   const rowHeight = isMobile ? 250 : 64;
   const headerHeight = isMobile ? 10 : 56;
 
+  const sortedUsers = [...users].sort(
+    (firstUser: PartyProductUser, secondUser: PartyProductUser) => {
+      const regexp = /[_"'.,;-]+/g;
+      const firstUserName = firstUser.name?.replace(regexp, '');
+      const secondUserName = secondUser.name?.replace(regexp, '');
+      if (firstUserName && secondUserName) {
+        return firstUserName.localeCompare(secondUserName);
+      } else {
+        return 0;
+      }
+    }
+  );
+
   return (
     <React.Fragment>
       <Box
@@ -137,7 +150,7 @@ export default function UsersProductTable({
           className="CustomDataGrid"
           autoHeight={true}
           columnBuffer={5}
-          rows={users}
+          rows={sortedUsers}
           rowCount={Math.max(page?.totalElements ?? 0, users.length)}
           getRowId={(r) => r.id}
           columns={isMobile ? [] : columns}
