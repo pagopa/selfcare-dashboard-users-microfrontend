@@ -125,10 +125,14 @@ export default function UsersProductTable({
   const sortedUsers = [...users].sort(
     (firstUser: PartyProductUser, secondUser: PartyProductUser) => {
       const regexp = /[_"'.,;-]+/g;
-      const firstUserFullName = `${firstUser.name}${firstUser.surname}`?.replace(regexp, '');
-      const secondUserFullName = `${secondUser.name}${secondUser.surname}`?.replace(regexp, '');
-      if (firstUserFullName && secondUserFullName) {
-        return firstUserFullName.localeCompare(secondUserFullName);
+      const firstUserName = `${firstUser.name}`?.replace(regexp, '');
+      const secondUserName = `${secondUser.name}`?.replace(regexp, '');
+      if (firstUserName && secondUserName) {
+        if (firstUser.name === secondUser.name) {
+          return firstUser.surname.localeCompare(secondUser.surname);
+        } else {
+          return firstUserName.localeCompare(secondUserName);
+        }
       } else {
         return 0;
       }
