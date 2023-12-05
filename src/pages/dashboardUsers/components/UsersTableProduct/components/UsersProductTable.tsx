@@ -129,7 +129,7 @@ export default function UsersProductTable({
       const secondUserName = `${secondUser.name}`?.replace(regexp, '').toLowerCase();
       if (firstUserName && secondUserName) {
         if (firstUser.name === secondUser.name) {
-          return firstUser.surname.localeCompare(secondUser.surname);
+          return firstUser.surname.toLowerCase().localeCompare(secondUser.surname.toLowerCase());
         } else {
           return firstUserName.localeCompare(secondUserName);
         }
