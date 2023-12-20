@@ -4,6 +4,7 @@ import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/use
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
 import { ENV } from '../../utils/env';
 
 type Props = {
@@ -37,6 +38,9 @@ export default function Layout({ children }: Props) {
             : false
         }
         onDocumentationClick={() => {
+          trackEvent('OPEN_OPERATIVE_MANUAL', {
+            from: 'dashboard',
+          });
           window.open(ENV.URL_DOCUMENTATION, '_blank');
         }}
       />
