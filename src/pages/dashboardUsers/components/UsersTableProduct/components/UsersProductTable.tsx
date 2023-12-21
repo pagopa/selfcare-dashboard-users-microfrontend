@@ -125,13 +125,13 @@ export default function UsersProductTable({
   const sortedUsers = [...users].sort(
     (firstUser: PartyProductUser, secondUser: PartyProductUser) => {
       const regexp = /[_"'.,;-]+/g;
-      const firstUserName = `${firstUser.name}`?.replace(regexp, '').toLowerCase();
-      const secondUserName = `${secondUser.name}`?.replace(regexp, '').toLowerCase();
-      if (firstUserName && secondUserName) {
-        if (firstUserName === secondUserName) {
-          return firstUser.surname.toLowerCase().localeCompare(secondUser.surname.toLowerCase());
+      const firstUserSurname = `${firstUser.surname}`?.replace(regexp, '').toLowerCase();
+      const secondUserSurname = `${secondUser.surname}`?.replace(regexp, '').toLowerCase();
+      if (firstUserSurname && secondUserSurname) {
+        if (firstUserSurname === secondUserSurname) {
+          return firstUser.name.toLowerCase().localeCompare(secondUser.name.toLowerCase());
         } else {
-          return firstUserName.localeCompare(secondUserName);
+          return firstUserSurname.localeCompare(secondUserSurname);
         }
       } else {
         return 0;
@@ -214,9 +214,10 @@ export default function UsersProductTable({
                               wordWrap: 'break-word',
                               overflowWrap: 'break-word',
                               whiteSpace: 'pre-wrap',
+                              textTransform: 'capitalize',
                             }}
                           >
-                            {user.name.concat(' ', user.surname)}
+                            {`${user.surname} ${user.name}`.toLowerCase()}
                           </Typography>
                         </Grid>
 
