@@ -183,7 +183,7 @@ function showName(
                   textTransform: 'capitalize',
                 }}
               >
-                {`${params.row.name} ${params.row.surname} `.toLowerCase()}
+                {`${params.row.surname} ${params.row.name} `.toLowerCase()}
                 {params.row.isCurrentUser
                   ? i18n.t('usersTable.usersProductTableColumns.rows.isCurrentUser')
                   : ''}
