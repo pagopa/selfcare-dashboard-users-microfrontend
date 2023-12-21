@@ -1,16 +1,16 @@
-import { Chip, Typography, Grid, IconButton, Box } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Box, Chip, Grid, IconButton, Typography } from '@mui/material';
 import {
   GridColDef,
   GridColumnHeaderParams,
   GridRenderCellParams,
   GridValueGetterParams,
 } from '@mui/x-data-grid';
-import React, { CSSProperties, ReactNode } from 'react';
 import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import React, { CSSProperties, ReactNode } from 'react';
 import { PartyProductUser } from '../../../../../model/PartyUser';
-import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { Product } from '../../../../../model/Product';
+import { ProductRolesLists } from '../../../../../model/ProductRole';
 
 export function buildColumnDefs(
   _product: Product,
@@ -180,9 +180,10 @@ function showName(
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical' as const,
+                  textTransform: 'capitalize',
                 }}
               >
-                {params.row.name} {params.row.surname}{' '}
+                {`${params.row.name} ${params.row.surname} `.toLowerCase()}
                 {params.row.isCurrentUser
                   ? i18n.t('usersTable.usersProductTableColumns.rows.isCurrentUser')
                   : ''}
