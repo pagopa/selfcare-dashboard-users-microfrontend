@@ -360,17 +360,22 @@ export default function AddUserForm({
       id: 'ONE_ROLE_USER',
       title: t('userEdit.addForm.addOneRoleModal.title'),
       message: (
-        <Trans i18nKey="userEdit.addForm.addOneRoleModal.message">
+        <Trans
+          i18nKey="userEdit.addForm.addOneRoleModal.message"
+          value={{
+            user: `${values.name} ${values.surname} `,
+            role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+            productTitle: `${userProduct?.title}`,
+          }}
+        >
           {'Vuoi assegnare a '}
-          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
+          <strong>{`${values.name} ${values.surname} `}</strong>
           {'il ruolo di '}
           <strong>
-            {{
-              role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
-            }}
+            {`${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`}
           </strong>
           {' sul prodotto '}
-          <strong>{{ productTitle: `${userProduct?.title}` }}</strong>
+          <strong>{`${userProduct?.title}`}</strong>
           {'?'}
           {
             <>
@@ -397,19 +402,26 @@ export default function AddUserForm({
       id: 'MULTI_ROLE_USER',
       title: t('userEdit.addForm.addMultiRoleModal.title'),
       message: (
-        <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
+        <Trans
+          i18nKey="userEdit.addForm.addMultiRoleModal.message"
+          value={{
+            user: `${values.name} ${values.surname} `,
+            roles: `${values.productRoles
+              .map((r) => productRoles?.groupByProductRole[r].title)
+              .join(', ')}`,
+            productTitle: `${userProduct?.title}.`,
+          }}
+        >
           {'Stai per assegnare a '}
-          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
+          <strong>{`${values.name} ${values.surname} `}</strong>
           {`i ruoli `}
           <strong>
-            {{
-              roles: `${values.productRoles
-                .map((r) => productRoles?.groupByProductRole[r].title)
-                .join(', ')}`,
-            }}
+            {`${values.productRoles
+              .map((r) => productRoles?.groupByProductRole[r].title)
+              .join(', ')}`}
           </strong>
           {' sul prodotto '}
-          <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
+          <strong>{`${userProduct?.title}.`}</strong>
           {
             <>
               <br></br>

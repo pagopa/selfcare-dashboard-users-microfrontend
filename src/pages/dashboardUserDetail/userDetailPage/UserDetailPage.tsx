@@ -105,26 +105,27 @@ function UserDetailPage({
       id: 'USER_DELETE_MODAL',
       title: t('userDetail.actions.deleteUserModal.title'),
       message: (
-        <Trans i18nKey="userDetail.actions.deleteUserModal.message">
+        <Trans
+          i18nKey="userDetail.actions.deleteUserModal.message"
+          value={{
+            user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`,
+            role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
+            product: product.title,
+          }}
+        >
           {'Vuoi rimuovere '}
           <strong style={{ textTransform: 'capitalize' }}>
-            {{ user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}` }}
+            {party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`}
           </strong>
           {' dal ruolo di '}
           <strong>
-            {{
-              role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
-            }}
+            {transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id])}
           </strong>
           {'?'}
           <br />
           <br />
           {'Se lo rimuovi da '}
-          <strong style={{ textTransform: 'capitalize' }}>
-            {{
-              product: product.title,
-            }}
-          </strong>
+          <strong style={{ textTransform: 'capitalize' }}>{product.title}</strong>
           {
             ' il profilo dell’utente verrà eliminato dall’Area Riservata, poiché non è presente in altri prodotti. Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i suoi dati anagrafici.'
           }

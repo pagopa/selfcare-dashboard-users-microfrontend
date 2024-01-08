@@ -113,57 +113,51 @@ export default function UserProductRowActions({
         ? t('usersTable.rowActions.changeUserRoleStatusModal.suspend.title')
         : t('usersTable.rowActions.changeUserRoleStatusModal.reactivate.title'),
       nextStatus === 'SUSPENDED' ? (
-        <Trans i18nKey="usersTable.rowActions.changeUserRoleStatusModal.suspend.message">
+        <Trans
+          i18nKey="usersTable.rowActions.changeUserRoleStatusModal.suspend.message"
+          value={{
+            user: `${partyUser.name} ${partyUser.surname}`,
+            userRole: `${transcodeProductRole2Title(
+              partyUserProduct.roles[0].role,
+              productRolesList
+            )}`,
+            productTitle: `${partyUser.product.title}`,
+          }}
+        >
           {'Vuoi sospendere '}
-          <strong>
-            {{
-              user: `${partyUser.name} ${partyUser.surname}`,
-            }}
-          </strong>
+          <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
           {' dal ruolo di '}
           <strong>
-            {{
-              userRole: `${transcodeProductRole2Title(
-                partyUserProduct.roles[0].role,
-                productRolesList
-              )}`,
-            }}
+            {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
           </strong>
           <br />
           {'Se lo sospendi, non potrà più operare su '}
-          <strong>
-            {{
-              productTitle: `${partyUser.product.title}`,
-            }}
-          </strong>
+          <strong>{`${partyUser.product.title}`}</strong>
           .
           <br />
           {' Puoi riabilitarlo in qualsiasi momento.'}
         </Trans>
       ) : (
-        <Trans i18nKey="usersTable.rowActions.changeUserRoleStatusModal.reactivate.message">
+        <Trans
+          i18nKey="usersTable.rowActions.changeUserRoleStatusModal.reactivate.message"
+          value={{
+            user: `${partyUser.name} ${partyUser.surname}`,
+            userRole: `${transcodeProductRole2Title(
+              partyUserProduct.roles[0].role,
+              productRolesList
+            )}`,
+            productTitle: `${partyUser.product.title}`,
+          }}
+        >
           {'Vuoi riabilitare '}
-          <strong>
-            {{
-              user: `${partyUser.name} ${partyUser.surname}`,
-            }}
-          </strong>
+          <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
           {' dal ruolo di '}
           <strong>
-            {{
-              userRole: `${transcodeProductRole2Title(
-                partyUserProduct.roles[0].role,
-                productRolesList
-              )}`,
-            }}
+            {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
           </strong>
           <br />
           {'Se lo riabiliti, potrà operare di nuovo su '}
-          <strong>
-            {{
-              productTitle: `${partyUser.product.title}`,
-            }}
-          </strong>
+          <strong>{`${partyUser.product.title}`}</strong>
           {'.'}
           <br />
           {' Puoi sospenderlo di nuovo in qualsiasi momento.'}
@@ -196,22 +190,27 @@ export default function UserProductRowActions({
     handleClose();
     askConfirm(
       t('usersTable.rowActions.deleteModal.title'),
-      <Trans i18nKey="usersTable.rowActions.deleteModal.message">
+      <Trans
+        i18nKey="usersTable.rowActions.deleteModal.message"
+        value={{
+          user: `${partyUser.name} ${partyUser.surname}`,
+          userRole: `${transcodeProductRole2Title(
+            partyUserProduct.roles[0].role,
+            productRolesList
+          )}`,
+          productTitle: `${partyUser.product.title}`,
+        }}
+      >
         {'Stai per rimuovere '}
-        <strong>{{ user: `${partyUser.name} ${partyUser.surname}` }}</strong>
+        <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
         {' dal ruolo di '}
         <strong>
-          {{
-            userRole: `${transcodeProductRole2Title(
-              partyUserProduct.roles[0].role,
-              productRolesList
-            )}`,
-          }}
+          {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
         </strong>
         {'.'}
         <br />
         {'Se lo rimuovi, non potrà più operare su '}
-        <strong>{{ productTitle: `${partyUser.product.title}` }}</strong>.
+        <strong>{`${partyUser.product.title}`}</strong>.
         <br />
         {' Puoi assegnare di nuovo il ruolo in qualsiasi momento'},
       </Trans>,
