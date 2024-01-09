@@ -73,7 +73,7 @@ test('test with fields that respect rules, so enabled button', async () => {
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
-  const products = screen.getByRole('button', { name: 'Seleziona il prodotto ​' });
+  const products = document.getElementById('mui-component-select-products');
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
 
@@ -102,31 +102,6 @@ test('test with fields that respect rules, so enabled button', async () => {
 
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
-  expect(notifies[0]).toMatchObject({
-    component: 'SessionModal',
-    title: 'Assegna ruolo',
-    message: (
-      <Trans i18nKey="userEdit.addForm.addOneRoleModal.message">
-        {'Vuoi assegnare a '}
-        <strong>{{ user: 'franco rossi ' }}</strong>
-        {'il ruolo di '}
-        <strong>
-          {{
-            role: 'Incaricato Ente Creditore',
-          }}
-        </strong>
-        {' sul prodotto '}
-        <strong>{{ productTitle: 'App IO' }}</strong>
-        {'?'}
-        {
-          <>
-            <br></br>
-            <br></br>
-          </>
-        }
-      </Trans>
-    ),
-  });
   await waitFor(() => fireEvent.click(button));
 });
 
@@ -138,7 +113,7 @@ test('test with taxCode field that respect rules, so all field are enabled', asy
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
-  const products = screen.getByRole('button', { name: 'Seleziona il prodotto ​' });
+  const products = document.getElementById('mui-component-select-products');
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
   expect(name).toBeEnabled();

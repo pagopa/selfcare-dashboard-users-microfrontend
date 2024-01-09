@@ -360,24 +360,20 @@ export default function AddUserForm({
       id: 'ONE_ROLE_USER',
       title: t('userEdit.addForm.addOneRoleModal.title'),
       message: (
-        <Trans i18nKey="userEdit.addForm.addOneRoleModal.message">
-          {'Vuoi assegnare a '}
-          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
-          {'il ruolo di '}
-          <strong>
-            {{
-              role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
-            }}
-          </strong>
-          {' sul prodotto '}
-          <strong>{{ productTitle: `${userProduct?.title}` }}</strong>
-          {'?'}
-          {
-            <>
-              <br></br>
-              <br></br>
-            </>
-          }
+        <Trans
+          i18nKey="userEdit.addForm.addOneRoleModal.message"
+          values={{
+            user: `${values.name} ${values.surname} `,
+            role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+            productTitle: `${userProduct?.title}`,
+          }}
+          components={{
+            1: <strong />,
+            3: <strong />,
+            5: <strong />,
+          }}
+        >
+          {`Vuoi assegnare a <1>{{user}}</1> il ruolo di <3>{{role}}</3> per <5>{{productTitle}}</5>?<7><8></8><9></9></7>`}
         </Trans>
       ),
       onConfirm: () =>
@@ -397,27 +393,18 @@ export default function AddUserForm({
       id: 'MULTI_ROLE_USER',
       title: t('userEdit.addForm.addMultiRoleModal.title'),
       message: (
-        <Trans i18nKey="userEdit.addForm.addMultiRoleModal.message">
-          {'Stai per assegnare a '}
-          <strong>{{ user: `${values.name} ${values.surname} ` }}</strong>
-          {`i ruoli `}
-          <strong>
-            {{
-              roles: `${values.productRoles
-                .map((r) => productRoles?.groupByProductRole[r].title)
-                .join(', ')}`,
-            }}
-          </strong>
-          {' sul prodotto '}
-          <strong>{{ productTitle: `${userProduct?.title}.` }}</strong>
-          {
-            <>
-              <br></br>
-              <br></br>
-            </>
-          }
-          {' Confermi di voler continuare?'}
-          {<br></br>}
+        <Trans
+          i18nKey="userEdit.addForm.addMultiRoleModal.message"
+          values={{
+            user: `${values.name} ${values.surname} `,
+            roles: `${values.productRoles
+              .map((r) => productRoles?.groupByProductRole[r].title)
+              .join(', ')}`,
+            productTitle: `${userProduct?.title}.`,
+          }}
+          components={{ 1: <strong />, 3: <strong />, 5: <strong /> }}
+        >
+          {`Stai per assegnare a <1>{{user}}</1> i ruoli <3>{{roles}}</3> sul prodotto <5>{{productTitle}}</5><6><7></7><8></8></6>Confermi di voler continuare?<9></9>`}
         </Trans>
       ),
       // eslint-disable-next-line sonarjs/no-identical-functions
