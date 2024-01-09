@@ -115,7 +115,7 @@ export default function UserProductRowActions({
       nextStatus === 'SUSPENDED' ? (
         <Trans
           i18nKey="usersTable.rowActions.changeUserRoleStatusModal.suspend.message"
-          value={{
+          values={{
             user: `${partyUser.name} ${partyUser.surname}`,
             userRole: `${transcodeProductRole2Title(
               partyUserProduct.roles[0].role,
@@ -123,24 +123,14 @@ export default function UserProductRowActions({
             )}`,
             productTitle: `${partyUser.product.title}`,
           }}
+          components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
         >
-          {'Vuoi sospendere '}
-          <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
-          {' dal ruolo di '}
-          <strong>
-            {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
-          </strong>
-          <br />
-          {'Se lo sospendi, non potrà più operare su '}
-          <strong>{`${partyUser.product.title}`}</strong>
-          .
-          <br />
-          {' Puoi riabilitarlo in qualsiasi momento.'}
+          {`Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. <8 />Puoi riabilitarlo in qualsiasi momento.`}
         </Trans>
       ) : (
         <Trans
           i18nKey="usersTable.rowActions.changeUserRoleStatusModal.reactivate.message"
-          value={{
+          values={{
             user: `${partyUser.name} ${partyUser.surname}`,
             userRole: `${transcodeProductRole2Title(
               partyUserProduct.roles[0].role,
@@ -148,19 +138,9 @@ export default function UserProductRowActions({
             )}`,
             productTitle: `${partyUser.product.title}`,
           }}
+          components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
         >
-          {'Vuoi riabilitare '}
-          <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
-          {' dal ruolo di '}
-          <strong>
-            {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
-          </strong>
-          <br />
-          {'Se lo riabiliti, potrà operare di nuovo su '}
-          <strong>{`${partyUser.product.title}`}</strong>
-          {'.'}
-          <br />
-          {' Puoi sospenderlo di nuovo in qualsiasi momento.'}
+          {`Vuoi riabilitare <1>{{user}}</1> nel ruolo di <3>{{userRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.`}
         </Trans>
       ),
       () => updateStatus(nextStatus)
@@ -192,7 +172,7 @@ export default function UserProductRowActions({
       t('usersTable.rowActions.deleteModal.title'),
       <Trans
         i18nKey="usersTable.rowActions.deleteModal.message"
-        value={{
+        values={{
           user: `${partyUser.name} ${partyUser.surname}`,
           userRole: `${transcodeProductRole2Title(
             partyUserProduct.roles[0].role,
@@ -200,19 +180,9 @@ export default function UserProductRowActions({
           )}`,
           productTitle: `${partyUser.product.title}`,
         }}
+        components={{ 1: <strong />, 3: <strong />, 7: <strong /> }}
       >
-        {'Stai per rimuovere '}
-        <strong>{`${partyUser.name} ${partyUser.surname}`}</strong>
-        {' dal ruolo di '}
-        <strong>
-          {`${transcodeProductRole2Title(partyUserProduct.roles[0].role, productRolesList)}`}
-        </strong>
-        {'.'}
-        <br />
-        {'Se lo rimuovi, non potrà più operare su '}
-        <strong>{`${partyUser.product.title}`}</strong>.
-        <br />
-        {' Puoi assegnare di nuovo il ruolo in qualsiasi momento'},
+        {`Stai per rimuovere <1>{{user}}</1> dal ruolo di <3>{{userRole}}</3>.<5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.`}
       </Trans>,
       deleteParty
     );

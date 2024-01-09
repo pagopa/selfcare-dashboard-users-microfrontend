@@ -105,12 +105,10 @@ export default function AddUserToGroupButton({
           <>
             <Trans
               i18nKey="userDetail.actions.newGroupAssignModal.message"
-              value={{ user: `${user.name} ${user.surname}`, productTitle: `${product.title}.` }}
+              values={{ user: `${user.name} ${user.surname}`, productTitle: `${product.title}.` }}
+              components={{ 1: <strong />, 3: <strong /> }}
             >
-              {'Seleziona il gruppo che vuoi assegnare a '}
-              <strong> {`${user.name} ${user.surname}`} </strong>
-              {'per il prodotto '}
-              <strong> {`${product.title}.`} </strong>
+              {`Seleziona il gruppo che vuoi assegnare a <1>{{user}}</1> per il prodotto <3>{{productTitle}}</3>`}
             </Trans>
             <FormControl sx={{ width: '100%', mt: 2 }}>
               <InputLabel

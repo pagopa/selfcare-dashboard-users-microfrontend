@@ -107,28 +107,14 @@ function UserDetailPage({
       message: (
         <Trans
           i18nKey="userDetail.actions.deleteUserModal.message"
-          value={{
+          values={{
             user: party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`,
             role: transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id]),
             product: product.title,
           }}
+          components={{ 1: <strong />, 3: <strong />, 8: <strong /> }}
         >
-          {'Vuoi rimuovere '}
-          <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${partyUser.name.toLocaleLowerCase()} ${partyUser.surname}`}
-          </strong>
-          {' dal ruolo di '}
-          <strong>
-            {transcodeProductRole2Title(product.roles[0].role, productsRolesMap[product.id])}
-          </strong>
-          {'?'}
-          <br />
-          <br />
-          {'Se lo rimuovi da '}
-          <strong style={{ textTransform: 'capitalize' }}>{product.title}</strong>
-          {
-            ' il profilo dell’utente verrà eliminato dall’Area Riservata, poiché non è presente in altri prodotti. Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i suoi dati anagrafici.'
-          }
+          {`Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3>? <5/> <6/> Se lo rimuovi da <8>{{product}}</8>, il profilo dell’utente verrà eliminato dall’Area Riservata, poiché non è presente in altri prodotti. Potrai nuovamente aggiungere l’utente, ma dovrai inserire di nuovo i suoi dati anagrafici.`}
         </Trans>
       ),
       confirmLabel: t('userDetail.actions.deleteUserModal.confirmButton'),
@@ -168,7 +154,7 @@ function UserDetailPage({
     >
       <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={3}>
-          <ProductNavigationBar paths={paths} showBackComponent={true} goBack={goBack} />
+          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} />
         </Grid>
         <Grid container item mb={4} xs={12}>
           <Grid item xs={10}>

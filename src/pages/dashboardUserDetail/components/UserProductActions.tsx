@@ -95,52 +95,40 @@ export default function UserProductActions({
       message: moreRolesOnProduct ? (
         <Trans
           i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message"
-          value={{
+          values={{
             user: party && `${user.name} ${user.surname}`,
             role: transcodeProductRole2Title(role.role, productRolesList),
           }}
+          components={{ 1: <strong style={{ textTransform: 'capitalize' }} />, 3: <strong /> }}
         >
-          {'Vuoi rimuovere '}
-          <strong style={{ textTransform: 'capitalize' }}>
-            {party && `${user.name} ${user.surname}`}
-          </strong>
-          {' dal ruolo di '}
-          <strong> {transcodeProductRole2Title(role.role, productRolesList)} </strong>
-          {'?'} <br />
-          {'Puoi assegnare di nuovo il ruolo in qualsiasi momento.'}
+          {`Vuoi rimuovere <1>{{user}}</1> dal ruolo di <3>{{role}}</3>? <6 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.`}
         </Trans>
       ) : !moreRolesOnProduct && haveMoreProducts ? (
         <Trans
           i18nKey="userDetail.actions.modalDelete.haveMoreProducts"
-          value={{
+          values={{
             user: `${user.name} ${user.surname}`,
             productRole: transcodeProductRole2Title(role.role, productRolesList),
             productTitle: `${product.title}`,
           }}
+          components={{
+            2: <strong style={{ textTransform: 'capitalize' }} />,
+            4: <strong />,
+            7: <strong />,
+          }}
         >
-          {'Stai per rimuovere '} <strong>{`${user.name} ${user.surname}`}</strong>
-          {' dal ruolo di '}
-          <strong>{transcodeProductRole2Title(role.role, productRolesList)}</strong>
-          <br />
-          {'. Se lo rimuovi, non potrà più operare su '}
-          <strong>{`${product.title}`}</strong>.
-          <br />
-          {' Puoi assegnare di nuovo il ruolo in qualsiasi momento'},
+          {`Stai per rimuovere <2>{{user}}</2> dal ruolo di <4>{{productRole}}</4>. <5 />Se lo rimuovi, non potrà più operare su <7>{{productTitle}}</7>. <9 />Puoi assegnare di nuovo il ruolo in qualsiasi momento.`}
+          ,
         </Trans>
       ) : (
         !moreRolesOnProduct &&
         !haveMoreProducts && (
           <Trans
             i18nKey="userDetail.actions.modalDelete.oneRoleOnProduct.message"
-            value={{ user: party && `${user.name} ${user.surname}` }}
+            values={{ user: party && `${user.name} ${user.surname}` }}
+            components={{ 1: <strong style={{ textTransform: 'capitalize' }} /> }}
           >
-            {'Stai per eliminare '}
-            <strong style={{ textTransform: 'capitalize' }}>
-              {party && `${user.name} ${user.surname}`}
-            </strong>
-            {'.'}
-            <br />
-            {' Vuoi continuare?'}
+            {`Stai per eliminare <1>{{user}}</1>.<3 />Vuoi continuare?`}
           </Trans>
         )
       ),
@@ -217,74 +205,50 @@ export default function UserProductActions({
         role.status === 'ACTIVE' && moreRolesOnProduct ? (
           <Trans
             i18nKey="userDetail.actions.changeUserStatusModal.suspend.messageWithMultipleRoles"
-            value={{
+            values={{
               user: `${user.name} ${user.surname}`,
               productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
             }}
+            components={{ 1: <strong style={{ textTransform: 'capitalize' }} />, 3: <strong /> }}
           >
-            {'Vuoi sospendere '}
-            <strong>{`${user.name} ${user.surname}`}</strong>
-            {' dal ruolo di '}
-            <strong>{`${transcodeProductRole2Title(role.role, productRolesList)}`}</strong>
-            <br />
-            {'Puoi riabilitarlo in qualsiasi momento.'}
+            {`Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi riabilitarlo in qualsiasi momento.`}
           </Trans>
         ) : role.status === 'ACTIVE' && !moreRolesOnProduct ? (
           <Trans
             i18nKey="userDetail.actions.changeUserStatusModal.suspend.messageWithOneRole"
-            value={{
+            values={{
               user: `${user.name} ${user.surname}`,
               productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
               productTitle: `${product.title}`,
             }}
+            components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
           >
-            {'Vuoi sospendere '}
-            <strong>{`${user.name} ${user.surname}`}</strong>
-            {' dal ruolo di '}
-            <strong>{`${transcodeProductRole2Title(role.role, productRolesList)}`}</strong>
-            <br />
-            {'Se lo sospendi, non potrà più operare su '}
-            <strong>{`${product.title}`}</strong>
-            .
-            <br />
-            {' Puoi riabilitarlo in qualsiasi momento.'}
+            {`Vuoi sospendere <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo sospendi, non potrà più operare su <6>{{productTitle}}</6>. <8 />Puoi riabilitarlo in qualsiasi momento.`}
           </Trans>
         ) : role.status === 'SUSPENDED' && moreRolesOnProduct ? (
           <Trans
             i18nKey="userDetail.actions.changeUserStatusModal.reactivate.messageWithMultipleRoles"
-            value={{
+            values={{
               user: `${user.name} ${user.surname}`,
               productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
             }}
+            components={{ 1: <strong />, 3: <strong /> }}
           >
-            {'Vuoi riabilitare '}
-            <strong>{`${user.name} ${user.surname}`}</strong>
-            {' dal ruolo di '}
-            <strong>{`${transcodeProductRole2Title(role.role, productRolesList)}`}</strong>
-            <br />
-            {'Puoi sospenderlo di nuovo in qualsiasi momento.'}
+            {`Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Puoi sospenderlo di nuovo in qualsiasi momento.`}
           </Trans>
         ) : (
           !moreRolesOnProduct &&
           role.status === 'SUSPENDED' && (
             <Trans
               i18nKey="userDetail.actions.changeUserStatusModal.reactivate.messageWithOneRole"
-              value={{
+              values={{
                 user: `${user.name} ${user.surname}`,
                 productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
                 productTitle: `${product.title}`,
               }}
+              components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
             >
-              {'Vuoi riabilitare '}
-              <strong>{`${user.name} ${user.surname}`}</strong>
-              {' dal ruolo di '}
-              <strong>{`${transcodeProductRole2Title(role.role, productRolesList)}`}</strong>
-              <br />
-              {'Se lo riabiliti, potrà operare di nuovo su '}
-              <strong>{`${product.title}`}</strong>
-              .
-              <br />
-              {' Puoi sospenderlo di nuovo in qualsiasi momento.'}
+              {`Vuoi riabilitare <1>{{user}}</1> dal ruolo di <3>{{productRole}}</3>?<4 />Se lo riabiliti, potrà operare di nuovo su <6>{{productTitle}}</6>.<8 /> Puoi sospenderlo di nuovo in qualsiasi momento.`}
             </Trans>
           )
         ),

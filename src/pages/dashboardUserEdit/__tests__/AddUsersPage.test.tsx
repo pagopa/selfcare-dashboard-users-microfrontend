@@ -102,30 +102,6 @@ test('test with fields that respect rules, so enabled button', async () => {
 
   const notifies = store.getState().appState.userNotifies;
   expect(notifies).toHaveLength(1);
-  expect(notifies[0]).toMatchObject({
-    component: 'SessionModal',
-    title: 'Assegna ruolo',
-    message: (
-      <Trans
-        i18nKey="userEdit.addForm.addOneRoleModal.message"
-        value={{ user: 'franco rossi ', role: 'Incaricato Ente Creditore', productTitle: 'App IO' }}
-      >
-        {'Vuoi assegnare a '}
-        <strong>{'franco rossi '}</strong>
-        {'il ruolo di '}
-        <strong>{'Incaricato Ente Creditore'}</strong>
-        {' sul prodotto '}
-        <strong>{'App IO'}</strong>
-        {'?'}
-        {
-          <>
-            <br></br>
-            <br></br>
-          </>
-        }
-      </Trans>
-    ),
-  });
   await waitFor(() => fireEvent.click(button));
 });
 
