@@ -24,7 +24,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
-const CustomTextField = styled(TextField)({
+const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
     display: 'none',
   },
