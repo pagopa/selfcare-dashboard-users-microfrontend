@@ -37,7 +37,7 @@ test('Test: go to edit user', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe('/dashboard/onboarded/users/uid/edit')
   );
-  screen.getByRole('heading', { name: 'Modifica il profilo utente' });
+  await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
 });
 
 test('Test: go to users Page', async () => {
@@ -100,9 +100,9 @@ test('Test: assign group to user', async () => {
   const assignGroupButtonConfirm = getAllByText(dialogNode, 'Assegna gruppo', { exact: false })[1];
   expect(assignGroupButtonConfirm).toBeDisabled();
 
-  const selectGroup = screen.getByTestId('group-select');
-  const button = within(selectGroup).getByRole('button');
-  fireEvent.mouseDown(button);
+  const selectGroup = document.getElementById('group-select');
+
+  fireEvent.mouseDown(selectGroup);
 
   await waitFor(() => fireEvent.click(screen.getByText('Gruppo7')));
 

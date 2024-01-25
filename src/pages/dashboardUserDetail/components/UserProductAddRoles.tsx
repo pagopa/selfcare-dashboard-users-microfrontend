@@ -139,19 +139,18 @@ export default function UserProductAddRoles({
           title={t('userDetail.actions.newRoleAssignModal.title')}
           message={
             <>
-              <Trans i18nKey="userDetail.actions.newRoleAssignModal.message">
-                {'Assegna a '}
-                <strong> {{ user: `${user.name} ${user.surname}` }} </strong>
-                {'un altro ruolo '}
-                <strong>
-                  {{
-                    userRole: `${t(
-                      roleLabels[userProduct.roles[0].selcRole].longLabelKey
-                    ).toLowerCase()}`,
-                  }}
-                </strong>
-                {' sul prodotto '}
-                <strong> {{ productTitle: `${product.title}:` }} </strong>
+              <Trans
+                i18nKey="userDetail.actions.newRoleAssignModal.message"
+                values={{
+                  user: `${user.name} ${user.surname}`,
+                  userRole: `${t(
+                    roleLabels[userProduct.roles[0].selcRole].longLabelKey
+                  ).toLowerCase()}`,
+                  productTitle: `${product.title}:`,
+                }}
+                components={{ 1: <strong />, 3: <strong />, 5: <strong /> }}
+              >
+                {`Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>`}
               </Trans>
 
               {Object.values(orderedRolesList).map((p) => {

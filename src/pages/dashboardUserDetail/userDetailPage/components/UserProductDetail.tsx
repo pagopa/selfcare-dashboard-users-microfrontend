@@ -88,7 +88,6 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
-
           {party.products.find((pp) => pp.productId === product.id && pp.authorized === false) &&
           !partyUser.isCurrentUser ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
