@@ -2,12 +2,11 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest'
 import { PageResource } from '@pagopa/selfcare-common-frontend/model/PageResource';
 import { User } from '@pagopa/selfcare-common-frontend/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
+import { DashboardApi } from '../api/DashboardApiClient';
 import { Party, UserRole, UserStatus } from '../model/Party';
-import { Product, ProductsMap } from '../model/Product';
+import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
   BasePartyUser,
-  institutionUserResource2PartyUser,
-  institutionUserResource2PartyUserDetail,
   PartyProductUser,
   PartyUser,
   PartyUserDetail,
@@ -15,24 +14,25 @@ import {
   PartyUserOnEdit,
   PartyUserProduct,
   PartyUserProductRole,
+  institutionUserResource2PartyUser,
+  institutionUserResource2PartyUserDetail,
   productUserResource2PartyProductUser,
 } from '../model/PartyUser';
+import { Product, ProductsMap } from '../model/Product';
 import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
-import { DashboardApi } from '../api/DashboardApiClient';
-import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
-  fetchPartyUsers as fetchPartyUsersMocked,
+  addUserProductRoles as addProductUserMocked,
+  deletePartyUser as deletePartyUserMocked,
   fetchPartyProductUsers as fetchPartyProductUsersMocked,
+  fetchPartyUser as fetchPartyUserMocked,
+  fetchPartyUsers as fetchPartyUsersMocked,
+  fetchUserGroups as fetchUserGroupsMocked,
+  fetchUserRegistryById as fetchUserRegistryByIdMocked,
+  mockedUserRegistry,
   savePartyUser as savePartyUserMocked,
   updatePartyUser as updatePartyUserMocked,
   updatePartyUserStatus as updatePartyUserStatusMocked,
-  deletePartyUser as deletePartyUserMocked,
-  fetchPartyUser as fetchPartyUserMocked,
-  fetchUserRegistryById as fetchUserRegistryByIdMocked,
-  fetchUserGroups as fetchUserGroupsMocked,
-  mockedUserRegistry,
-  addUserProductRoles as addProductUserMocked,
 } from './__mocks__/usersService';
 
 const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
@@ -199,14 +199,22 @@ export const updatePartyUserStatus = (
       product_id: product.id,
       product_role: user.userRole,
     });
-    return DashboardApi.activatePartyRelation(role.relationshipId);
+    if (process.env.REACT_APP_API_USERS_ENABLE_V2 === 'true') {
+      return DashboardApi.activatePartyRelationV2(user.id, party.partyId, product.id);
+    } else {
+      return DashboardApi.activatePartyRelation(role.relationshipId);
+    }
   } else if (status === 'SUSPENDED') {
     trackEvent('USER_SUSPEND', {
       party_id: party.partyId,
       product_id: product.id,
       product_role: user.userRole,
     });
-    return DashboardApi.suspendPartyRelation(role.relationshipId);
+    if (process.env.REACT_APP_API_USERS_ENABLE_V2 === 'true') {
+      return DashboardApi.suspendPartyRelationV2(user.id, party.partyId, product.id);
+    } else {
+      return DashboardApi.suspendPartyRelation(role.relationshipId);
+    }
   } else {
     throw new Error(`Not allowed next status: ${status}`);
   }
@@ -227,7 +235,11 @@ export const deletePartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return deletePartyUserMocked(party, user, product, role);
   } else {
-    return DashboardApi.deletePartyRelation(role.relationshipId);
+    if (process.env.REACT_APP_API_USERS_ENABLE_V2 === 'true') {
+      return DashboardApi.deletePartyRelationV2(user.id, party.partyId, product.id);
+    } else {
+      return DashboardApi.deletePartyRelation(role.relationshipId);
+    }
   }
 };
 
