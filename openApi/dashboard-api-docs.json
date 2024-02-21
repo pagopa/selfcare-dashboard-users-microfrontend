@@ -64,7 +64,7 @@
     }
   ],
   "paths": {
-    "/delegations": {
+    "/v1/delegations": {
       "post": {
         "tags": [
           "delegations"
@@ -135,7 +135,7 @@
         ]
       }
     },
-    "/institutions": {
+    "/v1/institutions": {
       "get": {
         "tags": [
           "institutions"
@@ -254,7 +254,7 @@
         ]
       }
     },
-    "/institutions/products": {
+    "/v1/institutions/products": {
       "get": {
         "tags": [
           "institutions"
@@ -326,7 +326,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}": {
+    "/v1/institutions/{institutionId}": {
       "get": {
         "tags": [
           "institutions"
@@ -485,7 +485,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/geographicTaxonomy": {
+    "/v1/institutions/{institutionId}/geographicTaxonomy": {
       "get": {
         "tags": [
           "institutions"
@@ -640,7 +640,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/institutions": {
+    "/v1/institutions/{institutionId}/institutions": {
       "get": {
         "tags": [
           "institutions"
@@ -734,7 +734,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/logo": {
+    "/v1/institutions/{institutionId}/logo": {
       "put": {
         "tags": [
           "institutions"
@@ -829,7 +829,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/partners": {
+    "/v1/institutions/{institutionId}/partners": {
       "get": {
         "tags": [
           "institutions"
@@ -923,7 +923,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/products": {
+    "/v1/institutions/{institutionId}/products": {
       "get": {
         "tags": [
           "institutions"
@@ -1008,7 +1008,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/products/{productId}/users": {
+    "/v1/institutions/{institutionId}/products/{productId}/users": {
       "get": {
         "tags": [
           "institutions"
@@ -1215,7 +1215,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/products/{productId}/users/{userId}": {
+    "/v1/institutions/{institutionId}/products/{productId}/users/{userId}": {
       "put": {
         "tags": [
           "institutions"
@@ -1308,7 +1308,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/users": {
+    "/v1/institutions/{institutionId}/users": {
       "get": {
         "tags": [
           "institutions"
@@ -1428,7 +1428,7 @@
         ]
       }
     },
-    "/institutions/{institutionId}/users/{userId}": {
+    "/v1/institutions/{institutionId}/users/{userId}": {
       "get": {
         "tags": [
           "institutions"
@@ -1519,7 +1519,7 @@
         ]
       }
     },
-    "/onboarding-requests/approve/{tokenId}": {
+    "/v1/onboarding-requests/approve/{tokenId}": {
       "post": {
         "tags": [
           "onboarding"
@@ -1584,7 +1584,7 @@
         ]
       }
     },
-    "/onboarding-requests/reject/{tokenId}": {
+    "/v1/onboarding-requests/reject/{tokenId}": {
       "delete": {
         "tags": [
           "onboarding"
@@ -1649,7 +1649,7 @@
         ]
       }
     },
-    "/onboarding-requests/{tokenId}": {
+    "/v1/onboarding-requests/{tokenId}": {
       "get": {
         "tags": [
           "onboarding"
@@ -1731,7 +1731,7 @@
         ]
       }
     },
-    "/pnPGInstitutions/{institutionId}/products": {
+    "/v1/pnPGInstitutions/{institutionId}/products": {
       "get": {
         "tags": [
           "pnPGInstitutions"
@@ -1815,7 +1815,7 @@
         ]
       }
     },
-    "/products/{productId}/back-office": {
+    "/v1/products/{productId}/back-office": {
       "get": {
         "tags": [
           "products"
@@ -1917,7 +1917,7 @@
         ]
       }
     },
-    "/products/{productId}/brokers/{institutionType}": {
+    "/v1/products/{productId}/brokers/{institutionType}": {
       "get": {
         "tags": [
           "products"
@@ -2023,7 +2023,7 @@
         ]
       }
     },
-    "/products/{productId}/roles": {
+    "/v1/products/{productId}/roles": {
       "get": {
         "tags": [
           "products"
@@ -2107,7 +2107,7 @@
         ]
       }
     },
-    "/relationships/{relationshipId}": {
+    "/v1/relationships/{relationshipId}": {
       "delete": {
         "tags": [
           "relationships"
@@ -2171,7 +2171,7 @@
         ]
       }
     },
-    "/relationships/{relationshipId}/activate": {
+    "/v1/relationships/{relationshipId}/activate": {
       "post": {
         "tags": [
           "relationships"
@@ -2235,7 +2235,7 @@
         ]
       }
     },
-    "/relationships/{relationshipId}/suspend": {
+    "/v1/relationships/{relationshipId}/suspend": {
       "post": {
         "tags": [
           "relationships"
@@ -2299,7 +2299,7 @@
         ]
       }
     },
-    "/support": {
+    "/v1/support": {
       "post": {
         "tags": [
           "external-v2",
@@ -2415,7 +2415,7 @@
         ]
       }
     },
-    "/token/exchange": {
+    "/v1/token/exchange": {
       "get": {
         "tags": [
           "token"
@@ -2516,7 +2516,7 @@
         ]
       }
     },
-    "/token/exchange/fatturazione": {
+    "/v1/token/exchange/fatturazione": {
       "get": {
         "tags": [
           "token"
@@ -2608,7 +2608,7 @@
         ]
       }
     },
-    "/users": {
+    "/v1/users": {
       "post": {
         "tags": [
           "user"
@@ -2688,7 +2688,7 @@
         ]
       }
     },
-    "/users/search": {
+    "/v1/users/search": {
       "post": {
         "tags": [
           "user"
@@ -2778,7 +2778,7 @@
         ]
       }
     },
-    "/users/{id}": {
+    "/v1/users/{id}": {
       "get": {
         "tags": [
           "user"
@@ -3015,7 +3015,7 @@
         ]
       }
     },
-    "/user-groups": {
+    "/v1/user-groups": {
       "get": {
         "tags": [
           "user-groups"
@@ -3155,7 +3155,7 @@
         ]
       }
     },
-    "/user-groups/": {
+    "/v1/user-groups/": {
       "post": {
         "tags": [
           "user-groups"
@@ -3226,7 +3226,7 @@
         ]
       }
     },
-    "/user-groups/{id}": {
+    "/v1/user-groups/{id}": {
       "get": {
         "tags": [
           "user-groups"
@@ -3453,7 +3453,7 @@
         ]
       }
     },
-    "/user-groups/{id}/activate": {
+    "/v1/user-groups/{id}/activate": {
       "post": {
         "tags": [
           "user-groups"
@@ -3517,7 +3517,7 @@
         ]
       }
     },
-    "/user-groups/{id}/members/{userId}": {
+    "/v1/user-groups/{id}/members/{userId}": {
       "post": {
         "tags": [
           "user-groups"
@@ -3592,7 +3592,7 @@
         ]
       }
     },
-    "/user-groups/{id}/suspend": {
+    "/v1/user-groups/{id}/suspend": {
       "post": {
         "tags": [
           "user-groups"
@@ -3656,7 +3656,7 @@
         ]
       }
     },
-    "/user-groups/{userGroupId}/members/{userId}": {
+    "/v1/user-groups/{userGroupId}/members/{userId}": {
       "delete": {
         "tags": [
           "user-groups"
@@ -3850,90 +3850,6 @@
         ]
       }
     },
-    "/v2/users/{id}": {
-      "put": {
-        "tags": [
-          "user"
-        ],
-        "summary": "updateUser",
-        "description": "Update previously added user",
-        "operationId": "updateUserUsingPUT_1",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "User's unique identifier",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "institutionId",
-            "in": "query",
-            "description": "Institution's unique internal identifier",
-            "required": true,
-            "style": "form",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "global"
-            ]
-          }
-        ]
-      }
-    },
     "/v2/{userId}": {
       "delete": {
         "tags": [
@@ -3946,7 +3862,7 @@
           {
             "name": "userId",
             "in": "path",
-            "description": "${swagger.dashboard.user.model.userId}",
+            "description": "User's unique identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4030,7 +3946,7 @@
           {
             "name": "userId",
             "in": "path",
-            "description": "${swagger.dashboard.user.model.userId}",
+            "description": "User's unique identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4114,7 +4030,7 @@
           {
             "name": "userId",
             "in": "path",
-            "description": "Unique relationship identifier between User and Product",
+            "description": "User's unique identifier",
             "required": true,
             "style": "simple",
             "schema": {
@@ -4124,7 +4040,7 @@
           {
             "name": "institutionId",
             "in": "query",
-            "description": "institutionId",
+            "description": "Institution's identifier",
             "required": true,
             "style": "form",
             "schema": {
