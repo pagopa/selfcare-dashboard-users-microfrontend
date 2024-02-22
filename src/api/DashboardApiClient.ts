@@ -24,7 +24,7 @@ const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   };
 
 const apiClient = createClient({
-  baseUrl: 'https://api.dev.selfcare.pagopa.it/dashboard',
+  baseUrl: ENV.URL_API.API_DASHBOARD,
   basePath: '',
   fetchApi: buildFetchApi(ENV.API_TIMEOUT_MS.DASHBOARD),
   withDefaults: withBearerAndInstitutionId,
