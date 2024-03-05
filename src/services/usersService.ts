@@ -21,6 +21,7 @@ import {
 import { Product, ProductsMap } from '../model/Product';
 import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
+import { ENV } from '../utils/env';
 import {
   addUserProductRoles as addProductUserMocked,
   deletePartyUser as deletePartyUserMocked,
@@ -182,8 +183,6 @@ export const updatePartyUser = (party: Party, user: PartyUserOnEdit): Promise<an
   }
 };
 
-const ENABLE_V2 = false;
-
 export const updatePartyUserStatus = (
   party: Party,
   user: BasePartyUser,
@@ -201,7 +200,7 @@ export const updatePartyUserStatus = (
       product_id: product.id,
       product_role: user.userRole,
     });
-    if (ENABLE_V2) {
+    if (ENV.USER.ENABLE_USER_V2 === 'true') {
       return DashboardApi.activatePartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.activatePartyRelation(role.relationshipId);
@@ -212,7 +211,7 @@ export const updatePartyUserStatus = (
       product_id: product.id,
       product_role: user.userRole,
     });
-    if (ENABLE_V2) {
+    if (ENV.USER.ENABLE_USER_V2 === 'true') {
       return DashboardApi.suspendPartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.suspendPartyRelation(role.relationshipId);
@@ -237,7 +236,7 @@ export const deletePartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return deletePartyUserMocked(party, user, product, role);
   } else {
-    if (ENABLE_V2) {
+    if (ENV.USER.ENABLE_USER_V2 === 'true') {
       return DashboardApi.deletePartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.deletePartyRelation(role.relationshipId);
