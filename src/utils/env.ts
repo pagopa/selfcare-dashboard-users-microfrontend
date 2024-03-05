@@ -37,7 +37,7 @@ export const ENV = {
   },
 
   USER: {
-    ENABLE_USER_V2: env.get('REACT_APP_ENABLE_USER_V2').required().asString(),
+    ENABLE_USER_V2: env.get('REACT_APP_ENABLE_USER_V2').required().asBool(),
   },
 
   PARTY_USERS_PAGE_SIZE: env.get('REACT_APP_PARTY_USERS_PAGE_SIZE').required().asInt(),

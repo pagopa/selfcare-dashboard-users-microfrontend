@@ -200,7 +200,7 @@ export const updatePartyUserStatus = (
       product_id: product.id,
       product_role: user.userRole,
     });
-    if (ENV.USER.ENABLE_USER_V2 === 'true') {
+    if (ENV.USER.ENABLE_USER_V2) {
       return DashboardApi.activatePartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.activatePartyRelation(role.relationshipId);
@@ -211,7 +211,7 @@ export const updatePartyUserStatus = (
       product_id: product.id,
       product_role: user.userRole,
     });
-    if (ENV.USER.ENABLE_USER_V2 === 'true') {
+    if (ENV.USER.ENABLE_USER_V2) {
       return DashboardApi.suspendPartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.suspendPartyRelation(role.relationshipId);
@@ -236,7 +236,7 @@ export const deletePartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return deletePartyUserMocked(party, user, product, role);
   } else {
-    if (ENV.USER.ENABLE_USER_V2 === 'true') {
+    if (ENV.USER.ENABLE_USER_V2) {
       return DashboardApi.deletePartyRelationV2(user.id, party.partyId, product.id);
     } else {
       return DashboardApi.deletePartyRelation(role.relationshipId);
