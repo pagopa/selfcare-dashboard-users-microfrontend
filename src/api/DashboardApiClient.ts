@@ -139,6 +139,7 @@ export const DashboardApi = {
     return extractResponse(result, 204, onRedirectToLogin);
   },
 
+  // TODO suspendPartyRelation to be replaced by suspendPartyRelationV2 once BE development of USER is done
   suspendPartyRelation: async (relationshipId: string): Promise<void> => {
     const result = await apiClient.suspendRelationshipUsingPOST({
       relationshipId,
@@ -146,6 +147,20 @@ export const DashboardApi = {
     return extractResponse(result, 204, onRedirectToLogin);
   },
 
+  suspendPartyRelationV2: async (
+    userId: string,
+    institutionId: string,
+    productId: string
+  ): Promise<void> => {
+    const result = await apiClient.suspendRelationshipUsingPOST_1({
+      userId,
+      institutionId,
+      productId,
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
+  // TODO activatePartyRelation to be replaced by activatePartyRelationV2 once BE development of USER is done
   activatePartyRelation: async (relationshipId: string): Promise<void> => {
     const result = await apiClient.activateRelationshipUsingPOST({
       relationshipId,
@@ -153,9 +168,36 @@ export const DashboardApi = {
     return extractResponse(result, 204, onRedirectToLogin);
   },
 
+  activatePartyRelationV2: async (
+    userId: string,
+    institutionId: string,
+    productId: string
+  ): Promise<void> => {
+    const result = await apiClient.activateRelationshipUsingPOST_1({
+      userId,
+      institutionId,
+      productId,
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
+  // TODO deletePartyRelation to be replaced by deletePartyRelationV2 once BE development of USER  is done
   deletePartyRelation: async (relationshipId: string): Promise<void> => {
     const result = await apiClient.deleteRelationshipByIdUsingDELETE({
       relationshipId,
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
+  deletePartyRelationV2: async (
+    userId: string,
+    institutionId: string,
+    productId: string
+  ): Promise<void> => {
+    const result = await apiClient.deleteRelationshipByIdUsingDELETE_1({
+      userId,
+      institutionId,
+      productId,
     });
     return extractResponse(result, 204, onRedirectToLogin);
   },
