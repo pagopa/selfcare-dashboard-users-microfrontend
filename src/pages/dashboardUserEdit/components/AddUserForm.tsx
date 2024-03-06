@@ -215,7 +215,7 @@ export default function AddUserForm({
       id: 'FETCH_TAX_CODE',
       blocking: false,
       error: errors,
-      techDescription: `An error occurred while fetching Tax Code of Product ${taxCode}`,
+      techDescription: `An error occurred while fetching Fiscal Code of Product ${taxCode}`,
       toNotify: true,
     });
 

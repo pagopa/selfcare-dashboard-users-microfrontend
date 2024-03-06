@@ -80,7 +80,7 @@ export default {
     title: 'User Profile',
     name: 'Name',
     surname: 'Surname',
-    fiscalCode: 'Tax Code',
+    fiscalCode: 'Fiscal Code',
     institutionalEmail: 'Institutional email',
     institution: 'ENTITY',
     editButton: 'Edit',
@@ -182,8 +182,8 @@ export default {
   },
   userEdit: {
     mismatchWithTaxCode: {
-      name: 'Incorrect name or different from Tax Code',
-      surname: 'Incorrect surname or different from the Tax Code',
+      name: 'Incorrect name or different from Fiscal Code',
+      surname: 'Incorrect surname or different from the Fiscal Code',
     },
     addForm: {
       title: 'Add a new user',
@@ -192,7 +192,7 @@ export default {
         label: 'User data',
       },
       fiscalCode: {
-        label: 'Tax Code',
+        label: 'Fiscal Code',
       },
       name: {
         label: 'Name',
@@ -215,7 +215,7 @@ export default {
       backButton: 'Back',
       continueButton: 'Continue',
       errors: {
-        invalidFiscalCode: 'The Tax Code is not valid ',
+        invalidFiscalCode: 'The Fiscal Code is not valid ',
         invalidEmail: 'The email address is not valid',
         mismatchEmail: 'The email addresses do not match',
       },
@@ -239,7 +239,7 @@ export default {
     editRegistryForm: {
       title: 'Edit user profile',
       fiscalCode: {
-        label: 'Tax Code',
+        label: 'Fiscal Code',
       },
       name: {
         label: 'Name',
@@ -269,7 +269,7 @@ export default {
       subTitle: 'Select the product and role you want to assign to the user.',
       name: 'Name',
       surname: 'Surname',
-      fiscalCode: 'Tax code',
+      fiscalCode: 'Fiscal code',
     },
   },
   usersPage: {

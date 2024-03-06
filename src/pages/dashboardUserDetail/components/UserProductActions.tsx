@@ -183,10 +183,10 @@ export default function UserProductActions({
           error: reason,
           displayableTitle:
             `${selectedUserStatus}` === 'sospeso'
-              ? t('userDetail.action.changeUserStatusSuspendError')
+              ? t('userDetail.actions.changeUserStatusSuspendError')
               : `${selectedUserStatus}` === 'riabilitato'
-              ? t('userDetail.action.changeUserStatusRehabilitateError')
-              : t('userDetail.action.changeUserStatusRemoveError'),
+              ? t('userDetail.actions.changeUserStatusRehabilitateError')
+              : t('userDetail.actions.changeUserStatusRemoveError'),
           techDescription: `An error occurred while updating party (${party.partyId}) user (${user.id}): ${user.status} -> ${nextStatus}`,
           toNotify: true,
         })
