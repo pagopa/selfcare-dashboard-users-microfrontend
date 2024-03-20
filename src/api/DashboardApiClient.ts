@@ -139,6 +139,19 @@ export const DashboardApi = {
     return extractResponse(result, 204, onRedirectToLogin);
   },
 
+  updatePartyUserV2: async (institutionId: string, user: PartyUserOnEdit): Promise<void> => {
+    const result = await apiClient.updateUserUsingPUT_1({
+      institutionId,
+      id: user.id,
+      body: {
+        email: user.certifiedMail ? undefined : user.email,
+        name: user.certifiedName ? undefined : user.name,
+        surname: user.certifiedSurname ? undefined : user.surname,
+      },
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
   // TODO suspendPartyRelation to be replaced by suspendPartyRelationV2 once BE development of USER is done
   suspendPartyRelation: async (relationshipId: string): Promise<void> => {
     const result = await apiClient.suspendRelationshipUsingPOST({
