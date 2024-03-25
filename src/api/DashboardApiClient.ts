@@ -1,18 +1,18 @@
-import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
 import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
 import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
+import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
-import { ENV } from '../utils/env';
 import { ProductRole } from '../model/ProductRole';
-import { createClient, WithDefaultsT } from './generated/b4f-dashboard/client';
-import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
-import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
-import { UserResource } from './generated/b4f-dashboard/UserResource';
+import { ENV } from '../utils/env';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
-import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
+import { InstitutionUserResource } from './generated/b4f-dashboard/InstitutionUserResource';
 import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
+import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
+import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
+import { UserResource } from './generated/b4f-dashboard/UserResource';
+import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -86,6 +86,19 @@ export const DashboardApi = {
       productId,
       role,
       productRoles: productRoles?.map((r) => r.productRole).join(','),
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  getPartyProductUsersV2: async (
+    institutionId: string,
+    productId?: string
+    // productRoles?: Array<ProductRole>
+  ): Promise<Array<ProductUserResource>> => {
+    const result = await apiClient.getUsersUsingGET({
+      institutionId,
+      productId,
+      // productRoles: productRoles?.map((r) => r.productRole).join(','),
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
