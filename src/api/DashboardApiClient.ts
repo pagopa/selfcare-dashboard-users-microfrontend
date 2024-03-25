@@ -270,6 +270,17 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  fetchUserRegistryByFiscalCodeV2: async (
+    taxCode: string,
+    institutionId: string
+  ): Promise<UserResource | null> => {
+    const result = await apiClient.searchUsingPOST_1({
+      institutionId,
+      body: { fiscalCode: taxCode },
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   fetchUserGroups: async (
     institutionId: string,
     pageRequest: PageRequest,
