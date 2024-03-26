@@ -279,6 +279,11 @@ export const fetchUserRegistryById = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return fetchUserRegistryByIdMocked(partyId, userId);
   } else {
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.fetchUserRegistryByIdV2(partyId, userId).then((userResource) =>
+        userResource ? userResource2UserRegistry(userResource) : null
+      );
+    }
     return DashboardApi.fetchUserRegistryById(partyId, userId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
