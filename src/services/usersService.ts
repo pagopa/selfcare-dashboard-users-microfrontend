@@ -90,15 +90,17 @@ export const fetchPartyProductUsers = (
       productRoles
     );
   } else {
+    
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.getPartyProductUsersV2(party.partyId, product.id).then((r) =>
+        // TODO fixme when API will support pagination
+        toFakePagination(
+          r.map((u) => productUserResource2PartyProductUser(u, product, currentUser))
+        )
+      );
+    }
+
     if (party.products.find((p) => product.id === p.productId && p.userRole === 'ADMIN')) {
-      if (ENV.USER.ENABLE_USER_V2) {
-        return DashboardApi.getPartyProductUsersV2(party.partyId, product.id).then((r) =>
-          // TODO fixme when API will support pagination
-          toFakePagination(
-            r.map((u) => productUserResource2PartyProductUser(u, product, currentUser))
-          )
-        );
-      }
       // This API is allowed only for ADMIN users
       return DashboardApi.getPartyProductUsers(
         party.partyId,
