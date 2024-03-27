@@ -67,11 +67,27 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  getPartyUserV2: async (
+    institutionId: string,
+    userId: string
+  ): Promise<InstitutionUserDetailsResource | null> => {
+    const result = await apiClient.v2RetrieveInstitutionUser({ institutionId, userId });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   fetchUserRegistryById: async (
     institutionId: string,
     userId: string
   ): Promise<UserResource | null> => {
     const result = await apiClient.getUserByInternalIdUsingGET({ institutionId, id: userId });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  fetchUserRegistryByIdV2: async (
+    institutionId: string,
+    userId: string
+  ): Promise<UserResource | null> => {
+    const result = await apiClient.v2GetUserByIdUsingGET({ institutionId, id: userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
@@ -109,6 +125,25 @@ export const DashboardApi = {
     return extractResponse(result, 201, onRedirectToLogin);
   },
 
+  savePartyUserV2: async (
+    institutionId: string,
+    productId: string,
+    user: PartyUserOnCreation
+  ): Promise<UserIdResource> => {
+    const result = await apiClient.v2PostCreateInstitutionProductUser({
+      institutionId,
+      productId,
+      body: {
+        productRoles: user.productRoles,
+        taxCode: user.taxCode,
+        email: (user.certifiedMail ? undefined : user.email) as EmailString,
+        surname: user.certifiedSurname ? undefined : user.surname,
+        name: user.certifiedName ? undefined : user.name,
+      },
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
+  },
+
   addUserProductRoles: async (
     institutionId: string,
     productId: string,
@@ -116,6 +151,23 @@ export const DashboardApi = {
     user: PartyUserOnCreation
   ): Promise<void> => {
     const result = await apiClient.addUserProductRolesUsingPUT({
+      institutionId,
+      productId,
+      userId,
+      body: {
+        productRoles: user.productRoles,
+      },
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
+  },
+
+  addUserProductRolesV2: async (
+    institutionId: string,
+    productId: string,
+    userId: string,
+    user: PartyUserOnCreation
+  ): Promise<void> => {
+    const result = await apiClient.v2AddUserProductRole({
       institutionId,
       productId,
       userId,
@@ -140,7 +192,7 @@ export const DashboardApi = {
   },
 
   updatePartyUserV2: async (institutionId: string, user: PartyUserOnEdit): Promise<void> => {
-    const result = await apiClient.updateUserUsingPUT_1({
+    const result = await apiClient.v2UpdateUserUsingPUT({
       institutionId,
       id: user.id,
       body: {
@@ -165,7 +217,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.suspendRelationshipUsingPOST_1({
+    const result = await apiClient.v2SuspendRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -186,7 +238,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.activateRelationshipUsingPOST_1({
+    const result = await apiClient.v2ActivateRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -207,7 +259,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.deleteRelationshipByIdUsingDELETE_1({
+    const result = await apiClient.v2DeleteRelationshipByIdUsingDELETE({
       userId,
       institutionId,
       productId,
@@ -226,6 +278,17 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  fetchUserRegistryByFiscalCodeV2: async (
+    taxCode: string,
+    institutionId: string
+  ): Promise<UserResource | null> => {
+    const result = await apiClient.v2SearchUserByFiscalCodeUsingPOST({
+      institutionId,
+      body: { fiscalCode: taxCode },
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   fetchUserGroups: async (
     institutionId: string,
     pageRequest: PageRequest,
@@ -233,6 +296,23 @@ export const DashboardApi = {
     userId: string
   ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
+      institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      productId,
+      userId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  fetchUserGroupsV2: async (
+    institutionId: string,
+    pageRequest: PageRequest,
+    productId: string,
+    userId: string
+  ): Promise<PageOfUserGroupPlainResource> => {
+    const result = await apiClient.getUserGroupsUsingGET_1({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
@@ -258,12 +338,35 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  fetchPartyGroupsV2: async (
+    productId: string,
+    institutionId: string,
+    pageRequest: PageRequest
+  ): Promise<PageOfUserGroupPlainResource> => {
+    const result = await apiClient.getUserGroupsUsingGET_1({
+      institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      productId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   addMemberToUserGroup: async (id: string, userId: string): Promise<void> => {
     const result = await apiClient.addMemberToUserGroupUsingPOST({
       id,
       userId,
     });
 
+    return extractResponse(result, 204, onRedirectToLogin, 404);
+  },
+
+  addMemberToUserGroupV2: async (id: string, userId: string): Promise<void> => {
+    const result = await apiClient.addMemberToUserGroupUsingPOST_1({
+      id,
+      userId,
+    });
     return extractResponse(result, 204, onRedirectToLogin, 404);
   },
 };
