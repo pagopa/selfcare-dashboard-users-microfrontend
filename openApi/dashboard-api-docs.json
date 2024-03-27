@@ -1388,8 +1388,6 @@
         } ]
       }
     },
-<<<<<<< Updated upstream
-=======
     "/v2/institutions/{institutionId}" : {
       "get" : {
         "tags" : [ "institutions" ],
@@ -1627,7 +1625,6 @@
         } ]
       }
     },
->>>>>>> Stashed changes
     "/v2/institutions/{institutionId}/users/{userId}" : {
       "get" : {
         "tags" : [ "institutions" ],
@@ -3716,8 +3713,6 @@
         } ]
       }
     },
-<<<<<<< Updated upstream
-=======
     "/v2/user-groups" : {
       "get" : {
         "tags" : [ "user-groups" ],
@@ -4481,15 +4476,11 @@
         } ]
       }
     },
->>>>>>> Stashed changes
     "/v2/users/search" : {
       "post" : {
         "tags" : [ "user" ],
         "summary" : "search",
         "description" : "Retrieve the user for a given fiscal code",
-<<<<<<< Updated upstream
-        "operationId" : "searchUsingPOST_1",
-=======
         "operationId" : "v2SearchUserByFiscalCodeUsingPOST",
         "parameters" : [ {
           "name" : "institutionId",
@@ -4501,7 +4492,6 @@
             "type" : "string"
           }
         } ],
->>>>>>> Stashed changes
         "requestBody" : {
           "content" : {
             "application/json" : {
