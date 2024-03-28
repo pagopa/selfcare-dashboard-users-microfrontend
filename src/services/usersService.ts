@@ -179,6 +179,9 @@ export const updatePartyUser = (party: Party, user: PartyUserOnEdit): Promise<an
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return updatePartyUserMocked(party, user);
   } else {
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.updatePartyUserV2(party.partyId, user);
+    }
     return DashboardApi.updatePartyUser(party.partyId, user);
   }
 };
@@ -286,6 +289,11 @@ export const fetchUserGroups = (
   if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, pageRequest, product, userId);
   } else {
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.fetchUserGroupsV2(party.partyId, pageRequest, product.id, userId).then(
+        (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
+      );
+    }
     return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
       (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
     );
