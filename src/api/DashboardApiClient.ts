@@ -71,7 +71,7 @@ export const DashboardApi = {
     institutionId: string,
     userId: string
   ): Promise<InstitutionUserDetailsResource | null> => {
-    const result = await apiClient.getInstitutionUserUsingGET_1({ institutionId, userId });
+    const result = await apiClient.v2RetrieveInstitutionUser({ institutionId, userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
@@ -87,7 +87,7 @@ export const DashboardApi = {
     institutionId: string,
     userId: string
   ): Promise<UserResource | null> => {
-    const result = await apiClient.getUserByIdUsingGET({ institutionId, id: userId });
+    const result = await apiClient.v2GetUserByIdUsingGET({ institutionId, id: userId });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
@@ -130,7 +130,7 @@ export const DashboardApi = {
     productId: string,
     user: PartyUserOnCreation
   ): Promise<UserIdResource> => {
-    const result = await apiClient.createInstitutionProductUserUsingPOST_1({
+    const result = await apiClient.v2PostCreateInstitutionProductUser({
       institutionId,
       productId,
       body: {
@@ -167,7 +167,7 @@ export const DashboardApi = {
     userId: string,
     user: PartyUserOnCreation
   ): Promise<void> => {
-    const result = await apiClient.addUserProductRolesUsingPUT_1({
+    const result = await apiClient.v2AddUserProductRole({
       institutionId,
       productId,
       userId,
@@ -192,7 +192,7 @@ export const DashboardApi = {
   },
 
   updatePartyUserV2: async (institutionId: string, user: PartyUserOnEdit): Promise<void> => {
-    const result = await apiClient.updateUserUsingPUT_1({
+    const result = await apiClient.v2UpdateUserUsingPUT({
       institutionId,
       id: user.id,
       body: {
@@ -217,7 +217,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.suspendRelationshipUsingPOST_1({
+    const result = await apiClient.v2SuspendRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -238,7 +238,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.activateRelationshipUsingPOST_1({
+    const result = await apiClient.v2ActivateRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -259,7 +259,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.deleteRelationshipByIdUsingDELETE_1({
+    const result = await apiClient.v2DeleteRelationshipByIdUsingDELETE({
       userId,
       institutionId,
       productId,
@@ -282,7 +282,7 @@ export const DashboardApi = {
     taxCode: string,
     institutionId: string
   ): Promise<UserResource | null> => {
-    const result = await apiClient.searchUsingPOST_1({
+    const result = await apiClient.v2SearchUserByFiscalCodeUsingPOST({
       institutionId,
       body: { fiscalCode: taxCode },
     });
@@ -296,6 +296,23 @@ export const DashboardApi = {
     userId: string
   ): Promise<PageOfUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
+      institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      productId,
+      userId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  fetchUserGroupsV2: async (
+    institutionId: string,
+    pageRequest: PageRequest,
+    productId: string,
+    userId: string
+  ): Promise<PageOfUserGroupPlainResource> => {
+    const result = await apiClient.getUserGroupsUsingGET_1({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
@@ -321,12 +338,35 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  fetchPartyGroupsV2: async (
+    productId: string,
+    institutionId: string,
+    pageRequest: PageRequest
+  ): Promise<PageOfUserGroupPlainResource> => {
+    const result = await apiClient.getUserGroupsUsingGET_1({
+      institutionId,
+      page: pageRequest.page,
+      size: pageRequest.size,
+      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      productId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   addMemberToUserGroup: async (id: string, userId: string): Promise<void> => {
     const result = await apiClient.addMemberToUserGroupUsingPOST({
       id,
       userId,
     });
 
+    return extractResponse(result, 204, onRedirectToLogin, 404);
+  },
+
+  addMemberToUserGroupV2: async (id: string, userId: string): Promise<void> => {
+    const result = await apiClient.addMemberToUserGroupUsingPOST_1({
+      id,
+      userId,
+    });
     return extractResponse(result, 204, onRedirectToLogin, 404);
   },
 };
