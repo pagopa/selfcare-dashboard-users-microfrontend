@@ -90,9 +90,8 @@ export const fetchPartyProductUsers = (
       productRoles
     );
   } else {
-    
     if (ENV.USER.ENABLE_USER_V2) {
-      return DashboardApi.getPartyProductUsersV2(party.partyId, product.id).then((r) =>
+      return DashboardApi.getPartyProductUsersV2(party.partyId, productRoles).then((r) =>
         // TODO fixme when API will support pagination
         toFakePagination(
           r.map((u) => productUserResource2PartyProductUser(u, product, currentUser))

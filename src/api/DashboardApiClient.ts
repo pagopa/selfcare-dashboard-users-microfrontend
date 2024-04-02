@@ -92,13 +92,11 @@ export const DashboardApi = {
 
   getPartyProductUsersV2: async (
     institutionId: string,
-    productId?: string
-    // productRoles?: Array<ProductRole>
+    productRoles?: Array<ProductRole>
   ): Promise<Array<ProductUserResource>> => {
-    const result = await apiClient.getUsersUsingGET({
+    const result = await apiClient.v2GetUsersUsingGET({
       institutionId,
-      productId,
-      // productRoles: productRoles?.map((r) => r.productRole).join(','),
+      productRoles: productRoles?.map((r) => r.productRole).join(','),
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
@@ -153,7 +151,7 @@ export const DashboardApi = {
   },
 
   updatePartyUserV2: async (institutionId: string, user: PartyUserOnEdit): Promise<void> => {
-    const result = await apiClient.updateUserUsingPUT_1({
+    const result = await apiClient.v2UpdateUserUsingPUT({
       institutionId,
       id: user.id,
       body: {
@@ -178,7 +176,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.suspendRelationshipUsingPOST_1({
+    const result = await apiClient.v2SuspendRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -199,7 +197,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.activateRelationshipUsingPOST_1({
+    const result = await apiClient.v2ActivateRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
@@ -220,7 +218,7 @@ export const DashboardApi = {
     institutionId: string,
     productId: string
   ): Promise<void> => {
-    const result = await apiClient.deleteRelationshipByIdUsingDELETE_1({
+    const result = await apiClient.v2DeleteRelationshipByIdUsingDELETE({
       userId,
       institutionId,
       productId,
