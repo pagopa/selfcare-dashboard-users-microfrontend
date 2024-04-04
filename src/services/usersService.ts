@@ -143,7 +143,10 @@ export const fetchPartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return fetchPartyUserMocked(partyId, userId, currentUser);
   } else {
-    return DashboardApi.getPartyUser(partyId, userId).then((u) => {
+    const getPartyUserApi = ENV.USER.ENABLE_USER_V2
+      ? DashboardApi.getPartyUserV2
+      : DashboardApi.getPartyUser;
+    return getPartyUserApi(partyId, userId).then((u) => {
       if (u) {
         return institutionUserResource2PartyUserDetail(u, productsMap, currentUser);
       } else {
@@ -162,9 +165,10 @@ export const savePartyUser = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return savePartyUserMocked(party, product, user);
   } else {
-    return DashboardApi.savePartyUser(party.partyId, product.id, user).then(
-      (idResource) => idResource.id
-    );
+    const savePartyUserApi = ENV.USER.ENABLE_USER_V2
+      ? DashboardApi.savePartyUserV2
+      : DashboardApi.savePartyUser;
+    return savePartyUserApi(party.partyId, product.id, user).then((idResource) => idResource.id);
   }
 };
 
@@ -178,9 +182,10 @@ export const addUserProductRoles = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return addProductUserMocked(party, product, userId, user);
   } else {
-    return DashboardApi.addUserProductRoles(party.partyId, product.id, userId, user).then(
-      (_) => userId
-    );
+    const addUserProductRoleApi = ENV.USER.ENABLE_USER_V2
+      ? DashboardApi.addUserProductRolesV2
+      : DashboardApi.addUserProductRoles;
+    return addUserProductRoleApi(party.partyId, product.id, userId, user).then((_) => userId);
   }
 };
 
@@ -265,6 +270,11 @@ export const fetchUserRegistryByFiscalCode = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return new Promise((resolve) => resolve(mockedUserRegistry));
   } else {
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.fetchUserRegistryByFiscalCodeV2(taxCode, partyId).then((userResource) =>
+        userResource ? userResource2UserRegistry(userResource) : null
+      );
+    }
     return DashboardApi.fetchUserRegistryByFiscalCode(taxCode, partyId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
@@ -279,6 +289,11 @@ export const fetchUserRegistryById = (
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return fetchUserRegistryByIdMocked(partyId, userId);
   } else {
+    if (ENV.USER.ENABLE_USER_V2) {
+      return DashboardApi.fetchUserRegistryByIdV2(partyId, userId).then((userResource) =>
+        userResource ? userResource2UserRegistry(userResource) : null
+      );
+    }
     return DashboardApi.fetchUserRegistryById(partyId, userId).then((userResource) =>
       userResource ? userResource2UserRegistry(userResource) : null
     );
