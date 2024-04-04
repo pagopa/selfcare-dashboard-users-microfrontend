@@ -106,6 +106,17 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  getPartyProductUsersV2: async (
+    institutionId: string,
+    productRoles?: Array<ProductRole>
+  ): Promise<Array<ProductUserResource>> => {
+    const result = await apiClient.v2GetUsersUsingGET({
+      institutionId,
+      productRoles: productRoles?.map((r) => r.productRole).join(','),
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   savePartyUser: async (
     institutionId: string,
     productId: string,
