@@ -228,12 +228,14 @@ export const DashboardApi = {
   suspendPartyRelationV2: async (
     userId: string,
     institutionId: string,
-    productId: string
+    productId: string,
+    productRole?: string
   ): Promise<void> => {
     const result = await apiClient.v2SuspendRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
+      productRole,
     });
     return extractResponse(result, 204, onRedirectToLogin);
   },
@@ -249,12 +251,14 @@ export const DashboardApi = {
   activatePartyRelationV2: async (
     userId: string,
     institutionId: string,
-    productId: string
+    productId: string,
+    productRole?: string
   ): Promise<void> => {
     const result = await apiClient.v2ActivateRelationshipUsingPOST({
       userId,
       institutionId,
       productId,
+      productRole,
     });
     return extractResponse(result, 204, onRedirectToLogin);
   },
@@ -270,12 +274,14 @@ export const DashboardApi = {
   deletePartyRelationV2: async (
     userId: string,
     institutionId: string,
-    productId: string
+    productId: string,
+    productRole?: string
   ): Promise<void> => {
     const result = await apiClient.v2DeleteRelationshipByIdUsingDELETE({
       userId,
       institutionId,
       productId,
+      productRole,
     });
     return extractResponse(result, 204, onRedirectToLogin);
   },
