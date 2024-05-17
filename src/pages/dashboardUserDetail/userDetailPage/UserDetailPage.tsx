@@ -66,18 +66,18 @@ function UserDetailPage({
       })
     );
 
-  const goBack = () => history.goBack();
-  // history.push(
-  //   resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-  //     partyId: party.partyId,
-  //   })
-  // );
+  const goToUsersSection = () =>
+    history.push(
+      resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
+        partyId: party.partyId,
+      })
+    );
 
   const onDelete = () => {
     setLoading(true);
     deletePartyUser(party, partyUser, product, product.roles[0])
       .then((_) => {
-        goBack();
+        goToUsersSection();
         addNotify({
           component: 'Toast',
           id: 'DELETE_PARTY_USER',
@@ -127,12 +127,7 @@ function UserDetailPage({
     {
       icon: !isPnpg ? PeopleAltIcon : undefined,
       description: t('userDetail.pathDescription'),
-      onClick: () =>
-        history.push(
-          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.path, {
-            partyId: party.partyId,
-          })
-        ),
+      onClick: () => goToUsersSection,
     },
     {
       description: partyUser.name + ' ' + partyUser.surname,
@@ -154,7 +149,11 @@ function UserDetailPage({
     >
       <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={3}>
-          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} />
+          <ProductNavigationBar
+            paths={paths as any}
+            showBackComponent={true}
+            goBack={goToUsersSection}
+          />
         </Grid>
         <Grid container item mb={4} xs={12}>
           <Grid item xs={10}>
