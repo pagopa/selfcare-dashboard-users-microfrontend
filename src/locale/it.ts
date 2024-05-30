@@ -212,6 +212,8 @@ export default {
       role: {
         title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
+      bannerText:
+        'Per aggiungere un Amministratore, segui le indicazioni che trovi <1>in questa pagina</1>.',
       backButton: 'Indietro',
       continueButton: 'Continua',
       errors: {
