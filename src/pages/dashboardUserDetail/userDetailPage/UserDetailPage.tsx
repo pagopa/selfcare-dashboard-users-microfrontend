@@ -173,7 +173,7 @@ function UserDetailPage({
               xs={12}
               sm={2}
               display="flex"
-              justifyContent={!isPnpg ? 'normal' : 'flex-end'}
+              justifyContent="flex-end"
               sx={{
                 [theme.breakpoints.down('sm')]: {
                   justifyContent: 'flex-start',
@@ -219,7 +219,6 @@ function UserDetailPage({
           item
           sx={{
             backgroundColor: isPnpg ? 'background.paper' : undefined,
-            padding: !isPnpg ? 3 : 0,
             borderRadius: '4px',
           }}
         >

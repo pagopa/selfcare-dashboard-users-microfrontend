@@ -15,6 +15,8 @@ import {
   FormControl,
   OutlinedInput,
   Stack,
+  Alert,
+  Link,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
@@ -643,6 +645,28 @@ export default function AddUserForm({
               </FormControl>
             </Grid>
           ) : undefined}
+
+          {userProduct?.id === 'prod-interop' && (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              <Trans
+                i18nKey="userEdit.addForm.bannerText"
+                components={{
+                  1: (
+                    <Link
+                      href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                      color={'text.primary'}
+                      sx={{ textDecorationColor: 'text.primary' }}
+                      target="_blank"
+                    />
+                  ),
+                }}
+              >
+                {
+                  'Per aggiungere un Amministratore, segui le indicazioni che trovi <1>in questa pagina</1>.'
+                }
+              </Trans>
+            </Alert>
+          )}
 
           {productRoles && (
             <Grid item container xs={12} mb={3} sx={{ flexDirection: 'column' }}>
