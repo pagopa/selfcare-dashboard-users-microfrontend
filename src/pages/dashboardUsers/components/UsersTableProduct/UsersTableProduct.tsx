@@ -14,6 +14,7 @@ import { useAppSelector } from '../../../../redux/hooks';
 import { fetchPartyProductUsers } from '../../../../services/usersService';
 import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
 import { ProductRolesLists } from '../../../../model/ProductRole';
+import { sortedUsers } from '../../../../utils/utils';
 import UsersProductTable from './components/UsersProductTable';
 import UserProductFetchError from './components/UserProductFetchError';
 
@@ -66,7 +67,7 @@ const UsersTableProduct = ({
       productsMap,
       undefined,
       filterConfiguration.productRoles.filter((r) => r.productId === product.id)
-    ).then((data) => data.content)
+    ).then((data) =>  sortedUsers(data.content))
   );
 
   const previousInitialPageSize = useRef(initialPageSize);
@@ -145,6 +146,10 @@ const UsersTableProduct = ({
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    console.log('fetching users', users);
+  }, [users]);
 
   const onDelete = (partyUser: PartyProductUser) => {
     if (incrementalLoad) {
