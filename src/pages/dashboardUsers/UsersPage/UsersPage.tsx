@@ -118,7 +118,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   return (
     <div style={{ width: '100%' }}>
-      <Grid container p={3} sx={{ backgroundColor: 'transparent !important' }}>
+      <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
         <Grid container xs={12} sx={{ display: 'flex' }}>
           <Grid item xs={9} alignItems="flex-end">
             <TitleBox
@@ -196,7 +196,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               position: 'sticky',
               top: 0,
               zIndex: 100,
-              backgroundColor: '#F5F6F7',
+              backgroundColor: '#F5F5F5',
             }}
           >
             <Tabs variant="fullWidth" scrollButtons="auto" value={selectedProductSection ?? 'all'}>
