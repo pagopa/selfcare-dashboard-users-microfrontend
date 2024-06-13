@@ -67,11 +67,11 @@ const CustomDataGrid = styled(DataGrid)({
   '.MuiDataGrid-row': {
     backgroundColor: 'white',
     '&.Mui-selected': {
-      backgroundColor: 'transparent',
+      backgroundColor: '#ebf4fd',
       '&:hover': { backgroundColor: 'transparent' },
     },
     '&:hover': {
-      backgroundColor: 'rgba(23, 50, 77, 0.04)',
+      backgroundColor: '#f6f7f8',
     },
   },
   '.MuiDataGrid-row:first-child': { borderRadius: '4px 4px 0 0' },
