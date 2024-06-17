@@ -72,12 +72,10 @@ export default function UserProductDetail({
                   <Chip
                     label={t('userDetail.statusLabel')}
                     aria-label={'Suspended'}
-                    variant="outlined"
+                    color='warning'
                     sx={{
                       fontSize: '14px',
-                      background: '#FFCB46',
                       borderRadius: '16px',
-                      border: 'none',
                       width: '78px',
                       height: '24px',
                       display: 'flex',
