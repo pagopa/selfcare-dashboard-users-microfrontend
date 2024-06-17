@@ -2073,6 +2073,17 @@
     fp-ts "^2.12.3"
     io-ts "^2.2.18"
 
+"@pagopa/mui-italia@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-1.4.2.tgz#ec5c21bea3a6bffb4c1bbb84c9b31d3e8741f42d"
+  integrity sha512-7NGbqmxlUFQga7qGL53ruLzMCQ3oMO28yk3dL2Nh7IlcQVH78b2EWXjWuC+LTRr6sSRXHXE+NfhftN8FIoR1AA==
+  dependencies:
+    "@fontsource/dm-mono" "^4.5.10"
+    "@fontsource/titillium-web" "^4.5.9"
+    clsx "^1.2.1"
+    fp-ts "^2.12.3"
+    io-ts "^2.2.18"
+
 "@pagopa/openapi-codegen-ts@^12.1.2":
   version "12.2.1"
   resolved "https://registry.yarnpkg.com/@pagopa/openapi-codegen-ts/-/openapi-codegen-ts-12.2.1.tgz#e2cc9cedcbb23077b4f3f80e970ebd9c55e71afe"
