@@ -67,11 +67,11 @@ const CustomDataGrid = styled(DataGrid)({
   '.MuiDataGrid-row': {
     backgroundColor: 'white',
     '&.Mui-selected': {
-      backgroundColor: 'transparent',
+      backgroundColor: '#ebf4fd',
       '&:hover': { backgroundColor: 'transparent' },
     },
     '&:hover': {
-      backgroundColor: 'rgba(23, 50, 77, 0.04)',
+      backgroundColor: '#f6f7f8',
     },
   },
   '.MuiDataGrid-row:first-child': { borderRadius: '4px 4px 0 0' },
@@ -122,31 +122,6 @@ export default function UsersProductTable({
   const rowHeight = isMobile ? 250 : 64;
   const headerHeight = isMobile ? 10 : 56;
 
-  const sortedUsers = [...users].sort(
-    (firstUser: PartyProductUser, secondUser: PartyProductUser) => {
-      // Prioritize the current user at the top
-      if (firstUser.isCurrentUser) {
-        return -1;
-      } else if (secondUser.isCurrentUser) {
-        return 1;
-      }
-
-      const regexp = /[_"'.,;-]+/g;
-      const firstUserSurname = `${firstUser.surname}`?.replace(regexp, '').toLowerCase();
-      const secondUserSurname = `${secondUser.surname}`?.replace(regexp, '').toLowerCase();
-
-      if (firstUserSurname && secondUserSurname) {
-        if (firstUserSurname === secondUserSurname) {
-          return firstUser.name.toLowerCase().localeCompare(secondUser.name.toLowerCase());
-        } else {
-          return firstUserSurname.localeCompare(secondUserSurname);
-        }
-      } else {
-        return 0;
-      }
-    }
-  );
-
   return (
     <React.Fragment>
       <Box
@@ -162,7 +137,7 @@ export default function UsersProductTable({
           className="CustomDataGrid"
           autoHeight={true}
           columnBuffer={5}
-          rows={sortedUsers}
+          rows={users}
           rowCount={Math.max(page?.totalElements ?? 0, users.length)}
           getRowId={(r) => r.id}
           columns={isMobile ? [] : columns}
@@ -269,11 +244,10 @@ export default function UsersProductTable({
                             <Chip
                               label={t('usersTable.usersProductTableColumns.rows.suspendedChip')}
                               aria-label={'Suspended'}
+                              color='warning'
                               sx={{
                                 fontSize: '14px',
                                 fontWeight: 'fontWeightMedium',
-                                color: 'colorTextPrimary',
-                                backgroundColor: 'warning.light',
                                 paddingBottom: '1px',
                                 height: '24px',
                                 cursor: 'pointer',
