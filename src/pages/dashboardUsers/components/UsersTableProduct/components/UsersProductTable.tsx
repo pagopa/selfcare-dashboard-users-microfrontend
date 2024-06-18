@@ -244,11 +244,10 @@ export default function UsersProductTable({
                             <Chip
                               label={t('usersTable.usersProductTableColumns.rows.suspendedChip')}
                               aria-label={'Suspended'}
+                              color='warning'
                               sx={{
                                 fontSize: '14px',
                                 fontWeight: 'fontWeightMedium',
-                                color: 'colorTextPrimary',
-                                backgroundColor: 'warning.light',
                                 paddingBottom: '1px',
                                 height: '24px',
                                 cursor: 'pointer',

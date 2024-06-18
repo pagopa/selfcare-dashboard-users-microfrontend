@@ -84,11 +84,9 @@ export default function UserProductRoles({
                         <Chip
                           label={t('userDetail.statusLabel')}
                           aria-label={'Suspended'}
-                          variant="outlined"
+                          color='warning'
                           sx={{
                             fontSize: '14px',
-                            background: '#FFCB46',
-                            border: 'none',
                             borderRadius: '16px',
                             width: '78px',
                             height: '24px',
