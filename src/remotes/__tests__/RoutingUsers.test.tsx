@@ -3,7 +3,7 @@ import { createMemoryHistory, History } from 'history';
 import '../../locale';
 import { renderComponent } from './RenderComponents/RenderComponentUser.test';
 
-jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../services/usersService');
 
 jest.setTimeout(100000);

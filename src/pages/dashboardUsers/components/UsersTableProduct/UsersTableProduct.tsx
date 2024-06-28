@@ -1,12 +1,12 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
-import { handleErrors } from '@pagopa/selfcare-common-frontend/services/errorService';
-import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
+import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
+import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
 import { useEffect, useRef, useState } from 'react';
-import { PageResource } from '@pagopa/selfcare-common-frontend/model/PageResource';
-import useFakePagination from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import useFakePagination from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
 import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Party, UserStatus } from '../../../../model/Party';
 import { PartyProductUser } from '../../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../../model/Product';
@@ -67,7 +67,7 @@ const UsersTableProduct = ({
       productsMap,
       undefined,
       filterConfiguration.productRoles.filter((r) => r.productId === product.id)
-    ).then((data) =>  sortedUsers(data.content))
+    ).then((data) => sortedUsers(data.content))
   );
 
   const previousInitialPageSize = useRef(initialPageSize);
@@ -146,10 +146,6 @@ const UsersTableProduct = ({
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    console.log('fetching users', users);
-  }, [users]);
 
   const onDelete = (partyUser: PartyProductUser) => {
     if (incrementalLoad) {

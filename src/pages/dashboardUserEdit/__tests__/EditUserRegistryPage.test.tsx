@@ -5,7 +5,7 @@ import { renderComponent } from '../../../remotes/__tests__/RenderComponents/Ren
 
 jest.setTimeout(6000);
 
-jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {

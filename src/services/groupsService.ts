@@ -1,6 +1,6 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
-import { PageResource } from '@pagopa/selfcare-common-frontend/model/PageResource';
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { DashboardApi } from '../api/DashboardApiClient';
 import { Party } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';

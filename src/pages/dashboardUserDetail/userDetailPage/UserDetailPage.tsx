@@ -1,11 +1,11 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useEffect } from 'react';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import { useTranslation, Trans } from 'react-i18next';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { theme } from '@pagopa/mui-italia';

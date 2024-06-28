@@ -1,6 +1,6 @@
 import { Grid, styled, Typography } from '@mui/material';
-import { TitleBox } from '@pagopa/selfcare-common-frontend';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PeopleAlt } from '@mui/icons-material';

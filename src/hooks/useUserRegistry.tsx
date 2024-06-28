@@ -1,4 +1,4 @@
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import { UserRegistry } from '../model/UserRegistry';
 import { fetchUserRegistryById } from '../services/usersService';
 import { LOADING_TASK_FETCH_USER_REGISTRY } from '../utils/constants';

@@ -1,4 +1,4 @@
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Redirect } from 'react-router-dom';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';

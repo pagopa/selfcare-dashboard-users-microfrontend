@@ -1,6 +1,6 @@
 import NavigationBar, {
   NavigationPath,
-} from '@pagopa/selfcare-common-frontend/components/NavigationBar';
+} from '@pagopa/selfcare-common-frontend/lib/components/NavigationBar';
 import { useMemo } from 'react';
 // import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Product } from '../model/Product';

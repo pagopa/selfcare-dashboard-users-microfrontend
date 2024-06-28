@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { PeopleAlt } from '@mui/icons-material';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
