@@ -1,4 +1,4 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';

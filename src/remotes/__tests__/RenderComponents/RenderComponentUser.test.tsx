@@ -10,7 +10,7 @@ import RoutingUsers from '../../RoutingUsers';
 import App from '../../../microcomponents/mock_dashboard/App';
 
 jest.mock('../../../services/usersService');
-jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 
 // eslint-disable-next-line functional/immutable-data
 (window as any).appRoutes = DASHBOARD_USERS_ROUTES;

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import { I18nextProvider } from 'react-i18next';
 import { ReactNode, useEffect, useState } from 'react';
-import { CONFIG as LOCAL_CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
+import { CONFIG as LOCAL_CONFIG } from '@pagopa/selfcare-common-frontend/lib/config/env';
 import { ENV } from '../utils/env';
 import { configureI18n } from '../locale/locale-utils';
 import { DashboardMicrocomponentsProps } from '../microcomponents/dashboard-routes-utils';

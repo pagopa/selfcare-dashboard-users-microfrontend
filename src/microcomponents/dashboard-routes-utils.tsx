@@ -4,7 +4,7 @@ import { Store } from 'redux';
 import { i18n } from 'i18next';
 import { Theme } from '@mui/material';
 import { useMemo } from 'react';
-import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/lib/config/env';
 import { RouteConfig, RoutesObject } from '../routes';
 import { Party } from '../model/Party';
 import { Product, ProductsMap } from '../model/Product';

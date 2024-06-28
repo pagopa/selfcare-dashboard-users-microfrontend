@@ -1,11 +1,11 @@
 import { Grid, Tab, Tabs, Button, Stack } from '@mui/material';
-import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
+import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { useEffect, useMemo, useState } from 'react';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
+import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { Product, ProductsMap } from '../../../model/Product';
 import { Party } from '../../../model/Party';

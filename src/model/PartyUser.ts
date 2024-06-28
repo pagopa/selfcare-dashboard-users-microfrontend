@@ -1,4 +1,4 @@
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { InstitutionUserResource } from '../api/generated/b4f-dashboard/InstitutionUserResource';

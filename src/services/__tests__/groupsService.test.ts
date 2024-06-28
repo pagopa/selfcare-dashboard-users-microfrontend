@@ -5,7 +5,7 @@ import {
   fetchPartyGroups,
 } from './../groupsService';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 
 jest.mock('../../api/DashboardApiClient');
 
