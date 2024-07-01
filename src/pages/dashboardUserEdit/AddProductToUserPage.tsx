@@ -1,9 +1,8 @@
 import { Grid, styled, Typography } from '@mui/material';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useHistory } from 'react-router-dom';
+import { matchPath, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PeopleAlt } from '@mui/icons-material';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
 import { Party } from '../../model/Party';
@@ -39,12 +38,9 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     */
   };
 
-  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
-
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: isPnpg ? undefined : PeopleAlt,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -53,13 +49,18 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         ),
     },
     {
-      description: partyUser.name + ' ' + partyUser.surname,
+      description: `${partyUser.name} ${partyUser.surname}`,
       onClick: goBack,
     },
     {
       description: t('userEdit.addProduct.navigation'),
     },
   ];
+
+  const isUsersDetailPath = matchPath(location.pathname, {
+    path: DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+    exact: true,
+  });
 
   return (
     <Grid
@@ -71,7 +72,12 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     >
       <Grid container item xs={12} lg={8}>
         <Grid item xs={12}>
-          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} />
+          <ProductNavigationBar
+            paths={paths as any}
+            showBackComponent={true}
+            goBack={goBack}
+            backLabel={isUsersDetailPath ? paths[0].description : paths[1].description}
+          />
         </Grid>
         <Grid item xs={12}>
           <TitleBox

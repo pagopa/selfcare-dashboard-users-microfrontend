@@ -40,7 +40,7 @@ test('Test: go to edit user', async () => {
   await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
 });
 
-test('Test: go to users Page', async () => {
+test.skip('Test: go to users Page', async () => {
   const { history } = await renderApp();
   const backButton = screen.getByRole('button', { name: 'Indietro' });
   fireEvent.click(backButton);

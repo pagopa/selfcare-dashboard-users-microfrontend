@@ -1,26 +1,25 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
-import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useEffect } from 'react';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { theme } from '@pagopa/mui-italia';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
-import { useTranslation, Trans } from 'react-i18next';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { theme } from '@pagopa/mui-italia';
-import UserDetail from '../components/UserDetail';
-import { PartyUserDetail } from '../../../model/PartyUser';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
-import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import withUserDetail from '../../../decorators/withUserDetail';
-import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { Party } from '../../../model/Party';
+import { PartyUserDetail } from '../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import UserDetail from '../components/UserDetail';
 import UserProductActions from '../components/UserProductActions';
-import UserProductSection from './components/UserProductSection';
 import { deletePartyUser } from './../../../services/usersService';
+import UserProductSection from './components/UserProductSection';
 
 type Props = {
   partyUser: PartyUserDetail;
@@ -125,12 +124,11 @@ function UserDetailPage({
 
   const paths = [
     {
-      icon: !isPnpg ? PeopleAltIcon : undefined,
       description: t('userDetail.pathDescription'),
-      onClick: () => goToUsersSection,
+      onClick: goToUsersSection,
     },
     {
-      description: partyUser.name + ' ' + partyUser.surname,
+      description: `${partyUser.name} ${partyUser.surname}`,
     },
   ];
   const isProductDetailPage = false;
@@ -153,6 +151,7 @@ function UserDetailPage({
             paths={paths as any}
             showBackComponent={true}
             goBack={goToUsersSection}
+            backLabel={t('userDetail.pathDescription')}
           />
         </Grid>
         <Grid container item mb={4} xs={12}>
