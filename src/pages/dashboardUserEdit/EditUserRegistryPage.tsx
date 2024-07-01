@@ -1,12 +1,11 @@
 import { Grid } from '@mui/material';
-import { useHistory } from 'react-router-dom';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
-import { PeopleAlt } from '@mui/icons-material';
+import { matchPath, useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import withUserRegistry, { withUserRegistryProps } from '../../decorators/withUserRegistry';
+import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import EditUserRegistryForm from './components/EditUserRegistryForm';
 
 type Props = withUserRegistryProps;
@@ -26,6 +25,14 @@ function EditUserRegistryPage({ party, user }: Props) {
     );
     */
 
+  const goBackToUserDetail = () =>
+    history.push(
+      resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path, {
+        partyId: party.partyId,
+        userId: user.id,
+      })
+    );
+
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
@@ -35,25 +42,20 @@ function EditUserRegistryPage({ party, user }: Props) {
             partyId: party.partyId,
           })
         ),
-      icon: PeopleAlt,
     },
     {
       description: `${user.name} ${user.surname}`,
-      onClick: () =>
-        history.push(
-          resolvePathVariables(
-            DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
-            {
-              partyId: party.partyId,
-              userId: user.id,
-            }
-          )
-        ),
+      onClick: goBackToUserDetail,
     },
     {
       description: t('userPagesPath.editUser'),
     },
   ];
+
+  const isUsersDetailPath = matchPath(location.pathname, {
+    path: DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+    exact: true,
+  });
 
   return (
     <Grid
@@ -65,7 +67,12 @@ function EditUserRegistryPage({ party, user }: Props) {
     >
       <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={2}>
-          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} />
+          <ProductNavigationBar
+            paths={paths as any}
+            showBackComponent={true}
+            goBack={goBack}
+            backLabel={isUsersDetailPath ? paths[0].description : paths[1].description}
+          />
         </Grid>
         <Grid item xs={12}>
           <TitleBox
