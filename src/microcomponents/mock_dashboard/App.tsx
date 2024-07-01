@@ -3,15 +3,15 @@ import {
   LoadingOverlay,
   UnloadEventHandler,
   UserNotifyHandle,
-} from '@pagopa/selfcare-common-frontend';
+} from '@pagopa/selfcare-common-frontend/lib';
 import { useTranslation } from 'react-i18next';
 import { useParams, Route, Switch, useHistory } from 'react-router';
 import { isEmpty } from 'lodash';
-import withLogin from '@pagopa/selfcare-common-frontend/decorators/withLogin';
+import withLogin from '@pagopa/selfcare-common-frontend/lib/decorators/withLogin';
 import { Box, Grid, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
-import { CONFIG } from '@pagopa/selfcare-common-frontend/config/env';
+import { CONFIG } from '@pagopa/selfcare-common-frontend/lib/config/env';
 import { buildProductsMap, Product } from '../../model/Product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
 import { createStore } from '../../redux/store';

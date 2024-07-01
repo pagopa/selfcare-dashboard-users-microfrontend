@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { Grid, TextField, Button, styled, Stack } from '@mui/material';
 import { useFormik } from 'formik';
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
+import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import {
   useUnloadEventInterceptor,
   useUnloadEventOnExit,
-} from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
+} from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { useTranslation } from 'react-i18next';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
-import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
-import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { theme } from '@pagopa/mui-italia';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { Party } from '../../../model/Party';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { updatePartyUser } from '../../../services/usersService';

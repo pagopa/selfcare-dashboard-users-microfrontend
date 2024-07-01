@@ -20,21 +20,21 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router';
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
-import useUserNotify from '@pagopa/selfcare-common-frontend/hooks/useUserNotify';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
+import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import {
   useUnloadEventInterceptor,
   useUnloadEventOnExit,
-} from '@pagopa/selfcare-common-frontend/hooks/useUnloadEventInterceptor';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/services/analyticsService';
+} from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Trans, useTranslation } from 'react-i18next';
-import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyNameMatchWithTaxCode';
-import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifySurnameMatchWithTaxCode';
-import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/utils/verifyChecksumMatchWithTaxCode';
+import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
+import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
+import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { theme } from '@pagopa/mui-italia';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { Party } from '../../../model/Party';
 import {
   fetchUserRegistryByFiscalCode,

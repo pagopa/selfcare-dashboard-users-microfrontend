@@ -1,7 +1,7 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
-import { appStateActions } from '@pagopa/selfcare-common-frontend/redux/slices/appStateSlice';
-import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/utils/api-utils';
-import { storageTokenOps } from '@pagopa/selfcare-common-frontend/utils/storage';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { appStateActions } from '@pagopa/selfcare-common-frontend/lib/redux/slices/appStateSlice';
+import { buildFetchApi, extractResponse } from '@pagopa/selfcare-common-frontend/lib/utils/api-utils';
+import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ProductRole } from '../model/ProductRole';

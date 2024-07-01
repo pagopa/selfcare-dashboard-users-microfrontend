@@ -2,12 +2,12 @@ import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import { Box, styled, Typography, Chip, Grid, Button } from '@mui/material';
 import { DataGrid, GridColDef, GridSortDirection, GridSortModel, GridRow } from '@mui/x-data-grid';
 import React from 'react';
-import { CustomPagination } from '@pagopa/selfcare-common-frontend';
-import { Page } from '@pagopa/selfcare-common-frontend/model/Page';
+import { CustomPagination } from '@pagopa/selfcare-common-frontend/lib';
+import { Page } from '@pagopa/selfcare-common-frontend/lib/model/Page';
 import { useTranslation } from 'react-i18next';
-import { roleLabels, UserRole } from '@pagopa/selfcare-common-frontend/utils/constants';
+import { roleLabels, UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { theme } from '@pagopa/mui-italia';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useHistory } from 'react-router-dom';
 import { Product } from '../../../../../model/Product';
 import { PartyProductUser } from '../../../../../model/PartyUser';
@@ -96,6 +96,9 @@ const CustomDataGrid = styled(DataGrid)({
       justifyContent: 'right',
     },
   },
+  '& .MuiDataGrid-virtualScrollerRenderZone': {
+    width: '100% !important',
+  },
 });
 
 export default function UsersProductTable({
@@ -155,7 +158,7 @@ export default function UsersProductTable({
                     key={user.id}
                     sx={{
                       marginBottom: 2,
-                      width: 'calc(100vw - 110px)',
+                      width: '100%',
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
@@ -172,7 +175,7 @@ export default function UsersProductTable({
                         justifyItems: '-moz-initial',
                         flexDirection: 'row',
                         backgroundColor: 'background.paper',
-                        borderRadius: theme.spacing(2),
+                        borderRadius: theme.spacing(1),
                         boxShadow:
                           '0px 8px 10px -5px rgba(0, 43, 85, 0.1), 0px 16px 24px 2px rgba(0, 43, 85, 0.05), 0px 6px 30px 5px rgba(0, 43, 85, 0.1)',
                       }}
@@ -244,7 +247,7 @@ export default function UsersProductTable({
                             <Chip
                               label={t('usersTable.usersProductTableColumns.rows.suspendedChip')}
                               aria-label={'Suspended'}
-                              color='warning'
+                              color="warning"
                               sx={{
                                 fontSize: '14px',
                                 fontWeight: 'fontWeightMedium',

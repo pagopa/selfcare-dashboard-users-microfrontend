@@ -1,6 +1,6 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { theme } from '@pagopa/mui-italia';
 import { PartyUserDetail } from '../../../../model/PartyUser';

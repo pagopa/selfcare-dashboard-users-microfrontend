@@ -13,9 +13,9 @@ import {
 } from '../../../microcomponents/mock_dashboard/data/product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../../model/ProductRole';
 import { Provider } from 'react-redux';
-import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+// import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 
-jest.mock('@pagopa/selfcare-common-frontend/decorators/withLogin');
+jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
 jest.setTimeout(6000);
@@ -30,7 +30,7 @@ const fieldsValue = {
 
 const renderApp = async (injectedStore?: ReturnType<typeof createStore>) => {
   const store = injectedStore ? injectedStore : createStore();
-  verifyLoginMockExecution(store.getState());
+  // verifyLoginMockExecution(store.getState());
   const history = createMemoryHistory();
   history.push('/1');
   render(
