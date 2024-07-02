@@ -1,11 +1,11 @@
 import { Chip, Grid, Typography, useTheme } from '@mui/material';
 
 import { useEffect, useState } from 'react';
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/hooks/useErrorDispatcher';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { fetchUserGroups } from '../../../services/usersService';
 import { PartyUserDetail, PartyUserProduct, partyUserDetail2User } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';

@@ -1,10 +1,10 @@
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
-import { PageResource } from '@pagopa/selfcare-common-frontend/model/PageResource';
-import { PageRequest } from '@pagopa/selfcare-common-frontend/model/PageRequest';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
 import {
   applySort,
   extractPageRequest,
-} from '@pagopa/selfcare-common-frontend/hooks/useFakePagination';
+} from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
 import { cloneDeep } from 'lodash';
 import { Party } from '../../model/Party';
 import { Product } from '../../model/Product';

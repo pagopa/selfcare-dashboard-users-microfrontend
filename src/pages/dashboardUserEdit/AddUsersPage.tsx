@@ -1,12 +1,11 @@
 import { Grid } from '@mui/material';
-import TitleBox from '@pagopa/selfcare-common-frontend/components/TitleBox';
+import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
-import { PeopleAlt } from '@mui/icons-material';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
 import { useHistory } from 'react-router-dom';
-import { Product } from '../../model/Product';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
+import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import AddUserForm from './components/AddUserForm';
@@ -31,12 +30,9 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     ); */
   };
 
-  const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
-
   const paths = [
     {
       description: t('userPagesPath.detailRedirect'),
-      icon: isPnpg ? undefined : PeopleAlt,
       onClick: () =>
         history.push(
           resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
@@ -59,7 +55,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     >
       <Grid container item xs={12} lg={8}>
         <Grid item xs={12} mb={2}>
-          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} />
+          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} backLabel={t('userPagesPath.detailRedirect')} />
         </Grid>
         <Grid item xs={12}>
           <TitleBox

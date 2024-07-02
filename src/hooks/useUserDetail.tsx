@@ -1,6 +1,6 @@
-import useLoading from '@pagopa/selfcare-common-frontend/hooks/useLoading';
-import { User } from '@pagopa/selfcare-common-frontend/model/User';
-import { userSelectors } from '@pagopa/selfcare-common-frontend/redux/slices/userSlice';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
+import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
 import { PartyUserDetail } from '../model/PartyUser';
 import { ProductsMap } from '../model/Product';
 import { useAppSelector } from '../redux/hooks';

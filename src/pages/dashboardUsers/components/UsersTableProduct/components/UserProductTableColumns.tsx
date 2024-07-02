@@ -6,7 +6,7 @@ import {
   GridRenderCellParams,
   GridValueGetterParams,
 } from '@mui/x-data-grid';
-import i18n from '@pagopa/selfcare-common-frontend/locale/locale-utils';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 import React, { CSSProperties, ReactNode } from 'react';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';

@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/utils/routes-utils';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useState } from 'react';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
