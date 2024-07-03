@@ -199,7 +199,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               backgroundColor: '#F5F5F5',
             }}
           >
-            <Tabs variant="scrollable" scrollButtons={true} value={selectedProductSection ?? 'all'}>
+            <Tabs variant="scrollable" scrollButtons='auto' value={selectedProductSection ?? 'all'}>
               <Tab
                 label={t('usersTable.tabAll')}
                 value="all"
