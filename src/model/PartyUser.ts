@@ -4,7 +4,7 @@ import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/I
 import { InstitutionUserResource } from '../api/generated/b4f-dashboard/InstitutionUserResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
-import { UserRole, UserStatus } from './Party';
+import { UserRole, UserRoleFilters, UserStatus } from './Party';
 import { Product, ProductsMap } from './Product';
 
 export type BasePartyUser = {
@@ -38,7 +38,7 @@ export type PartyUserProduct = {
 export type PartyUserProductRole = {
   relationshipId: string;
   role: string;
-  selcRole: UserRole;
+  selcRole: UserRoleFilters;
   status: UserStatus;
 };
 

@@ -9,7 +9,7 @@ import { ButtonNaked } from '@pagopa/mui-italia';
 import { useTheme } from '@mui/material';
 import MDSpinner from 'react-md-spinner';
 import { ProductRole, productRolesGroupBySelcRole } from '../../../../model/ProductRole';
-import { UserRole } from '../../../../model/Party';
+import { UserRole, UserRoleFilters } from '../../../../model/Party';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
 
@@ -90,10 +90,10 @@ export default function UsersTableRolesFilter({
 
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
-  const selcGroups = Object.keys(selcRoleGroup) as Array<UserRole>;
+  const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
   const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
-    [selcRole in UserRole]: ProductRolesGroupByTitle;
+    [selcRole in UserRoleFilters]: ProductRolesGroupByTitle;
   }>(emptySelcRoleGroup);
 
   const nextProductRolesFilter = useMemo(
@@ -190,20 +190,20 @@ export default function UsersTableRolesFilter({
       );
     });
 
-  const isSelcGroupTotallySelected = (selcRole: UserRole) => {
+  const isSelcGroupTotallySelected = (selcRole: UserRoleFilters) => {
     const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
     const selcGroup = selcRoleGroup[selcRole];
     return Object.keys(selcGroupSelected).length === Object.keys(selcGroup).length;
   };
 
-  const selcGroupTotallySelected: { [userRole in UserRole]: boolean } = useMemo(
+  const selcGroupTotallySelected: { [userRole in UserRoleFilters]: boolean } = useMemo(
     () =>
       Object.fromEntries(
-        (Object.keys(selcRoleGroup) as Array<UserRole>).map((s: UserRole) => [
+        (Object.keys(selcRoleGroup) as Array<UserRoleFilters>).map((s: UserRoleFilters) => [
           s,
           showSelcRoleGrouped ? isSelcGroupTotallySelected(s) : false,
         ])
-      ) as { [userRole in UserRole]: boolean },
+      ) as { [userRole in UserRoleFilters]: boolean },
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
   return (

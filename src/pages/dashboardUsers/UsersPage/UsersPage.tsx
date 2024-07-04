@@ -1,23 +1,23 @@
-import { Grid, Tab, Tabs, Button, Stack } from '@mui/material';
+import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
-import { useEffect, useMemo, useState } from 'react';
+import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
-import { ButtonNaked } from '@pagopa/mui-italia';
-import { Product, ProductsMap } from '../../../model/Product';
-import { Party } from '../../../model/Party';
-import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
-import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import UsersProductSection from '../components/UsersProductSection';
-import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
-import UserTableNoData from '../components/UserTableNoData';
-import { ProductsRolesMap } from '../../../model/ProductRole';
-import { ENV } from '../../../utils/env';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { Party } from '../../../model/Party';
+import { Product, ProductsMap } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { ENV } from '../../../utils/env';
 import MobileFilter from '../components/MobileFilter';
+import UserTableNoData from '../components/UserTableNoData';
+import UsersProductSection from '../components/UsersProductSection';
+import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
+import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
 
 interface Props {
   party: Party;
@@ -199,7 +199,18 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               backgroundColor: '#F5F5F5',
             }}
           >
-            <Tabs variant="fullWidth" scrollButtons="auto" value={selectedProductSection ?? 'all'}>
+            <Tabs
+              variant="scrollable"
+              scrollButtons="auto"
+              value={selectedProductSection ?? 'all'}
+              sx={{
+                '& .MuiTab-root': {
+                  minWidth: 0,
+                  flex: '1 0 auto',
+                  maxWidth: 'none',
+                },
+              }}
+            >
               <Tab
                 label={t('usersTable.tabAll')}
                 value="all"
