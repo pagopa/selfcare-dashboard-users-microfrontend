@@ -1,23 +1,23 @@
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
-import { Box, styled, Typography, Chip, Grid, Button } from '@mui/material';
-import { DataGrid, GridColDef, GridSortDirection, GridSortModel, GridRow } from '@mui/x-data-grid';
-import React from 'react';
+import { Box, Button, Chip, Grid, styled, Typography } from '@mui/material';
+import { DataGrid, GridColDef, GridRow, GridSortDirection, GridSortModel } from '@mui/x-data-grid';
+import { theme } from '@pagopa/mui-italia';
 import { CustomPagination } from '@pagopa/selfcare-common-frontend/lib';
 import { Page } from '@pagopa/selfcare-common-frontend/lib/model/Page';
-import { useTranslation } from 'react-i18next';
 import { roleLabels, UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
-import { theme } from '@pagopa/mui-italia';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { Product } from '../../../../../model/Product';
-import { PartyProductUser } from '../../../../../model/PartyUser';
-import { Party, UserStatus } from '../../../../../model/Party';
-import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { useIsMobile } from '../../../../../hooks/useIsMobile';
+import { Party, UserStatus } from '../../../../../model/Party';
+import { PartyProductUser } from '../../../../../model/PartyUser';
+import { Product } from '../../../../../model/Product';
+import { ProductRolesLists } from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
-import { buildColumnDefs } from './UserProductTableColumns';
 import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
+import { buildColumnDefs } from './UserProductTableColumns';
 
 interface UsersTableProps {
   incrementalLoad: boolean;
@@ -124,6 +124,7 @@ export default function UsersProductTable({
 
   const rowHeight = isMobile ? 250 : 64;
   const headerHeight = isMobile ? 10 : 56;
+
 
   return (
     <React.Fragment>

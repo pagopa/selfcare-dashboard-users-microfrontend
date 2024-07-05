@@ -14,6 +14,8 @@ interface UsersSearchProps {
   onFiltersChange: (filter: UsersTableFiltersConfig) => void;
   showSelcRoleGrouped: boolean;
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
+  searchByName: string;
+  setSearchByName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function UsersTableActions({
@@ -26,6 +28,8 @@ export default function UsersTableActions({
   onFiltersChange,
   showSelcRoleGrouped,
   setOpenDialogMobile,
+  searchByName,
+  setSearchByName,
 }: UsersSearchProps) {
   return (
     <UsersTableFilters
@@ -38,6 +42,8 @@ export default function UsersTableActions({
       showSelcRoleGrouped={showSelcRoleGrouped}
       loading={loading}
       setOpenDialogMobile={setOpenDialogMobile}
+      searchByName={searchByName}
+      setSearchByName={setSearchByName}
     />
   );
 }

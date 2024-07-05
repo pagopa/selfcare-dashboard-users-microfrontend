@@ -72,6 +72,8 @@ type Props = {
   activeProducts: Array<Product>;
   selectedProductSection: string | undefined;
   setFilters: React.Dispatch<React.SetStateAction<UsersTableFiltersConfig>>;
+  searchByName: string;
+  setSearchByName: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function MobileFilter({
@@ -84,6 +86,8 @@ export default function MobileFilter({
   activeProducts,
   selectedProductSection,
   setFilters,
+  searchByName,
+  setSearchByName,
 }: Props) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -142,6 +146,8 @@ export default function MobileFilter({
             onFiltersChange={setFilters}
             showSelcRoleGrouped={false}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
           />
         </Box>
       </DialogContent>

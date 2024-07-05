@@ -43,6 +43,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
+  const [searchByName, setSearchByName] = useState<string>('');
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -105,6 +106,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         }}
         incrementalLoad={!selectedProductSection}
         isPnpgTheOnlyProduct={isPnpgTheOnlyProduct}
+        searchByName={searchByName}
       />
     </Grid>
   );
@@ -163,6 +165,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           selectedProductSection={selectedProductSection}
           setFilters={setFilters}
           setOpenDialogMobile={setOpenDialogMobile}
+          searchByName={searchByName}
+          setSearchByName={setSearchByName}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -185,6 +189,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             onFiltersChange={setFilters}
             showSelcRoleGrouped={isPnpg ? false : !selectedProductSection}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
           />
         )}
         {moreThanOneActiveProduct && (

@@ -30,6 +30,7 @@ type Props = {
   filterConfiguration: UsersTableFiltersConfig;
   hideProductWhenLoading: boolean;
   productRolesLists: ProductRolesLists;
+  searchByName?: string;
 };
 
 const UsersTableProduct = ({
@@ -44,6 +45,7 @@ const UsersTableProduct = ({
   filterConfiguration,
   hideProductWhenLoading,
   userDetailUrl,
+  searchByName,
 }: Props) => {
   const currentUser = useAppSelector(userSelectors.selectLoggedUser);
 
@@ -67,7 +69,17 @@ const UsersTableProduct = ({
       productsMap,
       undefined,
       filterConfiguration.productRoles.filter((r) => r.productId === product.id)
-    ).then((data) => sortedUsers(data.content))
+    ).then((data) => {
+      if (searchByName) {
+        return sortedUsers(
+          data.content.filter((user) =>
+            `${user.name} ${user.surname}`.toLowerCase().includes(searchByName.toLowerCase())
+          )
+        );
+      }
+
+      return sortedUsers(data.content);
+    })
   );
 
   const previousInitialPageSize = useRef(initialPageSize);
@@ -123,6 +135,7 @@ const UsersTableProduct = ({
           pageRequest?.page.page === 0 || !incrementalLoad
             ? r
             : { content: users.content.concat(r.content), page: r.page };
+
         setUsers(nextUsers);
         setError(false);
         setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
