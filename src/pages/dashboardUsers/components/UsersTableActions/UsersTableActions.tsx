@@ -16,6 +16,8 @@ interface UsersSearchProps {
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
   searchByName: string;
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
+  disableRemoveFiltersButton: boolean;
+  setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UsersTableActions({
@@ -30,6 +32,8 @@ export default function UsersTableActions({
   setOpenDialogMobile,
   searchByName,
   setSearchByName,
+  disableRemoveFiltersButton,
+  setDisableRemoveFiltersButton,
 }: UsersSearchProps) {
   return (
     <UsersTableFilters
@@ -44,6 +48,8 @@ export default function UsersTableActions({
       setOpenDialogMobile={setOpenDialogMobile}
       searchByName={searchByName}
       setSearchByName={setSearchByName}
+      disableRemoveFiltersButton={disableRemoveFiltersButton}
+      setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
     />
   );
 }

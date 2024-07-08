@@ -39,6 +39,8 @@ type Props = {
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
   searchByName: string;
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
+  disableRemoveFiltersButton: boolean;
+  setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function UsersTableRolesFilter({
@@ -49,6 +51,8 @@ export default function UsersTableRolesFilter({
   showSelcRoleGrouped,
   searchByName,
   setSearchByName,
+  disableRemoveFiltersButton,
+  setDisableRemoveFiltersButton,
 }: Props) {
   const { t } = useTranslation();
   // const theme = useTheme();
@@ -186,6 +190,7 @@ export default function UsersTableRolesFilter({
         <TextField
           fullWidth
           size="small"
+          type="search"
           label={t('usersTable.filterRole.searchByName')}
           value={searchByName}
           onChange={(e) => setSearchByName(e.target.value)}
@@ -306,6 +311,7 @@ export default function UsersTableRolesFilter({
               productIds: nextProductRolesFilter.map((f) => f.productId),
               productRoles: nextProductRolesFilter,
             });
+            setDisableRemoveFiltersButton(false);
           }}
         >
           {t('usersTable.filterRole.addFilters')}
@@ -313,13 +319,14 @@ export default function UsersTableRolesFilter({
       </Grid>
       <Grid item xs={12} md={1.5} display="flex" alignItems="center">
         <ButtonNaked
-          disabled={nextProductRolesFilter.length === 0 && searchByName.length < 3}
+          disabled={nextProductRolesFilter.length === 0 && disableRemoveFiltersButton}
           color="primary"
           fullWidth
           size="small"
           onClick={() => {
             onFiltersChange({ ...filters, productIds: [], productRoles: [] });
             setSearchByName('');
+            setDisableRemoveFiltersButton(true);
           }}
         >
           {t('usersTable.filterRole.deleteFilters')}

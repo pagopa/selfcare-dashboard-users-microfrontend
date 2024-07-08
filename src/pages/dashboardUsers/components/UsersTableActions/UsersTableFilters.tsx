@@ -20,6 +20,8 @@ interface UsersSearchFilterProps {
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
   searchByName: string;
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
+  disableRemoveFiltersButton: boolean;
+  setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function UsersTableFilters({
@@ -32,6 +34,8 @@ export default function UsersTableFilters({
   setOpenDialogMobile,
   searchByName,
   setSearchByName,
+  disableRemoveFiltersButton,
+  setDisableRemoveFiltersButton,
 }: UsersSearchFilterProps) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
@@ -49,6 +53,8 @@ export default function UsersTableFilters({
       setOpenDialogMobile={setOpenDialogMobile}
       searchByName={searchByName}
       setSearchByName={setSearchByName}
+      disableRemoveFiltersButton={disableRemoveFiltersButton}
+      setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
     />
   );
 }

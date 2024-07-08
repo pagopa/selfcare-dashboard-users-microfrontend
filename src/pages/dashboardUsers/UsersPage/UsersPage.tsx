@@ -44,6 +44,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const [loading, setLoading] = useState(true);
   const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
   const [searchByName, setSearchByName] = useState<string>('');
+  const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -168,6 +169,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           setOpenDialogMobile={setOpenDialogMobile}
           searchByName={searchByName}
           setSearchByName={setSearchByName}
+          disableRemoveFiltersButton={disableRemoveFiltersButton}
+          setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -192,6 +195,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             setOpenDialogMobile={setOpenDialogMobile}
             searchByName={searchByName}
             setSearchByName={setSearchByName}
+            disableRemoveFiltersButton={disableRemoveFiltersButton}
+            setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -256,6 +261,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
                 removeFilters={() => {
                   setFilters(emptyFilters);
                   setSearchByName('');
+                  setDisableRemoveFiltersButton(false);
                 }}
               />
             )}
