@@ -43,6 +43,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
+  const [searchByName, setSearchByName] = useState<string>('');
+  const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -61,6 +63,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => {
     setFilters(emptyFilters);
+    // setSearchByName('');
     setProductsFetchStatus(initProductFetchStatus);
   }, [selectedProductSection]);
 
@@ -105,6 +108,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         }}
         incrementalLoad={!selectedProductSection}
         isPnpgTheOnlyProduct={isPnpgTheOnlyProduct}
+        searchByName={searchByName}
       />
     </Grid>
   );
@@ -119,7 +123,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
-        <Grid container xs={12} sx={{ display: 'flex' }}>
+        <Grid container item xs={12} sx={{ display: 'flex' }}>
           <Grid item xs={9} alignItems="flex-end">
             <TitleBox
               variantTitle="h4"
@@ -163,6 +167,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           selectedProductSection={selectedProductSection}
           setFilters={setFilters}
           setOpenDialogMobile={setOpenDialogMobile}
+          searchByName={searchByName}
+          setSearchByName={setSearchByName}
+          disableRemoveFiltersButton={disableRemoveFiltersButton}
+          setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -185,6 +193,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             onFiltersChange={setFilters}
             showSelcRoleGrouped={isPnpg ? false : !selectedProductSection}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
+            disableRemoveFiltersButton={disableRemoveFiltersButton}
+            setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -245,7 +257,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           <Grid container direction="row" alignItems={'center'}>
             {productsSection}
             {!loading && noData && (
-              <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
+              <UserTableNoData
+                removeFilters={() => {
+                  setFilters(emptyFilters);
+                  setSearchByName('');
+                  setDisableRemoveFiltersButton(false);
+                }}
+              />
             )}
           </Grid>
         </Grid>

@@ -32,6 +32,7 @@ export default {
         title: 'Operatore',
         description: "Gestisce l’integrazione tecnologica e/o l'operatività dei servizi",
       },
+      searchByName: 'Cerca per nome',
       addFilters: 'Filtra',
       deleteFilters: 'Rimuovi filtri',
       noDataFilter:
