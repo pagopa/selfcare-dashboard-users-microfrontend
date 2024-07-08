@@ -43,7 +43,6 @@ const UsersTableProduct = ({
   productRolesLists,
   onFetchStatusUpdate,
   filterConfiguration,
-  hideProductWhenLoading,
   userDetailUrl,
   searchByName,
 }: Props) => {
@@ -186,8 +185,7 @@ const UsersTableProduct = ({
   if (error && !loading) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
-    return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
-      (!loading && users.content.length === 0) ? (
+    return !loading && users.content.length === 0 ? (
       <></>
     ) : (
       <UsersProductTable

@@ -3,14 +3,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/system';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import { useLoading } from '@pagopa/selfcare-common-frontend/lib';
 import { isEqual } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { UserRole, UserRoleFilters } from '../../../../model/Party';
 import { ProductRole } from '../../../../model/ProductRole';
-import { LOADING_TASK_FETCH_USERS_LIST } from '../../../../utils/constants';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
 import { emptySelcRoleGroup, labels, productList, ProductRolesGroupByTitle } from './helpers';
 
@@ -51,7 +49,6 @@ export default function UsersTableRolesFilter({
   showSelcRoleGrouped,
   searchByName,
   setSearchByName,
-  loading,
 }: Props) {
   const { t } = useTranslation();
   // const theme = useTheme();
@@ -59,7 +56,6 @@ export default function UsersTableRolesFilter({
 
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
-  const setLoadingSpinner = useLoading(LOADING_TASK_FETCH_USERS_LIST);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
   const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
@@ -176,10 +172,6 @@ export default function UsersTableRolesFilter({
       ) as { [userRole in UserRoleFilters]: boolean },
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
-
-  useEffect(() => {
-    setLoadingSpinner(loading);
-  }, [loading]);
 
   return (
     <Grid
