@@ -3,12 +3,14 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/system';
 import { ButtonNaked } from '@pagopa/mui-italia';
+import { useLoading } from '@pagopa/selfcare-common-frontend/lib';
 import { isEqual } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { UserRole, UserRoleFilters } from '../../../../model/Party';
 import { ProductRole } from '../../../../model/ProductRole';
+import { LOADING_TASK_FETCH_USERS_LIST } from '../../../../utils/constants';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
 import { emptySelcRoleGroup, labels, productList, ProductRolesGroupByTitle } from './helpers';
 
@@ -51,6 +53,7 @@ export default function UsersTableRolesFilter({
   showSelcRoleGrouped,
   searchByName,
   setSearchByName,
+  loading,
 }: Props) {
   const { t } = useTranslation();
   // const theme = useTheme();
@@ -58,6 +61,7 @@ export default function UsersTableRolesFilter({
 
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
+  const setLoadingSpinner = useLoading(LOADING_TASK_FETCH_USERS_LIST);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
   const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
@@ -174,6 +178,11 @@ export default function UsersTableRolesFilter({
       ) as { [userRole in UserRoleFilters]: boolean },
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
+
+  useEffect(() => {
+    setLoadingSpinner(loading);
+  }, [loading]);
+
   return (
     <Grid
       container
@@ -183,19 +192,11 @@ export default function UsersTableRolesFilter({
       mt={isMobile ? 0 : 5}
       flexDirection={isMobile ? 'column' : 'row'}
     >
-      {/*
-         loading && (
-          <Box mr={3} display="flex">
-            <MDSpinner singleColor={theme.palette.primary.main} />
-          </Box>
-        )
-        */}
       <Grid item xs={12} md={5} width="100%">
         <TextField
           fullWidth
           size="small"
           label={t('usersTable.filterRole.searchByName')}
-          sx={{ mb: isMobile ? 4 : 0 }}
           value={searchByName}
           onChange={(e) => setSearchByName(e.target.value)}
         />
@@ -301,7 +302,7 @@ export default function UsersTableRolesFilter({
       <Grid item xs={12} md={1}>
         <Button
           disabled={
-            isEqual(productRolesSelected, nextProductRolesFilter) || searchByName.length >= 1
+            isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3
           }
           color="primary"
           variant="outlined"
@@ -319,9 +320,9 @@ export default function UsersTableRolesFilter({
           {t('usersTable.filterRole.addFilters')}
         </Button>
       </Grid>
-      <Grid item xs={12} md={1.5} alignItems="center">
+      <Grid item xs={12} md={1.5} display="flex" alignItems="center">
         <ButtonNaked
-          disabled={nextProductRolesFilter.length === 0 || searchByName.length >= 1}
+          disabled={nextProductRolesFilter.length === 0 && searchByName.length < 3}
           color="primary"
           fullWidth
           size="small"

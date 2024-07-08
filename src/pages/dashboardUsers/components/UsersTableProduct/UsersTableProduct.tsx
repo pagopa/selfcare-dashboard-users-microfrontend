@@ -2,7 +2,7 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
 import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import useFakePagination from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
 import { useHistory } from 'react-router-dom';
@@ -30,7 +30,7 @@ type Props = {
   filterConfiguration: UsersTableFiltersConfig;
   hideProductWhenLoading: boolean;
   productRolesLists: ProductRolesLists;
-  searchByName?: string;
+  searchByName: string;
 };
 
 const UsersTableProduct = ({
@@ -60,6 +60,14 @@ const UsersTableProduct = ({
   const [error, setError] = useState(false);
   const [pageRequest, setPageRequest] = useState<{ page: PageRequest; filterChanged: boolean }>();
 
+  const filterUsers = useMemo(
+    () => (users: Array<PartyProductUser>) =>
+      users.filter((user) =>
+        `${user.name} ${user.surname}`.toLowerCase().includes(searchByName.toLowerCase())
+      ),
+    [searchByName]
+  );
+
   const fakePagedFetch = useFakePagination(() =>
     fetchPartyProductUsers(
       { page: 0, size: 2000 }, // pageRequest?.page as PageRequest, TODO actually pagination is not supported
@@ -71,11 +79,7 @@ const UsersTableProduct = ({
       filterConfiguration.productRoles.filter((r) => r.productId === product.id)
     ).then((data) => {
       if (searchByName) {
-        return sortedUsers(
-          data.content.filter((user) =>
-            `${user.name} ${user.surname}`.toLowerCase().includes(searchByName.toLowerCase())
-          )
-        );
+        return sortedUsers(filterUsers(data.content));
       }
 
       return sortedUsers(data.content);

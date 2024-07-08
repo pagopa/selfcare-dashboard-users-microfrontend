@@ -62,6 +62,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => {
     setFilters(emptyFilters);
+    // setSearchByName('');
     setProductsFetchStatus(initProductFetchStatus);
   }, [selectedProductSection]);
 
@@ -121,7 +122,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
-        <Grid container xs={12} sx={{ display: 'flex' }}>
+        <Grid container item xs={12} sx={{ display: 'flex' }}>
           <Grid item xs={9} alignItems="flex-end">
             <TitleBox
               variantTitle="h4"
@@ -251,7 +252,12 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           <Grid container direction="row" alignItems={'center'}>
             {productsSection}
             {!loading && noData && (
-              <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
+              <UserTableNoData
+                removeFilters={() => {
+                  setFilters(emptyFilters);
+                  setSearchByName('');
+                }}
+              />
             )}
           </Grid>
         </Grid>

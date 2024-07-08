@@ -21,7 +21,7 @@ type Props = {
   incrementalLoad: boolean;
   isPnpg?: boolean;
   isPnpgTheOnlyProduct?: boolean;
-  searchByName?: string;
+  searchByName: string;
 };
 
 export default function UsersProductSection({
