@@ -20,8 +20,6 @@ const CustomSelect = styled(Select)({
   },
   '& .MuiSelect-select.MuiSelect-outlined': {
     cursor: 'pointer',
-    paddingTop: '7px',
-    paddingBottom: '7px',
   },
 });
 const MenuProps = {
@@ -205,6 +203,7 @@ export default function UsersTableRolesFilter({
         <CustomSelect
           multiple
           fullWidth
+          size="small"
           MenuProps={MenuProps}
           variant="outlined"
           displayEmpty
