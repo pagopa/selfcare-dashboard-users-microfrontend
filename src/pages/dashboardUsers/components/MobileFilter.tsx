@@ -1,23 +1,23 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
-  DialogTitle,
-  Slide,
-  Grid,
-  Typography,
-  Dialog,
-  styled,
-  DialogContent,
   Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Slide,
+  styled,
+  Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-import { Product } from '../../../model/Product';
-import { Party } from '../../../model/Party';
-import { ProductsRolesMap } from '../../../model/ProductRole';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
+import { Party } from '../../../model/Party';
+import { Product } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
 import UsersTableActions from './UsersTableActions/UsersTableActions';
+import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
 
 const MobileDialog = styled(Dialog)(() => ({
   '& .MuiDialog-container': {
@@ -72,6 +72,10 @@ type Props = {
   activeProducts: Array<Product>;
   selectedProductSection: string | undefined;
   setFilters: React.Dispatch<React.SetStateAction<UsersTableFiltersConfig>>;
+  searchByName: string;
+  setSearchByName: React.Dispatch<React.SetStateAction<string>>;
+  disableRemoveFiltersButton: boolean;
+  setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function MobileFilter({
@@ -84,6 +88,10 @@ export default function MobileFilter({
   activeProducts,
   selectedProductSection,
   setFilters,
+  searchByName,
+  setSearchByName,
+  disableRemoveFiltersButton,
+  setDisableRemoveFiltersButton,
 }: Props) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -142,6 +150,10 @@ export default function MobileFilter({
             onFiltersChange={setFilters}
             showSelcRoleGrouped={false}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
+            disableRemoveFiltersButton={disableRemoveFiltersButton}
+            setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           />
         </Box>
       </DialogContent>

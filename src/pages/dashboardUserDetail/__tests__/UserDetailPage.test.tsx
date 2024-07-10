@@ -4,8 +4,7 @@ import {
   getByRole,
   getByText,
   screen,
-  waitFor,
-  within,
+  waitFor
 } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';

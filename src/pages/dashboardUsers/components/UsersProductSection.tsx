@@ -21,6 +21,7 @@ type Props = {
   incrementalLoad: boolean;
   isPnpg?: boolean;
   isPnpgTheOnlyProduct?: boolean;
+  searchByName: string;
 };
 
 export default function UsersProductSection({
@@ -34,6 +35,7 @@ export default function UsersProductSection({
   filters,
   incrementalLoad,
   isPnpgTheOnlyProduct,
+  searchByName,
 }: Props) {
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
@@ -75,6 +77,7 @@ export default function UsersProductSection({
               partyId: party.partyId,
             }
           )}
+          searchByName={searchByName}
         />
       </Grid>
     </Grid>
