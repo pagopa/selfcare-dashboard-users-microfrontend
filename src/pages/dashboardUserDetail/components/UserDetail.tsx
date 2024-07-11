@@ -1,4 +1,4 @@
-import { Grid, Typography, styled, Tooltip } from '@mui/material';
+import { Grid, Tooltip, Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
@@ -41,27 +41,28 @@ const titleTooltipMaxCh = 20;
 export default function UserDetail({ roleSection, userInfo }: Props) {
   const { t } = useTranslation();
   return (
-    <Grid container spacing={1} xs={12} m={2}>
-      {/* name */}
-      <Grid item xs={3}>
+    <Grid container xs={12} m={2}>
+      {/* Name */}
+      <Grid item xs={12} sm={3}>
         <Typography sx={labelStyle}>{t('userDetail.name')}</Typography>
       </Grid>
-      <Grid item xs={9} display="flex" alignItems={'center'}>
+      <Grid item xs={12} sm={9} display="flex" alignItems="center">
         <Tooltip
           title={userInfo.name.length > titleTooltipMaxCh ? userInfo.name.toLocaleLowerCase() : ''}
           placement="top"
           arrow={true}
         >
-          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText, pb: { xs: 2, sm: 1 } }}>
             {userInfo.name.toLocaleLowerCase()}
           </CustomStyleCapitolized>
         </Tooltip>
       </Grid>
-      {/* surname */}
-      <Grid item xs={3}>
+
+      {/* Surname */}
+      <Grid item xs={12} sm={3}>
         <Typography sx={labelStyle}>{t('userDetail.surname')}</Typography>
       </Grid>
-      <Grid item xs={9} display="flex" alignItems={'center'}>
+      <Grid item xs={12} sm={9} display="flex" alignItems="center">
         <Tooltip
           title={
             userInfo.surname.length > titleTooltipMaxCh ? userInfo.surname.toLocaleLowerCase() : ''
@@ -69,25 +70,25 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
           placement="top"
           arrow={true}
         >
-          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText }}>
+          <CustomStyleCapitolized sx={{ ...infoStyle, ...truncateText, pb: { xs: 2, sm: 1 } }}>
             {userInfo.surname.toLocaleLowerCase()}
           </CustomStyleCapitolized>
         </Tooltip>
       </Grid>
-      {/* taxcode */}
-      <Grid item xs={3}>
+
+      {/* Tax Code */}
+      <Grid item xs={12} sm={3}>
         <Typography sx={labelStyle}>{t('userDetail.fiscalCode')}</Typography>
       </Grid>
-      <Grid item xs={9} display="flex" alignItems={'center'}>
-        <Typography sx={{ ...infoStyle, ...labelStyle, color: 'colorTextPrimary' }}>
-          {userInfo.taxCode}
-        </Typography>
+      <Grid item xs={12} sm={9} display="flex" alignItems="center">
+        <Typography sx={{ ...infoStyle, pb: { xs: 2, sm: 1 } }}>{userInfo.taxCode}</Typography>
       </Grid>
-      {/* email */}
-      <Grid item xs={3}>
+
+      {/* Email */}
+      <Grid item xs={12} sm={3}>
         <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
       </Grid>
-      <Grid item xs={9} display="flex" alignItems={'center'}>
+      <Grid item xs={12} sm={9} display="flex" alignItems="center">
         <Tooltip
           title={
             userInfo?.email?.length > titleTooltipMaxCh ? userInfo?.email?.toLocaleLowerCase() : ''
@@ -100,8 +101,9 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
           </Typography>
         </Tooltip>
       </Grid>
+
       {roleSection && (
-        <Grid container item alignContent="center" alignItems={'center'}>
+        <Grid container item xs={12} alignContent="center" alignItems="center">
           {roleSection}
         </Grid>
       )}

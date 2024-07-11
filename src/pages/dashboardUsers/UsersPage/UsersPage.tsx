@@ -1,23 +1,24 @@
-import { Grid, Tab, Tabs, Button, Stack } from '@mui/material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
-import { useEffect, useMemo, useState } from 'react';
+import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
-import { ButtonNaked } from '@pagopa/mui-italia';
-import { Product, ProductsMap } from '../../../model/Product';
-import { Party } from '../../../model/Party';
-import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
-import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import UsersProductSection from '../components/UsersProductSection';
-import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
-import UserTableNoData from '../components/UserTableNoData';
-import { ProductsRolesMap } from '../../../model/ProductRole';
-import { ENV } from '../../../utils/env';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { Party } from '../../../model/Party';
+import { Product, ProductsMap } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { ENV } from '../../../utils/env';
 import MobileFilter from '../components/MobileFilter';
+import UserTableNoData from '../components/UserTableNoData';
+import UsersProductSection from '../components/UsersProductSection';
+import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
+import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
 
 interface Props {
   party: Party;
@@ -43,6 +44,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
   const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
+  const [searchByName, setSearchByName] = useState<string>('');
+  const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -61,6 +64,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   useEffect(() => {
     setFilters(emptyFilters);
+    // setSearchByName('');
     setProductsFetchStatus(initProductFetchStatus);
   }, [selectedProductSection]);
 
@@ -105,6 +109,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         }}
         incrementalLoad={!selectedProductSection}
         isPnpgTheOnlyProduct={isPnpgTheOnlyProduct}
+        searchByName={searchByName}
       />
     </Grid>
   );
@@ -119,7 +124,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
-        <Grid container xs={12} sx={{ display: 'flex' }}>
+        <Grid container item xs={12} sx={{ display: 'flex' }}>
           <Grid item xs={9} alignItems="flex-end">
             <TitleBox
               variantTitle="h4"
@@ -163,10 +168,14 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           selectedProductSection={selectedProductSection}
           setFilters={setFilters}
           setOpenDialogMobile={setOpenDialogMobile}
+          searchByName={searchByName}
+          setSearchByName={setSearchByName}
+          disableRemoveFiltersButton={disableRemoveFiltersButton}
+          setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
-            <ButtonNaked color="primary" onClick={() => setOpenDialogMobile(true)}>
+            <ButtonNaked color="primary" onClick={() => setOpenDialogMobile(true)} startIcon={<FilterAltIcon />}>
               {t('usersTable.filterRole.addFilters')}
             </ButtonNaked>
           </Grid>
@@ -185,6 +194,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             onFiltersChange={setFilters}
             showSelcRoleGrouped={isPnpg ? false : !selectedProductSection}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
+            disableRemoveFiltersButton={disableRemoveFiltersButton}
+            setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -199,7 +212,18 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               backgroundColor: '#F5F5F5',
             }}
           >
-            <Tabs variant="fullWidth" scrollButtons="auto" value={selectedProductSection ?? 'all'}>
+            <Tabs
+              variant="scrollable"
+              scrollButtons="auto"
+              value={selectedProductSection ?? 'all'}
+              sx={{
+                '& .MuiTab-root': {
+                  minWidth: 0,
+                  flex: '1 0 auto',
+                  maxWidth: 'none',
+                },
+              }}
+            >
               <Tab
                 label={t('usersTable.tabAll')}
                 value="all"
@@ -234,7 +258,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
           <Grid container direction="row" alignItems={'center'}>
             {productsSection}
             {!loading && noData && (
-              <UserTableNoData removeFilters={() => setFilters(emptyFilters)} />
+              <UserTableNoData
+                removeFilters={() => {
+                  setFilters(emptyFilters);
+                  setSearchByName('');
+                  setDisableRemoveFiltersButton(false);
+                }}
+              />
             )}
           </Grid>
         </Grid>

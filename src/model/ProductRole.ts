@@ -1,9 +1,9 @@
-import { UserRole, PartyRole } from './Party';
+import { PartyRole, UserRoleFilters } from './Party';
 
 export type ProductRole = {
   productId: string;
   partyRole: PartyRole;
-  selcRole: UserRole;
+  selcRole: UserRoleFilters;
   multiroleAllowed: boolean;
   productRole: string;
   title: string;
@@ -25,7 +25,7 @@ export const buildEmptyProductRolesLists = (): ProductRolesLists => ({
 });
 
 export type ProductRolesByProductRoleType = { [productRole: string]: ProductRole };
-export type ProductRolesBySelcRoleType = { [selcRole in UserRole]: Array<ProductRole> };
+export type ProductRolesBySelcRoleType = { [selcRole in UserRoleFilters]: Array<ProductRole> };
 export type ProductRolesByPartyRoleType = { [partyRole in PartyRole]: Array<ProductRole> };
 
 export type ProductsRolesMap = {
@@ -41,7 +41,7 @@ export const productRoles2ProductRolesList = (roles: Array<ProductRole>): Produc
 
 export const productRolesGroupBySelcRole = (
   roles: Array<ProductRole>
-): { [selcRole in UserRole]: Array<ProductRole> } =>
+): { [selcRole in UserRoleFilters]: Array<ProductRole> } =>
   roles.reduce((acc, r) => {
     // eslint-disable-next-line functional/immutable-data
     acc[r.selcRole] = acc[r.selcRole].concat([r]);
