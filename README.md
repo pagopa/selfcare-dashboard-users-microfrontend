@@ -1,4 +1,4 @@
-# selfcare-dashboard-frontend users pages
+# selfcare-dashboard-frontend users pages 
 Micro-frontend developed as an extension of the [selfcare-dashboard-frontend](https://github.com/pagopa/selfcare-dashboard-frontend) using WebPack 5's module federation, in order to serve all the pages related to selfcare users (list, detail, add, delete and edit).
 
 It shares some common model with the container app: see [selfcare-dashboard-frontend](https://github.com/pagopa/selfcare-dashboard-frontend#data-and-modeltypes-shared-with-remotes-micro-frontend) for details
