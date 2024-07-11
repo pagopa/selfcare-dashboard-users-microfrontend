@@ -1,3 +1,4 @@
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
@@ -174,7 +175,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
-            <ButtonNaked color="primary" onClick={() => setOpenDialogMobile(true)}>
+            <ButtonNaked color="primary" onClick={() => setOpenDialogMobile(true)} startIcon={<FilterAltIcon />}>
               {t('usersTable.filterRole.addFilters')}
             </ButtonNaked>
           </Grid>

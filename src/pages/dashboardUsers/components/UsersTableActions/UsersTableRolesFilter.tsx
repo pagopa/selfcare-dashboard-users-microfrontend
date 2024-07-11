@@ -181,7 +181,7 @@ export default function UsersTableRolesFilter({
     <Grid
       container
       width="100%"
-      spacing={2}
+      spacing={isMobile ? 3 : 2}
       display="flex"
       mt={isMobile ? 0 : 5}
       flexDirection={isMobile ? 'column' : 'row'}
