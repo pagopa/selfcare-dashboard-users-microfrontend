@@ -1,40 +1,35 @@
+import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
   mockedInstitutionUserDetailsResource,
-  mockedInstitutionUserResource,
   mockedProductUserResource,
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
-import {
-  fetchPartyUsers,
-  savePartyUser,
-  updatePartyUserStatus,
-  fetchUserRegistryByFiscalCode,
-  deletePartyUser,
-  fetchPartyProductUsers,
-  fetchPartyUser,
-  addUserProductRoles,
-} from '../usersService';
-import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
+import { mockedBaseParties, mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
-import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
-  institutionUserResource2PartyUser,
   institutionUserResource2PartyUserDetail,
   PartyUser,
   PartyUserOnCreation,
   productUserResource2PartyProductUser,
 } from '../../model/PartyUser';
-import { mockedProductRoles as mockedProductRolesService } from '../../microcomponents/mock_dashboard/data/product';
+import { buildProductsMap } from '../../model/Product';
 import { userResource2UserRegistry } from '../../model/UserRegistry';
 import { mockedUsers } from '../__mocks__/usersService';
-import { buildProductsMap } from '../../model/Product';
+import {
+  addUserProductRoles,
+  deletePartyUser,
+  fetchPartyProductUsers,
+  fetchPartyUser,
+  fetchUserRegistryByFiscalCode,
+  savePartyUser,
+  updatePartyUserStatus,
+} from '../usersService';
 
 jest.mock('../../api/DashboardApiClient');
 
 beforeEach(() => {
   jest.spyOn(DashboardApi, 'getPartyUser');
-  jest.spyOn(DashboardApi, 'getPartyUsers');
   jest.spyOn(DashboardApi, 'getPartyProductUsers');
   jest.spyOn(DashboardApi, 'savePartyUser');
   jest.spyOn(DashboardApi, 'suspendPartyRelation');
@@ -60,75 +55,6 @@ test('Test fetch PartyUserDetails', async () => {
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
 });
 
-describe('Test fetchPartyUsers', () => {
-  const testNoProductFilter = async () => {
-    const partyUsers = await fetchPartyUsers(
-      { page: 0, size: 20 },
-      mockedParties[0],
-      buildProductsMap(mockedPartyProducts),
-      mockedUser,
-      undefined,
-      'ADMIN',
-      mockedProductRolesService
-    );
-
-    expect(partyUsers).toMatchObject({
-      page: {
-        number: 0,
-        size: mockedInstitutionUserResource.length,
-        totalElements: mockedInstitutionUserResource.length,
-        totalPages: 1,
-      },
-      content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUser(u, {}, mockedUser)
-      ),
-    });
-
-    expect(DashboardApi.getPartyUsers).toBeCalledTimes(1);
-    expect(DashboardApi.getPartyUsers).toBeCalledWith(
-      mockedParties[0].partyId,
-      undefined,
-      'ADMIN',
-      mockedProductRolesService
-    );
-    expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
-  };
-
-  test('Test CheckPermission False', async () => {
-    await testNoProductFilter();
-
-    const partyProductUsers = await fetchPartyUsers(
-      { page: 0, size: 20 },
-      mockedParties[0],
-      buildProductsMap(mockedPartyProducts),
-      mockedUser,
-      mockedPartyProducts[0],
-      'LIMITED'
-    );
-
-    expect(partyProductUsers).toMatchObject({
-      page: {
-        number: 0,
-        size: mockedProductUserResource.length,
-        totalElements: mockedProductUserResource.length,
-        totalPages: 1,
-      },
-      content: mockedInstitutionUserResource.map((u) =>
-        institutionUserResource2PartyUser(u, {}, mockedUser)
-      ),
-    });
-
-    expect(DashboardApi.getPartyUsers).toBeCalledTimes(2);
-    expect(DashboardApi.getPartyUsers).toBeCalledWith(
-      mockedParties[0].partyId,
-      mockedPartyProducts[0].id,
-      'LIMITED',
-      undefined
-    );
-    expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
-  });
-});
-
 test('Test fetchPartyProductUser', async () => {
   const partyProductUsers = await fetchPartyProductUsers(
     { page: 0, size: 20 },
@@ -136,7 +62,6 @@ test('Test fetchPartyProductUser', async () => {
     mockedPartyProducts[0],
     mockedUser,
     buildProductsMap(mockedPartyProducts),
-    'LIMITED'
   );
 
   expect(partyProductUsers).toMatchObject({
@@ -151,12 +76,10 @@ test('Test fetchPartyProductUser', async () => {
     ),
   });
 
-  expect(DashboardApi.getPartyUsers).toBeCalledTimes(0);
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
   expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
-    'LIMITED',
     undefined
   );
 });
@@ -247,7 +170,12 @@ describe('Test updatePartyUserStatus', () => {
       'SUSPENDED'
     );
 
-    expect(DashboardApi.suspendPartyRelation).toBeCalledWith('relationshipId');
+    expect(DashboardApi.suspendPartyRelation).toBeCalledWith(
+      partyUser.id,
+      mockedParties[0].partyId,
+      partyUser.products[0].id,
+      partyUser.products[0].roles[0].role
+    );
     expect(DashboardApi.activatePartyRelation).toBeCalledTimes(0);
 
     await updatePartyUserStatus(
@@ -259,7 +187,12 @@ describe('Test updatePartyUserStatus', () => {
     );
 
     expect(DashboardApi.suspendPartyRelation).toBeCalledTimes(1);
-    expect(DashboardApi.activatePartyRelation).toBeCalledWith('relationshipId');
+    expect(DashboardApi.activatePartyRelation).toBeCalledWith(
+      partyUser.id,
+      mockedParties[0].partyId,
+      partyUser.products[0].id,
+      partyUser.products[0].roles[0].role
+    );
   });
 
   test('Test fetchUserRegistryByFiscalCode', async () => {
@@ -280,6 +213,9 @@ test('Test deletePartyUser', async () => {
   );
 
   expect(DashboardApi.deletePartyRelation).toBeCalledWith(
-    mockedUsers[0].products[0].roles[0].relationshipId
+    mockedUsers[0].id,
+    mockedParties[0].partyId,
+    mockedUsers[0].products[0].id,
+    mockedUsers[0].products[0].roles[0].role
   );
 });

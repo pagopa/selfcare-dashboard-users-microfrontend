@@ -1,9 +1,10 @@
 import { GeographicTaxonomyResource } from '../api/generated/b4f-dashboard/GeographicTaxonomyResource';
 import { OnboardedProductResource } from '../api/generated/b4f-dashboard/OnboardedProductResource';
 
-export type UserRole = 'ADMIN' | 'LIMITED';
+export type UserRole = 'ADMIN' | 'LIMITED' | 'ADMIN_EA';
 export type PartyRole = 'DELEGATE' | 'MANAGER' | 'OPERATOR' | 'SUB_DELEGATE';
 export type UserStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED' | 'TOBEVALIDATED';
+export type UserRoleFilters = 'ADMIN' | 'LIMITED';
 
 export type BaseParty = {
   partyId: string;

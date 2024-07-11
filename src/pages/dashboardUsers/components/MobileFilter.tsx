@@ -1,57 +1,83 @@
+import CloseIcon from '@mui/icons-material/Close';
 import {
-  DialogTitle,
-  Slide,
-  Grid,
-  Typography,
   Dialog,
-  styled,
   DialogContent,
-  Box,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Slide,
+  styled,
+  Typography
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-import { Product } from '../../../model/Product';
-import { Party } from '../../../model/Party';
-import { ProductsRolesMap } from '../../../model/ProductRole';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
+import { Party } from '../../../model/Party';
+import { Product } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
 import UsersTableActions from './UsersTableActions/UsersTableActions';
+import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
 
-const MobileDialog = styled(Dialog)(() => ({
-  '& .MuiDialog-container': {
-    height: 'auto',
-    bottom: 0,
-    position: 'absolute',
-    width: '100%',
-  },
-  '& .MuiPaper-root': {
-    borderRadius: '24px 24px 0px 0px',
-    width: '100%',
-    maxWidth: '100vw',
-    margin: 0,
-  },
-  '& .MuiDialogContent-root': {
-    paddingTop: '20px !important',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flex: '1 1 auto',
-    overflowX: 'hidden',
-  },
-  '& .MuiDialogActions-root': {
-    display: 'block',
-    textAlign: 'center',
-    padding: '20px 24px',
-
-    '.MuiButton-root': {
+const MobileDialog = styled(Dialog)(({ theme }) => {
+  const baseStyles = {
+    '& .MuiDialogContent-root': {
       width: '100%',
-      margin: '10px 0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      flex: '1 1 auto',
+      overflowX: 'hidden',
+      paddingTop: '0px',
     },
-  },
-}));
+    '& .MuiDialogActions-root': {
+      display: 'block',
+      textAlign: 'center',
+      '& .MuiButton-root': {
+        width: '100%',
+        margin: '10px 0',
+      },
+    },
+  };
+
+  const xsStyles = {
+    '& .MuiDialog-container': {
+      height: 'auto',
+      bottom: 0,
+      position: 'absolute',
+      width: '100%',
+    },
+    '& .MuiPaper-root': {
+      borderRadius: '8px 8px 0px 0px',
+      width: '100%',
+      maxWidth: '100vw',
+      margin: 0,
+    },
+  };
+
+  const smStyles = {
+    '& .MuiDialog-container': {
+      height: '100%',
+      right: 0,
+      position: 'absolute',
+      width: '70%',
+    },
+    '& .MuiPaper-root': {
+      borderRadius: '0px 0px 0px 0px',
+      width: '100%',
+      height: '100%',
+      maxWidth: '85vw',
+      maxHeight: '100vh',
+      margin: 0,
+    },
+  };
+
+  return {
+    ...baseStyles,
+    ...xsStyles,
+    [theme.breakpoints.up('sm')]: smStyles,
+  };
+});
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -72,6 +98,10 @@ type Props = {
   activeProducts: Array<Product>;
   selectedProductSection: string | undefined;
   setFilters: React.Dispatch<React.SetStateAction<UsersTableFiltersConfig>>;
+  searchByName: string;
+  setSearchByName: React.Dispatch<React.SetStateAction<string>>;
+  disableRemoveFiltersButton: boolean;
+  setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function MobileFilter({
@@ -84,6 +114,10 @@ export default function MobileFilter({
   activeProducts,
   selectedProductSection,
   setFilters,
+  searchByName,
+  setSearchByName,
+  disableRemoveFiltersButton,
+  setDisableRemoveFiltersButton,
 }: Props) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -104,30 +138,28 @@ export default function MobileFilter({
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle p={3}>
+      <DialogTitle px={3} pt={3} pb={0}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography
-              variant="h4"
-              sx={{ fontSize: '24px', fontWeight: 'fontWeightBold', textAlign: 'left' }}
+              variant='overline'
+              sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', textAlign: 'left' }}
             >
               {t('usersTable.filterRole.addFilters')}
             </Typography>
           </Grid>
           <Grid item>
+            <IconButton>
             <CloseIcon
               onClick={handleClose}
-              sx={{
-                color: 'action.active',
-                width: '32px',
-                height: '32px',
-              }}
+              aria-label='Chiudi'
             />
+            </IconButton>
           </Grid>
         </Grid>
       </DialogTitle>
       <DialogContent sx={{ display: 'flex' }}>
-        <Box sx={{ flexGrow: 1, width: 'calc(100vw - 100px)' }}>
+        <Grid sx={{ flexGrow: 1, width: '100%', maxWidth: '100%', marginLeft: 0 }}>
           <UsersTableActions
             disableFilters={loading}
             loading={loading}
@@ -142,8 +174,12 @@ export default function MobileFilter({
             onFiltersChange={setFilters}
             showSelcRoleGrouped={false}
             setOpenDialogMobile={setOpenDialogMobile}
+            searchByName={searchByName}
+            setSearchByName={setSearchByName}
+            disableRemoveFiltersButton={disableRemoveFiltersButton}
+            setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           />
-        </Box>
+        </Grid>
       </DialogContent>
     </MobileDialog>
   );

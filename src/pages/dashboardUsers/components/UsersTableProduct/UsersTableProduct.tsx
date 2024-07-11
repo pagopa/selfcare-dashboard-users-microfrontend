@@ -2,7 +2,7 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
 import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import useFakePagination from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
 import { useHistory } from 'react-router-dom';
@@ -30,6 +30,7 @@ type Props = {
   filterConfiguration: UsersTableFiltersConfig;
   hideProductWhenLoading: boolean;
   productRolesLists: ProductRolesLists;
+  searchByName: string;
 };
 
 const UsersTableProduct = ({
@@ -42,8 +43,8 @@ const UsersTableProduct = ({
   productRolesLists,
   onFetchStatusUpdate,
   filterConfiguration,
-  hideProductWhenLoading,
   userDetailUrl,
+  searchByName,
 }: Props) => {
   const currentUser = useAppSelector(userSelectors.selectLoggedUser);
 
@@ -58,6 +59,14 @@ const UsersTableProduct = ({
   const [error, setError] = useState(false);
   const [pageRequest, setPageRequest] = useState<{ page: PageRequest; filterChanged: boolean }>();
 
+  const filterUsers = useMemo(
+    () => (users: Array<PartyProductUser>) =>
+      users.filter((user) =>
+        `${user.name} ${user.surname}`.toLowerCase().includes(searchByName.toLowerCase())
+      ),
+    [searchByName]
+  );
+
   const fakePagedFetch = useFakePagination(() =>
     fetchPartyProductUsers(
       { page: 0, size: 2000 }, // pageRequest?.page as PageRequest, TODO actually pagination is not supported
@@ -67,7 +76,13 @@ const UsersTableProduct = ({
       productsMap,
       undefined,
       filterConfiguration.productRoles.filter((r) => r.productId === product.id)
-    ).then((data) => sortedUsers(data.content))
+    ).then((data) => {
+      if (searchByName) {
+        return sortedUsers(filterUsers(data.content));
+      }
+
+      return sortedUsers(data.content);
+    })
   );
 
   const previousInitialPageSize = useRef(initialPageSize);
@@ -123,6 +138,7 @@ const UsersTableProduct = ({
           pageRequest?.page.page === 0 || !incrementalLoad
             ? r
             : { content: users.content.concat(r.content), page: r.page };
+
         setUsers(nextUsers);
         setError(false);
         setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
@@ -169,8 +185,7 @@ const UsersTableProduct = ({
   if (error && !loading) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
-    return (!error && loading && hideProductWhenLoading && users.content.length === 0) ||
-      (!loading && users.content.length === 0) ? (
+    return !loading && users.content.length === 0 ? (
       <></>
     ) : (
       <UsersProductTable

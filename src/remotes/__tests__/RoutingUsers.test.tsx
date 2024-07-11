@@ -18,7 +18,7 @@ const renderApp = async (partyId: string = 'onboarded') => {
       'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
     )
   );
-  await waitFor(() => screen.getByText('loggedName.b@email.it'));
+  await waitFor(() => screen.getAllByText('loggedName.b@email.it'));
   return output;
 };
 
