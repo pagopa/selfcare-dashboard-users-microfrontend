@@ -23,7 +23,52 @@ import { ProductRole } from '../../model/ProductRole';
 import { UserRegistry } from '../../model/UserRegistry';
 import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
+/*
+function generateUsers(n: number): Array<PartyUserDetail> {
+  const users: Array<PartyUserDetail> = [];
+  const productIds = ['prod-io', 'prod-interop', 'prod-interop-coll', 'prod-interop-atst'];
+
+  // eslint-disable-next-line functional/no-let
+  for (let i = 0; i < n; i++) {
+    const randomProdId = productIds[Math.floor(Math.random() * productIds.length)];
+    const user: PartyUserDetail = {
+      id: `uid${i}`,
+      taxCode: `TAXCODE${i}`,
+      name: `Name${i}`,
+      surname: `Surname${i}`,
+      email: `user${i}@example.com`,
+      userRole: 'ADMIN',
+      status: 'ACTIVE',
+      products: [
+        {
+          title: 'App IO',
+          id: randomProdId,
+          roles: [
+            {
+              relationshipId: `rel${i}`,
+              role: 'incaricato-ente-creditore',
+              selcRole: 'ADMIN',
+              status: 'ACTIVE',
+            },
+          ],
+        },
+      ],
+      isCurrentUser: false,
+    };
+
+    // eslint-disable-next-line functional/immutable-data
+    users.push(user);
+  }
+
+  return users;
+}
+
+test large number of users
+export const mockedUsers: Array<PartyUserDetail> = generateUsers(11121);
+*/
+
 export const mockedUsers: Array<PartyUserDetail> = [
+  
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
