@@ -1,12 +1,13 @@
-import { Link, Typography, Box } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Party, UserStatus } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProductRole, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
@@ -260,19 +261,22 @@ export default function UserProductActions({
       onConfirm: confirmChangeStatus,
     });
   };
+
   return (
     <>
       {showActions && !user.isCurrentUser && canEdit && (
         <Box display="flex" justifyContent="flex-end">
-          {(moreRolesOnProduct || !isProductDetailPage) && !user.isCurrentUser && (
-            <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
-              <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
-                <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+          {(moreRolesOnProduct || !isProductDetailPage) &&
+            !user.isCurrentUser &&
+            !(product.id === 'prod-interop' && role.selcRole === 'ADMIN') && (
+              <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
+                <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
                   {t('userDetail.actions.deleteButton')}
-                </Typography>
-              </Link>
-            </Box>
-          )}
+                  </Typography>
+                </Link>
+              </Box>
+            )}
           {!isPnpg && (
             <Box width="52px" display="flex">
               <Link

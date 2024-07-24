@@ -203,8 +203,8 @@ export const mockedUsers: Array<PartyUserDetail> = [
         roles: [
           {
             relationshipId: 'rel4',
-            role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            role: 'amministratore',
+            selcRole: 'ADMIN',
             status: 'ACTIVE',
           },
           {
@@ -554,7 +554,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
         roles: [
           {
             relationshipId: 'rel16',
-            role: 'referente-tecnico',
+            role: 'test',
             selcRole: 'LIMITED',
             status: 'ACTIVE',
           },

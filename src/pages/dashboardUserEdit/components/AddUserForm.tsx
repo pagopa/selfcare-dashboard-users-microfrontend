@@ -662,7 +662,7 @@ export default function AddUserForm({
                 }}
               >
                 {
-                  'Per aggiungere un Amministratore, segui le indicazioni che trovi <1>in questa pagina</1>.'
+                  'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
                 }
               </Trans>
             </Alert>
