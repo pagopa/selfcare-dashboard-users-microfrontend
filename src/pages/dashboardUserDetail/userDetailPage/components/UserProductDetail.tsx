@@ -116,27 +116,29 @@ export default function UserProductDetail({
       <Grid item xs={12} mt={3}>
         <Divider sx={{ borderColor: 'background.default' }} />
       </Grid>
-      {userProduct.id === 'prod-interop' && userProduct.roles[0].selcRole === 'ADMIN' && (
-        <Alert severity="info" sx={{ mt: 2 }}>
-          <Trans
-            i18nKey="userEdit.addForm.bannerText"
-            components={{
-              1: (
-                <Link
-                  href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
-                  color={'text.primary'}
-                  sx={{ textDecorationColor: 'text.primary' }}
-                  target="_blank"
-                />
-              ),
-            }}
-          >
-            {
-              'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
-            }
-          </Trans>
-        </Alert>
-      )}
+      {userProduct.id === 'prod-interop' &&
+        userProduct.roles[0].selcRole === 'ADMIN' &&
+        !partyUser.isCurrentUser && (
+          <Alert severity="info" sx={{ mt: 2 }}>
+            <Trans
+              i18nKey="userDetail.removeRoleBannerText"
+              components={{
+                1: (
+                  <Link
+                    href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                    color={'text.primary'}
+                    sx={{ textDecorationColor: 'text.primary' }}
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {
+                'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
+              }
+            </Trans>
+          </Alert>
+        )}
       <Grid item xs={12}>
         <UserProductRoles
           showActions={!showActionOnProduct}
