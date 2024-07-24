@@ -36,7 +36,6 @@ export const productResource2Product = (resource: ProductsResource): Product => 
   id: resource.id ?? '',
   imageUrl: resource.imageUrl ?? '',
   logo: resource.logo ?? '',
-  activationDateTime: resource.activatedAt,
   status: resource.status ?? StatusEnum.INACTIVE,
   title: resource.title ?? '',
   urlBO: resource.urlBO ?? '',

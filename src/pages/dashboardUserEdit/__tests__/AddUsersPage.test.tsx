@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { Trans } from 'react-i18next';
 import { Route, Router, Switch } from 'react-router-dom';
-import { createStore } from '../../../redux/store';
+import { createStore, store } from '../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
 import {
@@ -66,14 +66,14 @@ test('test with empty fields, so disabled button', async () => {
 });
 
 test('test with fields that respect rules, so enabled button', async () => {
-  const { store } = await renderApp();
+  await renderApp(store);
 
   const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
   const name = document.querySelector('#name') as HTMLInputElement;
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
-  const products = document.getElementById('mui-component-select-products');
+  const products = document.getElementById('mui-component-select-products') as HTMLDivElement;
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
 
@@ -86,6 +86,8 @@ test('test with fields that respect rules, so enabled button', async () => {
 
   fireEvent.change(products, { target: { name: 'products' } });
   await waitFor(() => fireEvent.mouseDown(products));
+
+  console.log('productsLog', products,'taxCodeLog' taxCode);
 
   const selectedProduct = screen.getByTestId('product: prod-io');
   await waitFor(() => fireEvent.click(selectedProduct));

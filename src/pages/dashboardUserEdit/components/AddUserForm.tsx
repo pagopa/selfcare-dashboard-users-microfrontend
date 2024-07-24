@@ -1,56 +1,57 @@
-import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
   FormControlLabel,
   Grid,
-  TextField,
-  Radio,
-  Button,
-  Typography,
-  Box,
-  Checkbox,
-  styled,
-  Select,
-  MenuItem,
   InputLabel,
-  FormControl,
-  OutlinedInput,
-  Stack,
-  Alert,
   Link,
+  MenuItem,
+  OutlinedInput,
+  Radio,
+  Select,
+  Stack,
+  styled,
+  TextField,
+  Typography,
 } from '@mui/material';
-import { useFormik } from 'formik';
-import { useHistory } from 'react-router';
-import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { theme } from '@pagopa/mui-italia';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
-import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import {
   useUnloadEventInterceptor,
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
+import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
-import { Trans, useTranslation } from 'react-i18next';
+import { Actions, emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
-import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
-import { theme } from '@pagopa/mui-italia';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
+import { PartyUserOnCreation } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
+import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
+import { UserRegistry } from '../../../model/UserRegistry';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import {
+  addUserProductRoles,
   fetchUserRegistryByFiscalCode,
   savePartyUser,
-  addUserProductRoles,
 } from '../../../services/usersService';
 import {
-  LOADING_TASK_SAVE_PARTY_USER,
   LOADING_TASK_FETCH_TAX_CODE,
+  LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import { Product } from '../../../model/Product';
-import { PartyUserOnCreation } from '../../../model/PartyUser';
-import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
-import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import { UserRegistry } from '../../../model/UserRegistry';
-import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -133,6 +134,7 @@ export default function AddUserForm({
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
+  const { hasPermission } = usePermissions();
 
   const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
@@ -200,8 +202,7 @@ export default function AddUserForm({
       party.products.some(
         (pp) =>
           p.id === pp.productId &&
-          pp.authorized &&
-          pp.userRole === 'ADMIN' &&
+          hasPermission(pp.productId || '', Actions.ManageProductUsers) &&
           pp.productOnBoardingStatus === 'ACTIVE'
       )
     );
@@ -624,7 +625,11 @@ export default function AddUserForm({
                 >
                   {products
                     .filter((p) =>
-                      party.products.some((pp) => p.id === pp.productId && pp.userRole === 'ADMIN')
+                      party.products.some(
+                        (pp) =>
+                          p.id === pp.productId &&
+                          hasPermission(pp.productId, Actions.ManageProductUsers)
+                      )
                     )
                     .map((p) => (
                       <MenuItem

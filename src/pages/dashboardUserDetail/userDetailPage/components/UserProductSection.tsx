@@ -1,12 +1,14 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { theme } from '@pagopa/mui-italia';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
-import { theme } from '@pagopa/mui-italia';
-import { PartyUserDetail } from '../../../../model/PartyUser';
+import { useHistory } from 'react-router-dom';
 import { Party } from '../../../../model/Party';
-import { ProductsRolesMap } from '../../../../model/ProductRole';
+import { PartyUserDetail } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
+import { ProductsRolesMap } from '../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
 import UserProductDetail from './UserProductDetail';
 
@@ -30,6 +32,7 @@ export default function UserProductSection({
 }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+  const { hasPermission } = usePermissions();
 
   const isPnpgProduct = products[0].id.startsWith('prod-pn-pg');
   const isPnpgTheOnlyProduct = isPnpgProduct && products.length === 1;
@@ -55,7 +58,7 @@ export default function UserProductSection({
 
       {!partyUser.isCurrentUser &&
         party.products
-          .filter((p) => p.userRole === 'ADMIN')
+          .filter((p) => hasPermission(p.productId || '', Actions.ManageProductUsers))
           .find((p) => !partyUser.products.find((pu) => pu.id === p.productId)) && (
           <Grid item xs={12} sm={3}>
             <Stack
@@ -117,7 +120,7 @@ export default function UserProductSection({
                 canEdit={
                   !!party.products.find(
                     (p) =>
-                      p.userRole === 'ADMIN' &&
+                      hasPermission(p.productId || '', Actions.ManageProductUsers) &&
                       p.productOnBoardingStatus === 'ACTIVE' &&
                       userProduct.id === p.productId
                   )
