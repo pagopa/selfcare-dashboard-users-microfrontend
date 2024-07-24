@@ -180,6 +180,8 @@ export default {
     role: 'Ruolo',
     statusLabel: 'Sospeso',
     infoIcon: 'Non hai i permessi per gestire questo prodotto',
+    removeRoleBannerText:
+      'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
   },
   userEdit: {
     mismatchWithTaxCode: {
@@ -214,7 +216,7 @@ export default {
         title: 'Seleziona il ruolo che vuoi assegnare all’utente',
       },
       bannerText:
-        'Per aggiungere un Amministratore, segui le indicazioni che trovi <1>in questa pagina</1>.',
+        'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
       backButton: 'Indietro',
       continueButton: 'Continua',
       errors: {
