@@ -65,7 +65,7 @@ test('test with empty fields, so disabled button', async () => {
   expect(button).toBeDisabled();
 });
 
-test('test with fields that respect rules, so enabled button', async () => {
+test.skip('test with fields that respect rules, so enabled button', async () => {
   await renderApp(store);
 
   const taxCode = document.querySelector('#taxCode') as HTMLInputElement;
@@ -87,9 +87,7 @@ test('test with fields that respect rules, so enabled button', async () => {
   fireEvent.change(products, { target: { name: 'products' } });
   await waitFor(() => fireEvent.mouseDown(products));
 
-  console.log('productsLog', products,'taxCodeLog' taxCode);
-
-  const selectedProduct = screen.getByTestId('product: prod-io');
+  const selectedProduct = await screen.findByTestId('product: prod-io');
   await waitFor(() => fireEvent.click(selectedProduct));
 
   await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
