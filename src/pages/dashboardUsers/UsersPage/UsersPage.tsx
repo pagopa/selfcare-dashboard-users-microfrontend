@@ -38,7 +38,12 @@ const emptyFilters: UsersTableFiltersConfig = {
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
   const selectedProductSection =
     window.location.hash !== '' ? window.location.hash.substring(1) : undefined;
-  const selectedProducts = activeProducts.filter(
+  const { getAllProductsWithPermission, hasPermission } = usePermissions();
+  const activeProductsWithPermission = activeProducts.filter((p: Product) =>
+    hasPermission(p.id, Actions.ManageProductUsers)
+  );
+
+  const selectedProducts = activeProductsWithPermission.filter(
     (p: Product) => !selectedProductSection || p.id === selectedProductSection
   );
 
@@ -53,7 +58,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const history = useHistory();
   const onExit = useUnloadEventOnExit();
   const isMobile = useIsMobile('md');
-  const { getAllProductsWithPermission } = usePermissions();
+
   const canSeeUsers = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
 
   const addUserUrl = resolvePathVariables(
@@ -123,7 +128,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
     [selectedProductSection, filters]
   );
 
-  const moreThanOneActiveProduct = activeProducts.length > 1;
+  const moreThanOneActiveProduct = activeProductsWithPermission.length > 1;
 
   return (
     <div style={{ width: '100%' }}>
@@ -164,7 +169,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
         </Grid>
         <MobileFilter
           loading={loading}
-          activeProducts={activeProducts}
+          activeProducts={activeProductsWithPermission}
           filters={filters}
           openDialogMobile={openDialogMobile}
           party={party}
@@ -192,7 +197,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             disableFilters={loading}
             loading={loading}
             party={party}
-            products={activeProducts}
+            products={activeProductsWithPermission}
             productsRolesMap={
               !selectedProductSection
                 ? productsRolesMap
@@ -239,7 +244,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
                   setSelectedProductSection(undefined);
                 }}
               />
-              {activeProducts.map((p) => (
+              {activeProductsWithPermission.map((p) => (
                 <Tab
                   key={p.id}
                   label={p.title}
