@@ -1,14 +1,16 @@
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
-import { uniqueId } from 'lodash';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { PartyUserDetail } from '../model/PartyUser';
 import { useUserDetail } from '../hooks/useUserDetail';
-import { DASHBOARD_USERS_ROUTES } from '../routes';
 import { Party } from '../model/Party';
+import { PartyUserDetail } from '../model/PartyUser';
 import { ProductsMap } from '../model/Product';
+import { DASHBOARD_USERS_ROUTES } from '../routes';
 import { ENV } from '../utils/env';
 
 export type withUserDetailProps = {
@@ -34,6 +36,8 @@ export default function withUserDetail<T extends withUserDetailProps>(
     const [partyUser, setPartyUser] = useState<PartyUserDetail | null>();
     const addError = useErrorDispatcher();
     const history = useHistory();
+    const { getAllProductsWithPermission } = usePermissions();
+    const canSeeUsers = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
 
     const doFetch = () => {
       fetchUserDetail(partyId, userId, props.productsMap)
@@ -73,14 +77,14 @@ export default function withUserDetail<T extends withUserDetailProps>(
     };
 
     useEffect(() => {
-      if (props.party.userRole !== 'ADMIN') {
+      if (!canSeeUsers) {
         history.push(resolvePathVariables(ENV.ROUTES.OVERVIEW, { partyId }));
       } else if (partyId && userId) {
         doFetch();
       } else {
         throw new Error('Using withUserDetail decorator under a path without partyId or userId');
       }
-    }, [partyId, userId]);
+    }, [partyId, userId, canSeeUsers]);
 
     return partyUser ? (
       <WrappedComponent {...props} partyUser={partyUser} fetchPartyUser={doFetch} />
