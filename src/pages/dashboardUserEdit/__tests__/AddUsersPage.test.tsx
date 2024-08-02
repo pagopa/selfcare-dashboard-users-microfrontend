@@ -79,15 +79,22 @@ test.skip('test with fields that respect rules, so enabled button', async () => 
 
   await waitFor(() => expect(email).toBeEnabled());
 
+  expect(taxCode).toHaveValue(fieldsValue.taxCode);
+
   fireEvent.change(name, { target: { value: fieldsValue.name } });
   fireEvent.change(surname, { target: { value: fieldsValue.surname } });
   fireEvent.change(email, { target: { value: fieldsValue.email } });
   fireEvent.change(confirmEmail, { target: { value: fieldsValue.confirmEmail } });
 
+  expect(name).toHaveValue(fieldsValue.name);
+  expect(surname).toHaveValue(fieldsValue.name);
+
   fireEvent.change(products, { target: { name: 'products' } });
   await waitFor(() => fireEvent.mouseDown(products));
 
-  const selectedProduct = await screen.findByTestId('product: prod-io');
+  screen.debug(undefined, 999999);
+
+  const selectedProduct = await screen.findByText('App IO');
   await waitFor(() => fireEvent.click(selectedProduct));
 
   await waitFor(() => screen.getByText('Seleziona il ruolo che vuoi assegnare all’utente'));
