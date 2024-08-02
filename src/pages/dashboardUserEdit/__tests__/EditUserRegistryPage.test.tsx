@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
@@ -46,13 +46,13 @@ test('test with email and confirm email modified but different, so disabled butt
   const confirmEmail = document.getElementById('confirmEmail');
 
   fireEvent.change(email as Element, { target: { value: 'a@a.com' } });
-  fireEvent.change(confirmEmail, { target: { value: 'test@t.com' } });
+  fireEvent.change(confirmEmail as Element, { target: { value: 'test@t.com' } });
 
   await waitFor(() => expect(confirmButton).toBeDisabled());
 });
 
 test('test with email and confirm email modified and equal, so enabled button and complete edit with toast notification', async () => {
-  const { history, store } = await renderApp();
+  const { history } = await renderApp();
 
   const confirmButton = screen.getByRole('button', { name: 'Conferma' });
   expect(confirmButton).toBeDisabled();
@@ -60,8 +60,8 @@ test('test with email and confirm email modified and equal, so enabled button an
   const email = document.querySelector('#email');
   const confirmEmail = document.querySelector('#confirmEmail');
 
-  fireEvent.change(email, { target: { value: 'test@test.com' } });
-  fireEvent.change(confirmEmail, { target: { value: 'test@test.com' } });
+  fireEvent.change(email as Element, { target: { value: 'test@test.com' } });
+  fireEvent.change(confirmEmail as Element, { target: { value: 'test@test.com' } });
 
   expect(confirmButton).toBeEnabled();
   fireEvent.click(confirmButton);
