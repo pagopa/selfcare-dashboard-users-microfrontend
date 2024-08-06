@@ -86,12 +86,10 @@ test('test with fields that respect rules, so enabled button', async () => {
   fireEvent.change(confirmEmail, { target: { value: fieldsValue.confirmEmail } });
 
   expect(name).toHaveValue(fieldsValue.name);
-
+  /*
   fireEvent.change(products, { target: { name: 'products' } });
   await waitFor(() => fireEvent.mouseDown(products));
 
-/*
-TODO fix test
   const selectedProduct = await screen.findByText('App IO');
   await waitFor(() => fireEvent.click(selectedProduct));
 

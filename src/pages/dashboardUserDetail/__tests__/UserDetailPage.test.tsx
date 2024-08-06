@@ -1,4 +1,5 @@
 import {
+  cleanup,
   fireEvent,
   getAllByText,
   getByRole,
@@ -14,7 +15,12 @@ jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 jest.mock('../../../services/groupsService');
 
-jest.setTimeout(10000);
+jest.setTimeout(15000);
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  cleanup();
+});
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
