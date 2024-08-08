@@ -288,7 +288,14 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
-        userProductActions: [Actions.ManageProductUsers],
+        userProductActions: [
+          Actions.ManageProductUsers,
+          Actions.AccessProductBackoffice,
+          Actions.ManageProductGroups,
+          Actions.ViewDelegations,
+          Actions.ListActiveProducts,
+          Actions.AccessProductBackoffice,
+        ],
       },
       {
         productId: 'prod-pn',

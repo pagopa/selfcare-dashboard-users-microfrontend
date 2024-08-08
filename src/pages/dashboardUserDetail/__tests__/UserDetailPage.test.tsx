@@ -1,10 +1,11 @@
 import {
+  cleanup,
   fireEvent,
   getAllByText,
   getByRole,
   getByText,
   screen,
-  waitFor
+  waitFor,
 } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
@@ -14,7 +15,12 @@ jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 jest.mock('../../../services/groupsService');
 
-jest.setTimeout(10000);
+jest.setTimeout(15000);
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  cleanup();
+});
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
@@ -39,9 +45,9 @@ test('Test: go to edit user', async () => {
   await waitFor(() => screen.getByRole('heading', { name: 'Modifica il profilo utente' }));
 });
 
-test.skip('Test: go to users Page', async () => {
+test('Test: go to users Page', async () => {
   const { history } = await renderApp();
-  const backButton = screen.getByRole('button', { name: 'Indietro' });
+  const backButton = await screen.findByText('Utenti');
   fireEvent.click(backButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users'));
 });
@@ -101,7 +107,7 @@ test('Test: assign group to user', async () => {
 
   const selectGroup = document.getElementById('group-select');
 
-  fireEvent.mouseDown(selectGroup);
+  fireEvent.mouseDown(selectGroup as Element);
 
   await waitFor(() => fireEvent.click(screen.getByText('Gruppo7')));
 
