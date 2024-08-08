@@ -1,19 +1,21 @@
+import { Box, Grid, useTheme } from '@mui/material';
 import {
   ErrorBoundary,
   LoadingOverlay,
   UnloadEventHandler,
   UserNotifyHandle,
 } from '@pagopa/selfcare-common-frontend/lib';
-import { useTranslation } from 'react-i18next';
-import { useParams, Route, Switch, useHistory } from 'react-router';
-import { isEmpty } from 'lodash';
-import withLogin from '@pagopa/selfcare-common-frontend/lib/decorators/withLogin';
-import { Box, Grid, useTheme } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Fragment } from 'react';
 import { CONFIG } from '@pagopa/selfcare-common-frontend/lib/config/env';
+import withLogin from '@pagopa/selfcare-common-frontend/lib/decorators/withLogin';
+import { setProductPermissions } from '@pagopa/selfcare-common-frontend/lib/redux/slices/permissionsSlice';
+import { isEmpty } from 'lodash';
+import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Route, Switch, useHistory, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { buildProductsMap, Product } from '../../model/Product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';
+import { useAppDispatch } from '../../redux/hooks';
 import { createStore } from '../../redux/store';
 import {
   DashboardDecoratorsType,
@@ -21,8 +23,7 @@ import {
   DashboardPageProps,
 } from '../dashboard-routes-utils';
 import { mockedParties } from './data/party';
-import { mockedPartyProducts } from './data/product';
-import { mockedProductRoles } from './data/product';
+import { mockedPartyProducts, mockedProductRoles } from './data/product';
 import Layout from './Layout';
 
 type UrlParams = {
@@ -63,6 +64,7 @@ const App = ({
   const history = useHistory();
   const theme = useTheme();
   const { i18n } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const party = mockedParties.find((p) => p.partyId === partyId);
   const products = party ? mockedPartyProducts : undefined;
@@ -156,6 +158,17 @@ const App = ({
       );
     },
   };
+
+  const productPermissions = [...(party?.products ?? [])]
+  .filter((product) => product.productOnBoardingStatus === 'ACTIVE')
+  .map((product) => ({
+    productId: product.productId ?? '',
+    actions: product.userProductActions ? [...product.userProductActions] : [],
+  }));
+
+dispatch(setProductPermissions(productPermissions));
+
+
 
   return party && products && activeProducts && productsMap && productsRolesMap ? (
     <ErrorBoundary>

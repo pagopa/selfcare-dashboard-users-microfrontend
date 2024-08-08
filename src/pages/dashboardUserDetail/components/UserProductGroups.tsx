@@ -1,19 +1,20 @@
 import { Chip, Grid, Typography, useTheme } from '@mui/material';
-
-import { useEffect, useState } from 'react';
-import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { fetchUserGroups } from '../../../services/usersService';
-import { PartyUserDetail, PartyUserProduct, partyUserDetail2User } from '../../../model/PartyUser';
 import { Party } from '../../../model/Party';
-import { Product } from '../../../model/Product';
 import { PartyGroup } from '../../../model/PartyGroup';
+import { PartyUserDetail, PartyUserProduct, partyUserDetail2User } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
+import { fetchPartyGroups } from '../../../services/groupsService';
+import { fetchUserGroups } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
-import { fetchPartyGroups } from '../../../services/groupsService';
 import AddUserToGroupButton from './AddUserToGroupButton';
 
 type Props = {
@@ -37,6 +38,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   const addError = useErrorDispatcher();
   const currentUser = partyUserDetail2User(user);
   const userProductRoleSuspended = userProduct.roles.every((p) => p.status === 'SUSPENDED');
+  const { hasPermission } = usePermissions();
 
   const executeFetchUserGroups = () => {
     setLoading(true);
@@ -94,9 +96,8 @@ export default function UserProductGroups({ user, party, product, userProduct }:
   const onboardedAdminProduct = party.products.find(
     (pp) =>
       pp.productId === product.id &&
-      pp.authorized &&
-      pp.userRole === 'ADMIN' &&
-      pp.productOnBoardingStatus === 'ACTIVE'
+      pp.productOnBoardingStatus === 'ACTIVE' &&
+      hasPermission(pp.productId, Actions.ManageProductUsers)
   );
 
   return userGroups?.length > 0 || (onboardedAdminProduct && userGroupsComplement.length > 0) ? (

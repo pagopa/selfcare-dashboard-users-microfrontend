@@ -2,11 +2,7 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
-import { InstitutionUserDetailsResource } from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
-import {
-  InstitutionUserResource,
-  RoleEnum,
-} from '../generated/b4f-dashboard/InstitutionUserResource';
+import { InstitutionUserDetailsResource, RoleEnum } from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { SelcRoleEnum } from '../generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../generated/b4f-dashboard/ProductUserResource';
 import {
@@ -40,7 +36,7 @@ export const mockedInstitutionUserDetailsResource: InstitutionUserDetailsResourc
   ],
 };
 
-export const mockedInstitutionUserResource: Array<InstitutionUserResource> = [
+export const mockedInstitutionUserResource: Array<InstitutionUserDetailsResource> = [
   {
     id: '1',
     name: 'Name',
@@ -166,7 +162,7 @@ export const DashboardApi = {
     _productId?: string,
     _role?: string,
     _productRoles?: Array<ProductRole>
-  ): Promise<Array<InstitutionUserResource>> =>
+  ): Promise<Array<InstitutionUserDetailsResource>> =>
     new Promise((resolve) => resolve(mockedInstitutionUserResource)),
 
   getPartyProductUsers: async (

@@ -1,7 +1,6 @@
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
-import { InstitutionUserResource } from '../api/generated/b4f-dashboard/InstitutionUserResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserRole, UserRoleFilters, UserStatus } from './Party';
@@ -67,7 +66,7 @@ export type PartyUserOnEdit = {
 };
 
 export const institutionUserResource2PartyUser = (
-  resource: InstitutionUserResource,
+  resource: InstitutionUserDetailsResource,
   productsMap: ProductsMap,
   currentUser: User
 ): PartyUser => ({
