@@ -188,7 +188,7 @@ export const DashboardApi = {
     productId: string,
     userId: string
   ): Promise<PageOfUserGroupPlainResource> => {
-    const result = await apiClient.getUserGroupsUsingGET_1({
+    const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
@@ -204,7 +204,7 @@ export const DashboardApi = {
     institutionId: string,
     pageRequest: PageRequest
   ): Promise<PageOfUserGroupPlainResource> => {
-    const result = await apiClient.getUserGroupsUsingGET_1({
+    const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
@@ -215,7 +215,7 @@ export const DashboardApi = {
   },
 
   addMemberToUserGroup: async (id: string, userId: string): Promise<void> => {
-    const result = await apiClient.addMemberToUserGroupUsingPOST_1({
+    const result = await apiClient.addMemberToUserGroupUsingPOST({
       id,
       userId,
     });

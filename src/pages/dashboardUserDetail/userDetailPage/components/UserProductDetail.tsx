@@ -1,12 +1,12 @@
-import { Grid, Typography, Chip, Box, Divider, Tooltip } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Alert, Box, Chip, Divider, Grid, Link, Tooltip, Typography } from '@mui/material';
 import { ProductAvatar } from '@pagopa/mui-italia';
+import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
-import { Product } from '../../../../model/Product';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
-import UserProductRoles from '../../components/UserProductRoles';
+import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
+import UserProductRoles from '../../components/UserProductRoles';
 import UserProductActions from './../../components/UserProductActions';
 import UserProductGroups from './../../components/UserProductGroups';
 
@@ -72,7 +72,7 @@ export default function UserProductDetail({
                   <Chip
                     label={t('userDetail.statusLabel')}
                     aria-label={'Suspended'}
-                    color='warning'
+                    color="warning"
                     sx={{
                       fontSize: '14px',
                       borderRadius: '16px',
@@ -116,6 +116,29 @@ export default function UserProductDetail({
       <Grid item xs={12} mt={3}>
         <Divider sx={{ borderColor: 'background.default' }} />
       </Grid>
+      {userProduct.id === 'prod-interop' &&
+        userProduct.roles[0].selcRole === 'ADMIN' &&
+        !partyUser.isCurrentUser && (
+          <Alert severity="info" sx={{ mt: 2 }}>
+            <Trans
+              i18nKey="userDetail.removeRoleBannerText"
+              components={{
+                1: (
+                  <Link
+                    href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                    color={'text.primary'}
+                    sx={{ textDecorationColor: 'text.primary' }}
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {
+                'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
+              }
+            </Trans>
+          </Alert>
+        )}
       <Grid item xs={12}>
         <UserProductRoles
           showActions={!showActionOnProduct}

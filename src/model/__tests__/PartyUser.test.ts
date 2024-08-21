@@ -1,24 +1,20 @@
-import { InstitutionUserDetailsResource } from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
-import {
-  InstitutionUserResource,
-  RoleEnum,
-} from '../../api/generated/b4f-dashboard/InstitutionUserResource';
+import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import { InstitutionUserDetailsResource, RoleEnum } from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
-import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 import {
+  PartyUser,
+  PartyUserDetail,
+  checkSuspendedUser,
   institutionUserResource2PartyUser,
   institutionUserResource2PartyUserDetail,
-  productUserResource2PartyProductUser,
   partyUserDetail2User,
-  PartyUserDetail,
-  PartyUser,
-  checkSuspendedUser,
+  productUserResource2PartyProductUser,
 } from '../PartyUser';
 
 test('Test institutionUserResource2PartyUserDetail', () => {
-  const institutionUserResource: InstitutionUserResource = {
+  const institutionUserResource: InstitutionUserDetailsResource = {
     id: '1',
     name: 'Name',
     surname: 'Surname',

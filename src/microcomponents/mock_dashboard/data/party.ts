@@ -1,3 +1,4 @@
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { ProductOnBoardingStatusEnum } from '../../../api/generated/b4f-dashboard/OnboardedProductResource';
 import { BaseParty, Party } from '../../../model/Party';
 
@@ -83,6 +84,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'FLGKROWP',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pagopa',
@@ -94,6 +96,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'FLGKROWP',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -105,6 +108,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -138,6 +142,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -149,6 +154,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -186,6 +192,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'CH435V',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-io-premium',
@@ -197,6 +204,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'CH435V',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       // Use case with prod-interop and prod-interop-coll
       {
@@ -209,6 +217,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'NBG455B',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-interop-coll',
@@ -220,6 +229,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'NBG455B',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -278,6 +288,14 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [
+          Actions.ManageProductUsers,
+          Actions.AccessProductBackoffice,
+          Actions.ManageProductGroups,
+          Actions.ViewDelegations,
+          Actions.ListActiveProducts,
+          Actions.AccessProductBackoffice,
+        ],
       },
       {
         productId: 'prod-pn',
@@ -289,6 +307,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -323,6 +342,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -334,6 +354,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -367,6 +388,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -378,6 +400,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -415,6 +438,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -426,6 +450,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -461,6 +486,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -472,6 +498,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -507,6 +534,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -518,6 +546,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,
@@ -553,6 +582,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'cccc',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -564,6 +594,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'dddd',
           publicServices: true,
         },
+        userProductActions: [Actions.ManageProductUsers],
       },
     ],
     status: undefined,

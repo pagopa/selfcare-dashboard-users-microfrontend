@@ -1,9 +1,11 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -44,6 +46,8 @@ function UserDetailPage({
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
+  const { getAllProductsWithPermission } = usePermissions();
+  const canEditUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
 
   const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
@@ -166,7 +170,7 @@ function UserDetailPage({
               {partyUser.name} {partyUser.surname}
             </Typography>
           </Grid>
-          {party.userRole === 'ADMIN' && (
+          {canEditUser && (
             <Grid
               item
               xs={12}
