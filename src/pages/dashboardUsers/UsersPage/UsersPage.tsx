@@ -1,7 +1,7 @@
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { CustomAlert, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
@@ -166,6 +166,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
               </Button>
             </Stack>
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <CustomAlert sx={{ mt: 5 }} />
         </Grid>
         <MobileFilter
           loading={loading}
