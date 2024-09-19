@@ -1,7 +1,7 @@
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { CustomAlert, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
@@ -37,7 +37,10 @@ const emptyFilters: UsersTableFiltersConfig = {
 // eslint-disable-next-line sonarjs/cognitive-complexity
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
   const selectedProductSection =
-    window.location.hash !== '' ? window.location.hash.substring(1) : undefined;
+    window.location.hash !== ''
+      ? window.location.hash.substring(1).replace(/[^a-zA-Z0-9-_]/g, '')
+      : undefined;
+
   const { getAllProductsWithPermission, hasPermission } = usePermissions();
   const activeProductsWithPermission = activeProducts.filter((p: Product) =>
     hasPermission(p.id, Actions.ManageProductUsers)
@@ -130,6 +133,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
 
   const moreThanOneActiveProduct = activeProductsWithPermission.length > 1;
 
+  const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
@@ -167,6 +172,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             </Stack>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <CustomAlert sx={{ mt: 5 }} />
+        </Grid>
         <MobileFilter
           loading={loading}
           activeProducts={activeProductsWithPermission}
@@ -199,9 +207,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
             party={party}
             products={activeProductsWithPermission}
             productsRolesMap={
-              !selectedProductSection
-                ? productsRolesMap
-                : { [selectedProductSection]: productsRolesMap[selectedProductSection] }
+              selectedProductSection && !dangerousKeys.includes(selectedProductSection)
+                ? { [selectedProductSection]: productsRolesMap[selectedProductSection] }
+                : productsRolesMap
             }
             filters={filters}
             onFiltersChange={setFilters}
