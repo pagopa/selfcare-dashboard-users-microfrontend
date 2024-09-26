@@ -39,8 +39,10 @@
     "lint": "eslint . -c .eslintrc.js --ext .ts,.tsx ",
     "prettify": "prettier --write \"./**/*.{ts,tsx}\"",
     "generate": "npm-run-all generate:*",
-    "clean:api-b4f-dashboard": "rimraf src/api/generated/b4f-dashboard && rimraf openApi/generated",
-    "generate:api-b4f-dashboard": "yarn run clean:api-b4f-dashboard && mkdirp openApi/generated && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/dashboard-api-docs.json > openApi/generated/dashboard-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated/dashboard-swagger20.json && gen-api-models --api-spec openApi/generated/dashboard-swagger20.json --out-dir src/api/generated/b4f-dashboard --no-strict --request-types --response-decoders --client && node openApi/scripts/api-b4f-dashboard_fixPostGen.js"
+    "clean:api-b4f-dashboard": "rimraf src/api/generated/b4f-dashboard && rimraf openApi/generated-dashboard",
+    "clean:api-onboarding": "rimraf src/api/generated/onboarding && rimraf openApi/generated-onboarding",
+    "generate:api-b4f-dashboard": "yarn run clean:api-b4f-dashboard && mkdirp openApi/generated-dashboard && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/dashboard-api-docs.json > openApi/generated-dashboard/dashboard-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated-dashboard/dashboard-swagger20.json && gen-api-models --api-spec openApi/generated-dashboard/dashboard-swagger20.json --out-dir src/api/generated/b4f-dashboard --no-strict --request-types --response-decoders --client && node openApi/scripts/api-b4f-dashboard_fixPostGen.js",
+    "generate:api-onboarding": "yarn run clean:api-onboarding && mkdirp openApi/generated-onboarding && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/onboarding-api-docs.json > openApi/generated-onboarding/onboarding-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated-onboarding/onboarding-swagger20.json && gen-api-models --api-spec openApi/generated-onboarding/onboarding-swagger20.json --out-dir src/api/generated/onboarding --no-strict --request-types --response-decoders --client && node openApi/scripts/api-onboarding_fixPostGen.js"
   },
   "eslintConfig": {
     "extends": [
