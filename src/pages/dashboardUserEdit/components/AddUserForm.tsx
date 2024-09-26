@@ -1,13 +1,13 @@
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
-  Alert,
   Box,
   Button,
   Checkbox,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
   InputLabel,
-  Link,
   MenuItem,
   OutlinedInput,
   Radio,
@@ -15,10 +15,11 @@ import {
   Stack,
   styled,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
-import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import {
@@ -33,7 +34,7 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useIsMobile } from '../../../hooks/useIsMobile';
@@ -136,7 +137,6 @@ export default function AddUserForm({
   const onExit = useUnloadEventOnExit();
   const { hasPermission } = usePermissions();
 
-  const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
   const pnpgProduct = products.find((p) => p.id === 'prod-pn-pg');
@@ -506,27 +506,63 @@ export default function AddUserForm({
     };
   };
 
+  const commonStyles = {
+    backgroundColor: 'background.paper',
+    paddingTop: 3,
+    paddingLeft: 3,
+    paddingRight: 3,
+    borderRadius: '4px',
+    marginBottom: 5,
+  };
+
+  const selectLabel = t('userEdit.addForm.product.selectLabel');
+
+  const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
+    <>
+      <Typography
+        variant="body1"
+        sx={{
+          fontWeight: 'fontWeightRegular',
+          fontSize: '18px',
+          color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+        }}
+      >
+        {p.title}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{
+          fontWeight: 'fontWeightRegular',
+          fontSize: 'fontSize',
+          color: !validTaxcode ? 'text.disabled' : 'text.secondary',
+          marginBottom: 1,
+        }}
+      >
+        {p.description}
+      </Typography>
+    </>
+  );
+  const isProductWithInfoTooltip = (productId: string, selcRole: string) => {
+    const productsWithAdminTooltip = ['prod-interop']; // Later, add more productIds here as needed
+    return productsWithAdminTooltip.includes(productId) && selcRole === 'ADMIN';
+  };
+
   return (
-    <React.Fragment>
+    <>
       <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          direction="column"
-          sx={{
-            backgroundColor: 'background.paper',
-            paddingTop: 3,
-            paddingLeft: 3,
-            paddingRight: 3,
-            borderRadius: '4px',
-          }}
-        >
+        <Grid container direction="column" sx={commonStyles}>
           {canEditRegistryData ? (
             <>
-              {isPnpg && (
-                <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
-                  {t('userEdit.addForm.userData.label')}
-                </Typography>
-              )}
+              <Grid item xs={12}>
+                <TitleBox
+                  variantTitle="h6"
+                  variantSubTitle="body1"
+                  title={t('userEdit.addForm.userData.label')}
+                  subTitle={t('userEdit.addForm.userData.subTitle')}
+                  mbTitle={2}
+                  mbSubTitle={3}
+                />
+              </Grid>
               <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
                 <CustomTextField
                   size="small"
@@ -590,7 +626,20 @@ export default function AddUserForm({
               </Grid>
             </>
           ) : undefined}
-          {!selectedProduct && !isPnpgTheOnlyProduct ? (
+        </Grid>
+
+        {!selectedProduct && !isPnpgTheOnlyProduct ? (
+          <Grid container direction="column" sx={commonStyles}>
+            <Grid item xs={12}>
+              <TitleBox
+                variantTitle="h6"
+                variantSubTitle="body2"
+                title={t('userEdit.addForm.product.title')}
+                subTitle={t('userEdit.addForm.product.subTitle')}
+                mbTitle={2}
+                mbSubTitle={3}
+              />
+            </Grid>
             <Grid item xs={12} mb={3}>
               <FormControl sx={{ width: '100%' }}>
                 <InputLabel
@@ -605,7 +654,7 @@ export default function AddUserForm({
                     },
                   }}
                 >
-                  {t('userEdit.addForm.product.title')}
+                  {selectLabel}
                 </InputLabel>
                 <Select
                   fullWidth
@@ -621,7 +670,7 @@ export default function AddUserForm({
                       {userProduct}
                     </Typography>
                   )}
-                  input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
+                  input={<OutlinedInput label={selectLabel} />}
                 >
                   {products
                     .filter((p) =>
@@ -649,89 +698,73 @@ export default function AddUserForm({
                 </Select>
               </FormControl>
             </Grid>
-          ) : undefined}
+          </Grid>
+        ) : undefined}
 
-          {userProduct?.id === 'prod-interop' && (
-            <Alert severity="info" sx={{ mb: 2 }}>
-              <Trans
-                i18nKey="userEdit.addForm.bannerText"
-                components={{
-                  1: (
-                    <Link
-                      href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
-                      color={'text.primary'}
-                      sx={{ textDecorationColor: 'text.primary' }}
-                      target="_blank"
-                    />
-                  ),
-                }}
-              >
-                {
-                  'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
-                }
-              </Trans>
-            </Alert>
-          )}
+        {productRoles && (
+          <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
+            <TitleBox
+              variantTitle="h6"
+              variantSubTitle="body2"
+              title={t('userEdit.addForm.role.title')}
+              subTitle={t('userEdit.addForm.role.subTitle')}
+              mbTitle={2}
+              mbSubTitle={3}
+            />
 
-          {productRoles && (
-            <Grid item container xs={12} mb={3} sx={{ flexDirection: 'column' }}>
-              <Typography
-                sx={{
-                  fontWeight: 'fontWeightMedium',
-                  fontSize: 'fontSize',
-                  color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-                }}
-                pb={2}
-              >
-                {t('userEdit.addForm.role.title')}
-              </Typography>
-
-              {Object.values(productRoles.groupBySelcRole).map((roles) =>
-                roles
-                  .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
-                  .map((p) => (
-                    <Box key={p.productRole}>
+            {Object.values(productRoles.groupBySelcRole).map((roles) =>
+              roles
+                .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
+                .map((p, index: number, filteredRoles) => (
+                  <>
+                    <Box
+                      key={p.productRole}
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        my: 2,
+                      }}
+                    >
                       <CustomFormControlLabel
                         sx={{ marginTop: 0 }}
                         checked={formik.values.productRoles.indexOf(p.productRole) > -1}
                         disabled={!validTaxcode}
                         value={p.productRole}
                         control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
-                        label={
-                          <>
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                fontWeight: 'fontWeightRegular',
-                                fontSize: '18px',
-                                color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-                              }}
-                            >
-                              {p.title}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                fontWeight: 'fontWeightRegular',
-                                fontSize: 'fontSize',
-                                color: !validTaxcode ? 'text.disabled' : 'text.secondary',
-                                marginBottom: 1,
-                              }}
-                            >
-                              {p.description}
-                            </Typography>
-                          </>
+                        label={renderLabel(p, !!validTaxcode)}
+                        onClick={
+                          validTaxcode
+                            ? () => {
+                                console.log('productRole', p);
+                                addRole(p);
+                              }
+                            : undefined
                         }
-                        onClick={validTaxcode ? () => addRole(p) : undefined}
                       />
+                      {isProductWithInfoTooltip(p.productId, p.selcRole) && (
+                        <Tooltip
+                          title={t('userEdit.addForm.role.adminTooltip')}
+                          placement="top"
+                          arrow
+                        >
+                          <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+                        </Tooltip>
+                      )}
                     </Box>
-                  ))
-              )}
-            </Grid>
-          )}
-        </Grid>
+                    {filteredRoles.length !== index && (
+                      <Grid item xs={12}>
+                        <Divider sx={{ borderColor: 'background.default' }} />
+                      </Grid>
+                    )}
+                  </>
+                ))
+            )}
+          </Grid>
+        )}
 
-        <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
+        <Stack direction="row" display="flex" justifyContent="space-between">
           <Button
             color="primary"
             variant="outlined"
@@ -751,6 +784,6 @@ export default function AddUserForm({
           </Button>
         </Stack>
       </form>
-    </React.Fragment>
+    </>
   );
 }

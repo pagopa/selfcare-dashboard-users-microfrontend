@@ -74,7 +74,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         <Grid item xs={12}>
           <ProductNavigationBar
             paths={paths as any}
-            showBackComponent={true}
+            showBackComponent={false}
             goBack={goBack}
             backLabel={isUsersDetailPath ? paths[0].description : paths[1].description}
           />

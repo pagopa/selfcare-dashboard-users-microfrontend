@@ -9,6 +9,7 @@ export default {
     detailRedirect: 'Utenti',
     addUser: 'Aggiungi nuovo utente',
     editUser: 'Modifica il profilo utente',
+    exit: 'Esci',
   },
   usersTable: {
     usersProductTableColumns: {
@@ -190,9 +191,11 @@ export default {
     },
     addForm: {
       title: 'Aggiungi un nuovo utente',
-      subTitle: 'Inserisci i dati dell’utente, seleziona un prodotto e assegnagli un ruolo.',
+      subTitle:
+        'Inserisci i dati dell’utente, indica il prodotto in cui dovrà operare e assegna un ruolo.',
       userData: {
         label: 'Dati utente',
+        subTitle: 'Inserisci i dati dell’utente che vuoi aggiungere.',
       },
       fiscalCode: {
         label: 'Codice Fiscale',
@@ -210,13 +213,17 @@ export default {
         label: 'Conferma e-mail',
       },
       product: {
-        title: 'Seleziona il prodotto',
+        title: 'Indica il prodotto',
+        subTitle: 'Indica per quale prodotto vuoi aggiungere l’utente.',
+        selectLabel: 'Seleziona il prodotto',
       },
       role: {
-        title: 'Seleziona il ruolo che vuoi assegnare all’utente',
+        title: 'Seleziona il ruolo',
+        subTitle: 'Seleziona il ruolo che vuoi assegnare all’utente.',
+        documentationLink: 'Dubbi? Vai al manuale',
+        adminTooltip:
+          'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
       },
-      bannerText:
-        'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
       backButton: 'Indietro',
       continueButton: 'Continua',
       errors: {
