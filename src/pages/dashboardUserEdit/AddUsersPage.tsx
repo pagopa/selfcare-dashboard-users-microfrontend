@@ -54,7 +54,7 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={12} lg={8}>
+      <Grid container item xs={12} md={8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar
             paths={paths as any}
