@@ -49,13 +49,20 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
     <Grid
       container
       alignItems={'center'}
+      justifyContent={'center'}
       px={3}
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
     >
-      <Grid container item xs={12} lg={8}>
+      <Grid container item xs={12} md={8}>
         <Grid item xs={12} mb={2}>
-          <ProductNavigationBar paths={paths as any} showBackComponent={true} goBack={goBack} backLabel={t('userPagesPath.detailRedirect')} />
+          <ProductNavigationBar
+            paths={paths as any}
+            showBackComponent={true}
+            goBack={goBack}
+            backLabel={t('userPagesPath.exit')}
+            colorBackComponent="primary.main"
+          />
         </Grid>
         <Grid item xs={12}>
           <TitleBox
