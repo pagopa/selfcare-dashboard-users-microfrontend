@@ -14,9 +14,8 @@ import {
   Select,
   Stack,
   styled,
-  TextField,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
@@ -53,35 +52,7 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-
-const CustomTextField = styled(TextField)({
-  '.MuiInputLabel-asterisk': {
-    display: 'none',
-  },
-  '.MuiInput-root': {
-    '&:after': {
-      borderBottom: '2px solid text.primary',
-      color: 'text.primary',
-    },
-  },
-  '.MuiInputLabel-root.Mui-focused': {
-    color: 'text.primary',
-    fontWeight: 'fontWeightBold',
-  },
-  '.MuiInputLabel-root': {
-    color: 'text.primary',
-    fontSize: 'fontSize',
-    fontWeight: 'fontWeightBold',
-  },
-  input: {
-    '&::placeholder': {
-      fontStyle: 'italic',
-      color: 'text.primary',
-      opacity: '1',
-      textTransform: 'none',
-    },
-  },
-});
+import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -89,10 +60,6 @@ const CustomFormControlLabel = styled(FormControlLabel)({
     color: '#0073E6',
   },
 });
-const taxCodeRegexp = new RegExp(
-  '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
-);
-const requiredError = 'Required';
 
 type Props = {
   party: Party;
@@ -103,6 +70,8 @@ type Props = {
   canEditRegistryData: boolean;
   initialFormData: PartyUserOnCreation;
   goBack?: () => void;
+  handleNextStep?: () => void;
+  handlePreviousStep?: () => void;
 };
 
 type TextTransform = 'uppercase' | 'lowercase';
@@ -504,15 +473,6 @@ export default function AddUserForm({
         },
       },
     };
-  };
-
-  const commonStyles = {
-    backgroundColor: 'background.paper',
-    paddingTop: 3,
-    paddingLeft: 3,
-    paddingRight: 3,
-    borderRadius: '4px',
-    marginBottom: 5,
   };
 
   const selectLabel = t('userEdit.addForm.product.selectLabel');

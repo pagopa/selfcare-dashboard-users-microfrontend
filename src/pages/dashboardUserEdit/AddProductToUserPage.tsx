@@ -1,8 +1,8 @@
 import { Grid, styled, Typography } from '@mui/material';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { matchPath, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { matchPath, useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
 import { Party } from '../../model/Party';

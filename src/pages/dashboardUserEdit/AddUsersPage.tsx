@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
@@ -8,6 +9,7 @@ import { Party } from '../../model/Party';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
+import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 
 type Props = {
@@ -16,18 +18,21 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
 };
 
-function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
+export default function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+  const [currentStep, _setCurrentStep] = useState(1);
+/*
+  const handleNextStep = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
 
+  const handlePreviousStep = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  };
+*/
   const goBack = () => {
     history.goBack();
-    /*
-    history.push(
-      resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-        partyId: party.partyId,
-      })
-    ); */
   };
 
   const paths = [
@@ -48,7 +53,6 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   return (
     <Grid
       container
-      alignItems={'center'}
       justifyContent={'center'}
       px={3}
       mt={3}
@@ -75,27 +79,29 @@ function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <AddUserForm
-            party={party}
-            products={activeProducts}
-            productsRolesMap={productsRolesMap}
-            initialFormData={{
-              taxCode: '',
-              name: '',
-              surname: '',
-              email: '',
-              confirmEmail: '',
-              certifiedMail: false,
-              certifiedName: false,
-              certifiedSurname: false,
-              productRoles: [],
-            }}
-            canEditRegistryData={true}
-          />
+          {currentStep === 1 && (
+            <AddUserForm
+              party={party}
+              products={activeProducts}
+              productsRolesMap={productsRolesMap}
+              initialFormData={{
+                taxCode: '',
+                name: '',
+                surname: '',
+                email: '',
+                confirmEmail: '',
+                certifiedMail: false,
+                certifiedName: false,
+                certifiedSurname: false,
+                productRoles: [],
+              }}
+              canEditRegistryData={true}
+            />
+          )}
+
+          {currentStep === 2 && <AddLegalRepresentativeForm productName={'Test Name'} />}
         </Grid>
       </Grid>
     </Grid>
   );
 }
-
-export default AddUsersPage;
