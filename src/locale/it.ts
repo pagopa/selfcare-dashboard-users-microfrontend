@@ -232,6 +232,9 @@ export default {
         name: 'Nome',
         surname: 'Cognome',
         institutionalEmail: 'E-mail istituzionale',
+        changeManagerModalTitle: 'Stai aggiungendo un nuovo Legale Rappresentante',
+        changeManagerModalMessage:
+          'I dati del Legale Rappresentante inseriti sono diversi da quelli indicati in precedenza. Vuoi continuare?',
       },
       backButton: 'Indietro',
       continueButton: 'Continua',
