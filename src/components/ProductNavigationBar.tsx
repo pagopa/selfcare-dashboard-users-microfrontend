@@ -8,7 +8,7 @@ import { Product } from '../model/Product';
 
 type Props = {
   selectedProduct?: Product;
-  paths: Array<NavigationPath>;
+  paths?: Array<NavigationPath>;
   showBackComponent?: boolean;
   goBack?: () => void;
   backLabel?: string;
@@ -17,7 +17,7 @@ type Props = {
 
 export default function ProductNavigationBar({
   selectedProduct,
-  paths,
+  paths: paths = [],
   showBackComponent,
   goBack,
   backLabel,

@@ -224,6 +224,15 @@ export default {
         adminTooltip:
           'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
       },
+      addLegalRepresentative: {
+        title: 'Indica il Legale Rappresentante',
+        subTitle:
+          'Firmerà il Modulo di aggiunta per i nuovi Amministratori, inviato alla PEC dell’ente, per autorizzarli ad operare sul prodotto <strong>{{productName}}</strong> per il tuo ente.',
+        taxCode: 'Codice Fiscale',
+        name: 'Nome',
+        surname: 'Cognome',
+        institutionalEmail: 'E-mail istituzionale',
+      },
       backButton: 'Indietro',
       continueButton: 'Continua',
       errors: {
