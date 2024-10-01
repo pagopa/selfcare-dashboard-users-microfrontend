@@ -1,4 +1,5 @@
 import { Grid, TextField } from '@mui/material';
+
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
@@ -7,6 +8,7 @@ import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/
 import { Form, Formik } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { PartyUserOnCreation } from '../../model/PartyUser';
+
 import { CustomTextField, requiredError, taxCodeRegexp } from './helpers';
 
 type LegalRepresentativeProps = {
