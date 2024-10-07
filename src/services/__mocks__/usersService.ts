@@ -1,13 +1,16 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
-import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
-import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import {
   applySort,
   extractPageRequest,
 } from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
-import { cloneDeep } from 'lodash';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { cloneDeep } from 'lodash';
+import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
+import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
+import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 import {
   BasePartyUser,
   PartyProductUser,
@@ -21,7 +24,6 @@ import {
 import { Product, ProductsMap } from '../../model/Product';
 import { ProductRole } from '../../model/ProductRole';
 import { UserRegistry } from '../../model/UserRegistry';
-import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 
 /*
 function generateUsers(n: number): Array<PartyUserDetail> {
@@ -68,7 +70,6 @@ export const mockedUsers: Array<PartyUserDetail> = generateUsers(11121);
 */
 
 export const mockedUsers: Array<PartyUserDetail> = [
-  
   // use case ACTIVE on 1 product/role
   {
     id: 'uid',
@@ -1321,3 +1322,12 @@ export const fetchUserGroups = (
   );
   return new Promise((resolve) => resolve(userGroups));
 };
+
+export const checkManagerMocked = (_user: OnboardingUserDto): Promise<void> =>
+  new Promise((resolve) => resolve());
+
+export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
+  new Promise((resolve) => resolve());
+
+export const onboardingPostUserMocked = (_user: OnboardingUserDto): Promise<void> =>
+  new Promise((resolve) => resolve());

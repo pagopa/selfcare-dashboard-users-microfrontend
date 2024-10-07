@@ -15,7 +15,7 @@ import {
   Stack,
   styled,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
@@ -33,12 +33,12 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
-import { PartyUserOnCreation } from '../../../model/PartyUser';
+import { PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { UserRegistry } from '../../../model/UserRegistry';
@@ -70,11 +70,11 @@ type Props = {
   canEditRegistryData: boolean;
   initialFormData: PartyUserOnCreation;
   goBack?: () => void;
-  handleNextStep?: () => void;
+  forwardNextStep: () => void;
   handlePreviousStep?: () => void;
+  setCurrentSelectedProduct?: Dispatch<SetStateAction<Product | undefined>>;
+  setUserData: Dispatch<SetStateAction<PartyUserOnCreation>>;
 };
-
-type TextTransform = 'uppercase' | 'lowercase';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function AddUserForm({
@@ -86,6 +86,9 @@ export default function AddUserForm({
   canEditRegistryData,
   initialFormData,
   goBack,
+  forwardNextStep,
+  setCurrentSelectedProduct,
+  setUserData,
 }: Props) {
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
@@ -101,10 +104,10 @@ export default function AddUserForm({
   const [userProduct, setUserProduct] = useState<Product>();
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
-
+  const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
-  const onExit = useUnloadEventOnExit();
   const { hasPermission } = usePermissions();
+  const onExit = useUnloadEventOnExit();
 
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
@@ -150,6 +153,12 @@ export default function AddUserForm({
       setUserProduct(pnpgProduct);
     }
   }, []);
+
+  useEffect(() => {
+    if (setCurrentSelectedProduct) {
+      setCurrentSelectedProduct(userProduct);
+    }
+  }, [setCurrentSelectedProduct, userProduct]);
 
   const goBackInner =
     goBack ??
@@ -395,6 +404,17 @@ export default function AddUserForm({
     initialValues: initialFormData,
     validate,
     onSubmit: (values) => {
+      if (isAsyncFlow) {
+        setUserData(
+          {
+            ...values,
+            taxCode: values.taxCode.toUpperCase(),
+            email: values.email.toLowerCase(),
+          },
+        );
+        forwardNextStep();
+        return;
+      }
       if (values.productRoles.length >= 2) {
         addMultiRoleModal(values);
       } else {
@@ -502,10 +522,11 @@ export default function AddUserForm({
       </Typography>
     </>
   );
-  const isProductWithInfoTooltip = (productId: string, selcRole: string) => {
-    const productsWithAdminTooltip = ['prod-interop']; // Later, add more productIds here as needed
-    return productsWithAdminTooltip.includes(productId) && selcRole === 'ADMIN';
-  };
+  const isAddRoleFromDashboard = (phasesAdditionAllowed?: Array<string>) =>
+    !!phasesAdditionAllowed && phasesAdditionAllowed[0].startsWith('dashboard');
+
+  const isAddRoleFromDashboardAsync = (phasesAdditionAllowed?: Array<string>) =>
+    !!phasesAdditionAllowed && phasesAdditionAllowed[0] === 'dashboard-async';
 
   return (
     <>
@@ -674,7 +695,7 @@ export default function AddUserForm({
 
             {Object.values(productRoles.groupBySelcRole).map((roles) =>
               roles
-                .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
+                .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
                 .map((p, index: number, filteredRoles) => (
                   <>
                     <Box
@@ -697,13 +718,16 @@ export default function AddUserForm({
                         onClick={
                           validTaxcode
                             ? () => {
-                                console.log('productRole', p);
                                 addRole(p);
+                                setIsAsyncFlow(
+                                  p.phasesAdditionAllowed &&
+                                    p.phasesAdditionAllowed[0] === 'dashboard-async'
+                                );
                               }
                             : undefined
                         }
                       />
-                      {isProductWithInfoTooltip(p.productId, p.selcRole) && (
+                      {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
                         <Tooltip
                           title={t('userEdit.addForm.role.adminTooltip')}
                           placement="top"

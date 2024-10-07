@@ -2,7 +2,7 @@ import { Grid, styled, Typography } from '@mui/material';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
-import { matchPath, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
 import { Party } from '../../model/Party';
@@ -57,11 +57,6 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     },
   ];
 
-  const isUsersDetailPath = matchPath(location.pathname, {
-    path: DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
-    exact: true,
-  });
-
   return (
     <Grid
       container
@@ -74,9 +69,10 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
         <Grid item xs={12}>
           <ProductNavigationBar
             paths={paths as any}
-            showBackComponent={false}
+            showBackComponent={true}
             goBack={goBack}
-            backLabel={isUsersDetailPath ? paths[0].description : paths[1].description}
+            backLabel={t('userPagesPath.exit')}
+            colorBackComponent="primary.main"
           />
         </Grid>
         <Grid item xs={12}>
@@ -221,6 +217,9 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               } as PartyUserOnCreation
             }
             canEditRegistryData={false}
+            // TODO remove void functions 
+            forwardNextStep={() => {}}
+            setUserData={() => {}}
           />
         </Grid>
       </Grid>

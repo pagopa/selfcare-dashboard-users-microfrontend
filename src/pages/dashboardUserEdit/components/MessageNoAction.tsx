@@ -5,7 +5,7 @@ import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 export function MessageNoAction({ img, title, description, ImgComponent }: RequestOutcomeMessage) {
   const theme = useTheme();
   return (
-    <Box style={{ textAlign: 'center' }}>
+    <Box style={{ textAlign: 'center' }} alignContent={'center'}>
       <Box mb={2}>
         <i>
           {ImgComponent ? (

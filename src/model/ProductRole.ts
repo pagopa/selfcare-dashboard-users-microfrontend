@@ -8,6 +8,7 @@ export type ProductRole = {
   productRole: string;
   title: string;
   description: string;
+  phasesAdditionAllowed: Array<string>;
 };
 
 export type ProductRolesLists = {

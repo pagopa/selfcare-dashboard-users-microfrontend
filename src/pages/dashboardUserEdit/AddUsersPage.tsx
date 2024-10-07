@@ -1,18 +1,16 @@
 import { Grid } from '@mui/material';
-import { IllusCompleted, IllusError } from '@pagopa/mui-italia';
-import { EndingPage } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
+import { PartyUserOnCreation } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
-import { RequestOutcomeOptions } from '../../model/UserRegistry';
+import { RequestOutcomeMessage } from '../../model/UserRegistry';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
-import { ENV } from '../../utils/env';
 import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
@@ -26,16 +24,19 @@ type Props = {
 export default function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
-  const [currentStep, _setCurrentStep] = useState(1);
-  /*
-  const handleNextStep = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
+  const [addUserData, setUserData] = useState<PartyUserOnCreation>({} as PartyUserOnCreation);
+  const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
+
+  const forwardNextStep = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
-  const handlePreviousStep = () => {
+  const backPreviousStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
-*/
+
   const goBack = () => {
     history.goBack();
   };
@@ -55,70 +56,9 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
     },
   ];
 
-  // TODO render based on call outcome succes or generic error
-  const outcomeContent: RequestOutcomeOptions = {
-    success: {
-      title: '',
-      description: [
-        <>
-          <EndingPage
-            minHeight="52vh"
-            icon={<IllusCompleted size={60} />}
-            title={t('onboarding.success.flow.user.title')}
-            description={
-              <Trans
-                i18nKey="onboarding.success.flow.user.description"
-                components={{ 1: <br />, 3: <br /> }}
-              >
-                {`Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.`}
-              </Trans>
-            }
-            variantTitle={'h4'}
-            variantDescription={'body1'}
-            buttonLabel={t('onboarding.backHome')}
-            onButtonClick={() => window.location.assign(ENV.ROUTES.USERS)}
-          />
-        </>,
-      ],
-    },
-    error: {
-      title: '',
-      description: [
-        <>
-          <EndingPage
-            minHeight="52vh"
-            icon={<IllusError size={60} />}
-            variantTitle={'h4'}
-            variantDescription={'body1'}
-            title={t('onboarding.error.title')}
-            description={
-              <Trans i18nKey="onboarding.error.description" components={{ 1: <br /> }}>
-                {`A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.`}
-              </Trans>
-            }
-            buttonLabel={t('onboarding.backHome')}
-            onButtonClick={() => window.location.assign(ENV.ROUTES.USERS)}
-          />
-        </>,
-      ],
-    },
-  };
-
-  /*
-  // TODO not allowed 
-  const notAllowedError: RequestOutcomeMessage = {
-    title: '',
-    description: [
-      <>
-        <UserNotAllowedPage
-          partyName={onboardingFormData?.businessName}
-          productTitle={selectedProduct?.title}
-        />
-      </>,
-    ],
-  };
-*/
-  return (
+  return outcome ? (
+    <MessageNoAction {...outcome} />
+  ) : (
     <Grid
       container
       justifyContent={'center'}
@@ -164,15 +104,23 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
                 productRoles: [],
               }}
               canEditRegistryData={true}
+              forwardNextStep={forwardNextStep}
+              setCurrentSelectedProduct={setCurrentSelectedProduct}
+              setUserData={setUserData}
             />
           )}
 
-          {currentStep === 2 && <AddLegalRepresentativeForm productName={'Test Name'} />}
-
-          {
-            // TODO render based on call outcome succes or generic error
-            currentStep === 3 && <MessageNoAction {...outcomeContent.success} />
-          }
+          {currentStep === 2 && (
+            <AddLegalRepresentativeForm
+              productName={currentSelectedProduct?.title ?? ''}
+              productId={currentSelectedProduct?.id ?? ''}
+              backPreviousStep={backPreviousStep}
+              party={party}
+              addUserData={addUserData}
+              setUserData={setUserData}
+              setOutcome={setOutcome}
+            />
+          )}
         </Grid>
       </Grid>
     </Grid>
