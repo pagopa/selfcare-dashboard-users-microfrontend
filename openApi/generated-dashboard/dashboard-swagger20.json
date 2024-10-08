@@ -251,65 +251,7 @@
         "summary": "updateInstitutionDescription"
       }
     },
-    "/v1/institutions/{institutionId}/geographicTaxonomy": {
-      "get": {
-        "produces": [
-          "application/json",
-          "application/problem+json"
-        ],
-        "parameters": [
-          {
-            "description": "Institution's unique internal identifier",
-            "in": "path",
-            "name": "institutionId",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema":{"$ref":"#/definitions/GeographicTaxonomyResourceArray"}
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "global"
-            ]
-          }
-        ],
-        "tags": [
-          "institutions"
-        ],
-        "description": "The service retrieve the institution's geographic taxonomy",
-        "operationId": "getInstitutionGeographicTaxonomyUsingGET",
-        "summary": "getInstitutionGeographicTaxonomy"
-      },
+    "/v1/institutions/{institutionId}/geographic-taxonomy": {
       "put": {
         "consumes": [
           "application/json"
@@ -369,6 +311,69 @@
         "description": "Service to update the geographic taxonomy of an onboarded institution",
         "operationId": "updateInstitutionGeographicTaxonomyUsingPUT",
         "summary": "updateInstitutionGeographicTaxonomy"
+      }
+    },
+    "/v1/institutions/{institutionId}/geographicTaxonomy": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "path",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/GeographicTaxonomyListDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "deprecated": true,
+        "description": "Service to update the geographic taxonomy of an onboarded institution",
+        "operationId": "updateInstitutionGeographicTaxonomyDeprecatedUsingPUT",
+        "summary": "updateInstitutionGeographicTaxonomyDeprecated"
       }
     },
     "/v1/institutions/{institutionId}/institutions": {
@@ -624,18 +629,6 @@
           },
           {
             "description": "Institution Type",
-            "enum": [
-              "AS",
-              "CON",
-              "GSP",
-              "PA",
-              "PG",
-              "PSP",
-              "PT",
-              "REC",
-              "SA",
-              "SCP"
-            ],
             "in": "path",
             "name": "institutionType",
             "required": true,
@@ -700,6 +693,13 @@
             "name": "productId",
             "required": true,
             "type": "string"
+          },
+          {
+            "description": "Institution's type",
+            "in": "query",
+            "name": "institutionType",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -758,36 +758,6 @@
         ],
         "parameters": [
           {
-            "in": "query",
-            "name": "authenticated",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "in": "query",
-            "name": "authorities[0].authority",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "credentials",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "details",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "principal",
-            "required": false,
-            "type": "object"
-          },
-          {
             "in": "body",
             "name": "body",
             "schema": {
@@ -843,38 +813,7 @@
           "application/json",
           "application/problem+json"
         ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "authenticated",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "in": "query",
-            "name": "authorities[0].authority",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "credentials",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "details",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "principal",
-            "required": false,
-            "type": "object"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -918,6 +857,78 @@
         "description": "Service to get all the institutions related to logged user",
         "operationId": "v2RetrieveUserInstitutions",
         "summary": "getInstitutions"
+      }
+    },
+    "/v2/institutions/onboardings/{productId}/pending": {
+      "get": {
+        "produces": [
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "query",
+            "name": "taxCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "subunitCode",
+            "in": "query",
+            "name": "subunitCode",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "Product's unique identifier",
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "Returns an institution's onboarding record by its ID only if its status is PENDING or TOBEVALIDATED",
+        "operationId": "getInstitutionOnboardingPending",
+        "summary": "getInstitutionOnboardingPending"
       }
     },
     "/v2/institutions/{institutionId}": {
@@ -1247,41 +1258,11 @@
         ],
         "parameters": [
           {
-            "in": "query",
-            "name": "authenticated",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "in": "query",
-            "name": "authorities[0].authority",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "credentials",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "details",
-            "required": false,
-            "type": "object"
-          },
-          {
             "description": "Institution's unique internal identifier",
             "in": "path",
             "name": "institutionId",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "principal",
-            "required": false,
-            "type": "object"
           },
           {
             "description": "User's unique identifier",
@@ -1506,47 +1487,11 @@
         ],
         "parameters": [
           {
-            "in": "query",
-            "name": "authenticated",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "in": "query",
-            "name": "authorities[0].authority",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "credentials",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "details",
-            "required": false,
-            "type": "object"
-          },
-          {
             "description": "Institution's unique internal identifier",
             "in": "query",
             "name": "institutionId",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "name",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "principal",
-            "required": false,
-            "type": "object"
           },
           {
             "description": "Back Office environment",
@@ -2191,41 +2136,11 @@
         ],
         "parameters": [
           {
-            "in": "query",
-            "name": "authenticated",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "in": "query",
-            "name": "authorities[0].authority",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "credentials",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "in": "query",
-            "name": "details",
-            "required": false,
-            "type": "object"
-          },
-          {
             "description": "Institution's unique internal identifier",
             "in": "path",
             "name": "institutionId",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "principal",
-            "required": false,
-            "type": "object"
           },
           {
             "description": "productId",
@@ -2722,7 +2637,7 @@
       }
     }
   },
-  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"ProductRoleMappingsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductRoleMappingsResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
+  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"ProductRoleMappingsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductRoleMappingsResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
     "Attribute": {
       "properties": {
         "code": {
@@ -2926,6 +2841,7 @@
           "description": "Delegation type",
           "enum": [
             "AOO",
+            "EA",
             "PT",
             "UO"
           ],
@@ -2969,6 +2885,7 @@
         "type": {
           "enum": [
             "AOO",
+            "EA",
             "PT",
             "UO"
           ],
@@ -3009,18 +2926,6 @@
           "type": "string"
         },
         "institutionType": {
-          "enum": [
-            "AS",
-            "CON",
-            "GSP",
-            "PA",
-            "PG",
-            "PSP",
-            "PT",
-            "REC",
-            "SA",
-            "SCP"
-          ],
           "type": "string"
         },
         "productId": {
@@ -3035,6 +2940,7 @@
         "type": {
           "enum": [
             "AOO",
+            "EA",
             "PT",
             "UO"
           ],
@@ -3190,18 +3096,6 @@
           "type": "string"
         },
         "institutionType": {
-          "enum": [
-            "AS",
-            "CON",
-            "GSP",
-            "PA",
-            "PG",
-            "PSP",
-            "PT",
-            "REC",
-            "SA",
-            "SCP"
-          ],
           "type": "string"
         },
         "onboarding": {
@@ -3233,12 +3127,6 @@
         },
         "taxCode": {
           "type": "string"
-        },
-        "userActions": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
         },
         "zipCode": {
           "type": "string"
@@ -3325,18 +3213,6 @@
         },
         "institutionType": {
           "description": "Institution's type",
-          "enum": [
-            "AS",
-            "CON",
-            "GSP",
-            "PA",
-            "PG",
-            "PSP",
-            "PT",
-            "REC",
-            "SA",
-            "SCP"
-          ],
           "type": "string"
         },
         "mailAddress": {
@@ -3742,6 +3618,13 @@
         "partyRole": {
           "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
           "type": "string"
+        },
+        "phasesAdditionAllowed": {
+          "description": "List of phases where addition of the role is allowed",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "productRoles": {
           "description": "Available product roles",

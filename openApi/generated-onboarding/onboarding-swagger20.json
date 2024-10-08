@@ -2209,7 +2209,7 @@
       }
     }
   },
-  "definitions" : {"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},
+  "definitions" : {"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGWrapper":{"type": "string"},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGArray":{"type": "array", "items": {"type": "string"}},"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},
     "AdditionalInformations": {
       "properties": {
         "agentOfPublicService": {
