@@ -1,7 +1,6 @@
 import { Button, Grid, Stack } from '@mui/material';
 
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { ButtonNaked, IllusCompleted, IllusError } from '@pagopa/mui-italia';
+import { IllusCompleted, IllusError } from '@pagopa/mui-italia';
 import {
   EndingPage,
   TitleBox,
@@ -22,15 +21,12 @@ import { UserDto } from '../../api/generated/onboarding/UserDto';
 import { Party } from '../../model/Party';
 import { PartyUserLR, PartyUserOnCreation, TextTransform } from '../../model/PartyUser';
 import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../model/UserRegistry';
-import {
-  checkManagerService,
-  onboardingPostUser,
-  validateLegalRepresentative
-} from '../../services/usersService';
+import { onboardingPostUser } from '../../services/usersService';
 import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 import { ConfimChangeLRModal } from './components/ConfimChangeLRModal';
 import { CustomTextField, requiredError, taxCodeRegexp } from './helpers';
+// import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 
 type LegalRepresentativeProps = {
   party: Party;
@@ -54,6 +50,8 @@ export default function AddLegalRepresentativeForm({
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
+  const sessionToken =
+    'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dF9hMjo3YTo0NjozYjoyYTo2MDo1Njo0MDo4ODphMDo1ZDphNDpmODowMToxZTozZSJ9.eyJmYW1pbHlfbmFtZSI6InNpc3RpIiwiZmlzY2FsX251bWJlciI6IlNTVE1UVDgwQTAxRjIwNUMiLCJuYW1lIjoibWF0dGlhIiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImZyb21fYWEiOmZhbHNlLCJ1aWQiOiJkZWE1ZDJjNC05YzNiLTQ3YzEtYmQ5YS0zZTM4YTIwMzcwMDkiLCJsZXZlbCI6IkwyIiwiaWF0IjoxNzI4Mzc3NjQwLCJleHAiOjE3Mjg0MTAwNDAsImF1ZCI6ImFwaS5kZXYuc2VsZmNhcmUucGFnb3BhLml0IiwiaXNzIjoiU1BJRCIsImp0aSI6Il9lM2I2NTc3MTFmMmE2ZmM3NjMzMiJ9.ZC1AddoKWXPhqVxT-lcLvnhuAcDFcfpTXvP-SO9M3iGGDPa0koEct8mETsyvUG99TCs9FtBG1T44NlQk3IgptW6ZQU7NOcc7wGKsSsAaoVDrmMj74KT80lfBf3BN52zsDM7ZzxeBZ9q_EmeF2EJmS4IaZe4yQzG4JiaQvABRo_G0NbMndwEM2qjEZwDnqnPQZgLWZ6MJU0cPSR6Stv7oCZCBh_JbeXWw3SZeBW3d7CBDZDFYy3dqf-tnrmR1vKUzzT1uKUhXMM5QTORzAGqeQX22fd9J1nu6PPt8DIEBrW8uA_bFv1wDEQOhgYmwR0hMSRjIgFKiaZrsyEQNEGnKUg';
 
   const baseTextFieldProps = (
     field: keyof PartyUserLR,
@@ -130,7 +128,46 @@ export default function AddLegalRepresentativeForm({
     validate,
     onSubmit: (user) => {
       setLoading(true);
-      
+      fetch(`${ENV.URL_API.API_ONBOARDING_V2}/v1/users/check-manager`, {
+        method: 'POST',
+        headers: {
+          accept: '',
+          'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${sessionToken}`,
+        },
+        body: JSON.stringify({
+          institutionType: party.institutionType as any,
+          origin: party?.origin,
+          originId: party?.originId,
+          productId,
+          subunitCode: party?.subunitCode,
+          taxCode: party.vatNumber,
+          users: [{ ...user, role: RoleEnum.MANAGER as RoleEnum }],
+        }),
+      })
+        .then(async (response) => {
+          if (!response.ok) {
+            void Promise.reject(response);
+          }
+          if (response.ok) {
+            const responseJson = await response.json();
+            setIsChangedManager(!responseJson?.result);
+            validateUser(user);
+          }
+        })
+        .catch((error) => {
+          addError({
+            id: `VALIDATE_USER_ERROR`,
+            blocking: false,
+            error,
+            techDescription: `Something gone wrong whilev calling check-manager`,
+            toNotify: true,
+          });
+        })
+        .finally(() => setLoading(false));
+
+      /*
       checkManagerService({
         institutionType: party.institutionType as any,
         origin: party?.origin,
@@ -157,16 +194,41 @@ export default function AddLegalRepresentativeForm({
           });
         })
         .finally(() => setLoading(false));
+        */
     },
   });
 
   const validateUser = (user: PartyUserLR) => {
-    void validateLegalRepresentative(user)
-      .then(() => {
-        sendOnboardingData([addUserData, user]);
+    // TODO replace fetch api with  validateLegalRepresentative
+    /*
+     void validateLegalRepresentative({
+        name: user.name,
+        surname: user.surname,
+        taxCode: user.taxCode,
+      })
+      */
+    fetch(`${ENV.URL_API.API_ONBOARDING_V2}/v1/users/validate`, {
+      method: 'POST',
+      headers: {
+        accept: '',
+        'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify({
+        name: user.name,
+        surname: user.surname,
+        taxCode: user.taxCode,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((body) => Promise.reject({ status: response.status, body }));
+        }
+        return sendOnboardingData([addUserData, user]);
       })
       .catch((error) => {
-        if (error && error.description && error.status === '409') {
+        if (error && error.status === '409') {
           trackEvent(`ONBOARDING_ADD_MANAGER_CONFLICT_ERROR`, {
             party_id: party?.partyId,
             reason: error?.detail,
@@ -290,26 +352,8 @@ export default function AddLegalRepresentativeForm({
                   />
                 }
                 mbTitle={1}
-                mbSubTitle={1}
+                mbSubTitle={5}
               />
-              <Grid item xs={12} mb={3}>
-                <ButtonNaked
-                  component="button"
-                  color="primary"
-                  startIcon={<MenuBookIcon />}
-                  sx={{
-                    fontWeight: '700',
-                    fontSize: '14px',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={() => {
-                    const docLink = 'https://docs.pagopa.it/area-riservata/area-riservata/ruoli';
-                    window.open(docLink);
-                  }}
-                >
-                  {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
-                </ButtonNaked>
-              </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={2}>
