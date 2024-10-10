@@ -693,6 +693,13 @@
             "name": "productId",
             "required": true,
             "type": "string"
+          },
+          {
+            "description": "Institution's type",
+            "in": "query",
+            "name": "institutionType",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
