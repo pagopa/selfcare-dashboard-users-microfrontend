@@ -9,6 +9,7 @@ import {
 } from '@pagopa/selfcare-common-frontend/lib';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
@@ -26,7 +27,6 @@ import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 import { ConfimChangeLRModal } from './components/ConfimChangeLRModal';
 import { CustomTextField, requiredError, taxCodeRegexp } from './helpers';
-// import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 
 type LegalRepresentativeProps = {
   party: Party;
@@ -50,8 +50,7 @@ export default function AddLegalRepresentativeForm({
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
-  const sessionToken =
-    'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dF9hMjo3YTo0NjozYjoyYTo2MDo1Njo0MDo4ODphMDo1ZDphNDpmODowMToxZTozZSJ9.eyJmYW1pbHlfbmFtZSI6InNpc3RpIiwiZmlzY2FsX251bWJlciI6IlNTVE1UVDgwQTAxRjIwNUMiLCJuYW1lIjoibWF0dGlhIiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImZyb21fYWEiOmZhbHNlLCJ1aWQiOiJkZWE1ZDJjNC05YzNiLTQ3YzEtYmQ5YS0zZTM4YTIwMzcwMDkiLCJsZXZlbCI6IkwyIiwiaWF0IjoxNzI4Mzc3NjQwLCJleHAiOjE3Mjg0MTAwNDAsImF1ZCI6ImFwaS5kZXYuc2VsZmNhcmUucGFnb3BhLml0IiwiaXNzIjoiU1BJRCIsImp0aSI6Il9lM2I2NTc3MTFmMmE2ZmM3NjMzMiJ9.ZC1AddoKWXPhqVxT-lcLvnhuAcDFcfpTXvP-SO9M3iGGDPa0koEct8mETsyvUG99TCs9FtBG1T44NlQk3IgptW6ZQU7NOcc7wGKsSsAaoVDrmMj74KT80lfBf3BN52zsDM7ZzxeBZ9q_EmeF2EJmS4IaZe4yQzG4JiaQvABRo_G0NbMndwEM2qjEZwDnqnPQZgLWZ6MJU0cPSR6Stv7oCZCBh_JbeXWw3SZeBW3d7CBDZDFYy3dqf-tnrmR1vKUzzT1uKUhXMM5QTORzAGqeQX22fd9J1nu6PPt8DIEBrW8uA_bFv1wDEQOhgYmwR0hMSRjIgFKiaZrsyEQNEGnKUg';
+  const sessionToken = storageTokenOps.read();
 
   const baseTextFieldProps = (
     field: keyof PartyUserLR,
