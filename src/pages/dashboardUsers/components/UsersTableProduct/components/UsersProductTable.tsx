@@ -4,7 +4,7 @@ import { DataGrid, GridColDef, GridRow, GridSortDirection, GridSortModel } from 
 import { theme } from '@pagopa/mui-italia';
 import { CustomPagination } from '@pagopa/selfcare-common-frontend/lib';
 import { Page } from '@pagopa/selfcare-common-frontend/lib/model/Page';
-import { roleLabels, UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
-import { ProductRolesLists } from '../../../../../model/ProductRole';
+import { ProductRolesByProductRoleType, ProductRolesLists } from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
 import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
@@ -125,6 +125,17 @@ export default function UsersProductTable({
   const rowHeight = isMobile ? 250 : 64;
   const headerHeight = isMobile ? 10 : 56;
 
+  const getTitleByUserRole = (
+    userRole: UserRole,
+    groupByProductRole: ProductRolesByProductRoleType
+  ): string | undefined => {
+  
+    const matchingRole = Object.values(groupByProductRole).find(
+      (roleDetails) => roleDetails.selcRole === userRole
+    );
+
+    return matchingRole?.title ?? '';
+  };
 
   return (
     <React.Fragment>
@@ -240,7 +251,7 @@ export default function UsersProductTable({
                               whiteSpace: 'pre-wrap',
                             }}
                           >
-                            {t(roleLabels[userRole].longLabelKey)}
+                            {getTitleByUserRole(userRole, productRolesLists.groupByProductRole)}
                           </Typography>
                         </Grid>
                         {userSuspended && (
