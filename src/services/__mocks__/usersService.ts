@@ -1154,7 +1154,8 @@ export const fetchPartyProductUsers = (
 export const savePartyUser = (
   _party: Party,
   product: Product,
-  user: PartyUserOnCreation
+  user: PartyUserOnCreation,
+  _partyRole?: string
 ): Promise<string> => {
   // eslint-disable-next-line functional/immutable-data
   mockedUsers.push({
@@ -1186,7 +1187,8 @@ export const addUserProductRoles = (
   _party: Party,
   _product: Product,
   userId: string,
-  _user: PartyUserOnCreation
+  _user: PartyUserOnCreation,
+  _partyRole?: string
 ): Promise<string> => new Promise((resolve) => resolve(userId));
 
 export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<any> => {
