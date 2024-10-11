@@ -51,16 +51,25 @@ export default function UserProductAddRoles({
       (r) => !userProduct.roles.find((ur) => ur.role === r)
     );
 
+    const partyRole = productRolesList.groupByProductRole[newRoleSelected[0]].partyRole;
+
     setOpen(false);
     setLoading(true);
-    addUserProductRoles(party, product, user.id, {
-      ...user,
-      productRoles: newRoleSelected ?? [],
-      confirmEmail: user.email,
-      certifiedName: false,
-      certifiedSurname: false,
-      certifiedMail: false,
-    })
+    addUserProductRoles(
+      party,
+      product,
+      user.id,
+      {
+        ...user,
+        productRoles: newRoleSelected ?? [],
+        role: newRoleSelected[0] ?? '',
+        confirmEmail: user.email,
+        certifiedName: false,
+        certifiedSurname: false,
+        certifiedMail: false,
+      },
+      partyRole
+    )
       .then((_) => {
         trackEvent('USER_ADD_ROLE', {
           party_id: party.partyId,
