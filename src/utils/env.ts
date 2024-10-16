@@ -30,6 +30,7 @@ export const ENV = {
 
   URL_API: {
     API_DASHBOARD: env.get('REACT_APP_URL_API_DASHBOARD').required().asString(),
+    API_ONBOARDING_V2: env.get('REACT_APP_URL_API_ONBOARDING_V2').required().asString(),
   },
 
   API_TIMEOUT_MS: {

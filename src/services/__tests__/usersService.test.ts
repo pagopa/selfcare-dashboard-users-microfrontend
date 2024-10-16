@@ -5,7 +5,7 @@ import {
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
-import { mockedBaseParties, mockedParties } from '../../microcomponents/mock_dashboard/data/party';
+import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import {
   institutionUserResource2PartyUserDetail,
@@ -61,7 +61,7 @@ test('Test fetchPartyProductUser', async () => {
     mockedParties[0],
     mockedPartyProducts[0],
     mockedUser,
-    buildProductsMap(mockedPartyProducts),
+    buildProductsMap(mockedPartyProducts)
   );
 
   expect(partyProductUsers).toMatchObject({
@@ -97,12 +97,18 @@ test('Test savePartyUser', async () => {
     certifiedMail: true,
   };
 
-  const newUserId = await savePartyUser(mockedParties[0], mockedPartyProducts[0], user);
+  const newUserId = await savePartyUser(
+    mockedParties[0],
+    mockedPartyProducts[0],
+    user,
+    'SUB_DELEGATE'
+  );
 
   expect(DashboardApi.savePartyUser).toBeCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
-    user
+    user,
+    'SUB_DELEGATE'
   );
   expect(newUserId).toBe('newUserId');
 });
@@ -124,14 +130,16 @@ test('Test addUserProductRoles', async () => {
     mockedParties[0],
     mockedPartyProducts[0],
     'userId',
-    user
+    user,
+    'SUB_DELEGATE'
   );
 
   expect(DashboardApi.addUserProductRoles).toBeCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     'userId',
-    user
+    user,
+    'SUB_DELEGATE'
   );
   expect(userId).toBe('userId');
 });
