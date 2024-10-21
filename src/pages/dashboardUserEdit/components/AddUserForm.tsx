@@ -38,7 +38,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
-import { PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
+import { AsyncOnboardingUserData, PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { UserRegistry } from '../../../model/UserRegistry';
@@ -53,6 +53,7 @@ import {
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
 import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -73,7 +74,7 @@ type Props = {
   forwardNextStep: () => void;
   handlePreviousStep?: () => void;
   setCurrentSelectedProduct?: Dispatch<SetStateAction<Product | undefined>>;
-  setUserData: Dispatch<SetStateAction<PartyUserOnCreation>>;
+  setAsyncUserData: Dispatch<SetStateAction<Array<AsyncOnboardingUserData>>>;
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -88,8 +89,8 @@ export default function AddUserForm({
   goBack,
   forwardNextStep,
   setCurrentSelectedProduct,
-  setUserData,
-}: Props) {
+  setAsyncUserData,
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
@@ -187,7 +188,7 @@ export default function AddUserForm({
 
     setProductInPage(Object.keys(isEnabled).length === 1);
     if (productInPage) {
-      setUserProduct(isEnabled[0] as Product);
+      setUserProduct(isEnabled[0]);
     }
   }, [productInPage]);
 
@@ -405,13 +406,13 @@ export default function AddUserForm({
     validate,
     onSubmit: (values) => {
       if (isAsyncFlow) {
-        setUserData(
-          {
-            ...values,
-            taxCode: values.taxCode.toUpperCase(),
-            email: values.email.toLowerCase(),
-          },
-        );
+        setAsyncUserData([{
+          name: values.name,
+          surname: values.surname,
+          taxCode: values.taxCode.toUpperCase(),
+          email: values.email.toLowerCase(),
+          role: RoleEnum.DELEGATE,
+        }]);
         forwardNextStep();
         return;
       }
@@ -529,245 +530,243 @@ export default function AddUserForm({
     !!phasesAdditionAllowed && phasesAdditionAllowed[0] === 'dashboard-async';
 
   return (
-    <>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid container direction="column" sx={commonStyles}>
-          {canEditRegistryData ? (
-            <>
-              <Grid item xs={12}>
-                <TitleBox
-                  variantTitle="h6"
-                  variantSubTitle="body1"
-                  title={t('userEdit.addForm.userData.label')}
-                  subTitle={t('userEdit.addForm.userData.subTitle')}
-                  mbTitle={2}
-                  mbSubTitle={3}
-                />
-              </Grid>
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'taxCode',
-                    t('userEdit.addForm.fiscalCode.label'),
-                    '',
-                    'uppercase'
-                  )}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                mb={3}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  [theme.breakpoints.down('lg')]: {
-                    flexDirection: 'column',
-                    width: '100%',
-                  },
-                }}
-              >
-                <CustomTextField
-                  size="small"
-                  style={{ width: isMobile ? '100%' : '49%' }}
-                  {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                  disabled={formik.values.certifiedName || !validTaxcode}
-                />
-                <CustomTextField
-                  size="small"
-                  style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
-                  {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                  disabled={formik.values.certifiedSurname || !validTaxcode}
-                />
-              </Grid>
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'email',
-                    t('userEdit.addForm.institutionalEmail.label'),
-                    '',
-                    'lowercase'
-                  )}
-                  disabled={!validTaxcode}
-                />
-              </Grid>
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'confirmEmail',
-                    t('userEdit.addForm.confirmInstitutionalEmail.label'),
-                    '',
-                    'lowercase'
-                  )}
-                  disabled={!validTaxcode}
-                />
-              </Grid>
-            </>
-          ) : undefined}
-        </Grid>
-
-        {!selectedProduct && !isPnpgTheOnlyProduct ? (
-          <Grid container direction="column" sx={commonStyles}>
+    <form onSubmit={formik.handleSubmit}>
+      <Grid container direction="column" sx={commonStyles}>
+        {canEditRegistryData ? (
+          <>
             <Grid item xs={12}>
               <TitleBox
                 variantTitle="h6"
-                variantSubTitle="body2"
-                title={t('userEdit.addForm.product.title')}
-                subTitle={t('userEdit.addForm.product.subTitle')}
+                variantSubTitle="body1"
+                title={t('userEdit.addForm.userData.label')}
+                subTitle={t('userEdit.addForm.userData.subTitle')}
                 mbTitle={2}
                 mbSubTitle={3}
               />
             </Grid>
-            <Grid item xs={12} mb={3}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel
-                  id="select-label-products"
-                  size="small"
-                  sx={{
-                    color: !validTaxcode ? 'text.disabled' : '',
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      fontWeight: 'fontWeightMedium',
-                      fontSize: 'fontSize',
-                      whiteSpace: 'nowrap',
-                    },
-                  }}
-                >
-                  {selectLabel}
-                </InputLabel>
-                <Select
-                  fullWidth
-                  size="small"
-                  aria-label="user"
-                  name="products"
-                  value={userProduct?.title ?? ''}
-                  labelId="select-label-products"
-                  disabled={!validTaxcode || productInPage}
-                  variant="outlined"
-                  renderValue={(userProduct) => (
-                    <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
-                      {userProduct}
-                    </Typography>
-                  )}
-                  input={<OutlinedInput label={selectLabel} />}
-                >
-                  {products
-                    .filter((p) =>
-                      party.products.some(
-                        (pp) =>
-                          p.id === pp.productId &&
-                          hasPermission(pp.productId, Actions.ManageProductUsers)
-                      )
-                    )
-                    .map((p) => (
-                      <MenuItem
-                        key={p.id}
-                        value={p.id}
-                        data-testid={`product: ${p.id}`}
-                        sx={{
-                          fontSize: 'fontSize',
-                          fontWeight: 'fontWeightMedium',
-                          color: 'text.primary',
-                        }}
-                        onClick={validTaxcode ? () => setUserProduct(p) : undefined}
-                      >
-                        {p.title}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'taxCode',
+                  t('userEdit.addForm.fiscalCode.label'),
+                  '',
+                  'uppercase'
+                )}
+              />
             </Grid>
-          </Grid>
+            <Grid
+              item
+              xs={12}
+              mb={3}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                [theme.breakpoints.down('lg')]: {
+                  flexDirection: 'column',
+                  width: '100%',
+                },
+              }}
+            >
+              <CustomTextField
+                size="small"
+                style={{ width: isMobile ? '100%' : '49%' }}
+                {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+                disabled={formik.values.certifiedName || !validTaxcode}
+              />
+              <CustomTextField
+                size="small"
+                style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
+                {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+                disabled={formik.values.certifiedSurname || !validTaxcode}
+              />
+            </Grid>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'email',
+                  t('userEdit.addForm.institutionalEmail.label'),
+                  '',
+                  'lowercase'
+                )}
+                disabled={!validTaxcode}
+              />
+            </Grid>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'confirmEmail',
+                  t('userEdit.addForm.confirmInstitutionalEmail.label'),
+                  '',
+                  'lowercase'
+                )}
+                disabled={!validTaxcode}
+              />
+            </Grid>
+          </>
         ) : undefined}
+      </Grid>
 
-        {productRoles && (
-          <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
+      {!selectedProduct && !isPnpgTheOnlyProduct ? (
+        <Grid container direction="column" sx={commonStyles}>
+          <Grid item xs={12}>
             <TitleBox
               variantTitle="h6"
               variantSubTitle="body2"
-              title={t('userEdit.addForm.role.title')}
-              subTitle={t('userEdit.addForm.role.subTitle')}
+              title={t('userEdit.addForm.product.title')}
+              subTitle={t('userEdit.addForm.product.subTitle')}
               mbTitle={2}
               mbSubTitle={3}
             />
-
-            {Object.values(productRoles.groupBySelcRole).map((roles) =>
-              roles
-                .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
-                .map((p, index: number, filteredRoles) => (
-                  <>
-                    <Box
-                      key={p.productRole}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                        my: 2,
-                      }}
-                    >
-                      <CustomFormControlLabel
-                        sx={{ marginTop: 0 }}
-                        checked={formik.values.productRoles.indexOf(p.productRole) > -1}
-                        disabled={!validTaxcode}
-                        value={p.productRole}
-                        control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
-                        label={renderLabel(p, !!validTaxcode)}
-                        onClick={
-                          validTaxcode
-                            ? () => {
-                                addRole(p);
-                                setIsAsyncFlow(
-                                  p.phasesAdditionAllowed &&
-                                    p.phasesAdditionAllowed[0] === 'dashboard-async'
-                                );
-                              }
-                            : undefined
-                        }
-                      />
-                      {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
-                        <Tooltip
-                          title={t('userEdit.addForm.role.adminTooltip')}
-                          placement="top"
-                          arrow
-                        >
-                          <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-                        </Tooltip>
-                      )}
-                    </Box>
-                    {filteredRoles.length !== index && (
-                      <Grid item xs={12}>
-                        <Divider sx={{ borderColor: 'background.default' }} />
-                      </Grid>
-                    )}
-                  </>
-                ))
-            )}
           </Grid>
-        )}
+          <Grid item xs={12} mb={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <InputLabel
+                id="select-label-products"
+                size="small"
+                sx={{
+                  color: !validTaxcode ? 'text.disabled' : '',
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    fontWeight: 'fontWeightMedium',
+                    fontSize: 'fontSize',
+                    whiteSpace: 'nowrap',
+                  },
+                }}
+              >
+                {selectLabel}
+              </InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                aria-label="user"
+                name="products"
+                value={userProduct?.title ?? ''}
+                labelId="select-label-products"
+                disabled={!validTaxcode || productInPage}
+                variant="outlined"
+                renderValue={(userProduct) => (
+                  <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
+                    {userProduct}
+                  </Typography>
+                )}
+                input={<OutlinedInput label={selectLabel} />}
+              >
+                {products
+                  .filter((p) =>
+                    party.products.some(
+                      (pp) =>
+                        p.id === pp.productId &&
+                        hasPermission(pp.productId, Actions.ManageProductUsers)
+                    )
+                  )
+                  .map((p) => (
+                    <MenuItem
+                      key={p.id}
+                      value={p.id}
+                      data-testid={`product: ${p.id}`}
+                      sx={{
+                        fontSize: 'fontSize',
+                        fontWeight: 'fontWeightMedium',
+                        color: 'text.primary',
+                      }}
+                      onClick={validTaxcode ? () => setUserProduct(p) : undefined}
+                    >
+                      {p.title}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      ) : undefined}
 
-        <Stack direction="row" display="flex" justifyContent="space-between">
-          <Button
-            color="primary"
-            variant="outlined"
-            size="medium"
-            onClick={() => onExit(goBackInner)}
-          >
-            {t('userEdit.addForm.backButton')}
-          </Button>
-          <Button
-            disabled={!formik.dirty || !formik.isValid}
-            color="primary"
-            variant="contained"
-            type="submit"
-            size="medium"
-          >
-            {t('userEdit.addForm.continueButton')}
-          </Button>
-        </Stack>
-      </form>
-    </>
+      {productRoles && (
+        <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
+          <TitleBox
+            variantTitle="h6"
+            variantSubTitle="body2"
+            title={t('userEdit.addForm.role.title')}
+            subTitle={t('userEdit.addForm.role.subTitle')}
+            mbTitle={2}
+            mbSubTitle={3}
+          />
+
+          {Object.values(productRoles.groupBySelcRole).map((roles) =>
+            roles
+              .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
+              .map((p, index: number, filteredRoles) => (
+                <>
+                  <Box
+                    key={p.productRole}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '100%',
+                      my: 2,
+                    }}
+                  >
+                    <CustomFormControlLabel
+                      sx={{ marginTop: 0 }}
+                      checked={formik.values.productRoles.indexOf(p.productRole) > -1}
+                      disabled={!validTaxcode}
+                      value={p.productRole}
+                      control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
+                      label={renderLabel(p, !!validTaxcode)}
+                      onClick={
+                        validTaxcode
+                          ? () => {
+                              addRole(p);
+                              setIsAsyncFlow(
+                                p.phasesAdditionAllowed &&
+                                  p.phasesAdditionAllowed[0] === 'dashboard-async'
+                              );
+                            }
+                          : undefined
+                      }
+                    />
+                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
+                      <Tooltip
+                        title={t('userEdit.addForm.role.adminTooltip')}
+                        placement="top"
+                        arrow
+                      >
+                        <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+                      </Tooltip>
+                    )}
+                  </Box>
+                  {filteredRoles.length !== index && (
+                    <Grid item xs={12}>
+                      <Divider sx={{ borderColor: 'background.default' }} />
+                    </Grid>
+                  )}
+                </>
+              ))
+          )}
+        </Grid>
+      )}
+
+      <Stack direction="row" display="flex" justifyContent="space-between">
+        <Button
+          color="primary"
+          variant="outlined"
+          size="medium"
+          onClick={() => onExit(goBackInner)}
+        >
+          {t('userEdit.addForm.backButton')}
+        </Button>
+        <Button
+          disabled={!formik.dirty || !formik.isValid}
+          color="primary"
+          variant="contained"
+          type="submit"
+          size="medium"
+        >
+          {t('userEdit.addForm.continueButton')}
+        </Button>
+      </Stack>
+    </form>
   );
 }

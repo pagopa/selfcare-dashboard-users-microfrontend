@@ -60,6 +60,6 @@ export const OnboardingApi = {
     const result = await apiClient.onboardingUsingPOST_4({
       body: user,
     });
-    return extractResponse(result, 204, onRedirectToLogin);
+    return extractResponse(result, 201, onRedirectToLogin);
   },
 };

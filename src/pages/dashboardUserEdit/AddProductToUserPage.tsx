@@ -219,7 +219,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
             canEditRegistryData={false}
             // TODO remove void functions 
             forwardNextStep={() => {}}
-            setUserData={() => {}}
+            setAsyncUserData={() => {}}
           />
         </Grid>
       </Grid>

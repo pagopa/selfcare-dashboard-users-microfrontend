@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
-import { PartyUserOnCreation } from '../../model/PartyUser';
+import { AsyncOnboardingUserData } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
@@ -26,7 +26,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   const history = useHistory();
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
-  const [addUserData, setUserData] = useState<PartyUserOnCreation>({} as PartyUserOnCreation);
+  const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
 
   const forwardNextStep = () => {
@@ -108,7 +108,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
               canEditRegistryData={true}
               forwardNextStep={forwardNextStep}
               setCurrentSelectedProduct={setCurrentSelectedProduct}
-              setUserData={setUserData}
+              setAsyncUserData={setAsyncUserData}
             />
           )}
 
@@ -118,8 +118,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
               productId={currentSelectedProduct?.id ?? ''}
               backPreviousStep={backPreviousStep}
               party={party}
-              addUserData={addUserData}
-              setUserData={setUserData}
+              asyncUserData={asyncUserData}
               setOutcome={setOutcome}
             />
           )}

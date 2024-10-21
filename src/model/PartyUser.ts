@@ -3,7 +3,8 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
-import { PartyRole, UserRole, UserRoleFilters, UserStatus } from './Party';
+import { RoleEnum } from '../api/generated/onboarding/UserDto';
+import { UserRole, UserRoleFilters, UserStatus } from './Party';
 import { Product, ProductsMap } from './Product';
 
 export type BasePartyUser = {
@@ -53,20 +54,13 @@ export type PartyUserOnCreation = {
   certifiedMail: boolean;
 };
 
-export type PartyUserLR = {
-  taxCode: string;
-  name: string;
-  surname: string;
-  email: string;
-};
-
-export type OnboardingUserData = {
+export type AsyncOnboardingUserData = {
   name: string;
   surname: string;
   taxCode: string;
   from?: string; 
   email: string;
-  role: PartyRole;
+  role: RoleEnum;
 };
 
 export type TextTransform = 'uppercase' | 'lowercase';

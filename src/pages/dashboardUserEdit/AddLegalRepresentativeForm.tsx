@@ -14,13 +14,13 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { InstitutionTypeEnum } from '../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum } from '../../api/generated/onboarding/User';
 import { UserDto } from '../../api/generated/onboarding/UserDto';
 import { Party } from '../../model/Party';
-import { PartyUserLR, PartyUserOnCreation, TextTransform } from '../../model/PartyUser';
+import { AsyncOnboardingUserData, TextTransform } from '../../model/PartyUser';
 import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../model/UserRegistry';
 import { onboardingPostUser } from '../../services/usersService';
 import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
@@ -33,8 +33,7 @@ type LegalRepresentativeProps = {
   productId: string;
   productName: string;
   backPreviousStep: () => void;
-  addUserData: PartyUserOnCreation;
-  setUserData: Dispatch<SetStateAction<PartyUserOnCreation>>;
+  asyncUserData: Array<AsyncOnboardingUserData>;
   setOutcome: Dispatch<SetStateAction<RequestOutcomeMessage | null | undefined>>;
 };
 
@@ -43,17 +42,19 @@ export default function AddLegalRepresentativeForm({
   productName,
   productId,
   backPreviousStep,
-  addUserData,
+  asyncUserData,
   setOutcome,
-}: LegalRepresentativeProps) {
+}: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
+  const [checkManagerDone, setCheckManagerDone] = useState(false);
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
-  const sessionToken = storageTokenOps.read();
+  const sessionToken =
+    'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dF9hMjo3YTo0NjozYjoyYTo2MDo1Njo0MDo4ODphMDo1ZDphNDpmODowMToxZTozZSJ9.eyJmYW1pbHlfbmFtZSI6InNpc3RpIiwiZmlzY2FsX251bWJlciI6IlNTVE1UVDgwQTAxRjIwNUMiLCJuYW1lIjoibWF0dGlhIiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImZyb21fYWEiOmZhbHNlLCJ1aWQiOiJkZWE1ZDJjNC05YzNiLTQ3YzEtYmQ5YS0zZTM4YTIwMzcwMDkiLCJsZXZlbCI6IkwyIiwiaWF0IjoxNzI5MjY3MTg3LCJleHAiOjE3MjkyOTk1ODcsImF1ZCI6ImFwaS5kZXYuc2VsZmNhcmUucGFnb3BhLml0IiwiaXNzIjoiU1BJRCIsImp0aSI6Il84YzU2ODFmZjgwYjM1ZGM0YjczOSJ9.o_eHmk9Re1ar-cbrUjzUKHDafSloZZHcrE6XfCmOsFX72-JOdYT0m4AM4ME3mstxuWx9dqFpC3OQB0g10QKjdMg_vnyfh1nDq442_mIg6P9FC8cOACxFpEMUidxnDg9rXHeAWh6R8IpCZ6o-55eX7tA9p2NJ0p0eugpg43YCY34kgGNx33Xjy1i_SWjcgz-z16Urqi1CeSDha31MglgUU7DIMmdAkcBx-seC646766EYPRN0QJk5DW73tBHNdkHFLo5z-yz6MNjoHn_0UMYt5rRlG_4bC_6GkwIbzUyUeX-Vks8X8XFqqpEQdX2ankKOs7Dpevwb9U1RQNiVsAsE8w';
 
   const baseTextFieldProps = (
-    field: keyof PartyUserLR,
+    field: keyof AsyncOnboardingUserData,
     label: string,
     placeholder: string,
     textTransform?: TextTransform
@@ -89,7 +90,7 @@ export default function AddLegalRepresentativeForm({
     };
   };
 
-  const validate = (values: Partial<PartyUserLR>) =>
+  const validate = (values: Partial<AsyncOnboardingUserData>) =>
     Object.fromEntries(
       Object.entries({
         name: !values.name
@@ -120,9 +121,10 @@ export default function AddLegalRepresentativeForm({
     name: '',
     surname: '',
     email: '',
+    role: RoleEnum.MANAGER,
   };
 
-  const formik = useFormik<PartyUserLR>({
+  const formik = useFormik<AsyncOnboardingUserData>({
     initialValues: initialFormData,
     validate,
     onSubmit: (user) => {
@@ -152,7 +154,9 @@ export default function AddLegalRepresentativeForm({
           if (response.ok) {
             const responseJson = await response.json();
             setIsChangedManager(!responseJson?.result);
-            validateUser(user);
+            if(responseJson?.result) {
+              validateUser(user);
+            }
           }
         })
         .catch((error) => {
@@ -197,7 +201,7 @@ export default function AddLegalRepresentativeForm({
     },
   });
 
-  const validateUser = (user: PartyUserLR) => {
+  const validateUser = (user: AsyncOnboardingUserData) => {
     // TODO replace fetch api with  validateLegalRepresentative
     /*
      void validateLegalRepresentative({
@@ -224,7 +228,7 @@ export default function AddLegalRepresentativeForm({
         if (!response.ok) {
           return response.json().then((body) => Promise.reject({ status: response.status, body }));
         }
-        return sendOnboardingData([addUserData, user]);
+        return sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]);
       })
       .catch((error) => {
         if (error && error.status === '409') {
@@ -248,7 +252,7 @@ export default function AddLegalRepresentativeForm({
       });
   };
 
-  const sendOnboardingData = (users: Array<PartyUserLR | PartyUserOnCreation>) => {
+  const sendOnboardingData = (asyncUserData: Array<AsyncOnboardingUserData>) => {
     onboardingPostUser({
       productId,
       institutionType: party?.institutionType as InstitutionTypeEnum,
@@ -256,7 +260,7 @@ export default function AddLegalRepresentativeForm({
       originId: party?.originId,
       subunitCode: party?.subunitCode,
       taxCode: party?.fiscalCode,
-      users: users as Array<UserDto>,
+      users: asyncUserData as Array<UserDto>,
     })
       .then(() => {
         setOutcome(outcomeContent.success);
@@ -322,8 +326,7 @@ export default function AddLegalRepresentativeForm({
       <ConfimChangeLRModal
         open={isChangedManager}
         onConfirm={() => {
-          sendOnboardingData([addUserData, formik.values]);
-          setIsChangedManager(false);
+          validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
       />
