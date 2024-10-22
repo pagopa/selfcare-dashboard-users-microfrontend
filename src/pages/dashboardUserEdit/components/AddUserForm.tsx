@@ -1,24 +1,24 @@
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
-  Divider,
   FormControl,
   FormControlLabel,
   Grid,
   InputLabel,
+  Link,
   MenuItem,
   OutlinedInput,
   Radio,
   Select,
   Stack,
   styled,
-  Tooltip,
+  TextField,
   Typography,
 } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
-import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import {
@@ -52,7 +52,35 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+
+const CustomTextField = styled(TextField)({
+  '.MuiInputLabel-asterisk': {
+    display: 'none',
+  },
+  '.MuiInput-root': {
+    '&:after': {
+      borderBottom: '2px solid text.primary',
+      color: 'text.primary',
+    },
+  },
+  '.MuiInputLabel-root.Mui-focused': {
+    color: 'text.primary',
+    fontWeight: 'fontWeightBold',
+  },
+  '.MuiInputLabel-root': {
+    color: 'text.primary',
+    fontSize: 'fontSize',
+    fontWeight: 'fontWeightBold',
+  },
+  input: {
+    '&::placeholder': {
+      fontStyle: 'italic',
+      color: 'text.primary',
+      opacity: '1',
+      textTransform: 'none',
+    },
+  },
+});
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -60,6 +88,10 @@ const CustomFormControlLabel = styled(FormControlLabel)({
     color: '#0073E6',
   },
 });
+const taxCodeRegexp = new RegExp(
+  '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
+);
+const requiredError = 'Required';
 
 type Props = {
   party: Party;
@@ -70,8 +102,6 @@ type Props = {
   canEditRegistryData: boolean;
   initialFormData: PartyUserOnCreation;
   goBack?: () => void;
-  handleNextStep?: () => void;
-  handlePreviousStep?: () => void;
 };
 
 type TextTransform = 'uppercase' | 'lowercase';
@@ -86,7 +116,7 @@ export default function AddUserForm({
   canEditRegistryData,
   initialFormData,
   goBack,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
@@ -106,6 +136,7 @@ export default function AddUserForm({
   const onExit = useUnloadEventOnExit();
   const { hasPermission } = usePermissions();
 
+  const isPnpg = !!products.find((p) => p.id === 'prod-pn-pg');
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
   const pnpgProduct = products.find((p) => p.id === 'prod-pn-pg');
@@ -275,11 +306,10 @@ export default function AddUserForm({
       taxCode: values.taxCode.toUpperCase(),
       email: values.email.toLowerCase(),
     };
-    const partyRole = productRoles?.groupByProductRole[formik.values.productRoles[0]].partyRole;
 
     (userId
-      ? addUserProductRoles(party, userProduct as Product, userId, values2submit, partyRole)
-      : savePartyUser(party, userProduct as Product, values2submit, partyRole)
+      ? addUserProductRoles(party, userProduct as Product, userId, values2submit)
+      : savePartyUser(party, userProduct as Product, values2submit)
     )
       .then((userId) => {
         unregisterUnloadEvent();
@@ -476,53 +506,26 @@ export default function AddUserForm({
     };
   };
 
-  const selectLabel = t('userEdit.addForm.product.selectLabel');
-
-  const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
-    <>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 'fontWeightRegular',
-          fontSize: '18px',
-          color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-        }}
-      >
-        {p.title}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          fontWeight: 'fontWeightRegular',
-          fontSize: 'fontSize',
-          color: !validTaxcode ? 'text.disabled' : 'text.secondary',
-          marginBottom: 1,
-        }}
-      >
-        {p.description}
-      </Typography>
-    </>
-  );
-  const isProductWithInfoTooltip = (productId: string, selcRole: string) => {
-    const productsWithAdminTooltip = ['prod-interop']; // Later, add more productIds here as needed
-    return productsWithAdminTooltip.includes(productId) && selcRole === 'ADMIN';
-  };
-
   return (
-    <>
-      <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
+      <Grid
+        container
+        direction="column"
+        sx={{
+          backgroundColor: 'background.paper',
+          paddingTop: 3,
+          paddingLeft: 3,
+          paddingRight: 3,
+          borderRadius: '4px',
+        }}
+      >
         {canEditRegistryData ? (
-          <Grid container direction="column" sx={commonStyles}>
-            <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body1"
-                title={t('userEdit.addForm.userData.label')}
-                subTitle={t('userEdit.addForm.userData.subTitle')}
-                mbTitle={2}
-                mbSubTitle={3}
-              />
-            </Grid>
+          <>
+            {isPnpg && (
+              <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
+                {t('userEdit.addForm.userData.label')}
+              </Typography>
+            )}
             <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
               <CustomTextField
                 size="small"
@@ -584,161 +587,168 @@ export default function AddUserForm({
                 disabled={!validTaxcode}
               />
             </Grid>
-          </Grid>
+          </>
         ) : undefined}
         {!selectedProduct && !isPnpgTheOnlyProduct ? (
-          <Grid container direction="column" sx={commonStyles}>
-            <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body2"
-                title={t('userEdit.addForm.product.title')}
-                subTitle={t('userEdit.addForm.product.subTitle')}
-                mbTitle={2}
-                mbSubTitle={3}
-              />
-            </Grid>
-            <Grid item xs={12} mb={3}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel
-                  id="select-label-products"
-                  size="small"
-                  sx={{
-                    color: !validTaxcode ? 'text.disabled' : '',
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      fontWeight: 'fontWeightMedium',
-                      fontSize: 'fontSize',
-                      whiteSpace: 'nowrap',
-                    },
-                  }}
-                >
-                  {selectLabel}
-                </InputLabel>
-                <Select
-                  fullWidth
-                  size="small"
-                  aria-label="user"
-                  name="products"
-                  value={userProduct?.title ?? ''}
-                  labelId="select-label-products"
-                  disabled={!validTaxcode || productInPage}
-                  variant="outlined"
-                  renderValue={(userProduct) => (
-                    <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
-                      {userProduct}
-                    </Typography>
-                  )}
-                  input={<OutlinedInput label={selectLabel} />}
-                >
-                  {products
-                    .filter((p) =>
-                      party.products.some(
-                        (pp) =>
-                          p.id === pp.productId &&
-                          hasPermission(pp.productId, Actions.ManageProductUsers)
-                      )
+          <Grid item xs={12} mb={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <InputLabel
+                id="select-label-products"
+                size="small"
+                sx={{
+                  color: !validTaxcode ? 'text.disabled' : '',
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    fontWeight: 'fontWeightMedium',
+                    fontSize: 'fontSize',
+                    whiteSpace: 'nowrap',
+                  },
+                }}
+              >
+                {t('userEdit.addForm.product.title')}
+              </InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                aria-label="user"
+                name="products"
+                value={userProduct?.title ?? ''}
+                labelId="select-label-products"
+                disabled={!validTaxcode || productInPage}
+                variant="outlined"
+                renderValue={(userProduct) => (
+                  <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
+                    {userProduct}
+                  </Typography>
+                )}
+                input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
+              >
+                {products
+                  .filter((p) =>
+                    party.products.some(
+                      (pp) =>
+                        p.id === pp.productId &&
+                        hasPermission(pp.productId, Actions.ManageProductUsers)
                     )
-                    .map((p) => (
-                      <MenuItem
-                        key={p.id}
-                        value={p.id}
-                        data-testid={`product: ${p.id}`}
-                        sx={{
-                          fontSize: 'fontSize',
-                          fontWeight: 'fontWeightMedium',
-                          color: 'text.primary',
-                        }}
-                        onClick={validTaxcode ? () => setUserProduct(p) : undefined}
-                      >
-                        {p.title}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-            </Grid>
+                  )
+                  .map((p) => (
+                    <MenuItem
+                      key={p.id}
+                      value={p.id}
+                      data-testid={`product: ${p.id}`}
+                      sx={{
+                        fontSize: 'fontSize',
+                        fontWeight: 'fontWeightMedium',
+                        color: 'text.primary',
+                      }}
+                      onClick={validTaxcode ? () => setUserProduct(p) : undefined}
+                    >
+                      {p.title}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           </Grid>
         ) : undefined}
+
+        {userProduct?.id === 'prod-interop' && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            <Trans
+              i18nKey="userEdit.addForm.bannerText"
+              components={{
+                1: (
+                  <Link
+                    href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                    color={'text.primary'}
+                    sx={{ textDecorationColor: 'text.primary' }}
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {
+                'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
+              }
+            </Trans>
+          </Alert>
+        )}
+
         {productRoles && (
-          <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
-            <TitleBox
-              variantTitle="h6"
-              variantSubTitle="body2"
-              title={t('userEdit.addForm.role.title')}
-              subTitle={t('userEdit.addForm.role.subTitle')}
-              mbTitle={2}
-              mbSubTitle={3}
-            />
+          <Grid item container xs={12} mb={3} sx={{ flexDirection: 'column' }}>
+            <Typography
+              sx={{
+                fontWeight: 'fontWeightMedium',
+                fontSize: 'fontSize',
+                color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+              }}
+              pb={2}
+            >
+              {t('userEdit.addForm.role.title')}
+            </Typography>
 
             {Object.values(productRoles.groupBySelcRole).map((roles) =>
               roles
                 .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
-                .map((p, index: number, filteredRoles) => (
-                  <>
-                    <Box
-                      key={p.productRole}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                        my: 2,
-                      }}
-                    >
-                      <CustomFormControlLabel
-                        sx={{ marginTop: 0 }}
-                        checked={formik.values.productRoles.indexOf(p.productRole) > -1}
-                        disabled={!validTaxcode}
-                        value={p.productRole}
-                        control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
-                        label={renderLabel(p, !!validTaxcode)}
-                        onClick={
-                          validTaxcode
-                            ? () => {
-                                addRole(p);
-                              }
-                            : undefined
-                        }
-                      />
-                      {isProductWithInfoTooltip(p.productId, p.selcRole) && (
-                        <Tooltip
-                          title={t('userEdit.addForm.role.adminTooltip')}
-                          placement="top"
-                          arrow
-                        >
-                          <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-                        </Tooltip>
-                      )}
-                    </Box>
-                    {filteredRoles.length !== index && (
-                      <Grid item xs={12}>
-                        <Divider sx={{ borderColor: 'background.default' }} />
-                      </Grid>
-                    )}
-                  </>
+                .map((p) => (
+                  <Box key={p.productRole}>
+                    <CustomFormControlLabel
+                      sx={{ marginTop: 0 }}
+                      checked={formik.values.productRoles.indexOf(p.productRole) > -1}
+                      disabled={!validTaxcode}
+                      value={p.productRole}
+                      control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
+                      label={
+                        <>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontWeight: 'fontWeightRegular',
+                              fontSize: '18px',
+                              color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+                            }}
+                          >
+                            {p.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: 'fontWeightRegular',
+                              fontSize: 'fontSize',
+                              color: !validTaxcode ? 'text.disabled' : 'text.secondary',
+                              marginBottom: 1,
+                            }}
+                          >
+                            {p.description}
+                          </Typography>
+                        </>
+                      }
+                      onClick={validTaxcode ? () => addRole(p) : undefined}
+                    />
+                  </Box>
                 ))
             )}
           </Grid>
         )}
-        <Stack direction="row" display="flex" justifyContent="space-between">
-          <Button
-            color="primary"
-            variant="outlined"
-            size="medium"
-            onClick={() => onExit(goBackInner)}
-          >
-            {t('userEdit.addForm.backButton')}
-          </Button>
-          <Button
-            disabled={!formik.dirty || !formik.isValid}
-            color="primary"
-            variant="contained"
-            type="submit"
-            size="medium"
-          >
-            {t('userEdit.addForm.continueButton')}
-          </Button>
-        </Stack>
-      </form>
-    </>
+      </Grid>
+
+      <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
+        <Button
+          color="primary"
+          variant="outlined"
+          size="medium"
+          onClick={() => onExit(goBackInner)}
+        >
+          {t('userEdit.addForm.backButton')}
+        </Button>
+        <Button
+          disabled={!formik.dirty || !formik.isValid}
+          color="primary"
+          variant="contained"
+          type="submit"
+          size="medium"
+        >
+          {t('userEdit.addForm.continueButton')}
+        </Button>
+      </Stack>
+    </form>
   );
 }
