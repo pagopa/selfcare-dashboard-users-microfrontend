@@ -130,7 +130,8 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar
             paths={paths as any}
-            showBackComponent={true}
+            // TODO showBackComponent into true after prod deploy
+            showBackComponent={false}
             goBack={goBack}
             backLabel={t('userPagesPath.exit')}
             colorBackComponent="primary.main"
