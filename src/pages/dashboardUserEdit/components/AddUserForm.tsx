@@ -307,9 +307,11 @@ export default function AddUserForm({
       email: values.email.toLowerCase(),
     };
 
+    const partyRole = productRoles?.groupByProductRole[formik.values.productRoles[0]].partyRole;
+
     (userId
-      ? addUserProductRoles(party, userProduct as Product, userId, values2submit)
-      : savePartyUser(party, userProduct as Product, values2submit)
+      ? addUserProductRoles(party, userProduct as Product, userId, values2submit, partyRole)
+      : savePartyUser(party, userProduct as Product, values2submit, partyRole)
     )
       .then((userId) => {
         unregisterUnloadEvent();
