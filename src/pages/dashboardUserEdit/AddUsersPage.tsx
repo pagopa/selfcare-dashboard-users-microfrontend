@@ -121,7 +121,6 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   return (
     <Grid
       container
-      justifyContent={'center'}
       px={3}
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
