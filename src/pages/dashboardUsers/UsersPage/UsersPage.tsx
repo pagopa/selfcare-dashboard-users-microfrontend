@@ -35,7 +35,7 @@ const emptyFilters: UsersTableFiltersConfig = {
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Props) {
+function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Readonly<Props>) {
   const selectedProductSection =
     window.location.hash !== ''
       ? window.location.hash.substring(1).replace(/[^a-zA-Z0-9-_]/g, '')
@@ -62,7 +62,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
   const onExit = useUnloadEventOnExit();
   const isMobile = useIsMobile('md');
 
-  const canSeeUsers = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+  const canSeeUsers = getAllProductsWithPermission(Actions.ListActiveProducts).length > 0;
 
   const addUserUrl = resolvePathVariables(
     DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
@@ -249,7 +249,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Pro
                 label={t('usersTable.tabAll')}
                 value="all"
                 onClick={() => {
-                  setSelectedProductSection(undefined);
+                  setSelectedProductSection();
                 }}
               />
               {activeProductsWithPermission.map((p) => (
