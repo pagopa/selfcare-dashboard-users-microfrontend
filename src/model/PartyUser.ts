@@ -48,6 +48,7 @@ export type PartyUserOnCreation = {
   email: string;
   confirmEmail: string;
   productRoles: Array<string>;
+  role?: string;
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;

@@ -1,4 +1,7 @@
+import { SvgIconTypeMap } from '@mui/material';
+import { DefaultComponentProps } from '@mui/material/OverridableComponent';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { FunctionComponent, SVGProps } from 'react';
 import { UserResource } from '../api/generated/b4f-dashboard/UserResource';
 
 export type UserRegistry = {
@@ -22,3 +25,16 @@ export const userResource2UserRegistry = (resource: UserResource): UserRegistry 
   certifiedSurname: resource.familyName?.certified ?? false,
   certifiedMail: resource.email?.certified ?? false,
 });
+
+export type Image = { src: string; alt: string };
+export type RequestOutcome = 'success' | 'error';
+
+export type RequestOutcomeMessage = {
+  title: string;
+  description: Array<JSX.Element>;
+  img?: Image;
+  ImgComponent?:
+    | FunctionComponent<SVGProps<SVGSVGElement>>
+    | ((props: DefaultComponentProps<SvgIconTypeMap>) => JSX.Element);
+};
+export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage };

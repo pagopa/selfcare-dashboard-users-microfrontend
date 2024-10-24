@@ -153,7 +153,7 @@ function UserDetailPage({
         <Grid item xs={12} mb={3}>
           <ProductNavigationBar
             paths={paths as any}
-            showBackComponent={true}
+            showBackComponent={false}
             goBack={goToUsersSection}
             backLabel={t('userDetail.pathDescription')}
           />

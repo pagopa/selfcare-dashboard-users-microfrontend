@@ -33,7 +33,7 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { useIsMobile } from '../../../hooks/useIsMobile';
@@ -116,7 +116,7 @@ export default function AddUserForm({
   canEditRegistryData,
   initialFormData,
   goBack,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
   const setLoadingFetchTaxCode = useLoading(LOADING_TASK_FETCH_TAX_CODE);
@@ -307,9 +307,11 @@ export default function AddUserForm({
       email: values.email.toLowerCase(),
     };
 
+    const partyRole = productRoles?.groupByProductRole[formik.values.productRoles[0]].partyRole;
+
     (userId
-      ? addUserProductRoles(party, userProduct as Product, userId, values2submit)
-      : savePartyUser(party, userProduct as Product, values2submit)
+      ? addUserProductRoles(party, userProduct as Product, userId, values2submit, partyRole)
+      : savePartyUser(party, userProduct as Product, values2submit, partyRole)
     )
       .then((userId) => {
         unregisterUnloadEvent();
@@ -507,250 +509,248 @@ export default function AddUserForm({
   };
 
   return (
-    <React.Fragment>
-      <form onSubmit={formik.handleSubmit}>
-        <Grid
-          container
-          direction="column"
-          sx={{
-            backgroundColor: 'background.paper',
-            paddingTop: 3,
-            paddingLeft: 3,
-            paddingRight: 3,
-            borderRadius: '4px',
-          }}
-        >
-          {canEditRegistryData ? (
-            <>
-              {isPnpg && (
-                <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
-                  {t('userEdit.addForm.userData.label')}
-                </Typography>
-              )}
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'taxCode',
-                    t('userEdit.addForm.fiscalCode.label'),
-                    '',
-                    'uppercase'
-                  )}
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                mb={3}
+    <form onSubmit={formik.handleSubmit}>
+      <Grid
+        container
+        direction="column"
+        sx={{
+          backgroundColor: 'background.paper',
+          paddingTop: 3,
+          paddingLeft: 3,
+          paddingRight: 3,
+          borderRadius: '4px',
+        }}
+      >
+        {canEditRegistryData ? (
+          <>
+            {isPnpg && (
+              <Typography sx={{ fontWeight: 'fontWeightMedium', variant: 'body2', mb: 2 }}>
+                {t('userEdit.addForm.userData.label')}
+              </Typography>
+            )}
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'taxCode',
+                  t('userEdit.addForm.fiscalCode.label'),
+                  '',
+                  'uppercase'
+                )}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              mb={3}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                [theme.breakpoints.down('lg')]: {
+                  flexDirection: 'column',
+                  width: '100%',
+                },
+              }}
+            >
+              <CustomTextField
+                size="small"
+                style={{ width: isMobile ? '100%' : '49%' }}
+                {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+                disabled={formik.values.certifiedName || !validTaxcode}
+              />
+              <CustomTextField
+                size="small"
+                style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
+                {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+                disabled={formik.values.certifiedSurname || !validTaxcode}
+              />
+            </Grid>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'email',
+                  t('userEdit.addForm.institutionalEmail.label'),
+                  '',
+                  'lowercase'
+                )}
+                disabled={!validTaxcode}
+              />
+            </Grid>
+            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+              <CustomTextField
+                size="small"
+                {...baseTextFieldProps(
+                  'confirmEmail',
+                  t('userEdit.addForm.confirmInstitutionalEmail.label'),
+                  '',
+                  'lowercase'
+                )}
+                disabled={!validTaxcode}
+              />
+            </Grid>
+          </>
+        ) : undefined}
+        {!selectedProduct && !isPnpgTheOnlyProduct ? (
+          <Grid item xs={12} mb={3}>
+            <FormControl sx={{ width: '100%' }}>
+              <InputLabel
+                id="select-label-products"
+                size="small"
                 sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  [theme.breakpoints.down('lg')]: {
-                    flexDirection: 'column',
-                    width: '100%',
+                  color: !validTaxcode ? 'text.disabled' : '',
+                  '& .MuiInputLabel-root.Mui-focused': {
+                    fontWeight: 'fontWeightMedium',
+                    fontSize: 'fontSize',
+                    whiteSpace: 'nowrap',
                   },
                 }}
               >
-                <CustomTextField
-                  size="small"
-                  style={{ width: isMobile ? '100%' : '49%' }}
-                  {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                  disabled={formik.values.certifiedName || !validTaxcode}
-                />
-                <CustomTextField
-                  size="small"
-                  style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
-                  {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                  disabled={formik.values.certifiedSurname || !validTaxcode}
-                />
-              </Grid>
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'email',
-                    t('userEdit.addForm.institutionalEmail.label'),
-                    '',
-                    'lowercase'
-                  )}
-                  disabled={!validTaxcode}
-                />
-              </Grid>
-              <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-                <CustomTextField
-                  size="small"
-                  {...baseTextFieldProps(
-                    'confirmEmail',
-                    t('userEdit.addForm.confirmInstitutionalEmail.label'),
-                    '',
-                    'lowercase'
-                  )}
-                  disabled={!validTaxcode}
-                />
-              </Grid>
-            </>
-          ) : undefined}
-          {!selectedProduct && !isPnpgTheOnlyProduct ? (
-            <Grid item xs={12} mb={3}>
-              <FormControl sx={{ width: '100%' }}>
-                <InputLabel
-                  id="select-label-products"
-                  size="small"
-                  sx={{
-                    color: !validTaxcode ? 'text.disabled' : '',
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      fontWeight: 'fontWeightMedium',
-                      fontSize: 'fontSize',
-                      whiteSpace: 'nowrap',
-                    },
-                  }}
-                >
-                  {t('userEdit.addForm.product.title')}
-                </InputLabel>
-                <Select
-                  fullWidth
-                  size="small"
-                  aria-label="user"
-                  name="products"
-                  value={userProduct?.title ?? ''}
-                  labelId="select-label-products"
-                  disabled={!validTaxcode || productInPage}
-                  variant="outlined"
-                  renderValue={(userProduct) => (
-                    <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
-                      {userProduct}
-                    </Typography>
-                  )}
-                  input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
-                >
-                  {products
-                    .filter((p) =>
-                      party.products.some(
-                        (pp) =>
-                          p.id === pp.productId &&
-                          hasPermission(pp.productId, Actions.ManageProductUsers)
-                      )
+                {t('userEdit.addForm.product.title')}
+              </InputLabel>
+              <Select
+                fullWidth
+                size="small"
+                aria-label="user"
+                name="products"
+                value={userProduct?.title ?? ''}
+                labelId="select-label-products"
+                disabled={!validTaxcode || productInPage}
+                variant="outlined"
+                renderValue={(userProduct) => (
+                  <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
+                    {userProduct}
+                  </Typography>
+                )}
+                input={<OutlinedInput label={t('userEdit.addForm.product.title')} />}
+              >
+                {products
+                  .filter((p) =>
+                    party.products.some(
+                      (pp) =>
+                        p.id === pp.productId &&
+                        hasPermission(pp.productId, Actions.ManageProductUsers)
                     )
-                    .map((p) => (
-                      <MenuItem
-                        key={p.id}
-                        value={p.id}
-                        data-testid={`product: ${p.id}`}
-                        sx={{
-                          fontSize: 'fontSize',
-                          fontWeight: 'fontWeightMedium',
-                          color: 'text.primary',
-                        }}
-                        onClick={validTaxcode ? () => setUserProduct(p) : undefined}
-                      >
-                        {p.title}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-            </Grid>
-          ) : undefined}
-
-          {userProduct?.id === 'prod-interop' && (
-            <Alert severity="info" sx={{ mb: 2 }}>
-              <Trans
-                i18nKey="userEdit.addForm.bannerText"
-                components={{
-                  1: (
-                    <Link
-                      href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
-                      color={'text.primary'}
-                      sx={{ textDecorationColor: 'text.primary' }}
-                      target="_blank"
-                    />
-                  ),
-                }}
-              >
-                {
-                  'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
-                }
-              </Trans>
-            </Alert>
-          )}
-
-          {productRoles && (
-            <Grid item container xs={12} mb={3} sx={{ flexDirection: 'column' }}>
-              <Typography
-                sx={{
-                  fontWeight: 'fontWeightMedium',
-                  fontSize: 'fontSize',
-                  color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-                }}
-                pb={2}
-              >
-                {t('userEdit.addForm.role.title')}
-              </Typography>
-
-              {Object.values(productRoles.groupBySelcRole).map((roles) =>
-                roles
-                  .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
+                  )
                   .map((p) => (
-                    <Box key={p.productRole}>
-                      <CustomFormControlLabel
-                        sx={{ marginTop: 0 }}
-                        checked={formik.values.productRoles.indexOf(p.productRole) > -1}
-                        disabled={!validTaxcode}
-                        value={p.productRole}
-                        control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
-                        label={
-                          <>
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                fontWeight: 'fontWeightRegular',
-                                fontSize: '18px',
-                                color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-                              }}
-                            >
-                              {p.title}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                fontWeight: 'fontWeightRegular',
-                                fontSize: 'fontSize',
-                                color: !validTaxcode ? 'text.disabled' : 'text.secondary',
-                                marginBottom: 1,
-                              }}
-                            >
-                              {p.description}
-                            </Typography>
-                          </>
-                        }
-                        onClick={validTaxcode ? () => addRole(p) : undefined}
-                      />
-                    </Box>
-                  ))
-              )}
-            </Grid>
-          )}
-        </Grid>
+                    <MenuItem
+                      key={p.id}
+                      value={p.id}
+                      data-testid={`product: ${p.id}`}
+                      sx={{
+                        fontSize: 'fontSize',
+                        fontWeight: 'fontWeightMedium',
+                        color: 'text.primary',
+                      }}
+                      onClick={validTaxcode ? () => setUserProduct(p) : undefined}
+                    >
+                      {p.title}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        ) : undefined}
 
-        <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="medium"
-            onClick={() => onExit(goBackInner)}
-          >
-            {t('userEdit.addForm.backButton')}
-          </Button>
-          <Button
-            disabled={!formik.dirty || !formik.isValid}
-            color="primary"
-            variant="contained"
-            type="submit"
-            size="medium"
-          >
-            {t('userEdit.addForm.continueButton')}
-          </Button>
-        </Stack>
-      </form>
-    </React.Fragment>
+        {userProduct?.id === 'prod-interop' && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            <Trans
+              i18nKey="userEdit.addForm.bannerText"
+              components={{
+                1: (
+                  <Link
+                    href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                    color={'text.primary'}
+                    sx={{ textDecorationColor: 'text.primary' }}
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {
+                'Per aggiungere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.'
+              }
+            </Trans>
+          </Alert>
+        )}
+
+        {productRoles && (
+          <Grid item container xs={12} mb={3} sx={{ flexDirection: 'column' }}>
+            <Typography
+              sx={{
+                fontWeight: 'fontWeightMedium',
+                fontSize: 'fontSize',
+                color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+              }}
+              pb={2}
+            >
+              {t('userEdit.addForm.role.title')}
+            </Typography>
+
+            {Object.values(productRoles.groupBySelcRole).map((roles) =>
+              roles
+                .filter((r) => r.partyRole === 'OPERATOR' || r.partyRole === 'SUB_DELEGATE')
+                .map((p) => (
+                  <Box key={p.productRole}>
+                    <CustomFormControlLabel
+                      sx={{ marginTop: 0 }}
+                      checked={formik.values.productRoles.indexOf(p.productRole) > -1}
+                      disabled={!validTaxcode}
+                      value={p.productRole}
+                      control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
+                      label={
+                        <>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              fontWeight: 'fontWeightRegular',
+                              fontSize: '18px',
+                              color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+                            }}
+                          >
+                            {p.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: 'fontWeightRegular',
+                              fontSize: 'fontSize',
+                              color: !validTaxcode ? 'text.disabled' : 'text.secondary',
+                              marginBottom: 1,
+                            }}
+                          >
+                            {p.description}
+                          </Typography>
+                        </>
+                      }
+                      onClick={validTaxcode ? () => addRole(p) : undefined}
+                    />
+                  </Box>
+                ))
+            )}
+          </Grid>
+        )}
+      </Grid>
+
+      <Stack direction="row" display="flex" justifyContent="space-between" mt={5}>
+        <Button
+          color="primary"
+          variant="outlined"
+          size="medium"
+          onClick={() => onExit(goBackInner)}
+        >
+          {t('userEdit.addForm.backButton')}
+        </Button>
+        <Button
+          disabled={!formik.dirty || !formik.isValid}
+          color="primary"
+          variant="contained"
+          type="submit"
+          size="medium"
+        >
+          {t('userEdit.addForm.continueButton')}
+        </Button>
+      </Stack>
+    </form>
   );
 }

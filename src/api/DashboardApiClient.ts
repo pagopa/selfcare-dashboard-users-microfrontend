@@ -79,13 +79,15 @@ export const DashboardApi = {
   savePartyUser: async (
     institutionId: string,
     productId: string,
-    user: PartyUserOnCreation
+    user: PartyUserOnCreation,
+    partyRole?: string
   ): Promise<UserIdResource> => {
     const result = await apiClient.v2PostCreateInstitutionProductUser({
       institutionId,
       productId,
       body: {
         productRoles: user.productRoles,
+        role: partyRole,
         taxCode: user.taxCode,
         email: (user.certifiedMail ? undefined : user.email) as EmailString,
         surname: user.certifiedSurname ? undefined : user.surname,
@@ -99,7 +101,8 @@ export const DashboardApi = {
     institutionId: string,
     productId: string,
     userId: string,
-    user: PartyUserOnCreation
+    user: PartyUserOnCreation,
+    partyRole?: string
   ): Promise<void> => {
     const result = await apiClient.v2AddUserProductRole({
       institutionId,
@@ -107,6 +110,7 @@ export const DashboardApi = {
       userId,
       body: {
         productRoles: user.productRoles,
+        role: partyRole,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);
