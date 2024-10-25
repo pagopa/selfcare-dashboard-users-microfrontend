@@ -3192,6 +3192,10 @@
               "type" : "string"
             }
           },
+          "role" : {
+            "type" : "string",
+            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]"
+          },
           "surname" : {
             "type" : "string",
             "description" : "User's surname"
@@ -3590,7 +3594,11 @@
           },
           "category" : {
             "type" : "string",
-            "description" : "Institution's category"
+            "description" : "Institution's category description"
+          },
+          "categoryCode" : {
+            "type" : "string",
+            "description" : "Institution's category code"
           },
           "city" : {
             "type" : "string",
@@ -3728,7 +3736,7 @@
           },
           "role" : {
             "type" : "string",
-            "description" : "User's role",
+            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
             "enum" : [ "ADMIN", "ADMIN_EA", "LIMITED" ]
           },
           "status" : {
@@ -3766,6 +3774,9 @@
           "billing" : {
             "$ref" : "#/components/schemas/Billing"
           },
+          "isAggregator" : {
+            "type" : "boolean"
+          },
           "productId" : {
             "type" : "string"
           },
@@ -3793,6 +3804,9 @@
           },
           "billing" : {
             "$ref" : "#/components/schemas/Billing"
+          },
+          "isAggregator" : {
+            "type" : "boolean"
           },
           "productId" : {
             "type" : "string"
@@ -3980,7 +3994,7 @@
           },
           "selcRole" : {
             "type" : "string",
-            "description" : "User's role",
+            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
             "enum" : [ "ADMIN", "ADMIN_EA", "LIMITED" ]
           },
           "status" : {
@@ -4064,7 +4078,7 @@
           },
           "role" : {
             "type" : "string",
-            "description" : "User's role",
+            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
             "enum" : [ "ADMIN", "ADMIN_EA", "LIMITED" ]
           },
           "status" : {
@@ -4489,6 +4503,10 @@
             "items" : {
               "type" : "string"
             }
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]"
           }
         }
       },
