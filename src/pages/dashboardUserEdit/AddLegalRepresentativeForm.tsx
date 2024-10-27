@@ -14,7 +14,7 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { InstitutionTypeEnum } from '../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum } from '../../api/generated/onboarding/User';
@@ -46,12 +46,10 @@ export default function AddLegalRepresentativeForm({
   setOutcome,
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
-  const [checkManagerDone, setCheckManagerDone] = useState(false);
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
-  const sessionToken =
-    'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dF9hMjo3YTo0NjozYjoyYTo2MDo1Njo0MDo4ODphMDo1ZDphNDpmODowMToxZTozZSJ9.eyJmYW1pbHlfbmFtZSI6InNpc3RpIiwiZmlzY2FsX251bWJlciI6IlNTVE1UVDgwQTAxRjIwNUMiLCJuYW1lIjoibWF0dGlhIiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImZyb21fYWEiOmZhbHNlLCJ1aWQiOiJkZWE1ZDJjNC05YzNiLTQ3YzEtYmQ5YS0zZTM4YTIwMzcwMDkiLCJsZXZlbCI6IkwyIiwiaWF0IjoxNzI5MjY3MTg3LCJleHAiOjE3MjkyOTk1ODcsImF1ZCI6ImFwaS5kZXYuc2VsZmNhcmUucGFnb3BhLml0IiwiaXNzIjoiU1BJRCIsImp0aSI6Il84YzU2ODFmZjgwYjM1ZGM0YjczOSJ9.o_eHmk9Re1ar-cbrUjzUKHDafSloZZHcrE6XfCmOsFX72-JOdYT0m4AM4ME3mstxuWx9dqFpC3OQB0g10QKjdMg_vnyfh1nDq442_mIg6P9FC8cOACxFpEMUidxnDg9rXHeAWh6R8IpCZ6o-55eX7tA9p2NJ0p0eugpg43YCY34kgGNx33Xjy1i_SWjcgz-z16Urqi1CeSDha31MglgUU7DIMmdAkcBx-seC646766EYPRN0QJk5DW73tBHNdkHFLo5z-yz6MNjoHn_0UMYt5rRlG_4bC_6GkwIbzUyUeX-Vks8X8XFqqpEQdX2ankKOs7Dpevwb9U1RQNiVsAsE8w';
+  const sessionToken = storageTokenOps.read();
 
   const baseTextFieldProps = (
     field: keyof AsyncOnboardingUserData,
@@ -154,7 +152,7 @@ export default function AddLegalRepresentativeForm({
           if (response.ok) {
             const responseJson = await response.json();
             setIsChangedManager(!responseJson?.result);
-            if(responseJson?.result) {
+            if (responseJson?.result) {
               validateUser(user);
             }
           }
@@ -201,6 +199,22 @@ export default function AddLegalRepresentativeForm({
     },
   });
 
+  const renderErrorMessage = (name?: string) => {
+    if (name) {
+      switch (name) {
+        case 'name':
+          return t('userEdit.mismatchWithTaxCode.name');
+        case 'surname':
+          return t('userEdit.mismatchWithTaxCode.surname');
+        case 'taxCode':
+          return t('userEdit.addForm.errors.invalidFiscalCode');
+        case 'email':
+          return t('userEdit.addForm.errors.invalidEmail');
+      }
+    }
+    return '';
+  };
+
   const validateUser = (user: AsyncOnboardingUserData) => {
     // TODO replace fetch api with  validateLegalRepresentative
     /*
@@ -231,7 +245,14 @@ export default function AddLegalRepresentativeForm({
         return sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]);
       })
       .catch((error) => {
-        if (error && error.status === '409') {
+        if (error && error.status === 409) {
+          const invalidParams = error.body?.invalidParams;
+
+          if (invalidParams) {
+            invalidParams.forEach((param: { name: string; reason: string }) => {
+              formik.setFieldError(param.name, renderErrorMessage(param.name));
+            });
+          }
           trackEvent(`ONBOARDING_ADD_MANAGER_CONFLICT_ERROR`, {
             party_id: party?.partyId,
             reason: error?.detail,
@@ -326,6 +347,7 @@ export default function AddLegalRepresentativeForm({
       <ConfimChangeLRModal
         open={isChangedManager}
         onConfirm={() => {
+          setIsChangedManager(false);
           validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
@@ -353,12 +375,12 @@ export default function AddLegalRepresentativeForm({
                     components={{ strong: <strong /> }}
                   />
                 }
-                mbTitle={1}
+                mbTitle={2}
                 mbSubTitle={5}
               />
             </Grid>
             <Grid item xs={12}>
-              <Grid container spacing={2}>
+              <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <CustomTextField
                     size="small"

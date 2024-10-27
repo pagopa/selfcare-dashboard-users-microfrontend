@@ -531,9 +531,9 @@ export default function AddUserForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid container direction="column" sx={commonStyles}>
+      
         {canEditRegistryData ? (
-          <>
+          <Grid container direction="column" sx={commonStyles}>
             <Grid item xs={12}>
               <TitleBox
                 variantTitle="h6"
@@ -605,9 +605,9 @@ export default function AddUserForm({
                 disabled={!validTaxcode}
               />
             </Grid>
-          </>
+            </Grid>
         ) : undefined}
-      </Grid>
+     
 
       {!selectedProduct && !isPnpgTheOnlyProduct ? (
         <Grid container direction="column" sx={commonStyles}>
