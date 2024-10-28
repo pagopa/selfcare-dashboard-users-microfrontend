@@ -96,7 +96,7 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'FLGKROWP',
           publicServices: true,
         },
-        userProductActions: [Actions.ListProductUsers, Actions.ManageProductUsers],
+        userProductActions: [Actions.ListProductUsers],
       },
       {
         productId: 'prod-pn',
@@ -291,7 +291,6 @@ export const mockedParties: Array<Party> = [
         userProductActions: [
           Actions.ListProductUsers,
           Actions.AccessProductBackoffice,
-          Actions.ManageProductUsers,
           Actions.ManageProductUsers,
           Actions.ViewDelegations,
           Actions.ListActiveProducts,

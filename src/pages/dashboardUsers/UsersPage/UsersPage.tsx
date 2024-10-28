@@ -63,6 +63,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const isMobile = useIsMobile('md');
 
   const canSeeUsers = getAllProductsWithPermission(Actions.ListActiveProducts).length > 0;
+  const canAddUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
 
   const addUserUrl = resolvePathVariables(
     DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,
@@ -152,25 +153,27 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
               mbTitle={2}
             />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={3}
-            flexDirection={isMobile ? 'row-reverse' : 'row'}
-            mt={isMobile ? 3 : 5}
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <Stack>
-              <Button
-                variant="contained"
-                sx={{ height: '48px', width: '163px' }}
-                onClick={() => onExit(() => history.push(addUserUrl))}
-              >
-                {t('usersTable.addButton')}
-              </Button>
-            </Stack>
-          </Grid>
+          {canAddUser && (
+            <Grid
+              item
+              xs={12}
+              md={3}
+              flexDirection={isMobile ? 'row-reverse' : 'row'}
+              mt={isMobile ? 3 : 5}
+              display="flex"
+              justifyContent="flex-end"
+            >
+              <Stack>
+                <Button
+                  variant="contained"
+                  sx={{ height: '48px', width: '163px' }}
+                  onClick={() => onExit(() => history.push(addUserUrl))}
+                >
+                  {t('usersTable.addButton')}
+                </Button>
+              </Stack>
+            </Grid>
+          )}
         </Grid>
         <Grid item xs={12}>
           <CustomAlert sx={{ mt: 5 }} />
