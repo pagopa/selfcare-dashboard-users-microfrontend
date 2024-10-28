@@ -17,12 +17,12 @@ type Props = {
 
 export default function ProductNavigationBar({
   selectedProduct,
-  paths: paths = [],
+  paths = [],
   showBackComponent,
   goBack,
   backLabel,
   colorBackComponent = 'text.primary',
-}: Props) {
+}: Readonly<Props>) {
   const innerPaths = useMemo(
     () => (selectedProduct ? [{ description: selectedProduct.title }].concat(paths) : paths),
     [selectedProduct, paths]
