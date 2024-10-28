@@ -7,7 +7,6 @@ import {
   useErrorDispatcher,
   useLoading,
 } from '@pagopa/selfcare-common-frontend/lib';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
@@ -253,15 +252,7 @@ export default function AddLegalRepresentativeForm({
               formik.setFieldError(param.name, renderErrorMessage(param.name));
             });
           }
-          trackEvent(`ONBOARDING_ADD_MANAGER_CONFLICT_ERROR`, {
-            party_id: party?.partyId,
-            reason: error?.detail,
-          });
         } else {
-          trackEvent(`ONBOARDING_ADD_MANAGER_GENERIC_ERROR`, {
-            party_id: party?.partyId,
-            reason: error?.detail,
-          });
           addError({
             id: `VALIDATE_USER_ERROR`,
             blocking: false,
