@@ -26,6 +26,7 @@ type OnboardedProduct = {
   productOnBoardingStatus?: ProductOnBoardingStatusEnum;
   userProductActions?: Array<string>;
   userRole?: string;
+  isAggregator?: boolean;
 };
 
 export type Party = {
