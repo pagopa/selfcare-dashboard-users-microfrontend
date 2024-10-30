@@ -42,11 +42,11 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
       : undefined;
 
   const { getAllProductsWithPermission, hasPermission } = usePermissions();
-  const activeProductsWithPermission = activeProducts.filter((p: Product) =>
-    hasPermission(p.id, Actions.ManageProductUsers)
+  const activeProductsWithReadPermission = activeProducts.filter((p: Product) =>
+    hasPermission(p.id, Actions.ListProductUsers)
   );
 
-  const selectedProducts = activeProductsWithPermission.filter(
+  const selectedProducts = activeProductsWithReadPermission.filter(
     (p: Product) => !selectedProductSection || p.id === selectedProductSection
   );
 
@@ -132,7 +132,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
     [selectedProductSection, filters]
   );
 
-  const moreThanOneActiveProduct = activeProductsWithPermission.length > 1;
+  const moreThanOneActiveProduct = activeProductsWithReadPermission.length > 1;
 
   const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
 
@@ -153,34 +153,34 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
               mbTitle={2}
             />
           </Grid>
-          {canAddUser && (
-            <Grid
-              item
-              xs={12}
-              md={3}
-              flexDirection={isMobile ? 'row-reverse' : 'row'}
-              mt={isMobile ? 3 : 5}
-              display="flex"
-              justifyContent="flex-end"
-            >
-              <Stack>
-                <Button
-                  variant="contained"
-                  sx={{ height: '48px', width: '163px' }}
-                  onClick={() => onExit(() => history.push(addUserUrl))}
-                >
-                  {t('usersTable.addButton')}
-                </Button>
-              </Stack>
-            </Grid>
-          )}
+
+          <Grid
+            item
+            xs={12}
+            md={3}
+            flexDirection={isMobile ? 'row-reverse' : 'row'}
+            mt={isMobile ? 3 : 5}
+            display="flex"
+            justifyContent="flex-end"
+          >
+            <Stack>
+              <Button
+                variant="contained"
+                sx={{ height: '48px', width: '163px' }}
+                onClick={() => onExit(() => history.push(addUserUrl))}
+                disabled={!canAddUser}
+              >
+                {t('usersTable.addButton')}
+              </Button>
+            </Stack>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <CustomAlert sx={{ mt: 5 }} />
         </Grid>
         <MobileFilter
           loading={loading}
-          activeProducts={activeProductsWithPermission}
+          activeProducts={activeProductsWithReadPermission}
           filters={filters}
           openDialogMobile={openDialogMobile}
           party={party}
@@ -208,7 +208,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             disableFilters={loading}
             loading={loading}
             party={party}
-            products={activeProductsWithPermission}
+            products={activeProductsWithReadPermission}
             productsRolesMap={
               selectedProductSection && !dangerousKeys.includes(selectedProductSection)
                 ? { [selectedProductSection]: productsRolesMap[selectedProductSection] }
@@ -255,7 +255,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   setSelectedProductSection();
                 }}
               />
-              {activeProductsWithPermission.map((p) => (
+              {activeProductsWithReadPermission.map((p) => (
                 <Tab
                   key={p.id}
                   label={p.title}
