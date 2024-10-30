@@ -8,6 +8,7 @@ import {
   useLoading,
 } from '@pagopa/selfcare-common-frontend/lib';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
@@ -282,6 +283,10 @@ export default function AddLegalRepresentativeForm({
       });
   };
 
+  const goToUsersPage = () => {
+    window.location.assign(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
+  };
+
   const outcomeContent: RequestOutcomeOptions = {
     success: {
       title: '',
@@ -302,7 +307,7 @@ export default function AddLegalRepresentativeForm({
             variantTitle={'h4'}
             variantDescription={'body1'}
             buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={() => window.location.assign(ENV.ROUTES.USERS)}
+            onButtonClick={() => goToUsersPage}
           />
         </>,
       ],
@@ -326,7 +331,7 @@ export default function AddLegalRepresentativeForm({
               </Trans>
             }
             buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={() => window.location.assign(ENV.ROUTES.USERS)}
+            onButtonClick={() => goToUsersPage}
           />
         </>,
       ],
