@@ -57,9 +57,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   ];
 
   return outcome ? (
-    <Grid container justifyContent={'center'} width={'100%'}>
-      <MessageNoAction {...outcome} />
-    </Grid>
+    <MessageNoAction {...outcome} />
   ) : (
     <Grid
       container

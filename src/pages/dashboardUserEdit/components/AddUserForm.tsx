@@ -36,9 +36,14 @@ import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
+import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
-import { AsyncOnboardingUserData, PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
+import {
+  AsyncOnboardingUserData,
+  PartyUserOnCreation,
+  TextTransform,
+} from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { UserRegistry } from '../../../model/UserRegistry';
@@ -53,7 +58,7 @@ import {
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
 import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
-import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
+import { renderLabel } from './helpers';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -73,7 +78,7 @@ type Props = {
   goBack?: () => void;
   forwardNextStep: () => void;
   handlePreviousStep?: () => void;
-  setCurrentSelectedProduct?: Dispatch<SetStateAction<Product | undefined>>;
+  setCurrentSelectedProduct: Dispatch<SetStateAction<Product | undefined>>;
   setAsyncUserData: Dispatch<SetStateAction<Array<AsyncOnboardingUserData>>>;
 };
 
@@ -106,6 +111,9 @@ export default function AddUserForm({
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
+  const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
+  const [openAggregatorModal, setOpenAggregatorModal] = useState<boolean>(false);
+
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
   const onExit = useUnloadEventOnExit();
@@ -156,10 +164,10 @@ export default function AddUserForm({
   }, []);
 
   useEffect(() => {
-    if (setCurrentSelectedProduct) {
+    if (userProduct) {
       setCurrentSelectedProduct(userProduct);
     }
-  }, [setCurrentSelectedProduct, userProduct]);
+  }, [userProduct]);
 
   const goBackInner =
     goBack ??
@@ -405,17 +413,25 @@ export default function AddUserForm({
     initialValues: initialFormData,
     validate,
     onSubmit: (values) => {
+      if (isAddInBulkEAFlow) {
+        setOpenAggregatorModal(true);
+        return;
+      }
+
       if (isAsyncFlow) {
-        setAsyncUserData([{
-          name: values.name,
-          surname: values.surname,
-          taxCode: values.taxCode.toUpperCase(),
-          email: values.email.toLowerCase(),
-          role: RoleEnum.DELEGATE,
-        }]);
+        setAsyncUserData([
+          {
+            name: values.name,
+            surname: values.surname,
+            taxCode: values.taxCode.toUpperCase(),
+            email: values.email.toLowerCase(),
+            role: RoleEnum.DELEGATE,
+          },
+        ]);
         forwardNextStep();
         return;
       }
+
       if (values.productRoles.length >= 2) {
         addMultiRoleModal(values);
       } else {
@@ -436,6 +452,8 @@ export default function AddUserForm({
     if (userProduct) {
       setProductRoles(productsRolesMap[userProduct.id]);
       void formik.setFieldValue('productRoles', [], true);
+      // TODO openAggregatorModal is not used
+      console.log('openAggregatorModal', openAggregatorModal);
     }
   }, [userProduct]);
 
@@ -498,31 +516,6 @@ export default function AddUserForm({
 
   const selectLabel = t('userEdit.addForm.product.selectLabel');
 
-  const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
-    <>
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 'fontWeightRegular',
-          fontSize: '18px',
-          color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
-        }}
-      >
-        {p.title}
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          fontWeight: 'fontWeightRegular',
-          fontSize: 'fontSize',
-          color: !validTaxcode ? 'text.disabled' : 'text.secondary',
-          marginBottom: 1,
-        }}
-      >
-        {p.description}
-      </Typography>
-    </>
-  );
   const isAddRoleFromDashboard = (phasesAdditionAllowed?: Array<string>) =>
     !!phasesAdditionAllowed && phasesAdditionAllowed[0].startsWith('dashboard');
 
@@ -531,83 +524,81 @@ export default function AddUserForm({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      
-        {canEditRegistryData ? (
-          <Grid container direction="column" sx={commonStyles}>
-            <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body1"
-                title={t('userEdit.addForm.userData.label')}
-                subTitle={t('userEdit.addForm.userData.subTitle')}
-                mbTitle={2}
-                mbSubTitle={3}
-              />
-            </Grid>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                size="small"
-                {...baseTextFieldProps(
-                  'taxCode',
-                  t('userEdit.addForm.fiscalCode.label'),
-                  '',
-                  'uppercase'
-                )}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              mb={3}
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                [theme.breakpoints.down('lg')]: {
-                  flexDirection: 'column',
-                  width: '100%',
-                },
-              }}
-            >
-              <CustomTextField
-                size="small"
-                style={{ width: isMobile ? '100%' : '49%' }}
-                {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-                disabled={formik.values.certifiedName || !validTaxcode}
-              />
-              <CustomTextField
-                size="small"
-                style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
-                {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-                disabled={formik.values.certifiedSurname || !validTaxcode}
-              />
-            </Grid>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                size="small"
-                {...baseTextFieldProps(
-                  'email',
-                  t('userEdit.addForm.institutionalEmail.label'),
-                  '',
-                  'lowercase'
-                )}
-                disabled={!validTaxcode}
-              />
-            </Grid>
-            <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-              <CustomTextField
-                size="small"
-                {...baseTextFieldProps(
-                  'confirmEmail',
-                  t('userEdit.addForm.confirmInstitutionalEmail.label'),
-                  '',
-                  'lowercase'
-                )}
-                disabled={!validTaxcode}
-              />
-            </Grid>
-            </Grid>
-        ) : undefined}
-     
+      {canEditRegistryData ? (
+        <Grid container direction="column" sx={commonStyles}>
+          <Grid item xs={12}>
+            <TitleBox
+              variantTitle="h6"
+              variantSubTitle="body1"
+              title={t('userEdit.addForm.userData.label')}
+              subTitle={t('userEdit.addForm.userData.subTitle')}
+              mbTitle={2}
+              mbSubTitle={3}
+            />
+          </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              size="small"
+              {...baseTextFieldProps(
+                'taxCode',
+                t('userEdit.addForm.fiscalCode.label'),
+                '',
+                'uppercase'
+              )}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            mb={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              [theme.breakpoints.down('lg')]: {
+                flexDirection: 'column',
+                width: '100%',
+              },
+            }}
+          >
+            <CustomTextField
+              size="small"
+              style={{ width: isMobile ? '100%' : '49%' }}
+              {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+              disabled={formik.values.certifiedName || !validTaxcode}
+            />
+            <CustomTextField
+              size="small"
+              style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
+              {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+              disabled={formik.values.certifiedSurname || !validTaxcode}
+            />
+          </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              size="small"
+              {...baseTextFieldProps(
+                'email',
+                t('userEdit.addForm.institutionalEmail.label'),
+                '',
+                'lowercase'
+              )}
+              disabled={!validTaxcode}
+            />
+          </Grid>
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              size="small"
+              {...baseTextFieldProps(
+                'confirmEmail',
+                t('userEdit.addForm.confirmInstitutionalEmail.label'),
+                '',
+                'lowercase'
+              )}
+              disabled={!validTaxcode}
+            />
+          </Grid>
+        </Grid>
+      ) : undefined}
 
       {!selectedProduct && !isPnpgTheOnlyProduct ? (
         <Grid container direction="column" sx={commonStyles}>
@@ -719,9 +710,12 @@ export default function AddUserForm({
                         validTaxcode
                           ? () => {
                               addRole(p);
-                              setIsAsyncFlow(
-                                p.phasesAdditionAllowed &&
-                                  p.phasesAdditionAllowed[0] === 'dashboard-async'
+                              setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
+                              setIsAddInBulkEAFlow(
+                                p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
+                                  party.products.some(
+                                    (p) => p.productId === userProduct?.id && p.isAggregator
+                                  )
                               );
                             }
                           : undefined
