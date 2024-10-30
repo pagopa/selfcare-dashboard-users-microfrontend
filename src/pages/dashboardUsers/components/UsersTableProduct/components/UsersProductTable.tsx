@@ -129,7 +129,7 @@ export default function UsersProductTable({
     groupByProductRole: ProductRolesByProductRoleType
   ): string | undefined => {
     const matchingRole = Object.values(groupByProductRole).find(
-      (roleDetails) => roleDetails.selcRole === userRole
+      (roleDetails) => roleDetails.partyRole === userRole
     );
 
     return matchingRole?.title ?? '';
