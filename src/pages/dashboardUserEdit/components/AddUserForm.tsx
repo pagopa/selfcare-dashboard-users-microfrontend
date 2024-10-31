@@ -80,6 +80,8 @@ type Props = {
   handlePreviousStep?: () => void;
   setCurrentSelectedProduct: Dispatch<SetStateAction<Product | undefined>>;
   setAsyncUserData: Dispatch<SetStateAction<Array<AsyncOnboardingUserData>>>;
+  isAddInBulkEAFlow: boolean;
+  setIsAddInBulkEAFlow: Dispatch<SetStateAction<boolean>>;
 };
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -95,6 +97,8 @@ export default function AddUserForm({
   forwardNextStep,
   setCurrentSelectedProduct,
   setAsyncUserData,
+  isAddInBulkEAFlow,
+  setIsAddInBulkEAFlow,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
@@ -111,7 +115,6 @@ export default function AddUserForm({
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
-  const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [openAggregatorModal, setOpenAggregatorModal] = useState<boolean>(false);
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
@@ -712,13 +715,13 @@ export default function AddUserForm({
                         validTaxcode
                           ? () => {
                               addRole(p);
-                              setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
                               setIsAddInBulkEAFlow(
                                 p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
                                   party.products.some(
                                     (p) => p.productId === userProduct?.id && p.isAggregator
                                   )
                               );
+                              setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
                             }
                           : undefined
                       }

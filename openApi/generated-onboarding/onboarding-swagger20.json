@@ -1210,6 +1210,79 @@
         "summary": "onboarding"
       }
     },
+    "/v1/users/onboarding/aggregator": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/OnboardingUserDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "description": "The service allows the onboarding of Users for aggregators",
+        "operationId": "onboardingAggregatorUsingPOST",
+        "summary": "onboardingAggregator"
+      }
+    },
     "/v1/users/validate": {
       "post": {
         "consumes": [
@@ -1381,6 +1454,12 @@
         ],
         "parameters": [
           {
+            "in": "query",
+            "name": "name",
+            "required": false,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "schema": {
@@ -1515,6 +1594,80 @@
         "description": "The service allows the onboarding of Users to a subunit of an Institution",
         "operationId": "onboardingUsingPOST_3",
         "summary": "onboarding"
+      }
+    },
+    "/v2/institutions/onboarding/active": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "taxCode",
+            "in": "query",
+            "name": "taxCode",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "productId",
+            "in": "query",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "subunitCode",
+            "in": "query",
+            "name": "subunitCode",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{"$ref":"#/definitions/InstitutionOnboardingResourceArray"}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "The service retrieves the active onboarding information for a given tax code and product ID",
+        "operationId": "getActiveOnboardingUsingGET",
+        "summary": "getActiveOnboarding"
       }
     },
     "/v2/institutions/onboarding/aggregation/verification": {
@@ -1671,11 +1824,79 @@
           }
         ],
         "tags": [
+          "billing-portal",
           "institutions"
         ],
         "description": "The service allows to verify if recipientCode is valid or not",
         "operationId": "checkRecipientCodeUsingGET",
         "summary": "checkRecipientCode"
+      }
+    },
+    "/v2/institutions/onboarding/users/pg": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CompanyOnboardingUserDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "The service allows the onboarding of Users to a PG Institution",
+        "operationId": "onboardingUsersUsingPOST",
+        "summary": "onboardingUsers"
       }
     },
     "/v2/tokens/{onboardingId}": {
@@ -2067,6 +2288,76 @@
         "summary": "getContract"
       }
     },
+    "/v2/tokens/{onboardingId}/products/{productId}/aggregates-csv": {
+      "get": {
+        "produces": [
+          "application/octet-stream",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Onboarding's unique identifier",
+            "in": "path",
+            "name": "onboardingId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Product's unique identifier",
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "byte",
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "tokens"
+        ],
+        "description": "Service to download a specific onboarding aggregates csv",
+        "operationId": "getAggregatesCsvUsingGET",
+        "summary": "getAggregatesCsv"
+      }
+    },
     "/v2/tokens/{onboardingId}/reject": {
       "post": {
         "consumes": [
@@ -2209,7 +2500,7 @@
       }
     }
   },
-  "definitions" : {"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},
+  "definitions" : {"InstitutionOnboardingResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionOnboardingResource"}},"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"ProductResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"GeographicTaxonomyResourceArray":{"type": "array", "items": {"$ref": "#/definitions/GeographicTaxonomyResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"InstitutionResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionResource"}},
     "AdditionalInformations": {
       "properties": {
         "agentOfPublicService": {
@@ -2307,7 +2598,16 @@
         "address": {
           "type": "string"
         },
+        "city": {
+          "type": "string"
+        },
+        "county": {
+          "type": "string"
+        },
         "description": {
+          "type": "string"
+        },
+        "digitalAddress": {
           "type": "string"
         },
         "geographicTaxonomies": {
@@ -2315,6 +2615,9 @@
             "$ref": "#/definitions/GeographicTaxonomyDto"
           },
           "type": "array"
+        },
+        "iban": {
+          "type": "string"
         },
         "origin": {
           "enum": [
@@ -2333,13 +2636,28 @@
         "originId": {
           "type": "string"
         },
+        "parentDescription": {
+          "type": "string"
+        },
+        "recipientCode": {
+          "type": "string"
+        },
+        "service": {
+          "type": "string"
+        },
         "subunitCode": {
           "type": "string"
         },
         "subunitType": {
           "type": "string"
         },
+        "syncAsyncMode": {
+          "type": "string"
+        },
         "taxCode": {
+          "type": "string"
+        },
+        "taxCodePT": {
           "type": "string"
         },
         "users": {
@@ -2347,6 +2665,9 @@
             "$ref": "#/definitions/UserDto"
           },
           "type": "array"
+        },
+        "vatNumber": {
+          "type": "string"
         },
         "zipCode": {
           "type": "string"
@@ -2359,16 +2680,91 @@
       "title": "AggregateInstitution",
       "type": "object"
     },
-    "AssistanceContacts": {
+    "AggregateResult": {
       "properties": {
-        "supportEmail": {
+        "address": {
           "type": "string"
         },
-        "supportPhone": {
+        "city": {
+          "type": "string"
+        },
+        "county": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "digitalAddress": {
+          "type": "string"
+        },
+        "iban": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "originId": {
+          "type": "string"
+        },
+        "parentDescription": {
+          "type": "string"
+        },
+        "recipientCode": {
+          "type": "string"
+        },
+        "service": {
+          "type": "string"
+        },
+        "subunitCode": {
+          "type": "string"
+        },
+        "subunitType": {
+          "type": "string"
+        },
+        "syncAsyncMode": {
+          "type": "string"
+        },
+        "taxCode": {
+          "type": "string"
+        },
+        "taxCodePT": {
+          "type": "string"
+        },
+        "users": {
+          "items": {
+            "$ref": "#/definitions/AggregateUserResult"
+          },
+          "type": "array"
+        },
+        "vatNumber": {
+          "type": "string"
+        },
+        "zipCode": {
           "type": "string"
         }
       },
-      "title": "AssistanceContacts",
+      "title": "AggregateResult",
+      "type": "object"
+    },
+    "AggregateUserResult": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "taxCode": {
+          "type": "string"
+        }
+      },
+      "title": "AggregateUserResult",
       "type": "object"
     },
     "AssistanceContactsDto": {
@@ -2401,19 +2797,22 @@
       "title": "AssistanceContactsResource",
       "type": "object"
     },
-    "Attribute": {
+    "Billing": {
       "properties": {
-        "code": {
+        "publicServices": {
+          "type": "boolean"
+        },
+        "recipientCode": {
           "type": "string"
         },
-        "description": {
+        "taxCodeInvoicing": {
           "type": "string"
         },
-        "origin": {
+        "vatNumber": {
           "type": "string"
         }
       },
-      "title": "Attribute",
+      "title": "Billing",
       "type": "object"
     },
     "BillingDataDto": {
@@ -2556,21 +2955,6 @@
       "title": "CompanyBillingDataDto",
       "type": "object"
     },
-    "CompanyInformations": {
-      "properties": {
-        "businessRegisterPlace": {
-          "type": "string"
-        },
-        "rea": {
-          "type": "string"
-        },
-        "shareCapital": {
-          "type": "string"
-        }
-      },
-      "title": "CompanyInformations",
-      "type": "object"
-    },
     "CompanyInformationsDto": {
       "properties": {
         "businessRegisterPlace": {
@@ -2656,6 +3040,56 @@
       "title": "CompanyOnboardingDto",
       "type": "object"
     },
+    "CompanyOnboardingUserDto": {
+      "properties": {
+        "certified": {
+          "description": "Indicates whether the institution values come from INFOCAMERE (true) or MANUAL (false)",
+          "example": false,
+          "type": "boolean"
+        },
+        "institutionType": {
+          "description": "Institution's type",
+          "enum": [
+            "AS",
+            "CON",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
+        "productId": {
+          "description": "Product's unique identifier",
+          "type": "string"
+        },
+        "taxCode": {
+          "description": "Institution's taxCode",
+          "type": "string"
+        },
+        "users": {
+          "description": "List of onboarding users",
+          "items": {
+            "$ref": "#/definitions/CompanyUserDto"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "certified",
+        "institutionType",
+        "productId",
+        "taxCode",
+        "users"
+      ],
+      "title": "CompanyOnboardingUserDto",
+      "type": "object"
+    },
     "CompanyUserDto": {
       "properties": {
         "email": {
@@ -2693,21 +3127,6 @@
         "taxCode"
       ],
       "title": "CompanyUserDto",
-      "type": "object"
-    },
-    "DataProtectionOfficer": {
-      "properties": {
-        "address": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "pec": {
-          "type": "string"
-        }
-      },
-      "title": "DataProtectionOfficer",
       "type": "object"
     },
     "DpoData": {
@@ -2764,18 +3183,6 @@
       "title": "DpoDataDto",
       "type": "object"
     },
-    "GeographicTaxonomy": {
-      "properties": {
-        "code": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        }
-      },
-      "title": "GeographicTaxonomy",
-      "type": "object"
-    },
     "GeographicTaxonomyDto": {
       "properties": {
         "code": {
@@ -2806,106 +3213,6 @@
         }
       },
       "title": "GeographicTaxonomyResource",
-      "type": "object"
-    },
-    "Institution": {
-      "properties": {
-        "address": {
-          "type": "string"
-        },
-        "aooParentCode": {
-          "type": "string"
-        },
-        "assistanceContacts": {
-          "$ref": "#/definitions/AssistanceContacts"
-        },
-        "attributes": {
-          "items": {
-            "$ref": "#/definitions/Attribute"
-          },
-          "type": "array"
-        },
-        "city": {
-          "type": "string"
-        },
-        "companyInformations": {
-          "$ref": "#/definitions/CompanyInformations"
-        },
-        "country": {
-          "type": "string"
-        },
-        "county": {
-          "type": "string"
-        },
-        "dataProtectionOfficer": {
-          "$ref": "#/definitions/DataProtectionOfficer"
-        },
-        "description": {
-          "type": "string"
-        },
-        "digitalAddress": {
-          "type": "string"
-        },
-        "externalId": {
-          "type": "string"
-        },
-        "geographicTaxonomies": {
-          "items": {
-            "$ref": "#/definitions/GeographicTaxonomy"
-          },
-          "type": "array"
-        },
-        "id": {
-          "type": "string"
-        },
-        "institutionType": {
-          "enum": [
-            "AS",
-            "CON",
-            "GSP",
-            "PA",
-            "PG",
-            "PRV",
-            "PSP",
-            "PT",
-            "REC",
-            "SA",
-            "SCP"
-          ],
-          "type": "string"
-        },
-        "origin": {
-          "type": "string"
-        },
-        "originId": {
-          "type": "string"
-        },
-        "parentDescription": {
-          "type": "string"
-        },
-        "paymentServiceProvider": {
-          "$ref": "#/definitions/PaymentServiceProvider"
-        },
-        "subunitCode": {
-          "type": "string"
-        },
-        "subunitType": {
-          "type": "string"
-        },
-        "taxCode": {
-          "type": "string"
-        },
-        "users": {
-          "items": {
-            "$ref": "#/definitions/User"
-          },
-          "type": "array"
-        },
-        "zipCode": {
-          "type": "string"
-        }
-      },
-      "title": "Institution",
       "type": "object"
     },
     "InstitutionData": {
@@ -3073,6 +3380,42 @@
       "title": "InstitutionLocationDataDto",
       "type": "object"
     },
+    "InstitutionOnboarding": {
+      "properties": {
+        "billing": {
+          "$ref": "#/definitions/Billing"
+        },
+        "closedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "contract": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "pricingPlan": {
+          "type": "string"
+        },
+        "productId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "tokenId": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "title": "InstitutionOnboarding",
+      "type": "object"
+    },
     "InstitutionOnboardingInfoResource": {
       "properties": {
         "geographicTaxonomies": {
@@ -3088,6 +3431,21 @@
         }
       },
       "title": "InstitutionOnboardingInfoResource",
+      "type": "object"
+    },
+    "InstitutionOnboardingResource": {
+      "properties": {
+        "institutionId": {
+          "type": "string"
+        },
+        "onboardings": {
+          "items": {
+            "$ref": "#/definitions/InstitutionOnboarding"
+          },
+          "type": "array"
+        }
+      },
+      "title": "InstitutionOnboardingResource",
       "type": "object"
     },
     "InstitutionResource": {
@@ -3441,27 +3799,6 @@
       "title": "OnboardingVerify",
       "type": "object"
     },
-    "PaymentServiceProvider": {
-      "properties": {
-        "abiCode": {
-          "type": "string"
-        },
-        "businessRegisterNumber": {
-          "type": "string"
-        },
-        "legalRegisterName": {
-          "type": "string"
-        },
-        "legalRegisterNumber": {
-          "type": "string"
-        },
-        "vatNumberGroup": {
-          "type": "boolean"
-        }
-      },
-      "title": "PaymentServiceProvider",
-      "type": "object"
-    },
     "Problem": {
       "description": "A \"problem detail\" as a way to carry machine-readable details of errors (https://datatracker.ietf.org/doc/html/rfc7807)",
       "properties": {
@@ -3637,40 +3974,6 @@
       "title": "RowErrorResponse",
       "type": "object"
     },
-    "User": {
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "productRole": {
-          "type": "string"
-        },
-        "role": {
-          "enum": [
-            "ADMIN_EA",
-            "DELEGATE",
-            "MANAGER",
-            "OPERATOR",
-            "SUB_DELEGATE"
-          ],
-          "type": "string"
-        },
-        "surname": {
-          "type": "string"
-        },
-        "taxCode": {
-          "type": "string"
-        }
-      },
-      "title": "User",
-      "type": "object"
-    },
     "UserDataValidationDto": {
       "properties": {
         "name": {
@@ -3797,7 +4100,7 @@
       "properties": {
         "aggregates": {
           "items": {
-            "$ref": "#/definitions/Institution"
+            "$ref": "#/definitions/AggregateResult"
           },
           "type": "array"
         },

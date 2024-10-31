@@ -1333,3 +1333,6 @@ export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto):
 
 export const onboardingPostUserMocked = (_user: OnboardingUserDto): Promise<void> =>
   new Promise((resolve) => resolve());
+
+export const onboardingAggregatorServiceMocked = (_user: OnboardingUserDto): Promise<void> =>
+  new Promise((resolve) => resolve());

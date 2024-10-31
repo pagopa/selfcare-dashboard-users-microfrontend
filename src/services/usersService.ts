@@ -3,9 +3,6 @@ import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageRes
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { DashboardApi } from '../api/DashboardApiClient';
-import { OnboardingUserDto } from '../api/generated/onboarding/OnboardingUserDto';
-import { UserDataValidationDto } from '../api/generated/onboarding/UserDataValidationDto';
-import { OnboardingApi } from '../api/OnboardingApiClient';
 import { Party, UserRole, UserStatus } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
@@ -24,18 +21,15 @@ import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
 import {
   addUserProductRoles as addProductUserMocked,
-  checkManagerMocked,
   deletePartyUser as deletePartyUserMocked,
   fetchPartyProductUsers as fetchPartyProductUsersMocked,
   fetchPartyUser as fetchPartyUserMocked,
   fetchUserGroups as fetchUserGroupsMocked,
   fetchUserRegistryById as fetchUserRegistryByIdMocked,
   mockedUserRegistry,
-  onboardingPostUserMocked,
   savePartyUser as savePartyUserMocked,
   updatePartyUser as updatePartyUserMocked,
   updatePartyUserStatus as updatePartyUserStatusMocked,
-  validateLegalRepresentativeMocked,
 } from './__mocks__/usersService';
 
 const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
@@ -100,7 +94,7 @@ export const savePartyUser = (
   party: Party,
   product: Product,
   user: PartyUserOnCreation,
-  partyRole?: string,
+  partyRole?: string
 ): Promise<string | undefined> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
@@ -117,15 +111,19 @@ export const addUserProductRoles = (
   product: Product,
   userId: string,
   user: PartyUserOnCreation,
-  partyRole?: string,
+  partyRole?: string
 ): Promise<string> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return addProductUserMocked(party, product, userId, user, partyRole);
   } else {
-    return DashboardApi.addUserProductRoles(party.partyId, product.id, userId, user, partyRole).then(
-      (_) => userId
-    );
+    return DashboardApi.addUserProductRoles(
+      party.partyId,
+      product.id,
+      userId,
+      user,
+      partyRole
+    ).then((_) => userId);
   }
 };
 
@@ -233,32 +231,5 @@ export const fetchUserGroups = (
     return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
       (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
     );
-  }
-};
-
-export const checkManagerService = (user: OnboardingUserDto): Promise<any> => {
-  /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return checkManagerMocked(user);
-  } else {
-    return OnboardingApi.checkManagerApi(user);
-  }
-};
-
-export const validateLegalRepresentative = (user: UserDataValidationDto): Promise<any> => {
-  /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
-    return validateLegalRepresentativeMocked(user);
-  } else {
-    return OnboardingApi.validateLegalRepresentative(user);
-  }
-};
-
-export const onboardingPostUser = (user: OnboardingUserDto): Promise<any> => {
-  /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_ONBOARDING === 'true') {
-    return onboardingPostUserMocked(user);
-  } else {
-    return OnboardingApi.onboardingPostUser(user);
   }
 };
