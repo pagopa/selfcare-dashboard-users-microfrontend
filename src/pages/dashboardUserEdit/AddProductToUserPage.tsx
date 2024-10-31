@@ -32,6 +32,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
   const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
+  const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
 
   const forwardNextStep = () => {
@@ -233,6 +234,8 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                 forwardNextStep={forwardNextStep}
                 setCurrentSelectedProduct={setCurrentSelectedProduct}
                 setAsyncUserData={setAsyncUserData}
+                isAddInBulkEAFlow={isAddInBulkEAFlow}
+                setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
               />
             </>
           )}
@@ -244,6 +247,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               party={party}
               asyncUserData={asyncUserData}
               setOutcome={setOutcome}
+              isAddInBulkEAFlow={isAddInBulkEAFlow}
             />
           )}
         </Grid>

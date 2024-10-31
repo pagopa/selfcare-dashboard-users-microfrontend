@@ -17,12 +17,11 @@ import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { InstitutionTypeEnum } from '../../api/generated/onboarding/OnboardingUserDto';
-import { RoleEnum } from '../../api/generated/onboarding/User';
-import { UserDto } from '../../api/generated/onboarding/UserDto';
+import { RoleEnum, UserDto } from '../../api/generated/onboarding/UserDto';
 import { Party } from '../../model/Party';
 import { AsyncOnboardingUserData, TextTransform } from '../../model/PartyUser';
 import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../model/UserRegistry';
-import { onboardingPostUser } from '../../services/usersService';
+import { onboardingAggregatorService, onboardingPostUser } from '../../services/onboardingService';
 import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 import { ConfimChangeLRModal } from './components/ConfimChangeLRModal';
@@ -35,6 +34,7 @@ type LegalRepresentativeProps = {
   backPreviousStep: () => void;
   asyncUserData: Array<AsyncOnboardingUserData>;
   setOutcome: Dispatch<SetStateAction<RequestOutcomeMessage | null | undefined>>;
+  isAddInBulkEAFlow: boolean;
 };
 
 export default function AddLegalRepresentativeForm({
@@ -44,6 +44,7 @@ export default function AddLegalRepresentativeForm({
   backPreviousStep,
   asyncUserData,
   setOutcome,
+  isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
@@ -266,7 +267,7 @@ export default function AddLegalRepresentativeForm({
   };
 
   const sendOnboardingData = (asyncUserData: Array<AsyncOnboardingUserData>) => {
-    onboardingPostUser({
+    const submitRequestData = {
       productId,
       institutionType: party?.institutionType as InstitutionTypeEnum,
       origin: party?.origin,
@@ -274,7 +275,13 @@ export default function AddLegalRepresentativeForm({
       subunitCode: party?.subunitCode,
       taxCode: party?.fiscalCode,
       users: asyncUserData as Array<UserDto>,
-    })
+    };
+
+    const submitApiToCall = isAddInBulkEAFlow
+      ? onboardingAggregatorService(submitRequestData)
+      : onboardingPostUser(submitRequestData);
+
+    submitApiToCall
       .then(() => {
         setOutcome(outcomeContent.success);
       })
@@ -307,7 +314,7 @@ export default function AddLegalRepresentativeForm({
             variantTitle={'h4'}
             variantDescription={'body1'}
             buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={() => goToUsersPage}
+            onButtonClick={goToUsersPage}
           />
         </>,
       ],
@@ -331,7 +338,7 @@ export default function AddLegalRepresentativeForm({
               </Trans>
             }
             buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={() => goToUsersPage}
+            onButtonClick={goToUsersPage}
           />
         </>,
       ],
