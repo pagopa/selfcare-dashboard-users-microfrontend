@@ -1,11 +1,15 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { useUnloadEventInterceptor } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import React from 'react';
 import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 
 export function MessageNoAction({ img, title, description, ImgComponent }: RequestOutcomeMessage) {
   const theme = useTheme();
+  const { unregisterUnloadEvent } = useUnloadEventInterceptor();
+  unregisterUnloadEvent();
+
   return (
-    <Box style={{ textAlign: 'center' }}>
+    <Grid item alignContent={'center'} textAlign={'center'} xs={12}>
       <Box mb={2}>
         <i>
           {ImgComponent ? (
@@ -22,6 +26,6 @@ export function MessageNoAction({ img, title, description, ImgComponent }: Reque
         description.map((paragraph: JSX.Element, i: number) => (
           <React.Fragment key={i}>{paragraph}</React.Fragment>
         ))}
-    </Box>
+    </Grid>
   );
 }
