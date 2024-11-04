@@ -751,7 +751,7 @@ export default function AddUserForm({
                           : undefined
                       }
                     />
-                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
+                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) || isAddInBulkEAFlow && (
                       <Tooltip
                         title={t('userEdit.addForm.role.adminTooltip')}
                         placement="top"
