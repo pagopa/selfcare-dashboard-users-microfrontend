@@ -181,7 +181,14 @@ export const mockedParties: Array<Party> = [
           recipientCode: 'CH435V',
           publicServices: true,
         },
-        userProductActions: [Actions.ListProductUsers, Actions.ManageProductUsers],
+        userProductActions: [
+          Actions.ListProductUsers,
+          Actions.ManageProductUsers,
+          Actions.AccessProductBackoffice,
+          Actions.ViewDelegations,
+          Actions.ListActiveProducts,
+          Actions.AccessProductBackoffice,
+        ],
       },
       {
         productId: 'prod-io-premium',
