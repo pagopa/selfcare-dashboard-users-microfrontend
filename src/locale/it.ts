@@ -266,6 +266,12 @@ export default {
         confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
+      addUserInBulkModal: {
+        title: 'Aggiungi utente in bulk',
+        message: '<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.',
+        confirmButton: 'Aggiungi',
+        closeButton: 'Annulla',
+      }
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
