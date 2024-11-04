@@ -115,7 +115,6 @@ export default function AddUserForm({
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
-  const [openAggregatorModal, setOpenAggregatorModal] = useState<boolean>(false);
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
@@ -419,7 +418,35 @@ export default function AddUserForm({
     validate,
     onSubmit: (values) => {
       if (isAddInBulkEAFlow) {
-        setOpenAggregatorModal(true);
+        setAsyncUserData([
+          {
+            name: values.name,
+            surname: values.surname,
+            taxCode: values.taxCode.toUpperCase(),
+            email: values.email.toLowerCase(),
+            role: RoleEnum.DELEGATE,
+          },
+        ]);
+        addNotify({
+          component: 'SessionModal',
+          id: 'ADD_IN_BULK_EA_USER',
+          title: t('userEdit.addForm.addUserInBulkModal.title'),
+          message: (
+            <Trans
+              i18nKey="userEdit.addForm.addUserInBulkModal.message"
+              values={{
+                user: `${values.name} ${values.surname} `,
+                role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+              }}
+              components={{ 1: <strong />, 3: <strong />, 8: <strong /> }}
+            >
+              {`<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.`}
+            </Trans>
+          ),
+          confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),
+          closeLabel: t('userEdit.addForm.addUserInBulkModal.closeButton'),
+          onConfirm: forwardNextStep,
+        });
         return;
       }
 
@@ -457,8 +484,6 @@ export default function AddUserForm({
     if (userProduct) {
       setProductRoles(productsRolesMap[userProduct.id]);
       void formik.setFieldValue('productRoles', [], true);
-      // TODO openAggregatorModal is not used
-      console.log('openAggregatorModal', openAggregatorModal);
     }
   }, [userProduct]);
 
