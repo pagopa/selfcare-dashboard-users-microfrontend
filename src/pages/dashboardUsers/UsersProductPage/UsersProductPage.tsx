@@ -9,7 +9,7 @@ type Props = {
   party: Party;
 };
 
-function UsersProductPage({ selectedProduct, party }: Props) {
+function UsersProductPage({ selectedProduct, party }: Readonly<Props>) {
   return (
     <Redirect
       to={resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
