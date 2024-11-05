@@ -201,6 +201,14 @@ describe('Test updatePartyUserStatus', () => {
       partyUser.products[0].id,
       partyUser.products[0].roles[0].role
     );
+
+    await updatePartyUserStatus(
+      mockedParties[0],
+      partyUser,
+      partyUser.products[0],
+      partyUser.products[0].roles[0],
+      'PENDING'
+    );
   });
 
   test('Test fetchUserRegistryByFiscalCode', async () => {

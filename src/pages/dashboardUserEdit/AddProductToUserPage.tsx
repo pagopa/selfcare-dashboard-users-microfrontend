@@ -1,6 +1,5 @@
 import { Grid, styled, Typography } from '@mui/material';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -11,7 +10,6 @@ import { AsyncOnboardingUserData, PartyUserOnCreation } from '../../model/PartyU
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
 import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
@@ -55,35 +53,17 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
     */
   };
 
-  const paths = [
-    {
-      description: t('userPagesPath.detailRedirect'),
-      onClick: () =>
-        history.push(
-          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            partyId: party.partyId,
-          })
-        ),
-    },
-    {
-      description: `${partyUser.name} ${partyUser.surname}`,
-      onClick: goBack,
-    },
-    {
-      description: t('userEdit.addProduct.navigation'),
-    },
-  ];
+
 
   return outcome ? (
     <Grid container justifyContent={'center'} width={'100%'}>
       <MessageNoAction {...outcome} />
     </Grid>
   ) : (
-    <Grid container item px={3} mt={3} sx={{ width: '100%' }}>
+    <Grid container item px={3} mt={3} sx={{ width: '100%' }} justifyContent={'center'}>
       <Grid container item xs={12} md={8}>
         <ProductNavigationBar
-          paths={paths as any}
-          showBackComponent={false}
+          showBackComponent={true}
           goBack={goBack}
           backLabel={t('userPagesPath.exit')}
           colorBackComponent="primary.main"

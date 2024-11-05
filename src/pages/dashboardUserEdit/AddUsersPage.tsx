@@ -10,10 +10,11 @@ import { AsyncOnboardingUserData } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
+import { ENV } from '../../utils/env';
 import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
+
 
 type Props = {
   party: Party;
@@ -39,23 +40,8 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   };
 
   const goBack = () => {
-    history.goBack();
+    history.push(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
   };
-
-  const paths = [
-    {
-      description: t('userPagesPath.detailRedirect'),
-      onClick: () =>
-        history.push(
-          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            partyId: party.partyId,
-          })
-        ),
-    },
-    {
-      description: t('userPagesPath.addUser'),
-    },
-  ];
 
   return outcome ? (
     <MessageNoAction {...outcome} />
@@ -71,7 +57,6 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
       <Grid container item xs={12} md={8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar
-            paths={paths as any}
             showBackComponent={true}
             goBack={goBack}
             backLabel={t('userPagesPath.exit')}
