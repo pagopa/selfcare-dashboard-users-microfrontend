@@ -16,16 +16,19 @@ import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { InstitutionTypeEnum } from '../../api/generated/onboarding/OnboardingUserDto';
-import { RoleEnum, UserDto } from '../../api/generated/onboarding/UserDto';
-import { Party } from '../../model/Party';
-import { AsyncOnboardingUserData, TextTransform } from '../../model/PartyUser';
-import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../model/UserRegistry';
-import { onboardingAggregatorService, onboardingPostUser } from '../../services/onboardingService';
-import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
-import { ENV } from '../../utils/env';
-import { ConfimChangeLRModal } from './components/ConfimChangeLRModal';
-import { CustomTextField, requiredError, taxCodeRegexp } from './helpers';
+import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
+import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
+import { Party } from '../../../model/Party';
+import { AsyncOnboardingUserData, TextTransform } from '../../../model/PartyUser';
+import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../../model/UserRegistry';
+import {
+  onboardingAggregatorService,
+  onboardingPostUser,
+} from '../../../services/onboardingService';
+import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
+import { CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+import { ConfimChangeLRModal } from './ConfimChangeLRModal';
 
 type LegalRepresentativeProps = {
   party: Party;

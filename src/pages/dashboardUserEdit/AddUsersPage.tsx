@@ -11,7 +11,7 @@ import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
 import { ENV } from '../../utils/env';
-import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
+import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
