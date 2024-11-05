@@ -8,6 +8,7 @@ export type ProductRole = {
   productRole: string;
   title: string;
   description: string;
+  phasesAdditionAllowed: Array<string>;
 };
 
 export type ProductRolesLists = {
@@ -21,7 +22,7 @@ export const buildEmptyProductRolesLists = (): ProductRolesLists => ({
   list: [],
   groupBySelcRole: { ADMIN: [], LIMITED: [] },
   groupByProductRole: {},
-  groupByPartyRole: { MANAGER: [], DELEGATE: [], SUB_DELEGATE: [], OPERATOR: [] },
+  groupByPartyRole: { MANAGER: [], DELEGATE: [], SUB_DELEGATE: [], OPERATOR: [], ADMIN_EA: [] },
 });
 
 export type ProductRolesByProductRoleType = { [productRole: string]: ProductRole };

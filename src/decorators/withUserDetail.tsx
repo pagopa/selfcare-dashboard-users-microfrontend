@@ -37,7 +37,7 @@ export default function withUserDetail<T extends withUserDetailProps>(
     const addError = useErrorDispatcher();
     const history = useHistory();
     const { getAllProductsWithPermission } = usePermissions();
-    const canSeeUsers = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+    const canSeeUsers = getAllProductsWithPermission(Actions.ListProductUsers).length > 0;
 
     const doFetch = () => {
       fetchUserDetail(partyId, userId, props.productsMap)

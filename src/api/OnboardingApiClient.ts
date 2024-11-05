@@ -6,7 +6,8 @@ import {
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { ENV } from '../utils/env';
 import { createClient, WithDefaultsT } from './generated/onboarding/client';
-import { OnboardingRequestResource } from './generated/onboarding/OnboardingRequestResource';
+import { OnboardingUserDto } from './generated/onboarding/OnboardingUserDto';
+import { UserDataValidationDto } from './generated/onboarding/UserDataValidationDto';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -38,10 +39,33 @@ const onRedirectToLogin = () =>
   );
 
 export const OnboardingApi = {
-  fetchOnboardingRequest: async (onboardingId: string): Promise<OnboardingRequestResource> => {
-    const result = await apiClient.retrieveOnboardingRequestUsingGET({
-      onboardingId,
-    });
+  checkManagerApi: async (user: OnboardingUserDto): Promise<any> => {
+    const result = await apiClient.checkManager({ body: user });
     return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  validateLegalRepresentative: async (user: UserDataValidationDto): Promise<any> => {
+    const result = await apiClient.validateUsingPOST({
+      body: {
+        taxCode: user.taxCode,
+        name: user.name,
+        surname: user.surname,
+      } as UserDataValidationDto,
+    });
+    return extractResponse(result, 204, onRedirectToLogin);
+  },
+
+  onboardingPostUser: async (user: OnboardingUserDto): Promise<any> => {
+    const result = await apiClient.onboardingUsingPOST_4({
+      body: user,
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
+  },
+
+  onboardingAggregatorPOST: async (user: OnboardingUserDto): Promise<any> => {
+    const result = await apiClient.onboardingAggregatorUsingPOST({
+      body: user,
+    });
+    return extractResponse(result, 201, onRedirectToLogin);
   },
 };

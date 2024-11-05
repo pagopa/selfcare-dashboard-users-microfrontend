@@ -34,7 +34,7 @@ export default function withUserRegistry<T extends withUserRegistryProps>(
     const addError = useErrorDispatcher();
     const history = useHistory();
     const { getAllProductsWithPermission } = usePermissions();
-    const canSeeUsers = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+    const canSeeUsers = getAllProductsWithPermission(Actions.ListProductUsers).length > 0;
 
     const doFetch = () => {
       fetchUser(partyId, userId)

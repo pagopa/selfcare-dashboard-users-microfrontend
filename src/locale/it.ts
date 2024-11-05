@@ -235,6 +235,13 @@ export default {
         changeManagerModalTitle: 'Stai aggiungendo un nuovo Legale Rappresentante',
         changeManagerModalMessage:
           'I dati del Legale Rappresentante inseriti sono diversi da quelli indicati in precedenza. Vuoi continuare?',
+        sendRequest: 'Invia richiesta',
+        requestOkTitle: 'Hai inviato la richiesta',
+        requestOkMessage: 'Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.',
+        requestErrorTitle: 'Si è verificato un errore durante l’invio della richiesta',
+        requestErrorMessage: 'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
+        backHome: 'Torna alla home',
+        moreInformationOnRoles: 'Più informazioni sui ruoli',
       },
       backButton: 'Indietro',
       continueButton: 'Continua',
@@ -259,6 +266,12 @@ export default {
         confirmButton: 'Assegna',
         closeButton: 'Annulla',
       },
+      addUserInBulkModal: {
+        title: 'Aggiungi utente in bulk',
+        message: '<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.',
+        confirmButton: 'Aggiungi',
+        closeButton: 'Annulla',
+      }
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
