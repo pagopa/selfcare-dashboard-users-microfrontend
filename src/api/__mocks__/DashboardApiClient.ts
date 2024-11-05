@@ -2,7 +2,10 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
-import { InstitutionUserDetailsResource, RoleEnum } from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
+import {
+  InstitutionUserDetailsResource,
+  RoleEnum,
+} from '../generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { SelcRoleEnum } from '../generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../generated/b4f-dashboard/ProductUserResource';
 import {
@@ -155,7 +158,7 @@ export const DashboardApi = {
     _institutionId: string,
     _userId: string
   ): Promise<InstitutionUserDetailsResource | null> =>
-    new Promise((resolve) => resolve(mockedInstitutionUserDetailsResource)),
+    Promise.resolve(mockedInstitutionUserDetailsResource),
 
   getPartyUsers: async (
     _institutionId: string,
@@ -163,20 +166,20 @@ export const DashboardApi = {
     _role?: string,
     _productRoles?: Array<ProductRole>
   ): Promise<Array<InstitutionUserDetailsResource>> =>
-    new Promise((resolve) => resolve(mockedInstitutionUserResource)),
+    Promise.resolve(mockedInstitutionUserResource),
 
   getPartyProductUsers: async (
     _institutionId: string,
     _productId: string,
     _role?: string
   ): Promise<Array<ProductUserResource>> =>
-    new Promise((resolve) => resolve(mockedProductUserResource)),
+    Promise.resolve(mockedProductUserResource),
 
   savePartyUser: async (
     _institutionId: string,
     _productId: string,
     _user: PartyUserOnCreation
-  ): Promise<UserIdResource> => new Promise((resolve) => resolve({ id: 'newUserId' })),
+  ): Promise<UserIdResource> => Promise.resolve({ id: 'newUserId' }),
 
   suspendPartyRelation: async (_relationshipId: string): Promise<void> =>
     new Promise((resolve) => resolve()),
@@ -185,7 +188,7 @@ export const DashboardApi = {
     new Promise((resolve) => resolve()),
 
   fetchUserRegistryByFiscalCode: async (_taxCode: string): Promise<UserResource | null> =>
-    new Promise((resolve) => resolve(mockedUserResource)),
+    Promise.resolve(mockedUserResource),
 
   deletePartyRelation: async (_relationshipId: string): Promise<void> =>
     new Promise<void>((resolve) => resolve()),
@@ -202,11 +205,8 @@ export const DashboardApi = {
     _institutionId: string,
     _pageRequest: PageRequest
   ): Promise<Array<UserGroupPlainResource>> =>
-    new Promise((resolve) => resolve(userGroupPlainResourceArray)),
+    Promise.resolve(userGroupPlainResourceArray),
 
-    addMemberToUserGroup: async (
-      _id: string,
-      _userId: string,
-    ): Promise<void> => 
+  addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> =>
     new Promise((resolve) => resolve()),
 };
