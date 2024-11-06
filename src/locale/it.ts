@@ -275,6 +275,8 @@ export default {
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
+      userData: 'Dati utente',
+      subTitle: 'Inserisci i dati dell’utente che vuoi aggiungere.',
       fiscalCode: {
         label: 'Codice Fiscale',
       },
@@ -291,7 +293,7 @@ export default {
         label: 'Conferma e-mail',
       },
       backButton: 'Indietro',
-      confirmButton: 'Conferma',
+      confirmButton: 'Continua',
       errors: {
         userNotFind: "Impossibile individuare l'utente desiderato",
         invalidEmail: 'L’indirizzo email non è valido',
