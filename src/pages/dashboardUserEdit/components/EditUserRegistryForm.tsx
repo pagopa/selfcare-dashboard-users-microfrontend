@@ -1,28 +1,29 @@
-import React, { useEffect } from 'react';
-import { Grid, TextField, Button, styled, Stack } from '@mui/material';
-import { useFormik } from 'formik';
-import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
+import { Button, Grid, Stack, styled, TextField } from '@mui/material';
+import { theme } from '@pagopa/mui-italia';
+import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
-import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import {
   useUnloadEventInterceptor,
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
+import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
-import { useTranslation } from 'react-i18next';
-import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
+import { EmailString } from '@pagopa/ts-commons/lib/strings';
+import { useFormik } from 'formik';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { theme } from '@pagopa/mui-italia';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
-import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
-import { updatePartyUser } from '../../../services/usersService';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import { useIsMobile } from '../../../hooks/useIsMobile';
+import { updatePartyUser } from '../../../services/usersService';
+import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -63,7 +64,7 @@ type Props = {
 
 type TextTransform = 'uppercase' | 'lowercase';
 
-export default function EditUserRegistryForm({ party, user, goBack }: Props) {
+export default function EditUserRegistryForm({ party, user, goBack }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('lg');
   const setLoadingSaveUser = useLoading(LOADING_TASK_SAVE_PARTY_USER);
@@ -186,124 +187,131 @@ export default function EditUserRegistryForm({ party, user, goBack }: Props) {
   };
 
   return (
-    <React.Fragment>
-      <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
+      <Grid
+        container
+        direction="column"
+        sx={{
+          backgroundColor: 'background.paper',
+          paddingTop: 3,
+          paddingLeft: 3,
+          paddingRight: 3,
+        }}
+      >
+
+        <TitleBox
+            variantTitle="h6"
+            variantSubTitle="body1"
+            title={t('userEdit.editRegistryForm.userData')}
+            subTitle={t('userEdit.editRegistryForm.subTitle')}
+            mbTitle={2}
+            mbSubTitle={3}
+          />
+        <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+          <CustomTextField
+            size="small"
+            {...baseTextFieldProps(
+              'taxCode',
+              t('userEdit.editRegistryForm.fiscalCode.label'),
+              '',
+              'uppercase'
+            )}
+            disabled={true}
+          />
+        </Grid>
         <Grid
+          item
           container
-          direction="column"
+          spacing={2}
+          mb={isMobile ? 3 : 1}
           sx={{
-            backgroundColor: 'background.paper',
-            paddingTop: 3,
-            paddingLeft: 3,
-            paddingRight: 3,
+            [theme.breakpoints.down('lg')]: {
+              flexDirection: 'column',
+            },
           }}
         >
-          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+          <Grid item xs={12} lg={6} sx={{ height: '75px' }}>
             <CustomTextField
               size="small"
-              {...baseTextFieldProps(
-                'taxCode',
-                t('userEdit.editRegistryForm.fiscalCode.label'),
-                '',
-                'uppercase'
-              )}
-              disabled={true}
+              {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
+              disabled={formik.values.certifiedName}
             />
           </Grid>
           <Grid
             item
-            container
-            spacing={2}
-            mb={isMobile ? 3 : 1}
+            xs={12}
+            lg={6}
             sx={{
+              height: '75px',
               [theme.breakpoints.down('lg')]: {
-                flexDirection: 'column',
+                marginTop: 1,
               },
             }}
           >
-            <Grid item xs={12} lg={6} sx={{ height: '75px' }}>
-              <CustomTextField
-                size="small"
-                {...baseTextFieldProps('name', t('userEdit.editRegistryForm.name.label'), '')}
-                disabled={formik.values.certifiedName}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              lg={6}
-              sx={{
-                height: '75px',
-                [theme.breakpoints.down('lg')]: {
-                  marginTop: 1,
-                },
-              }}
-            >
-              <CustomTextField
-                size="small"
-                {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
-                disabled={formik.values.certifiedSurname}
-              />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
               size="small"
-              {...baseTextFieldProps(
-                'email',
-                t('userEdit.editRegistryForm.institutionalEmail.label'),
-                '',
-                'lowercase'
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-            <CustomTextField
-              size="small"
-              {...baseTextFieldProps(
-                'confirmEmail',
-                t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
-                '',
-                'lowercase'
-              )}
+              {...baseTextFieldProps('surname', t('userEdit.editRegistryForm.surname.label'), '')}
+              disabled={formik.values.certifiedSurname}
             />
           </Grid>
         </Grid>
+        <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+          <CustomTextField
+            size="small"
+            {...baseTextFieldProps(
+              'email',
+              t('userEdit.editRegistryForm.institutionalEmail.label'),
+              '',
+              'lowercase'
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+          <CustomTextField
+            size="small"
+            {...baseTextFieldProps(
+              'confirmEmail',
+              t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
+              '',
+              'lowercase'
+            )}
+          />
+        </Grid>
+      </Grid>
 
-        <Stack direction="row" justifyContent="space-between" mt={5}>
-          <Stack display="flex" justifyContent="flex-start">
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={() =>
-                onExit(() =>
-                  history.push(
-                    resolvePathVariables(
-                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
-                      {
-                        partyId: party.partyId,
-                        userId: user.id,
-                      }
-                    )
+      <Stack direction="row" justifyContent="space-between" mt={5}>
+        <Stack display="flex" justifyContent="flex-start">
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() =>
+              onExit(() =>
+                history.push(
+                  resolvePathVariables(
+                    DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
+                    {
+                      partyId: party.partyId,
+                      userId: user.id,
+                    }
                   )
                 )
-              }
-            >
-              {t('userEdit.editRegistryForm.backButton')}
-            </Button>
-          </Stack>
-          <Stack display="flex" justifyContent="flex-end">
-            <Button
-              disabled={!formik.dirty || !formik.isValid}
-              color="primary"
-              variant="contained"
-              type="submit"
-            >
-              {t('userEdit.editRegistryForm.confirmButton')}
-            </Button>
-          </Stack>
+              )
+            }
+          >
+            {t('userEdit.editRegistryForm.backButton')}
+          </Button>
         </Stack>
-      </form>
-    </React.Fragment>
+        <Stack display="flex" justifyContent="flex-end">
+          <Button
+            disabled={!formik.dirty || !formik.isValid}
+            color="primary"
+            variant="contained"
+            type="submit"
+          >
+            {t('userEdit.editRegistryForm.confirmButton')}
+          </Button>
+        </Stack>
+      </Stack>
+    </form>
   );
 }
