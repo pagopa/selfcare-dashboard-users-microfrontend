@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia/dist/components/ButtonNaked/ButtonNaked';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useState } from 'react';
@@ -14,7 +15,6 @@ import { ENV } from '../../utils/env';
 import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
-
 
 type Props = {
   party: Party;
@@ -70,8 +70,22 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             title={t('userEdit.addForm.title')}
             subTitle={t('userEdit.addForm.subTitle')}
             mbTitle={1}
-            mbSubTitle={5}
+            mbSubTitle={1}
           />
+        </Grid>
+        <Grid item xs={12} mb={4}>
+          <ButtonNaked
+            component="button"
+            color="primary"
+            sx={{ fontWeight: 'fontWeightSemiBold', fontSize: '14px', textDecoration: 'underline' }}
+            onClick={() => {
+              window.open(
+                'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti'
+              );
+            }}
+          >
+            {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
+          </ButtonNaked>
         </Grid>
         <Grid item xs={12}>
           {currentStep === 1 && (

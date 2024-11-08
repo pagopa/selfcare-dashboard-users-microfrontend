@@ -1,6 +1,6 @@
 import { Button, Grid, Stack } from '@mui/material';
 
-import { IllusCompleted, IllusError } from '@pagopa/mui-italia';
+import { ButtonNaked, IllusCompleted, IllusError } from '@pagopa/mui-italia';
 import {
   EndingPage,
   TitleBox,
@@ -14,7 +14,7 @@ import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
@@ -27,7 +27,7 @@ import {
 } from '../../../services/onboardingService';
 import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
-import { CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
 import { ConfimChangeLRModal } from './ConfimChangeLRModal';
 
 type LegalRepresentativeProps = {
@@ -50,6 +50,7 @@ export default function AddLegalRepresentativeForm({
   isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
+  const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
@@ -348,6 +349,10 @@ export default function AddLegalRepresentativeForm({
     },
   };
 
+  useEffect(() => {
+    setDynamicDocLink(getProductLink(productId ?? '', party.partyId));
+  }, [productId]);
+
   return (
     <Grid>
       <ConfimChangeLRModal
@@ -382,9 +387,27 @@ export default function AddLegalRepresentativeForm({
                   />
                 }
                 mbTitle={2}
-                mbSubTitle={5}
+                mbSubTitle={1}
               />
             </Grid>
+            {dynamicDocLink.length > 0 && (
+              <Grid item xs={12} justifyContent={'left'} mb={3}>
+                <ButtonNaked
+                  component="button"
+                  color="primary"
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: '14px',
+                    textDecoration: 'underline',
+                  }}
+                  onClick={() => {
+                    window.open(dynamicDocLink);
+                  }}
+                >
+                  {t('userEdit.addForm.role.documentationLink')}
+                </ButtonNaked>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
