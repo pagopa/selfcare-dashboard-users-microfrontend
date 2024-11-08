@@ -7,7 +7,7 @@ type ConfirmChangeModalProps = {
   onConfirm: () => void;
 };
 
-export const ConfimChangeLRModal = ({ open, onClose, onConfirm }: ConfirmChangeModalProps) => {
+export const ConfirmChangeLRModal = ({ open, onClose, onConfirm }: ConfirmChangeModalProps) => {
   const { t } = useTranslation();
 
   return (
