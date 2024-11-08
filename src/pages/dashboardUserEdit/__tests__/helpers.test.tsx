@@ -3,7 +3,7 @@ import { getProductLink } from '../helpers';
 
 describe('getProductLink', () => {
   it('should return the correct link for PagoPA product with institution types PA, GPS, GPU, PRV', () => {
-    const productId = 'prog-pagopa';
+    const productId = 'prod-pagopa';
     const institutionTypes = ['PA', 'GPS', 'GPU', 'PRV'];
     const expectedLink = ENV.DOCUMENTATION_LINKS.PAGOPA_EC;
 
@@ -13,7 +13,7 @@ describe('getProductLink', () => {
   });
 
   it('should return the correct link for PagoPA product with institution type PSP', () => {
-    const productId = 'prog-pagopa';
+    const productId = 'prod-pagopa';
     const institutionType = 'PSP';
     const expectedLink = ENV.DOCUMENTATION_LINKS.PAGOPA_PSP;
 
@@ -21,7 +21,7 @@ describe('getProductLink', () => {
   });
 
   it('should return the correct link for PagoPA product with institution type PT', () => {
-    const productId = 'prog-pagopa';
+    const productId = 'prod-pagopa';
     const institutionType = 'PT';
     const expectedLink = ENV.DOCUMENTATION_LINKS.PAGOPA_PT;
 
@@ -29,7 +29,7 @@ describe('getProductLink', () => {
   });
 
   it('should return an empty string for PagoPA product with unknown institution type', () => {
-    const productId = 'prog-pagopa';
+    const productId = 'prod-pagopa';
     const institutionType = 'UNKNOWN';
 
     expect(getProductLink(productId, institutionType)).toBe('');

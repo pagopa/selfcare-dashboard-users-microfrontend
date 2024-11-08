@@ -46,7 +46,7 @@ export const requiredError = 'Required';
 
 export const getProductLink = (productId: string, institutionType?: string): string => {
   switch (productId) {
-    case 'prog-pagopa':
+    case 'prod-pagopa':
       if (['PA', 'GPS', 'GPU', 'PRV'].includes(institutionType ?? '')) {
         return ENV.DOCUMENTATION_LINKS.PAGOPA_EC;
       } else if (institutionType === 'PSP') {
