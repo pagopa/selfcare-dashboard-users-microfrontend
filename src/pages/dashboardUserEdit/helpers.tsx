@@ -1,4 +1,5 @@
 import { styled, TextField } from '@mui/material';
+import { ENV } from '../../utils/env';
 
 export const CustomTextField = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -47,19 +48,19 @@ export const getProductLink = (productId: string, institutionType?: string): str
   switch (productId) {
     case 'prog-pagopa':
       if (['PA', 'GPS', 'GPU', 'PRV'].includes(institutionType ?? '')) {
-        return 'https://developer.pagopa.it/pago-pa/guides/manuale-bo-ec/manuale-operativo-back-office-pagopa-ente-creditore/funzionalita/matrice-ruoli-funzionalita';
+        return ENV.DOCUMENTATION_LINKS.PAGOPA_EC;
       } else if (institutionType === 'PSP') {
-        return 'https://developer.pagopa.it/pago-pa/guides/manuale-bo-psp/manuale-operativo-pagamenti-pagopa-prestatore-di-servizi-di-pagamento/funzionalita';
+        return ENV.DOCUMENTATION_LINKS.PAGOPA_PSP;
       } else if (institutionType === 'PT') {
-        return 'https://developer.pagopa.it/pago-pa/guides/manuale-bo-pt/manuale-operativo-back-office-pagopa-partner-tecnologico/funzionalita/matrice-ruoli-funzionalita';
+        return ENV.DOCUMENTATION_LINKS.PAGOPA_PT;
       }
       return '';
 
     case 'prod-pn':
-      return 'https://docs.pagopa.it/manuale-operativo/piattaforma-notifiche-digitali-manuale-operativo/mittente';
+      return ENV.DOCUMENTATION_LINKS.SEND;
 
     case 'prod-interop':
-      return "https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita";
+      return ENV.DOCUMENTATION_LINKS.PDND;
 
     default:
       return '';

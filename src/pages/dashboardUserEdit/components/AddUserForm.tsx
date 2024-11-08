@@ -175,7 +175,7 @@ export default function AddUserForm({
   useEffect(() => {
     if (userProduct) {
       setCurrentSelectedProduct(userProduct);
-      setDynamicDocLink(getProductLink(userProduct?.id ?? '', party.partyId));
+      setDynamicDocLink(getProductLink(userProduct?.id ?? '', party.institutionType));
     }
   }, [userProduct]);
 

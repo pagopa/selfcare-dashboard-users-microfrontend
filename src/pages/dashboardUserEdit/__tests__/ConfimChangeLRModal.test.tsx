@@ -1,11 +1,11 @@
 import React from 'react';
 import { renderWithProviders } from '../../../utils/test-utils';
-import { ConfimChangeLRModal } from '../components/ConfimChangeLRModal';
+import { ConfirmChangeLRModal } from '../components/ConfirmChangeLRModal';
 
 test('Render ConfirmChangeLRModal open', () => {
-  renderWithProviders(<ConfimChangeLRModal open={true} />);
+  renderWithProviders(<ConfirmChangeLRModal open={true} />);
 });
 
 test('Render ConfirmChangeLRModal false', () => {
-  renderWithProviders(<ConfimChangeLRModal open={false} />);
+  renderWithProviders(<ConfirmChangeLRModal open={false} />);
 });

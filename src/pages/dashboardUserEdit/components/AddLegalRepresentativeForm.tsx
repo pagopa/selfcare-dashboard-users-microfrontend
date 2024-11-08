@@ -28,7 +28,7 @@ import {
 import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
-import { ConfimChangeLRModal } from './ConfimChangeLRModal';
+import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
 
 type LegalRepresentativeProps = {
   party: Party;
@@ -350,12 +350,12 @@ export default function AddLegalRepresentativeForm({
   };
 
   useEffect(() => {
-    setDynamicDocLink(getProductLink(productId ?? '', party.partyId));
+    setDynamicDocLink(getProductLink(productId ?? '', party.institutionType));
   }, [productId]);
 
   return (
     <Grid>
-      <ConfimChangeLRModal
+      <ConfirmChangeLRModal
         open={isChangedManager}
         onConfirm={() => {
           setIsChangedManager(false);

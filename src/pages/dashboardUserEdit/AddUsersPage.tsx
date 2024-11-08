@@ -79,9 +79,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             color="primary"
             sx={{ fontWeight: 'fontWeightSemiBold', fontSize: '14px', textDecoration: 'underline' }}
             onClick={() => {
-              window.open(
-                'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti'
-              );
+              window.open(ENV.DOCUMENTATION_LINKS.USERS);
             }}
           >
             {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
