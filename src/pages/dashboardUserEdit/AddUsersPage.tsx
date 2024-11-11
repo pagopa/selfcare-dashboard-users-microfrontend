@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia/dist/components/ButtonNaked/ButtonNaked';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useState } from 'react';
@@ -10,8 +11,8 @@ import { AsyncOnboardingUserData } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
-import AddLegalRepresentativeForm from './AddLegalRepresentativeForm';
+import { ENV } from '../../utils/env';
+import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
@@ -39,23 +40,8 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   };
 
   const goBack = () => {
-    history.goBack();
+    history.push(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
   };
-
-  const paths = [
-    {
-      description: t('userPagesPath.detailRedirect'),
-      onClick: () =>
-        history.push(
-          resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.MAIN.path, {
-            partyId: party.partyId,
-          })
-        ),
-    },
-    {
-      description: t('userPagesPath.addUser'),
-    },
-  ];
 
   return outcome ? (
     <MessageNoAction {...outcome} />
@@ -71,7 +57,6 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
       <Grid container item xs={12} md={8}>
         <Grid item xs={12} mb={2}>
           <ProductNavigationBar
-            paths={paths as any}
             showBackComponent={true}
             goBack={goBack}
             backLabel={t('userPagesPath.exit')}
@@ -85,8 +70,20 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             title={t('userEdit.addForm.title')}
             subTitle={t('userEdit.addForm.subTitle')}
             mbTitle={1}
-            mbSubTitle={5}
+            mbSubTitle={1}
           />
+        </Grid>
+        <Grid item xs={12} mb={4}>
+          <ButtonNaked
+            component="button"
+            color="primary"
+            sx={{ fontWeight: 'fontWeightSemiBold', fontSize: '14px', textDecoration: 'underline' }}
+            onClick={() => {
+              window.open(ENV.DOCUMENTATION_LINKS.USERS);
+            }}
+          >
+            {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
+          </ButtonNaked>
         </Grid>
         <Grid item xs={12}>
           {currentStep === 1 && (

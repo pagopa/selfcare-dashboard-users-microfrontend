@@ -51,7 +51,10 @@ test('Test fetch PartyUserDetails', async () => {
     institutionUserResource2PartyUserDetail(mockedInstitutionUserDetailsResource, {}, mockedUser)
   );
 
-  expect(DashboardApi.getPartyUser).toBeCalledWith(mockedParties[0].partyId, mockedUsers[0].id);
+  expect(DashboardApi.getPartyUser).toHaveBeenCalledWith(
+    mockedParties[0].partyId,
+    mockedUsers[0].id
+  );
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(0);
 });
 
@@ -77,7 +80,7 @@ test('Test fetchPartyProductUser', async () => {
   });
 
   expect(DashboardApi.getPartyProductUsers).toBeCalledTimes(1);
-  expect(DashboardApi.getPartyProductUsers).toBeCalledWith(
+  expect(DashboardApi.getPartyProductUsers).toHaveBeenCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     undefined
@@ -104,7 +107,7 @@ test('Test savePartyUser', async () => {
     'SUB_DELEGATE'
   );
 
-  expect(DashboardApi.savePartyUser).toBeCalledWith(
+  expect(DashboardApi.savePartyUser).toHaveBeenCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     user,
@@ -134,7 +137,7 @@ test('Test addUserProductRoles', async () => {
     'SUB_DELEGATE'
   );
 
-  expect(DashboardApi.addUserProductRoles).toBeCalledWith(
+  expect(DashboardApi.addUserProductRoles).toHaveBeenCalledWith(
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     'userId',
@@ -178,7 +181,7 @@ describe('Test updatePartyUserStatus', () => {
       'SUSPENDED'
     );
 
-    expect(DashboardApi.suspendPartyRelation).toBeCalledWith(
+    expect(DashboardApi.suspendPartyRelation).toHaveBeenCalledWith(
       partyUser.id,
       mockedParties[0].partyId,
       partyUser.products[0].id,
@@ -195,12 +198,24 @@ describe('Test updatePartyUserStatus', () => {
     );
 
     expect(DashboardApi.suspendPartyRelation).toBeCalledTimes(1);
-    expect(DashboardApi.activatePartyRelation).toBeCalledWith(
+    expect(DashboardApi.activatePartyRelation).toHaveBeenCalledWith(
       partyUser.id,
       mockedParties[0].partyId,
       partyUser.products[0].id,
       partyUser.products[0].roles[0].role
     );
+    try {
+      await updatePartyUserStatus(
+        mockedParties[0],
+        partyUser,
+        partyUser.products[0],
+        partyUser.products[0].roles[0],
+        'PENDING'
+      );
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect(error.message).toBe('Not allowed next status: PENDING');
+    }
   });
 
   test('Test fetchUserRegistryByFiscalCode', async () => {
@@ -208,7 +223,7 @@ describe('Test updatePartyUserStatus', () => {
 
     expect(userRegistry).toMatchObject(userResource2UserRegistry(mockedUserResource));
 
-    expect(DashboardApi.fetchUserRegistryByFiscalCode).toBeCalledWith('TaxCode', 'partyId');
+    expect(DashboardApi.fetchUserRegistryByFiscalCode).toHaveBeenCalledWith('TaxCode', 'partyId');
   });
 });
 
@@ -220,7 +235,7 @@ test('Test deletePartyUser', async () => {
     mockedUsers[0].products[0].roles[0]
   );
 
-  expect(DashboardApi.deletePartyRelation).toBeCalledWith(
+  expect(DashboardApi.deletePartyRelation).toHaveBeenCalledWith(
     mockedUsers[0].id,
     mockedParties[0].partyId,
     mockedUsers[0].products[0].id,

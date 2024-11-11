@@ -17,7 +17,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { theme } from '@pagopa/mui-italia';
+import { ButtonNaked, theme } from '@pagopa/mui-italia';
 import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
@@ -57,7 +57,13 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+import {
+  commonStyles,
+  CustomTextField,
+  getProductLink,
+  requiredError,
+  taxCodeRegexp,
+} from '../helpers';
 import { renderLabel } from './helpers';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
@@ -115,6 +121,7 @@ export default function AddUserForm({
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
+  const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
@@ -168,6 +175,7 @@ export default function AddUserForm({
   useEffect(() => {
     if (userProduct) {
       setCurrentSelectedProduct(userProduct);
+      setDynamicDocLink(getProductLink(userProduct?.id ?? '', party.institutionType));
     }
   }, [userProduct]);
 
@@ -436,7 +444,9 @@ export default function AddUserForm({
               i18nKey="userEdit.addForm.addUserInBulkModal.message"
               values={{
                 user: `${values.name} ${values.surname} `,
-                role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+                role: `${values.productRoles.map(
+                  (r) => productRoles?.groupByProductRole[r].title
+                )}`,
               }}
               components={{ 1: <strong />, 3: <strong />, 8: <strong /> }}
             >
@@ -711,9 +721,26 @@ export default function AddUserForm({
             title={t('userEdit.addForm.role.title')}
             subTitle={t('userEdit.addForm.role.subTitle')}
             mbTitle={2}
-            mbSubTitle={3}
+            mbSubTitle={1}
           />
-
+          {dynamicDocLink.length > 0 && (
+            <Grid item xs={12} justifyContent={'left'}>
+              <ButtonNaked
+                component="button"
+                color="primary"
+                sx={{
+                  fontWeight: 'fontWeightBold',
+                  fontSize: '14px',
+                  textDecoration: 'underline',
+                }}
+                onClick={() => {
+                  window.open(dynamicDocLink);
+                }}
+              >
+                {t('userEdit.addForm.role.documentationLink')}
+              </ButtonNaked>
+            </Grid>
+          )}
           {Object.values(productRoles.groupBySelcRole).map((roles) =>
             roles
               .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
@@ -751,7 +778,7 @@ export default function AddUserForm({
                           : undefined
                       }
                     />
-                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) || isAddInBulkEAFlow && (
+                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
                       <Tooltip
                         title={t('userEdit.addForm.role.adminTooltip')}
                         placement="top"

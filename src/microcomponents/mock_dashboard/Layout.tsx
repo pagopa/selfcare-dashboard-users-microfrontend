@@ -12,7 +12,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export default function Layout({ children }: Props) {
+export default function Layout({ children }: Readonly<Props>) {
   const onExit = useUnloadEventOnExit();
   const loggedUser = useSelector(userSelectors.selectLoggedUser);
   const [showDocBtn, setShowDocBtn] = useState(false);
@@ -53,7 +53,7 @@ export default function Layout({ children }: Props) {
                 trackEvent('OPEN_OPERATIVE_MANUAL', {
                   from: 'dashboard',
                 });
-                window.open(ENV.URL_DOCUMENTATION, '_blank');
+                window.open(ENV.DOCUMENTATION_LINKS.SELFCARE, '_blank');
               }
             : undefined
         }
