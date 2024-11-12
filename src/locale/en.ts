@@ -2,13 +2,14 @@ export default {
   session: {
     expired: {
       title: 'Session expired',
-      message: 'You are about to be redirected to the login page...',
+      message: 'You are being redirected to the login page...',
     },
   },
   userPagesPath: {
     detailRedirect: 'Users',
-    addUser: 'Add new user',
-    editUser: 'Edit user profile',
+    addUser: 'Add a new user',
+    editUser: 'Change the user profile',
+    exit: 'Exit',
   },
   usersTable: {
     usersProductTableColumns: {
@@ -26,22 +27,23 @@ export default {
       placeholder: 'All roles',
       admin: {
         title: 'Administrator',
-        description: 'Has all permissions and manages users',
+        description: 'You have all permissions and manage the users',
       },
       limited: {
         title: 'Operator',
-        description: 'Manages the technological integration and/or operation of services',
+        description: 'Manage the technical integration and/or operation of the services',
       },
+      searchByName: 'Search by name',
       addFilters: 'Filter',
-      deleteFilters: 'Reset filter',
+      deleteFilters: 'Remove filters',
       noDataFilter:
         'The filters you applied did not yield any results. <1><2>Remove filters</2></1>.',
       errorOnFetch: 'Sorry, something went wrong. <1><2>Try again</2></1>.',
     },
     rowActions: {
-      toolTipActions: 'Select action type',
-      toolTipInfo: "Actions are available in the user's profile",
-      edit: 'Edit',
+      toolTipActions: 'Select the type of action',
+      toolTipInfo: 'The actions are available in the user profile',
+      edit: 'Change',
       rehabilitate: 'Re-enable',
       suspend: 'Suspend',
       delete: 'Remove',
@@ -52,8 +54,8 @@ export default {
         confirmButton: 'Confirm',
         closeButton: 'Cancel',
       },
-      deleteSuccess: 'Role removed successfully',
-      deleteError: 'The role could not be removed. Please try again.',
+      deleteSuccess: 'Role removed correctly',
+      deleteError: 'It was not possible to remove the role. Try again.',
       changeUserRoleStatusModal: {
         suspend: {
           title: 'Suspend role',
@@ -68,38 +70,38 @@ export default {
         confirmButton: 'Confirm',
         closeButton: 'Cancel',
       },
-      changeUserRoleSuccess: 'Role {{userStatus}} successfully',
-      suspendRoleError: 'The role could not be suspended. Please try again.',
-      reactivateRoleError: 'The role could not be re-enabled. Please try again.',
+      changeUserRoleSuccess: 'Role {{userStatus}} correctly',
+      suspendRoleError: 'It was not possible to suspend the role. Try again.',
+      reactivateRoleError: 'It was not possible to re-enable the role. Try again.',
     },
-    loadMore: 'Load more ',
+    loadMore: 'Load others',
     addButton: 'Add user',
     tabAll: 'All',
   },
   userDetail: {
-    title: 'User Profile',
+    title: 'User profile',
     name: 'Name',
     surname: 'Surname',
-    fiscalCode: 'Fiscal Code',
+    fiscalCode: 'Tax code',
     institutionalEmail: 'Institutional email',
-    institution: 'ENTITY',
-    editButton: 'Edit',
+    institution: 'INSTITUTION',
+    editButton: 'Change',
     deleteButton: 'Remove',
-    backButton: 'Back',
+    backButton: 'Go back',
     actions: {
       delete: {
-        userRoleDelete: 'Role removed successfully',
-        userDelete: 'User successfully removed',
-        userDeleteError: 'Could not remove user. Please try again.',
+        userRoleDelete: 'Role removed correctly',
+        userDelete: 'User removed correctly',
+        userDeleteError: 'It was not possible to remove the user. Try again.',
       },
       modalDelete: {
         moreRolesOnProduct: {
-          title: 'Remove Role',
+          title: 'Remove role',
           message:
             'Do you want to remove <1>{{user}}</1> from the role of <3>{{role}}</3>? <6 />You can reassign the role at any time.',
         },
         oneRoleOnProduct: {
-          title: 'Delete User',
+          title: 'Delete user',
           message: 'You are about to delete <1>{{user}}</1>.<3 />Do you want to continue?',
         },
         haveMoreProducts:
@@ -126,22 +128,22 @@ export default {
         confirmButtonSuspend: 'Suspend',
         closeButton: 'Cancel',
       },
-      changeUserStatusSuccess: 'Role {{userStatus}} successfully',
-      changeUserStatusSuspendError: 'The role could not be suspended. Please try again.',
-      changeUserStatusRehabilitateError: 'The role could not be re-enabled. Please try again.',
-      changeUserStatusRemoveError: 'The role could not be removed. Please try again.',
+      changeUserStatusSuccess: 'Role {{userStatus}} correctly',
+      changeUserStatusSuspendError: 'It was not possible to suspend the role. Try again.',
+      changeUserStatusRehabilitateError: 'It was not possible to re-enable the role. Try again.',
+      changeUserStatusRemoveError: 'It was not possible to remove the role. Try again.',
       suspendRole: 'Suspend',
       reactivateRole: 'Re-enable',
       deleteButton: 'Remove',
-      successfulAddRole: 'Role assigned successfully',
-      successfulAddUserToGroup: 'User assigned successfully',
-      addRoleError: 'The role could not be assigned. Please try again.',
+      successfulAddRole: 'Role assigned correctly',
+      successfulAddUserToGroup: 'User assigned correctly',
+      addRoleError: 'It was not possible to assign the role. Try again.',
       newGroupAssign: 'Assign group',
       newGroupAssignModal: {
         title: 'Assign group',
         message:
           'Select the group you want to assign to <1>{{user}}</1> for product <3>{{productTitle}}</3>',
-        groupPlaceholder: 'Select group',
+        groupPlaceholder: 'Select the group',
         confirmButton: 'Assign group',
         closeButton: 'Cancel',
       },
@@ -178,21 +180,24 @@ export default {
     group: 'Groups',
     role: 'Role',
     statusLabel: 'Suspended',
-    infoIcon: 'You do not have permissions to manage this product',
+    infoIcon: 'You do not have the permissions to manage this product',
+    removeRoleBannerText:
+      'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
   },
   userEdit: {
     mismatchWithTaxCode: {
-      name: 'Incorrect name or different from Fiscal Code',
-      surname: 'Incorrect surname or different from the Fiscal Code',
+      name: 'Incorrect or different than the fiscal code',
+      surname: 'Incorrect or different than the fiscal code',
     },
     addForm: {
       title: 'Add a new user',
       subTitle: "Enter the user's details, select a product and assign it a role.",
       userData: {
         label: 'User data',
+        subTitle: 'Enter the data for the user you want to add.',
       },
       fiscalCode: {
-        label: 'Fiscal Code',
+        label: 'Tax code',
       },
       name: {
         label: 'Name',
@@ -207,20 +212,38 @@ export default {
         label: 'Confirm email',
       },
       product: {
-        title: 'Select product',
+        title: 'Indicate the product',
+        subTitle: 'Indicate for which product you want to add the user.',
+        selectLabel: 'Select the product',
       },
       role: {
-        title: 'Select the role you want to assign to the user',
+        title: 'Select the role',
+        subTitle: 'Select the role you want to assign to the user.',
+        documentationLink: 'Questions? Consult the manual',
+        adminTooltip:
+          'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
       },
-      backButton: 'Back',
+      addLegalRepresentative: {
+        title: 'Indicate the Legal representative',
+        subTitle:
+          'Firmerà il Modulo di aggiunta per i nuovi Amministratori, inviato alla PEC dell’ente, per autorizzarli ad operare sul prodotto <strong>{{productName}}</strong> per il tuo ente.',
+        taxCode: 'Tax code',
+        name: 'Name',
+        surname: 'Surname',
+        institutionalEmail: 'Institutional email',
+        changeManagerModalTitle: 'You are adding a new Legal representative',
+        changeManagerModalMessage:
+          'I dati del Legale Rappresentante inseriti sono diversi da quelli indicati in precedenza. Vuoi continuare?',
+      },
+      backButton: 'Go back',
       continueButton: 'Continue',
       errors: {
-        invalidFiscalCode: 'The Fiscal Code is not valid ',
+        invalidFiscalCode: 'The entered fiscal code is not valid ',
         invalidEmail: 'The email address is not valid',
-        mismatchEmail: 'The email addresses do not match',
+        mismatchEmail: 'The email addresses do not correspond',
       },
-      saveUserSuccess: 'User added successfully',
-      saveUserError: 'You have already added this user.',
+      saveUserSuccess: 'User added correctly',
+      saveUserError: 'You already added this user.',
       addMultiRoleModal: {
         title: 'Assign role',
         message:
@@ -237,9 +260,9 @@ export default {
       },
     },
     editRegistryForm: {
-      title: 'Edit user profile',
+      title: 'Change the user profile',
       fiscalCode: {
-        label: 'Fiscal Code',
+        label: 'Tax code',
       },
       name: {
         label: 'Name',
@@ -253,23 +276,23 @@ export default {
       confirmInstitutionalEmail: {
         label: 'Confirm email',
       },
-      backButton: 'Back',
+      backButton: 'Go back',
       confirmButton: 'Confirm',
       errors: {
-        userNotFind: 'Unable to locate the desired user',
+        userNotFind: 'It is impossible to locate the desired user',
         invalidEmail: 'The email address is not valid',
-        mismatchEmail: 'The email addresses do not match',
+        mismatchEmail: 'The email addresses do not correspond',
       },
-      editUserSuccess: 'Profile modified correctly',
-      editUserError: 'An error occurred while editing the profile. Please try again.',
+      editUserSuccess: 'Profile changed correctly',
+      editUserError: 'An error occurred when changing the profile. Try again.',
     },
     addProduct: {
       navigation: 'Assign role',
       title: 'Assign a new role',
-      subTitle: 'Select the product and role you want to assign to the user.',
+      subTitle: 'Select the product and the role you want to assign to the user.',
       name: 'Name',
       surname: 'Surname',
-      fiscalCode: 'Fiscal code',
+      fiscalCode: 'Tax code',
     },
   },
   usersPage: {
@@ -279,7 +302,7 @@ export default {
         'View and manage the roles assigned to users for the products to which the organisation has joined.',
     },
     pnpg: {
-      subTitle: 'Manage users who can read notifications from{{ businessName}}.',
+      subTitle: 'Manage the users that can read the notifications for {{ businessName}}.',
     },
   },
 };
