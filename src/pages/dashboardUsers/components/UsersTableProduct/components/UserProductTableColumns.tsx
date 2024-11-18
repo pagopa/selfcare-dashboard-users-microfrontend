@@ -10,7 +10,7 @@ import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 import React, { CSSProperties, ReactNode } from 'react';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
-import { ProductRolesLists } from '../../../../../model/ProductRole';
+import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
 
 export function buildColumnDefs(
   _product: Product,
@@ -248,9 +248,7 @@ function showRoles(
                   }
                   sx={{ outline: 'none', paddingLeft: 3 }}
                 >
-                  {productRolesLists?.groupByProductRole[r.role]
-                    ? productRolesLists?.groupByProductRole[r.role].title
-                    : r.role}
+                  {transcodeProductRole2Title(r.role, productRolesLists)}
                 </Typography>
               </Grid>
             )

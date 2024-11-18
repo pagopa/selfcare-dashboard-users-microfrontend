@@ -1079,10 +1079,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "additionalProperties": {
-                "type": "boolean"
-              },
-              "type": "object"
+              "$ref": "#/definitions/CheckManagerResponse"
             }
           },
           "400": {
@@ -2924,6 +2921,20 @@
         }
       },
       "title": "BusinessResourceIC",
+      "type": "object"
+    },
+    "CheckManagerResponse": {
+      "properties": {
+        "result": {
+          "description": "Is the given user manager of the institution",
+          "example": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "title": "CheckManagerResponse",
       "type": "object"
     },
     "CompanyBillingDataDto": {
