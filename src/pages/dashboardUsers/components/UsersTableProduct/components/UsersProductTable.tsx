@@ -12,7 +12,7 @@ import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party, UserStatus } from '../../../../../model/Party';
 import { PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
-import { ProductRolesByProductRoleType, ProductRolesLists } from '../../../../../model/ProductRole';
+import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
 import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
@@ -123,17 +123,6 @@ export default function UsersProductTable({
 
   const rowHeight = isMobile ? 250 : 64;
   const headerHeight = isMobile ? 10 : 56;
-
-  const getTitleByUserRole = (
-    userRole: UserRole,
-    groupByProductRole: ProductRolesByProductRoleType
-  ): string | undefined => {
-    const matchingRole = Object.values(groupByProductRole).find(
-      (roleDetails) => roleDetails.selcRole === userRole
-    );
-
-    return matchingRole?.title ?? '';
-  };
 
   return (
     <Box
@@ -248,7 +237,7 @@ export default function UsersProductTable({
                             whiteSpace: 'pre-wrap',
                           }}
                         >
-                          {getTitleByUserRole(userRole, productRolesLists.groupByProductRole)}
+                          {transcodeProductRole2Title(userRole, productRolesLists)}
                         </Typography>
                       </Grid>
                       {userSuspended && (
