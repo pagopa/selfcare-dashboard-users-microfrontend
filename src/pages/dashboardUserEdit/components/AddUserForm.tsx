@@ -448,9 +448,9 @@ export default function AddUserForm({
                   (r) => productRoles?.groupByProductRole[r].title
                 )}`,
               }}
-              components={{ 1: <strong />, 3: <strong />, 8: <strong /> }}
+              components={{ 1: <strong />, 3: <strong />,4: <strong />, 8: <strong /> }}
             >
-              {`<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.`}
+              {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
             </Trans>
           ),
           confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),

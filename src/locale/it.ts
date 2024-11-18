@@ -241,7 +241,7 @@ export default {
         requestErrorTitle: 'Si è verificato un errore durante l’invio della richiesta',
         requestErrorMessage: 'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
         backHome: 'Torna alla home',
-        moreInformationOnRoles: 'Più informazioni sui ruoli',
+        moreInformationOnRoles: 'Vorrei più informazioni',
       },
       backButton: 'Indietro',
       continueButton: 'Continua',
@@ -267,8 +267,8 @@ export default {
         closeButton: 'Annulla',
       },
       addUserInBulkModal: {
-        title: 'Aggiungi utente in bulk',
-        message: '<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.',
+        title: 'Aggiungi per tutti gli enti aggregati',
+        message: '<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.',
         confirmButton: 'Aggiungi',
         closeButton: 'Annulla',
       }
