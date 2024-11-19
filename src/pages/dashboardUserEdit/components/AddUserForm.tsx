@@ -17,7 +17,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { theme } from '@pagopa/mui-italia';
+import { ButtonNaked, theme } from '@pagopa/mui-italia';
 import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
@@ -57,7 +57,13 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import { commonStyles, CustomTextField, requiredError, taxCodeRegexp } from '../helpers';
+import {
+  commonStyles,
+  CustomTextField,
+  getProductLink,
+  requiredError,
+  taxCodeRegexp,
+} from '../helpers';
 import { renderLabel } from './helpers';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
@@ -115,6 +121,7 @@ export default function AddUserForm({
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
+  const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
@@ -168,6 +175,7 @@ export default function AddUserForm({
   useEffect(() => {
     if (userProduct) {
       setCurrentSelectedProduct(userProduct);
+      setDynamicDocLink(getProductLink(userProduct?.id ?? '', party.institutionType));
     }
   }, [userProduct]);
 
@@ -436,11 +444,13 @@ export default function AddUserForm({
               i18nKey="userEdit.addForm.addUserInBulkModal.message"
               values={{
                 user: `${values.name} ${values.surname} `,
-                role: `${values.productRoles.map((r) => productRoles?.groupByProductRole[r].title)}`,
+                role: `${values.productRoles.map(
+                  (r) => productRoles?.groupByProductRole[r].title
+                )}`,
               }}
-              components={{ 1: <strong />, 3: <strong />, 8: <strong /> }}
+              components={{ 1: <strong />, 3: <strong />,4: <strong />, 8: <strong /> }}
             >
-              {`<1>{{user}}</1> verrà aggiunto come utente su tutti gli enti aggregati con il ruolo di <3>{{role}}</3>. In questo modo potrà gestire e operare su questo e su tutti gli enti che gestisci.`}
+              {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
             </Trans>
           ),
           confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),
@@ -711,9 +721,26 @@ export default function AddUserForm({
             title={t('userEdit.addForm.role.title')}
             subTitle={t('userEdit.addForm.role.subTitle')}
             mbTitle={2}
-            mbSubTitle={3}
+            mbSubTitle={1}
           />
-
+          {dynamicDocLink.length > 0 && (
+            <Grid item xs={12} justifyContent={'left'}>
+              <ButtonNaked
+                component="button"
+                color="primary"
+                sx={{
+                  fontWeight: 'fontWeightBold',
+                  fontSize: '14px',
+                  textDecoration: 'underline',
+                }}
+                onClick={() => {
+                  window.open(dynamicDocLink);
+                }}
+              >
+                {t('userEdit.addForm.role.documentationLink')}
+              </ButtonNaked>
+            </Grid>
+          )}
           {Object.values(productRoles.groupBySelcRole).map((roles) =>
             roles
               .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
@@ -751,7 +778,7 @@ export default function AddUserForm({
                           : undefined
                       }
                     />
-                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) || isAddInBulkEAFlow && (
+                    {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
                       <Tooltip
                         title={t('userEdit.addForm.role.adminTooltip')}
                         placement="top"

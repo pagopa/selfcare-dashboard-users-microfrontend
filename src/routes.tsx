@@ -1,7 +1,7 @@
 import { Redirect, useParams } from 'react-router';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { ENV } from './utils/env';
-import AddUsersProductPage from './pages/dashboardUserEdit/AddUsersProductPage';
+import AddUsersRoleOnProduct from './pages/dashboardUserEdit/AddUsersRoleOnProduct';
 import AddUsersPage from './pages/dashboardUserEdit/AddUsersPage';
 import EditUserRegistryPage from './pages/dashboardUserEdit/EditUserRegistryPage';
 import UserDetailPage from './pages/dashboardUserDetail/userDetailPage/UserDetailPage';
@@ -94,7 +94,7 @@ export const DASHBOARD_USERS_ROUTES = {
         exact: true,
         withSelectedProduct: true,
         withSelectedProductRoles: true,
-        component: AddUsersProductPage,
+        component: AddUsersRoleOnProduct,
       },
       PARTY_PRODUCT_USER_DETAIL: {
         path: `${ENV.ROUTES.PRODUCT_USERS}/:userId`,

@@ -6,6 +6,7 @@ import { Party } from '../../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
+import { ENV } from '../../../../utils/env';
 import UserProductRoles from '../../components/UserProductRoles';
 import UserProductActions from './../../components/UserProductActions';
 import UserProductGroups from './../../components/UserProductGroups';
@@ -32,7 +33,7 @@ export default function UserProductDetail({
   product,
   isProductDetailPage,
   handleOpenDelete,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
   const isPnpg = product.id.startsWith('prod-pn-pg');
@@ -125,7 +126,7 @@ export default function UserProductDetail({
               components={{
                 1: (
                   <Link
-                    href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita"
+                    href={ENV.DOCUMENTATION_LINKS.PDND}
                     color={'text.primary'}
                     sx={{ textDecorationColor: 'text.primary' }}
                     target="_blank"

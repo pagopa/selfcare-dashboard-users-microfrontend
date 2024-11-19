@@ -3,7 +3,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import withUserRegistry, { withUserRegistryProps } from '../../decorators/withUserRegistry';
 import { DASHBOARD_USERS_ROUTES } from '../../routes';
 
-function EditUserRegistryProductPage({ party, user }: withUserRegistryProps) {
+function EditUserRegistryProductPage({ party, user }: Readonly<withUserRegistryProps>) {
   return (
     <Redirect
       to={resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {

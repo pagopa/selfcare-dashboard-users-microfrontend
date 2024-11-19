@@ -1,6 +1,6 @@
 import { Button, Grid, Stack } from '@mui/material';
 
-import { IllusCompleted, IllusError } from '@pagopa/mui-italia';
+import { ButtonNaked, IllusCompleted, IllusError } from '@pagopa/mui-italia';
 import {
   EndingPage,
   TitleBox,
@@ -9,23 +9,27 @@ import {
 } from '@pagopa/selfcare-common-frontend/lib';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { InstitutionTypeEnum } from '../../api/generated/onboarding/OnboardingUserDto';
-import { RoleEnum, UserDto } from '../../api/generated/onboarding/UserDto';
-import { Party } from '../../model/Party';
-import { AsyncOnboardingUserData, TextTransform } from '../../model/PartyUser';
-import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../model/UserRegistry';
-import { onboardingAggregatorService, onboardingPostUser } from '../../services/onboardingService';
-import { LOADING_TASK_CHECK_MANAGER } from '../../utils/constants';
-import { ENV } from '../../utils/env';
-import { ConfimChangeLRModal } from './components/ConfimChangeLRModal';
-import { CustomTextField, requiredError, taxCodeRegexp } from './helpers';
+import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
+import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
+import { Party } from '../../../model/Party';
+import { AsyncOnboardingUserData, TextTransform } from '../../../model/PartyUser';
+import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../../model/UserRegistry';
+import {
+  checkManagerService,
+  onboardingAggregatorService,
+  onboardingPostUser,
+  validateLegalRepresentative,
+} from '../../../services/onboardingService';
+import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
+import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
+import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
 
 type LegalRepresentativeProps = {
   party: Party;
@@ -47,10 +51,10 @@ export default function AddLegalRepresentativeForm({
   isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
+  const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
-  const sessionToken = storageTokenOps.read();
 
   const baseTextFieldProps = (
     field: keyof AsyncOnboardingUserData,
@@ -128,48 +132,6 @@ export default function AddLegalRepresentativeForm({
     validate,
     onSubmit: (user) => {
       setLoading(true);
-      fetch(`${ENV.URL_API.API_ONBOARDING_V2}/v1/users/check-manager`, {
-        method: 'POST',
-        headers: {
-          accept: '',
-          'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${sessionToken}`,
-        },
-        body: JSON.stringify({
-          institutionType: party.institutionType as any,
-          origin: party?.origin,
-          originId: party?.originId,
-          productId,
-          subunitCode: party?.subunitCode,
-          taxCode: party.vatNumber,
-          users: [{ ...user, role: RoleEnum.MANAGER as RoleEnum }],
-        }),
-      })
-        .then(async (response) => {
-          if (!response.ok) {
-            void Promise.reject(response);
-          }
-          if (response.ok) {
-            const responseJson = await response.json();
-            setIsChangedManager(!responseJson?.result);
-            if (responseJson?.result) {
-              validateUser(user);
-            }
-          }
-        })
-        .catch((error) => {
-          addError({
-            id: `VALIDATE_USER_ERROR`,
-            blocking: false,
-            error,
-            techDescription: `Something gone wrong whilev calling check-manager`,
-            toNotify: true,
-          });
-        })
-        .finally(() => setLoading(false));
-
-      /*
       checkManagerService({
         institutionType: party.institutionType as any,
         origin: party?.origin,
@@ -196,7 +158,6 @@ export default function AddLegalRepresentativeForm({
           });
         })
         .finally(() => setLoading(false));
-        */
     },
   });
 
@@ -217,37 +178,15 @@ export default function AddLegalRepresentativeForm({
   };
 
   const validateUser = (user: AsyncOnboardingUserData) => {
-    // TODO replace fetch api with  validateLegalRepresentative
-    /*
-     void validateLegalRepresentative({
-        name: user.name,
-        surname: user.surname,
-        taxCode: user.taxCode,
-      })
-      */
-    fetch(`${ENV.URL_API.API_ONBOARDING_V2}/v1/users/validate`, {
-      method: 'POST',
-      headers: {
-        accept: '',
-        'accept-language': 'it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Content-Type': 'application/json',
-        authorization: `Bearer ${sessionToken}`,
-      },
-      body: JSON.stringify({
-        name: user.name,
-        surname: user.surname,
-        taxCode: user.taxCode,
-      }),
+    validateLegalRepresentative({
+      name: user.name,
+      surname: user.surname,
+      taxCode: user.taxCode,
     })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((body) => Promise.reject({ status: response.status, body }));
-        }
-        return sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]);
-      })
+      .then(() => sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]))
       .catch((error) => {
-        if (error && error.status === 409) {
-          const invalidParams = error.body?.invalidParams;
+        if (error && error.httpStatus === 409) {
+          const invalidParams = error.httpBody?.invalidParams;
 
           if (invalidParams) {
             invalidParams.forEach((param: { name: string; reason: string }) => {
@@ -345,9 +284,13 @@ export default function AddLegalRepresentativeForm({
     },
   };
 
+  useEffect(() => {
+    setDynamicDocLink(getProductLink(productId ?? '', party.institutionType));
+  }, [productId]);
+
   return (
     <Grid>
-      <ConfimChangeLRModal
+      <ConfirmChangeLRModal
         open={isChangedManager}
         onConfirm={() => {
           setIsChangedManager(false);
@@ -379,9 +322,27 @@ export default function AddLegalRepresentativeForm({
                   />
                 }
                 mbTitle={2}
-                mbSubTitle={5}
+                mbSubTitle={1}
               />
             </Grid>
+            {dynamicDocLink.length > 0 && (
+              <Grid item xs={12} justifyContent={'left'} mb={3}>
+                <ButtonNaked
+                  component="button"
+                  color="primary"
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: '14px',
+                    textDecoration: 'underline',
+                  }}
+                  onClick={() => {
+                    window.open(dynamicDocLink);
+                  }}
+                >
+                  {t('userEdit.addForm.role.documentationLink')}
+                </ButtonNaked>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
