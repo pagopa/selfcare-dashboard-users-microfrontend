@@ -15,6 +15,8 @@ import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { uniqueId } from 'lodash';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
@@ -52,6 +54,7 @@ export default function AddLegalRepresentativeForm({
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
+  const requestId = uniqueId();
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
@@ -144,6 +147,14 @@ export default function AddLegalRepresentativeForm({
         .then((data) => {
           if (data) {
             setIsChangedManager(data.right);
+            if (data.right) {
+              trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
+                request_id: requestId,
+                party_id: party.partyId,
+                product_id: productId,
+                from: 'dashboard',
+              });
+            }
             validateUser(user);
           }
         })
@@ -223,6 +234,14 @@ export default function AddLegalRepresentativeForm({
     submitApiToCall
       .then(() => {
         setOutcome(outcomeContent.success);
+        if (!isAddInBulkEAFlow) {
+          trackEvent('ONBOARDING_USER_SUCCESS', {
+            request_id: requestId,
+            party_id: party.partyId,
+            product_id: productId,
+            from: 'dashboard',
+          });
+        }
       })
       .catch((_err) => {
         setOutcome(outcomeContent.error);
