@@ -46,7 +46,6 @@ const onRedirectToLogin = () =>
   );
 
 export const DashboardApi = {
-
   getPartyUser: async (
     institutionId: string,
     userId: string
@@ -76,6 +75,18 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  getLegalRepresentative: async (
+    institutionId: string,
+    productId: string,
+    roles: string
+  ): Promise<Array<ProductUserResource>> => {
+    const result = await apiClient.v2GetUsersUsingGET({
+      institutionId,
+      productId,
+      roles,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
   savePartyUser: async (
     institutionId: string,
     productId: string,
@@ -184,7 +195,6 @@ export const DashboardApi = {
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },
-
 
   fetchUserGroups: async (
     institutionId: string,

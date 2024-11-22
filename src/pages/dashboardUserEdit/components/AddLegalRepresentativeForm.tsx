@@ -7,16 +7,16 @@ import {
   useErrorDispatcher,
   useLoading,
 } from '@pagopa/selfcare-common-frontend/lib';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
+import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { uniqueId } from 'lodash';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
@@ -28,6 +28,7 @@ import {
   onboardingPostUser,
   validateLegalRepresentative,
 } from '../../../services/onboardingService';
+import { getLegalRepresentativeService } from '../../../services/usersService';
 import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
@@ -58,6 +59,17 @@ export default function AddLegalRepresentativeForm({
   const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
   const addError = useErrorDispatcher();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    // TODO remove console .log() with prefill task
+    getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
+      .then((r) => {
+        console.log('getLegalRepresentativeService', r);
+      })
+      .catch((e) => {
+        console.log('getLegalRepresentativeService', e);
+      });
+  }, [productId, party]);
 
   const baseTextFieldProps = (
     field: keyof AsyncOnboardingUserData,

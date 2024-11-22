@@ -5,6 +5,7 @@ import {
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
+import { RoleEnum } from '../../api/generated/onboarding/UserDto';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import {
@@ -20,6 +21,7 @@ import {
   addUserProductRoles,
   deletePartyUser,
   fetchPartyProductUsers,
+  getLegalRepresentativeService,
   fetchPartyUser,
   fetchUserRegistryByFiscalCode,
   savePartyUser,
@@ -31,6 +33,7 @@ jest.mock('../../api/DashboardApiClient');
 beforeEach(() => {
   jest.spyOn(DashboardApi, 'getPartyUser');
   jest.spyOn(DashboardApi, 'getPartyProductUsers');
+  jest.spyOn(DashboardApi, 'getLegalRepresentative');
   jest.spyOn(DashboardApi, 'savePartyUser');
   jest.spyOn(DashboardApi, 'suspendPartyRelation');
   jest.spyOn(DashboardApi, 'activatePartyRelation');
@@ -84,6 +87,21 @@ test('Test fetchPartyProductUser', async () => {
     mockedParties[0].partyId,
     mockedPartyProducts[0].id,
     undefined
+  );
+});
+
+test('Test getLegalRepresentative', async () => {
+  await getLegalRepresentativeService(
+    mockedParties[0],
+    mockedPartyProducts[0].id,
+    RoleEnum.MANAGER
+  );
+
+  expect(DashboardApi.getLegalRepresentative).toHaveBeenCalledTimes(1);
+  expect(DashboardApi.getLegalRepresentative).toHaveBeenCalledWith(
+    mockedParties[0].partyId,
+    mockedPartyProducts[0].id,
+    RoleEnum.MANAGER
   );
 });
 
