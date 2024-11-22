@@ -66,8 +66,8 @@ export default function AddLegalRepresentativeForm({
       .then((r) => {
         console.log('getLegalRepresentativeService', r);
       })
-      .catch((e) => {
-        console.log('getLegalRepresentativeService', e);
+      .catch(() => {
+        
       });
   }, [productId, party]);
 
