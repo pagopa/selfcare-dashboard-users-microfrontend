@@ -390,72 +390,6 @@
         } ]
       }
     },
-    "/v1/institutions/{institutionId}/geographicTaxonomy" : {
-      "put" : {
-        "tags" : [ "institutions" ],
-        "summary" : "updateInstitutionGeographicTaxonomyDeprecated",
-        "description" : "Service to update the geographic taxonomy of an onboarded institution",
-        "operationId" : "updateInstitutionGeographicTaxonomyDeprecatedUsingPUT",
-        "parameters" : [ {
-          "name" : "institutionId",
-          "in" : "path",
-          "description" : "Institution's unique internal identifier",
-          "required" : true,
-          "style" : "simple",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/GeographicTaxonomyListDto"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Unauthorized",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
-        "deprecated" : true,
-        "security" : [ {
-          "bearerAuth" : [ "global" ]
-        } ]
-      }
-    },
     "/v1/institutions/{institutionId}/institutions" : {
       "get" : {
         "tags" : [ "institutions" ],
@@ -2532,6 +2466,16 @@
           "schema" : {
             "type" : "string"
           }
+        }, {
+          "name" : "roles",
+          "in" : "query",
+          "description" : "roles",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -4059,9 +4003,18 @@
         "title" : "ProductUserResource",
         "type" : "object",
         "properties" : {
+          "createdAt" : {
+            "type" : "string",
+            "description" : "User's creation date associated with a product",
+            "format" : "date-time"
+          },
           "email" : {
             "type" : "string",
             "description" : "User's personal email"
+          },
+          "fiscalCode" : {
+            "type" : "string",
+            "description" : "User's fiscal code"
           },
           "id" : {
             "type" : "string",

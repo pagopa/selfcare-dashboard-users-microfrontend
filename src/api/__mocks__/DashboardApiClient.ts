@@ -129,6 +129,53 @@ export const mockedProductUserResource: Array<ProductUserResource> = [
   },
 ];
 
+export const mockedLegalRepresentativeResource: Array<ProductUserResource> = [
+  {
+    createdAt: new Date('2022-01-01'),
+    email: 'string',
+    fiscalCode: 'string',
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    name: 'string',
+    product: {
+      id: 'string',
+      roleInfos: [
+        {
+          relationshipId: 'string',
+          role: 'string',
+          selcRole: SelcRoleEnum.ADMIN,
+          status: 'string',
+        },
+      ],
+      title: 'string',
+    },
+    role: RoleEnum.ADMIN,
+    status: 'string',
+    surname: 'string',
+  },
+  {
+    createdAt: new Date('2022-03-03'),
+    email: 'string',
+    fiscalCode: 'string',
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    name: 'string',
+    product: {
+      id: 'string',
+      roleInfos: [
+        {
+          relationshipId: 'string',
+          role: 'string',
+          selcRole: SelcRoleEnum.ADMIN,
+          status: 'string',
+        },
+      ],
+      title: 'string',
+    },
+    role: RoleEnum.ADMIN,
+    status: 'string',
+    surname: 'string',
+  },
+];
+
 export const mockedUserResource: UserResource = {
   id: 'id',
   fiscalCode: 'AAAAAA11A11A123K',
@@ -172,8 +219,13 @@ export const DashboardApi = {
     _institutionId: string,
     _productId: string,
     _role?: string
-  ): Promise<Array<ProductUserResource>> =>
-    Promise.resolve(mockedProductUserResource),
+  ): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource),
+
+  getLegalRepresentative: async (
+    _institutionId: string,
+    _productId?: string,
+    _roles?: string
+  ): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource),
 
   savePartyUser: async (
     _institutionId: string,
@@ -204,8 +256,7 @@ export const DashboardApi = {
     _productId: string,
     _institutionId: string,
     _pageRequest: PageRequest
-  ): Promise<Array<UserGroupPlainResource>> =>
-    Promise.resolve(userGroupPlainResourceArray),
+  ): Promise<Array<UserGroupPlainResource>> => Promise.resolve(userGroupPlainResourceArray),
 
   addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> =>
     new Promise((resolve) => resolve()),
