@@ -17,6 +17,7 @@ import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductUserResource } from '../../../api/generated/b4f-dashboard/ProductUserResource';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
@@ -68,11 +69,26 @@ export default function AddLegalRepresentativeForm({
     setLoadingGetLegalRepresentative(true);
     getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
       .then(async (r) => {
+        if (r.length === 0) {
+          return;
+        }
+
+        const newestManager = r.reduce(
+          (newest: ProductUserResource, current: ProductUserResource) => {
+            if (!newest.createdAt || !current.createdAt) {
+              return newest;
+            }
+            return new Date(current.createdAt).getTime() > new Date(newest.createdAt).getTime()
+              ? current
+              : newest;
+          },
+          r[0] // Initial value is the first item in the array
+        );
         await formik.setValues({
-          name: r.name ?? '',
-          surname: r.surname ?? '',
-          taxCode: r.fiscalCode ?? '',
-          email: r.email ?? '',
+          name: newestManager.name ?? '',
+          surname: newestManager.surname ?? '',
+          taxCode: newestManager.fiscalCode ?? '',
+          email: newestManager.email ?? '',
           role: RoleEnum.MANAGER,
         });
       })
