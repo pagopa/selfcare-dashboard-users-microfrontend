@@ -17,6 +17,7 @@ import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductUserResource } from '../../../api/generated/b4f-dashboard/ProductUserResource';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
@@ -29,7 +30,10 @@ import {
   validateLegalRepresentative,
 } from '../../../services/onboardingService';
 import { getLegalRepresentativeService } from '../../../services/usersService';
-import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
+import {
+  LOADING_TASK_CHECK_MANAGER,
+  LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
+} from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
@@ -56,19 +60,47 @@ export default function AddLegalRepresentativeForm({
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
   const requestId = uniqueId();
-  const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
-  const addError = useErrorDispatcher();
   const { t } = useTranslation();
+  const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
+  const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
+  const addError = useErrorDispatcher();
 
   useEffect(() => {
-    // TODO remove console .log() with prefill task
+    setLoadingGetLegalRepresentative(true);
     getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
-      .then((r) => {
-        console.log('getLegalRepresentativeService', r);
+      .then(async (r) => {
+        const newestManager = r.reduce(
+          (newest: ProductUserResource, current: ProductUserResource) => {
+            if (!newest) {
+              return current;
+            }
+            if (!newest.createdAt || !current.createdAt) {
+              return newest;
+            }
+            return new Date(current.createdAt).getTime() > new Date(newest.createdAt).getTime()
+              ? current
+              : newest;
+          }
+        );
+
+        await formik.setValues({
+          name: newestManager.name ?? '',
+          surname: newestManager.surname ?? '',
+          taxCode: newestManager.fiscalCode ?? '',
+          email: newestManager.email ?? '',
+          role: RoleEnum.MANAGER,
+        });
       })
-      .catch(() => {
-        
-      });
+      .catch((error) => {
+        addError({
+          id: `GET_LEGAL_REPRESENTATIVE_ERROR`,
+          blocking: false,
+          error,
+          techDescription: `Something gone wrong while calling check-manager`,
+          toNotify: true,
+        });
+      })
+      .finally(() => setLoadingGetLegalRepresentative(false));
   }, [productId, party]);
 
   const baseTextFieldProps = (
@@ -146,7 +178,7 @@ export default function AddLegalRepresentativeForm({
     initialValues: initialFormData,
     validate,
     onSubmit: (user) => {
-      setLoading(true);
+      setLoadingCheckManager(true);
       checkManagerService({
         institutionType: party.institutionType as any,
         origin: party?.origin,
@@ -180,7 +212,7 @@ export default function AddLegalRepresentativeForm({
             toNotify: true,
           });
         })
-        .finally(() => setLoading(false));
+        .finally(() => setLoadingCheckManager(false));
     },
   });
 

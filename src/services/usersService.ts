@@ -75,15 +75,13 @@ export const fetchPartyProductUsers = (
 export const getLegalRepresentativeService = (
   party: Party,
   productId: string,
-  roles: string,
-): Promise<ProductUserResource> => {
+  roles: string
+): Promise<Array<ProductUserResource>> => {
   /* istanbul ignore if */
   if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
     return getLegalRepresentativeServiceMocked(party.partyId, productId, roles);
   } else {
-    return DashboardApi.getLegalRepresentative(party.partyId, productId, roles).then((r) =>
-      userResource2UserRegistry(r)
-    );
+    return DashboardApi.getLegalRepresentative(party.partyId, productId, roles).then((r) => r);
   }
 };
 
