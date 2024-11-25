@@ -69,21 +69,20 @@ export default function AddLegalRepresentativeForm({
     setLoadingGetLegalRepresentative(true);
     getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
       .then(async (r) => {
-        if (r.length === 0) {
-          return;
-        }
-
         const newestManager = r.reduce(
           (newest: ProductUserResource, current: ProductUserResource) => {
+            if (!newest) {
+              return current;
+            }
             if (!newest.createdAt || !current.createdAt) {
               return newest;
             }
             return new Date(current.createdAt).getTime() > new Date(newest.createdAt).getTime()
               ? current
               : newest;
-          },
-          r[0] // Initial value is the first item in the array
+          }
         );
+
         await formik.setValues({
           name: newestManager.name ?? '',
           surname: newestManager.surname ?? '',
@@ -97,7 +96,7 @@ export default function AddLegalRepresentativeForm({
           id: `GET_LEGAL_REPRESENTATIVE_ERROR`,
           blocking: false,
           error,
-          techDescription: `Something gone wrong whilev calling check-manager`,
+          techDescription: `Something gone wrong while calling check-manager`,
           toNotify: true,
         });
       })
