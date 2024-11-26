@@ -4,7 +4,7 @@ import '../../locale';
 import { renderComponent } from './RenderComponents/RenderComponentUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
-jest.mock('../../services/usersService');
+jest.mock('i18next-browser-languagedetector');
 
 jest.setTimeout(100000);
 

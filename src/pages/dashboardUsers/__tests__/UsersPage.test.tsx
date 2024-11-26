@@ -4,6 +4,7 @@ import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
+jest.mock('i18next-browser-languagedetector');
 jest.mock('../../../services/usersService');
 
 jest.mock('../../../hooks/useIsMobile', () => ({

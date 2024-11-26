@@ -14,6 +14,7 @@ import { createStore, store } from '../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 
+jest.mock('i18next-browser-languagedetector');
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
