@@ -234,7 +234,7 @@ export default {
         institutionalEmail: 'E-mail istituzionale',
         changeManagerModalTitle: 'Stai aggiungendo un nuovo Legale Rappresentante',
         changeManagerModalMessage:
-          'I dati del Legale Rappresentante inseriti sono diversi da quelli indicati in precedenza. Vuoi continuare?',
+          'Stai per sostituire l’attuale Legale Rappresentante, {{managerFullName}}, con una nuova persona. <1 />Se procedi, l’attuale Legale rappresentante potrà continuare a operare come Amministratore. <3 /> <4 />Vuoi continuare?',
         sendRequest: 'Invia richiesta',
         requestOkTitle: 'Hai inviato la richiesta',
         requestOkMessage: 'Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.',

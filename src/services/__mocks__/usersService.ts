@@ -7,6 +7,8 @@ import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageRes
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
+import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
+import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
@@ -1152,6 +1154,12 @@ export const fetchPartyProductUsers = (
     })
   );
 
+export const getLegalRepresentativeServiceMocked = (
+  _institutionId: string,
+  _productId: string,
+  _roles: string
+): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource);
+
 export const savePartyUser = (
   _party: Party,
   product: Product,
@@ -1325,8 +1333,8 @@ export const fetchUserGroups = (
   return new Promise((resolve) => resolve(userGroups));
 };
 
-export const checkManagerMocked = (_user: OnboardingUserDto): Promise<void> =>
-  new Promise((resolve) => resolve());
+export const checkManagerMocked = (_user: OnboardingUserDto): Promise<any> =>
+  new Promise((resolve) => resolve({ result: false }));
 
 export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
   new Promise((resolve) => resolve());
