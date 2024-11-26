@@ -1333,8 +1333,8 @@ export const fetchUserGroups = (
   return new Promise((resolve) => resolve(userGroups));
 };
 
-export const checkManagerMocked = (_user: OnboardingUserDto): Promise<void> =>
-  new Promise((resolve) => resolve());
+export const checkManagerMocked = (_user: OnboardingUserDto): Promise<any> =>
+  new Promise((resolve) => resolve({ result: false }));
 
 export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
   new Promise((resolve) => resolve());

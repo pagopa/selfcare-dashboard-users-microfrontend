@@ -360,6 +360,7 @@ export default function AddLegalRepresentativeForm({
           validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
+        managerFullName={`${formik.values.name} ${formik.values.surname}`}
       />
       <Grid>
         <form onSubmit={formik.handleSubmit}>
@@ -372,40 +373,42 @@ export default function AddLegalRepresentativeForm({
               marginBottom: 5,
             }}
           >
-            <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body2"
-                title={t('userEdit.addForm.addLegalRepresentative.title')}
-                subTitle={
-                  <Trans
-                    i18nKey="userEdit.addForm.addLegalRepresentative.subTitle"
-                    values={{ productName }}
-                    components={{ strong: <strong /> }}
-                  />
-                }
-                mbTitle={2}
-                mbSubTitle={1}
-              />
-            </Grid>
-            {dynamicDocLink.length > 0 && (
-              <Grid item xs={12} justifyContent={'left'} mb={3}>
-                <ButtonNaked
-                  component="button"
-                  color="primary"
-                  sx={{
-                    fontWeight: 'fontWeightBold',
-                    fontSize: '14px',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={() => {
-                    window.open(dynamicDocLink);
-                  }}
-                >
-                  {t('userEdit.addForm.role.documentationLink')}
-                </ButtonNaked>
+            <Grid item mb={3}>
+              <Grid item xs={12}>
+                <TitleBox
+                  variantTitle="h6"
+                  variantSubTitle="body2"
+                  title={t('userEdit.addForm.addLegalRepresentative.title')}
+                  subTitle={
+                    <Trans
+                      i18nKey="userEdit.addForm.addLegalRepresentative.subTitle"
+                      values={{ productName }}
+                      components={{ strong: <strong /> }}
+                    />
+                  }
+                  mbTitle={2}
+                  mbSubTitle={1}
+                />
               </Grid>
-            )}
+              {dynamicDocLink.length > 0 && (
+                <Grid item xs={12} justifyContent={'left'}>
+                  <ButtonNaked
+                    component="button"
+                    color="primary"
+                    sx={{
+                      fontWeight: 'fontWeightBold',
+                      fontSize: '14px',
+                      textDecoration: 'underline',
+                    }}
+                    onClick={() => {
+                      window.open(dynamicDocLink);
+                    }}
+                  >
+                    {t('userEdit.addForm.role.documentationLink')}
+                  </ButtonNaked>
+                </Grid>
+              )}
+            </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>
