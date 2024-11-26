@@ -190,8 +190,8 @@ export default function AddLegalRepresentativeForm({
       })
         .then((data) => {
           if (data) {
-            setIsChangedManager(data.right);
-            if (data.right) {
+            setIsChangedManager(!data.result);
+            if (!data.result) {
               trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
                 request_id: requestId,
                 party_id: party.partyId,
@@ -199,7 +199,9 @@ export default function AddLegalRepresentativeForm({
                 from: 'dashboard',
               });
             }
-            validateUser(user);
+            if (data.result) {
+              validateUser(user);
+            }
           }
         })
         .catch((error) => {
