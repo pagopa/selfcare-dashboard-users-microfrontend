@@ -199,7 +199,9 @@ export default function AddLegalRepresentativeForm({
                 from: 'dashboard',
               });
             }
-            validateUser(user);
+            if (data.result) {
+              validateUser(user);
+            }
           }
         })
         .catch((error) => {
