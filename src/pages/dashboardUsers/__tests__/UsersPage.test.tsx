@@ -2,22 +2,24 @@ import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
+import { useIsMobile } from '../../../hooks/useIsMobile';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
+
+jest.setTimeout(100000);
 
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
-jest.mock('i18next-browser-languagedetector');
 jest.mock('../../../services/usersService');
-
 jest.mock('../../../hooks/useIsMobile', () => ({
   useIsMobile: jest.fn(),
 }));
 
-import { useIsMobile } from '../../../hooks/useIsMobile';
-
-jest.setTimeout(100000);
-
 beforeEach(() => {
   jest.clearAllMocks();
   cleanup();
+});
+
+beforeAll(() => {
+  i18n.changeLanguage('it');
 });
 
 const renderApp = async (partyId: string = 'onboarded') => {

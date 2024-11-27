@@ -10,8 +10,8 @@ import {
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 
-jest.mock('i18next-browser-languagedetector');
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 jest.mock('../../../services/groupsService');
@@ -21,6 +21,10 @@ jest.setTimeout(15000);
 beforeEach(() => {
   jest.clearAllMocks();
   cleanup();
+});
+
+beforeAll(() => {
+  i18n.changeLanguage('it');
 });
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
