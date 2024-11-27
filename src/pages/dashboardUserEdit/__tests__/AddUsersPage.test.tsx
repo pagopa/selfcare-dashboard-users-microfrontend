@@ -12,12 +12,18 @@ import {
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
 import { createStore, store } from '../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
 
+jest.setTimeout(6000);
+
+jest.mock('i18next-browser-languagedetector');
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
-jest.setTimeout(6000);
+beforeAll(() => {
+  i18n.changeLanguage('it');
+});
 
 const fieldsValue = {
   taxCode: 'RSSFNC80A01A794Q',
