@@ -1,9 +1,9 @@
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
-import { useIsMobile } from '../../../hooks/useIsMobile';
-import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 
 jest.setTimeout(100000);
 
@@ -46,6 +46,13 @@ test('test add new user', async () => {
   fireEvent.click(addNewUserButton);
   await waitFor(() => expect(history.location.pathname).toBe('/dashboard/onboarded/users/add'));
   screen.getByRole('heading', { name: 'Aggiungi un nuovo utente' });
+});
+
+test('add new number', async () => {
+  await renderApp();
+  const addNewUserButton = screen.getByRole('button', { name: (name) => name === 'Aggiungi' });
+  expect(addNewUserButton).toBeEnabled();
+  fireEvent.click(addNewUserButton);
 });
 
 test('test filter users from role', async () => {
