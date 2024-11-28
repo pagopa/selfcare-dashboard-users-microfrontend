@@ -11,20 +11,20 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNot
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { storageUserOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
-import { isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -72,9 +72,20 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
   const history = useHistory();
+  const location = useLocation();
+  const mobilePhoneRef = useRef<HTMLInputElement>(null);
+  const queryParams = new URLSearchParams(location.search);
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
+  const activeField = queryParams.get('activeField');
+  const userId = storageUserOps.read()?.uid ?? '';
+
+  useEffect(() => {
+    if (activeField === 'mobilePhone' && mobilePhoneRef.current) {
+      mobilePhoneRef.current.focus();
+    }
+  }, [activeField]);
 
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
@@ -99,9 +110,6 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           : values.email &&
             values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
-          : undefined,
-        mobilePhone: !isValidPhone(values.mobilePhone)
-          ? t('userEdit.editRegistryForm.errors.invalidMobilePhone')
           : undefined,
       }).filter(([_key, value]) => value)
     );
@@ -281,27 +289,30 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             )}
           />
         </Grid>
-        <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
-          <CustomTextField
-            size="small"
-            {...baseTextFieldProps(
-              'mobilePhone',
-              t('userEdit.editRegistryForm.mobilePhone.label'),
-              '',
-              'lowercase'
-            )}
-          />
-          <Typography
-            component={'span'}
-            sx={{
-              fontSize: '12px!important',
-              fontWeight: 'fontWeightMedium',
-              color: theme.palette.text.secondary,
-            }}
-          >
-            {t('userEdit.editRegistryForm.mobilePhone.description')}
-          </Typography>
-        </Grid>
+        {user.id === userId && (
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              size="small"
+              inputRef={mobilePhoneRef}
+              {...baseTextFieldProps(
+                'mobilePhone',
+                t('userEdit.editRegistryForm.mobilePhone.label'),
+                '',
+                'lowercase'
+              )}
+            />
+            <Typography
+              component={'span'}
+              sx={{
+                fontSize: '12px!important',
+                fontWeight: 'fontWeightMedium',
+                color: theme.palette.text.secondary,
+              }}
+            >
+              {t('userEdit.editRegistryForm.mobilePhone.description')}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
 
       <Stack direction="row" justifyContent="space-between" mt={5}>
