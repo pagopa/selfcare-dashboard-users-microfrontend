@@ -1,12 +1,13 @@
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
+import { Alert, Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import { CustomAlert, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { storageUserOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -176,8 +177,35 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <CustomAlert sx={{ mt: 5 }} />
+          <Alert
+            sx={{ mt: 5 }}
+            severity="info"
+            variant="standard"
+            action={
+              <ButtonNaked
+                component={Button}
+                onClick={() =>
+                  history.push(
+                    resolvePathVariables(
+                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path,
+                      {
+                        partyId: party.partyId,
+                        userId: storageUserOps.read()?.uid ?? '',
+                      }
+                    ) + '?activeField=mobilePhone'
+                  )
+                }
+                color="primary"
+                sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightBold' }}
+              >
+                {t('usersPage.customAlert.button')}
+              </ButtonNaked>
+            }
+          >
+            {t('usersPage.customAlert.message')}
+          </Alert>
         </Grid>
+
         <MobileFilter
           loading={loading}
           activeProducts={activeProductsWithReadPermission}
