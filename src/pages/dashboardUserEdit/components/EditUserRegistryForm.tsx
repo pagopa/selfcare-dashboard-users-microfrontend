@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, styled, TextField } from '@mui/material';
+import { Button, Grid, Stack, styled, TextField, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
@@ -24,6 +24,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -99,6 +100,9 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
+        mobilePhone: !isValidPhone(values.mobilePhone)
+          ? t('userEdit.editRegistryForm.errors.invalidMobilePhone')
+          : undefined,
       }).filter(([_key, value]) => value)
     );
 
@@ -111,6 +115,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
         ...values,
         taxCode: values.taxCode.toUpperCase(),
         email: values.email.toLowerCase() as EmailString,
+        mobilePhone: values.mobilePhone,
       })
         .then(() => {
           unregisterUnloadEvent();
@@ -198,15 +203,14 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           paddingRight: 3,
         }}
       >
-
         <TitleBox
-            variantTitle="h6"
-            variantSubTitle="body1"
-            title={t('userEdit.editRegistryForm.userData')}
-            subTitle={t('userEdit.editRegistryForm.subTitle')}
-            mbTitle={2}
-            mbSubTitle={3}
-          />
+          variantTitle="h6"
+          variantSubTitle="body1"
+          title={t('userEdit.editRegistryForm.userData')}
+          subTitle={t('userEdit.editRegistryForm.subTitle')}
+          mbTitle={2}
+          mbSubTitle={3}
+        />
         <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
           <CustomTextField
             size="small"
@@ -276,6 +280,27 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'lowercase'
             )}
           />
+        </Grid>
+        <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+          <CustomTextField
+            size="small"
+            {...baseTextFieldProps(
+              'mobilePhone',
+              t('userEdit.editRegistryForm.mobilePhone.label'),
+              '',
+              'lowercase'
+            )}
+          />
+          <Typography
+            component={'span'}
+            sx={{
+              fontSize: '12px!important',
+              fontWeight: 'fontWeightMedium',
+              color: theme.palette.text.secondary,
+            }}
+          >
+            {t('userEdit.editRegistryForm.mobilePhone.description')}
+          </Typography>
         </Grid>
       </Grid>
 

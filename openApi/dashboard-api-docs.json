@@ -3667,6 +3667,10 @@
             "description" : "User's unique identifier",
             "format" : "uuid"
           },
+          "mobilePhone" : {
+            "type" : "string",
+            "description" : "User's personal phone Number"
+          },
           "name" : {
             "type" : "string",
             "description" : "User's name"
@@ -3938,7 +3942,7 @@
           },
           "selcRole" : {
             "type" : "string",
-            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+            "description" : "User's Selfcare role, available value: [ADMIN, ADMIN_EA, LIMITED]",
             "enum" : [ "ADMIN", "ADMIN_EA", "LIMITED" ]
           },
           "status" : {
@@ -4031,7 +4035,7 @@
           },
           "role" : {
             "type" : "string",
-            "description" : "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+            "description" : "User's Selfcare role, available value: [ADMIN, ADMIN_EA, LIMITED]",
             "enum" : [ "ADMIN", "ADMIN_EA", "LIMITED" ]
           },
           "status" : {
@@ -4277,6 +4281,11 @@
             "description" : "User's institutional email",
             "format" : "email",
             "example" : "email@example.com"
+          },
+          "mobilePhone" : {
+            "pattern" : "^\\+?[0-9]{9,15}$",
+            "type" : "string",
+            "description" : "User's institutional phone number"
           },
           "name" : {
             "type" : "string",

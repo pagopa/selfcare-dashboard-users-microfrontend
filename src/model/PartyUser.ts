@@ -15,6 +15,7 @@ export type BasePartyUser = {
   userRole: UserRole;
   status: UserStatus;
   isCurrentUser: boolean;
+  mobilePhone?: string;
 };
 
 export type PartyProductUser = BasePartyUser & {
@@ -76,6 +77,7 @@ export type PartyUserOnEdit = {
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;
+  mobilePhone?: string;
 };
 
 export const institutionUserResource2PartyUser = (

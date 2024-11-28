@@ -237,9 +237,11 @@ export default {
           'Stai per sostituire l’attuale Legale Rappresentante, {{managerFullName}}, con una nuova persona. <1 />Se procedi, l’attuale Legale rappresentante potrà continuare a operare come Amministratore. <3 /> <4 />Vuoi continuare?',
         sendRequest: 'Invia richiesta',
         requestOkTitle: 'Hai inviato la richiesta',
-        requestOkMessage: 'Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.',
+        requestOkMessage:
+          'Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.',
         requestErrorTitle: 'Si è verificato un errore durante l’invio della richiesta',
-        requestErrorMessage: 'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
+        requestErrorMessage:
+          'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
         backHome: 'Torna alla home',
         moreInformationOnRoles: 'Vorrei più informazioni',
       },
@@ -268,10 +270,11 @@ export default {
       },
       addUserInBulkModal: {
         title: 'Aggiungi per tutti gli enti aggregati',
-        message: '<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.',
+        message:
+          '<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.',
         confirmButton: 'Aggiungi',
         closeButton: 'Annulla',
-      }
+      },
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
@@ -292,12 +295,17 @@ export default {
       confirmInstitutionalEmail: {
         label: 'Conferma e-mail',
       },
+      mobilePhone: {
+        label: 'Numero di telefono (facoltativo)',
+        description: 'Solo per gli Amministratori, inserisci il numero di telefono di lavoro',
+      },
       backButton: 'Indietro',
       confirmButton: 'Continua',
       errors: {
         userNotFind: "Impossibile individuare l'utente desiderato",
         invalidEmail: 'L’indirizzo email non è valido',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
+        invalidMobilePhone: 'Il numero di telefono inserito non è valido ',
       },
       editUserSuccess: 'Profilo modificato correttamente',
       editUserError: 'Si è verificato un errore durante la modifica del profilo. Riprova.',
