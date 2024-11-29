@@ -104,6 +104,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     name: 'loggedName',
     surname: 'loggedSurname',
     email: 'loggedName.b@email.it',
+    mobilePhone: '1234567890',
     userRole: 'ADMIN',
     status: 'ACTIVE',
     products: [

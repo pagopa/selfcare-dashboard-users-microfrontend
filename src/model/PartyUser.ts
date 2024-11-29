@@ -111,6 +111,7 @@ export const institutionUserResource2PartyUserDetail = (
   name: resource.name ?? '',
   surname: resource.surname ?? '',
   email: resource?.email as EmailString,
+  mobilePhone: resource.mobilePhone ?? '',
   userRole: resource.role as UserRole,
   products: resource.products
     ? ([] as Array<PartyUserProduct>).concat(
