@@ -100,7 +100,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
   // logged user
   {
     id: '0',
-    taxCode: 'AAAAAA11A11A124A',
+    taxCode: 'LGGLGD84A01F205X',
     name: 'loggedName',
     surname: 'loggedSurname',
     email: 'loggedName.b@email.it',

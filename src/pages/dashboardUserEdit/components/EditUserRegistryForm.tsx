@@ -25,6 +25,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -111,6 +112,10 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
+        mobilePhone:
+          !values.mobilePhone || isValidPhone(values.mobilePhone)
+            ? undefined
+            : t('userEdit.editRegistryForm.errors.invalidMobilePhone'),
       }).filter(([_key, value]) => value)
     );
 
@@ -123,7 +128,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
         ...values,
         taxCode: values.taxCode.toUpperCase(),
         email: values.email.toLowerCase() as EmailString,
-        mobilePhone: values.mobilePhone,
+        mobilePhone: values.mobilePhone ? values.mobilePhone : undefined,
       })
         .then(() => {
           unregisterUnloadEvent();
@@ -166,6 +171,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
     field: keyof PartyUserOnEdit,
     label: string,
     placeholder: string,
+    required: boolean = true,
     textTransform?: TextTransform
   ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
@@ -178,7 +184,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
       placeholder,
       error: isError,
       helperText: isError ? formik.errors[field] : undefined,
-      required: true,
+      required,
       variant: 'outlined' as const,
       onChange: formik.handleChange,
       sx: { width: '100%' },
@@ -226,6 +232,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'taxCode',
               t('userEdit.editRegistryForm.fiscalCode.label'),
               '',
+              true,
               'uppercase'
             )}
             disabled={true}
@@ -274,6 +281,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'email',
               t('userEdit.editRegistryForm.institutionalEmail.label'),
               '',
+              true,
               'lowercase'
             )}
           />
@@ -285,6 +293,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'confirmEmail',
               t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
               '',
+              true,
               'lowercase'
             )}
           />
@@ -298,6 +307,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
                 'mobilePhone',
                 t('userEdit.editRegistryForm.mobilePhone.label'),
                 '',
+                false,
                 'lowercase'
               )}
             />
@@ -338,12 +348,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           </Button>
         </Stack>
         <Stack display="flex" justifyContent="flex-end">
-          <Button
-            disabled={!formik.dirty || !formik.isValid}
-            color="primary"
-            variant="contained"
-            type="submit"
-          >
+          <Button disabled={!formik.isValid} color="primary" variant="contained" type="submit">
             {t('userEdit.editRegistryForm.confirmButton')}
           </Button>
         </Stack>
