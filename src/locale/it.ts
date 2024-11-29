@@ -296,8 +296,8 @@ export default {
         label: 'Conferma e-mail',
       },
       mobilePhone: {
-        label: 'Numero di telefono (facoltativo)',
-        description: 'Solo per gli Amministratori, inserisci il numero di telefono di lavoro',
+        label: 'Tel. di lavoro (facoltativo)',
+        description: 'Solo per Amministratori: inserisci il mumero di cellulare di lavoro o, se non disponibile, il fisso.',
       },
       backButton: 'Indietro',
       confirmButton: 'Continua',
