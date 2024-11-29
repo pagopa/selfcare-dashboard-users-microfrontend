@@ -59,7 +59,7 @@ export default function AddLegalRepresentativeForm({
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
-  const [previusLegalRepresentative, setPreviusLegalRepresentative] =
+  const [previousLegalRepresentative, setPreviousLegalRepresentative] =
     useState<ProductUserResource>();
   const requestId = uniqueId();
   const { t } = useTranslation();
@@ -92,7 +92,7 @@ export default function AddLegalRepresentativeForm({
           email: newestManager.email ?? '',
           role: RoleEnum.MANAGER,
         });
-        setPreviusLegalRepresentative(newestManager);
+        setPreviousLegalRepresentative(newestManager);
       })
       .catch((error) => {
         addError({
@@ -365,7 +365,7 @@ export default function AddLegalRepresentativeForm({
           validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
-        managerFullName={`${previusLegalRepresentative?.name} ${previusLegalRepresentative?.surname}`}
+        managerFullName={`${previousLegalRepresentative?.name} ${previousLegalRepresentative?.surname}`}
       />
       <Grid>
         <form onSubmit={formik.handleSubmit}>

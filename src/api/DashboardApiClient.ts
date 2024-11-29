@@ -132,9 +132,10 @@ export const DashboardApi = {
       institutionId,
       id: user.id,
       body: {
-        email: user.certifiedMail ? undefined : user.email,
+        email: user.email,
         name: user.certifiedName ? undefined : user.name,
         surname: user.certifiedSurname ? undefined : user.surname,
+        mobilePhone: user.mobilePhone,
       },
     });
     return extractResponse(result, 204, onRedirectToLogin);

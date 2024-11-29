@@ -3250,6 +3250,10 @@
           "format": "uuid",
           "type": "string"
         },
+        "mobilePhone": {
+          "description": "User's institutional phone number",
+          "type": "string"
+        },
         "name": {
           "description": "User's name",
           "type": "string"
@@ -3550,7 +3554,7 @@
           "type": "string"
         },
         "selcRole": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's Selfcare role, available value: [ADMIN, ADMIN_EA, LIMITED]",
           "enum": [
             "ADMIN",
             "ADMIN_EA",
@@ -3651,7 +3655,7 @@
           "description": "Authorized user product"
         },
         "role": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's Selfcare role, available value: [ADMIN, ADMIN_EA, LIMITED]",
           "enum": [
             "ADMIN",
             "ADMIN_EA",
@@ -3921,6 +3925,11 @@
           "format": "email",
           "type": "string"
         },
+        "mobilePhone": {
+          "description": "User's institutional phone number",
+          "pattern": "^\\+?[0-9]{9,15}$",
+          "type": "string"
+        },
         "name": {
           "description": "User's name",
           "type": "string"
@@ -4140,6 +4149,10 @@
           "description": "User's unique identifier",
           "format": "uuid",
           "type": "string"
+        },
+        "mobilePhone": {
+          "$ref": "#/definitions/CertifiedFieldResourceOfstring",
+          "description": "User's institutional phone number"
         },
         "name": {
           "$ref": "#/definitions/CertifiedFieldResourceOfstring",

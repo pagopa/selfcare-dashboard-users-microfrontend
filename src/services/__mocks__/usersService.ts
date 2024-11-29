@@ -1209,6 +1209,9 @@ export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<a
     userToUpdate.surname = user.surname;
     // eslint-disable-next-line functional/immutable-data
     userToUpdate.email = user.email;
+
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.mobilePhone = user.mobilePhone;
   }
   return new Promise((resolve) => resolve(200));
 };
