@@ -123,7 +123,7 @@ export default function UserDetail({ roleSection, userInfo, party }: Readonly<Pr
             {t('userDetail.addNumber')}
           </ButtonNaked>
         ) : (
-          <Typography sx={{ ...infoStyle }}>{userInfo.mobilePhone ?? '-'}</Typography>
+          <Typography sx={{ ...infoStyle }}>{userInfo?.mobilePhone ?? '-'}</Typography>
         )}
       </Grid>
 
