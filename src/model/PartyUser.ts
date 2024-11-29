@@ -73,11 +73,11 @@ export type PartyUserOnEdit = {
   name: string;
   surname: string;
   email: EmailString;
+  mobilePhone?: string;
   confirmEmail: string;
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;
-  mobilePhone?: string;
 };
 
 export const institutionUserResource2PartyUser = (

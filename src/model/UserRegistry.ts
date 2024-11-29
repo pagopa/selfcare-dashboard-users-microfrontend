@@ -10,10 +10,12 @@ export type UserRegistry = {
   name: string;
   surname: string;
   email: EmailString;
+  mobilePhone?: string;
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;
 };
+
 
 export const userResource2UserRegistry = (resource: UserResource): UserRegistry => ({
   id: resource.id ?? '',
@@ -21,6 +23,7 @@ export const userResource2UserRegistry = (resource: UserResource): UserRegistry 
   name: resource.name?.value ?? '',
   surname: resource.familyName?.value ?? '',
   email: (resource.email ? resource.email?.value : '') as EmailString,
+  mobilePhone: resource.mobilePhone?.value,
   certifiedName: resource.name?.certified ?? false,
   certifiedSurname: resource.familyName?.certified ?? false,
   certifiedMail: resource.email?.certified ?? false,

@@ -453,6 +453,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     name: 'Simone12',
     surname: 'Bianchi12',
     email: 'giuseppe.b@comune.milano.it',
+    mobilePhone: '3333333333',
     userRole: 'LIMITED',
     status: 'SUSPENDED',
     products: [
@@ -1228,6 +1229,7 @@ export const fetchUserRegistryById = (
     email: '',
     surname: '',
     taxCode: '',
+    mobilePhone: '',
     uid: '',
     name: '',
   } as User).then((user: PartyUserDetail | null) => ({
@@ -1236,6 +1238,7 @@ export const fetchUserRegistryById = (
     name: user?.name as string,
     surname: user?.surname as string,
     email: user?.email as EmailString,
+    mobilePhone: user?.mobilePhone as string,
     certifiedName: false,
     certifiedSurname: false,
     certifiedMail: false,
