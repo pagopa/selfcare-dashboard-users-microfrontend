@@ -238,6 +238,7 @@ function UserDetailPage({
               roleSection={''}
               goEdit={goEdit}
               productsMap={productsMap}
+              party={party}
             />
           </Grid>
           <Grid container pl={isPnpg ? 3 : 0}>

@@ -58,6 +58,7 @@ function EditUserRegistryPage({ party, user }: Readonly<Props>) {
                 name: user.name,
                 surname: user.surname,
                 email: user.email,
+                mobilePhone: user.mobilePhone,
                 certifiedName: user.certifiedName,
                 certifiedSurname: user.certifiedSurname,
                 certifiedMail: user.certifiedMail,

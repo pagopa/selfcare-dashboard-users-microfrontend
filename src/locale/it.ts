@@ -84,6 +84,8 @@ export default {
     surname: 'Cognome',
     fiscalCode: 'Codice Fiscale',
     institutionalEmail: 'Email istituzionale',
+    mobilePhone: 'Tel. di lavoro (facoltativo)',
+    addNumber: 'Aggiungi',
     institution: 'ENTE',
     editButton: 'Modifica',
     deleteButton: 'Rimuovi',
