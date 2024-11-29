@@ -3251,7 +3251,7 @@
           "type": "string"
         },
         "mobilePhone": {
-          "description": "User's personal phone Number",
+          "description": "User's institutional phone number",
           "type": "string"
         },
         "name": {
@@ -4149,6 +4149,10 @@
           "description": "User's unique identifier",
           "format": "uuid",
           "type": "string"
+        },
+        "mobilePhone": {
+          "$ref": "#/definitions/CertifiedFieldResourceOfstring",
+          "description": "User's institutional phone number"
         },
         "name": {
           "$ref": "#/definitions/CertifiedFieldResourceOfstring",

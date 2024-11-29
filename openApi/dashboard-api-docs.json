@@ -3669,7 +3669,7 @@
           },
           "mobilePhone" : {
             "type" : "string",
-            "description" : "User's personal phone Number"
+            "description" : "User's institutional phone number"
           },
           "name" : {
             "type" : "string",
@@ -4492,6 +4492,10 @@
             "type" : "string",
             "description" : "User's unique identifier",
             "format" : "uuid"
+          },
+          "mobilePhone" : {
+            "description" : "User's institutional phone number",
+            "$ref" : "#/components/schemas/CertifiedFieldResourceOfstring"
           },
           "name" : {
             "description" : "User's name",
