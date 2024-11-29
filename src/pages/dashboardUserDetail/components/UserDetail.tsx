@@ -97,24 +97,16 @@ export default function UserDetail({ roleSection, userInfo, party }: Readonly<Pr
         <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
       </Grid>
       <Grid item xs={12} sm={9} display="flex" alignItems="center">
-        <Tooltip
-          title={
-            userInfo?.email?.length > titleTooltipMaxCh ? userInfo?.email?.toLocaleLowerCase() : ''
-          }
-          placement="top"
-          arrow={true}
-        >
-          <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
-            {userInfo?.email ?? '-'}
-          </Typography>
-        </Tooltip>
+        <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
+          {userInfo?.email ?? '-'}
+        </Typography>
       </Grid>
 
       {/* Phone */}
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={3} mt={1}>
         <Typography sx={labelStyle}>{t('userDetail.mobilePhone')}</Typography>
       </Grid>
-      <Grid item xs={12} sm={9} display="flex" alignItems="center">
+      <Grid item xs={12} sm={9} display="flex" alignItems="center" mt={1}>
         {!userInfo.mobilePhone && userInfo.isCurrentUser ? (
           <ButtonNaked
             onClick={() =>
