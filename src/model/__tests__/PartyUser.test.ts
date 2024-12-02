@@ -77,6 +77,7 @@ test('Test institutionUserResource2PartyUserDetail', () => {
     status: 'PENDING',
     role: 'LIMITED' as RoleEnum,
     email: 'address',
+    mobilePhone: '',
     products: [
       {
         id: 'productId',
@@ -106,6 +107,7 @@ test('Test institutionUserResource2PartyUserDetail', () => {
     status: 'PENDING',
     userRole: 'LIMITED',
     email: 'address',
+    mobilePhone: '',
     products: [
       {
         id: 'productId',

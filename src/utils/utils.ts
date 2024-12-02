@@ -23,3 +23,7 @@ export const sortedUsers = (users: Array<PartyProductUser>) =>
       return 0;
     }
   });
+  
+const phoneRegex = /^\+?\d{7,15}$/;
+
+export const isValidPhone = (phone?: string) => phoneRegex.test(phone ?? '');

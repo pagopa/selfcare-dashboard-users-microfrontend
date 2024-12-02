@@ -100,10 +100,11 @@ export const mockedUsers: Array<PartyUserDetail> = [
   // logged user
   {
     id: '0',
-    taxCode: 'AAAAAA11A11A124A',
+    taxCode: 'LGGLGD84A01F205X',
     name: 'loggedName',
     surname: 'loggedSurname',
     email: 'loggedName.b@email.it',
+    mobilePhone: '1234567890',
     userRole: 'ADMIN',
     status: 'ACTIVE',
     products: [
@@ -452,6 +453,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     name: 'Simone12',
     surname: 'Bianchi12',
     email: 'giuseppe.b@comune.milano.it',
+    mobilePhone: '3333333333',
     userRole: 'LIMITED',
     status: 'SUSPENDED',
     products: [
@@ -1209,6 +1211,9 @@ export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<a
     userToUpdate.surname = user.surname;
     // eslint-disable-next-line functional/immutable-data
     userToUpdate.email = user.email;
+
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.mobilePhone = user.mobilePhone;
   }
   return new Promise((resolve) => resolve(200));
 };
@@ -1224,6 +1229,7 @@ export const fetchUserRegistryById = (
     email: '',
     surname: '',
     taxCode: '',
+    mobilePhone: '',
     uid: '',
     name: '',
   } as User).then((user: PartyUserDetail | null) => ({
@@ -1232,6 +1238,7 @@ export const fetchUserRegistryById = (
     name: user?.name as string,
     surname: user?.surname as string,
     email: user?.email as EmailString,
+    mobilePhone: user?.mobilePhone as string,
     certifiedName: false,
     certifiedSurname: false,
     certifiedMail: false,

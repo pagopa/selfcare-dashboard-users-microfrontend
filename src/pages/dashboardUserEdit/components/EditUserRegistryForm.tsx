@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, styled, TextField } from '@mui/material';
+import { Button, Grid, Stack, styled, TextField, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
@@ -11,19 +11,22 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNot
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { storageUserOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { useFormik } from 'formik';
-import { useEffect } from 'react';
+import { uniqueId } from 'lodash';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -71,9 +74,21 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
   const history = useHistory();
+  const location = useLocation();
+  const mobilePhoneRef = useRef<HTMLInputElement>(null);
+  const queryParams = new URLSearchParams(location.search);
 
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const onExit = useUnloadEventOnExit();
+  const activeField = queryParams.get('activeField');
+  const userId = storageUserOps.read()?.uid ?? '';
+  const requestId = uniqueId();
+
+  useEffect(() => {
+    if (activeField === 'mobilePhone' && mobilePhoneRef.current) {
+      mobilePhoneRef.current.focus();
+    }
+  }, [activeField]);
 
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
@@ -99,6 +114,10 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
           ? t('userEdit.editRegistryForm.errors.mismatchEmail')
           : undefined,
+        mobilePhone:
+          !values.mobilePhone || isValidPhone(values.mobilePhone)
+            ? undefined
+            : t('userEdit.editRegistryForm.errors.invalidMobilePhone'),
       }).filter(([_key, value]) => value)
     );
 
@@ -111,12 +130,19 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
         ...values,
         taxCode: values.taxCode.toUpperCase(),
         email: values.email.toLowerCase() as EmailString,
+        mobilePhone: values.mobilePhone ? values.mobilePhone : undefined,
       })
         .then(() => {
           unregisterUnloadEvent();
           trackEvent('USER_UPDATE', {
             party_id: party.partyId,
           });
+          if (values.mobilePhone && values.mobilePhone.length > 0) {
+            trackEvent('DASHBOARD_ADD_TEL', {
+              request_id: requestId,
+              party_id: party.partyId,
+            });
+          }
           addNotify({
             component: 'Toast',
             id: 'EDIT_PARTY_USER',
@@ -153,6 +179,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
     field: keyof PartyUserOnEdit,
     label: string,
     placeholder: string,
+    required: boolean = true,
     textTransform?: TextTransform
   ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
@@ -165,7 +192,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
       placeholder,
       error: isError,
       helperText: isError ? formik.errors[field] : undefined,
-      required: true,
+      required,
       variant: 'outlined' as const,
       onChange: formik.handleChange,
       sx: { width: '100%' },
@@ -198,15 +225,14 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           paddingRight: 3,
         }}
       >
-
         <TitleBox
-            variantTitle="h6"
-            variantSubTitle="body1"
-            title={t('userEdit.editRegistryForm.userData')}
-            subTitle={t('userEdit.editRegistryForm.subTitle')}
-            mbTitle={2}
-            mbSubTitle={3}
-          />
+          variantTitle="h6"
+          variantSubTitle="body1"
+          title={t('userEdit.editRegistryForm.userData')}
+          subTitle={t('userEdit.editRegistryForm.subTitle')}
+          mbTitle={2}
+          mbSubTitle={3}
+        />
         <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
           <CustomTextField
             size="small"
@@ -214,6 +240,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'taxCode',
               t('userEdit.editRegistryForm.fiscalCode.label'),
               '',
+              true,
               'uppercase'
             )}
             disabled={true}
@@ -262,6 +289,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'email',
               t('userEdit.editRegistryForm.institutionalEmail.label'),
               '',
+              true,
               'lowercase'
             )}
           />
@@ -273,10 +301,36 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               'confirmEmail',
               t('userEdit.editRegistryForm.confirmInstitutionalEmail.label'),
               '',
+              true,
               'lowercase'
             )}
           />
         </Grid>
+        {user.id === userId && (
+          <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
+            <CustomTextField
+              size="small"
+              inputRef={mobilePhoneRef}
+              {...baseTextFieldProps(
+                'mobilePhone',
+                t('userEdit.editRegistryForm.mobilePhone.label'),
+                '',
+                false,
+                'lowercase'
+              )}
+            />
+            <Typography
+              component={'span'}
+              sx={{
+                fontSize: '12px!important',
+                fontWeight: 'fontWeightMedium',
+                color: theme.palette.text.secondary,
+              }}
+            >
+              {t('userEdit.editRegistryForm.mobilePhone.description')}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
 
       <Stack direction="row" justifyContent="space-between" mt={5}>
@@ -302,12 +356,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           </Button>
         </Stack>
         <Stack display="flex" justifyContent="flex-end">
-          <Button
-            disabled={!formik.dirty || !formik.isValid}
-            color="primary"
-            variant="contained"
-            type="submit"
-          >
+          <Button disabled={!formik.isValid} color="primary" variant="contained" type="submit">
             {t('userEdit.editRegistryForm.confirmButton')}
           </Button>
         </Stack>

@@ -1,7 +1,13 @@
+import AddIcon from '@mui/icons-material/Add';
 import { Grid, Tooltip, Typography, styled } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia';
+import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { Party } from '../../../model/Party';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 
 const CustomStyleCapitolized = styled(Typography)({
   color: 'colorTextPrimary',
@@ -11,6 +17,7 @@ const CustomStyleCapitolized = styled(Typography)({
 type Props = {
   roleSection: React.ReactNode;
   userInfo: PartyUserDetail;
+  party: Party;
   goEdit: () => void;
   productsMap: ProductsMap;
 };
@@ -38,8 +45,9 @@ const truncateText = {
 
 const titleTooltipMaxCh = 20;
 
-export default function UserDetail({ roleSection, userInfo }: Props) {
+export default function UserDetail({ roleSection, userInfo, party }: Readonly<Props>) {
   const { t } = useTranslation();
+  const history = useHistory();
   return (
     <Grid container xs={12} m={2}>
       {/* Name */}
@@ -89,17 +97,34 @@ export default function UserDetail({ roleSection, userInfo }: Props) {
         <Typography sx={labelStyle}>{t('userDetail.institutionalEmail')}</Typography>
       </Grid>
       <Grid item xs={12} sm={9} display="flex" alignItems="center">
-        <Tooltip
-          title={
-            userInfo?.email?.length > titleTooltipMaxCh ? userInfo?.email?.toLocaleLowerCase() : ''
-          }
-          placement="top"
-          arrow={true}
-        >
-          <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
-            {userInfo?.email ?? '-'}
-          </Typography>
-        </Tooltip>
+        <Typography sx={{ ...infoStyle, ...truncateText, color: 'colorTextPrimary' }}>
+          {userInfo?.email ?? '-'}
+        </Typography>
+      </Grid>
+
+      {/* Phone */}
+      <Grid item xs={12} sm={3} mt={1}>
+        <Typography sx={labelStyle}>{t('userDetail.mobilePhone')}</Typography>
+      </Grid>
+      <Grid item xs={12} sm={9} display="flex" alignItems="center" mt={1}>
+        {!userInfo.mobilePhone && userInfo.isCurrentUser ? (
+          <ButtonNaked
+            onClick={() =>
+              history.push(
+                resolvePathVariables(DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path, {
+                  partyId: party.partyId,
+                  userId: userInfo.id,
+                }) + '?activeField=mobilePhone'
+              )
+            }
+            startIcon={<AddIcon />}
+            color="primary"
+          >
+            {t('userDetail.addNumber')}
+          </ButtonNaked>
+        ) : (
+          <Typography sx={{ ...infoStyle }}>{userInfo?.mobilePhone ?? '-'}</Typography>
+        )}
       </Grid>
 
       {roleSection && (
