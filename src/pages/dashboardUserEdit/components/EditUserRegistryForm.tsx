@@ -16,6 +16,7 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { useFormik } from 'formik';
+import { uniqueId } from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -81,6 +82,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
   const onExit = useUnloadEventOnExit();
   const activeField = queryParams.get('activeField');
   const userId = storageUserOps.read()?.uid ?? '';
+  const requestId = uniqueId();
 
   useEffect(() => {
     if (activeField === 'mobilePhone' && mobilePhoneRef.current) {
@@ -135,6 +137,12 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
           trackEvent('USER_UPDATE', {
             party_id: party.partyId,
           });
+          if (values.mobilePhone && values.mobilePhone.length > 0) {
+            trackEvent('DASHBOARD_ADD_TEL', {
+              request_id: requestId,
+              party_id: party.partyId,
+            });
+          }
           addNotify({
             component: 'Toast',
             id: 'EDIT_PARTY_USER',
