@@ -221,6 +221,7 @@ export const DashboardApi = {
     _institutionId: string,
     _productId: string,
     _role?: string
+
   ): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource),
 
   getLegalRepresentative: async (
@@ -258,6 +259,7 @@ export const DashboardApi = {
     _productId: string,
     _institutionId: string,
     _pageRequest: PageRequest
+
   ): Promise<Array<UserGroupPlainResource>> => Promise.resolve(userGroupPlainResourceArray),
 
   addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> =>

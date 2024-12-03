@@ -14,6 +14,7 @@ export const ConfirmChangeLRModal = ({
   onConfirm,
   managerFullName,
 }: ConfirmChangeModalProps) => {
+
   const { t } = useTranslation();
 
   return (
