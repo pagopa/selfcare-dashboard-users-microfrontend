@@ -64,6 +64,8 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "^14.0.4",
+    "@types/lodash": "^4.17.13",
+    "@types/redux-logger": "^3.0.13",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "api-spec-converter": "^2.12.0",
