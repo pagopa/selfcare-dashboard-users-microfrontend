@@ -7,6 +7,8 @@ import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageRes
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
+import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
+import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
@@ -98,10 +100,11 @@ export const mockedUsers: Array<PartyUserDetail> = [
   // logged user
   {
     id: '0',
-    taxCode: 'AAAAAA11A11A124A',
+    taxCode: 'LGGLGD84A01F205X',
     name: 'loggedName',
     surname: 'loggedSurname',
     email: 'loggedName.b@email.it',
+    mobilePhone: '1234567890',
     userRole: 'ADMIN',
     status: 'ACTIVE',
     products: [
@@ -450,6 +453,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     name: 'Simone12',
     surname: 'Bianchi12',
     email: 'giuseppe.b@comune.milano.it',
+    mobilePhone: '3333333333',
     userRole: 'LIMITED',
     status: 'SUSPENDED',
     products: [
@@ -1152,6 +1156,12 @@ export const fetchPartyProductUsers = (
     })
   );
 
+export const getLegalRepresentativeServiceMocked = (
+  _institutionId: string,
+  _productId: string,
+  _roles: string
+): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource);
+
 export const savePartyUser = (
   _party: Party,
   product: Product,
@@ -1201,6 +1211,9 @@ export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<a
     userToUpdate.surname = user.surname;
     // eslint-disable-next-line functional/immutable-data
     userToUpdate.email = user.email;
+
+    // eslint-disable-next-line functional/immutable-data
+    userToUpdate.mobilePhone = user.mobilePhone;
   }
   return new Promise((resolve) => resolve(200));
 };
@@ -1216,6 +1229,7 @@ export const fetchUserRegistryById = (
     email: '',
     surname: '',
     taxCode: '',
+    mobilePhone: '',
     uid: '',
     name: '',
   } as User).then((user: PartyUserDetail | null) => ({
@@ -1224,6 +1238,7 @@ export const fetchUserRegistryById = (
     name: user?.name as string,
     surname: user?.surname as string,
     email: user?.email as EmailString,
+    mobilePhone: user?.mobilePhone as string,
     certifiedName: false,
     certifiedSurname: false,
     certifiedMail: false,
@@ -1325,8 +1340,8 @@ export const fetchUserGroups = (
   return new Promise((resolve) => resolve(userGroups));
 };
 
-export const checkManagerMocked = (_user: OnboardingUserDto): Promise<void> =>
-  new Promise((resolve) => resolve());
+export const checkManagerMocked = (_user: OnboardingUserDto): Promise<any> =>
+  new Promise((resolve) => resolve({ result: false }));
 
 export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
   new Promise((resolve) => resolve());

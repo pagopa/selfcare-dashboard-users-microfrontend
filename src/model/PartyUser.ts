@@ -15,6 +15,7 @@ export type BasePartyUser = {
   userRole: UserRole;
   status: UserStatus;
   isCurrentUser: boolean;
+  mobilePhone?: string;
 };
 
 export type PartyProductUser = BasePartyUser & {
@@ -72,6 +73,7 @@ export type PartyUserOnEdit = {
   name: string;
   surname: string;
   email: EmailString;
+  mobilePhone?: string;
   confirmEmail: string;
   certifiedName: boolean;
   certifiedSurname: boolean;
@@ -109,6 +111,7 @@ export const institutionUserResource2PartyUserDetail = (
   name: resource.name ?? '',
   surname: resource.surname ?? '',
   email: resource?.email as EmailString,
+  mobilePhone: resource.mobilePhone ?? '',
   userRole: resource.role as UserRole,
   products: resource.products
     ? ([] as Array<PartyUserProduct>).concat(

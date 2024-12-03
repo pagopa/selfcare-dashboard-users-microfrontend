@@ -7,14 +7,18 @@ import {
   useErrorDispatcher,
   useLoading,
 } from '@pagopa/selfcare-common-frontend/lib';
+
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
+import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductUserResource } from '../../../api/generated/b4f-dashboard/ProductUserResource';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
@@ -26,7 +30,12 @@ import {
   onboardingPostUser,
   validateLegalRepresentative,
 } from '../../../services/onboardingService';
-import { LOADING_TASK_CHECK_MANAGER } from '../../../utils/constants';
+import { getLegalRepresentativeService } from '../../../services/usersService';
+import {
+  LOADING_TASK_CHECK_MANAGER,
+  LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
+} from '../../../utils/constants';
+
 import { ENV } from '../../../utils/env';
 import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
@@ -52,9 +61,53 @@ export default function AddLegalRepresentativeForm({
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
-  const setLoading = useLoading(LOADING_TASK_CHECK_MANAGER);
-  const addError = useErrorDispatcher();
+
+  const [previousLegalRepresentative, setPreviousLegalRepresentative] =
+    useState<ProductUserResource>();
+  const requestId = uniqueId();
   const { t } = useTranslation();
+  const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
+  const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
+  const addError = useErrorDispatcher();
+
+  useEffect(() => {
+    setLoadingGetLegalRepresentative(true);
+    getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
+      .then(async (r) => {
+        const newestManager = r.reduce(
+          (newest: ProductUserResource, current: ProductUserResource) => {
+            if (!newest) {
+              return current;
+            }
+            if (!newest.createdAt || !current.createdAt) {
+              return newest;
+            }
+            return new Date(current.createdAt).getTime() > new Date(newest.createdAt).getTime()
+              ? current
+              : newest;
+          }
+        );
+
+        await formik.setValues({
+          name: newestManager.name ?? '',
+          surname: newestManager.surname ?? '',
+          taxCode: newestManager.fiscalCode ?? '',
+          email: newestManager.email ?? '',
+          role: RoleEnum.MANAGER,
+        });
+        setPreviousLegalRepresentative(newestManager);
+      })
+      .catch((error) => {
+        addError({
+          id: `GET_LEGAL_REPRESENTATIVE_ERROR`,
+          blocking: false,
+          error,
+          techDescription: `Something gone wrong while calling check-manager`,
+          toNotify: true,
+        });
+      })
+      .finally(() => setLoadingGetLegalRepresentative(false));
+  }, [productId, party]);
 
   const baseTextFieldProps = (
     field: keyof AsyncOnboardingUserData,
@@ -131,7 +184,7 @@ export default function AddLegalRepresentativeForm({
     initialValues: initialFormData,
     validate,
     onSubmit: (user) => {
-      setLoading(true);
+      setLoadingCheckManager(true);
       checkManagerService({
         institutionType: party.institutionType as any,
         origin: party?.origin,
@@ -143,8 +196,19 @@ export default function AddLegalRepresentativeForm({
       })
         .then((data) => {
           if (data) {
-            setIsChangedManager(data.right);
-            validateUser(user);
+
+            setIsChangedManager(!data.result);
+            if (!data.result) {
+              trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
+                request_id: requestId,
+                party_id: party.partyId,
+                product_id: productId,
+                from: 'dashboard',
+              });
+            }
+            if (data.result) {
+              validateUser(user);
+            }
           }
         })
         .catch((error) => {
@@ -157,7 +221,7 @@ export default function AddLegalRepresentativeForm({
             toNotify: true,
           });
         })
-        .finally(() => setLoading(false));
+        .finally(() => setLoadingCheckManager(false));
     },
   });
 
@@ -223,6 +287,14 @@ export default function AddLegalRepresentativeForm({
     submitApiToCall
       .then(() => {
         setOutcome(outcomeContent.success);
+        if (!isAddInBulkEAFlow) {
+          trackEvent('ONBOARDING_USER_SUCCESS', {
+            request_id: requestId,
+            party_id: party.partyId,
+            product_id: productId,
+            from: 'dashboard',
+          });
+        }
       })
       .catch((_err) => {
         setOutcome(outcomeContent.error);
@@ -297,6 +369,7 @@ export default function AddLegalRepresentativeForm({
           validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
+        managerFullName={`${previousLegalRepresentative?.name} ${previousLegalRepresentative?.surname}`}
       />
       <Grid>
         <form onSubmit={formik.handleSubmit}>
@@ -309,40 +382,43 @@ export default function AddLegalRepresentativeForm({
               marginBottom: 5,
             }}
           >
-            <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body2"
-                title={t('userEdit.addForm.addLegalRepresentative.title')}
-                subTitle={
-                  <Trans
-                    i18nKey="userEdit.addForm.addLegalRepresentative.subTitle"
-                    values={{ productName }}
-                    components={{ strong: <strong /> }}
-                  />
-                }
-                mbTitle={2}
-                mbSubTitle={1}
-              />
-            </Grid>
-            {dynamicDocLink.length > 0 && (
-              <Grid item xs={12} justifyContent={'left'} mb={3}>
-                <ButtonNaked
-                  component="button"
-                  color="primary"
-                  sx={{
-                    fontWeight: 'fontWeightBold',
-                    fontSize: '14px',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={() => {
-                    window.open(dynamicDocLink);
-                  }}
-                >
-                  {t('userEdit.addForm.role.documentationLink')}
-                </ButtonNaked>
+
+            <Grid item mb={3}>
+              <Grid item xs={12}>
+                <TitleBox
+                  variantTitle="h6"
+                  variantSubTitle="body2"
+                  title={t('userEdit.addForm.addLegalRepresentative.title')}
+                  subTitle={
+                    <Trans
+                      i18nKey="userEdit.addForm.addLegalRepresentative.subTitle"
+                      values={{ productName }}
+                      components={{ strong: <strong /> }}
+                    />
+                  }
+                  mbTitle={2}
+                  mbSubTitle={1}
+                />
               </Grid>
-            )}
+              {dynamicDocLink.length > 0 && (
+                <Grid item xs={12} justifyContent={'left'}>
+                  <ButtonNaked
+                    component="button"
+                    color="primary"
+                    sx={{
+                      fontWeight: 'fontWeightBold',
+                      fontSize: '14px',
+                      textDecoration: 'underline',
+                    }}
+                    onClick={() => {
+                      window.open(dynamicDocLink);
+                    }}
+                  >
+                    {t('userEdit.addForm.role.documentationLink')}
+                  </ButtonNaked>
+                </Grid>
+              )}
+            </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
                 <Grid item xs={6}>

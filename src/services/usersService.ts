@@ -3,6 +3,7 @@ import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageRes
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { DashboardApi } from '../api/DashboardApiClient';
+import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { Party, UserRole, UserStatus } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
@@ -26,6 +27,7 @@ import {
   fetchPartyUser as fetchPartyUserMocked,
   fetchUserGroups as fetchUserGroupsMocked,
   fetchUserRegistryById as fetchUserRegistryByIdMocked,
+  getLegalRepresentativeServiceMocked,
   mockedUserRegistry,
   savePartyUser as savePartyUserMocked,
   updatePartyUser as updatePartyUserMocked,
@@ -67,6 +69,19 @@ export const fetchPartyProductUsers = (
       // TODO fixme when API will support pagination
       toFakePagination(r.map((u) => productUserResource2PartyProductUser(u, product, currentUser)))
     );
+  }
+};
+
+export const getLegalRepresentativeService = (
+  party: Party,
+  productId: string,
+  roles: string
+): Promise<Array<ProductUserResource>> => {
+  /* istanbul ignore if */
+  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+    return getLegalRepresentativeServiceMocked(party.partyId, productId, roles);
+  } else {
+    return DashboardApi.getLegalRepresentative(party.partyId, productId, roles).then((r) => r);
   }
 };
 

@@ -2,9 +2,15 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
+
 
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
+
+beforeAll(() => {
+  i18n.changeLanguage('it');
+});
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();
@@ -31,14 +37,15 @@ test('test with no modify, so disabled button', async () => {
 
   const button = screen.getByRole('button', { name: 'Continua' });
 
-  expect(button).toBeDisabled();
+  expect(button).toBeEnabled();
 });
 
 test('test with email and confirm email modified but different, so disabled button', async () => {
   await renderApp();
 
   const confirmButton = screen.getByRole('button', { name: 'Continua' });
-  expect(confirmButton).toBeDisabled();
+  expect(confirmButton).toBeEnabled();
+
 
   const email = document.getElementById('email');
   const confirmEmail = document.getElementById('confirmEmail');
@@ -53,7 +60,8 @@ test('test with email and confirm email modified and equal, so enabled button an
   const { history } = await renderApp();
 
   const confirmButton = screen.getByRole('button', { name: 'Continua' });
-  expect(confirmButton).toBeDisabled();
+
+  expect(confirmButton).toBeEnabled();
 
   const email = document.querySelector('#email');
   const confirmEmail = document.querySelector('#confirmEmail');

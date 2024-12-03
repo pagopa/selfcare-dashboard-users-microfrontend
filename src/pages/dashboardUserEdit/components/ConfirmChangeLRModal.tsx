@@ -5,9 +5,16 @@ type ConfirmChangeModalProps = {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  managerFullName: string;
 };
 
-export const ConfirmChangeLRModal = ({ open, onClose, onConfirm }: ConfirmChangeModalProps) => {
+export const ConfirmChangeLRModal = ({
+  open,
+  onClose,
+  onConfirm,
+  managerFullName,
+}: ConfirmChangeModalProps) => {
+
   const { t } = useTranslation();
 
   return (
@@ -17,10 +24,11 @@ export const ConfirmChangeLRModal = ({ open, onClose, onConfirm }: ConfirmChange
       message={
         <Trans
           i18nKey="userEdit.addForm.addLegalRepresentative.changeManagerModalMessage"
-          components={{ 1: <br /> }}
+          components={{ 1: <br />, 3: <br />, 4: <br /> }}
+          values={{ managerFullName }}
         >
           {
-            'I dati del Legale Rappresentante inseriti sono diversi da quelli indicati in <1 />precedenza. Vuoi continuare?'
+            'Stai per sostituire l’attuale Legale Rappresentante, {{managerFullName}}, con una nuova persona. <1 />Se procedi, l’attuale Legale rappresentante potrà continuare a operare come Amministratore. <3 /> <4 />Vuoi continuare?'
           }
         </Trans>
       }

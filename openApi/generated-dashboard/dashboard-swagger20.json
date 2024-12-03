@@ -313,69 +313,6 @@
         "summary": "updateInstitutionGeographicTaxonomy"
       }
     },
-    "/v1/institutions/{institutionId}/geographicTaxonomy": {
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/problem+json"
-        ],
-        "parameters": [
-          {
-            "description": "Institution's unique internal identifier",
-            "in": "path",
-            "name": "institutionId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/definitions/GeographicTaxonomyListDto"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Problem"
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "global"
-            ]
-          }
-        ],
-        "tags": [
-          "institutions"
-        ],
-        "deprecated": true,
-        "description": "Service to update the geographic taxonomy of an onboarded institution",
-        "operationId": "updateInstitutionGeographicTaxonomyDeprecatedUsingPUT",
-        "summary": "updateInstitutionGeographicTaxonomyDeprecated"
-      }
-    },
     "/v1/institutions/{institutionId}/institutions": {
       "get": {
         "produces": [
@@ -2155,6 +2092,13 @@
             "name": "productRoles",
             "required": false,
             "type": "string"
+          },
+          {
+            "description": "roles",
+            "in": "query",
+            "name": "roles",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -2737,7 +2681,7 @@
           "uniqueItems": true
         },
         "role": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's role, available values: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
           "type": "string"
         },
         "surname": {
@@ -3306,6 +3250,10 @@
           "format": "uuid",
           "type": "string"
         },
+        "mobilePhone": {
+          "description": "User's institutional phone number",
+          "type": "string"
+        },
         "name": {
           "description": "User's name",
           "type": "string"
@@ -3318,7 +3266,7 @@
           "type": "array"
         },
         "role": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's role, available values: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
           "enum": [
             "ADMIN",
             "ADMIN_EA",
@@ -3606,7 +3554,7 @@
           "type": "string"
         },
         "selcRole": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's Selfcare role, available values: [ADMIN, ADMIN_EA, LIMITED]",
           "enum": [
             "ADMIN",
             "ADMIN_EA",
@@ -3680,8 +3628,17 @@
     },
     "ProductUserResource": {
       "properties": {
+        "createdAt": {
+          "description": "User's creation date associated with a product",
+          "format": "date-time",
+          "type": "string"
+        },
         "email": {
           "description": "User's personal email",
+          "type": "string"
+        },
+        "fiscalCode": {
+          "description": "User's fiscal code",
           "type": "string"
         },
         "id": {
@@ -3698,7 +3655,7 @@
           "description": "Authorized user product"
         },
         "role": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's Selfcare role, available values: [ADMIN, ADMIN_EA, LIMITED]",
           "enum": [
             "ADMIN",
             "ADMIN_EA",
@@ -3968,6 +3925,11 @@
           "format": "email",
           "type": "string"
         },
+        "mobilePhone": {
+          "description": "User's institutional phone number",
+          "pattern": "^\\+?[0-9]{7,15}$",
+          "type": "string"
+        },
         "name": {
           "description": "User's name",
           "type": "string"
@@ -4162,7 +4124,7 @@
           "uniqueItems": true
         },
         "role": {
-          "description": "User's role, available value: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
+          "description": "User's role, available values: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
           "type": "string"
         }
       },
@@ -4187,6 +4149,10 @@
           "description": "User's unique identifier",
           "format": "uuid",
           "type": "string"
+        },
+        "mobilePhone": {
+          "$ref": "#/definitions/CertifiedFieldResourceOfstring",
+          "description": "User's institutional phone number"
         },
         "name": {
           "$ref": "#/definitions/CertifiedFieldResourceOfstring",
