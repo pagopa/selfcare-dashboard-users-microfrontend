@@ -26,7 +26,7 @@ export const ENV = {
     ASSISTANCE: env.get('REACT_APP_URL_FE_ASSISTANCE').required().asString(),
   },
 
-  DOCUMENTATION_LINKS : {
+  DOCUMENTATION_LINKS: {
     SELFCARE: 'https://docs.pagopa.it/area-riservata/',
     USERS: 'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
     PAGOPA_EC:
@@ -51,6 +51,8 @@ export const ENV = {
   USER: {
     ENABLE_USER_V2: env.get('REACT_APP_ENABLE_USER_V2').required().asBool(),
   },
+
+  ENABLE_MOBILE_PHONE: env.get('REACT_APP_ENABLE_MOBILE_PHONE').required().asBool(),
 
   PARTY_USERS_PAGE_SIZE: env.get('REACT_APP_PARTY_USERS_PAGE_SIZE').required().asInt(),
   PARTY_PRODUCT_USERS_PAGE_SIZE: env
