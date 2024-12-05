@@ -41,6 +41,7 @@ test('onConfirm of modal', () => {
       managerFullName={'Name Surname'}
     />
   );
+
   const button = screen.getByRole('button', { name: 'userEdit.addForm.continueButton' });
   expect(button).toBeInTheDocument();
   fireEvent.click(button);

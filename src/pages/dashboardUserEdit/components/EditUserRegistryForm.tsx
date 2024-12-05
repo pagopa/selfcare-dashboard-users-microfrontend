@@ -16,6 +16,7 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { useFormik } from 'formik';
+
 import { uniqueId } from 'lodash';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +27,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
 import { isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
@@ -306,7 +308,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             )}
           />
         </Grid>
-        {user.id === userId && (
+        {ENV.ENABLE_MOBILE_PHONE && user.id === userId && (
           <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
               size="small"
