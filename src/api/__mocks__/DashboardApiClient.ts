@@ -86,7 +86,7 @@ export const mockedInstitutionUserResource: Array<InstitutionUserDetailsResource
   },
 ];
 
-export const mockedProductUserResource: Array<ProductUserResource> = [
+export const mockedProductUserResource: Array<any> = [
   {
     id: '1',
     name: 'Name',
