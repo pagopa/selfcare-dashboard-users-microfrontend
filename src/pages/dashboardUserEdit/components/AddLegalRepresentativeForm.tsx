@@ -7,6 +7,7 @@ import {
   useErrorDispatcher,
   useLoading,
 } from '@pagopa/selfcare-common-frontend/lib';
+
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
@@ -34,6 +35,7 @@ import {
   LOADING_TASK_CHECK_MANAGER,
   LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
 } from '../../../utils/constants';
+
 import { ENV } from '../../../utils/env';
 import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
@@ -59,6 +61,7 @@ export default function AddLegalRepresentativeForm({
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
+
   const [previousLegalRepresentative, setPreviousLegalRepresentative] =
     useState<ProductUserResource>();
   const requestId = uniqueId();
@@ -193,6 +196,7 @@ export default function AddLegalRepresentativeForm({
       })
         .then((data) => {
           if (data) {
+
             setIsChangedManager(!data.result);
             if (!data.result) {
               trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
@@ -378,6 +382,7 @@ export default function AddLegalRepresentativeForm({
               marginBottom: 5,
             }}
           >
+
             <Grid item mb={3}>
               <Grid item xs={12}>
                 <TitleBox

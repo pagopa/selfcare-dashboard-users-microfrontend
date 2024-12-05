@@ -4,6 +4,7 @@ import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 
+
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
 
@@ -45,6 +46,7 @@ test('test with email and confirm email modified but different, so disabled butt
   const confirmButton = screen.getByRole('button', { name: 'Continua' });
   expect(confirmButton).toBeEnabled();
 
+
   const email = document.getElementById('email');
   const confirmEmail = document.getElementById('confirmEmail');
 
@@ -58,6 +60,7 @@ test('test with email and confirm email modified and equal, so enabled button an
   const { history } = await renderApp();
 
   const confirmButton = screen.getByRole('button', { name: 'Continua' });
+
   expect(confirmButton).toBeEnabled();
 
   const email = document.querySelector('#email');
