@@ -27,6 +27,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
 import { isValidPhone } from '../../../utils/utils';
 
 
@@ -308,7 +309,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
             )}
           />
         </Grid>
-        {user.id === userId && (
+        {ENV.ENABLE_MOBILE_PHONE && user.id === userId && (
           <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
             <CustomTextField
               size="small"

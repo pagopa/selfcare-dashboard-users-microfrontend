@@ -30,3 +30,15 @@ Run the following command allow to serve the remote components locally and to ru
 
 ## To build a configured workspace execute the following command
 - yarn build
+
+## Setup Playwright for Testing
+
+Ensure you have **Yarn** and **Node.js** installed on your machine. You can check their installation by running:
+- node -v
+- yarn -v
+## Install Dependencies
+- cd e2e
+- yarn install
+
+## Run Playwright Tests Locally
+- yarn playwright test  --ui or --headed or --project
