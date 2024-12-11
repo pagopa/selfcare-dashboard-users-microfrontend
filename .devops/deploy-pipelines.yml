@@ -45,7 +45,7 @@ variables:
 
     react_app_enable_assistance: 'true'
     react_app_enable_user_v2: '$(UAT_REACT_APP_ENABLE_USER_V2)'
-    
+    react_app_enable_mobile_phone: '$(UAT_REACT_APP_ENABLE_MOBILE_PHONE)'
 
     react_app_one_trust_base_url: '$(UAT_REACT_APP_URL_CDN)/ot'   
     react_app_analytics_enabled: '$(UAT_ANALYTICS_ENABLED)'
@@ -77,6 +77,7 @@ variables:
 
     react_app_enable_assistance: 'true'
     react_app_enable_user_v2: '$(PROD_REACT_APP_ENABLE_USER_V2)'
+    react_app_enable_mobile_phone: '$(PROD_REACT_APP_ENABLE_MOBILE_PHONE)'
 
     react_app_one_trust_base_url: '$(PROD_REACT_APP_URL_CDN)/ot'
     react_app_analytics_enabled: '$(PROD_ANALYTICS_ENABLED)'
@@ -110,6 +111,7 @@ variables:
 
     react_app_enable_assistance: 'true'
     react_app_enable_user_v2: '$(DEV_REACT_APP_ENABLE_USER_V2)'
+    react_app_enable_mobile_phone: '$(DEV_REACT_APP_ENABLE_MOBILE_PHONE)'
 
     react_app_one_trust_base_url: '$(DEV_REACT_APP_URL_CDN)/ot/test'
     react_app_analytics_enabled: '$(DEV_ANALYTICS_ENABLED)'
@@ -213,6 +215,7 @@ stages:
               REACT_APP_PAGOPA_HELP_EMAIL: '$(react_app_pagopa_help_email)'
 
               REACT_APP_ENABLE_USER_V2": '$(react_app_enable_user_v2)'
+              REACT_APP_ENABLE_MOBILE_PHONE: '$(react_app_enable_mobile_phone)'
               REACT_APP_ANALYTICS_ENABLE: '$(react_app_analytics_enabled)'
               REACT_APP_ANALYTICS_MOCK: '$(react_app_analytics_mocked)'
               REACT_APP_MIXPANEL_TOKEN: '$(react_app_mixpanel_token)'
