@@ -176,37 +176,35 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             </Stack>
           </Grid>
         </Grid>
-        {ENV.ENABLE_MOBILE_PHONE && (
-          <Grid item xs={12}>
-            <Alert
-              sx={{ mt: 5 }}
-              severity="info"
-              variant="standard"
-              action={
-                <ButtonNaked
-                  component={Button}
-                  onClick={() =>
-                    history.push(
-                      resolvePathVariables(
-                        DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path,
-                        {
-                          partyId: party.partyId,
-                          userId: storageUserOps.read()?.uid ?? '',
-                        }
-                      ) + '?activeField=mobilePhone'
-                    )
-                  }
-                  color="primary"
-                  sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightBold' }}
-                >
-                  {t('usersPage.customAlert.button')}
-                </ButtonNaked>
-              }
-            >
-              {t('usersPage.customAlert.message')}
-            </Alert>
-          </Grid>
-        )}
+        <Grid item xs={12}>
+          <Alert
+            sx={{ mt: 5 }}
+            severity="info"
+            variant="standard"
+            action={
+              <ButtonNaked
+                component={Button}
+                onClick={() =>
+                  history.push(
+                    resolvePathVariables(
+                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path,
+                      {
+                        partyId: party.partyId,
+                        userId: storageUserOps.read()?.uid ?? '',
+                      }
+                    ) + '?activeField=mobilePhone'
+                  )
+                }
+                color="primary"
+                sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightBold' }}
+              >
+                {t('usersPage.customAlert.button')}
+              </ButtonNaked>
+            }
+          >
+            {t('usersPage.customAlert.message')}
+          </Alert>
+        </Grid>
         <MobileFilter
           loading={loading}
           activeProducts={activeProductsWithReadPermission}

@@ -8,7 +8,6 @@ import { Party } from '../../../model/Party';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { ProductsMap } from '../../../model/Product';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import { ENV } from '../../../utils/env';
 
 const CustomStyleCapitolized = styled(Typography)({
   color: 'colorTextPrimary',
@@ -104,36 +103,32 @@ export default function UserDetail({ roleSection, userInfo, party }: Readonly<Pr
       </Grid>
 
       {/* Phone */}
-      {ENV.ENABLE_MOBILE_PHONE && (
-        <>
-          <Grid item xs={12} sm={3} mt={1}>
-            <Typography sx={labelStyle}>{t('userDetail.mobilePhone')}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={9} display="flex" alignItems="center" mt={1}>
-            {!userInfo.mobilePhone && userInfo.isCurrentUser ? (
-              <ButtonNaked
-                onClick={() =>
-                  history.push(
-                    resolvePathVariables(
-                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path,
-                      {
-                        partyId: party.partyId,
-                        userId: userInfo.id,
-                      }
-                    ) + '?activeField=mobilePhone'
-                  )
-                }
-                startIcon={<AddIcon />}
-                color="primary"
-              >
-                {t('userDetail.addNumber')}
-              </ButtonNaked>
-            ) : (
-              <Typography sx={{ ...infoStyle }}>{userInfo?.mobilePhone ?? '-'}</Typography>
-            )}
-          </Grid>
-        </>
-      )}
+        <Grid item xs={12} sm={3} mt={1}>
+          <Typography sx={labelStyle}>{t('userDetail.mobilePhone')}</Typography>
+        </Grid>
+        <Grid item xs={12} sm={9} display="flex" alignItems="center" mt={1}>
+          {!userInfo.mobilePhone && userInfo.isCurrentUser ? (
+            <ButtonNaked
+              onClick={() =>
+                history.push(
+                  resolvePathVariables(
+                    DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.EDIT_USER.path,
+                    {
+                      partyId: party.partyId,
+                      userId: userInfo.id,
+                    }
+                  ) + '?activeField=mobilePhone'
+                )
+              }
+              startIcon={<AddIcon />}
+              color="primary"
+            >
+              {t('userDetail.addNumber')}
+            </ButtonNaked>
+          ) : (
+            <Typography sx={{ ...infoStyle }}>{userInfo?.mobilePhone ?? '-'}</Typography>
+          )}
+        </Grid>
       {roleSection && (
         <Grid container item xs={12} alignContent="center" alignItems="center">
           {roleSection}
