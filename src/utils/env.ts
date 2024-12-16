@@ -48,12 +48,6 @@ export const ENV = {
     DASHBOARD: env.get('REACT_APP_API_DASHBOARD_TIMEOUT_MS').required().asInt(),
   },
 
-  USER: {
-    ENABLE_USER_V2: env.get('REACT_APP_ENABLE_USER_V2').required().asBool(),
-  },
-
-  ENABLE_MOBILE_PHONE: env.get('REACT_APP_ENABLE_MOBILE_PHONE').required().asBool(),
-
   PARTY_USERS_PAGE_SIZE: env.get('REACT_APP_PARTY_USERS_PAGE_SIZE').required().asInt(),
   PARTY_PRODUCT_USERS_PAGE_SIZE: env
     .get('REACT_APP_PARTY_PRODUCT_USERS_PAGE_SIZE')
