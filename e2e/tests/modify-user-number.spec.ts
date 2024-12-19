@@ -1,11 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { login } from '../utils/login';
 
-test('modify usen number', async ({ page }) => {
+test('modify user number', async ({ page }) => {
   await login(page, 'p.rossi', 'test');
   await page.getByRole('button', { name: 'Ats Madonie Sud Amministratore' }).click();
   await page.getByRole('button', { name: 'Accedi' }).click();
   await page.getByRole('button', { name: 'Utenti' }).click();
+  await page.getByRole('tab', { name: 'SEND - Servizio Notifiche' }).click();
   await expect(page.getByRole('grid')).toContainText('rossi paolo (tu)');
   await page.getByText('rossi paolo (tu)').click();
   await page.getByRole('button', { name: 'Modifica' }).click();

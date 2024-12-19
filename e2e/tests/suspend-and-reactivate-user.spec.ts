@@ -6,6 +6,7 @@ test('suspend-and-reactivate-user', async ({ page }) => {
   await page.getByRole('button', { name: 'Ats Madonie Sud Amministratore' }).click();
   await page.getByRole('button', { name: 'Accedi' }).click();
   await page.getByRole('button', { name: 'Utenti' }).click();
+  await page.getByRole('tab', { name: 'SEND - Servizio Notifiche' }).click();
   await expect(page.getByRole('grid')).toContainText('sisti mattia');
   await page.getByText('sisti mattia').click();
   await expect(page.getByRole('button', { name: 'Sospendi' })).toBeVisible();
