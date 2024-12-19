@@ -14,7 +14,7 @@ test('modify user email', async ({ page }) => {
   await page.getByRole('button', { name: 'Accedi' }).click();
   await page.getByRole('button', { name: 'Utenti' }).click();
   await page.getByText('doci oraldo').click();
-  await expect(page.getByRole('main')).toContainText('test@test.com');
+  await expect(page.getByRole('main')).toContainText('test@test.it');
   await page.getByRole('button', { name: 'Modifica' }).click();
   await page.getByLabel('E-mail istituzionale *').click();
   await page.getByLabel('E-mail istituzionale *').press('ControlOrMeta+a');
