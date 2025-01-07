@@ -4,7 +4,6 @@ import { DataGrid, GridColDef, GridRow, GridSortDirection, GridSortModel } from 
 import { theme } from '@pagopa/mui-italia';
 import { CustomPagination } from '@pagopa/selfcare-common-frontend/lib';
 import { Page } from '@pagopa/selfcare-common-frontend/lib/model/Page';
-import { UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
@@ -147,9 +146,13 @@ export default function UsersProductTable({
         hideFooterSelectedRowCount={true}
         components={{
           Row: (props) => {
-            const user = props.row;
+            const user = props.row as PartyProductUser;
             const userSuspended = user.status === 'SUSPENDED';
-            const userRole = user.userRole as UserRole;
+            /*   const userRoles = user.product.roles.map((role) => role.role);
+            const roleTitles = userRoles.map((role) =>
+              transcodeProductRole2Title(role, productRolesLists)
+            );
+            */
             if (isMobile) {
               return (
                 <Box
@@ -227,18 +230,21 @@ export default function UsersProductTable({
                         <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
                           {t('usersTable.usersProductTableColumns.headerFields.role')}
                         </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 'fontSize',
-                            fontWeight: 'fontWeightRegular',
-                            color: userSuspended ? 'text.disabled' : 'text.primary',
-                            wordWrap: 'break-word',
-                            overflowWrap: 'break-word',
-                            whiteSpace: 'pre-wrap',
-                          }}
-                        >
-                          {transcodeProductRole2Title(userRole, productRolesLists)}
-                        </Typography>
+                        {user.product.roles.map((role) => (
+                          <Typography
+                            key={role.relationshipId}
+                            sx={{
+                              fontSize: 'fontSize',
+                              fontWeight: 'fontWeightRegular',
+                              color: userSuspended ? 'text.disabled' : 'text.primary',
+                              wordWrap: 'break-word',
+                              overflowWrap: 'break-word',
+                              whiteSpace: 'pre-wrap',
+                            }}
+                          >
+                            {transcodeProductRole2Title(role.role ?? '', productRolesLists)}
+                          </Typography>
+                        ))}
                       </Grid>
                       {userSuspended && (
                         <Grid item sx={{ width: '100%' }}>
