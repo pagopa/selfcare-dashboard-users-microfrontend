@@ -40,6 +40,8 @@ variables:
     react_app_url_api_dashboard: '$(UAT_REACT_APP_URL_API_DASHBOARD)'
     react_app_url_api_onboarding_v2: '$(UAT_REACT_APP_URL_API_ONBOARDING_V2)'
 
+    react_app_max_admin_count : '$(UAT_REACT_APP_MAX_ADMIN_COUNT)'
+
     react_app_url_privacy_disclaimer: '$(UAT_REACT_APP_URL_PRIVACY_DISCLAIMER)'
     react_app_url_terms_and_conditions: '$(UAT_REACT_APP_URL_TERMS_AND_CONDITIONS)'
 
@@ -69,6 +71,8 @@ variables:
     react_app_url_api_party_process: '$(PROD_REACT_APP_URL_API_PARTY_PROCESS)'
     react_app_url_api_dashboard: '$(PROD_REACT_APP_URL_API_DASHBOARD)'
     react_app_url_api_onboarding_v2: '$(PROD_REACT_APP_URL_API_ONBOARDING_V2)'
+
+    react_app_max_admin_count : '$(PROD_REACT_APP_MAX_ADMIN_COUNT)'
 
     react_app_url_privacy_disclaimer: '$(PROD_REACT_APP_URL_PRIVACY_DISCLAIMER)'
     react_app_url_terms_and_conditions: '$(PROD_REACT_APP_URL_TERMS_AND_CONDITIONS)'
@@ -101,6 +105,8 @@ variables:
     react_app_url_api_party_process: '$(DEV_REACT_APP_URL_API_PARTY_PROCESS)'
     react_app_url_api_dashboard: '$(DEV_REACT_APP_URL_API_DASHBOARD)'
     react_app_url_api_onboarding_v2: '$(DEV_REACT_APP_URL_API_ONBOARDING_V2)'
+
+    react_app_max_admin_count : '$(DEV_REACT_APP_MAX_ADMIN_COUNT)'
 
     react_app_url_privacy_disclaimer: '$(DEV_REACT_APP_URL_PRIVACY_DISCLAIMER)'
     react_app_url_terms_and_conditions: '$(DEV_REACT_APP_URL_TERMS_AND_CONDITIONS)'
@@ -201,6 +207,8 @@ stages:
               REACT_APP_URL_API_PARTY_PROCESS: '$(react_app_url_api_party_process)'
               REACT_APP_URL_API_DASHBOARD: '$(react_app_url_api_dashboard)'
               REACT_APP_URL_API_ONBOARDING_V2: '$(react_app_url_api_onboarding_v2)'
+
+              REACT_APP_MAX_ADMIN_COUNT: '$(react_app_max_admin_count)'
 
               REACT_APP_URL_PRIVACY_DISCLAIMER: '$(react_app_url_privacy_disclaimer)'
               REACT_APP_URL_TERMS_AND_CONDITIONS: '$(react_app_url_terms_and_conditions)'

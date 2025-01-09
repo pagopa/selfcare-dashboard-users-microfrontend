@@ -18,23 +18,6 @@ import UserProductLoading from './UserProductLoading';
 import UserTableLoadMoreData from './UserProductLoadMoreData';
 import { buildColumnDefs } from './UserProductTableColumns';
 
-interface UsersTableProps {
-  incrementalLoad: boolean;
-  loading: boolean;
-  noMoreData: boolean;
-  party: Party;
-  users: Array<PartyProductUser>;
-  product: Product;
-  productRolesLists: ProductRolesLists;
-  fetchPage: (page?: number, size?: number, refetch?: boolean) => void;
-  page: Page;
-  sort?: string;
-  onSortRequest: (sort: string) => void;
-  onRowClick: (partyUser: PartyProductUser) => void;
-  onDelete: (partyUser: PartyProductUser) => void;
-  onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
-}
-
 const CustomDataGrid = styled(DataGrid)({
   border: 'none !important',
   '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within, &.MuiDataGrid-root .MuiDataGrid-cell:focus-within':
@@ -99,6 +82,25 @@ const CustomDataGrid = styled(DataGrid)({
     width: '100% !important',
   },
 });
+
+interface UsersTableProps {
+  incrementalLoad: boolean;
+  loading: boolean;
+  noMoreData: boolean;
+  party: Party;
+  users: Array<PartyProductUser>;
+  product: Product;
+  productRolesLists: ProductRolesLists;
+  fetchPage: (page?: number, size?: number, refetch?: boolean) => void;
+  page: Page;
+  sort?: string;
+  onSortRequest: (sort: string) => void;
+  onRowClick: (partyUser: PartyProductUser) => void;
+  onDelete: (partyUser: PartyProductUser) => void;
+  onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
+}
+
+
 
 export default function UsersProductTable({
   incrementalLoad,

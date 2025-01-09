@@ -57,6 +57,7 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
 import {
   commonStyles,
   CustomTextField,
@@ -126,6 +127,7 @@ export default function AddUserForm({
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
   const onExit = useUnloadEventOnExit();
+  const adminMaxLimit = parseInt(sessionStorage.getItem('adminMaxLimit') || '3', 10);
 
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
@@ -448,7 +450,7 @@ export default function AddUserForm({
                   (r) => productRoles?.groupByProductRole[r].title
                 )}`,
               }}
-              components={{ 1: <strong />, 3: <strong />,4: <strong />, 8: <strong /> }}
+              components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
             >
               {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
             </Trans>
@@ -561,6 +563,12 @@ export default function AddUserForm({
 
   const isAddRoleFromDashboardAsync = (phasesAdditionAllowed?: Array<string>) =>
     !!phasesAdditionAllowed && phasesAdditionAllowed[0] === 'dashboard-async';
+
+  const isAddAdminDisabledForPSP = (productRole: string) =>
+    party.institutionType === 'PSP' &&
+    userProduct?.id === 'prod-pagopa' &&
+    adminMaxLimit >= ENV.MAX_ADMIN_COUNT &&
+    productRole.toLowerCase().startsWith('admin');
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -759,23 +767,24 @@ export default function AddUserForm({
                     <CustomFormControlLabel
                       sx={{ marginTop: 0 }}
                       checked={formik.values.productRoles.indexOf(p.productRole) > -1}
-                      disabled={!validTaxcode}
+                      disabled={!validTaxcode || isAddAdminDisabledForPSP(p.selcRole)}
                       value={p.productRole}
                       control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
-                      label={renderLabel(p, !!validTaxcode)}
+                      label={renderLabel(p, !!validTaxcode, isAddAdminDisabledForPSP(p.selcRole))}
                       onClick={
-                        validTaxcode
-                          ? () => {
+                        !validTaxcode || isAddAdminDisabledForPSP(p.selcRole)
+                          ? undefined
+                          : () => {
                               addRole(p);
                               setIsAddInBulkEAFlow(
                                 p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
                                   party.products.some(
-                                    (p) => p.productId === userProduct?.id && p.isAggregator
+                                    (prod) =>
+                                      prod.productId === userProduct?.id && prod.isAggregator
                                   )
                               );
                               setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
                             }
-                          : undefined
                       }
                     />
                     {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (

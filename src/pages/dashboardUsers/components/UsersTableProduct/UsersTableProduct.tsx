@@ -28,7 +28,6 @@ type Props = {
   onFetchStatusUpdate: (isFetching: boolean, count: number, error: boolean) => void;
   userDetailUrl: string;
   filterConfiguration: UsersTableFiltersConfig;
-  hideProductWhenLoading: boolean;
   productRolesLists: ProductRolesLists;
   searchByName: string;
 };
@@ -140,6 +139,15 @@ const UsersTableProduct = ({
             : { content: users.content.concat(r.content), page: r.page };
 
         setUsers(nextUsers);
+        if (product.id === 'prod-pagopa') {
+          const count = nextUsers.content.filter((user) =>
+            user.product.roles.some(
+              // @ts-expect-error ADMIN_EA is not supported in the filter by role at the moment
+              (roleInfo) => roleInfo.selcRole === 'ADMIN' || roleInfo.selcRole === 'ADMIN_EA'
+            )
+          ).length;
+          sessionStorage.setItem('adminMaxLimit', count.toString());
+        }
         setError(false);
         setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
         onFetchStatusUpdate(false, nextUsers.content.length, false);

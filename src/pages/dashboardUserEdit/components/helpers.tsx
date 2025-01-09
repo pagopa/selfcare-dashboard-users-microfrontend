@@ -1,14 +1,14 @@
 import { Typography } from '@mui/material';
 import { ProductRole } from '../../../model/ProductRole';
 
-export const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
+export const renderLabel = (p: ProductRole, validTaxcode: boolean, isAddAdminDisabledForPSP: boolean) => (
   <>
     <Typography
       variant="body1"
       sx={{
         fontWeight: 'fontWeightRegular',
         fontSize: '18px',
-        color: !validTaxcode ? 'text.disabled' : 'colorTextPrimary',
+        color: !validTaxcode || isAddAdminDisabledForPSP ? 'text.disabled' : 'colorTextPrimary',
       }}
     >
       {p.title}
@@ -18,7 +18,7 @@ export const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
       sx={{
         fontWeight: 'fontWeightRegular',
         fontSize: 'fontSize',
-        color: !validTaxcode ? 'text.disabled' : 'text.secondary',
+        color: !validTaxcode || isAddAdminDisabledForPSP ? 'text.disabled' : 'text.secondary',
         marginBottom: 1,
       }}
     >
