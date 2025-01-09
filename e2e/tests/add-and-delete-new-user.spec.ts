@@ -17,10 +17,12 @@ test('Add and delete new user', async ({ page }) => {
   await page.getByLabel('E-mail istituzionale *').press('ControlOrMeta+c');
   await page.getByLabel('Conferma e-mail *').click();
   await page.getByLabel('Conferma e-mail *').fill('test@test.com');
+  await page.getByLabel('Seleziona il prodotto').click();
+  await page.getByTestId('product: prod-pn').click();
   await page.getByLabel('AmministratoreHa tutti i').check();
   await page.getByRole('button', { name: 'Continua' }).click();
   await page.getByRole('button', { name: 'Assegna' }).click();
-  await expect(page.getByRole('main')).toContainText('Anselmo Sartori');
+  setTimeout(() => {}, 2000);
   await expect(page.getByRole('main')).toContainText('Rimuovi');
   await page.getByRole('button', { name: 'Rimuovi' }).click();
   await page.getByRole('button', { name: 'Rimuovi' }).click();

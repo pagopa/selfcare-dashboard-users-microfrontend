@@ -229,7 +229,7 @@ export default {
       addLegalRepresentative: {
         title: 'Indica il Legale Rappresentante',
         subTitle:
-          'Firmerà il Modulo di aggiunta per i nuovi Amministratori, inviato alla PEC dell’ente, per autorizzarli ad operare sul prodotto <strong>{{productName}}</strong> per il tuo ente.',
+          'Firmerà il Modulo di aggiunta per i nuovi Amministratori, inviato alla PEC dell’ente, per autorizzarli ad operare sul prodotto <strong>{{productName}}</strong> per il tuo ente. Potrà inoltre operare come Amministratore.',
         taxCode: 'Codice Fiscale',
         name: 'Nome',
         surname: 'Cognome',
