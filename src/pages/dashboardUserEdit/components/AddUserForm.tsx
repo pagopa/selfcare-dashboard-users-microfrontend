@@ -127,7 +127,7 @@ export default function AddUserForm({
   const { registerUnloadEvent, unregisterUnloadEvent } = useUnloadEventInterceptor();
   const { hasPermission } = usePermissions();
   const onExit = useUnloadEventOnExit();
-  const adminMaxLimit = parseInt(sessionStorage.getItem('adminMaxLimit') || '3', 10);
+  const adminNumberCount = parseInt(sessionStorage.getItem('adminNumberCount') || '3', 10);
 
   const isPnpgTheOnlyProduct =
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
@@ -567,7 +567,7 @@ export default function AddUserForm({
   const isAddAdminDisabledForPSP = (productRole: string) =>
     party.institutionType === 'PSP' &&
     userProduct?.id === 'prod-pagopa' &&
-    adminMaxLimit >= ENV.MAX_ADMIN_COUNT &&
+    adminNumberCount >= ENV.MAX_ADMIN_COUNT &&
     productRole.toLowerCase().startsWith('admin');
 
   return (

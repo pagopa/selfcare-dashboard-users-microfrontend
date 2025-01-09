@@ -146,7 +146,7 @@ const UsersTableProduct = ({
               (roleInfo) => roleInfo.selcRole === 'ADMIN' || roleInfo.selcRole === 'ADMIN_EA'
             )
           ).length;
-          sessionStorage.setItem('adminMaxLimit', count.toString());
+          sessionStorage.setItem('adminNumberCount', count.toString());
         }
         setError(false);
         setNoMoreData(r.content.length < (pageRequest?.page as PageRequest).size);
