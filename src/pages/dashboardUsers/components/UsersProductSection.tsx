@@ -19,7 +19,6 @@ type Props = {
   filters: UsersTableFiltersConfig;
   productsRolesMap: ProductsRolesMap;
   incrementalLoad: boolean;
-  isPnpg?: boolean;
   isPnpgTheOnlyProduct?: boolean;
   searchByName: string;
 };
@@ -36,7 +35,7 @@ export default function UsersProductSection({
   incrementalLoad,
   isPnpgTheOnlyProduct,
   searchByName,
-}: Props) {
+}: Readonly <Props>) {
   const [fetchStatus, setFetchStatus] = useState({ loading: true, noData: false, error: false });
 
   return (
