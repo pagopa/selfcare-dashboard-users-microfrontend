@@ -77,7 +77,6 @@ export default function UserProductDetail({
                     sx={{
                       fontSize: '14px',
                       borderRadius: '16px',
-                      width: '78px',
                       height: '24px',
                       display: 'flex',
                       alignItems: 'center',

@@ -277,7 +277,7 @@ export default function UserProductActions({
               </Box>
             )}
           {!isPnpg && (
-            <Box width="52px" display="flex">
+            <Box display="flex">
               <Link
                 onClick={handleOpen}
                 component="button"

@@ -88,7 +88,6 @@ export default function UserProductRoles({
                           sx={{
                             fontSize: '14px',
                             borderRadius: '16px',
-                            width: '78px',
                             height: '24px',
                           }}
                         />
