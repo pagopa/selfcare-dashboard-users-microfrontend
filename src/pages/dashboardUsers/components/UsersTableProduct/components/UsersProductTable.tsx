@@ -1,6 +1,13 @@
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import { Box, Button, Chip, Grid, styled, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridRow, GridSortDirection, GridSortModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridRow,
+  GridRowProps,
+  GridSortDirection,
+  GridSortModel,
+} from '@mui/x-data-grid';
 import { theme } from '@pagopa/mui-italia';
 import { CustomPagination } from '@pagopa/selfcare-common-frontend/lib';
 import { Page } from '@pagopa/selfcare-common-frontend/lib/model/Page';
@@ -33,6 +40,10 @@ interface UsersTableProps {
   onDelete: (partyUser: PartyProductUser) => void;
   onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
 }
+
+type CustomRowProps = Omit<GridRowProps, 'row'> & {
+  row: PartyProductUser;
+};
 
 const CustomDataGrid = styled(DataGrid)({
   border: 'none !important',
@@ -145,8 +156,8 @@ export default function UsersProductTable({
         headerHeight={headerHeight}
         hideFooterSelectedRowCount={true}
         components={{
-          Row: (props) => {
-            const user = props.row as PartyProductUser;
+          Row: (props: CustomRowProps) => {
+            const user = props.row;
             const userSuspended = user.status === 'SUSPENDED';
             const userRolesTitles = user.product.roles.map((role) =>
               transcodeProductRole2Title(role.role, productRolesLists)
