@@ -80,7 +80,7 @@ export default function AddLegalRepresentativeForm({
         return newest;
       }
 
-      return new Date(current.createdAt) > new Date(newest.createdAt) ? current : newest;
+      return current.createdAt.getTime() > newest.createdAt.getTime() ? current : newest;
     }, managers[0]);
   };
 
@@ -206,8 +206,7 @@ export default function AddLegalRepresentativeForm({
               product_id: productId,
               from: 'dashboard',
             });
-          }
-          if (data.result) {
+          } else {
             await validateUser(user);
           }
         }
@@ -218,7 +217,7 @@ export default function AddLegalRepresentativeForm({
           id: `VALIDATE_USER_ERROR`,
           blocking: false,
           error,
-          techDescription: `Something gone wrong whilev calling check-manager`,
+          techDescription: `Something gone wrong while calling check-manager`,
           toNotify: true,
         });
       })
