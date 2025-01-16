@@ -61,40 +61,45 @@ export default function AddLegalRepresentativeForm({
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
   const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
-
   const [previousLegalRepresentative, setPreviousLegalRepresentative] =
-    useState<ProductUserResource>();
+    useState<ProductUserResource | null>();
+
   const requestId = uniqueId();
   const { t } = useTranslation();
   const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
   const addError = useErrorDispatcher();
 
+  const findNewestManager = (managers: Array<ProductUserResource>): ProductUserResource | null => {
+    if (!managers || managers.length === 0) {
+      return null;
+    }
+
+    return managers.reduce((newest, current) => {
+      if (!newest.createdAt || !current.createdAt) {
+        return newest;
+      }
+
+      return current.createdAt.getTime() > newest.createdAt.getTime() ? current : newest;
+    }, managers[0]);
+  };
+
+  const setFormValues = async (formik: any, manager: ProductUserResource | null) => {
+    await formik.setValues({
+      name: manager?.name ?? '',
+      surname: manager?.surname ?? '',
+      taxCode: manager?.fiscalCode ?? '',
+      email: manager?.email ?? '',
+      role: RoleEnum.MANAGER,
+    });
+  };
+
   useEffect(() => {
     setLoadingGetLegalRepresentative(true);
     getLegalRepresentativeService(party, productId, RoleEnum.MANAGER)
       .then(async (r) => {
-        const newestManager = r.reduce(
-          (newest: ProductUserResource, current: ProductUserResource) => {
-            if (!newest) {
-              return current;
-            }
-            if (!newest.createdAt || !current.createdAt) {
-              return newest;
-            }
-            return new Date(current.createdAt).getTime() > new Date(newest.createdAt).getTime()
-              ? current
-              : newest;
-          }
-        );
-
-        await formik.setValues({
-          name: newestManager.name ?? '',
-          surname: newestManager.surname ?? '',
-          taxCode: newestManager.fiscalCode ?? '',
-          email: newestManager.email ?? '',
-          role: RoleEnum.MANAGER,
-        });
+        const newestManager = findNewestManager(r);
+        await setFormValues(formik, newestManager);
         setPreviousLegalRepresentative(newestManager);
       })
       .catch((error) => {
@@ -180,48 +185,54 @@ export default function AddLegalRepresentativeForm({
     role: RoleEnum.MANAGER,
   };
 
+  const checkManager = async (user: AsyncOnboardingUserData) => {
+    setLoadingCheckManager(true);
+    checkManagerService({
+      institutionType: party.institutionType as any,
+      origin: party?.origin,
+      originId: party?.originId,
+      productId,
+      subunitCode: party?.subunitCode,
+      taxCode: party.vatNumber,
+      users: [{ ...user, role: RoleEnum.MANAGER as RoleEnum }],
+    })
+      .then(async (data) => {
+        if (data) {
+          setIsChangedManager(!data.result);
+          if (!data.result) {
+            trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
+              request_id: requestId,
+              party_id: party.partyId,
+              product_id: productId,
+              from: 'dashboard',
+            });
+          } else {
+            await validateUser(user);
+          }
+        }
+      })
+      .catch(async (error) => {
+        await validateUser(user);
+        addError({
+          id: `VALIDATE_USER_ERROR`,
+          blocking: false,
+          error,
+          techDescription: `Something gone wrong while calling check-manager`,
+          toNotify: true,
+        });
+      })
+      .finally(() => setLoadingCheckManager(false));
+  };
+
   const formik = useFormik<AsyncOnboardingUserData>({
     initialValues: initialFormData,
     validate,
-    onSubmit: (user) => {
-      setLoadingCheckManager(true);
-      checkManagerService({
-        institutionType: party.institutionType as any,
-        origin: party?.origin,
-        originId: party?.originId,
-        productId,
-        subunitCode: party?.subunitCode,
-        taxCode: party.vatNumber,
-        users: [{ ...user, role: RoleEnum.MANAGER as RoleEnum }],
-      })
-        .then((data) => {
-          if (data) {
-
-            setIsChangedManager(!data.result);
-            if (!data.result) {
-              trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
-                request_id: requestId,
-                party_id: party.partyId,
-                product_id: productId,
-                from: 'dashboard',
-              });
-            }
-            if (data.result) {
-              validateUser(user);
-            }
-          }
-        })
-        .catch((error) => {
-          validateUser(user);
-          addError({
-            id: `VALIDATE_USER_ERROR`,
-            blocking: false,
-            error,
-            techDescription: `Something gone wrong whilev calling check-manager`,
-            toNotify: true,
-          });
-        })
-        .finally(() => setLoadingCheckManager(false));
+    onSubmit: async (user) => {
+      if (previousLegalRepresentative) {
+        await checkManager(user);
+      } else {
+        await validateUser(user);
+      }
     },
   });
 
@@ -241,7 +252,7 @@ export default function AddLegalRepresentativeForm({
     return '';
   };
 
-  const validateUser = (user: AsyncOnboardingUserData) => {
+  const validateUser = async (user: AsyncOnboardingUserData) => {
     validateLegalRepresentative({
       name: user.name,
       surname: user.surname,
@@ -364,9 +375,9 @@ export default function AddLegalRepresentativeForm({
     <Grid>
       <ConfirmChangeLRModal
         open={isChangedManager}
-        onConfirm={() => {
+        onConfirm={async () => {
           setIsChangedManager(false);
-          validateUser(formik.values);
+          await validateUser(formik.values);
         }}
         onClose={() => setIsChangedManager(false)}
         managerFullName={`${previousLegalRepresentative?.name} ${previousLegalRepresentative?.surname}`}
@@ -382,7 +393,6 @@ export default function AddLegalRepresentativeForm({
               marginBottom: 5,
             }}
           >
-
             <Grid item mb={3}>
               <Grid item xs={12}>
                 <TitleBox
