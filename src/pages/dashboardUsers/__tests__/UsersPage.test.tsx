@@ -48,13 +48,6 @@ test('test add new user', async () => {
   screen.getByRole('heading', { name: 'Aggiungi un nuovo utente' });
 });
 
-test('add new number', async () => {
-  await renderApp();
-  const addNewUserButton = screen.getByRole('button', { name: (name) => name === 'Aggiungi' });
-  expect(addNewUserButton).toBeEnabled();
-  fireEvent.click(addNewUserButton);
-});
-
 test('test filter users from role', async () => {
   await renderApp();
   const filterButton = screen.getByRole('button', { name: 'Filtra' });
