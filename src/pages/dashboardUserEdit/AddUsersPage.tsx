@@ -47,82 +47,84 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
     <MessageNoAction {...outcome} />
   ) : (
     <Grid
-      container
       item
-      justifyContent={'center'}
       px={3}
       mt={3}
       sx={{ width: '100%', backgroundColor: 'transparent !important' }}
+      xs={12}
+      md={8}
     >
-      <Grid container item xs={12} md={8}>
-        <Grid item xs={12} mb={2}>
-          <ProductNavigationBar
-            showBackComponent={true}
-            goBack={goBack}
-            backLabel={t('userPagesPath.exit')}
-            colorBackComponent="primary.main"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TitleBox
-            variantTitle="h4"
-            variantSubTitle="body1"
-            title={t('userEdit.addForm.title')}
-            subTitle={t('userEdit.addForm.subTitle')}
-            mbTitle={1}
-            mbSubTitle={1}
-          />
-        </Grid>
-        <Grid item xs={12} mb={4}>
-          <ButtonNaked
-            component="button"
-            color="primary"
-            sx={{ fontWeight: 'fontWeightSemiBold', fontSize: '14px', textDecoration: 'underline' }}
-            onClick={() => {
-              window.open(ENV.DOCUMENTATION_LINKS.USERS);
-            }}
-          >
-            {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
-          </ButtonNaked>
-        </Grid>
-        <Grid item xs={12}>
-          {currentStep === 1 && (
-            <AddUserForm
-              party={party}
-              products={activeProducts}
-              productsRolesMap={productsRolesMap}
-              initialFormData={{
-                taxCode: '',
-                name: '',
-                surname: '',
-                email: '',
-                confirmEmail: '',
-                certifiedMail: false,
-                certifiedName: false,
-                certifiedSurname: false,
-                productRoles: [],
-              }}
-              canEditRegistryData={true}
-              forwardNextStep={forwardNextStep}
-              setCurrentSelectedProduct={setCurrentSelectedProduct}
-              setAsyncUserData={setAsyncUserData}
-              isAddInBulkEAFlow={isAddInBulkEAFlow}
-              setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
-            />
-          )}
+      <Grid item xs={12} mb={2}>
+        <ProductNavigationBar
+          showBackComponent={true}
+          goBack={goBack}
+          backLabel={t('userPagesPath.exit')}
+          colorBackComponent="primary.main"
+        />
+      </Grid>
 
-          {currentStep === 2 && (
-            <AddLegalRepresentativeForm
-              productName={currentSelectedProduct?.title ?? ''}
-              productId={currentSelectedProduct?.id ?? ''}
-              backPreviousStep={backPreviousStep}
-              party={party}
-              asyncUserData={asyncUserData}
-              setOutcome={setOutcome}
-              isAddInBulkEAFlow={isAddInBulkEAFlow}
-            />
-          )}
-        </Grid>
+      <TitleBox
+        variantTitle="h4"
+        variantSubTitle="body1"
+        title={t('userEdit.addForm.title')}
+        subTitle={t('userEdit.addForm.subTitle')}
+        mbTitle={1}
+        mbSubTitle={1}
+      />
+
+      <ButtonNaked
+        component="button"
+        color="primary"
+        sx={{
+          fontWeight: 'fontWeightBold',
+          fontSize: '14px',
+          textDecoration: 'underline',
+          marginBottom: 5,
+        }}
+        onClick={() => {
+          window.open(ENV.DOCUMENTATION_LINKS.USERS);
+        }}
+      >
+        {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
+      </ButtonNaked>
+
+      <Grid item xs={12}>
+        {currentStep === 1 && (
+          <AddUserForm
+            party={party}
+            products={activeProducts}
+            productsRolesMap={productsRolesMap}
+            initialFormData={{
+              taxCode: '',
+              name: '',
+              surname: '',
+              email: '',
+              confirmEmail: '',
+              certifiedMail: false,
+              certifiedName: false,
+              certifiedSurname: false,
+              productRoles: [],
+            }}
+            canEditRegistryData={true}
+            forwardNextStep={forwardNextStep}
+            setCurrentSelectedProduct={setCurrentSelectedProduct}
+            setAsyncUserData={setAsyncUserData}
+            isAddInBulkEAFlow={isAddInBulkEAFlow}
+            setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
+          />
+        )}
+
+        {currentStep === 2 && (
+          <AddLegalRepresentativeForm
+            productName={currentSelectedProduct?.title ?? ''}
+            productId={currentSelectedProduct?.id ?? ''}
+            backPreviousStep={backPreviousStep}
+            party={party}
+            asyncUserData={asyncUserData}
+            setOutcome={setOutcome}
+            isAddInBulkEAFlow={isAddInBulkEAFlow}
+          />
+        )}
       </Grid>
     </Grid>
   );
