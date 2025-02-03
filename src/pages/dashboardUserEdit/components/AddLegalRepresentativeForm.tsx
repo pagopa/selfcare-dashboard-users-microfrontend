@@ -34,6 +34,7 @@ import { getLegalRepresentativeService } from '../../../services/usersService';
 import {
   LOADING_TASK_CHECK_MANAGER,
   LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
+  LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE,
 } from '../../../utils/constants';
 
 import { ENV } from '../../../utils/env';
@@ -68,6 +69,7 @@ export default function AddLegalRepresentativeForm({
   const { t } = useTranslation();
   const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
+  const setLoadingOnboarding = useLoading(LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE);
   const addError = useErrorDispatcher();
 
   const findNewestManager = (managers: Array<ProductUserResource>): ProductUserResource | null => {
@@ -281,6 +283,7 @@ export default function AddLegalRepresentativeForm({
   };
 
   const sendOnboardingData = (asyncUserData: Array<AsyncOnboardingUserData>) => {
+    setLoadingOnboarding(true);
     const submitRequestData = {
       productId,
       institutionType: party?.institutionType as InstitutionTypeEnum,
@@ -296,7 +299,11 @@ export default function AddLegalRepresentativeForm({
       : onboardingPostUser(submitRequestData);
 
     submitApiToCall
-      .then(() => {
+      .then((res) => {
+        if (res === null) {
+          setOutcome(outcomeContent.error);
+          return;
+        }
         setOutcome(outcomeContent.success);
         if (!isAddInBulkEAFlow) {
           trackEvent('ONBOARDING_USER_SUCCESS', {
@@ -309,7 +316,8 @@ export default function AddLegalRepresentativeForm({
       })
       .catch((_err) => {
         setOutcome(outcomeContent.error);
-      });
+      })
+      .finally(() => setLoadingOnboarding(false));
   };
 
   const goToUsersPage = () => {
