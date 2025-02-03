@@ -300,7 +300,7 @@ export default function AddLegalRepresentativeForm({
 
     submitApiToCall
       .then((res) => {
-        if (res === null) {
+        if (res === 404) {
           setOutcome(outcomeContent.error);
           return;
         }
