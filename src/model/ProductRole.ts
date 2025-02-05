@@ -22,7 +22,14 @@ export const buildEmptyProductRolesLists = (): ProductRolesLists => ({
   list: [],
   groupBySelcRole: { ADMIN: [], LIMITED: [] },
   groupByProductRole: {},
-  groupByPartyRole: { MANAGER: [], DELEGATE: [], SUB_DELEGATE: [], OPERATOR: [], ADMIN_EA: [] },
+  groupByPartyRole: {
+    MANAGER: [],
+    DELEGATE: [],
+    SUB_DELEGATE: [],
+    OPERATOR: [],
+    ADMIN_EA: [],
+    ADMIN_EA_IO: [],
+  },
 });
 
 export type ProductRolesByProductRoleType = { [productRole: string]: ProductRole };
@@ -68,7 +75,7 @@ const productRolesGroupByProductRole = (
   }, {});
 
 const normalizedProductRole = (productRole: string) =>
-  productRole === 'ADMIN' || productRole === 'ADMIN_EA' ? 'admin' : productRole;
+  productRole?.startsWith('ADMIN') ? 'admin' : productRole;
 
 export const transcodeProductRole2Title = (
   productRole: string,
