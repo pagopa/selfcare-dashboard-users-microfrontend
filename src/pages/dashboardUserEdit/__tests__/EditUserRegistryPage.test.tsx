@@ -2,15 +2,10 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
-import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 
 
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
 jest.mock('../../../services/usersService');
-
-beforeAll(() => {
-  i18n.changeLanguage('it');
-});
 
 const renderApp = async (partyId: string = 'onboarded', userId: string = 'uid') => {
   const history = createMemoryHistory();

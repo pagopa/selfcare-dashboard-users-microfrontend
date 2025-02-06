@@ -67,7 +67,7 @@ test('should render AddLegalRepresentativeForm with isAddInBulkEAFlow true', () 
     />
   );
 
-  const goBackButton = screen.getByRole('button', { name: 'userEdit.addForm.backButton' });
+  const goBackButton = screen.getByRole('button', { name: 'Indietro' });
   expect(goBackButton).toBeInTheDocument();
   fireEvent.click(goBackButton);
 });
@@ -85,7 +85,7 @@ test('should render AddLegalRepresentativeForm with product interop', () => {
       isAddInBulkEAFlow={false}
     />
   );
-  const userDocLink = screen.getByText('userEdit.addForm.role.documentationLink');
+  const userDocLink = screen.getByText('Dubbi? Vai al manuale');
   fireEvent.click(userDocLink);
 
   const nameInput = document.querySelector('#name') as HTMLInputElement;
@@ -104,6 +104,6 @@ test('should render AddLegalRepresentativeForm with product interop', () => {
   fireEvent.change(emailInput, { target: { value: 'franco.rossi@test.it' } })
   expect(emailInput.value).toBe('franco.rossi@test.it');
 
-  const sendRequest = screen.getByText('userEdit.addForm.addLegalRepresentative.sendRequest');
+  const sendRequest = screen.getByText('Invia richiesta');
   fireEvent.click(sendRequest);
 });
