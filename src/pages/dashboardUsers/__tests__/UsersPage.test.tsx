@@ -1,4 +1,3 @@
-import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { useIsMobile } from '../../../hooks/useIsMobile';
@@ -16,10 +15,6 @@ jest.mock('../../../hooks/useIsMobile', () => ({
 beforeEach(() => {
   jest.clearAllMocks();
   cleanup();
-});
-
-beforeAll(() => {
-  i18n.changeLanguage('it');
 });
 
 const renderApp = async (partyId: string = 'onboarded') => {

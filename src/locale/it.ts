@@ -277,6 +277,13 @@ export default {
         confirmButton: 'Aggiungi',
         closeButton: 'Annulla',
       },
+      adminLimit: {
+        title: 'Limite massimo raggiunto',
+        message:
+          'Al momento hai {{adminCount}} Amministratori attivi, che è il numero massimo consentito. <1 /> Per aggiungerne uno nuovo, rimuovi prima un Amministratore esistente.',
+        modifyButton: 'Modifica',
+        backButton: 'Indietro',
+      },
     },
     editRegistryForm: {
       title: 'Modifica il profilo utente',
@@ -299,7 +306,8 @@ export default {
       },
       mobilePhone: {
         label: 'Tel. di lavoro (facoltativo)',
-        description: 'Solo per Amministratori: inserisci il mumero di cellulare di lavoro o, se non disponibile, il fisso.',
+        description:
+          'Solo per Amministratori: inserisci il mumero di cellulare di lavoro o, se non disponibile, il fisso.',
       },
       backButton: 'Indietro',
       confirmButton: 'Continua',

@@ -26,7 +26,7 @@ test('onClose of modal', () => {
       managerFullName={'Name Surname'}
     />
   );
-  const button = screen.getByRole('button', { name: 'userEdit.addForm.backButton' });
+  const button = screen.getByRole('button', { name: 'Indietro' });
   expect(button).toBeInTheDocument();
   fireEvent.click(button);
   expect(onclose).toHaveBeenCalled();
@@ -42,7 +42,7 @@ test('onConfirm of modal', () => {
     />
   );
 
-  const button = screen.getByRole('button', { name: 'userEdit.addForm.continueButton' });
+  const button = screen.getByRole('button', { name: 'Continua' });
   expect(button).toBeInTheDocument();
   fireEvent.click(button);
   expect(onConfirm).toHaveBeenCalled();
