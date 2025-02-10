@@ -9,6 +9,7 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
 import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
+import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
 import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
@@ -1084,6 +1085,14 @@ export const mockedUserRegistry: UserRegistry = {
   certifiedMail: true,
 };
 
+const mockedUserCount: UserCountResource = {
+  count: 0,
+  institutionId: 'string',
+  productId: 'string',
+  roles: ['string'],
+  status: ['string'],
+};
+
 export const fetchPartyUsers = (
   pageRequest: PageRequest,
   _party: Party,
@@ -1351,3 +1360,10 @@ export const onboardingPostUserMocked = (_user: OnboardingUserDto): Promise<void
 
 export const onboardingAggregatorServiceMocked = (_user: OnboardingUserDto): Promise<void> =>
   new Promise((resolve) => resolve());
+
+export const getUserCountServiceMocked = (
+  _institutionId: string,
+  _productId: string,
+  _roles?: string,
+  _status?: string
+): Promise<UserCountResource> => Promise.resolve(mockedUserCount);

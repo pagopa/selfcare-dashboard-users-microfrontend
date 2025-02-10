@@ -15,6 +15,7 @@ import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResour
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
+import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -235,5 +236,20 @@ export const DashboardApi = {
       userId,
     });
     return extractResponse(result, 204, onRedirectToLogin, 404);
+  },
+
+  getUserCount: async (
+    institutionId: string,
+    productId: string,
+    roles?: string,
+    status?: string
+  ): Promise<UserCountResource> => {
+    const result = await apiClient.v2GetUserCount({
+      institutionId,
+      productId,
+      roles,
+      status,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
   },
 };

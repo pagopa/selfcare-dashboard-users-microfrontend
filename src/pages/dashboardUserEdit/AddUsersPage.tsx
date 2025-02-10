@@ -1,18 +1,21 @@
 import { Grid } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia/dist/components/ButtonNaked/ButtonNaked';
+import { useErrorDispatcher, useLoading } from '@pagopa/selfcare-common-frontend/lib';
 import SessionModal from '@pagopa/selfcare-common-frontend/lib/components/SessionModal';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { RoleEnum } from '../../api/generated/onboarding/UserDto';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
 import { AsyncOnboardingUserData } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { PRODUCT_IDS } from '../../utils/constants';
+import { getUserCountService } from '../../services/usersService';
+import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
@@ -27,15 +30,23 @@ type Props = {
 export default function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
+  const addError = useErrorDispatcher();
+  const setLoading = useLoading(LOADING_TASK_GET_USER_ADMIN_COUNT);
+
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
   const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
   const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
   const [openAminMaxLimitsModal, setOpenAminMaxLimitsModal] = useState(false);
+  const [currentAdminCount, setCurrentAdminCount] = useState<number>(0);
 
   const forwardNextStep = () => {
-    setCurrentStep((prev) => prev + 1);
+    if (currentAdminCount >= Number(ENV.MAX_ADMIN_COUNT)) {
+      setOpenAminMaxLimitsModal(true);
+    } else {
+      setCurrentStep((prev) => prev + 1);
+    }
   };
 
   const backPreviousStep = () => {
@@ -49,6 +60,30 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   const usersPathWithProduct = `${resolvePathVariables(ENV.ROUTES.USERS, {
     partyId: party.partyId ?? '',
   })}#${PRODUCT_IDS.PAGOPA}`;
+
+  useEffect(() => {
+    if (party.institutionType === 'PSP' && currentSelectedProduct?.id === PRODUCT_IDS.PAGOPA) {
+      setLoading(true);
+      getUserCountService(
+        party.partyId ?? '',
+        currentSelectedProduct?.id ?? '',
+        [RoleEnum.MANAGER, RoleEnum.DELEGATE, RoleEnum.SUB_DELEGATE].join(',')
+      )
+        .then((userCount) => {
+          setCurrentAdminCount(userCount?.count ?? 0);
+        })
+        .catch((error) => {
+          addError({
+            id: 'FETCH_ADMIN_COUNT',
+            blocking: false,
+            error,
+            techDescription: `An error occurred while fetching admin count`,
+            toNotify: false,
+          });
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [party, currentSelectedProduct]);
 
   return outcome ? (
     <MessageNoAction {...outcome} />
