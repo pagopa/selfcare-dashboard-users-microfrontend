@@ -19,7 +19,7 @@ import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
-    const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imp3dF9hMjo3YTo0NjozYjoyYTo2MDo1Njo0MDo4ODphMDo1ZDphNDpmODowMToxZTozZSJ9.eyJmYW1pbHlfbmFtZSI6IlNhcnRvcmkiLCJmaXNjYWxfbnVtYmVyIjoiU1JUTkxNMDlUMDZHNjM1UyIsIm5hbWUiOiJBbnNlbG1vIiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImZyb21fYWEiOmZhbHNlLCJ1aWQiOiI1MDk2ZTRjNi0yNWExLTQ1ZDUtOWJkZi0yZmI5NzRhN2MxYzgiLCJsZXZlbCI6IkwyIiwiaWF0IjoxNzM4OTE2NjM0LCJleHAiOjE3Mzg5NDkwMzQsImF1ZCI6ImFwaS5kZXYuc2VsZmNhcmUucGFnb3BhLml0IiwiaXNzIjoiU1BJRCIsImp0aSI6Il8xMTdmYzIxYzJhMzA2OWNlNTJlMSJ9.StggJfueiReos18W2P8CwR2m8c27PjDPx-VJ2kUDw3T--dCTDCooPJmLeKv8RtYP6bx9PKtVxsAPHDd2iUHnNeJA4Q44ain4ISkUKLh7xwQj5vL2I5baFPASCNUurC5XpQuy9aqDGDRxE2oSBOqYi6WRzSKYlfIaoedeQMgVU7kkPSmT4CckptiUCneUqJQBko7WhxrivnAoda86Bb1GqJB5II03R04oeXjDcenjDr_9qgYaC1yDTgiur-ehSfYDBbcg24j-VcRJK84TAvKAbhhMES4M_b7h24js_k8JOnczwiju-VlDjIGBZEI2TTnOzPOKn-NJ7CtD7SrHg5oPcQ';
+    const token = storageTokenOps.read();
     return wrappedOperation({
       ...params,
       bearerAuth: `Bearer ${token}`,
