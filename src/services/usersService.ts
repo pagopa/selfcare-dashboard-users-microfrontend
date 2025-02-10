@@ -4,6 +4,7 @@ import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { DashboardApi } from '../api/DashboardApiClient';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
+import { UserCountResource } from '../api/generated/b4f-dashboard/UserCountResource';
 import { Party, UserRole, UserStatus } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
@@ -28,6 +29,7 @@ import {
   fetchUserGroups as fetchUserGroupsMocked,
   fetchUserRegistryById as fetchUserRegistryByIdMocked,
   getLegalRepresentativeServiceMocked,
+  getUserCountServiceMocked,
   mockedUserRegistry,
   savePartyUser as savePartyUserMocked,
   updatePartyUser as updatePartyUserMocked,
@@ -246,5 +248,18 @@ export const fetchUserGroups = (
     return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
       (resources) => resources.content.map(usersGroupPlainResource2PartyGroup) ?? []
     );
+  }
+};
+
+export const getUserCountService = (
+  institutionId: string,
+  productId: string,
+  roles?: string,
+  status?: string
+): Promise<UserCountResource> => {
+  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+    return getUserCountServiceMocked(institutionId, productId, roles, status);
+  } else {
+    return DashboardApi.getUserCount(institutionId, productId, roles, status);
   }
 };

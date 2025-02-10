@@ -1111,6 +1111,89 @@
         "summary": "createInstitutionProductUser"
       }
     },
+    "/v2/institutions/{institutionId}/products/{productId}/users/count": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "path",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Product's unique identifier",
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
+            "in": "query",
+            "name": "roles",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "description": "User's status",
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserCountResource"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "Service to get the number of users related to a specific pair of institution-product optionally filtered by role and status",
+        "operationId": "v2GetUserCount",
+        "summary": "getUserCount"
+      }
+    },
     "/v2/institutions/{institutionId}/products/{productId}/users/{userId}": {
       "put": {
         "consumes": [
@@ -3968,6 +4051,39 @@
         "name"
       ],
       "title": "UpdateUserGroupDto",
+      "type": "object"
+    },
+    "UserCountResource": {
+      "properties": {
+        "count": {
+          "description": "Number of users",
+          "format": "int64",
+          "type": "integer"
+        },
+        "institutionId": {
+          "description": "Institution's unique internal identifier",
+          "type": "string"
+        },
+        "productId": {
+          "description": "Product's unique identifier",
+          "type": "string"
+        },
+        "roles": {
+          "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "status": {
+          "description": "User's status",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "title": "UserCountResource",
       "type": "object"
     },
     "UserGroupIdResource": {
