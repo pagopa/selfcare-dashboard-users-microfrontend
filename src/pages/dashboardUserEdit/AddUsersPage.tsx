@@ -62,7 +62,11 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   })}#${PRODUCT_IDS.PAGOPA}`;
 
   useEffect(() => {
-    if (party.institutionType === 'PSP' && currentSelectedProduct?.id === PRODUCT_IDS.PAGOPA) {
+    if (
+      ENV.ENABLE_MAX_ADMIN_LIMIT &&
+      party.institutionType === 'PSP' &&
+      currentSelectedProduct?.id === PRODUCT_IDS.PAGOPA
+    ) {
       setLoading(true);
       getUserCountService(
         party.partyId ?? '',
