@@ -53,6 +53,7 @@ export const ENV = {
     .get('REACT_APP_PARTY_PRODUCT_USERS_PAGE_SIZE')
     .required()
     .asInt(),
-  
+
   MAX_ADMIN_COUNT: env.get('REACT_APP_MAX_ADMIN_COUNT').default('4').asString(),
+  ENABLE_MAX_ADMIN_LIMIT: env.get('REACT_APP_ENABLE_ADMIN_LIMIT').default('false').asBool(),
 };
