@@ -191,6 +191,25 @@ export const mockedParties: Array<Party> = [
         ],
       },
       {
+        productId: 'prod-io',
+        authorized: false,
+        productOnBoardingStatus: ProductOnBoardingStatusEnum.REJECTED,
+        userRole: 'ADMIN',
+        billing: {
+          vatNumber: '11111111111',
+          recipientCode: 'CH435V',
+          publicServices: true,
+        },
+        userProductActions: [
+          Actions.ListProductUsers,
+          Actions.ManageProductUsers,
+          Actions.AccessProductBackoffice,
+          Actions.ViewDelegations,
+          Actions.ListActiveProducts,
+          Actions.AccessProductBackoffice,
+        ],
+      },
+      {
         productId: 'prod-io-premium',
         authorized: true,
         productOnBoardingStatus: ProductOnBoardingStatusEnum.PENDING,

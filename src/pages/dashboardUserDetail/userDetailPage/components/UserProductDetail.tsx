@@ -1,11 +1,15 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Alert, Box, Chip, Divider, Grid, Link, Tooltip, Typography } from '@mui/material';
 import { ProductAvatar } from '@pagopa/mui-italia';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductOnBoardingStatusEnum } from '../../../../api/generated/b4f-dashboard/OnboardedProductResource';
 import { Party } from '../../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
+import { PRODUCT_IDS } from '../../../../utils/constants';
 import { ENV } from '../../../../utils/env';
 import UserProductRoles from '../../components/UserProductRoles';
 import UserProductActions from './../../components/UserProductActions';
@@ -36,7 +40,17 @@ export default function UserProductDetail({
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
-  const isPnpg = product.id.startsWith('prod-pn-pg');
+  const isPnpg = product.id.startsWith(PRODUCT_IDS.PNPG);
+  const { hasPermission } = usePermissions();
+
+  const canEditUserRole =
+    !partyUser.isCurrentUser &&
+    party.products
+      .filter((pp) => pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE)
+      .find(
+        (pp) =>
+          pp.productId === product.id && hasPermission(pp.productId, Actions.ManageProductUsers)
+      );
 
   return (
     <>
@@ -86,8 +100,7 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
-          {party.products.find((pp) => pp.productId === product.id && pp.authorized === false) &&
-          !partyUser.isCurrentUser ? (
+          {canEditUserRole ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
                 <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
@@ -116,7 +129,7 @@ export default function UserProductDetail({
       <Grid item xs={12} mt={3}>
         <Divider sx={{ borderColor: 'background.default' }} />
       </Grid>
-      {userProduct.id === 'prod-interop' &&
+      {userProduct.id === PRODUCT_IDS.INTEROP &&
         userProduct.roles[0].selcRole === 'ADMIN' &&
         !partyUser.isCurrentUser && (
           <Alert severity="info" sx={{ mt: 2 }}>

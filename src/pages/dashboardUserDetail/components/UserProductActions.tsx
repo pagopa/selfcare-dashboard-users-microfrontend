@@ -9,7 +9,7 @@ import { Party, UserStatus } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
-import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { LOADING_TASK_UPDATE_PARTY_USER_STATUS, PRODUCT_IDS } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { deletePartyUser } from './../../../services/usersService';
 
@@ -266,8 +266,7 @@ export default function UserProductActions({
       {showActions && !user.isCurrentUser && canEdit && (
         <Box display="flex" justifyContent="flex-end">
           {(moreRolesOnProduct || !isProductDetailPage) &&
-            !user.isCurrentUser &&
-            !(product.id === 'prod-interop' && role.selcRole === 'ADMIN') && (
+            !(product.id === PRODUCT_IDS.INTEROP && role.selcRole === 'ADMIN') && (
               <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
                 <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
                   <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>

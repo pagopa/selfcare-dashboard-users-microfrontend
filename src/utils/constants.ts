@@ -21,4 +21,8 @@ export const LOADING_TASK_GET_USER_ADMIN_COUNT = 'GET_USER_ADMIN_COUNT';
 
 export const PRODUCT_IDS = {
   PAGOPA: 'prod-pagopa',
+  PNPG: 'prod-pn-pg',
+  SEND: 'prod-pn',
+  IO: 'prod-io',
+  INTEROP: 'prod-interop',
 } as const;
