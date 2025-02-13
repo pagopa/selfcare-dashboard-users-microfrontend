@@ -43,13 +43,14 @@ export default function UserProductDetail({
   const isPnpg = product.id.startsWith(PRODUCT_IDS.PNPG);
   const { hasPermission } = usePermissions();
 
-  const canEditUserRole =
+  const canNotEditUserRole =
     !partyUser.isCurrentUser &&
     party.products
       .filter((pp) => pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE)
       .find(
         (pp) =>
-          pp.productId === product.id && hasPermission(pp.productId, Actions.ManageProductUsers)
+          pp.productId === product.id &&
+          hasPermission(pp.productId, Actions.ManageProductUsers) === false
       );
 
   return (
@@ -100,7 +101,7 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
-          {canEditUserRole ? (
+          {canNotEditUserRole ? (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
                 <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
