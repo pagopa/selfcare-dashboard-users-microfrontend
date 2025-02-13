@@ -45,13 +45,12 @@ export default function UserProductDetail({
 
   const canNotEditUserRole =
     !partyUser.isCurrentUser &&
-    party.products
-      .filter((pp) => pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE)
-      .find(
-        (pp) =>
-          pp.productId === product.id &&
-          hasPermission(pp.productId, Actions.ManageProductUsers) === false
-      );
+    party.products.find(
+      (pp) =>
+        pp.productId === product.id &&
+        pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE &&
+        hasPermission(pp.productId, Actions.ManageProductUsers) === false
+    );
 
   return (
     <>
