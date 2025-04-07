@@ -294,16 +294,9 @@ function showActions(
     <Box width="100%">
       <IconButton
         onClick={onRowClick ? () => onRowClick(p.row) : undefined}
-        sx={{
-          '&:hover': { backgroundColor: 'transparent' },
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          pr: 4,
-          cursor: 'pointer',
-        }}
+        sx={{ backgroundColor: 'transparent' }}
       >
-        <ArrowForwardIosIcon sx={{ color: 'primary.main', fontSize: 'small' }} />
+        <ArrowForwardIosIcon sx={{ fontSize: 'small' }} />
       </IconButton>
     </Box>,
     undefined,
