@@ -28,6 +28,7 @@ import {
   checkManagerService,
   onboardingAggregatorService,
   onboardingPostUser,
+  searchUserService,
   validateLegalRepresentative,
 } from '../../../services/onboardingService';
 import { getLegalRepresentativeService } from '../../../services/usersService';
@@ -35,6 +36,7 @@ import {
   LOADING_TASK_CHECK_MANAGER,
   LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
   LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE,
+  LOADING_TASK_SEARCH_USER_PDV,
 } from '../../../utils/constants';
 
 import { ENV } from '../../../utils/env';
@@ -67,6 +69,7 @@ export default function AddLegalRepresentativeForm({
 
   const requestId = uniqueId();
   const { t } = useTranslation();
+  const setLoadingSearchUserPDV = useLoading(LOADING_TASK_SEARCH_USER_PDV);
   const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
   const setLoadingOnboarding = useLoading(LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE);
@@ -187,7 +190,30 @@ export default function AddLegalRepresentativeForm({
     role: RoleEnum.MANAGER,
   };
 
-  const checkManager = async (user: AsyncOnboardingUserData) => {
+  const searchUser = async (user: AsyncOnboardingUserData) => {
+    setLoadingSearchUserPDV(true);
+    await searchUserService({ taxCode: 'user.taxCode' })
+      .then(async (data) => {
+        if (data.id) {
+          await checkManager(data.id, user);
+        } else {
+          await validateUser(user);
+        }
+      })
+      .catch(async (error) => {
+        await validateUser(user);
+        addError({
+          id: `SEARCH_USER_ERROR`,
+          blocking: false,
+          error,
+          techDescription: `Something gone wrong while calling search-user`,
+          toNotify: true,
+        });
+      })
+      .finally(() => setLoadingSearchUserPDV(false));
+  };
+
+  const checkManager = async (userId: string, user: AsyncOnboardingUserData) => {
     setLoadingCheckManager(true);
     checkManagerService({
       institutionType: party.institutionType as any,
@@ -196,7 +222,7 @@ export default function AddLegalRepresentativeForm({
       productId,
       subunitCode: party?.subunitCode,
       taxCode: party.vatNumber,
-      users: [{ ...user, role: RoleEnum.MANAGER as RoleEnum }],
+      userId,
     })
       .then(async (data) => {
         if (data) {
@@ -219,7 +245,7 @@ export default function AddLegalRepresentativeForm({
           id: `VALIDATE_USER_ERROR`,
           blocking: false,
           error,
-          techDescription: `Something gone wrong while calling check-manager`,
+          techDescription: `Something gone wrong while calling validate-user`,
           toNotify: true,
         });
       })
@@ -231,7 +257,7 @@ export default function AddLegalRepresentativeForm({
     validate,
     onSubmit: async (user) => {
       if (previousLegalRepresentative) {
-        await checkManager(user);
+        await searchUser(user);
       } else {
         await validateUser(user);
       }

@@ -9,13 +9,13 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ProductRole } from '../model/ProductRole';
 import { ENV } from '../utils/env';
+import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
+import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
-import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
-import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
