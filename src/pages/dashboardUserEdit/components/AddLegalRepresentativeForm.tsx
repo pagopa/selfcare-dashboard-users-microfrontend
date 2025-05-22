@@ -192,7 +192,7 @@ export default function AddLegalRepresentativeForm({
 
   const searchUser = async (user: AsyncOnboardingUserData) => {
     setLoadingSearchUserPDV(true);
-    await searchUserService({ taxCode: 'user.taxCode' })
+    await searchUserService({ taxCode: user.taxCode })
       .then(async (data) => {
         if (data.id) {
           await checkManager(data.id, user);
