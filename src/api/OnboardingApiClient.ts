@@ -5,9 +5,11 @@ import {
 } from '@pagopa/selfcare-common-frontend/lib/utils/api-utils';
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { ENV } from '../utils/env';
+import { CheckManagerDto } from './generated/onboarding/CheckManagerDto';
 import { createClient, WithDefaultsT } from './generated/onboarding/client';
 import { OnboardingUserDto } from './generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from './generated/onboarding/UserDataValidationDto';
+import { UserTaxCodeDto } from './generated/onboarding/UserTaxCodeDto';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -39,7 +41,12 @@ const onRedirectToLogin = () =>
   );
 
 export const OnboardingApi = {
-  checkManagerApi: async (user: OnboardingUserDto): Promise<any> => {
+  searchUserApi: async (user: UserTaxCodeDto): Promise<any> => {
+    const result = await apiClient.searchUserId({ body: user });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  checkManagerApi: async (user: CheckManagerDto): Promise<any> => {
     const result = await apiClient.checkManager({ body: user });
     return extractResponse(result, 200, onRedirectToLogin);
   },
@@ -56,7 +63,7 @@ export const OnboardingApi = {
   },
 
   onboardingPostUser: async (user: OnboardingUserDto): Promise<any> => {
-    const result = await apiClient.onboardingUsingPOST_4({
+    const result = await apiClient.onboardingUsers({
       body: user,
     });
     return extractResponse(result, 201, onRedirectToLogin);

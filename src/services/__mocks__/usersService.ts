@@ -10,8 +10,10 @@ import { cloneDeep } from 'lodash';
 import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
+import { CheckManagerDto } from '../../api/generated/onboarding/CheckManagerDto';
 import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
+import { UserTaxCodeDto } from '../../api/generated/onboarding/UserTaxCodeDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
 import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 import {
@@ -1200,7 +1202,7 @@ export const savePartyUser = (
       },
     ],
   });
-  return new Promise((resolve) => resolve('newUserId'));
+  return Promise.resolve('newUserId');
 };
 
 export const addUserProductRoles = (
@@ -1209,7 +1211,7 @@ export const addUserProductRoles = (
   userId: string,
   _user: PartyUserOnCreation,
   _partyRole?: string
-): Promise<string> => new Promise((resolve) => resolve(userId));
+): Promise<string> => Promise.resolve(userId);
 
 export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<any> => {
   const userToUpdate = mockedUsers.find((u) => u.id === user.id);
@@ -1224,11 +1226,11 @@ export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<a
     // eslint-disable-next-line functional/immutable-data
     userToUpdate.mobilePhone = user.mobilePhone;
   }
-  return new Promise((resolve) => resolve(200));
+  return Promise.resolve(200);
 };
 
 export const fetchUserRegistryByFiscalCode = (_taxCode: string): Promise<UserRegistry> =>
-  new Promise((resolve) => resolve(mockedUserRegistry));
+  Promise.resolve(mockedUserRegistry);
 
 export const fetchUserRegistryById = (
   partyId: string,
@@ -1259,9 +1261,7 @@ export const fetchPartyUser = (
   _currentUser: User
 ): Promise<PartyUserDetail | null> => {
   const mockedUser = mockedUsers.find((u) => u.id === userId) ?? null;
-  return new Promise((resolve) =>
-    resolve(mockedUser ? JSON.parse(JSON.stringify(mockedUser)) : null)
-  );
+  return Promise.resolve(mockedUser ? JSON.parse(JSON.stringify(mockedUser)) : null);
 };
 
 export const updatePartyUserStatus = (
@@ -1346,11 +1346,15 @@ export const fetchUserGroups = (
     (g) =>
       g.partyId === party.partyId && g.productId === product.id && g.membersIds.indexOf(userId) > -1
   );
-  return new Promise((resolve) => resolve(userGroups));
+  return Promise.resolve(userGroups);
 };
 
-export const checkManagerMocked = (_user: OnboardingUserDto): Promise<any> =>
-  new Promise((resolve) => resolve({ result: false }));
+export const searchUserMocked = (_user: UserTaxCodeDto): Promise<any> => Promise.resolve({
+  id: '121312312',
+});
+
+export const checkManagerMocked = (_user: CheckManagerDto ): Promise<any> =>
+  Promise.resolve({ result: false });
 
 export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
   new Promise((resolve) => resolve());
