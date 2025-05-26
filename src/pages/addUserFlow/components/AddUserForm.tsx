@@ -57,14 +57,8 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import {
-  commonStyles,
-  CustomTextField,
-  getProductLink,
-  requiredError,
-  taxCodeRegexp,
-} from '../helpers';
-import { renderLabel } from './helpers';
+import { commonStyles, CustomTextField, getProductLink, renderLabel } from '../utils/helpers';
+import { requiredError, taxCodeRegexp } from '../utils/validation';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -448,7 +442,7 @@ export default function AddUserForm({
                   (r) => productRoles?.groupByProductRole[r].title
                 )}`,
               }}
-              components={{ 1: <strong />, 3: <strong />,4: <strong />, 8: <strong /> }}
+              components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
             >
               {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
             </Trans>

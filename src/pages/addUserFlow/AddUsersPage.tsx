@@ -17,9 +17,10 @@ import { RequestOutcomeMessage } from '../../model/UserRegistry';
 import { getUserCountService } from '../../services/usersService';
 import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../utils/constants';
 import { ENV } from '../../utils/env';
-import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
+import AddUserForm from './components/AddUserForm';
+import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
+
 
 type Props = {
   party: Party;
