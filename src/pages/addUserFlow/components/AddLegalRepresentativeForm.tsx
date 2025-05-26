@@ -13,7 +13,7 @@ import { ProductUserResource } from '../../../api/generated/b4f-dashboard/Produc
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
-import { AsyncOnboardingUserData } from '../../../model/PartyUser';
+import { AddedUsersList } from '../../../model/PartyUser';
 import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 import {
   checkManagerService,
@@ -36,7 +36,7 @@ import {
   getProductLink,
   renderErrorMessage,
 } from '../utils/helpers';
-import { isFormValid, validateForm } from '../utils/validation';
+import { isFormValid, validateManagerForm } from '../utils/validation';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
 import { FormFields } from './FormFields';
 import { FormActions } from './FromActions';
@@ -46,7 +46,7 @@ type LegalRepresentativeProps = {
   productId: string;
   productName: string;
   backPreviousStep: () => void;
-  asyncUserData: Array<AsyncOnboardingUserData>;
+  addedUserList: Array<AddedUsersList>;
   setOutcome: Dispatch<SetStateAction<RequestOutcomeMessage | null | undefined>>;
   isAddInBulkEAFlow: boolean;
 };
@@ -56,7 +56,7 @@ export default function AddLegalRepresentativeForm({
   productName,
   productId,
   backPreviousStep,
-  asyncUserData,
+  addedUserList,
   setOutcome,
   isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
@@ -103,7 +103,7 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingGetLegalRepresentative(false));
   }, [productId, party]);
 
-  const searchUser = async (user: AsyncOnboardingUserData) => {
+  const searchUser = async (user: AddedUsersList) => {
     setLoadingSearchUserPDV(true);
     await searchUserService({ taxCode: user.taxCode })
       .then(async (data) => {
@@ -126,7 +126,7 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingSearchUserPDV(false));
   };
 
-  const checkManager = async (userId: string, user: AsyncOnboardingUserData) => {
+  const checkManager = async (userId: string, user: AddedUsersList) => {
     setLoadingCheckManager(true);
     checkManagerService({
       institutionType: party.institutionType as any,
@@ -173,11 +173,11 @@ export default function AddLegalRepresentativeForm({
     role: RoleEnum.MANAGER,
   };
 
-  const formik = useFormik<AsyncOnboardingUserData>({
+  const formik = useFormik<AddedUsersList>({
     initialValues: initialFormData,
-    validate: (user) => validateForm(user, asyncUserData, t),
+    validate: (user) => validateManagerForm(user, addedUserList, t),
     onSubmit: async (user) => {
-      const errors = validateForm(user, asyncUserData, t);
+      const errors = validateManagerForm(user, addedUserList, t);
       if (!isFormValid(errors)) {
         return;
       }
@@ -189,13 +189,13 @@ export default function AddLegalRepresentativeForm({
     },
   });
 
-  const validateUser = async (user: AsyncOnboardingUserData) => {
+  const validateUser = async (user: AddedUsersList) => {
     validateLegalRepresentative({
       name: user.name,
       surname: user.surname,
       taxCode: user.taxCode,
     })
-      .then(() => sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]))
+      .then(() => sendOnboardingData([...addedUserList, { ...user, role: RoleEnum.MANAGER }]))
       .catch((error) => {
         if (error && error.httpStatus === 409) {
           const invalidParams = error.httpBody?.invalidParams;
@@ -223,7 +223,7 @@ export default function AddLegalRepresentativeForm({
 
   const outcomeContent = getOutcomeContent(t, goToUsersPage);
 
-  const sendOnboardingData = (asyncUserData: Array<AsyncOnboardingUserData>) => {
+  const sendOnboardingData = (addedUserList: Array<AddedUsersList>) => {
     setLoadingOnboarding(true);
     const submitRequestData = {
       productId,
@@ -232,7 +232,7 @@ export default function AddLegalRepresentativeForm({
       originId: party?.originId,
       subunitCode: party?.subunitCode,
       taxCode: party?.fiscalCode,
-      users: asyncUserData as Array<UserDto>,
+      users: addedUserList as Array<UserDto>,
     };
 
     const submitApiToCall = isAddInBulkEAFlow

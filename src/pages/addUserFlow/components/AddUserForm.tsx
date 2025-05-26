@@ -40,7 +40,7 @@ import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import {
-  AsyncOnboardingUserData,
+  AddedUsersList,
   PartyUserOnCreation,
   TextTransform,
 } from '../../../model/PartyUser';
@@ -79,7 +79,7 @@ type Props = {
   forwardNextStep: () => void;
   handlePreviousStep?: () => void;
   setCurrentSelectedProduct: Dispatch<SetStateAction<Product | undefined>>;
-  setAsyncUserData: Dispatch<SetStateAction<Array<AsyncOnboardingUserData>>>;
+  setAddedUserList: Dispatch<SetStateAction<Array<AddedUsersList>>>;
   isAddInBulkEAFlow: boolean;
   setIsAddInBulkEAFlow: Dispatch<SetStateAction<boolean>>;
 };
@@ -96,7 +96,7 @@ export default function AddUserForm({
   goBack,
   forwardNextStep,
   setCurrentSelectedProduct,
-  setAsyncUserData,
+  setAddedUserList,
   isAddInBulkEAFlow,
   setIsAddInBulkEAFlow,
 }: Readonly<Props>) {
@@ -420,7 +420,7 @@ export default function AddUserForm({
     validate,
     onSubmit: (values) => {
       if (isAddInBulkEAFlow) {
-        setAsyncUserData([
+        setAddedUserList([
           {
             name: values.name,
             surname: values.surname,
@@ -455,7 +455,7 @@ export default function AddUserForm({
       }
 
       if (isAsyncFlow) {
-        setAsyncUserData([
+        setAddedUserList([
           {
             name: values.name,
             surname: values.surname,

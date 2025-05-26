@@ -38,7 +38,7 @@ test('should render AddLegalRepresentativeForm with empty props', () => {
       productId={''}
       productName={''}
       backPreviousStep={jest.fn()}
-      asyncUserData={[]}
+      addedUserList={[]}
       setOutcome={jest.fn()}
       isAddInBulkEAFlow={false}
     />
@@ -53,7 +53,7 @@ test('should render AddLegalRepresentativeForm with isAddInBulkEAFlow true', () 
       productId={'prod-io'}
       productName={'IO'}
       backPreviousStep={jest.fn()}
-      asyncUserData={[
+      addedUserList={[
         {
           name: 'name',
           surname: 'surname',
@@ -80,7 +80,7 @@ test('should render AddLegalRepresentativeForm with product interop', () => {
       productId={'prod-interop'}
       productName={'Interoperabilità'}
       backPreviousStep={jest.fn()}
-      asyncUserData={[]}
+      addedUserList={[]}
       setOutcome={jest.fn()}
       isAddInBulkEAFlow={false}
     />

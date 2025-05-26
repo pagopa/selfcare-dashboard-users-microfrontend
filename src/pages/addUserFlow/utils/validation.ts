@@ -2,7 +2,7 @@ import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constant
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
-import { AsyncOnboardingUserData } from '../../../model/PartyUser';
+import { AddedUsersList } from '../../../model/PartyUser';
 
 export const taxCodeRegexp = new RegExp(
   '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
@@ -11,16 +11,16 @@ export const taxCodeRegexp = new RegExp(
 export const requiredError = 'Required';
 
 export const checkDuplicateTaxCodeWithDifferentEmail = (
-  currentUser: Partial<AsyncOnboardingUserData>,
-  asyncUserData: Array<AsyncOnboardingUserData>,
+  manager: Partial<AddedUsersList>,
+  addedUserList: Array<AddedUsersList>,
   t: any
 ): string | undefined => {
-  if (!currentUser.taxCode || !currentUser.email) {
+  if (!manager.taxCode || !manager.email) {
     return undefined;
   }
 
-  const duplicateUser = asyncUserData.find(
-    (user) => user.taxCode === currentUser.taxCode && user.email !== currentUser.email
+  const duplicateUser = addedUserList.find(
+    (user) => user.taxCode === manager.taxCode && user.email !== manager.email
   );
 
   if (duplicateUser) {
@@ -30,33 +30,33 @@ export const checkDuplicateTaxCodeWithDifferentEmail = (
   return undefined;
 };
 
-export const validateForm = (
-  values: Partial<AsyncOnboardingUserData>,
-  asyncUserData: Array<AsyncOnboardingUserData>,
+export const validateManagerForm = (
+  manager: Partial<AddedUsersList>,
+  addedUserList: Array<AddedUsersList>,
   t: any
 ) => {
-  const duplicateError = checkDuplicateTaxCodeWithDifferentEmail(values, asyncUserData, t);
+  const duplicateError = checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
 
   return Object.fromEntries(
     Object.entries({
-      name: !values.name
+      name: !manager.name
         ? requiredError
-        : verifyNameMatchWithTaxCode(values.name, values.taxCode)
+        : verifyNameMatchWithTaxCode(manager.name, manager.taxCode)
         ? t('userEdit.mismatchWithTaxCode.name')
         : undefined,
-      surname: !values.surname
+      surname: !manager.surname
         ? requiredError
-        : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
+        : verifySurnameMatchWithTaxCode(manager.surname, manager.taxCode)
         ? t('userEdit.mismatchWithTaxCode.surname')
         : undefined,
-      taxCode: !values.taxCode
+      taxCode: !manager.taxCode
         ? requiredError
-        : !taxCodeRegexp.test(values.taxCode) || verifyChecksumMatchWithTaxCode(values.taxCode)
+        : !taxCodeRegexp.test(manager.taxCode) || verifyChecksumMatchWithTaxCode(manager.taxCode)
         ? t('userEdit.addForm.errors.invalidFiscalCode')
-        : duplicateError, // Add duplicate check here
-      email: !values.email
+        : duplicateError,
+      email: !manager.email
         ? requiredError
-        : !emailRegexp.test(values.email)
+        : !emailRegexp.test(manager.email)
         ? t('userEdit.addForm.errors.invalidEmail')
         : undefined,
     }).filter(([_key, value]) => value)

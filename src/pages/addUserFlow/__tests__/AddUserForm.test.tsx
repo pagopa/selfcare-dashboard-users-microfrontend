@@ -30,7 +30,7 @@ describe('AddUserForm Component', () => {
     },
     forwardNextStep: jest.fn(),
     setCurrentSelectedProduct: jest.fn(),
-    setAsyncUserData: jest.fn(),
+    setAddedUserList: jest.fn(),
     isAddInBulkEAFlow: true,
     setIsAddInBulkEAFlow: jest.fn(),
   };
@@ -177,7 +177,7 @@ describe('AddUserForm Component', () => {
         }}
         forwardNextStep={jest.fn()}
         setCurrentSelectedProduct={jest.fn()}
-        setAsyncUserData={jest.fn()}
+        setAddedUserList={jest.fn()}
         isAddInBulkEAFlow={true}
         setIsAddInBulkEAFlow={jest.fn()}
       />
