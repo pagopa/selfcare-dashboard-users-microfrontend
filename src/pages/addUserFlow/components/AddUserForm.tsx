@@ -40,7 +40,7 @@ import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import {
-  AsyncOnboardingUserData,
+  AddedUsersList,
   PartyUserOnCreation,
   TextTransform,
 } from '../../../model/PartyUser';
@@ -57,14 +57,8 @@ import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../utils/constants';
-import {
-  commonStyles,
-  CustomTextField,
-  getProductLink,
-  requiredError,
-  taxCodeRegexp,
-} from '../helpers';
-import { renderLabel } from './helpers';
+import { commonStyles, CustomTextField, getProductLink, renderLabel } from '../utils/helpers';
+import { requiredError, taxCodeRegexp } from '../utils/validation';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -85,7 +79,7 @@ type Props = {
   forwardNextStep: () => void;
   handlePreviousStep?: () => void;
   setCurrentSelectedProduct: Dispatch<SetStateAction<Product | undefined>>;
-  setAsyncUserData: Dispatch<SetStateAction<Array<AsyncOnboardingUserData>>>;
+  setAddedUserList: Dispatch<SetStateAction<Array<AddedUsersList>>>;
   isAddInBulkEAFlow: boolean;
   setIsAddInBulkEAFlow: Dispatch<SetStateAction<boolean>>;
 };
@@ -102,7 +96,7 @@ export default function AddUserForm({
   goBack,
   forwardNextStep,
   setCurrentSelectedProduct,
-  setAsyncUserData,
+  setAddedUserList,
   isAddInBulkEAFlow,
   setIsAddInBulkEAFlow,
 }: Readonly<Props>) {
@@ -426,7 +420,7 @@ export default function AddUserForm({
     validate,
     onSubmit: (values) => {
       if (isAddInBulkEAFlow) {
-        setAsyncUserData([
+        setAddedUserList([
           {
             name: values.name,
             surname: values.surname,
@@ -448,7 +442,7 @@ export default function AddUserForm({
                   (r) => productRoles?.groupByProductRole[r].title
                 )}`,
               }}
-              components={{ 1: <strong />, 3: <strong />,4: <strong />, 8: <strong /> }}
+              components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
             >
               {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
             </Trans>
@@ -461,7 +455,7 @@ export default function AddUserForm({
       }
 
       if (isAsyncFlow) {
-        setAsyncUserData([
+        setAddedUserList([
           {
             name: values.name,
             surname: values.surname,

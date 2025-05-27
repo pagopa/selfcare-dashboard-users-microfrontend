@@ -56,7 +56,7 @@ export type PartyUserOnCreation = {
   certifiedMail: boolean;
 };
 
-export type AsyncOnboardingUserData = {
+export type AddedUsersList = {
   name: string;
   surname: string;
   taxCode: string;

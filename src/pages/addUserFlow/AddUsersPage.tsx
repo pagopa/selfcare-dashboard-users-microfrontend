@@ -10,16 +10,17 @@ import { useHistory } from 'react-router-dom';
 import { RoleEnum } from '../../api/generated/onboarding/UserDto';
 import ProductNavigationBar from '../../components/ProductNavigationBar';
 import { Party } from '../../model/Party';
-import { AsyncOnboardingUserData } from '../../model/PartyUser';
+import { AddedUsersList } from '../../model/PartyUser';
 import { Product } from '../../model/Product';
 import { ProductsRolesMap } from '../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../model/UserRegistry';
 import { getUserCountService } from '../../services/usersService';
 import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../utils/constants';
 import { ENV } from '../../utils/env';
-import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
+import AddUserForm from './components/AddUserForm';
+import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
+
 
 type Props = {
   party: Party;
@@ -35,7 +36,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
 
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
-  const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
+  const [addedUserList, setAddedUserList] = useState<Array<AddedUsersList>>([]);
   const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
   const [openAminMaxLimitsModal, setOpenAminMaxLimitsModal] = useState(false);
@@ -176,7 +177,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             canEditRegistryData={true}
             forwardNextStep={forwardNextStep}
             setCurrentSelectedProduct={setCurrentSelectedProduct}
-            setAsyncUserData={setAsyncUserData}
+            setAddedUserList={setAddedUserList}
             isAddInBulkEAFlow={isAddInBulkEAFlow}
             setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
           />
@@ -188,7 +189,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             productId={currentSelectedProduct?.id ?? ''}
             backPreviousStep={backPreviousStep}
             party={party}
-            asyncUserData={asyncUserData}
+            addedUserList={addedUserList}
             setOutcome={setOutcome}
             isAddInBulkEAFlow={isAddInBulkEAFlow}
           />

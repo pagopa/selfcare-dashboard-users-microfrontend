@@ -1,19 +1,10 @@
-import { Button, Grid, Stack } from '@mui/material';
+import { Grid } from '@mui/material';
 
-import { ButtonNaked, IllusCompleted, IllusError } from '@pagopa/mui-italia';
-import {
-  EndingPage,
-  TitleBox,
-  useErrorDispatcher,
-  useLoading,
-} from '@pagopa/selfcare-common-frontend/lib';
+import { ButtonNaked } from '@pagopa/mui-italia';
+import { TitleBox, useErrorDispatcher, useLoading } from '@pagopa/selfcare-common-frontend/lib';
 
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
-import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
-import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
-import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -22,8 +13,8 @@ import { ProductUserResource } from '../../../api/generated/b4f-dashboard/Produc
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
 import { Party } from '../../../model/Party';
-import { AsyncOnboardingUserData, TextTransform } from '../../../model/PartyUser';
-import { RequestOutcomeMessage, RequestOutcomeOptions } from '../../../model/UserRegistry';
+import { AddedUsersList } from '../../../model/PartyUser';
+import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 import {
   checkManagerService,
   onboardingAggregatorService,
@@ -38,17 +29,24 @@ import {
   LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE,
   LOADING_TASK_SEARCH_USER_PDV,
 } from '../../../utils/constants';
-
 import { ENV } from '../../../utils/env';
-import { CustomTextField, getProductLink, requiredError, taxCodeRegexp } from '../helpers';
+import {
+  findNewestManager,
+  getOutcomeContent,
+  getProductLink,
+  renderErrorMessage,
+} from '../utils/helpers';
+import { validateManagerForm } from '../utils/validation';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
+import { FormFields } from './FormFields';
+import { FormActions } from './FromActions';
 
 type LegalRepresentativeProps = {
   party: Party;
   productId: string;
   productName: string;
   backPreviousStep: () => void;
-  asyncUserData: Array<AsyncOnboardingUserData>;
+  addedUserList: Array<AddedUsersList>;
   setOutcome: Dispatch<SetStateAction<RequestOutcomeMessage | null | undefined>>;
   isAddInBulkEAFlow: boolean;
 };
@@ -58,7 +56,7 @@ export default function AddLegalRepresentativeForm({
   productName,
   productId,
   backPreviousStep,
-  asyncUserData,
+  addedUserList,
   setOutcome,
   isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
@@ -74,20 +72,6 @@ export default function AddLegalRepresentativeForm({
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
   const setLoadingOnboarding = useLoading(LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE);
   const addError = useErrorDispatcher();
-
-  const findNewestManager = (managers: Array<ProductUserResource>): ProductUserResource | null => {
-    if (!managers || managers.length === 0) {
-      return null;
-    }
-
-    return managers.reduce((newest, current) => {
-      if (!newest.createdAt || !current.createdAt) {
-        return newest;
-      }
-
-      return current.createdAt.getTime() > newest.createdAt.getTime() ? current : newest;
-    }, managers[0]);
-  };
 
   const setFormValues = async (formik: any, manager: ProductUserResource | null) => {
     await formik.setValues({
@@ -119,78 +103,7 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingGetLegalRepresentative(false));
   }, [productId, party]);
 
-  const baseTextFieldProps = (
-    field: keyof AsyncOnboardingUserData,
-    label: string,
-    placeholder: string,
-    textTransform?: TextTransform
-  ) => {
-    const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
-
-    return {
-      id: field,
-      type: 'text',
-      value: formik.values[field],
-      label,
-      placeholder,
-      error: isError,
-      helperText: isError ? formik.errors[field] : undefined,
-      required: true,
-      variant: 'outlined' as const,
-      onChange: formik.handleChange,
-      sx: { width: '100%' },
-      InputProps: {
-        style: {
-          fontSize: 'fontSize',
-          fontWeight: 'fontWeightMedium',
-          lineHeight: '24px',
-          color: 'text.primary',
-          textAlign: 'start' as const,
-        },
-      },
-      inputProps: {
-        style: {
-          textTransform,
-        },
-      },
-    };
-  };
-
-  const validate = (values: Partial<AsyncOnboardingUserData>) =>
-    Object.fromEntries(
-      Object.entries({
-        name: !values.name
-          ? requiredError
-          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
-          ? t('userEdit.mismatchWithTaxCode.name')
-          : undefined,
-        surname: !values.surname
-          ? requiredError
-          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
-          ? t('userEdit.mismatchWithTaxCode.surname')
-          : undefined,
-        taxCode: !values.taxCode
-          ? requiredError
-          : !taxCodeRegexp.test(values.taxCode) || verifyChecksumMatchWithTaxCode(values.taxCode)
-          ? t('userEdit.addForm.errors.invalidFiscalCode')
-          : undefined,
-        email: !values.email
-          ? requiredError
-          : !emailRegexp.test(values.email)
-          ? t('userEdit.addForm.errors.invalidEmail')
-          : undefined,
-      }).filter(([_key, value]) => value)
-    );
-
-  const initialFormData = {
-    taxCode: '',
-    name: '',
-    surname: '',
-    email: '',
-    role: RoleEnum.MANAGER,
-  };
-
-  const searchUser = async (user: AsyncOnboardingUserData) => {
+  const searchUser = async (user: AddedUsersList) => {
     setLoadingSearchUserPDV(true);
     await searchUserService({ taxCode: user.taxCode })
       .then(async (data) => {
@@ -213,7 +126,7 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingSearchUserPDV(false));
   };
 
-  const checkManager = async (userId: string, user: AsyncOnboardingUserData) => {
+  const checkManager = async (userId: string, user: AddedUsersList) => {
     setLoadingCheckManager(true);
     checkManagerService({
       institutionType: party.institutionType as any,
@@ -252,9 +165,18 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingCheckManager(false));
   };
 
-  const formik = useFormik<AsyncOnboardingUserData>({
+  const initialFormData = {
+    taxCode: '',
+    name: '',
+    surname: '',
+    email: '',
+    role: RoleEnum.MANAGER,
+  };
+
+  const formik = useFormik<AddedUsersList>({
     initialValues: initialFormData,
-    validate,
+    validate: (user) => validateManagerForm(user, addedUserList, t),
+
     onSubmit: async (user) => {
       if (previousLegalRepresentative) {
         await searchUser(user);
@@ -264,36 +186,20 @@ export default function AddLegalRepresentativeForm({
     },
   });
 
-  const renderErrorMessage = (name?: string) => {
-    if (name) {
-      switch (name) {
-        case 'name':
-          return t('userEdit.mismatchWithTaxCode.name');
-        case 'surname':
-          return t('userEdit.mismatchWithTaxCode.surname');
-        case 'taxCode':
-          return t('userEdit.addForm.errors.invalidFiscalCode');
-        case 'email':
-          return t('userEdit.addForm.errors.invalidEmail');
-      }
-    }
-    return '';
-  };
-
-  const validateUser = async (user: AsyncOnboardingUserData) => {
+  const validateUser = async (user: AddedUsersList) => {
     validateLegalRepresentative({
       name: user.name,
       surname: user.surname,
       taxCode: user.taxCode,
     })
-      .then(() => sendOnboardingData([...asyncUserData, { ...user, role: RoleEnum.MANAGER }]))
+      .then(() => sendOnboardingData([...addedUserList, { ...user, role: RoleEnum.MANAGER }]))
       .catch((error) => {
         if (error && error.httpStatus === 409) {
           const invalidParams = error.httpBody?.invalidParams;
 
           if (invalidParams) {
             invalidParams.forEach((param: { name: string; reason: string }) => {
-              formik.setFieldError(param.name, renderErrorMessage(param.name));
+              formik.setFieldError(param.name, renderErrorMessage(param.name, t));
             });
           }
         } else {
@@ -308,7 +214,13 @@ export default function AddLegalRepresentativeForm({
       });
   };
 
-  const sendOnboardingData = (asyncUserData: Array<AsyncOnboardingUserData>) => {
+  const goToUsersPage = () => {
+    window.location.assign(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
+  };
+
+  const outcomeContent = getOutcomeContent(t, goToUsersPage);
+
+  const sendOnboardingData = (addedUserList: Array<AddedUsersList>) => {
     setLoadingOnboarding(true);
     const submitRequestData = {
       productId,
@@ -317,7 +229,7 @@ export default function AddLegalRepresentativeForm({
       originId: party?.originId,
       subunitCode: party?.subunitCode,
       taxCode: party?.fiscalCode,
-      users: asyncUserData as Array<UserDto>,
+      users: addedUserList as Array<UserDto>,
     };
 
     const submitApiToCall = isAddInBulkEAFlow
@@ -346,61 +258,6 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingOnboarding(false));
   };
 
-  const goToUsersPage = () => {
-    window.location.assign(resolvePathVariables(ENV.ROUTES.USERS, { partyId: party.partyId }));
-  };
-
-  const outcomeContent: RequestOutcomeOptions = {
-    success: {
-      title: '',
-      description: [
-        <>
-          <EndingPage
-            minHeight="52vh"
-            icon={<IllusCompleted size={60} />}
-            title={t('userEdit.addForm.addLegalRepresentative.requestOkTitle')}
-            description={
-              <Trans
-                i18nKey="userEdit.addForm.addLegalRepresentative.requestOkMessage"
-                components={{ 1: <br />, 3: <br /> }}
-              >
-                {`Invieremo un’email all’indirizzo PEC primario dell’ente. <1 /> Al suo interno, ci sono le istruzioni per completare <3 />l’operazione.`}
-              </Trans>
-            }
-            variantTitle={'h4'}
-            variantDescription={'body1'}
-            buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={goToUsersPage}
-          />
-        </>,
-      ],
-    },
-    error: {
-      title: '',
-      description: [
-        <>
-          <EndingPage
-            minHeight="52vh"
-            icon={<IllusError size={60} />}
-            variantTitle={'h4'}
-            variantDescription={'body1'}
-            title={t('userEdit.addForm.addLegalRepresentative.requestErrorTitle')}
-            description={
-              <Trans
-                i18nKey="userEdit.addForm.addLegalRepresentative.requestErrorMessage"
-                components={{ 1: <br /> }}
-              >
-                {`A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.`}
-              </Trans>
-            }
-            buttonLabel={t('userEdit.addForm.addLegalRepresentative.backHome')}
-            onButtonClick={goToUsersPage}
-          />
-        </>,
-      ],
-    },
-  };
-
   useEffect(() => {
     setDynamicDocLink(getProductLink(productId ?? '', party.institutionType));
   }, [productId]);
@@ -417,7 +274,7 @@ export default function AddLegalRepresentativeForm({
         managerFullName={`${previousLegalRepresentative?.name} ${previousLegalRepresentative?.surname}`}
       />
       <Grid>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} noValidate>
           <Grid
             container
             sx={{
@@ -465,72 +322,11 @@ export default function AddLegalRepresentativeForm({
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>
-                <Grid item xs={6}>
-                  <CustomTextField
-                    size="small"
-                    fullWidth
-                    {...baseTextFieldProps(
-                      'name',
-                      t('userEdit.addForm.addLegalRepresentative.name'),
-                      ''
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextField
-                    size="small"
-                    fullWidth
-                    {...baseTextFieldProps(
-                      'surname',
-                      t('userEdit.addForm.addLegalRepresentative.surname'),
-                      ''
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextField
-                    size="small"
-                    fullWidth
-                    {...baseTextFieldProps(
-                      'taxCode',
-                      t('userEdit.addForm.addLegalRepresentative.taxCode'),
-                      ''
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <CustomTextField
-                    size="small"
-                    fullWidth
-                    {...baseTextFieldProps(
-                      'email',
-                      t('userEdit.addForm.addLegalRepresentative.institutionalEmail'),
-                      ''
-                    )}
-                  />
-                </Grid>
+                <FormFields formik={formik} />
               </Grid>
             </Grid>
           </Grid>
-          <Stack direction="row" display="flex" justifyContent="space-between">
-            <Button
-              color="primary"
-              variant="outlined"
-              size="medium"
-              onClick={() => backPreviousStep()}
-            >
-              {t('userEdit.addForm.backButton')}
-            </Button>
-            <Button
-              disabled={!formik.dirty || !formik.isValid}
-              color="primary"
-              variant="contained"
-              type="submit"
-              size="medium"
-            >
-              {t('userEdit.addForm.addLegalRepresentative.sendRequest')}
-            </Button>
-          </Stack>
+          <FormActions onBack={backPreviousStep} isSubmitting={formik.isSubmitting} />
         </form>
       </Grid>
     </Grid>
