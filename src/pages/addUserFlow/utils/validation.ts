@@ -2,6 +2,7 @@ import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constant
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
+import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { AddedUsersList } from '../../../model/PartyUser';
 
 export const taxCodeRegexp = new RegExp(
@@ -15,15 +16,12 @@ export const checkDuplicateTaxCodeWithDifferentEmail = (
   addedUserList: Array<AddedUsersList>,
   t: any
 ): string | undefined => {
-  if (!manager.taxCode || !manager.email) {
-    return undefined;
-  }
+  const delegate = addedUserList.find((user) => user.role === RoleEnum.DELEGATE);
 
-  const duplicateUser = addedUserList.find(
-    (user) => user.taxCode === manager.taxCode && user.email !== manager.email
-  );
+  const duplicateUserWithDifferentEmail =
+    manager.taxCode === delegate?.taxCode && manager.email !== delegate?.email;
 
-  if (duplicateUser) {
+  if (duplicateUserWithDifferentEmail) {
     return t('userEdit.addForm.addLegalRepresentative.duplicateTaxCodeDifferentEmail');
   }
 
@@ -36,31 +34,30 @@ export const validateManagerForm = (
   t: any
 ) => {
   const duplicateError = checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
+  const requiredField = t('userEdit.addForm.addLegalRepresentative.requiredError');
 
   return Object.fromEntries(
     Object.entries({
       name: !manager.name
-        ? requiredError
+        ? requiredField
         : verifyNameMatchWithTaxCode(manager.name, manager.taxCode)
         ? t('userEdit.mismatchWithTaxCode.name')
         : undefined,
       surname: !manager.surname
-        ? requiredError
+        ? requiredField
         : verifySurnameMatchWithTaxCode(manager.surname, manager.taxCode)
         ? t('userEdit.mismatchWithTaxCode.surname')
         : undefined,
       taxCode: !manager.taxCode
-        ? requiredError
+        ? requiredField
         : !taxCodeRegexp.test(manager.taxCode) || verifyChecksumMatchWithTaxCode(manager.taxCode)
         ? t('userEdit.addForm.errors.invalidFiscalCode')
-        : duplicateError,
+        : undefined,
       email: !manager.email
-        ? requiredError
+        ? requiredField
         : !emailRegexp.test(manager.email)
         ? t('userEdit.addForm.errors.invalidEmail')
-        : undefined,
+        : duplicateError,
     }).filter(([_key, value]) => value)
   );
 };
-
-export const isFormValid = (errors: Record<string, any>) => Object.keys(errors).length === 0;

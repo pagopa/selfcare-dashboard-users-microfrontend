@@ -36,7 +36,7 @@ import {
   getProductLink,
   renderErrorMessage,
 } from '../utils/helpers';
-import { isFormValid, validateManagerForm } from '../utils/validation';
+import { validateManagerForm } from '../utils/validation';
 import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
 import { FormFields } from './FormFields';
 import { FormActions } from './FromActions';
@@ -176,11 +176,8 @@ export default function AddLegalRepresentativeForm({
   const formik = useFormik<AddedUsersList>({
     initialValues: initialFormData,
     validate: (user) => validateManagerForm(user, addedUserList, t),
+
     onSubmit: async (user) => {
-      const errors = validateManagerForm(user, addedUserList, t);
-      if (!isFormValid(errors)) {
-        return;
-      }
       if (previousLegalRepresentative) {
         await searchUser(user);
       } else {
@@ -277,7 +274,7 @@ export default function AddLegalRepresentativeForm({
         managerFullName={`${previousLegalRepresentative?.name} ${previousLegalRepresentative?.surname}`}
       />
       <Grid>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} noValidate>
           <Grid
             container
             sx={{

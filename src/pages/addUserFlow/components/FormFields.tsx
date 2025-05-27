@@ -1,8 +1,7 @@
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { AddedUsersList, TextTransform } from "../../../model/PartyUser";
-import { CustomTextField } from "../utils/helpers";
-import { requiredError } from "../utils/validation";
+import { AddedUsersList, TextTransform } from '../../../model/PartyUser';
+import { CustomTextField } from '../utils/helpers';
 
 export const FormFields = ({ formik }: { formik: any }) => {
   const { t } = useTranslation();
@@ -13,8 +12,12 @@ export const FormFields = ({ formik }: { formik: any }) => {
     placeholder: string,
     textTransform?: TextTransform
   ) => {
-    const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
+    const isSubmitted = formik.submitCount > 0;
+    const error = formik.errors[field];
+    const requiredError = t('userEdit.addForm.addLegalRepresentative.requiredError');
 
+    const isError =
+      !!error && (error !== requiredError || (error === requiredError && isSubmitted));
     return {
       id: field,
       type: 'text',
@@ -51,11 +54,7 @@ export const FormFields = ({ formik }: { formik: any }) => {
           <CustomTextField
             size="small"
             fullWidth
-            {...baseTextFieldProps(
-              'name',
-              t('userEdit.addForm.addLegalRepresentative.name'),
-              ''
-            )}
+            {...baseTextFieldProps('name', t('userEdit.addForm.addLegalRepresentative.name'), '')}
           />
         </Grid>
         <Grid item xs={6}>

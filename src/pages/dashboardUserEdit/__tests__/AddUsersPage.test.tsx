@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
 import '../../../locale';
@@ -11,8 +10,8 @@ import {
 } from '../../../microcomponents/mock_dashboard/data/product';
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
 import { createStore, store } from '../../../redux/store';
-import AddUsersPage from '../AddUsersPage';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import AddUsersPage from '../../addUserFlow/AddUsersPage';
 
 jest.setTimeout(6000);
 
