@@ -1,14 +1,13 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-
 import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import { renderWithProviders } from '../../../utils/test-utils';
-import AddUserForm from '../AddUserForm';
 import {
   mockedPartyProducts,
   mockedProductRoles,
 } from '../../../microcomponents/mock_dashboard/data/product';
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
+import { renderWithProviders } from '../../../utils/test-utils';
+import AddUserForm from '../components/AddUserForm';
 
 describe('AddUserForm Component', () => {
   const defaultProps = {
@@ -107,7 +106,6 @@ describe('AddUserForm Component', () => {
 
     const radio = screen.getByDisplayValue('referente-legale');
     fireEvent.click(radio);
-
   });
 
   test('should validate tax code format when changed', async () => {

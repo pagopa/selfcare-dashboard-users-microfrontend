@@ -11,7 +11,7 @@ import {
 import { productRoles2ProductRolesList } from '../../../model/ProductRole';
 import { createStore, store } from '../../../redux/store';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
-import AddUsersPage from '../../addUserFlow/AddUsersPage';
+import AddUsersPage from '../AddUsersPage';
 
 jest.setTimeout(6000);
 
