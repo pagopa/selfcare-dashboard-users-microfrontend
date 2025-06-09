@@ -1,9 +1,9 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { JSX } from 'react/jsx-runtime';
 import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
 import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts, mockedProductRoles } from '../../../../microcomponents/mock_dashboard/data/product';
 import { productRoles2ProductRolesList } from '../../../../model/ProductRole';
+import { renderWithProviders } from '../../../../utils/test-utils';
 import AddUserForm from '../components/AddUserForm';
 
 describe('AddUserForm Component', () => {
@@ -190,7 +190,4 @@ describe('AddUserForm Component', () => {
     expect(screen.getByRole('button', { name: /Continua/i })).toBeDisabled();
   });
 });
-function renderWithProviders(arg0: JSX.Element) {
-  throw new Error('Function not implemented.');
-}
 
