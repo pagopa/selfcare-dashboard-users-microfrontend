@@ -1,6 +1,5 @@
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Redirect, useParams } from 'react-router';
-import AddUsersRoleOnProduct from './pages/addUserFlow/AddUsersRoleOnProduct';
 import { ENV } from './utils/env';
 
 import UserDetailPage from './pages/dashboardUserDetail/userDetailPage/UserDetailPage';
@@ -9,8 +8,9 @@ import EditUserRegistryPage from './pages/dashboardUserEdit/EditUserRegistryPage
 import UsersPage from './pages/dashboardUsers/UsersPage/UsersPage';
 import UsersProductPage from './pages/dashboardUsers/UsersProductPage/UsersProductPage';
 
-import AddProductToUserPage from './pages/addUserFlow/AddProductToUserPage';
-import AddUsersPage from './pages/addUserFlow/AddUsersPage';
+import AddProductToUserPage from './pages/addUserFlow/addUser/AddProductToUserPage';
+import AddUsersPage from './pages/addUserFlow/addUser/AddUsersPage';
+import AddUsersRoleOnProduct from './pages/addUserFlow/addUser/AddUsersRoleOnProduct';
 import EditUserRegistryProductPage from './pages/dashboardUserEdit/EditUserRegistryProductPage';
 
 export type RoutesObject = { [key: string]: RouteConfig };

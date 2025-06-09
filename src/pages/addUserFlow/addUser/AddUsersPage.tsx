@@ -7,19 +7,19 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { RoleEnum } from '../../api/generated/onboarding/UserDto';
-import ProductNavigationBar from '../../components/ProductNavigationBar';
-import { Party } from '../../model/Party';
-import { AddedUsersList } from '../../model/PartyUser';
-import { Product } from '../../model/Product';
-import { ProductsRolesMap } from '../../model/ProductRole';
-import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { getUserCountService } from '../../services/usersService';
-import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../utils/constants';
-import { ENV } from '../../utils/env';
-import { MessageNoAction } from './components/MessageNoAction';
+import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
+import ProductNavigationBar from '../../../components/ProductNavigationBar';
+import { Party } from '../../../model/Party';
+import { AddedUsersList } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
+import { RequestOutcomeMessage } from '../../../model/UserRegistry';
+import { getUserCountService } from '../../../services/usersService';
+import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
+import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm';
 import AddUserForm from './components/AddUserForm';
-import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
+import { MessageNoAction } from './components/MessageNoAction';
 
 
 type Props = {

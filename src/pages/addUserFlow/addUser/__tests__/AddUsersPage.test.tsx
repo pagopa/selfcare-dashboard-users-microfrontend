@@ -3,14 +3,11 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
 import '../../../locale';
-import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import {
-  mockedPartyProducts,
-  mockedProductRoles,
-} from '../../../microcomponents/mock_dashboard/data/product';
-import { productRoles2ProductRolesList } from '../../../model/ProductRole';
-import { createStore, store } from '../../../redux/store';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
+import { mockedPartyProducts, mockedProductRoles } from '../../../../microcomponents/mock_dashboard/data/product';
+import { productRoles2ProductRolesList } from '../../../../model/ProductRole';
+import { createStore, store } from '../../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 
 jest.setTimeout(6000);

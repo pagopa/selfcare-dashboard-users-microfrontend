@@ -36,26 +36,26 @@ import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
-import { useIsMobile } from '../../../hooks/useIsMobile';
-import { Party } from '../../../model/Party';
-import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
-import { Product } from '../../../model/Product';
-import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
-import { UserRegistry } from '../../../model/UserRegistry';
-import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
+import { useIsMobile } from '../../../../hooks/useIsMobile';
+import { Party } from '../../../../model/Party';
+import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../model/PartyUser';
+import { Product } from '../../../../model/Product';
+import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../../model/ProductRole';
+import { UserRegistry } from '../../../../model/UserRegistry';
+import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
 import {
   addUserProductRoles,
   checkUserService,
   fetchUserRegistryByFiscalCode,
   savePartyUser,
-} from '../../../services/usersService';
+} from '../../../../services/usersService';
 import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
-} from '../../../utils/constants';
-import { commonStyles, CustomTextField, getProductLink, renderLabel } from '../utils/helpers';
-import { requiredError, taxCodeRegexp } from '../utils/validation';
+} from '../../../../utils/constants';
+import { commonStyles, CustomTextField, getProductLink, renderLabel } from '../../utils/helpers';
+import { requiredError, taxCodeRegexp } from '../../utils/validation';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,

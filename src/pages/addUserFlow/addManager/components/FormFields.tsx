@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { AddedUsersList, TextTransform } from '../../../model/PartyUser';
-import { CustomTextField } from '../utils/helpers';
+import { AddedUsersList, TextTransform } from '../../../../model/PartyUser';
+import { CustomTextField } from '../../utils/helpers';
 
 export const FormFields = ({ formik }: { formik: any }) => {
   const { t } = useTranslation();
