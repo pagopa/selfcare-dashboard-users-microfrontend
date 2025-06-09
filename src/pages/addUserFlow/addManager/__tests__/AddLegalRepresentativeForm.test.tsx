@@ -1,9 +1,9 @@
 
 import { fireEvent, screen } from '@testing-library/react';
-import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
-import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import { renderWithProviders } from '../../../utils/test-utils';
-import AddLegalRepresentativeForm from '../components/AddLegalRepresentativeForm';
+import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
+import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
+import { renderWithProviders } from '../../../../utils/test-utils';
+import AddLegalRepresentativeForm from '../AddLegalRepresentativeForm';
 
 test('should render AddLegalRepresentativeForm with empty props', () => {
   renderWithProviders(

@@ -1,7 +1,7 @@
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Redirect } from 'react-router-dom';
-import { Party } from '../../model/Party';
-import { DASHBOARD_USERS_ROUTES } from '../../routes';
+import { Party } from '../../../model/Party';
+import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 
 type Props = {
   party: Party;

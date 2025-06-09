@@ -37,9 +37,9 @@ import {
   renderErrorMessage,
 } from '../utils/helpers';
 import { validateManagerForm } from '../utils/validation';
-import { ConfirmChangeLRModal } from './ConfirmChangeLRModal';
-import { FormFields } from './FormFields';
-import { FormActions } from './FromActions';
+import { ConfirmChangeLRModal } from './components/ConfirmChangeLRModal';
+import { FormFields } from './components/FormFields';
+import { FormActions } from './components/FromActions';
 
 type LegalRepresentativeProps = {
   party: Party;

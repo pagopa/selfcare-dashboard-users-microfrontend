@@ -2,22 +2,19 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router-dom';
-import '../../../locale';
-import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import {
-  mockedPartyProducts,
-  mockedProductRoles,
-} from '../../../microcomponents/mock_dashboard/data/product';
-import { productRoles2ProductRolesList } from '../../../model/ProductRole';
-import { createStore, store } from '../../../redux/store';
+import '../../../../locale';
 // import { verifyMockExecution as verifyLoginMockExecution } from '../../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
+import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
+import { mockedPartyProducts, mockedProductRoles } from '../../../../microcomponents/mock_dashboard/data/product';
+import { productRoles2ProductRolesList } from '../../../../model/ProductRole';
+import { createStore, store } from '../../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 
 jest.setTimeout(6000);
 
 jest.mock('i18next-browser-languagedetector');
 jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
-jest.mock('../../../services/usersService');
+jest.mock('../../../../services/usersService');
 
 const fieldsValue = {
   taxCode: 'RSSFNC80A01A794Q',

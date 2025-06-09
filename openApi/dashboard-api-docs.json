@@ -907,6 +907,89 @@
         } ]
       }
     },
+    "/v2/institutions/{institutionId}/contract" : {
+      "get" : {
+        "tags" : [ "institutions" ],
+        "summary" : "getContract",
+        "description" : "Service to get the signed contract of a specific institution and product",
+        "operationId" : "v2GetContract",
+        "parameters" : [ {
+          "name" : "institutionId",
+          "in" : "path",
+          "description" : "Institution's unique internal identifier",
+          "required" : true,
+          "style" : "simple",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Product's unique identifier",
+          "required" : true,
+          "style" : "form",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "byte"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ "global" ]
+        } ]
+      }
+    },
     "/v2/institutions/{institutionId}/institutions" : {
       "get" : {
         "tags" : [ "institutions" ],
@@ -1008,6 +1091,173 @@
           },
           "404" : {
             "description" : "Not Found",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ "global" ]
+        } ]
+      }
+    },
+    "/v2/institutions/{institutionId}/onboardings-info" : {
+      "get" : {
+        "tags" : [ "institutions" ],
+        "summary" : "getOnboardingsInfo",
+        "description" : "Service to get the onboardings info as productId, status and contract availability related to a specific institution optionally filtered by a list of products",
+        "operationId" : "v2GetOnboardingsInfo",
+        "parameters" : [ {
+          "name" : "institutionId",
+          "in" : "path",
+          "description" : "Institution's unique internal identifier",
+          "required" : true,
+          "style" : "simple",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "products",
+          "in" : "query",
+          "description" : "Filtered product list",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/OnboardingInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ "global" ]
+        } ]
+      }
+    },
+    "/v2/institutions/{institutionId}/product/{productId}/check-user" : {
+      "post" : {
+        "tags" : [ "institutions" ],
+        "summary" : "checkUser",
+        "description" : "Service to verify if the user is already onboarded on an institution and product given its fiscal code",
+        "operationId" : "v2CheckUser",
+        "parameters" : [ {
+          "name" : "institutionId",
+          "in" : "path",
+          "description" : "Institution's unique internal identifier",
+          "required" : true,
+          "style" : "simple",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Product's unique identifier",
+          "required" : true,
+          "style" : "simple",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SearchUserDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CheckUserResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
@@ -1140,7 +1390,7 @@
         }, {
           "name" : "roles",
           "in" : "query",
-          "description" : "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
+          "description" : "List of party roles (ex: roles=MANAGER,DELEGATE)",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -1150,7 +1400,7 @@
         }, {
           "name" : "status",
           "in" : "query",
-          "description" : "User's status",
+          "description" : "User's status list (ex: status=ACTIVE,SUSPENDED)",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -3215,6 +3465,17 @@
           }
         }
       },
+      "CheckUserResponse" : {
+        "title" : "CheckUserResponse",
+        "type" : "object",
+        "properties" : {
+          "isUserOnboarded" : {
+            "type" : "boolean",
+            "description" : "Boolean indicating the presence of a user given its fiscal code, institutionId and productId",
+            "example" : false
+          }
+        }
+      },
       "CreateUserDto" : {
         "title" : "CreateUserDto",
         "required" : [ "productRoles", "taxCode" ],
@@ -3876,6 +4137,25 @@
           }
         }
       },
+      "OnboardingInfo" : {
+        "title" : "OnboardingInfo",
+        "type" : "object",
+        "properties" : {
+          "contractAvailable" : {
+            "type" : "boolean",
+            "description" : "Boolean indicating the presence of a contract",
+            "example" : false
+          },
+          "productId" : {
+            "type" : "string",
+            "description" : "Product's unique identifier"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Product's status"
+          }
+        }
+      },
       "PageInfo" : {
         "title" : "PageInfo",
         "type" : "object",
@@ -4325,6 +4605,10 @@
         "required" : [ "email" ],
         "type" : "object",
         "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "Technical data"
+          },
           "email" : {
             "type" : "string",
             "description" : "User's email",
