@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Self Care Dashboard API documentation",
-    "title": "selc-starter-parent",
+    "title": "selc-dashboard",
     "version": "0.0.1-SNAPSHOT"
   },
   "host": "localhost:80",
