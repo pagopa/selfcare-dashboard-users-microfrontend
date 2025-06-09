@@ -26,7 +26,6 @@ import {
   useUnloadEventOnExit,
 } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions, emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
@@ -36,7 +35,6 @@ import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
-import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { Party } from '../../../../model/Party';
 import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../model/PartyUser';
@@ -44,18 +42,15 @@ import { Product } from '../../../../model/Product';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../../model/ProductRole';
 import { UserRegistry } from '../../../../model/UserRegistry';
 import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
-import {
-  addUserProductRoles,
-  checkUserService,
-  fetchUserRegistryByFiscalCode,
-  savePartyUser,
-} from '../../../../services/usersService';
+import { fetchUserRegistryByFiscalCode } from '../../../../services/usersService';
 import {
   LOADING_TASK_FETCH_TAX_CODE,
   LOADING_TASK_SAVE_PARTY_USER,
 } from '../../../../utils/constants';
 import { commonStyles, CustomTextField, getProductLink, renderLabel } from '../../utils/helpers';
 import { requiredError, taxCodeRegexp } from '../../utils/validation';
+import { useCheckOnboardedUser } from '../hooks/useCheckOnboardedUser';
+import { useSaveUser } from '../hooks/useSaveUser';
 
 const CustomFormControlLabel = styled(FormControlLabel)({
   disabled: false,
@@ -201,6 +196,34 @@ export default function AddUserForm({
     }
   }, [productInPage]);
 
+  const saveUser = useSaveUser({
+    party,
+    userProduct,
+    productRoles,
+    t,
+    addNotify,
+    addError,
+    history,
+    setLoadingSaveUser,
+    unregisterUnloadEvent,
+    initialFormData,
+    selectedProduct,
+    isPnpgTheOnlyProduct,
+  });
+
+  const checkOnboardedUser = useCheckOnboardedUser({
+    partyId: party.partyId,
+    userProductId: userProduct?.id,
+    t,
+    addError,
+    addNotify,
+    forwardNextStep,
+    setAddedUserList,
+    isAddInBulkEAFlow,
+    isAsyncFlow,
+    productRoles,
+  });
+
   const errorNotify = (errors: any, taxCode: string) =>
     addError({
       id: 'FETCH_TAX_CODE',
@@ -286,67 +309,7 @@ export default function AddUserForm({
     }
     return errors;
   };
-
-  const save = (values: PartyUserOnCreation) => {
-    setLoadingSaveUser(true);
-    const values2submit = {
-      ...values,
-      taxCode: values.taxCode.toUpperCase(),
-      email: values.email.toLowerCase(),
-    };
-
-    const partyRole = productRoles?.groupByProductRole[formik.values.productRoles[0]].partyRole;
-
-    (userId
-      ? addUserProductRoles(party, userProduct as Product, userId, values2submit, partyRole)
-      : savePartyUser(party, userProduct as Product, values2submit, partyRole)
-    )
-      .then((userId) => {
-        unregisterUnloadEvent();
-        trackEvent(initialFormData.taxCode ? 'USER_ADD_ROLE' : 'USER_ADD', {
-          party_id: party.partyId,
-          product_id: userProduct?.id,
-          product_role: values2submit.productRoles,
-        });
-        addNotify({
-          component: 'Toast',
-          id: 'SAVE_PARTY_USER',
-          title: initialFormData.taxCode
-            ? t('userDetail.actions.successfulAddRole')
-            : t('userEdit.addForm.saveUserSuccess'),
-          message: '',
-        });
-
-        history.push(
-          resolvePathVariables(
-            selectedProduct && !isPnpgTheOnlyProduct
-              ? DASHBOARD_USERS_ROUTES.PARTY_PRODUCT_USERS.subRoutes.PARTY_PRODUCT_USER_DETAIL.path
-              : DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.PARTY_USER_DETAIL.path,
-            {
-              partyId: party.partyId,
-              productId: selectedProduct?.id ?? '',
-              userId: userId ?? '',
-            }
-          )
-        );
-      })
-      .catch((reason) =>
-        addError({
-          id: 'SAVE_PARTY_USER',
-          blocking: false,
-          error: reason,
-          techDescription: `An error occurred while saving party user ${party.partyId}`,
-          toNotify: true,
-          displayableTitle: userId
-            ? t('userDetail.actions.addRoleError')
-            : t('userEdit.addForm.saveUserError'),
-          displayableDescription: '',
-          component: 'Toast',
-        })
-      )
-      .finally(() => setLoadingSaveUser(false));
-  };
-
+  
   const addOneRoleModal = (values: PartyUserOnCreation) => {
     addNotify({
       component: 'SessionModal',
@@ -370,11 +333,14 @@ export default function AddUserForm({
         </Trans>
       ),
       onConfirm: () =>
-        save({
-          ...values,
-          taxCode: values.taxCode.toUpperCase(),
-          email: values.email.toLowerCase(),
-        }),
+        saveUser(
+          {
+            ...values,
+            taxCode: values.taxCode.toUpperCase(),
+            email: values.email.toLowerCase(),
+          },
+          userId
+        ),
       confirmLabel: t('userEdit.addForm.addOneRoleModal.confirmButton'),
       closeLabel: t('userEdit.addForm.addOneRoleModal.closeButton'),
     });
@@ -402,84 +368,17 @@ export default function AddUserForm({
       ),
       // eslint-disable-next-line sonarjs/no-identical-functions
       onConfirm: () =>
-        save({
-          ...values,
-          taxCode: values.taxCode.toUpperCase(),
-          email: values.email.toLowerCase(),
-        }),
+        saveUser(
+          {
+            ...values,
+            taxCode: values.taxCode.toUpperCase(),
+            email: values.email.toLowerCase(),
+          },
+          userId
+        ),
       confirmLabel: t('userEdit.addForm.addMultiRoleModal.confirmButton'),
       closeLabel: t('userEdit.addForm.addMultiRoleModal.closeButton'),
     });
-  };
-
-  const checkOnboardedUser = (values: PartyUserOnCreation) => {
-    checkUserService(party.partyId, userProduct?.id ?? '', values.taxCode)
-      .then((response) => {
-        if (response && response.isUserOnboarded === true) {
-          addError({
-            id: 'CHECK_ONBOARD_USER_ERROR',
-            blocking: false,
-            error: new Error(),
-            techDescription: `An error occurred while checking if user is onboarded ${party.partyId}`,
-            toNotify: true,
-            displayableTitle: t('userEdit.addForm.saveUserError'),
-            displayableDescription: '',
-            component: 'Toast',
-          });
-          return;
-        }
-        if (response && response.isUserOnboarded === false) {
-          setAddedUserList([
-            {
-              name: values.name,
-              surname: values.surname,
-              taxCode: values.taxCode.toUpperCase(),
-              email: values.email.toLowerCase(),
-              role: RoleEnum.DELEGATE,
-            },
-          ]);
-          if (isAddInBulkEAFlow) {
-            addNotify({
-              component: 'SessionModal',
-              id: 'ADD_IN_BULK_EA_USER',
-              title: t('userEdit.addForm.addUserInBulkModal.title'),
-              message: (
-                <Trans
-                  i18nKey="userEdit.addForm.addUserInBulkModal.message"
-                  values={{
-                    user: `${values.name} ${values.surname} `,
-                    role: `${values.productRoles.map(
-                      (r) => productRoles?.groupByProductRole[r].title
-                    )}`,
-                  }}
-                  components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
-                >
-                  {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
-                </Trans>
-              ),
-              confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),
-              closeLabel: t('userEdit.addForm.addUserInBulkModal.closeButton'),
-              onConfirm: forwardNextStep,
-            });
-            return;
-          }
-        }
-        if (isAsyncFlow) {
-          forwardNextStep();
-        }
-      })
-      .catch((reason) => {
-        addError({
-          id: 'CHECK_ONBOARD_USER_ERROR',
-          blocking: false,
-          error: reason,
-          techDescription: `An error occurred while checking if user is onboarded ${party.partyId}`,
-          toNotify: true,
-          displayableTitle: t('userEdit.addForm.saveUserError'),
-          displayableDescription: '',
-          component: 'Toast',
-        });
-      });
   };
 
   const formik = useFormik<PartyUserOnCreation>({
