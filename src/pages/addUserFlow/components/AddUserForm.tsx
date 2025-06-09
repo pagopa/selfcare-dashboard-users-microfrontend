@@ -39,17 +39,14 @@ import { useHistory } from 'react-router';
 import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
-import {
-  AddedUsersList,
-  PartyUserOnCreation,
-  TextTransform,
-} from '../../../model/PartyUser';
+import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../model/ProductRole';
 import { UserRegistry } from '../../../model/UserRegistry';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import {
   addUserProductRoles,
+  checkUserService,
   fetchUserRegistryByFiscalCode,
   savePartyUser,
 } from '../../../services/usersService';
@@ -415,56 +412,82 @@ export default function AddUserForm({
     });
   };
 
+  const checkOnboardedUser = (values: PartyUserOnCreation) => {
+    checkUserService(party.partyId, userProduct?.id ?? '', values.taxCode)
+      .then((response) => {
+        if (response && response.isUserOnboarded === true) {
+          addError({
+            id: 'CHECK_ONBOARD_USER_ERROR',
+            blocking: false,
+            error: new Error(),
+            techDescription: `An error occurred while checking if user is onboarded ${party.partyId}`,
+            toNotify: true,
+            displayableTitle: t('userEdit.addForm.saveUserError'),
+            displayableDescription: '',
+            component: 'Toast',
+          });
+          return;
+        }
+        if (response && response.isUserOnboarded === false) {
+          setAddedUserList([
+            {
+              name: values.name,
+              surname: values.surname,
+              taxCode: values.taxCode.toUpperCase(),
+              email: values.email.toLowerCase(),
+              role: RoleEnum.DELEGATE,
+            },
+          ]);
+          if (isAddInBulkEAFlow) {
+            addNotify({
+              component: 'SessionModal',
+              id: 'ADD_IN_BULK_EA_USER',
+              title: t('userEdit.addForm.addUserInBulkModal.title'),
+              message: (
+                <Trans
+                  i18nKey="userEdit.addForm.addUserInBulkModal.message"
+                  values={{
+                    user: `${values.name} ${values.surname} `,
+                    role: `${values.productRoles.map(
+                      (r) => productRoles?.groupByProductRole[r].title
+                    )}`,
+                  }}
+                  components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
+                >
+                  {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
+                </Trans>
+              ),
+              confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),
+              closeLabel: t('userEdit.addForm.addUserInBulkModal.closeButton'),
+              onConfirm: forwardNextStep,
+            });
+            return;
+          }
+        }
+        if (isAsyncFlow) {
+          forwardNextStep();
+        }
+      })
+      .catch((reason) => {
+        addError({
+          id: 'CHECK_ONBOARD_USER_ERROR',
+          blocking: false,
+          error: reason,
+          techDescription: `An error occurred while checking if user is onboarded ${party.partyId}`,
+          toNotify: true,
+          displayableTitle: t('userEdit.addForm.saveUserError'),
+          displayableDescription: '',
+          component: 'Toast',
+        });
+      });
+  };
+
   const formik = useFormik<PartyUserOnCreation>({
     initialValues: initialFormData,
     validate,
-    onSubmit: (values) => {
-      if (isAddInBulkEAFlow) {
-        setAddedUserList([
-          {
-            name: values.name,
-            surname: values.surname,
-            taxCode: values.taxCode.toUpperCase(),
-            email: values.email.toLowerCase(),
-            role: RoleEnum.DELEGATE,
-          },
-        ]);
-        addNotify({
-          component: 'SessionModal',
-          id: 'ADD_IN_BULK_EA_USER',
-          title: t('userEdit.addForm.addUserInBulkModal.title'),
-          message: (
-            <Trans
-              i18nKey="userEdit.addForm.addUserInBulkModal.message"
-              values={{
-                user: `${values.name} ${values.surname} `,
-                role: `${values.productRoles.map(
-                  (r) => productRoles?.groupByProductRole[r].title
-                )}`,
-              }}
-              components={{ 1: <strong />, 3: <strong />, 4: <strong />, 8: <strong /> }}
-            >
-              {`<1>{{user}}</1> verrà aggiunto come utente su <3>tutti gli enti aggregati </3> con il ruolo di <4>{{role}}</4>. Potrà gestire e operare su tutti gli enti.`}
-            </Trans>
-          ),
-          confirmLabel: t('userEdit.addForm.addUserInBulkModal.confirmButton'),
-          closeLabel: t('userEdit.addForm.addUserInBulkModal.closeButton'),
-          onConfirm: forwardNextStep,
-        });
-        return;
-      }
-
-      if (isAsyncFlow) {
-        setAddedUserList([
-          {
-            name: values.name,
-            surname: values.surname,
-            taxCode: values.taxCode.toUpperCase(),
-            email: values.email.toLowerCase(),
-            role: RoleEnum.DELEGATE,
-          },
-        ]);
-        forwardNextStep();
+    onSubmit: (values: PartyUserOnCreation) => {
+      if (isAsyncFlow || isAddInBulkEAFlow) {
+        checkOnboardedUser(values);
         return;
       }
 

@@ -9,6 +9,7 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ProductRole } from '../model/ProductRole';
 import { ENV } from '../utils/env';
+import { CheckUserResponse } from './generated/b4f-dashboard/CheckUserResponse';
 import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
@@ -19,7 +20,8 @@ import { UserResource } from './generated/b4f-dashboard/UserResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
-    const token = storageTokenOps.read();
+    const token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJmaXNjYWxfbnVtYmVyIjoiU1JUTkxNMDlUMDZHNjM1UyIsIm5hbWUiOiJBbnNlbG1vIiwiZmFtaWx5X25hbWUiOiJTYXJ0b3JpIiwidWlkIjoiNTA5NmU0YzYtMjVhMS00NWQ1LTliZGYtMmZiOTc0YTdjMWM4Iiwic3BpZF9sZXZlbCI6Imh0dHBzOi8vd3d3LnNwaWQuZ292Lml0L1NwaWRMMiIsImlzcyI6IlNQSUQiLCJhdWQiOiJhcGkuZGV2LnNlbGZjYXJlLnBhZ29wYS5pdCIsImlhdCI6MTc0OTQ2MjQ2OCwiZXhwIjoxNzQ5NDk0ODY4LCJqdGkiOiI1YTdiMDViNi01OTI1LTRhYWMtYjdkMy0yNzMyM2U3M2RlMWIifQ.Ug7kAsZXrSqY0Bb6XzQ7MxowntbYrL4ogv692a90zWe3g8ljlyBucmgm4xvBOeZn4fmRYoRe89Z60KZk1_d0oOh5w2QmASN_QARSHe0nspc8KhBZYFFZaNmXgNgLQCtMc0UlvJ7JWH2e9wUf1NpMinsLPwUI9WY4BWlKjRWGs0aC1TKT5nYuOrV_JlDgD7xYn7CFRWpj0IQtOcMY0l83UBJHVuL3lJ2Ber1VA886ovb0cAiM2eSJwKjcGxsF4fB5CT1-h8v6lWFBtVOGX-0VT49tBE3eBrAUTYKjICziNVUUwd45yJEh-CgEbStrk4EJY_MykI5x4Y4GNh0pQmSM7g';
     return wrappedOperation({
       ...params,
       bearerAuth: `Bearer ${token}`,
@@ -250,6 +252,15 @@ export const DashboardApi = {
       roles,
       status,
     });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  checkUser: async (
+    institutionId: string,
+    productId: string,
+    fiscalCode: string
+  ): Promise<CheckUserResponse> => {
+    const result = await apiClient.v2CheckUser({ institutionId, productId, body: { fiscalCode } });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 };

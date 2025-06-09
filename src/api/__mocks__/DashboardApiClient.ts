@@ -2,6 +2,7 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation } from '../../model/PartyUser';
 import { ProductRole } from '../../model/ProductRole';
+import { CheckUserResponse } from '../generated/b4f-dashboard/CheckUserResponse';
 import {
   InstitutionUserDetailsResource,
   RoleEnum,
@@ -221,7 +222,6 @@ export const DashboardApi = {
     _institutionId: string,
     _productId: string,
     _role?: string
-
   ): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource),
 
   getLegalRepresentative: async (
@@ -236,17 +236,14 @@ export const DashboardApi = {
     _user: PartyUserOnCreation
   ): Promise<UserIdResource> => Promise.resolve({ id: 'newUserId' }),
 
-  suspendPartyRelation: async (_relationshipId: string): Promise<void> =>
-    new Promise((resolve) => resolve()),
+  suspendPartyRelation: async (_relationshipId: string): Promise<void> => Promise.resolve(),
 
-  activatePartyRelation: async (_relationshipId: string): Promise<void> =>
-    new Promise((resolve) => resolve()),
+  activatePartyRelation: async (_relationshipId: string): Promise<void> => Promise.resolve(),
 
   fetchUserRegistryByFiscalCode: async (_taxCode: string): Promise<UserResource | null> =>
     Promise.resolve(mockedUserResource),
 
-  deletePartyRelation: async (_relationshipId: string): Promise<void> =>
-    new Promise<void>((resolve) => resolve()),
+  deletePartyRelation: async (_relationshipId: string): Promise<void> => Promise.resolve(),
 
   addUserProductRoles: async (
     _institutionId: string,
@@ -259,9 +256,16 @@ export const DashboardApi = {
     _productId: string,
     _institutionId: string,
     _pageRequest: PageRequest
-
   ): Promise<Array<UserGroupPlainResource>> => Promise.resolve(userGroupPlainResourceArray),
 
-  addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> =>
-    new Promise((resolve) => resolve()),
+  addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> => Promise.resolve(),
+
+  checkUser: async (
+    _institutionId: string,
+    _productId: string,
+    _fiscalCode: string
+  ): Promise<CheckUserResponse> =>
+    Promise.resolve({
+      isUserOnboarded: true,
+    }),
 };

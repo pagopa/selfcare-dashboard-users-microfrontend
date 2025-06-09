@@ -8,6 +8,7 @@ import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
 import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
+import { CheckUserResponse } from '../../api/generated/b4f-dashboard/CheckUserResponse';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
 import { CheckManagerDto } from '../../api/generated/onboarding/CheckManagerDto';
@@ -1349,11 +1350,12 @@ export const fetchUserGroups = (
   return Promise.resolve(userGroups);
 };
 
-export const searchUserMocked = (_user: UserTaxCodeDto): Promise<any> => Promise.resolve({
-  id: '121312312',
-});
+export const searchUserMocked = (_user: UserTaxCodeDto): Promise<any> =>
+  Promise.resolve({
+    id: '121312312',
+  });
 
-export const checkManagerMocked = (_user: CheckManagerDto ): Promise<any> =>
+export const checkManagerMocked = (_user: CheckManagerDto): Promise<any> =>
   Promise.resolve({ result: false });
 
 export const validateLegalRepresentativeMocked = (_user: UserDataValidationDto): Promise<void> =>
@@ -1371,3 +1373,9 @@ export const getUserCountServiceMocked = (
   _roles?: string,
   _status?: string
 ): Promise<UserCountResource> => Promise.resolve(mockedUserCount);
+
+export const checkUserServiceMocked = (
+  _institutionId: string,
+  _productId: string,
+  _fiscalCode: string
+): Promise<CheckUserResponse> => Promise.resolve({ isUserOnboarded: false });
