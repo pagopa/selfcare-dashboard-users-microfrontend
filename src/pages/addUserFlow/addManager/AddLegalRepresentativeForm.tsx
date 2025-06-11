@@ -30,12 +30,7 @@ import {
   LOADING_TASK_SEARCH_USER_PDV,
 } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
-import {
-  findNewestManager,
-  getOutcomeContent,
-  getProductLink,
-  renderErrorMessage,
-} from '../utils/helpers';
+import { findNewestManager, getOutcomeContent, renderErrorMessage } from '../utils/helpers';
 import { validateManagerForm } from '../utils/validation';
 import { ConfirmChangeLRModal } from './components/ConfirmChangeLRModal';
 import { FormFields } from './components/FormFields';
@@ -61,7 +56,6 @@ export default function AddLegalRepresentativeForm({
   isAddInBulkEAFlow,
 }: Readonly<LegalRepresentativeProps>) {
   const [isChangedManager, setIsChangedManager] = useState(false);
-  const [dynamicDocLink, setDynamicDocLink] = useState<string>('');
   const [previousLegalRepresentative, setPreviousLegalRepresentative] =
     useState<ProductUserResource | null>();
 
@@ -258,10 +252,6 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingOnboarding(false));
   };
 
-  useEffect(() => {
-    setDynamicDocLink(getProductLink(productId ?? '', party.institutionType));
-  }, [productId]);
-
   return (
     <Grid>
       <ConfirmChangeLRModal
@@ -301,24 +291,23 @@ export default function AddLegalRepresentativeForm({
                   mbSubTitle={1}
                 />
               </Grid>
-              {dynamicDocLink.length > 0 && (
-                <Grid item xs={12} justifyContent={'left'}>
-                  <ButtonNaked
-                    component="button"
-                    color="primary"
-                    sx={{
-                      fontWeight: 'fontWeightBold',
-                      fontSize: '14px',
-                      textDecoration: 'underline',
-                    }}
-                    onClick={() => {
-                      window.open(dynamicDocLink);
-                    }}
-                  >
-                    {t('userEdit.addForm.role.documentationLink')}
-                  </ButtonNaked>
-                </Grid>
-              )}
+
+              <Grid item xs={12} justifyContent={'left'}>
+                <ButtonNaked
+                  component="button"
+                  color="primary"
+                  sx={{
+                    fontWeight: 'fontWeightBold',
+                    fontSize: '14px',
+                    textDecoration: 'underline',
+                  }}
+                  onClick={() => {
+                    window.open(ENV.DOCUMENTATION_LINKS.USERS, '_blank');
+                  }}
+                >
+                  {t('userEdit.addForm.role.documentationLink')}
+                </ButtonNaked>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={3}>

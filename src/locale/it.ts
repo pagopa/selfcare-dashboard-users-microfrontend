@@ -245,7 +245,7 @@ export default {
         requestErrorMessage:
           'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
         backHome: 'Torna alla home',
-        moreInformationOnRoles: 'Vorrei più informazioni',
+        moreInformationOnRoles: 'Più informazioni sui ruoli',
         requiredError: 'Campo obbligatorio',
         duplicateTaxCodeDifferentEmail: 'L’indirizzo email inserito è diverso da quello comunicato in precedenza'
       },

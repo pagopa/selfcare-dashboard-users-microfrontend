@@ -28,7 +28,8 @@ export const ENV = {
 
   DOCUMENTATION_LINKS: {
     SELFCARE: 'https://docs.pagopa.it/area-riservata/',
-    USERS: 'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
+    ROLES: 'https://docs.pagopa.it/area-riservata/area-riservata/ruoli',
+    USERS:'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
     PAGOPA_EC:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-ec/manuale-operativo-back-office-pagopa-ente-creditore/funzionalita/matrice-ruoli-funzionalita',
     PAGOPA_PSP:
