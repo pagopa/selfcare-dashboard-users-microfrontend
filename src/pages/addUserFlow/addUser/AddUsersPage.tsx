@@ -21,7 +21,6 @@ import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm
 import AddUserForm from './components/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
-
 type Props = {
   party: Party;
   activeProducts: Array<Product>;
@@ -151,7 +150,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
           marginBottom: 5,
         }}
         onClick={() => {
-          window.open(ENV.DOCUMENTATION_LINKS.USERS);
+          window.open(ENV.DOCUMENTATION_LINKS.ROLES, '_blank');
         }}
       >
         {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
