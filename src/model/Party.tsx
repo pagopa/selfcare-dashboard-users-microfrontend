@@ -18,15 +18,18 @@ export type BaseParty = {
 type OnboardedProduct = {
   authorized?: boolean;
   billing?: {
-      publicServices?: boolean;
-      recipientCode?: string;
-      vatNumber?: string;
+    publicServices?: boolean;
+    recipientCode?: string;
+    vatNumber?: string;
   };
   productId?: string;
   productOnBoardingStatus?: ProductOnBoardingStatusEnum;
   userProductActions?: Array<string>;
   userRole?: string;
   isAggregator?: boolean;
+  institutionType?: string;
+  origin?: string;
+  originId?: string;
 };
 
 export type Party = {
