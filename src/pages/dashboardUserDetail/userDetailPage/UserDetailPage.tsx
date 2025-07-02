@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import {Button, Grid, Stack, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
@@ -7,7 +7,7 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNot
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -20,6 +20,7 @@ import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import UserDetail from '../components/UserDetail';
 import UserProductActions from '../components/UserProductActions';
+import { useFocus } from './../../../hooks/useFocus';
 import { deletePartyUser } from './../../../services/usersService';
 import UserProductSection from './components/UserProductSection';
 
@@ -48,6 +49,9 @@ function UserDetailPage({
   const addNotify = useUserNotify();
   const { getAllProductsWithPermission } = usePermissions();
   const canEditUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  useFocus(titleRef, partyUser);
 
   const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
@@ -159,7 +163,19 @@ function UserDetailPage({
           />
         </Grid>
         <Grid container item mb={4} xs={12}>
-          <Grid item xs={10}>
+          <Grid
+            item
+            xs={10}
+            ref={titleRef}
+            tabIndex={-1}
+            role="text"
+            aria-readonly="true"
+            aria-live="polite"
+            aria-atomic="true"
+            sx={{
+              outline: 'none',
+            }}
+          >
             <Typography
               variant="h4"
               sx={{
