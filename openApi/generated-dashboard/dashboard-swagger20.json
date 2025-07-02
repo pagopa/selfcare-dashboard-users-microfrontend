@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Self Care Dashboard API documentation",
-    "title": "selc-dashboard",
+    "title": "selc-starter-parent",
     "version": "0.0.1-SNAPSHOT"
   },
   "host": "localhost:80",
@@ -3616,8 +3616,31 @@
         "billing": {
           "$ref": "#/definitions/Billing"
         },
+        "institutionType": {
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
         "isAggregator": {
           "type": "boolean"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "originId": {
+          "type": "string"
         },
         "productId": {
           "type": "string"
@@ -3654,8 +3677,31 @@
         "billing": {
           "$ref": "#/definitions/Billing"
         },
+        "institutionType": {
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
         "isAggregator": {
           "type": "boolean"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "originId": {
+          "type": "string"
         },
         "productId": {
           "type": "string"
@@ -3690,6 +3736,32 @@
           "description": "Boolean indicating the presence of a contract",
           "example": false,
           "type": "boolean"
+        },
+        "institutionType": {
+          "description": "Institution Type",
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
+        "origin": {
+          "description": "Product's data origin",
+          "type": "string"
+        },
+        "originId": {
+          "description": "Product's identifier related to origin",
+          "type": "string"
         },
         "productId": {
           "description": "Product's unique identifier",
