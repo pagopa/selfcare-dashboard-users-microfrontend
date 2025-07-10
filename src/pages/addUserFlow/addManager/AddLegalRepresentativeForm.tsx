@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import { uniqueId } from 'lodash';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductOnBoardingStatusEnum } from '../../../api/generated/b4f-dashboard/OnboardedProductResource';
 import { ProductUserResource } from '../../../api/generated/b4f-dashboard/ProductUserResource';
 import { InstitutionTypeEnum } from '../../../api/generated/onboarding/OnboardingUserDto';
 import { RoleEnum, UserDto } from '../../../api/generated/onboarding/UserDto';
@@ -66,6 +67,12 @@ export default function AddLegalRepresentativeForm({
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
   const setLoadingOnboarding = useLoading(LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE);
   const addError = useErrorDispatcher();
+  const activeOnboardingOnSelectedProduct = party.products.filter(
+    (p) =>
+      p.productOnBoardingStatus &&
+      p.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE &&
+      p.productId === productId
+  )[0];
 
   const setFormValues = async (formik: any, manager: ProductUserResource | null) => {
     await formik.setValues({
@@ -123,7 +130,7 @@ export default function AddLegalRepresentativeForm({
   const checkManager = async (userId: string, user: AddedUsersList) => {
     setLoadingCheckManager(true);
     checkManagerService({
-      institutionType: party.institutionType as any,
+      institutionType: activeOnboardingOnSelectedProduct.institutionType as InstitutionTypeEnum,
       origin: party?.origin,
       originId: party?.originId,
       productId,
@@ -218,9 +225,9 @@ export default function AddLegalRepresentativeForm({
     setLoadingOnboarding(true);
     const submitRequestData = {
       productId,
-      institutionType: party?.institutionType as InstitutionTypeEnum,
-      origin: party?.origin,
-      originId: party?.originId,
+      institutionType: activeOnboardingOnSelectedProduct.institutionType as InstitutionTypeEnum,
+      origin: activeOnboardingOnSelectedProduct.origin,
+      originId: activeOnboardingOnSelectedProduct.originId,
       subunitCode: party?.subunitCode,
       taxCode: party?.fiscalCode,
       users: addedUserList as Array<UserDto>,
