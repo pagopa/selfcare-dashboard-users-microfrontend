@@ -314,6 +314,9 @@ export const mockedParties: Array<Party> = [
           Actions.ListActiveProducts,
           Actions.AccessProductBackoffice,
         ],
+        institutionType: 'PA',
+        origin: 'IPA',
+        originId: 'originId1',
       },
       {
         productId: 'prod-pn',
