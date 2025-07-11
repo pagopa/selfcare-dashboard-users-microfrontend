@@ -4,6 +4,7 @@ import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
@@ -20,7 +21,6 @@ import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import UserDetail from '../components/UserDetail';
 import UserProductActions from '../components/UserProductActions';
-import { useFocus } from './../../../hooks/useFocus';
 import { deletePartyUser } from './../../../services/usersService';
 import UserProductSection from './components/UserProductSection';
 
