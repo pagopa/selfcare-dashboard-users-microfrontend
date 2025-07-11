@@ -21,6 +21,7 @@ export default {
       rows: {
         isCurrentUser: '(vous)',
         suspendedChip: 'En attente',
+        detailPageRedirectButton: 'Accéder à la page de détail de',
       },
     },
     filterRole: {
