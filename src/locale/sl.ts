@@ -21,7 +21,6 @@ export default {
       rows: {
         isCurrentUser: '(ti)',
         suspendedChip: 'Prekinjeno',
-        detailPageRedirectButton: 'Dostop do strani s podrobnostmi za',
       },
     },
     filterRole: {
