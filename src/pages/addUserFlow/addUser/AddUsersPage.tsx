@@ -27,6 +27,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
@@ -40,6 +41,8 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
   const [openAminMaxLimitsModal, setOpenAminMaxLimitsModal] = useState(false);
   const [currentAdminCount, setCurrentAdminCount] = useState<number>(0);
+
+  const activeOnboardings = party.products.filter((p) => p.productOnBoardingStatus === 'ACTIVE');
 
   const forwardNextStep = () => {
     if (currentAdminCount >= Number(ENV.MAX_ADMIN_COUNT)) {
@@ -62,31 +65,40 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   })}#${PRODUCT_IDS.PAGOPA}`;
 
   useEffect(() => {
-    if (
-      ENV.ENABLE_MAX_ADMIN_LIMIT &&
-      party.institutionType === 'PSP' &&
-      currentSelectedProduct?.id === PRODUCT_IDS.PAGOPA
-    ) {
-      setLoading(true);
-      getUserCountService(
-        party.partyId ?? '',
-        currentSelectedProduct?.id ?? '',
-        [RoleEnum.MANAGER, RoleEnum.DELEGATE, RoleEnum.SUB_DELEGATE].join(',')
-      )
-        .then((userCount) => {
-          setCurrentAdminCount(userCount?.count ?? 0);
-        })
-        .catch((error) => {
-          addError({
-            id: 'FETCH_ADMIN_COUNT',
-            blocking: false,
-            error,
-            techDescription: `An error occurred while fetching admin count`,
-            toNotify: false,
-          });
-        })
-        .finally(() => setLoading(false));
+    if (!ENV.ENABLE_MAX_ADMIN_LIMIT || !currentSelectedProduct) {
+      return;
     }
+
+    const matchingProduct = activeOnboardings.find(
+      (p) =>
+        p.productId === currentSelectedProduct.id &&
+        p.institutionType === 'PSP' &&
+        p.productId === PRODUCT_IDS.PAGOPA
+    );
+
+    if (!matchingProduct) {
+      return;
+    }
+
+    setLoading(true);
+    getUserCountService(
+      party.partyId ?? '',
+      currentSelectedProduct.id,
+      [RoleEnum.MANAGER, RoleEnum.DELEGATE, RoleEnum.SUB_DELEGATE].join(',')
+    )
+      .then((userCount) => {
+        setCurrentAdminCount(userCount?.count ?? 0);
+      })
+      .catch((error) => {
+        addError({
+          id: 'FETCH_ADMIN_COUNT',
+          blocking: false,
+          error,
+          techDescription: `An error occurred while fetching admin count`,
+          toNotify: false,
+        });
+      })
+      .finally(() => setLoading(false));
   }, [party, currentSelectedProduct]);
 
   return outcome ? (
