@@ -135,6 +135,7 @@ export default function UsersTableRolesFilter({
             onClick={(e) => {
               e.stopPropagation();
             }}
+            aria-label={`${title}`}
             label={
               <Typography
                 variant="body2"
@@ -258,6 +259,7 @@ export default function UsersTableRolesFilter({
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
+                    aria-label={t(labels[selcRole].titleKey)}
                     label={
                       <Grid container sx={{ height: '100%', whiteSpace: 'normal' }}>
                         <Grid item xs={12}>
