@@ -117,6 +117,8 @@ export default function AddUserForm({
     !!products.find((p) => p.id === 'prod-pn-pg') && products.length === 1;
   const pnpgProduct = products.find((p) => p.id === 'prod-pn-pg');
 
+  const activeOnboardings = party.products.filter((p) => p.productOnBoardingStatus === 'ACTIVE');
+
   useEffect(() => {
     if (!initialFormData.taxCode) {
       if (validTaxcode && validTaxcode !== initialFormData.taxCode) {
@@ -161,9 +163,14 @@ export default function AddUserForm({
   useEffect(() => {
     if (userProduct) {
       setCurrentSelectedProduct(userProduct);
-      setDynamicDocLink(getProductLink(userProduct?.id ?? '', party.institutionType));
+
+      const matchingProduct = activeOnboardings.find((p) => p.productId === userProduct.id);
+
+      const institutionType = matchingProduct?.institutionType ?? party.institutionType;
+
+      setDynamicDocLink(getProductLink(userProduct.id, institutionType));
     }
-  }, [userProduct]);
+  }, [userProduct, activeOnboardings, party.institutionType]);
 
   const goBackInner =
     goBack ??
@@ -309,7 +316,7 @@ export default function AddUserForm({
     }
     return errors;
   };
-  
+
   const addOneRoleModal = (values: PartyUserOnCreation) => {
     addNotify({
       component: 'SessionModal',
