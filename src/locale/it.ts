@@ -1,4 +1,8 @@
 export default {
+  accessibility: {
+    filterUsers: 'Filtri applicati. Risultati aggiornati.',
+    removeFilters: 'Filtri rimossi. Tutti i risultati sono visibili.',
+  },
   session: {
     expired: {
       title: 'Sessione scaduta',
@@ -248,7 +252,8 @@ export default {
         backHome: 'Torna alla home',
         moreInformationOnRoles: 'Più informazioni sui ruoli',
         requiredError: 'Campo obbligatorio',
-        duplicateTaxCodeDifferentEmail: 'L’indirizzo email inserito è diverso da quello comunicato in precedenza'
+        duplicateTaxCodeDifferentEmail:
+          'L’indirizzo email inserito è diverso da quello comunicato in precedenza',
       },
       backButton: 'Indietro',
       continueButton: 'Continua',

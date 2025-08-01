@@ -34,7 +34,7 @@ export default function UsersTableActions({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
-}: UsersSearchProps) {
+}: Readonly<UsersSearchProps>) {
   return (
     <UsersTableFilters
       selectedProduct={selectedProduct}
