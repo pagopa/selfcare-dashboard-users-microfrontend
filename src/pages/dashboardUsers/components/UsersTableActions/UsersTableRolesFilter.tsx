@@ -3,8 +3,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/system';
 import { ButtonNaked } from '@pagopa/mui-italia';
+import { useLiveAnnouncerWithRegion } from '@pagopa/selfcare-common-frontend/lib';
 import { isEqual } from 'lodash';
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { UserRole, UserRoleFilters } from '../../../../model/Party';
@@ -53,7 +54,7 @@ export default function UsersTableRolesFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   // const theme = useTheme();
   const isMobile = useIsMobile('md');
@@ -62,9 +63,11 @@ export default function UsersTableRolesFilter({
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
-  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
+  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = useState<{
     [selcRole in UserRoleFilters]: ProductRolesGroupByTitle;
   }>(emptySelcRoleGroup);
+
+  const { announce, LiveRegion } = useLiveAnnouncerWithRegion();
 
   const nextProductRolesFilter = useMemo(
     () =>
@@ -178,6 +181,23 @@ export default function UsersTableRolesFilter({
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
 
+  const handleSubmit = () => {
+    onFiltersChange({
+      ...filters,
+      productIds: nextProductRolesFilter.map((f) => f.productId),
+      productRoles: nextProductRolesFilter,
+    });
+    setDisableRemoveFiltersButton(false);
+    announce(t('accessibility.filterUsers'));
+  };
+
+  const handleResetFilters = () => {
+    onFiltersChange({ ...filters, productIds: [], productRoles: [] });
+    setSearchByName('');
+    setDisableRemoveFiltersButton(true);
+    announce(t('accessibility.removeFilters'));
+  };
+
   return (
     <Grid
       container
@@ -187,6 +207,7 @@ export default function UsersTableRolesFilter({
       mt={isMobile ? 0 : 5}
       flexDirection={isMobile ? 'column' : 'row'}
     >
+      {LiveRegion}
       <Grid item xs={12} md={5} width="100%">
         <TextField
           fullWidth
@@ -307,14 +328,7 @@ export default function UsersTableRolesFilter({
           type="submit"
           size="small"
           fullWidth
-          onClick={() => {
-            onFiltersChange({
-              ...filters,
-              productIds: nextProductRolesFilter.map((f) => f.productId),
-              productRoles: nextProductRolesFilter,
-            });
-            setDisableRemoveFiltersButton(false);
-          }}
+          onClick={handleSubmit}
         >
           {t('usersTable.filterRole.addFilters')}
         </Button>
@@ -325,11 +339,7 @@ export default function UsersTableRolesFilter({
           color="primary"
           fullWidth
           size="small"
-          onClick={() => {
-            onFiltersChange({ ...filters, productIds: [], productRoles: [] });
-            setSearchByName('');
-            setDisableRemoveFiltersButton(true);
-          }}
+          onClick={handleResetFilters}
         >
           {t('usersTable.filterRole.deleteFilters')}
         </ButtonNaked>

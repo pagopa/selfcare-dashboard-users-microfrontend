@@ -36,7 +36,7 @@ export default function UsersTableFilters({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
-}: UsersSearchFilterProps) {
+}: Readonly<UsersSearchFilterProps>) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
   );
