@@ -125,6 +125,7 @@ export default function UsersTableRolesFilter({
       return (
         <MenuItem
           key={`${selcRole}-children-${title}`}
+          value={`child-${selcRole}-${title}`}
           sx={{
             display: 'flex',
             ml: isPnpg ? 0 : showSelcRoleGrouped ? 3 : 1,
@@ -227,10 +228,11 @@ export default function UsersTableRolesFilter({
           variant="outlined"
           displayEmpty
           native={false}
-          value={selcGroups.flatMap((s) =>
-            selcGroupTotallySelected[s]
-              ? [t(labels[s].titleKey)]
-              : Object.keys(productRoleCheckedBySelcRole[s])
+          value={selcGroups.flatMap(
+            (s) =>
+              selcGroupTotallySelected[s]
+                ? [`group-${s}-${t(labels[s].titleKey)}`] // Add prefix to make parent unique
+                : Object.keys(productRoleCheckedBySelcRole[s]).map((title) => `child-${s}-${title}`) // Add prefix to make children unique
           )}
           renderValue={(selected: any) => {
             if (selected.length === 0) {
@@ -240,6 +242,12 @@ export default function UsersTableRolesFilter({
                 </Box>
               );
             }
+
+            const displayValues = selected.map((value: string) => {
+              const secondDashIndex = value.indexOf('-', value.indexOf('-') + 1);
+              return secondDashIndex !== -1 ? value.substring(secondDashIndex + 1) : value;
+            });
+
             return (
               <Typography
                 sx={{
@@ -251,7 +259,7 @@ export default function UsersTableRolesFilter({
                   fontWeight: 'fontWeightMedium',
                 }}
               >
-                {selected.join(', ')}
+                {displayValues.join(', ')}
               </Typography>
             );
           }}
@@ -267,6 +275,7 @@ export default function UsersTableRolesFilter({
             return [
               showSelcRoleGrouped && !isPnpg ? (
                 <MenuItem
+                  value={`group-${selcRole}-${t(labels[selcRole].titleKey)}`}
                   onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
                   key={selcRole}
                 >
