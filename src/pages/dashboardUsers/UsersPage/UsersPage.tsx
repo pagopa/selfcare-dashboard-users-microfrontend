@@ -7,9 +7,10 @@ import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
@@ -74,6 +75,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
     Object.fromEntries(selectedProducts.map((p) => [[p.id], { loading: true, noData: false }]));
   const [productsFetchStatus, setProductsFetchStatus] =
     useState<Record<string, { loading: boolean; noData: boolean }>>(initProductFetchStatus);
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useFocus(buttonRef, []);
 
   useEffect(() => {
     setFilters(emptyFilters);
@@ -168,6 +173,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                 variant="contained"
                 sx={{ height: '48px', width: '163px' }}
                 onClick={() => onExit(() => history.push(addUserUrl))}
+                ref={buttonRef}
+                tabIndex={0}
                 disabled={!canAddUser}
               >
                 {t('usersTable.addButton')}
