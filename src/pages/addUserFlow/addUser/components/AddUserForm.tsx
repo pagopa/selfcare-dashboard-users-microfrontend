@@ -671,6 +671,7 @@ export default function AddUserForm({
                 <>
                   <Box
                     key={p.productRole}
+                    aria-label={`${p.title}`}
                     sx={{
                       display: 'flex',
                       justifyContent: 'space-between',
@@ -686,6 +687,7 @@ export default function AddUserForm({
                       value={p.productRole}
                       control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
                       label={renderLabel(p, !!validTaxcode)}
+                      aria-label={`${p.title}`}
                       onClick={
                         validTaxcode
                           ? () => {
