@@ -1171,6 +1171,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.27.6":
+  version "7.28.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.3.tgz#75c5034b55ba868121668be5d5bb31cc64e6e61a"
+  integrity sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==
+
 "@babel/template@^7.25.9", "@babel/template@^7.3.3":
   version "7.25.9"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.25.9.tgz#ecb62d81a8a6f5dc5fe8abfc3901fc52ddf15016"
@@ -2171,10 +2176,10 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/semantic-conventions/-/semantic-conventions-1.28.0.tgz#337fb2bca0453d0726696e745f50064411f646d6"
   integrity sha512-lp4qAiMTD4sNWW4DbKLBkfiMZ4jbAboJIGOQr5DvciMRI494OapieI9qiODpOt0XBr1LjIDy1xAGAnVs5supTA==
 
-"@pagopa/mui-italia@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-1.6.1.tgz#ffeb35bc58ee4702b4d9a7b5e7fe6b1634cd0902"
-  integrity sha512-v3O16kSn4JHDJiNVOHKYklIeVRACKpmxnqrj6o6Y8qtURycVJmiMHAGW7uoNbw2yK1+ymJ+C7MSoZphXijKPFA==
+"@pagopa/mui-italia@^1.7.1-rc.20250902070302", "@pagopa/mui-italia@^1.7.1-rc.20250903085304":
+  version "1.7.1-rc.20250903085304"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-1.7.1-rc.20250903085304.tgz#014a431f411f1f64801b73c3cb5239bfeb76e9c6"
+  integrity sha512-BRFnsIl/8/nSbp0M1jzjgEOxTNMZmxW4tI/czqm/xJ80s1ezVy8jk+v1IN6SeYEnyUqWkafJ3aWJqTdEf1SBMw==
   dependencies:
     "@fontsource/dm-mono" "^4.5.10"
     "@fontsource/titillium-web" "^4.5.9"
@@ -2197,10 +2202,10 @@
     write-yaml-file "^4.1.3"
     yargs "^15.0.1"
 
-"@pagopa/selfcare-common-frontend@^1.34.65":
-  version "1.34.65"
-  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.34.65.tgz#4ee87222921b0a4c6b031d8ca9270bb14636bc2f"
-  integrity sha512-ChEFLWDAZcVf8ttgkh35yX8Mn0mwR5tDWWdoPl1Nu5KDCDKrtO8Al+AogrzEKijA9qmVMO4sR5LaOtEiieMD2Q==
+"@pagopa/selfcare-common-frontend@^1.34.68":
+  version "1.34.68"
+  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.34.68.tgz#6fb979321bb8f046b9572c61c15ecf6108c632e8"
+  integrity sha512-mG8IqD0TEjRg68UStN2q/Ge5xT5nmfXi4kunMZWB8YpL48Z9Ro1f+EeF2sMuaiwB9Ykk1ancoXdPMNi1oWfe6A==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -2208,14 +2213,14 @@
     "@mui/lab" "^5.0.0-alpha.137"
     "@mui/material" "^5.14.1"
     "@mui/system" "^5.14.1"
-    "@pagopa/mui-italia" "^1.6.1"
+    "@pagopa/mui-italia" "^1.7.1-rc.20250902070302"
     "@pagopa/ts-commons" "^13.1.2"
     "@reduxjs/toolkit" "^1.6.2"
     async "3.2.4"
     core-js "^3.20.2"
     env-var "^7.1.1"
     fp-ts "^2.11.5"
-    i18next "^23.7.11"
+    i18next "^25.4.2"
     i18next-browser-languagedetector "^8.0.0"
     io-ts "^2.2.16"
     lodash "^4.17.21"
@@ -2230,7 +2235,7 @@
     react-router-dom "^5.2.0"
     react-scripts "5.0.1"
     redux-logger "^3.0.6"
-    typescript "^4.3.5"
+    typescript "^5.9.2"
     validator "13.11.0"
     web-vitals "^1.1.2"
 
@@ -6799,12 +6804,12 @@ i18next-browser-languagedetector@^8.0.0:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next@^23.7.11:
-  version "23.16.8"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.16.8.tgz#3ae1373d344c2393f465556f394aba5a9233b93a"
-  integrity sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==
+i18next@^25.4.2:
+  version "25.4.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.4.2.tgz#97a2c65d6c633b768b95055928c2f6086a672f08"
+  integrity sha512-gD4T25a6ovNXsfXY1TwHXXXLnD/K2t99jyYMCSimSCBnBRJVQr5j+VAaU83RJCPzrTGhVQ6dqIga66xO2rtd5g==
   dependencies:
-    "@babel/runtime" "^7.23.2"
+    "@babel/runtime" "^7.27.6"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -12013,10 +12018,10 @@ typedarray.prototype.slice@^1.0.3:
     typed-array-buffer "^1.0.2"
     typed-array-byte-offset "^1.0.2"
 
-typescript@^4.3.5:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@^5.9.2:
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.2.tgz#d93450cddec5154a2d5cabe3b8102b83316fb2a6"
+  integrity sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==
 
 ulid@^2.3.0:
   version "2.3.0"
