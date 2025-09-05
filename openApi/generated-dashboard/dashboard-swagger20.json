@@ -1952,6 +1952,68 @@
         "summary": "createUserGroup"
       }
     },
+    "/v2/user-groups/me/{id}": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Users group's unique identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserGroupResource"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "user-groups"
+        ],
+        "description": "Service to get a specific UserGroup entity but only if you are member of it",
+        "operationId": "getMyUserGroupByIdUsingGET",
+        "summary": "getMyUserGroupById"
+      }
+    },
     "/v2/user-groups/{id}": {
       "delete": {
         "produces": [
@@ -2015,13 +2077,6 @@
             "name": "id",
             "required": true,
             "type": "string"
-          },
-          {
-            "description": "Users group's institutionId",
-            "in": "query",
-            "name": "institutionId",
-            "required": false,
-            "type": "string"
           }
         ],
         "responses": {
@@ -2066,7 +2121,7 @@
         "tags": [
           "user-groups"
         ],
-        "description": "Service to get a specific UserGroup entity",
+        "description": "Service to get a specific UserGroup entity even if you are not member of it",
         "operationId": "getUserGroupByIdUsingGET",
         "summary": "getUserGroupById"
       },

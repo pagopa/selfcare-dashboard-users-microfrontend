@@ -13,6 +13,7 @@ import {
   StatusEnum,
   UserGroupPlainResource,
 } from '../generated/b4f-dashboard/UserGroupPlainResource';
+import { UserGroupResource } from '../generated/b4f-dashboard/UserGroupResource';
 import { UserIdResource } from '../generated/b4f-dashboard/UserIdResource';
 import { UserResource } from '../generated/b4f-dashboard/UserResource';
 
@@ -258,7 +259,11 @@ export const DashboardApi = {
     _pageRequest: PageRequest
   ): Promise<Array<UserGroupPlainResource>> => Promise.resolve(userGroupPlainResourceArray),
 
+  getMyUserGroupById: async (_id: string): Promise<UserGroupResource | null> =>
+    Promise.resolve(userGroupPlainResourceArray),
+
   addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> => Promise.resolve(),
+  
 
   checkUser: async (
     _institutionId: string,

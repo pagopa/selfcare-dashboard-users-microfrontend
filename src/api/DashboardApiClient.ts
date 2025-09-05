@@ -15,6 +15,7 @@ import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/Instit
 import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
+import { UserGroupResource } from './generated/b4f-dashboard/UserGroupResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 
@@ -227,6 +228,13 @@ export const DashboardApi = {
       size: pageRequest.size,
       sort: pageRequest.sort ? [pageRequest.sort] : undefined,
       productId,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  getMyUserGroupById: async (id: string): Promise<UserGroupResource | null> => {
+    const result = await apiClient.getMyUserGroupByIdUsingGET({
+      id,
     });
     return extractResponse(result, 200, onRedirectToLogin);
   },

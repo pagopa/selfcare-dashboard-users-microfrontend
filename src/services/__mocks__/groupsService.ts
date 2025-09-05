@@ -1,14 +1,15 @@
-import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
-import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
-import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
 import {
   applySort,
   extractPageRequest,
 } from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { cloneDeep } from 'lodash';
 import { Party } from '../../model/Party';
-import { Product } from '../../model/Product';
 import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
+import { Product } from '../../model/Product';
+import { UserGroupResource } from '../../api/generated/b4f-dashboard/UserGroupResource';
 
 type PartyGroupMock = PartyGroup & {
   membersIds: Array<string>;
@@ -288,6 +289,16 @@ export const fetchPartyGroups = (
   return new Promise((resolve) =>
     setTimeout(() => resolve(extractPageRequest(filteredContent, pageRequest)), 100)
   );
+};
+
+export const mockGetMyUserGroupByIdService = (id: string): Promise<UserGroupResource | null> => {
+  const mockedGroup = mockedGroups.find((u) => u.id === id) ?? null;
+  if (mockedGroup !== null) {
+    const clone: PartyGroupMock = cloneDeep(mockedGroup);
+    return Promise.resolve(clone as unknown as UserGroupResource);
+  } else {
+    return Promise.resolve(null);
+  }
 };
 
 export const addMemberToUserGroup = (_id: string, userId: string): Promise<string> =>
