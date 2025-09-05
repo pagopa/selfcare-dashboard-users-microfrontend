@@ -2,12 +2,14 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { DashboardApi } from '../api/DashboardApiClient';
+import { UserGroupResource } from '../api/generated/b4f-dashboard/UserGroupResource';
 import { Party } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import { Product } from '../model/Product';
 import {
   addMemberToUserGroup as addMemberToUserGroupMocked,
   fetchPartyGroups as fetchPartyGroupsMocked,
+  mockGetMyUserGroupByIdService,
 } from './__mocks__/groupsService';
 
 export const fetchPartyGroups = (
@@ -31,6 +33,15 @@ export const fetchPartyGroups = (
         },
       })
     );
+  }
+};
+
+export const getMyUserGroupByIdService = (id: string): Promise<UserGroupResource | null> => {
+  /* istanbul ignore if */
+  if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
+    return mockGetMyUserGroupByIdService(id);
+  } else {
+    return DashboardApi.getMyUserGroupById(id);
   }
 };
 
