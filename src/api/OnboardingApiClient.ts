@@ -5,11 +5,9 @@ import {
 } from '@pagopa/selfcare-common-frontend/lib/utils/api-utils';
 import { storageTokenOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { ENV } from '../utils/env';
-import { CheckManagerDto } from './generated/onboarding/CheckManagerDto';
 import { createClient, WithDefaultsT } from './generated/onboarding/client';
 import { OnboardingUserDto } from './generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from './generated/onboarding/UserDataValidationDto';
-import { UserTaxCodeDto } from './generated/onboarding/UserTaxCodeDto';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -41,16 +39,6 @@ const onRedirectToLogin = () =>
   );
 
 export const OnboardingApi = {
-  searchUserApi: async (user: UserTaxCodeDto): Promise<any> => {
-    const result = await apiClient.searchUserId({ body: user });
-    return extractResponse(result, 200, onRedirectToLogin);
-  },
-
-  checkManagerApi: async (user: CheckManagerDto): Promise<any> => {
-    const result = await apiClient.checkManager({ body: user });
-    return extractResponse(result, 200, onRedirectToLogin);
-  },
-
   validateLegalRepresentative: async (user: UserDataValidationDto): Promise<any> => {
     const result = await apiClient.validateUsingPOST({
       body: {

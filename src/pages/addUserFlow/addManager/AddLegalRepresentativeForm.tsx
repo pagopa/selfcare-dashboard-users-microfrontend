@@ -1,8 +1,6 @@
 import { Grid } from '@mui/material';
-
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { TitleBox, useErrorDispatcher, useLoading } from '@pagopa/selfcare-common-frontend/lib';
-
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useFormik } from 'formik';
@@ -17,18 +15,14 @@ import { Party } from '../../../model/Party';
 import { AddedUsersList } from '../../../model/PartyUser';
 import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 import {
-  checkManagerService,
   onboardingAggregatorService,
   onboardingPostUser,
-  searchUserService,
   validateLegalRepresentative,
 } from '../../../services/onboardingService';
 import { getLegalRepresentativeService } from '../../../services/usersService';
 import {
-  LOADING_TASK_CHECK_MANAGER,
   LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
   LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE,
-  LOADING_TASK_SEARCH_USER_PDV,
 } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { findNewestManager, getOutcomeContent, renderErrorMessage } from '../utils/helpers';
@@ -62,8 +56,6 @@ export default function AddLegalRepresentativeForm({
 
   const requestId = uniqueId();
   const { t } = useTranslation();
-  const setLoadingSearchUserPDV = useLoading(LOADING_TASK_SEARCH_USER_PDV);
-  const setLoadingCheckManager = useLoading(LOADING_TASK_CHECK_MANAGER);
   const setLoadingGetLegalRepresentative = useLoading(LOADING_TASK_GET_LEGAL_REPRESENTATIVE);
   const setLoadingOnboarding = useLoading(LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE);
   const addError = useErrorDispatcher();
@@ -104,68 +96,6 @@ export default function AddLegalRepresentativeForm({
       .finally(() => setLoadingGetLegalRepresentative(false));
   }, [productId, party]);
 
-  const searchUser = async (user: AddedUsersList) => {
-    setLoadingSearchUserPDV(true);
-    await searchUserService({ taxCode: user.taxCode })
-      .then(async (data) => {
-        if (data.id) {
-          await checkManager(data.id, user);
-        } else {
-          await validateUser(user);
-        }
-      })
-      .catch(async (error) => {
-        await validateUser(user);
-        addError({
-          id: `SEARCH_USER_ERROR`,
-          blocking: false,
-          error,
-          techDescription: `Something gone wrong while calling search-user`,
-          toNotify: true,
-        });
-      })
-      .finally(() => setLoadingSearchUserPDV(false));
-  };
-
-  const checkManager = async (userId: string, user: AddedUsersList) => {
-    setLoadingCheckManager(true);
-    checkManagerService({
-      institutionType: activeOnboardingOnSelectedProduct.institutionType as InstitutionTypeEnum,
-      origin: party?.origin,
-      originId: party?.originId,
-      productId,
-      subunitCode: party?.subunitCode,
-      taxCode: party.vatNumber,
-      userId,
-    })
-      .then(async (data) => {
-        if (data) {
-          setIsChangedManager(!data.result);
-          if (!data.result) {
-            trackEvent('CHANGE_LEGAL_REPRESENTATIVE', {
-              request_id: requestId,
-              party_id: party.partyId,
-              product_id: productId,
-              from: 'dashboard',
-            });
-          } else {
-            await validateUser(user);
-          }
-        }
-      })
-      .catch(async (error) => {
-        await validateUser(user);
-        addError({
-          id: `VALIDATE_USER_ERROR`,
-          blocking: false,
-          error,
-          techDescription: `Something gone wrong while calling validate-user`,
-          toNotify: true,
-        });
-      })
-      .finally(() => setLoadingCheckManager(false));
-  };
-
   const initialFormData = {
     taxCode: '',
     name: '',
@@ -179,9 +109,13 @@ export default function AddLegalRepresentativeForm({
     validate: (user) => validateManagerForm(user, addedUserList, t),
 
     onSubmit: async (user) => {
-      if (previousLegalRepresentative) {
-        await searchUser(user);
+      if (
+        previousLegalRepresentative?.fiscalCode &&
+        previousLegalRepresentative.fiscalCode !== user.taxCode
+      ) {
+        setIsChangedManager(true);
       } else {
+        setIsChangedManager(false);
         await validateUser(user);
       }
     },
