@@ -64,7 +64,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const isMobile = useIsMobile('md');
 
   const canSeeUsers = getAllProductsWithPermission(Actions.ListActiveProducts).length > 0;
-  const canAddUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+  const canAddUser = getAllProductsWithPermission(Actions.CreateProductUsers).length > 0;
 
   const addUserUrl = resolvePathVariables(
     DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PARTY_USER.path,

@@ -192,7 +192,7 @@ export default function AddUserForm({
       party.products.some(
         (pp) =>
           p.id === pp.productId &&
-          hasPermission(pp.productId || '', Actions.ManageProductUsers) &&
+          hasPermission(pp.productId || '', Actions.CreateProductUsers) &&
           pp.productOnBoardingStatus === 'ACTIVE'
       )
     );
@@ -612,7 +612,7 @@ export default function AddUserForm({
                     party.products.some(
                       (pp) =>
                         p.id === pp.productId &&
-                        hasPermission(pp.productId, Actions.ManageProductUsers)
+                        hasPermission(pp.productId, Actions.CreateProductUsers)
                     )
                   )
                   .map((p) => (

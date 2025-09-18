@@ -49,7 +49,7 @@ export default function UserProductDetail({
       (pp) =>
         pp.productId === product.id &&
         pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE &&
-        hasPermission(pp.productId, Actions.ManageProductUsers) === false
+        hasPermission(pp.productId, Actions.UpdateProductUsers) === false
     );
 
   return (

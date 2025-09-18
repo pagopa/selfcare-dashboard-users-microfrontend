@@ -48,7 +48,7 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
   const { getAllProductsWithPermission } = usePermissions();
-  const canEditUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+  const canEditUser = getAllProductsWithPermission(Actions.UpdateProductUsers).length > 0;
   const titleRef = useRef<HTMLDivElement>(null);
 
   useFocus(titleRef, partyUser);
