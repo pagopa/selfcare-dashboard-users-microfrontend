@@ -97,7 +97,7 @@ export default function UserProductGroups({ user, party, product, userProduct }:
     (pp) =>
       pp.productId === product.id &&
       pp.productOnBoardingStatus === 'ACTIVE' &&
-      hasPermission(pp.productId, Actions.ManageProductUsers)
+      hasPermission(pp.productId, Actions.CreateProductUsers)
   );
 
   return userGroups?.length > 0 || (onboardedAdminProduct && userGroupsComplement.length > 0) ? (
