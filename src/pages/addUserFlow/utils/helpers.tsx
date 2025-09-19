@@ -1,4 +1,4 @@
-import { styled, TextField, Typography } from '@mui/material';
+import { FormControlLabel, styled, TextField, Typography } from '@mui/material';
 import { IllusCompleted, IllusError } from '@pagopa/mui-italia';
 import { EndingPage } from '@pagopa/selfcare-common-frontend/lib';
 import { Trans } from 'react-i18next';
@@ -176,3 +176,42 @@ export const renderLabel = (p: ProductRole, validTaxcode: boolean) => (
   </>
 );
 
+export const CustomFormControlLabel = styled(FormControlLabel)({
+  disabled: false,
+  '.MuiRadio-root': {
+    color: '#0073E6',
+  },
+});
+
+type RadioOptionLabelProps = {
+  titleKey: string;
+  descriptionKey: string;
+  disabled: boolean;
+  t: (t: string) => string;
+};
+
+export const RadioOptionLabel = ({ titleKey, descriptionKey, disabled, t }: RadioOptionLabelProps) => (
+  <>
+    <Typography
+      variant="body1"
+      sx={{
+        fontWeight: 'fontWeightRegular',
+        fontSize: '18px',
+        color: disabled ? 'text.disabled' : 'colorTextPrimary',
+      }}
+    >
+      {t(titleKey)}
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{
+        fontWeight: 'fontWeightRegular',
+        fontSize: 'fontSize',
+        color: disabled ? 'text.disabled' : 'text.secondary',
+        marginBottom: 1,
+      }}
+    >
+      {t(descriptionKey)}
+    </Typography>
+  </>
+);
