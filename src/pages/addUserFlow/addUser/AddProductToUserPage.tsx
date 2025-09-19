@@ -11,7 +11,7 @@ import { Product } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { RequestOutcomeMessage } from '../../../model/UserRegistry';
 import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
+import AddUserForm from './components/AddUserForm/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
 const CustomTextTransform = styled(Typography)({

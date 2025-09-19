@@ -18,7 +18,7 @@ import { getUserCountService } from '../../../services/usersService';
 import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
+import AddUserForm from './components/AddUserForm/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
 type Props = {

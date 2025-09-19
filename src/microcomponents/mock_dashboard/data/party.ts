@@ -317,6 +317,7 @@ export const mockedParties: Array<Party> = [
         institutionType: 'PA',
         origin: 'IPA',
         originId: 'originId1',
+        isAggregator: true,
       },
       {
         productId: 'prod-pn',

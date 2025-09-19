@@ -231,6 +231,13 @@ export default {
         adminTooltip:
           'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
       },
+      addOnAggregatedEntities: {
+        title: "Seleziona l'ambito di operatività",
+        radioTitle1: 'Solo per il mio ente',
+        radioDescription1: "Potrà gestire e operare solo all'interno del proprio ente",
+        radioTitle2: 'Per tutti gli enti aggregati',
+        radioDescription2: 'Potrà gestire e operare su tutti gli enti',
+      },
       addLegalRepresentative: {
         title: 'Indica il Legale Rappresentante',
         subTitle:
