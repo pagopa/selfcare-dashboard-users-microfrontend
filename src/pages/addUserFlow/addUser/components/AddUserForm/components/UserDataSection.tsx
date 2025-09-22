@@ -1,11 +1,12 @@
 import { Grid } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
+import { FormikProps } from 'formik';
 import { PartyUserOnCreation, TextTransform } from '../../../../../../model/PartyUser';
 import { commonStyles, CustomTextField } from '../../../../utils/helpers';
 
 type UserDataSectionProps = {
-  formik: any;
+  formik: FormikProps<PartyUserOnCreation>;
   baseTextFieldProps: (
     field: keyof PartyUserOnCreation,
     label: string,

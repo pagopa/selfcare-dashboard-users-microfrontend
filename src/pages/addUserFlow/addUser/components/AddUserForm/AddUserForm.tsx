@@ -17,7 +17,7 @@ import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party } from '../../../../../model/Party';
 import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
-import { ProductRole, ProductRolesLists, ProductsRolesMap } from '../../../../../model/ProductRole';
+import { ProductRolesLists, ProductsRolesMap } from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
 import { fetchUserRegistryByFiscalCode } from '../../../../../services/usersService';
 import {
@@ -221,8 +221,8 @@ export default function AddUserForm({
   const fetchTaxCode = (taxCode: string, partyId: string) => {
     setLoadingFetchTaxCode(true);
     fetchUserRegistryByFiscalCode(taxCode.toUpperCase(), partyId)
-      .then((userRegistry) => {
-        buildFormValues(userRegistry, formik.values, initialFormData);
+      .then(async (userRegistry) => {
+        await buildFormValues(userRegistry, formik.values, initialFormData, formik);
       })
       .catch((errors) => errorNotify(errors, taxCode))
       .finally(() => setLoadingFetchTaxCode(false));
@@ -331,26 +331,6 @@ export default function AddUserForm({
     });
   };
 
-  const addRole = async (r: ProductRole) => {
-    // eslint-disable-next-line functional/no-let
-    let nextProductRoles;
-    if (r.multiroleAllowed && formik.values.productRoles.length > 0) {
-      if (productRoles?.groupByProductRole[formik.values.productRoles[0]].selcRole !== r.selcRole) {
-        nextProductRoles = [r.productRole];
-      } else {
-        const productRoleIndex = formik.values.productRoles.findIndex((p) => p === r.productRole);
-        if (productRoleIndex === -1) {
-          nextProductRoles = formik.values.productRoles.concat([r.productRole]);
-        } else {
-          nextProductRoles = formik.values.productRoles.filter((_p, i) => i !== productRoleIndex);
-        }
-      }
-    } else {
-      nextProductRoles = [r.productRole];
-    }
-    await formik.setFieldValue('productRoles', nextProductRoles, true);
-  };
-
   const baseTextFieldProps = (
     field: keyof PartyUserOnCreation,
     label: string,
@@ -422,7 +402,6 @@ export default function AddUserForm({
           dynamicDocLink={dynamicDocLink}
           formik={formik}
           validTaxcode={validTaxcode}
-          addRole={addRole}
           setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
           setIsAsyncFlow={setIsAsyncFlow}
           userProduct={userProduct}
@@ -462,6 +441,7 @@ export default function AddUserForm({
                       />
                     }
                     aria-label={t(titleKey)}
+                    onClick={() => formik.setFieldValue('toAddOnAggregates', value, true)}
                   />
                 ))}
               </RadioGroup>
@@ -479,7 +459,7 @@ export default function AddUserForm({
           {t('userEdit.addForm.backButton')}
         </Button>
         <Button
-          disabled={!formik.dirty || !formik.isValid}
+          // disabled={!formik.dirty || !formik.isValid}
           color="primary"
           variant="contained"
           type="submit"
