@@ -459,7 +459,7 @@ export default function AddUserForm({
           {t('userEdit.addForm.backButton')}
         </Button>
         <Button
-          // disabled={!formik.dirty || !formik.isValid}
+          disabled={!formik.dirty || !formik.isValid}
           color="primary"
           variant="contained"
           type="submit"
