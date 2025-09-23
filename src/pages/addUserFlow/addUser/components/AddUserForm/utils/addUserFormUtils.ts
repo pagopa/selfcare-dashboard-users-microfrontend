@@ -2,6 +2,7 @@ import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constant
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
+import { FormikProps } from 'formik';
 import { PartyUserOnCreation } from '../../../../../../model/PartyUser';
 import { UserRegistry } from '../../../../../../model/UserRegistry';
 import { requiredError, taxCodeRegexp } from '../../../../utils/validation';
@@ -41,6 +42,7 @@ export const validateUserForm = (
         ? t('userEdit.addForm.errors.mismatchEmail')
         : undefined,
       productRoles: values.productRoles?.length === 0 ? requiredError : undefined,
+      toAddOnAggregates: values.toAddOnAggregates === undefined ? requiredError : undefined,
     }).filter(([_key, value]) => value)
   );
 
@@ -64,32 +66,36 @@ export const EA_RADIO_OPTIONS = [
   },
 ];
 
-export const buildFormValues = (
+export const buildFormValues = async (
   userRegistry: UserRegistry | null,
-  currentValues: any,
-  initialFormData: any
-) => ({
-  ...currentValues,
-  name:
-    userRegistry?.name ?? (currentValues.certifiedName ? initialFormData.name : currentValues.name),
-  surname:
-    userRegistry?.surname ??
-    (currentValues.certifiedSurname ? initialFormData.surname : currentValues.surname),
-  email:
-    userRegistry?.email ??
-    (currentValues.certifiedName || currentValues.certifiedSurname
-      ? initialFormData.email
-      : currentValues.email),
-  confirmEmail: '',
-  certifiedName:
-    userRegistry?.certifiedName ??
-    (currentValues.certifiedName ? initialFormData.certifiedName : currentValues.certifiedName),
-  certifiedSurname:
-    userRegistry?.certifiedSurname ??
-    (currentValues.certifiedSurname
-      ? initialFormData.certifiedSurname
-      : currentValues.certifiedSurname),
-});
+  currentValues: PartyUserOnCreation,
+  initialFormData: PartyUserOnCreation,
+  formik: FormikProps<PartyUserOnCreation>
+) => {
+  await formik.setValues({
+    ...currentValues,
+    name:
+      userRegistry?.name ??
+      (currentValues.certifiedName ? initialFormData.name : currentValues.name),
+    surname:
+      userRegistry?.surname ??
+      (currentValues.certifiedSurname ? initialFormData.surname : currentValues.surname),
+    email:
+      userRegistry?.email ??
+      (currentValues.certifiedName || currentValues.certifiedSurname
+        ? initialFormData.email
+        : currentValues.email),
+    confirmEmail: '',
+    certifiedName:
+      userRegistry?.certifiedName ??
+      (currentValues.certifiedName ? initialFormData.certifiedName : currentValues.certifiedName),
+    certifiedSurname:
+      userRegistry?.certifiedSurname ??
+      (currentValues.certifiedSurname
+        ? initialFormData.certifiedSurname
+        : currentValues.certifiedSurname),
+  });
+};
 
 /*
 // Role management utilities
