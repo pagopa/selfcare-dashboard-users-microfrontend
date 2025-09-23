@@ -107,7 +107,6 @@ describe('AddUserForm Component', () => {
     const radio = screen.getByDisplayValue('referente-legale');
     fireEvent.click(radio);
 
-    screen.debug(undefined, 9999999);
   });
 
   test('should validate tax code format when changed', async () => {
