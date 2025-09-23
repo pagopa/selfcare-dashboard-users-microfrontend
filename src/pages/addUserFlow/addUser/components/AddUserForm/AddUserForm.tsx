@@ -94,8 +94,8 @@ export default function AddUserForm({
   const { hasPermission } = usePermissions();
   const onExit = useUnloadEventOnExit();
   const { isPnpgTheOnlyProduct, pnpgProduct, activeOnboardings, isAdminEaOnProdIO } =
-    useAddUserFormComputedValues(party, products);
-  const { validate, validTaxcode, setValidTaxcode } = useFormValidation(t);
+    useAddUserFormComputedValues(party, products, userProduct);
+  const { validate, validTaxcode, setValidTaxcode } = useFormValidation(t, isAdminEaOnProdIO);
 
   useEffect(() => {
     if (!initialFormData.taxCode) {
@@ -441,7 +441,10 @@ export default function AddUserForm({
                       />
                     }
                     aria-label={t(titleKey)}
-                    onClick={() => formik.setFieldValue('toAddOnAggregates', value, true)}
+                    onClick={async () => {
+                      setIsAddInBulkEAFlow(value);
+                      await formik.setFieldValue('toAddOnAggregates', value, true);
+                    }}
                   />
                 ))}
               </RadioGroup>
