@@ -106,6 +106,7 @@ export const DashboardApi = {
         email: (user.certifiedMail ? undefined : user.email) as EmailString,
         surname: user.certifiedSurname ? undefined : user.surname,
         name: user.certifiedName ? undefined : user.name,
+        toAddOnAggregates: user.toAddOnAggregates,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);
@@ -125,6 +126,7 @@ export const DashboardApi = {
       body: {
         productRoles: user.productRoles,
         role: partyRole,
+        toAddOnAggregates: user.toAddOnAggregates,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);

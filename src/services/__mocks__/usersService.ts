@@ -1176,7 +1176,8 @@ export const savePartyUser = (
   _party: Party,
   product: Product,
   user: PartyUserOnCreation,
-  _partyRole?: string
+  _partyRole?: string,
+  _toAddOnAggregates?: boolean
 ): Promise<string> => {
   // eslint-disable-next-line functional/immutable-data
   mockedUsers.push({
@@ -1209,7 +1210,8 @@ export const addUserProductRoles = (
   _product: Product,
   userId: string,
   _user: PartyUserOnCreation,
-  _partyRole?: string
+  _partyRole?: string,
+  _toAddOnAggregates?: boolean
 ): Promise<string> => Promise.resolve(userId);
 
 export const updatePartyUser = (_party: Party, user: PartyUserOnEdit): Promise<any> => {

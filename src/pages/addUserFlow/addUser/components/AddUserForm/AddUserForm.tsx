@@ -1,5 +1,5 @@
-import { Button, Grid, Radio, RadioGroup, Stack } from '@mui/material';
-import { TitleBox, usePermissions } from '@pagopa/selfcare-common-frontend/lib';
+import { Button, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import {
@@ -415,20 +415,16 @@ export default function AddUserForm({
         formik.values.productRoles.length > 0 && (
           <Grid container direction="column" sx={commonStyles}>
             <Grid item xs={12}>
-              <TitleBox
-                variantTitle="h6"
-                variantSubTitle="body2"
-                title={t('userEdit.addForm.addOnAggregatedEntities.title')}
-                mbTitle={2}
-                mbSubTitle={3}
-              />
+              <Typography variant="body2" mb={3} fontWeight={'600'}>
+                {t('userEdit.addForm.addOnAggregatedEntities.title')}
+              </Typography>
             </Grid>
-            <Grid item xs={12} mb={3}>
+            <Grid item xs={12} mb={1}>
               <RadioGroup>
                 {EA_RADIO_OPTIONS.map(({ value, titleKey, descriptionKey }) => (
                   <CustomFormControlLabel
                     key={value.toString()}
-                    sx={{ marginTop: 0 }}
+                    sx={{ marginBottom: 2 }}
                     value={value}
                     disabled={!validTaxcode}
                     control={<Radio />}
