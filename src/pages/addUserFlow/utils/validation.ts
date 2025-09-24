@@ -28,6 +28,44 @@ export const checkDuplicateTaxCodeWithDifferentEmail = (
   return undefined;
 };
 
+export const validateName = (
+  name: string | undefined,
+  taxCode: string | undefined,
+  t: (key: string) => string
+) => {
+  if (!name) {
+    return requiredError;
+  }
+  if (verifyNameMatchWithTaxCode(name, taxCode)) {
+    return t('userEdit.mismatchWithTaxCode.name');
+  }
+  return undefined;
+};
+
+export const validateSurname = (
+  surname: string | undefined,
+  taxCode: string | undefined,
+  t: (key: string) => string
+) => {
+  if (!surname) {
+    return requiredError;
+  }
+  if (verifySurnameMatchWithTaxCode(surname, taxCode)) {
+    return t('userEdit.mismatchWithTaxCode.surname');
+  }
+  return undefined;
+};
+
+export const validateTaxCode = (taxCode: string | undefined, t: (key: string) => string) => {
+  if (!taxCode) {
+    return requiredError;
+  }
+  if (!taxCodeRegexp.test(taxCode) || verifyChecksumMatchWithTaxCode(taxCode)) {
+    return t('userEdit.addForm.errors.invalidFiscalCode');
+  }
+  return undefined;
+};
+
 export const validateManagerForm = (
   manager: Partial<AddedUsersList>,
   addedUserList: Array<AddedUsersList>,
@@ -38,21 +76,9 @@ export const validateManagerForm = (
 
   return Object.fromEntries(
     Object.entries({
-      name: !manager.name
-        ? requiredField
-        : verifyNameMatchWithTaxCode(manager.name, manager.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.name')
-        : undefined,
-      surname: !manager.surname
-        ? requiredField
-        : verifySurnameMatchWithTaxCode(manager.surname, manager.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.surname')
-        : undefined,
-      taxCode: !manager.taxCode
-        ? requiredField
-        : !taxCodeRegexp.test(manager.taxCode) || verifyChecksumMatchWithTaxCode(manager.taxCode)
-        ? t('userEdit.addForm.errors.invalidFiscalCode')
-        : undefined,
+      name: validateName(manager.name, manager.taxCode, t),
+      surname: validateSurname(manager.surname, manager.taxCode, t),
+      taxCode: validateTaxCode(manager.taxCode, t),
       email: !manager.email
         ? requiredField
         : !emailRegexp.test(manager.email)

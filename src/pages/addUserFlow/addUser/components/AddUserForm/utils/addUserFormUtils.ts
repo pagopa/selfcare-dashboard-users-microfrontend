@@ -1,50 +1,70 @@
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
-import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
-import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
-import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { FormikProps } from 'formik';
 import { PartyUserOnCreation } from '../../../../../../model/PartyUser';
 import { UserRegistry } from '../../../../../../model/UserRegistry';
-import { requiredError, taxCodeRegexp } from '../../../../utils/validation';
+import {
+  requiredError,
+  validateName,
+  validateSurname,
+  validateTaxCode,
+} from '../../../../utils/validation';
 
-// Pure validation utilities
+const validateEmail = (email: string | undefined, t: (key: string) => string) => {
+  if (!email) {
+    return requiredError;
+  }
+  if (!emailRegexp.test(email)) {
+    return t('userEdit.addForm.errors.invalidEmail');
+  }
+  return undefined;
+};
+
+const validateConfirmEmail = (
+  confirmEmail: string | undefined,
+  email: string | undefined,
+  t: (key: string) => string
+) => {
+  if (!confirmEmail) {
+    return requiredError;
+  }
+  if (email && confirmEmail.toLocaleLowerCase() !== email.toLocaleLowerCase()) {
+    return t('userEdit.addForm.errors.mismatchEmail');
+  }
+  return undefined;
+};
+
+const validateProductRoles = (productRoles: Array<any> | undefined) =>
+  productRoles?.length === 0 ? requiredError : undefined;
+
+const validateToAddOnAggregates = (toAddOnAggregates: any, isAdminEaOnProdIO: boolean) => {
+  // Only validate if isAdminEaOnProdIO is true
+  if (!isAdminEaOnProdIO) {
+    return undefined;
+  }
+
+  return toAddOnAggregates === undefined ? requiredError : undefined;
+};
+
 export const validateUserForm = (
   values: Partial<PartyUserOnCreation>,
-  t: (key: string) => string
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-) =>
-  Object.fromEntries(
-    Object.entries({
-      name: !values.name
-        ? requiredError
-        : verifyNameMatchWithTaxCode(values.name, values.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.name')
-        : undefined,
-      surname: !values.surname
-        ? requiredError
-        : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.surname')
-        : undefined,
-      taxCode: !values.taxCode
-        ? requiredError
-        : !taxCodeRegexp.test(values.taxCode) || verifyChecksumMatchWithTaxCode(values.taxCode)
-        ? t('userEdit.addForm.errors.invalidFiscalCode')
-        : undefined,
-      email: !values.email
-        ? requiredError
-        : !emailRegexp.test(values.email)
-        ? t('userEdit.addForm.errors.invalidEmail')
-        : undefined,
-      confirmEmail: !values.confirmEmail
-        ? requiredError
-        : values.email &&
-          values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
-        ? t('userEdit.addForm.errors.mismatchEmail')
-        : undefined,
-      productRoles: values.productRoles?.length === 0 ? requiredError : undefined,
-      toAddOnAggregates: values.toAddOnAggregates === undefined ? requiredError : undefined,
-    }).filter(([_key, value]) => value)
+  t: (key: string) => string,
+  isAdminEaOnProdIO: boolean
+) => {
+  const validationResults = {
+    name: validateName(values.name, values.taxCode, t),
+    surname: validateSurname(values.surname, values.taxCode, t),
+    taxCode: validateTaxCode(values.taxCode, t),
+    email: validateEmail(values.email, t),
+    confirmEmail: validateConfirmEmail(values.confirmEmail, values.email, t),
+    productRoles: validateProductRoles(values.productRoles),
+    toAddOnAggregates: validateToAddOnAggregates(values.toAddOnAggregates, isAdminEaOnProdIO),
+  };
+
+  // Filter out undefined values (no errors)
+  return Object.fromEntries(
+    Object.entries(validationResults).filter(([_key, value]) => value !== undefined)
   );
+};
 
 // Pure utility functions
 export const isAddRoleFromDashboard = (phasesAdditionAllowed?: Array<string>) =>
@@ -55,12 +75,12 @@ export const isAddRoleFromDashboardAsync = (phasesAdditionAllowed?: Array<string
 
 export const EA_RADIO_OPTIONS = [
   {
-    value: true,
+    value: false,
     titleKey: 'userEdit.addForm.addOnAggregatedEntities.radioTitle1',
     descriptionKey: 'userEdit.addForm.addOnAggregatedEntities.radioDescription1',
   },
   {
-    value: false,
+    value: true,
     titleKey: 'userEdit.addForm.addOnAggregatedEntities.radioTitle2',
     descriptionKey: 'userEdit.addForm.addOnAggregatedEntities.radioDescription2',
   },
