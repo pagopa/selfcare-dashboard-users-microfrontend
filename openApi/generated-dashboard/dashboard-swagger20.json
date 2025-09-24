@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Self Care Dashboard API documentation",
-    "title": "selc-starter-parent",
+    "title": "${openapi_title}",
     "version": "0.0.1-SNAPSHOT"
   },
   "host": "localhost:80",
@@ -1797,7 +1797,7 @@
             "description": "Users group's institutionId",
             "in": "query",
             "name": "institutionId",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {
@@ -1831,7 +1831,7 @@
             "description": "Users group's productId",
             "in": "query",
             "name": "productId",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {
@@ -1885,7 +1885,7 @@
         "tags": [
           "user-groups"
         ],
-        "description": "Service that allows to get a list of UserGroup entities",
+        "description": "Service that allows to get a list of UserGroup entities even if you are not member of it",
         "operationId": "getUserGroupsUsingGET",
         "summary": "getUserGroups"
       }
@@ -1950,6 +1950,102 @@
         "description": "Service that allows the insert of a new occurrence for the UserGroup entity",
         "operationId": "createUserGroupUsingPOST",
         "summary": "createUserGroup"
+      }
+    },
+    "/v2/user-groups/me": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Users group's institutionId",
+            "in": "query",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The page number to access (0 indexed, defaults to 0)",
+            "format": "int32",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "description": "Number of records per page (defaults to 20, max 2000)",
+            "format": "int32",
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "collectionFormat": "multi",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "in": "query",
+            "items": {
+              "type": "string"
+            },
+            "name": "sort",
+            "required": false,
+            "type": "array"
+          },
+          {
+            "description": "Users group's productId",
+            "in": "query",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageOfUserGroupPlainResource"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "user-groups"
+        ],
+        "description": "Service that allows to get a list of UserGroup entities but only if you are member of it",
+        "operationId": "getMyUserGroupsUsingGET",
+        "summary": "getMyUserGroups"
       }
     },
     "/v2/user-groups/me/{id}": {
@@ -3050,6 +3146,11 @@
         "taxCode": {
           "description": "User's fiscal code",
           "type": "string"
+        },
+        "toAddOnAggregates": {
+          "description": "Enabling automatic management of group assignment",
+          "example": false,
+          "type": "boolean"
         }
       },
       "required": [
@@ -4613,6 +4714,11 @@
         "role": {
           "description": "User's role, available values: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
           "type": "string"
+        },
+        "toAddOnAggregates": {
+          "description": "Enabling automatic management of group assignment",
+          "example": false,
+          "type": "boolean"
         }
       },
       "title": "UserProductRoles",
