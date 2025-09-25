@@ -19,6 +19,7 @@ interface ProductRolesSectionProps {
   formik: FormikProps<PartyUserOnCreation>;
   validTaxcode: string | undefined;
   setIsAddInBulkEAFlow: (value: SetStateAction<boolean>) => void;
+  isAdminEaOnProdIO: boolean;
   setIsAsyncFlow: (value: SetStateAction<boolean>) => void;
   userProduct: Product | undefined;
   renderLabel: (role: ProductRole, enabled: boolean) => any;
@@ -31,6 +32,7 @@ export const ProductRolesSection = ({
   formik,
   validTaxcode,
   setIsAddInBulkEAFlow,
+  isAdminEaOnProdIO,
   setIsAsyncFlow,
   userProduct,
   party,
@@ -113,12 +115,15 @@ export const ProductRolesSection = ({
                     validTaxcode
                       ? async () => {
                           await addRole(p);
-                          setIsAddInBulkEAFlow(
-                            p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
-                              party.products.some(
-                                (p) => p.productId === userProduct?.id && p.isAggregator
-                              )
-                          );
+                          if (!isAdminEaOnProdIO) {
+                            setIsAddInBulkEAFlow(
+                              p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
+                                party.products.some(
+                                  (p) => p.productId === userProduct?.id && p.isAggregator
+                                )
+                            );
+                          }
+
                           setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
                         }
                       : undefined

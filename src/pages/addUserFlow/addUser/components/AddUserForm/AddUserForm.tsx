@@ -410,6 +410,7 @@ export default function AddUserForm({
           formik={formik}
           validTaxcode={validTaxcode}
           setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
+          isAdminEaOnProdIO={isAdminEaOnProdIO}
           setIsAsyncFlow={setIsAsyncFlow}
           userProduct={userProduct}
           party={party}
