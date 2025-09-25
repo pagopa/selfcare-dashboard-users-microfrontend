@@ -39,11 +39,6 @@ const onRedirectToLogin = () =>
   );
 
 export const OnboardingApi = {
-  checkManagerApi: async (user: OnboardingUserDto): Promise<any> => {
-    const result = await apiClient.checkManager({ body: user });
-    return extractResponse(result, 200, onRedirectToLogin);
-  },
-
   validateLegalRepresentative: async (user: UserDataValidationDto): Promise<any> => {
     const result = await apiClient.validateUsingPOST({
       body: {
@@ -56,7 +51,7 @@ export const OnboardingApi = {
   },
 
   onboardingPostUser: async (user: OnboardingUserDto): Promise<any> => {
-    const result = await apiClient.onboardingUsingPOST_4({
+    const result = await apiClient.onboardingUsers({
       body: user,
     });
     return extractResponse(result, 201, onRedirectToLogin);

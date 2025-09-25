@@ -1,5 +1,5 @@
-import { ENV } from '../../../utils/env';
-import { getProductLink } from '../helpers';
+import { ENV } from '../../../../utils/env';
+import { getProductLink } from '../../utils/helpers';
 
 describe('getProductLink', () => {
   it('should return the correct link for PagoPA product with institution types PA, GPS, GPU, PRV', () => {

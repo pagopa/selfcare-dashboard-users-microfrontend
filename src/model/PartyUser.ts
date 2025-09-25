@@ -54,13 +54,14 @@ export type PartyUserOnCreation = {
   certifiedName: boolean;
   certifiedSurname: boolean;
   certifiedMail: boolean;
+  toAddOnAggregates?: boolean;
 };
 
-export type AsyncOnboardingUserData = {
+export type AddedUsersList = {
   name: string;
   surname: string;
   taxCode: string;
-  from?: string; 
+  from?: string;
   email: string;
   role: RoleEnum;
 };

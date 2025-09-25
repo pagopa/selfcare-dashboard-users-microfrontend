@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Self Care Dashboard API documentation",
-    "title": "selc-dashboard",
+    "title": "${openapi_title}",
     "version": "0.0.1-SNAPSHOT"
   },
   "host": "localhost:80",
@@ -930,6 +930,76 @@
         "summary": "Service to get a specific institution related to logged user"
       }
     },
+    "/v2/institutions/{institutionId}/contract": {
+      "get": {
+        "produces": [
+          "application/octet-stream",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "path",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Product's unique identifier",
+            "in": "query",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "byte",
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "Service to get the signed contract of a specific institution and product",
+        "operationId": "v2GetContract",
+        "summary": "getContract"
+      }
+    },
     "/v2/institutions/{institutionId}/institutions": {
       "get": {
         "produces": [
@@ -1038,6 +1108,146 @@
         "summary": "Retrieve list of delegation using to"
       }
     },
+    "/v2/institutions/{institutionId}/onboardings-info": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "path",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Filtered product list",
+            "in": "query",
+            "name": "products",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema":{"$ref":"#/definitions/OnboardingInfoArray"}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "Service to get the onboardings info as productId, status and contract availability related to a specific institution optionally filtered by a list of products",
+        "operationId": "v2GetOnboardingsInfo",
+        "summary": "getOnboardingsInfo"
+      }
+    },
+    "/v2/institutions/{institutionId}/product/{productId}/check-user": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Institution's unique internal identifier",
+            "in": "path",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "Product's unique identifier",
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/SearchUserDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CheckUserResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "institutions"
+        ],
+        "description": "Service to verify if the user is already onboarded on an institution and product given its fiscal code",
+        "operationId": "v2CheckUser",
+        "summary": "checkUser"
+      }
+    },
     "/v2/institutions/{institutionId}/products/{productId}/users": {
       "post": {
         "consumes": [
@@ -1133,14 +1343,14 @@
             "type": "string"
           },
           {
-            "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
+            "description": "List of party roles (ex: roles=MANAGER,DELEGATE)",
             "in": "query",
             "name": "roles",
             "required": false,
             "type": "string"
           },
           {
-            "description": "User's status",
+            "description": "User's status list (ex: status=ACTIVE,SUSPENDED)",
             "in": "query",
             "name": "status",
             "required": false,
@@ -1587,7 +1797,7 @@
             "description": "Users group's institutionId",
             "in": "query",
             "name": "institutionId",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {
@@ -1621,7 +1831,7 @@
             "description": "Users group's productId",
             "in": "query",
             "name": "productId",
-            "required": false,
+            "required": true,
             "type": "string"
           },
           {
@@ -1675,7 +1885,7 @@
         "tags": [
           "user-groups"
         ],
-        "description": "Service that allows to get a list of UserGroup entities",
+        "description": "Service that allows to get a list of UserGroup entities even if you are not member of it",
         "operationId": "getUserGroupsUsingGET",
         "summary": "getUserGroups"
       }
@@ -1742,6 +1952,164 @@
         "summary": "createUserGroup"
       }
     },
+    "/v2/user-groups/me": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Users group's institutionId",
+            "in": "query",
+            "name": "institutionId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "The page number to access (0 indexed, defaults to 0)",
+            "format": "int32",
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "description": "Number of records per page (defaults to 20, max 2000)",
+            "format": "int32",
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "collectionFormat": "multi",
+            "description": "Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "in": "query",
+            "items": {
+              "type": "string"
+            },
+            "name": "sort",
+            "required": false,
+            "type": "array"
+          },
+          {
+            "description": "Users group's productId",
+            "in": "query",
+            "name": "productId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PageOfUserGroupPlainResource"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "user-groups"
+        ],
+        "description": "Service that allows to get a list of UserGroup entities but only if you are member of it",
+        "operationId": "getMyUserGroupsUsingGET",
+        "summary": "getMyUserGroups"
+      }
+    },
+    "/v2/user-groups/me/{id}": {
+      "get": {
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+          {
+            "description": "Users group's unique identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserGroupResource"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "global"
+            ]
+          }
+        ],
+        "tags": [
+          "user-groups"
+        ],
+        "description": "Service to get a specific UserGroup entity but only if you are member of it",
+        "operationId": "getMyUserGroupByIdUsingGET",
+        "summary": "getMyUserGroupById"
+      }
+    },
     "/v2/user-groups/{id}": {
       "delete": {
         "produces": [
@@ -1805,13 +2173,6 @@
             "name": "id",
             "required": true,
             "type": "string"
-          },
-          {
-            "description": "Users group's institutionId",
-            "in": "query",
-            "name": "institutionId",
-            "required": false,
-            "type": "string"
           }
         ],
         "responses": {
@@ -1856,7 +2217,7 @@
         "tags": [
           "user-groups"
         ],
-        "description": "Service to get a specific UserGroup entity",
+        "description": "Service to get a specific UserGroup entity even if you are not member of it",
         "operationId": "getUserGroupByIdUsingGET",
         "summary": "getUserGroupById"
       },
@@ -2664,7 +3025,7 @@
       }
     }
   },
-  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"ProductRoleMappingsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductRoleMappingsResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
+  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"OnboardingInfoArray":{"type": "array", "items": {"$ref": "#/definitions/OnboardingInfo"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"ProductRoleMappingsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductRoleMappingsResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
     "Attribute": {
       "properties": {
         "code": {
@@ -2743,6 +3104,17 @@
       "title": "CertifiedFieldResourceOfstring",
       "type": "object"
     },
+    "CheckUserResponse": {
+      "properties": {
+        "isUserOnboarded": {
+          "description": "Boolean indicating the presence of a user given its fiscal code, institutionId and productId",
+          "example": false,
+          "type": "boolean"
+        }
+      },
+      "title": "CheckUserResponse",
+      "type": "object"
+    },
     "CreateUserDto": {
       "properties": {
         "email": {
@@ -2774,6 +3146,11 @@
         "taxCode": {
           "description": "User's fiscal code",
           "type": "string"
+        },
+        "toAddOnAggregates": {
+          "description": "Enabling automatic management of group assignment",
+          "example": false,
+          "type": "boolean"
         }
       },
       "required": [
@@ -3395,8 +3772,31 @@
         "billing": {
           "$ref": "#/definitions/Billing"
         },
+        "institutionType": {
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
         "isAggregator": {
           "type": "boolean"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "originId": {
+          "type": "string"
         },
         "productId": {
           "type": "string"
@@ -3433,8 +3833,31 @@
         "billing": {
           "$ref": "#/definitions/Billing"
         },
+        "institutionType": {
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
         "isAggregator": {
           "type": "boolean"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "originId": {
+          "type": "string"
         },
         "productId": {
           "type": "string"
@@ -3461,6 +3884,51 @@
         }
       },
       "title": "OnboardedProductResource",
+      "type": "object"
+    },
+    "OnboardingInfo": {
+      "properties": {
+        "contractAvailable": {
+          "description": "Boolean indicating the presence of a contract",
+          "example": false,
+          "type": "boolean"
+        },
+        "institutionType": {
+          "description": "Institution Type",
+          "enum": [
+            "AS",
+            "CON",
+            "GPU",
+            "GSP",
+            "PA",
+            "PG",
+            "PRV",
+            "PSP",
+            "PT",
+            "REC",
+            "SA",
+            "SCP"
+          ],
+          "type": "string"
+        },
+        "origin": {
+          "description": "Product's data origin",
+          "type": "string"
+        },
+        "originId": {
+          "description": "Product's identifier related to origin",
+          "type": "string"
+        },
+        "productId": {
+          "description": "Product's unique identifier",
+          "type": "string"
+        },
+        "status": {
+          "description": "Product's status",
+          "type": "string"
+        }
+      },
+      "title": "OnboardingInfo",
       "type": "object"
     },
     "PageInfo": {
@@ -3946,6 +4414,10 @@
     },
     "SupportRequestDto": {
       "properties": {
+        "data": {
+          "description": "Technical data",
+          "type": "string"
+        },
         "email": {
           "description": "User's email",
           "example": "email@example.com",
@@ -4242,6 +4714,11 @@
         "role": {
           "description": "User's role, available values: [MANAGER, DELEGATE, SUBDELEGATE, OPERATOR, ADMIN_EA]",
           "type": "string"
+        },
+        "toAddOnAggregates": {
+          "description": "Enabling automatic management of group assignment",
+          "example": false,
+          "type": "boolean"
         }
       },
       "title": "UserProductRoles",

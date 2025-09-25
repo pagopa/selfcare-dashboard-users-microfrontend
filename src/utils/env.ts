@@ -28,15 +28,16 @@ export const ENV = {
 
   DOCUMENTATION_LINKS: {
     SELFCARE: 'https://docs.pagopa.it/area-riservata/',
-    USERS: 'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
+    ROLES: 'https://docs.pagopa.it/area-riservata/area-riservata/ruoli',
+    USERS:'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
     PAGOPA_EC:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-ec/manuale-operativo-back-office-pagopa-ente-creditore/funzionalita/matrice-ruoli-funzionalita',
     PAGOPA_PSP:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-psp/manuale-operativo-pagamenti-pagopa-prestatore-di-servizi-di-pagamento/funzionalita',
     PAGOPA_PT:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-pt/manuale-operativo-back-office-pagopa-partner-tecnologico/funzionalita/matrice-ruoli-funzionalita',
-    SEND: 'https://docs.pagopa.it/manuale-operativo/piattaforma-notifiche-digitali-manuale-operativo/mittente',
-    PDND: 'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita',
+    SEND: 'https://developer.pagopa.it/send/guides/manuale-operativo/v1.1.3/piattaforma-notifiche-digitali-manuale-operativo/mittente',
+    PDND: 'https://developer.pagopa.it/pdnd-interoperabilita/guides/pdnd-manuale-operativo/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita',
   },
 
   URL_API: {

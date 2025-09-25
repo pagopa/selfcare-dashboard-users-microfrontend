@@ -1,7 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
-import React from 'react';
 import { renderWithProviders } from '../../../../utils/test-utils';
-import { ConfirmChangeLRModal } from '../ConfirmChangeLRModal';
+import { ConfirmChangeLRModal } from '../components/ConfirmChangeLRModal';
 
 const onclose = jest.fn();
 const onConfirm = jest.fn();

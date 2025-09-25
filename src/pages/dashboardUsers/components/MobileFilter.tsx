@@ -118,7 +118,7 @@ export default function MobileFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
 

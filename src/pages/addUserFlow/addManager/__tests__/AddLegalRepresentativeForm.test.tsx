@@ -1,9 +1,9 @@
-import React from 'react';
+
+import { fireEvent, screen } from '@testing-library/react';
 import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
 import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
 import { renderWithProviders } from '../../../../utils/test-utils';
 import AddLegalRepresentativeForm from '../AddLegalRepresentativeForm';
-import { fireEvent, screen } from '@testing-library/react';
 
 test('should render AddLegalRepresentativeForm with empty props', () => {
   renderWithProviders(
@@ -38,7 +38,7 @@ test('should render AddLegalRepresentativeForm with empty props', () => {
       productId={''}
       productName={''}
       backPreviousStep={jest.fn()}
-      asyncUserData={[]}
+      addedUserList={[]}
       setOutcome={jest.fn()}
       isAddInBulkEAFlow={false}
     />
@@ -53,7 +53,7 @@ test('should render AddLegalRepresentativeForm with isAddInBulkEAFlow true', () 
       productId={'prod-io'}
       productName={'IO'}
       backPreviousStep={jest.fn()}
-      asyncUserData={[
+      addedUserList={[
         {
           name: 'name',
           surname: 'surname',
@@ -80,7 +80,7 @@ test('should render AddLegalRepresentativeForm with product interop', () => {
       productId={'prod-interop'}
       productName={'Interoperabilità'}
       backPreviousStep={jest.fn()}
-      asyncUserData={[]}
+      addedUserList={[]}
       setOutcome={jest.fn()}
       isAddInBulkEAFlow={false}
     />

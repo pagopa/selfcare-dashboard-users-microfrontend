@@ -295,6 +295,7 @@ function showActions(
       <IconButton
         onClick={onRowClick ? () => onRowClick(p.row) : undefined}
         sx={{ backgroundColor: 'transparent' }}
+        aria-label={i18n.t('usersTable.usersProductTableColumns.rows.detailPageRedirectButton')+` ${p.row.surname} ${p.row.name}`}
       >
         <ArrowForwardIosIcon sx={{ fontSize: 'small' }} />
       </IconButton>

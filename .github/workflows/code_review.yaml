@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "*"
+      - "**/*"
       - "!infra/*"
       - "!.github/*"
 
@@ -14,7 +14,7 @@ env:
 
 jobs:
   code_review:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Check-out code

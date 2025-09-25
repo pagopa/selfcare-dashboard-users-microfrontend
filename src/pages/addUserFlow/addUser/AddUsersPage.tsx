@@ -7,18 +7,18 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { RoleEnum } from '../../api/generated/onboarding/UserDto';
-import ProductNavigationBar from '../../components/ProductNavigationBar';
-import { Party } from '../../model/Party';
-import { AsyncOnboardingUserData } from '../../model/PartyUser';
-import { Product } from '../../model/Product';
-import { ProductsRolesMap } from '../../model/ProductRole';
-import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import { getUserCountService } from '../../services/usersService';
-import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../utils/constants';
-import { ENV } from '../../utils/env';
-import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
+import { RoleEnum } from '../../../api/generated/onboarding/UserDto';
+import ProductNavigationBar from '../../../components/ProductNavigationBar';
+import { Party } from '../../../model/Party';
+import { AddedUsersList } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
+import { RequestOutcomeMessage } from '../../../model/UserRegistry';
+import { getUserCountService } from '../../../services/usersService';
+import { LOADING_TASK_GET_USER_ADMIN_COUNT, PRODUCT_IDS } from '../../../utils/constants';
+import { ENV } from '../../../utils/env';
+import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm';
+import AddUserForm from './components/AddUserForm/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
 type Props = {
@@ -27,6 +27,7 @@ type Props = {
   productsRolesMap: ProductsRolesMap;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function AddUsersPage({ party, activeProducts, productsRolesMap }: Props) {
   const { t } = useTranslation();
   const history = useHistory();
@@ -35,11 +36,13 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
 
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
-  const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
+  const [addedUserList, setAddedUserList] = useState<Array<AddedUsersList>>([]);
   const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
   const [openAminMaxLimitsModal, setOpenAminMaxLimitsModal] = useState(false);
   const [currentAdminCount, setCurrentAdminCount] = useState<number>(0);
+
+  const activeOnboardings = party.products.filter((p) => p.productOnBoardingStatus === 'ACTIVE');
 
   const forwardNextStep = () => {
     if (currentAdminCount >= Number(ENV.MAX_ADMIN_COUNT)) {
@@ -62,31 +65,40 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
   })}#${PRODUCT_IDS.PAGOPA}`;
 
   useEffect(() => {
-    if (
-      ENV.ENABLE_MAX_ADMIN_LIMIT &&
-      party.institutionType === 'PSP' &&
-      currentSelectedProduct?.id === PRODUCT_IDS.PAGOPA
-    ) {
-      setLoading(true);
-      getUserCountService(
-        party.partyId ?? '',
-        currentSelectedProduct?.id ?? '',
-        [RoleEnum.MANAGER, RoleEnum.DELEGATE, RoleEnum.SUB_DELEGATE].join(',')
-      )
-        .then((userCount) => {
-          setCurrentAdminCount(userCount?.count ?? 0);
-        })
-        .catch((error) => {
-          addError({
-            id: 'FETCH_ADMIN_COUNT',
-            blocking: false,
-            error,
-            techDescription: `An error occurred while fetching admin count`,
-            toNotify: false,
-          });
-        })
-        .finally(() => setLoading(false));
+    if (!ENV.ENABLE_MAX_ADMIN_LIMIT || !currentSelectedProduct) {
+      return;
     }
+
+    const matchingProduct = activeOnboardings.find(
+      (p) =>
+        p.productId === currentSelectedProduct.id &&
+        p.institutionType === 'PSP' &&
+        p.productId === PRODUCT_IDS.PAGOPA
+    );
+
+    if (!matchingProduct) {
+      return;
+    }
+
+    setLoading(true);
+    getUserCountService(
+      party.partyId ?? '',
+      currentSelectedProduct.id,
+      [RoleEnum.MANAGER, RoleEnum.DELEGATE, RoleEnum.SUB_DELEGATE].join(',')
+    )
+      .then((userCount) => {
+        setCurrentAdminCount(userCount?.count ?? 0);
+      })
+      .catch((error) => {
+        addError({
+          id: 'FETCH_ADMIN_COUNT',
+          blocking: false,
+          error,
+          techDescription: `An error occurred while fetching admin count`,
+          toNotify: false,
+        });
+      })
+      .finally(() => setLoading(false));
   }, [party, currentSelectedProduct]);
 
   return outcome ? (
@@ -150,7 +162,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
           marginBottom: 5,
         }}
         onClick={() => {
-          window.open(ENV.DOCUMENTATION_LINKS.USERS);
+          window.open(ENV.DOCUMENTATION_LINKS.ROLES, '_blank');
         }}
       >
         {t('userEdit.addForm.addLegalRepresentative.moreInformationOnRoles')}
@@ -176,7 +188,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             canEditRegistryData={true}
             forwardNextStep={forwardNextStep}
             setCurrentSelectedProduct={setCurrentSelectedProduct}
-            setAsyncUserData={setAsyncUserData}
+            setAddedUserList={setAddedUserList}
             isAddInBulkEAFlow={isAddInBulkEAFlow}
             setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
           />
@@ -188,7 +200,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
             productId={currentSelectedProduct?.id ?? ''}
             backPreviousStep={backPreviousStep}
             party={party}
-            asyncUserData={asyncUserData}
+            addedUserList={addedUserList}
             setOutcome={setOutcome}
             isAddInBulkEAFlow={isAddInBulkEAFlow}
           />

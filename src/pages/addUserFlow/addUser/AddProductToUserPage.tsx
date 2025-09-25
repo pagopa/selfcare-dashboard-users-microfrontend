@@ -3,15 +3,15 @@ import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import ProductNavigationBar from '../../components/ProductNavigationBar';
-import withUserDetail, { withUserDetailProps } from '../../decorators/withUserDetail';
-import { Party } from '../../model/Party';
-import { AsyncOnboardingUserData, PartyUserOnCreation } from '../../model/PartyUser';
-import { Product } from '../../model/Product';
-import { ProductsRolesMap } from '../../model/ProductRole';
-import { RequestOutcomeMessage } from '../../model/UserRegistry';
-import AddLegalRepresentativeForm from './components/AddLegalRepresentativeForm';
-import AddUserForm from './components/AddUserForm';
+import ProductNavigationBar from '../../../components/ProductNavigationBar';
+import withUserDetail, { withUserDetailProps } from '../../../decorators/withUserDetail';
+import { Party } from '../../../model/Party';
+import { AddedUsersList, PartyUserOnCreation } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
+import { ProductsRolesMap } from '../../../model/ProductRole';
+import { RequestOutcomeMessage } from '../../../model/UserRegistry';
+import AddLegalRepresentativeForm from '../addManager/AddLegalRepresentativeForm';
+import AddUserForm from './components/AddUserForm/AddUserForm';
 import { MessageNoAction } from './components/MessageNoAction';
 
 const CustomTextTransform = styled(Typography)({
@@ -29,7 +29,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
   const history = useHistory();
   const [currentStep, setCurrentStep] = useState(1);
   const [currentSelectedProduct, setCurrentSelectedProduct] = useState<Product | undefined>();
-  const [asyncUserData, setAsyncUserData] = useState<Array<AsyncOnboardingUserData>>([]);
+  const [addedUserList, setAddedUserList] = useState<Array<AddedUsersList>>([]);
   const [isAddInBulkEAFlow, setIsAddInBulkEAFlow] = useState<boolean>(false);
   const [outcome, setOutcome] = useState<RequestOutcomeMessage | null>();
 
@@ -213,7 +213,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
                 canEditRegistryData={false}
                 forwardNextStep={forwardNextStep}
                 setCurrentSelectedProduct={setCurrentSelectedProduct}
-                setAsyncUserData={setAsyncUserData}
+                setAddedUserList={setAddedUserList}
                 isAddInBulkEAFlow={isAddInBulkEAFlow}
                 setIsAddInBulkEAFlow={setIsAddInBulkEAFlow}
               />
@@ -225,7 +225,7 @@ function AddProductToUserPage({ party, activeProducts, productsRolesMap, partyUs
               productId={currentSelectedProduct?.id ?? ''}
               backPreviousStep={backPreviousStep}
               party={party}
-              asyncUserData={asyncUserData}
+              addedUserList={addedUserList}
               setOutcome={setOutcome}
               isAddInBulkEAFlow={isAddInBulkEAFlow}
             />

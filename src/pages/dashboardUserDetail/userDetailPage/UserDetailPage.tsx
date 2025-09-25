@@ -1,13 +1,14 @@
-import { Button, Grid, Stack, Typography } from '@mui/material';
+import {Button, Grid, Stack, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import ProductNavigationBar from '../../../components/ProductNavigationBar';
@@ -47,7 +48,10 @@ function UserDetailPage({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
   const { getAllProductsWithPermission } = usePermissions();
-  const canEditUser = getAllProductsWithPermission(Actions.ManageProductUsers).length > 0;
+  const canEditUser = getAllProductsWithPermission(Actions.UpdateProductUsers).length > 0;
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  useFocus(titleRef, partyUser);
 
   const isPnpg = !!activeProducts.find((p) => p.id === 'prod-pn-pg');
 
@@ -159,7 +163,19 @@ function UserDetailPage({
           />
         </Grid>
         <Grid container item mb={4} xs={12}>
-          <Grid item xs={10}>
+          <Grid
+            item
+            xs={10}
+            ref={titleRef}
+            tabIndex={-1}
+            role="text"
+            aria-readonly="true"
+            aria-live="polite"
+            aria-atomic="true"
+            sx={{
+              outline: 'none',
+            }}
+          >
             <Typography
               variant="h4"
               sx={{

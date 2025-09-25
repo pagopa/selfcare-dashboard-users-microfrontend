@@ -58,7 +58,7 @@ export default function UserProductSection({
 
       {!partyUser.isCurrentUser &&
         party.products
-          .filter((p) => hasPermission(p.productId || '', Actions.ManageProductUsers))
+          .filter((p) => hasPermission(p.productId || '', Actions.CreateProductUsers))
           .find((p) => !partyUser.products.find((pu) => pu.id === p.productId)) && (
           <Grid item xs={12} sm={3}>
             <Stack
@@ -120,7 +120,7 @@ export default function UserProductSection({
                 canEdit={
                   !!party.products.find(
                     (p) =>
-                      hasPermission(p.productId || '', Actions.ManageProductUsers) &&
+                      hasPermission(p.productId || '', Actions.UpdateProductUsers) &&
                       p.productOnBoardingStatus === 'ACTIVE' &&
                       userProduct.id === p.productId
                   )

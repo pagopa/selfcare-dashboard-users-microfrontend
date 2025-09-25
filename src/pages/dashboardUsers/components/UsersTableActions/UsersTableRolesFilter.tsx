@@ -3,8 +3,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/system';
 import { ButtonNaked } from '@pagopa/mui-italia';
+import { useLiveAnnouncerWithRegion } from '@pagopa/selfcare-common-frontend/lib';
 import { isEqual } from 'lodash';
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { UserRole, UserRoleFilters } from '../../../../model/Party';
@@ -53,7 +54,7 @@ export default function UsersTableRolesFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   // const theme = useTheme();
   const isMobile = useIsMobile('md');
@@ -62,9 +63,11 @@ export default function UsersTableRolesFilter({
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
   const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
-  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = React.useState<{
+  const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = useState<{
     [selcRole in UserRoleFilters]: ProductRolesGroupByTitle;
   }>(emptySelcRoleGroup);
+
+  const { announce, LiveRegion } = useLiveAnnouncerWithRegion();
 
   const nextProductRolesFilter = useMemo(
     () =>
@@ -122,6 +125,7 @@ export default function UsersTableRolesFilter({
       return (
         <MenuItem
           key={`${selcRole}-children-${title}`}
+          value={`child-${selcRole}-${title}`}
           sx={{
             display: 'flex',
             ml: isPnpg ? 0 : showSelcRoleGrouped ? 3 : 1,
@@ -135,6 +139,7 @@ export default function UsersTableRolesFilter({
             onClick={(e) => {
               e.stopPropagation();
             }}
+            aria-label={`${title}`}
             label={
               <Typography
                 variant="body2"
@@ -177,6 +182,23 @@ export default function UsersTableRolesFilter({
     [selcRoleGroup, productRoleCheckedBySelcRole]
   );
 
+  const handleSubmit = () => {
+    onFiltersChange({
+      ...filters,
+      productIds: nextProductRolesFilter.map((f) => f.productId),
+      productRoles: nextProductRolesFilter,
+    });
+    setDisableRemoveFiltersButton(false);
+    announce(t('accessibility.filterUsers'));
+  };
+
+  const handleResetFilters = () => {
+    onFiltersChange({ ...filters, productIds: [], productRoles: [] });
+    setSearchByName('');
+    setDisableRemoveFiltersButton(true);
+    announce(t('accessibility.removeFilters'));
+  };
+
   return (
     <Grid
       container
@@ -186,6 +208,7 @@ export default function UsersTableRolesFilter({
       mt={isMobile ? 0 : 5}
       flexDirection={isMobile ? 'column' : 'row'}
     >
+      {LiveRegion}
       <Grid item xs={12} md={5} width="100%">
         <TextField
           fullWidth
@@ -205,10 +228,11 @@ export default function UsersTableRolesFilter({
           variant="outlined"
           displayEmpty
           native={false}
-          value={selcGroups.flatMap((s) =>
-            selcGroupTotallySelected[s]
-              ? [t(labels[s].titleKey)]
-              : Object.keys(productRoleCheckedBySelcRole[s])
+          value={selcGroups.flatMap(
+            (s) =>
+              selcGroupTotallySelected[s]
+                ? [`group-${s}-${t(labels[s].titleKey)}`] // Add prefix to make parent unique
+                : Object.keys(productRoleCheckedBySelcRole[s]).map((title) => `child-${s}-${title}`) // Add prefix to make children unique
           )}
           renderValue={(selected: any) => {
             if (selected.length === 0) {
@@ -218,6 +242,12 @@ export default function UsersTableRolesFilter({
                 </Box>
               );
             }
+
+            const displayValues = selected.map((value: string) => {
+              const secondDashIndex = value.indexOf('-', value.indexOf('-') + 1);
+              return secondDashIndex !== -1 ? value.substring(secondDashIndex + 1) : value;
+            });
+
             return (
               <Typography
                 sx={{
@@ -229,7 +259,7 @@ export default function UsersTableRolesFilter({
                   fontWeight: 'fontWeightMedium',
                 }}
               >
-                {selected.join(', ')}
+                {displayValues.join(', ')}
               </Typography>
             );
           }}
@@ -245,6 +275,7 @@ export default function UsersTableRolesFilter({
             return [
               showSelcRoleGrouped && !isPnpg ? (
                 <MenuItem
+                  value={`group-${selcRole}-${t(labels[selcRole].titleKey)}`}
                   onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
                   key={selcRole}
                 >
@@ -258,6 +289,7 @@ export default function UsersTableRolesFilter({
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
+                    aria-label={t(labels[selcRole].titleKey)}
                     label={
                       <Grid container sx={{ height: '100%', whiteSpace: 'normal' }}>
                         <Grid item xs={12}>
@@ -305,14 +337,7 @@ export default function UsersTableRolesFilter({
           type="submit"
           size="small"
           fullWidth
-          onClick={() => {
-            onFiltersChange({
-              ...filters,
-              productIds: nextProductRolesFilter.map((f) => f.productId),
-              productRoles: nextProductRolesFilter,
-            });
-            setDisableRemoveFiltersButton(false);
-          }}
+          onClick={handleSubmit}
         >
           {t('usersTable.filterRole.addFilters')}
         </Button>
@@ -323,11 +348,7 @@ export default function UsersTableRolesFilter({
           color="primary"
           fullWidth
           size="small"
-          onClick={() => {
-            onFiltersChange({ ...filters, productIds: [], productRoles: [] });
-            setSearchByName('');
-            setDisableRemoveFiltersButton(true);
-          }}
+          onClick={handleResetFilters}
         >
           {t('usersTable.filterRole.deleteFilters')}
         </ButtonNaked>

@@ -1,4 +1,8 @@
 export default {
+  accessibility: {
+    filterUsers: 'Filtri applicati. Risultati aggiornati.',
+    removeFilters: 'Filtri rimossi. Tutti i risultati sono visibili.',
+  },
   session: {
     expired: {
       title: 'Sessione scaduta',
@@ -21,6 +25,7 @@ export default {
       rows: {
         isCurrentUser: '(tu)',
         suspendedChip: 'Sospeso',
+        detailPageRedirectButton: 'Accedi alla pagina di dettaglio di',
       },
     },
     filterRole: {
@@ -226,6 +231,13 @@ export default {
         adminTooltip:
           'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
       },
+      addOnAggregatedEntities: {
+        title: "Seleziona l'ambito di operatività",
+        radioTitle1: 'Solo per il mio ente',
+        radioDescription1: "Potrà gestire e operare solo all'interno del proprio ente",
+        radioTitle2: 'Per tutti gli enti aggregati',
+        radioDescription2: 'Potrà gestire e operare su tutti gli enti',
+      },
       addLegalRepresentative: {
         title: 'Indica il Legale Rappresentante',
         subTitle:
@@ -245,7 +257,10 @@ export default {
         requestErrorMessage:
           'A causa di un errore del sistema non è possibile completare <1 />la procedura. Ti chiediamo di riprovare più tardi.',
         backHome: 'Torna alla home',
-        moreInformationOnRoles: 'Vorrei più informazioni',
+        moreInformationOnRoles: 'Più informazioni sui ruoli',
+        requiredError: 'Campo obbligatorio',
+        duplicateTaxCodeDifferentEmail:
+          'L’indirizzo email inserito è diverso da quello comunicato in precedenza',
       },
       backButton: 'Indietro',
       continueButton: 'Continua',

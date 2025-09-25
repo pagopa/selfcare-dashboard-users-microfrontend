@@ -1,6 +1,6 @@
-import React from 'react';
-import { mockedParties } from '../../../microcomponents/mock_dashboard/data/party';
-import { renderWithProviders } from '../../../utils/test-utils';
+
+import { mockedParties } from '../../../../microcomponents/mock_dashboard/data/party';
+import { renderWithProviders } from '../../../../utils/test-utils';
 import AddUsersRoleOnProduct from '../AddUsersRoleOnProduct';
 
 test('should render AddUsersRoleOnProduct with empty party', async () => {

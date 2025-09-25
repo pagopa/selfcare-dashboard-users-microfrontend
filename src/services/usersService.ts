@@ -3,6 +3,7 @@ import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageRes
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { DashboardApi } from '../api/DashboardApiClient';
+import { CheckUserResponse } from '../api/generated/b4f-dashboard/CheckUserResponse';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../api/generated/b4f-dashboard/UserCountResource';
 import { Party, UserRole, UserStatus } from '../model/Party';
@@ -23,6 +24,7 @@ import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
 import {
   addUserProductRoles as addProductUserMocked,
+  checkUserServiceMocked,
   deletePartyUser as deletePartyUserMocked,
   fetchPartyProductUsers as fetchPartyProductUsersMocked,
   fetchPartyUser as fetchPartyUserMocked,
@@ -261,5 +263,17 @@ export const getUserCountService = (
     return getUserCountServiceMocked(institutionId, productId, roles, status);
   } else {
     return DashboardApi.getUserCount(institutionId, productId, roles, status);
+  }
+};
+
+export const checkUserService = (
+  institutionId: string,
+  productId: string,
+  fiscalCode: string
+): Promise<CheckUserResponse> => {
+  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+    return checkUserServiceMocked(institutionId, productId, fiscalCode);
+  } else {
+    return DashboardApi.checkUser(institutionId, productId, fiscalCode);
   }
 };

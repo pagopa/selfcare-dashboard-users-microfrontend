@@ -9,13 +9,15 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { PartyUserOnCreation, PartyUserOnEdit } from '../model/PartyUser';
 import { ProductRole } from '../model/ProductRole';
 import { ENV } from '../utils/env';
+import { CheckUserResponse } from './generated/b4f-dashboard/CheckUserResponse';
+import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
+import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
+import { UserGroupResource } from './generated/b4f-dashboard/UserGroupResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
-import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
-import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
   (wrappedOperation) => (params: any) => {
@@ -104,6 +106,7 @@ export const DashboardApi = {
         email: (user.certifiedMail ? undefined : user.email) as EmailString,
         surname: user.certifiedSurname ? undefined : user.surname,
         name: user.certifiedName ? undefined : user.name,
+        toAddOnAggregates: user.toAddOnAggregates,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);
@@ -123,6 +126,7 @@ export const DashboardApi = {
       body: {
         productRoles: user.productRoles,
         role: partyRole,
+        toAddOnAggregates: user.toAddOnAggregates,
       },
     });
     return extractResponse(result, 201, onRedirectToLogin);
@@ -230,6 +234,13 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  getMyUserGroupById: async (id: string): Promise<UserGroupResource | null> => {
+    const result = await apiClient.getMyUserGroupByIdUsingGET({
+      id,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   addMemberToUserGroup: async (id: string, userId: string): Promise<void> => {
     const result = await apiClient.addMemberToUserGroupUsingPOST({
       id,
@@ -250,6 +261,15 @@ export const DashboardApi = {
       roles,
       status,
     });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  checkUser: async (
+    institutionId: string,
+    productId: string,
+    fiscalCode: string
+  ): Promise<CheckUserResponse> => {
+    const result = await apiClient.v2CheckUser({ institutionId, productId, body: { fiscalCode } });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 };
