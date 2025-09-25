@@ -35,7 +35,7 @@ const validateConfirmEmail = (
 
 const validateProductRoles = (productRoles: Array<any> | undefined) =>
   productRoles?.length === 0 ? requiredError : undefined;
-
+/*
 const validateToAddOnAggregates = (toAddOnAggregates: any, isAdminEaOnProdIO: boolean) => {
   // Only validate if isAdminEaOnProdIO is true
   if (!isAdminEaOnProdIO) {
@@ -44,11 +44,12 @@ const validateToAddOnAggregates = (toAddOnAggregates: any, isAdminEaOnProdIO: bo
 
   return toAddOnAggregates === undefined ? requiredError : undefined;
 };
-
+*/
 export const validateUserForm = (
   values: Partial<PartyUserOnCreation>,
   t: (key: string) => string,
-  isAdminEaOnProdIO: boolean
+  // TODO enable after groups automation is in place
+  _isAdminEaOnProdIO: boolean
 ) => {
   const validationResults = {
     name: validateName(values.name, values.taxCode, t),
@@ -57,7 +58,7 @@ export const validateUserForm = (
     email: validateEmail(values.email, t),
     confirmEmail: validateConfirmEmail(values.confirmEmail, values.email, t),
     productRoles: validateProductRoles(values.productRoles),
-    toAddOnAggregates: validateToAddOnAggregates(values.toAddOnAggregates, isAdminEaOnProdIO),
+    // toAddOnAggregates: validateToAddOnAggregates(values.toAddOnAggregates, isAdminEaOnProdIO),
   };
 
   // Filter out undefined values (no errors)

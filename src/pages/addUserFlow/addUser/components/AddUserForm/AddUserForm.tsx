@@ -1,4 +1,12 @@
-import { Button, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
@@ -27,7 +35,6 @@ import {
 } from '../../../../../utils/constants';
 import {
   commonStyles,
-  CustomFormControlLabel,
   getProductLink,
   RadioOptionLabel,
   renderLabel,
@@ -410,6 +417,7 @@ export default function AddUserForm({
           t={t}
         />
       )}
+      {/* TODO enable after groups automation is in placeS */}
       {isAdminEaOnProdIO &&
         userProduct?.id === PRODUCT_IDS.IO &&
         formik.values.productRoles.length > 0 && (
@@ -420,24 +428,25 @@ export default function AddUserForm({
               </Typography>
             </Grid>
             <Grid item xs={12} mb={1}>
-              <RadioGroup>
+              <RadioGroup value={false}>
                 {EA_RADIO_OPTIONS.map(({ value, titleKey, descriptionKey }) => (
-                  <CustomFormControlLabel
+                  <FormControlLabel
                     key={value.toString()}
                     sx={{ marginBottom: 2 }}
                     value={value}
-                    disabled={!validTaxcode}
+                    disabled
                     control={<Radio />}
                     label={
                       <RadioOptionLabel
                         titleKey={titleKey}
                         descriptionKey={descriptionKey}
-                        disabled={!validTaxcode}
+                        disabled={true}
                         t={t}
                       />
                     }
                     aria-label={t(titleKey)}
                     onClick={async () => {
+                      // TODO set isAddINBulkEAFlow only for role admin not operator
                       setIsAddInBulkEAFlow(value);
                       await formik.setFieldValue('toAddOnAggregates', value, true);
                     }}
