@@ -184,6 +184,7 @@ export default function AddUsersPage({ party, activeProducts, productsRolesMap }
               certifiedName: false,
               certifiedSurname: false,
               productRoles: [],
+              toAddOnAggregates: false,
             }}
             canEditRegistryData={true}
             forwardNextStep={forwardNextStep}
