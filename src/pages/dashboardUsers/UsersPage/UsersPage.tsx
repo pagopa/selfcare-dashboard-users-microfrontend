@@ -78,7 +78,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useFocus(buttonRef, []);
+  useFocus(buttonRef, buttonRef.current);
 
   useEffect(() => {
     setFilters(emptyFilters);

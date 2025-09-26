@@ -436,7 +436,7 @@ export default function AddUserForm({
                     sx={{ marginBottom: 2 }}
                     value={value}
                     disabled
-                    control={<Radio />}
+                    control={<Radio disabled />}
                     label={
                       <RadioOptionLabel
                         titleKey={titleKey}
@@ -446,11 +446,13 @@ export default function AddUserForm({
                       />
                     }
                     aria-label={t(titleKey)}
+                    /*
                     onClick={async () => {
                       // TODO set isAddINBulkEAFlow only for role admin not operator
                       setIsAddInBulkEAFlow(value);
                       await formik.setFieldValue('toAddOnAggregates', value, true);
                     }}
+                    */
                   />
                 ))}
               </RadioGroup>
