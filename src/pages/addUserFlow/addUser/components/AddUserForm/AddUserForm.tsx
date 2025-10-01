@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControlLabel,
   Grid,
@@ -338,6 +339,47 @@ export default function AddUserForm({
     });
   };
 
+  const LiveRegion = ({ fieldName, message }: { fieldName: string; message?: string }) => {
+    const [delayedMessage, setDelayedMessage] = useState<string>('');
+
+    useEffect(() => {
+      if (!message || message === requiredError) {
+        setDelayedMessage('');
+        return;
+      }
+
+      const timer = setTimeout(() => {
+        setDelayedMessage(message);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }, [message]);
+
+    if (!delayedMessage) {
+      return null;
+    }
+
+    return (
+      <Box
+        id={`${fieldName}-live-region`}
+        role="alert"
+        style={{
+          border: 0,
+          clip: 'rect(0  0  0 0)',
+          height: '1px',
+          margin: '-1px',
+          overflow: 'hidden',
+          padding: 0,
+          position: 'absolute',
+          whiteSpace: 'nowrap',
+          width: '1px',
+        }}
+      >
+        {delayedMessage}
+      </Box>
+    );
+  };
+
   const baseTextFieldProps = (
     field: keyof PartyUserOnCreation,
     label: string,
@@ -386,6 +428,7 @@ export default function AddUserForm({
           validTaxcode={validTaxcode}
           isMobile={isMobile}
           t={t}
+          LiveRegion={LiveRegion}
         />
       )}
 
@@ -446,13 +489,13 @@ export default function AddUserForm({
                       />
                     }
                     aria-label={t(titleKey)}
-                    /*
-                    onClick={async () => {
-                      // TODO set isAddINBulkEAFlow only for role admin not operator
-                      setIsAddInBulkEAFlow(value);
-                      await formik.setFieldValue('toAddOnAggregates', value, true);
-                    }}
-                    */
+                  /*
+                  onClick={async () => {
+                    // TODO set isAddINBulkEAFlow only for role admin not operator
+                    setIsAddInBulkEAFlow(value);
+                    await formik.setFieldValue('toAddOnAggregates', value, true);
+                  }}
+                  */
                   />
                 ))}
               </RadioGroup>

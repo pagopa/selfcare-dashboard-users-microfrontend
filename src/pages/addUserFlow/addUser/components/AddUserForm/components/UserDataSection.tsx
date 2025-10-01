@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
@@ -16,6 +16,7 @@ type UserDataSectionProps = {
   validTaxcode: string | undefined;
   isMobile: boolean;
   t: (key: string) => string;
+  LiveRegion?: React.FC<{ fieldName: string; message?: string }>;
 };
 
 export const UserDataSection = ({
@@ -24,6 +25,7 @@ export const UserDataSection = ({
   validTaxcode,
   isMobile,
   t,
+  LiveRegion,
 }: UserDataSectionProps) => (
   <Grid container direction="column" sx={commonStyles}>
     <Grid item xs={12}>
@@ -41,6 +43,7 @@ export const UserDataSection = ({
         size="small"
         {...baseTextFieldProps('taxCode', t('userEdit.addForm.fiscalCode.label'), '', 'uppercase')}
       />
+      {LiveRegion && <LiveRegion fieldName="taxCode" message={formik.errors.taxCode} />}
     </Grid>
     <Grid
       item
@@ -55,18 +58,24 @@ export const UserDataSection = ({
         },
       }}
     >
-      <CustomTextField
-        size="small"
-        style={{ width: isMobile ? '100%' : '49%' }}
-        {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
-        disabled={formik.values.certifiedName || !validTaxcode}
-      />
-      <CustomTextField
-        size="small"
-        style={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0 }}
-        {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
-        disabled={formik.values.certifiedSurname || !validTaxcode}
-      />
+      <Box sx={{ width: isMobile ? '100%' : '49%', position: 'relative' }}>
+        <CustomTextField
+          size="small"
+          style={{ width: '100%' }}
+          {...baseTextFieldProps('name', t('userEdit.addForm.name.label'), '')}
+          disabled={formik.values.certifiedName || !validTaxcode}
+        />
+        {LiveRegion && <LiveRegion fieldName="name" message={formik.errors.name} />}
+      </Box>
+      <Box sx={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0, position: 'relative' }}>
+        <CustomTextField
+          size="small"
+          style={{ width: '100%' }}
+          {...baseTextFieldProps('surname', t('userEdit.addForm.surname.label'), '')}
+          disabled={formik.values.certifiedSurname || !validTaxcode}
+        />
+        {LiveRegion && <LiveRegion fieldName="surname" message={formik.errors.surname} />}
+      </Box>
     </Grid>
     <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
       <CustomTextField
@@ -79,6 +88,7 @@ export const UserDataSection = ({
         )}
         disabled={!validTaxcode}
       />
+      {LiveRegion && <LiveRegion fieldName="email" message={formik.errors.email} />}
     </Grid>
     <Grid item xs={12} mb={3} sx={{ height: '75px' }}>
       <CustomTextField
@@ -91,6 +101,7 @@ export const UserDataSection = ({
         )}
         disabled={!validTaxcode}
       />
+      {LiveRegion && <LiveRegion fieldName="confirmEmail" message={formik.errors.confirmEmail} />}
     </Grid>
   </Grid>
 );
