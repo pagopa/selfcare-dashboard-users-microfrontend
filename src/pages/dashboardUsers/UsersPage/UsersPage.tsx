@@ -3,14 +3,14 @@ import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
+import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks/useUnloadEventInterceptor';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
@@ -158,29 +158,29 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
               mbTitle={2}
             />
           </Grid>
-
-          <Grid
-            item
-            xs={12}
-            md={3}
-            flexDirection={isMobile ? 'row-reverse' : 'row'}
-            mt={isMobile ? 3 : 5}
-            display="flex"
-            justifyContent="flex-end"
-          >
-            <Stack>
-              <Button
-                variant="contained"
-                sx={{ height: '48px', width: '163px' }}
-                onClick={() => onExit(() => history.push(addUserUrl))}
-                ref={buttonRef}
-                tabIndex={0}
-                disabled={!canAddUser}
-              >
-                {t('usersTable.addButton')}
-              </Button>
-            </Stack>
-          </Grid>
+          {canAddUser && (
+            <Grid
+              item
+              xs={12}
+              md={3}
+              flexDirection={isMobile ? 'row-reverse' : 'row'}
+              mt={isMobile ? 3 : 5}
+              display="flex"
+              justifyContent="flex-end"
+            >
+              <Stack>
+                <Button
+                  variant="contained"
+                  sx={{ height: '48px', width: '163px' }}
+                  onClick={() => onExit(() => history.push(addUserUrl))}
+                  ref={buttonRef}
+                  tabIndex={0}
+                >
+                  {t('usersTable.addButton')}
+                </Button>
+              </Stack>
+            </Grid>
+          )}
         </Grid>
         <MobileFilter
           loading={loading}
