@@ -2302,10 +2302,10 @@
     write-yaml-file "^4.1.3"
     yargs "^15.0.1"
 
-"@pagopa/selfcare-common-frontend@^1.34.72":
-  version "1.34.72"
-  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.34.72.tgz#4567e62b41ff9334b9e8f7d01d8a0ae37cf17123"
-  integrity sha512-GeLg0uicpNjZPb/eJ1M3ZD4DjeHZky02xTJnT6b+xRJnsErqq5ic/xhZaZI+LEBNCm0FmMAQedX4GG0SOVUNVg==
+"@pagopa/selfcare-common-frontend@^1.34.76":
+  version "1.34.76"
+  resolved "https://registry.yarnpkg.com/@pagopa/selfcare-common-frontend/-/selfcare-common-frontend-1.34.76.tgz#f7879dc42afcb02857e06f461e3883c4e43d620e"
+  integrity sha512-1+GqgqL5LM0wYFY3rqYg+KMHm5Q1oEvcRAJEPwUqbcGm3v5ZKDWvSZlWMeYppix8ALWdB7YZXx72bA6MqPut1A==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -2336,7 +2336,7 @@
     react-scripts "^5.0.1"
     redux-logger "^3.0.6"
     typescript "^5.9.2"
-    validator "13.11.0"
+    validator "13.15.20"
     web-vitals "^1.1.2"
 
 "@pagopa/ts-commons@^10.15.0":
@@ -12373,10 +12373,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validator@13.11.0:
-  version "13.11.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-13.11.0.tgz#23ab3fd59290c61248364eabf4067f04955fbb1b"
-  integrity sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==
+validator@13.15.20:
+  version "13.15.20"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.15.20.tgz#054e9238109538a1bf46ae3e1290845a64fa2186"
+  integrity sha512-KxPOq3V2LmfQPP4eqf3Mq/zrT0Dqp2Vmx2Bn285LwVahLc+CsxOM0crBHczm8ijlcjZ0Q5Xd6LW3z3odTPnlrw==
 
 validator@^13.6.0, validator@^13.7.0:
   version "13.15.15"
