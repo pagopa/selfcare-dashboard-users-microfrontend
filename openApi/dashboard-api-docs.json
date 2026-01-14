@@ -2054,6 +2054,107 @@
         } ]
       }
     },
+    "/v2/token/exchange/back-office/admin" : {
+      "get" : {
+        "tags" : [ "token" ],
+        "summary" : "Service to create an 'Identity Token' based on a Self Care backoffice admin session token",
+        "description" : "Service to create an 'Identity Token' based on a Self Care backoffice admin session token",
+        "operationId" : "v2ExchangeBackofficeAdmin",
+        "parameters" : [ {
+          "name" : "institutionId",
+          "in" : "query",
+          "description" : "Institution's unique internal identifier",
+          "required" : true,
+          "style" : "form",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "productId",
+          "in" : "query",
+          "description" : "Product's unique identifier",
+          "required" : true,
+          "style" : "form",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "environment",
+          "in" : "query",
+          "description" : "Back Office environment",
+          "required" : false,
+          "style" : "form",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "lang",
+          "in" : "query",
+          "description" : "Selected language",
+          "required" : false,
+          "style" : "form",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "uri"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ "global" ]
+        } ]
+      }
+    },
     "/v2/token/exchange/fatturazione" : {
       "get" : {
         "tags" : [ "token" ],
@@ -3694,7 +3795,7 @@
           },
           "toAddOnAggregates" : {
             "type" : "boolean",
-            "description" : "Enabling automatic management of group assignment",
+            "description" : "Enable automatic management of group assignment",
             "example" : false
           }
         }
@@ -4271,9 +4372,13 @@
           "billing" : {
             "$ref" : "#/components/schemas/Billing"
           },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
           "institutionType" : {
             "type" : "string",
-            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PSP", "PT", "REC", "SA", "SCP" ]
+            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PRV_PF", "PSP", "PT", "REC", "SA", "SCEC", "SCP" ]
           },
           "isAggregator" : {
             "type" : "boolean"
@@ -4290,6 +4395,9 @@
           "status" : {
             "type" : "string",
             "enum" : [ "ACTIVE", "DELETED", "PENDING", "REJECTED", "SUSPENDED", "TOBEVALIDATED" ]
+          },
+          "tokenId" : {
+            "type" : "string"
           },
           "userProductActions" : {
             "type" : "array",
@@ -4312,9 +4420,13 @@
           "billing" : {
             "$ref" : "#/components/schemas/Billing"
           },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
           "institutionType" : {
             "type" : "string",
-            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PSP", "PT", "REC", "SA", "SCP" ]
+            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PRV_PF", "PSP", "PT", "REC", "SA", "SCEC", "SCP" ]
           },
           "isAggregator" : {
             "type" : "boolean"
@@ -4331,6 +4443,9 @@
           "productOnBoardingStatus" : {
             "type" : "string",
             "enum" : [ "ACTIVE", "DELETED", "PENDING", "REJECTED", "SUSPENDED", "TOBEVALIDATED" ]
+          },
+          "tokenId" : {
+            "type" : "string"
           },
           "userProductActions" : {
             "type" : "array",
@@ -4355,7 +4470,7 @@
           "institutionType" : {
             "type" : "string",
             "description" : "Institution Type",
-            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PSP", "PT", "REC", "SA", "SCP" ]
+            "enum" : [ "AS", "CON", "GPU", "GSP", "PA", "PG", "PRV", "PRV_PF", "PSP", "PT", "REC", "SA", "SCEC", "SCP" ]
           },
           "origin" : {
             "type" : "string",
@@ -5110,7 +5225,7 @@
           },
           "toAddOnAggregates" : {
             "type" : "boolean",
-            "description" : "Enabling automatic management of group assignment",
+            "description" : "Enable automatic management of group assignment",
             "example" : false
           }
         }
