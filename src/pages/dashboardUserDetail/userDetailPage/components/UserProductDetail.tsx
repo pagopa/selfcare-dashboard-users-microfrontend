@@ -1,10 +1,6 @@
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Alert, Box, Chip, Divider, Grid, Link, Tooltip, Typography } from '@mui/material';
+import { Alert, Box, Chip, Divider, Grid, Link, Typography } from '@mui/material';
 import { ProductAvatar } from '@pagopa/mui-italia';
-import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
-import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { Trans, useTranslation } from 'react-i18next';
-import { ProductOnBoardingStatusEnum } from '../../../../api/generated/b4f-dashboard/OnboardedProductResource';
 import { Party } from '../../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
@@ -41,16 +37,6 @@ export default function UserProductDetail({
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1;
   const isPnpg = product.id.startsWith(PRODUCT_IDS.PNPG);
-  const { hasPermission } = usePermissions();
-
-  const canNotEditUserRole =
-    !partyUser.isCurrentUser &&
-    party.products.find(
-      (pp) =>
-        pp.productId === product.id &&
-        pp.productOnBoardingStatus === ProductOnBoardingStatusEnum.ACTIVE &&
-        hasPermission(pp.productId, Actions.UpdateProductUsers) === false
-    );
 
   return (
     <>
@@ -100,29 +86,21 @@ export default function UserProductDetail({
               </Box>
             </Grid>
           </Grid>
-          {canNotEditUserRole ? (
+          {!isPnpg && (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              <Tooltip title={t('userDetail.infoIcon')} placement="top" arrow={true}>
-                <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-              </Tooltip>
+              <UserProductActions
+                showActions={showActionOnProduct}
+                party={party}
+                role={userProduct.roles[0]}
+                user={partyUser}
+                fetchPartyUser={fetchPartyUser}
+                product={userProduct}
+                productRolesList={productRolesList}
+                canEdit={canEdit}
+                isProductDetailPage={isProductDetailPage}
+                handleOpenDelete={handleOpenDelete}
+              />
             </Grid>
-          ) : (
-            !isPnpg && (
-              <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-                <UserProductActions
-                  showActions={showActionOnProduct}
-                  party={party}
-                  role={userProduct.roles[0]}
-                  user={partyUser}
-                  fetchPartyUser={fetchPartyUser}
-                  product={userProduct}
-                  productRolesList={productRolesList}
-                  canEdit={canEdit}
-                  isProductDetailPage={isProductDetailPage}
-                  handleOpenDelete={handleOpenDelete}
-                />
-              </Grid>
-            )
           )}
         </Grid>
       </Grid>
