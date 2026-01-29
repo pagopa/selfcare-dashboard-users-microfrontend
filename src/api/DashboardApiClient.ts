@@ -12,7 +12,7 @@ import { ENV } from '../utils/env';
 import { CheckUserResponse } from './generated/b4f-dashboard/CheckUserResponse';
 import { WithDefaultsT, createClient } from './generated/b4f-dashboard/client';
 import { InstitutionUserDetailsResource } from './generated/b4f-dashboard/InstitutionUserDetailsResource';
-import { PageOfUserGroupPlainResource } from './generated/b4f-dashboard/PageOfUserGroupPlainResource';
+import { PageUserGroupPlainResource } from './generated/b4f-dashboard/PageUserGroupPlainResource';
 import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 import { UserGroupResource } from './generated/b4f-dashboard/UserGroupResource';
@@ -207,12 +207,12 @@ export const DashboardApi = {
     pageRequest: PageRequest,
     productId: string,
     userId: string
-  ): Promise<PageOfUserGroupPlainResource> => {
+  ): Promise<PageUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
-      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      sort: pageRequest.sort ? pageRequest.sort : undefined,
       productId,
       userId,
     });
@@ -223,12 +223,12 @@ export const DashboardApi = {
     productId: string,
     institutionId: string,
     pageRequest: PageRequest
-  ): Promise<PageOfUserGroupPlainResource> => {
+  ): Promise<PageUserGroupPlainResource> => {
     const result = await apiClient.getUserGroupsUsingGET({
       institutionId,
       page: pageRequest.page,
       size: pageRequest.size,
-      sort: pageRequest.sort ? [pageRequest.sort] : undefined,
+      sort: pageRequest.sort ? pageRequest.sort : undefined,
       productId,
     });
     return extractResponse(result, 200, onRedirectToLogin);
