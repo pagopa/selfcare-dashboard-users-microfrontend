@@ -1,12 +1,14 @@
-import * as env from 'env-var';
 import { Store } from 'redux';
 import { i18n } from 'i18next';
+import { from } from 'env-var';
+
+const env = from(import.meta.env as unknown as Record<string, string>);
 
 const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString() || '/dashboard';
 export const ENV = {
   STORE: {} as Store,
   i18n: {} as i18n,
-  ENV: env.get('REACT_APP_ENV').required().asString(),
+  ENV: env.get('VITE_ENV').required().asString(),
   PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
@@ -19,11 +21,11 @@ export const ENV = {
   },
 
   URL_FE: {
-    LOGIN: env.get('REACT_APP_URL_FE_LOGIN').required().asString(),
-    LOGOUT: env.get('REACT_APP_URL_FE_LOGOUT').required().asString(),
-    ONBOARDING: env.get('REACT_APP_URL_FE_ONBOARDING').required().asString(),
-    LANDING: env.get('REACT_APP_URL_FE_LANDING').required().asString(),
-    ASSISTANCE: env.get('REACT_APP_URL_FE_ASSISTANCE').required().asString(),
+    LOGIN: env.get('VITE_URL_FE_LOGIN').required().asString(),
+    LOGOUT: env.get('VITE_URL_FE_LOGOUT').required().asString(),
+    ONBOARDING: env.get('VITE_URL_FE_ONBOARDING').required().asString(),
+    LANDING: env.get('VITE_URL_FE_LANDING').required().asString(),
+    ASSISTANCE: env.get('VITE_URL_FE_ASSISTANCE').required().asString(),
   },
 
   DOCUMENTATION_LINKS: {
@@ -41,20 +43,20 @@ export const ENV = {
   },
 
   URL_API: {
-    API_DASHBOARD: env.get('REACT_APP_URL_API_DASHBOARD').required().asString(),
-    API_ONBOARDING_V2: env.get('REACT_APP_URL_API_ONBOARDING_V2').required().asString(),
+    API_DASHBOARD: env.get('VITE_URL_API_DASHBOARD').required().asString(),
+    API_ONBOARDING_V2: env.get('VITE_URL_API_ONBOARDING_V2').required().asString(),
   },
 
   API_TIMEOUT_MS: {
-    DASHBOARD: env.get('REACT_APP_API_DASHBOARD_TIMEOUT_MS').required().asInt(),
+    DASHBOARD: env.get('VITE_API_DASHBOARD_TIMEOUT_MS').required().asInt(),
   },
 
-  PARTY_USERS_PAGE_SIZE: env.get('REACT_APP_PARTY_USERS_PAGE_SIZE').required().asInt(),
+  PARTY_USERS_PAGE_SIZE: env.get('VITE_PARTY_USERS_PAGE_SIZE').required().asInt(),
   PARTY_PRODUCT_USERS_PAGE_SIZE: env
-    .get('REACT_APP_PARTY_PRODUCT_USERS_PAGE_SIZE')
+    .get('VITE_PARTY_PRODUCT_USERS_PAGE_SIZE')
     .required()
     .asInt(),
 
-  MAX_ADMIN_COUNT: env.get('REACT_APP_MAX_ADMIN_COUNT').default('4').asString(),
-  ENABLE_MAX_ADMIN_LIMIT: env.get('REACT_APP_ENABLE_ADMIN_LIMIT').default('false').asBool(),
+  MAX_ADMIN_COUNT: env.get('VITE_MAX_ADMIN_COUNT').default('4').asString(),
+  ENABLE_MAX_ADMIN_LIMIT: env.get('VITE_ENABLE_ADMIN_LIMIT').default('false').asBool(),
 };

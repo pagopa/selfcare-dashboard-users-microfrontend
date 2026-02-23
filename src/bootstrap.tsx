@@ -18,5 +18,5 @@ if (process.env.NODE_ENV === 'development') {
   ];
   // eslint-disable-next-line functional/immutable-data
   (window as any).appRoutes = DASHBOARD_USERS_ROUTES;
-  require('./microcomponents/mock_dashboard/indexMicrofrontend');
+  import('./microcomponents/mock_dashboard/indexMicrofrontend');
 }

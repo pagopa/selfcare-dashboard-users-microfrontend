@@ -1,28 +1,21 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["es6", "dom", "es2019"],
-    "jsx": "react-jsx",
-    "noEmit": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "preserveConstEnums": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "noUnusedParameters": true,
-    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*", "e2e/**/*.ts"],
-  "exclude": ["__mocks__", "dist", "node_modules", "**/__tests__/*", "Dangerfile.ts"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

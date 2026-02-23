@@ -1,6 +1,6 @@
 import { Box, Grid, Link, Typography } from '@mui/material';
 import { Trans } from 'react-i18next';
-import { ReactComponent as DissatisfiedIcon } from '../../../assets/dissatisfied-face.svg';
+import DissatisfiedIcon  from '../../../assets/dissatisfied-face.svg';
 
 type Props = {
   removeFilters: () => void;
