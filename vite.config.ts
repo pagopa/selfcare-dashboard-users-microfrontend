@@ -1,3 +1,4 @@
+import path from 'path';
 import federation from '@originjs/vite-plugin-federation';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
@@ -21,7 +22,6 @@ export default defineConfig(({ mode }) => {
         shared: [
           'react',
           'react-dom',
-          'react-redux',
           'react-router-dom',
           '@emotion/react',
           '@emotion/styled',
@@ -49,7 +49,15 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     resolve: {
-      dedupe: ['react', 'react-dom'],
+      dedupe: ['react', 'react-dom', 'react-redux'],
+      alias: [
+        {
+          find: /^@pagopa\/selfcare-common-frontend$/,
+          replacement: path.resolve(
+            './node_modules/@pagopa/selfcare-common-frontend/lib/index.js'
+          ),
+        },
+      ],
     },
     build: {
       outDir: 'dist',
@@ -63,6 +71,9 @@ export default defineConfig(({ mode }) => {
       'process.env': Object.fromEntries(
         Object.entries(env).filter(([key]) => key.startsWith('VITE_'))
       ),
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-redux'],
     },
     server: {
       port: 3001,
