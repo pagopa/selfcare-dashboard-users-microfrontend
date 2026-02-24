@@ -1,3 +1,5 @@
+
+
 const { appDependencies } = require('./package.json');
 const commonDependencies = require('@pagopa/selfcare-common-frontend/package.json').dependencies;
 const muiItaliaDependencies = require('@pagopa/mui-italia/package.json').dependencies;
