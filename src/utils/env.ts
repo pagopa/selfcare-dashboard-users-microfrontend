@@ -1,14 +1,11 @@
-import { Store } from 'redux';
 import { i18n } from 'i18next';
-import { from } from 'env-var';
+import { Store } from 'redux';
 
-const env = from(import.meta.env as unknown as Record<string, string>);
-
-const PUBLIC_URL_INNER: string | undefined = env.get('PUBLIC_URL').asString() || '/dashboard';
+const PUBLIC_URL_INNER: string = import.meta.env.VITE_PUBLIC_URL || '/dashboard';
 export const ENV = {
   STORE: {} as Store,
   i18n: {} as i18n,
-  ENV: env.get('VITE_ENV').required().asString(),
+  ENV: import.meta.env.VITE_ENV || 'development',
   PUBLIC_URL: PUBLIC_URL_INNER,
 
   ROUTES: {
@@ -21,17 +18,17 @@ export const ENV = {
   },
 
   URL_FE: {
-    LOGIN: env.get('VITE_URL_FE_LOGIN').required().asString(),
-    LOGOUT: env.get('VITE_URL_FE_LOGOUT').required().asString(),
-    ONBOARDING: env.get('VITE_URL_FE_ONBOARDING').required().asString(),
-    LANDING: env.get('VITE_URL_FE_LANDING').required().asString(),
-    ASSISTANCE: env.get('VITE_URL_FE_ASSISTANCE').required().asString(),
+    LOGIN: import.meta.env.VITE_URL_FE_LOGIN || '',
+    LOGOUT: import.meta.env.VITE_URL_FE_LOGOUT || '',
+    ONBOARDING: import.meta.env.VITE_URL_FE_ONBOARDING || '',
+    LANDING: import.meta.env.VITE_URL_FE_LANDING || '',
+    ASSISTANCE: import.meta.env.VITE_URL_FE_ASSISTANCE || '',
   },
 
   DOCUMENTATION_LINKS: {
     SELFCARE: 'https://docs.pagopa.it/area-riservata/',
     ROLES: 'https://docs.pagopa.it/area-riservata/area-riservata/ruoli',
-    USERS:'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
+    USERS: 'https://docs.pagopa.it/area-riservata/area-riservata/come-funziona/utenti',
     PAGOPA_EC:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-ec/manuale-operativo-back-office-pagopa-ente-creditore/funzionalita/matrice-ruoli-funzionalita',
     PAGOPA_PSP:
@@ -43,20 +40,23 @@ export const ENV = {
   },
 
   URL_API: {
-    API_DASHBOARD: env.get('VITE_URL_API_DASHBOARD').required().asString(),
-    API_ONBOARDING_V2: env.get('VITE_URL_API_ONBOARDING_V2').required().asString(),
+    API_DASHBOARD: import.meta.env.VITE_URL_API_DASHBOARD || '',
+    API_ONBOARDING_V2: import.meta.env.VITE_URL_API_ONBOARDING_V2 || '',
   },
 
   API_TIMEOUT_MS: {
-    DASHBOARD: env.get('VITE_API_DASHBOARD_TIMEOUT_MS').required().asInt(),
+    DASHBOARD: import.meta.env.VITE_API_DASHBOARD_TIMEOUT_MS
+      ? parseInt(import.meta.env.VITE_API_DASHBOARD_TIMEOUT_MS, 10)
+      : 10000,
   },
 
-  PARTY_USERS_PAGE_SIZE: env.get('VITE_PARTY_USERS_PAGE_SIZE').required().asInt(),
-  PARTY_PRODUCT_USERS_PAGE_SIZE: env
-    .get('VITE_PARTY_PRODUCT_USERS_PAGE_SIZE')
-    .required()
-    .asInt(),
+  PARTY_USERS_PAGE_SIZE: import.meta.env.VITE_PARTY_USERS_PAGE_SIZE
+    ? Number.parseInt(import.meta.env.VITE_PARTY_USERS_PAGE_SIZE, 10)
+    : 10,
+  PARTY_PRODUCT_USERS_PAGE_SIZE: import.meta.env.VITE_PARTY_PRODUCT_USERS_PAGE_SIZE
+    ? Number.parseInt(import.meta.env.VITE_PARTY_PRODUCT_USERS_PAGE_SIZE, 10)
+    : 10,
 
-  MAX_ADMIN_COUNT: env.get('VITE_MAX_ADMIN_COUNT').default('4').asString(),
-  ENABLE_MAX_ADMIN_LIMIT: env.get('VITE_ENABLE_ADMIN_LIMIT').default('false').asBool(),
+  MAX_ADMIN_COUNT: import.meta.env.VITE_MAX_ADMIN_COUNT || '4',
+  ENABLE_MAX_ADMIN_LIMIT: import.meta.env.VITE_ENABLE_ADMIN_LIMIT === 'true',
 };

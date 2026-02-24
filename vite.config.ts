@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       react(),
       svgr(),
       federation({
-        name: 'usersRemote',
+        name: 'selfcareUsers',
         filename: 'remoteEntry.js',
         exposes: {
           './RoutingUsers': './src/remotes/RoutingUsers',
@@ -35,9 +35,8 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     build: {
-      target: 'esnext',
-      minify: false, // required for @originjs/vite-plugin-federation
-      cssCodeSplit: false, // recommended for MF
+      outDir: 'dist',
+      sourcemap: true,
     },
     define: {
       'process.env': Object.fromEntries(
@@ -45,10 +44,6 @@ export default defineConfig(({ mode }) => {
       ),
     },
     server: {
-      port: 3001,
-      cors: true,
-    },
-    preview: {
       port: 3001,
       cors: true,
     },
