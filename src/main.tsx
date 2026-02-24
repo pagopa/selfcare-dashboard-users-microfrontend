@@ -1,10 +1,11 @@
+import '@pagopa/selfcare-common-frontend/lib/common-polyfill';
 import { Route } from 'react-router-dom';
-import { DASHBOARD_USERS_ROUTES } from './routes';
+import './locale';
+import { DashboardMicrofrontendPageProps } from './microcomponents/dashboard-routes-utils';
 import RoutingProductUsers from './remotes/RoutingProductUsers';
 import RoutingUsers from './remotes/RoutingUsers';
+import { DASHBOARD_USERS_ROUTES } from './routes';
 import { ENV } from './utils/env';
-import { DashboardMicrofrontendPageProps } from './microcomponents/dashboard-routes-utils';
-import './locale';
 
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line functional/immutable-data
