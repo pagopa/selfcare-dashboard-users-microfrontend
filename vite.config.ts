@@ -53,19 +53,13 @@ export default defineConfig(({ mode }) => {
       alias: [
         {
           find: /^@pagopa\/selfcare-common-frontend$/,
-          replacement: path.resolve(
-            './node_modules/@pagopa/selfcare-common-frontend/lib/index.js'
-          ),
+          replacement: path.resolve('./node_modules/@pagopa/selfcare-common-frontend/lib/index.js'),
         },
       ],
     },
     build: {
       outDir: 'dist',
-      target: 'esnext',
-      modulePreload: false,
-      cssCodeSplit: false,
       sourcemap: true,
-      minify: false,
     },
     define: {
       'process.env': Object.fromEntries(
