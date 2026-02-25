@@ -3,9 +3,10 @@ import { createMemoryHistory, History } from 'history';
 import '../../locale';
 import { renderComponent } from './RenderComponents/RenderComponentUser.test';
 
-jest.setTimeout(100000);
-
-jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
+vi.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin', () => ({
+  __esModule: true,
+  default: (Component: any) => Component,
+}));
 
 const renderApp = async (partyId: string = 'onboarded') => {
   const history = createMemoryHistory();

@@ -7,11 +7,11 @@ import {
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 
-jest.mock('../../api/DashboardApiClient');
+vi.mock('../../api/DashboardApiClient');
 
 beforeEach(() => {
-  jest.spyOn(DashboardApi, 'fetchPartyGroups');
-  jest.spyOn(DashboardApi, 'addMemberToUserGroup');
+  vi.spyOn(DashboardApi, 'fetchPartyGroups');
+  vi.spyOn(DashboardApi, 'addMemberToUserGroup');
 });
 
 const currentUser: User = {

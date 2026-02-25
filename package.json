@@ -24,16 +24,19 @@
   },
   "scripts": {
     "start": "vite",
+    "dev": "vite",
     "build": "vite build",
-    "preview": "concurrently \"vite build --watch\" \"vite preview --port 3001 --strictPort\"",
+    "dev:build": "vite build --watch",
+    "preview": "vite preview --port 3001 --strictPort",
+    "dev:preview": "vite preview --port 3001 --strictPort",
     "build:watch": "vite build --watch",
     "clean": "npm-run-all clean:*",
     "prebuild": "npm run generate",
     "clean:build": "rimraf build",
-    "test": "craco test -i",
-    "test:coverage": "craco test -i --coverage",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
     "clean:coverage": "rimraf coverage",
-    "eject": "react-scripts eject",
     "lint-autofix": "eslint . -c .eslintrc.js --ext .ts,.tsx --fix",
     "lint": "eslint . -c .eslintrc.js --ext .ts,.tsx ",
     "prettify": "prettier --write \"./**/*.{ts,tsx}\"",
@@ -43,36 +46,20 @@
     "generate:api-b4f-dashboard": "yarn run clean:api-b4f-dashboard && mkdirp openApi/generated-dashboard && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/dashboard-api-docs.json > openApi/generated-dashboard/dashboard-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated-dashboard/dashboard-swagger20.json && gen-api-models --api-spec openApi/generated-dashboard/dashboard-swagger20.json --out-dir src/api/generated/b4f-dashboard --no-strict --request-types --response-decoders --client && node openApi/scripts/api-b4f-dashboard_fixPostGen.js",
     "generate:api-onboarding": "yarn run clean:api-onboarding && mkdirp openApi/generated-onboarding && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/onboarding-api-docs.json > openApi/generated-onboarding/onboarding-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated-onboarding/onboarding-swagger20.json && gen-api-models --api-spec openApi/generated-onboarding/onboarding-swagger20.json --out-dir src/api/generated/onboarding --no-strict --request-types --response-decoders --client && node openApi/scripts/api-onboarding_fixPostGen.js"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@originjs/vite-plugin-federation": "^1.4.1",
     "@pagopa/openapi-codegen-ts": "^14.2.0",
-    "@testing-library/jest-dom": "^5.16.3",
-    "@testing-library/react": "12.1.2",
+    "@testing-library/dom": "^10.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.0.4",
     "@types/lodash": "^4.17.13",
     "@types/redux-logger": "^3.0.13",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "^3.0.0",
+    "@vitest/ui": "3.2.4",
     "api-spec-converter": "^2.12.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
@@ -81,6 +68,7 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-sonarjs": "^0.13.0",
+    "jsdom": "^26.0.0",
     "mkdirp": "^1.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
@@ -89,7 +77,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-html": "^3.2.2",
-    "vite-plugin-svgr": "^4.5.0"
+    "vite-plugin-svgr": "^4.5.0",
+    "vitest": "^3.0.0"
   },
   "resolutions": {
     "static-eval": "^2.0.2",
@@ -102,15 +91,5 @@
     "node-fetch": "^2.7.0",
     "@types/react": "18.3.16",
     "form-data": "^4.0.4"
-  },
-  "jest": {
-    "restoreMocks": true,
-    "clearMocks": true,
-    "resetMocks": true,
-    "coveragePathIgnorePatterns": [
-      "src/index.tsx",
-      "src/reportWebVitals.ts",
-      "src/api/generated"
-    ]
   }
 }
