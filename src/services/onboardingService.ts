@@ -8,7 +8,7 @@ import {
 
 export const validateLegalRepresentative = (user: UserDataValidationDto): Promise<any> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return validateLegalRepresentativeMocked(user);
   } else {
     return OnboardingApi.validateLegalRepresentative(user);
@@ -17,7 +17,7 @@ export const validateLegalRepresentative = (user: UserDataValidationDto): Promis
 
 export const onboardingPostUser = (user: OnboardingUserDto): Promise<any> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return onboardingPostUserMocked(user);
   } else {
     return OnboardingApi.onboardingPostUser(user);
@@ -26,7 +26,7 @@ export const onboardingPostUser = (user: OnboardingUserDto): Promise<any> => {
 
 export const onboardingAggregatorService = (user: OnboardingUserDto) => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return onboardingPostUserMocked(user);
   } else {
     return OnboardingApi.onboardingAggregatorPOST(user);

@@ -26,7 +26,7 @@ node_modules
 generated
 build
 local
-dist
+build
 
 # Local python packages
 .python_packages/
@@ -52,7 +52,7 @@ yarn-error.log
 
 *.zip
 
-!jest.config.js
+!vi.config.js
 !.release-it.js
 .idea
 .vscode

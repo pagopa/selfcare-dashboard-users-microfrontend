@@ -28,18 +28,18 @@ import {
   updatePartyUserStatus,
 } from '../usersService';
 
-jest.mock('../../api/DashboardApiClient');
+vi.mock('../../api/DashboardApiClient');
 
 beforeEach(() => {
-  jest.spyOn(DashboardApi, 'getPartyUser');
-  jest.spyOn(DashboardApi, 'getPartyProductUsers');
-  jest.spyOn(DashboardApi, 'getLegalRepresentative');
-  jest.spyOn(DashboardApi, 'savePartyUser');
-  jest.spyOn(DashboardApi, 'suspendPartyRelation');
-  jest.spyOn(DashboardApi, 'activatePartyRelation');
-  jest.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
-  jest.spyOn(DashboardApi, 'deletePartyRelation');
-  jest.spyOn(DashboardApi, 'addUserProductRoles');
+  vi.spyOn(DashboardApi, 'getPartyUser');
+  vi.spyOn(DashboardApi, 'getPartyProductUsers');
+  vi.spyOn(DashboardApi, 'getLegalRepresentative');
+  vi.spyOn(DashboardApi, 'savePartyUser');
+  vi.spyOn(DashboardApi, 'suspendPartyRelation');
+  vi.spyOn(DashboardApi, 'activatePartyRelation');
+  vi.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
+  vi.spyOn(DashboardApi, 'deletePartyRelation');
+  vi.spyOn(DashboardApi, 'addUserProductRoles');
 });
 
 test('Test fetch PartyUserDetails', async () => {
