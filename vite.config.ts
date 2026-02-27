@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
           './RoutingUsers': './src/remotes/RoutingUsers',
           './RoutingProductUsers': './src/remotes/RoutingProductUsers',
         },
+        runtime: false, // disable runtime, as we will load the remoteEntry.js manually in index.html
         shared: {
           '@pagopa/selfcare-common-frontend': {
             singleton: true,
@@ -118,7 +119,10 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     build: {
-      sourcemap: true,
+      target: 'esnext',
+      minify: false,
+      cssCodeSplit: false,
+      modulePreload: false,
     },
     define: {
       'process.env': Object.fromEntries(
