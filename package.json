@@ -3,6 +3,7 @@
   "version": "1.7.0",
   "private": true,
   "dependencies": {
+    "@module-federation/vite": "^1.11.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/lab": "^5.0.0-alpha.137",
     "@mui/material": "^5.14.1",
@@ -47,7 +48,6 @@
     "generate:api-onboarding": "yarn run clean:api-onboarding && mkdirp openApi/generated-onboarding && api-spec-converter --from=openapi_3 --to=swagger_2 openApi/onboarding-api-docs.json > openApi/generated-onboarding/onboarding-swagger20.json && node ./node_modules/@pagopa/selfcare-common-frontend/utils/fixSwagger20ArraySchemaDef.js openApi/generated-onboarding/onboarding-swagger20.json && gen-api-models --api-spec openApi/generated-onboarding/onboarding-swagger20.json --out-dir src/api/generated/onboarding --no-strict --request-types --response-decoders --client && node openApi/scripts/api-onboarding_fixPostGen.js"
   },
   "devDependencies": {
-    "@originjs/vite-plugin-federation": "^1.4.1",
     "@pagopa/openapi-codegen-ts": "^14.2.0",
     "@testing-library/dom": "^10.0.0",
     "@testing-library/jest-dom": "^6.0.0",
