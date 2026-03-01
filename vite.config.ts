@@ -31,7 +31,6 @@ export default defineConfig(({ mode }) => {
           './RoutingUsers': './src/remotes/RoutingUsers',
           './RoutingProductUsers': './src/remotes/RoutingProductUsers',
         },
-        runtime: false, // disable runtime, as we will load the remoteEntry.js manually in index.html
         shared: {
           '@pagopa/selfcare-common-frontend': {
             singleton: true,
@@ -128,6 +127,12 @@ export default defineConfig(({ mode }) => {
       'process.env': Object.fromEntries(
         Object.entries(env).filter(([key]) => key.startsWith('VITE_'))
       ),
+    },
+    resolve: {
+      dedupe: ['react', 'react-dom', 'react-router-dom']
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router-dom'],
     },
     server: {
       port: 3001,

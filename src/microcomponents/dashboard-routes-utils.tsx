@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import * as H from 'history';
 import { Store } from 'redux';
 import { i18n } from 'i18next';

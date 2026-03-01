@@ -6,7 +6,7 @@ import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { Party } from '../../../model/Party';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { PartyUserDetail, PartyUserProduct, partyUserDetail2User } from '../../../model/PartyUser';

@@ -11,7 +11,7 @@ import { setProductPermissions } from '@pagopa/selfcare-common-frontend/lib/redu
 import { isEmpty } from 'lodash';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, Switch, useHistory, useParams } from 'react-router';
+import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { buildProductsMap, Product } from '../../model/Product';
 import { productRoles2ProductRolesList, ProductsRolesMap } from '../../model/ProductRole';

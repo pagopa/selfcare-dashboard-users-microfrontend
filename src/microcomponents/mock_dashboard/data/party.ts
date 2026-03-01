@@ -76,7 +76,7 @@ export const mockedParties: Array<Party> = [
     products: [
       {
         productId: 'prod-pagopa',
-        userRole: 'ADMIN_EA',
+        userRole: 'ADMIN',
         authorized: true,
         billing: {
           vatNumber: '00136120441',
