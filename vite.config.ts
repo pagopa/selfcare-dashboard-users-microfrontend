@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import svgr from 'vite-plugin-svgr';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 const require = createRequire(import.meta.url);
 
@@ -29,6 +30,7 @@ export default defineConfig(({ mode, command }) => {
     base,
     plugins: [
       react(),
+      tsconfigPaths(),
       svgr(),
       federation({
         name: 'selfcareUsers',
@@ -48,8 +50,7 @@ export default defineConfig(({ mode, command }) => {
           },
           '@pagopa/ts-commons': {
             singleton: true,
-            strictVersion: false, // don't crash on version mismatch
-            requiredVersion: '^13.1.2',
+            requiredVersion: dependencies['@pagopa/ts-commons'],
           },
           react: {
             singleton: true,
@@ -116,8 +117,8 @@ export default defineConfig(({ mode, command }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            VITE_ENV: process.env.VITE_ENV,
-            VITE_URL_CDN: process.env.VITE_URL_CDN,
+            VITE_ENV: env.VITE_ENV,
+            VITE_URL_CDN: env.VITE_URL_CDN,
             // add other vars used in index.html here
           },
         },
