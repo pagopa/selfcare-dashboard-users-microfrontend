@@ -126,8 +126,8 @@ export default defineConfig(({ mode, command }) => {
     build: {
       target: 'esnext',
       minify: false,
-      cssCodeSplit: false,
-      modulePreload: false,
+      sourcemap: true,
+      assetsDir: '',
     },
     define: {
       'process.env': Object.fromEntries(
