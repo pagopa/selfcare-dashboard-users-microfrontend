@@ -73,7 +73,6 @@ test('test with fields that respect rules, so enabled button', async () => {
   const surname = document.querySelector('#surname') as HTMLInputElement;
   const email = document.querySelector('#email') as HTMLInputElement;
   const confirmEmail = document.querySelector('#confirmEmail') as HTMLInputElement;
-  const products = document.getElementById('mui-component-select-products') as HTMLDivElement;
 
   fireEvent.change(taxCode, { target: { value: fieldsValue.taxCode } });
 
