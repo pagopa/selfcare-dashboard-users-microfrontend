@@ -3,8 +3,8 @@ import { federation } from '@module-federation/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import svgr from 'vite-plugin-svgr';
 
 const require = createRequire(import.meta.url);
 
@@ -21,7 +21,7 @@ const dependencies: Record<string, string> = {
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
-   const base =
+  const base =
     command === 'build' && env.VITE_URL_CDN
       ? `${env.VITE_URL_CDN}/microcomponents/dashboard/users/`
       : '/';
@@ -30,8 +30,8 @@ export default defineConfig(({ mode, command }) => {
     base,
     plugins: [
       react(),
-      tsconfigPaths(),
       svgr(),
+      tsconfigPaths(),
       federation({
         name: 'selfcareUsers',
         filename: 'remoteEntry.js',
@@ -117,13 +117,18 @@ export default defineConfig(({ mode, command }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            VITE_ENV: env.VITE_ENV,
-            VITE_URL_CDN: env.VITE_URL_CDN,
-            // add other vars used in index.html here
+            VITE_URL_CDN: env.VITE_URL_CDN || '',
           },
         },
       }),
     ],
+    server: {
+      port: 3001,
+    },
+    preview: {
+      port: 3001,
+      cors: true,
+    },
     build: {
       target: 'esnext',
       minify: false,
@@ -134,18 +139,6 @@ export default defineConfig(({ mode, command }) => {
       'process.env': Object.fromEntries(
         Object.entries(env).filter(([key]) => key.startsWith('VITE_'))
       ),
-    },
-    resolve: {
-      dedupe: ['react', 'react-dom', 'react-router-dom'],
-    },
-    optimizeDeps: {
-      include: ['react', 'react-dom', 'react-router-dom'],
-    },
-    server: {
-      port: 3001,
-    },
-    preview: {
-      port: 3001,
     },
   };
 });

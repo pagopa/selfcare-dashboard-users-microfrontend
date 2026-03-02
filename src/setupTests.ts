@@ -2,21 +2,21 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-
+import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import it from './locale/it';
+import 'vitest';
+import de from './locale/de';
 import en from './locale/en';
 import fr from './locale/fr';
-import de from './locale/de';
+import it from './locale/it';
 import sl from './locale/sl';
 
-
 beforeEach(() => {
-  vi.spyOn(console, 'warn').mockImplementation(() => { });
-  vi.spyOn(console, 'error').mockImplementation(() => { });
+  vi.spyOn(console, 'warn').mockImplementation(() => {});
+  vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 beforeAll(async () => {
