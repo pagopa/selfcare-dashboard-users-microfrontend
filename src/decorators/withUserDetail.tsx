@@ -4,7 +4,7 @@ import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { uniqueId } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useUserDetail } from '../hooks/useUserDetail';
 import { Party } from '../model/Party';

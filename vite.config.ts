@@ -128,6 +128,12 @@ export default defineConfig(({ mode }) => {
         Object.entries(env).filter(([key]) => key.startsWith('VITE_'))
       ),
     },
+    resolve: {
+      dedupe: ['react', 'react-dom', 'react-router-dom']
+    },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router-dom'],
+    },
     server: {
       port: 3001,
     },

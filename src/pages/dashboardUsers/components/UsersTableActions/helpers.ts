@@ -24,17 +24,16 @@ export const labels = {
 };
 
 export const productList = (
-    productRoles: Array<ProductRole>
-  ): {
+  productRoles: Array<ProductRole>
+): {
     [selcRole in UserRole]: ProductRolesGroupByTitle;
   } =>
-    Object.fromEntries(
-      Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
-        selcRole,
-        productRolesGroupByTitle(roles),
-      ])
-    ) as {
-      [selcRole in UserRole]: ProductRolesGroupByTitle;
-    };
+  Object.fromEntries(
+    Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
+      selcRole,
+      productRolesGroupByTitle(roles),
+    ])
+  ) as {
+    [selcRole in UserRole]: ProductRolesGroupByTitle;
+  };
 
-    
