@@ -17,10 +17,16 @@ const dependencies: Record<string, string> = {
   ...appDependencies,
 };
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
+   const base =
+    command === 'build' && env.VITE_URL_CDN
+      ? `${env.VITE_URL_CDN}/microcomponents/dashboard/users/`
+      : '/';
+
   return {
+    base,
     plugins: [
       react(),
       svgr(),
@@ -129,7 +135,7 @@ export default defineConfig(({ mode }) => {
       ),
     },
     resolve: {
-      dedupe: ['react', 'react-dom', 'react-router-dom']
+      dedupe: ['react', 'react-dom', 'react-router-dom'],
     },
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom'],
