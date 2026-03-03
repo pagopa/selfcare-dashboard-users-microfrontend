@@ -230,7 +230,7 @@ describe('Test updatePartyUserStatus', () => {
         partyUser.products[0].roles[0],
         'PENDING'
       );
-    } catch (error) {
+    } catch (error: any) {
       expect(error).toBeInstanceOf(Error);
       expect(error.message).toBe('Not allowed next status: PENDING');
     }

@@ -6,7 +6,7 @@ import { ENV } from './utils/env';
 import { DashboardMicrofrontendPageProps } from './microcomponents/dashboard-routes-utils';
 import './locale';
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   // eslint-disable-next-line functional/immutable-data
   (window as any).AppRouting = (props: DashboardMicrofrontendPageProps) => [
     <Route key="RoutingUsers" path={ENV.ROUTES.USERS} exact={false}>
@@ -18,5 +18,5 @@ if (process.env.NODE_ENV === 'development') {
   ];
   // eslint-disable-next-line functional/immutable-data
   (window as any).appRoutes = DASHBOARD_USERS_ROUTES;
-  require('./microcomponents/mock_dashboard/indexMicrofrontend');
+  void import('./microcomponents/mock_dashboard/indexMicrofrontend');
 }

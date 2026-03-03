@@ -19,7 +19,7 @@ export const fetchPartyGroups = (
   pageRequest: PageRequest
 ): Promise<PageResource<PartyGroup>> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchPartyGroupsMocked(party, product, currentUser, pageRequest);
   } else {
     return DashboardApi.fetchPartyGroups(product.id, party.partyId, pageRequest).then(
@@ -38,7 +38,7 @@ export const fetchPartyGroups = (
 
 export const getMyUserGroupByIdService = (id: string): Promise<UserGroupResource | null> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_GROUPS === 'true') {
     return mockGetMyUserGroupByIdService(id);
   } else {
     return DashboardApi.getMyUserGroupById(id);
@@ -47,7 +47,7 @@ export const getMyUserGroupByIdService = (id: string): Promise<UserGroupResource
 
 export const addMemberToUserGroup = (id: string, userId: string): Promise<string> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return addMemberToUserGroupMocked(id, userId);
   } else {
     return DashboardApi.addMemberToUserGroup(id, userId).then((_) => userId);

@@ -58,7 +58,7 @@ export const fetchPartyProductUsers = (
   productRoles?: Array<ProductRole>
 ): Promise<PageResource<PartyProductUser>> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return fetchPartyProductUsersMocked(
       pageRequest,
       party,
@@ -82,7 +82,7 @@ export const getLegalRepresentativeService = (
   roles: string
 ): Promise<Array<ProductUserResource>> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return getLegalRepresentativeServiceMocked(party.partyId, productId, roles);
   } else {
     return DashboardApi.getLegalRepresentative(party.partyId, productId, roles).then((r) => r);
@@ -96,7 +96,7 @@ export const fetchPartyUser = (
   productsMap: ProductsMap
 ): Promise<PartyUserDetail | null> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return fetchPartyUserMocked(partyId, userId, currentUser);
   } else {
     return DashboardApi.getPartyUser(partyId, userId).then((u) => {
@@ -116,7 +116,7 @@ export const savePartyUser = (
   partyRole?: string
 ): Promise<string | undefined> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return savePartyUserMocked(party, product, user, partyRole);
   } else {
     return DashboardApi.savePartyUser(party.partyId, product.id, user, partyRole).then(
@@ -133,7 +133,7 @@ export const addUserProductRoles = (
   partyRole?: string
 ): Promise<string> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return addProductUserMocked(party, product, userId, user, partyRole);
   } else {
     return DashboardApi.addUserProductRoles(
@@ -148,7 +148,7 @@ export const addUserProductRoles = (
 
 export const updatePartyUser = (party: Party, user: PartyUserOnEdit): Promise<any> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return updatePartyUserMocked(party, user);
   } else {
     return DashboardApi.updatePartyUser(party.partyId, user);
@@ -163,7 +163,7 @@ export const updatePartyUserStatus = (
   status: UserStatus
 ): Promise<any> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return updatePartyUserStatusMocked(party, user, product, role, status);
   }
   if (status === 'ACTIVE') {
@@ -198,7 +198,7 @@ export const deletePartyUser = (
     product_role: role.role,
   });
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return deletePartyUserMocked(party, user, product, role);
   } else {
     return DashboardApi.deletePartyRelation(user.id, party.partyId, product.id, role.role);
@@ -210,7 +210,7 @@ export const fetchUserRegistryByFiscalCode = (
   partyId: string
 ): Promise<UserRegistry | null> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return new Promise((resolve) => resolve(mockedUserRegistry));
   } else {
     return DashboardApi.fetchUserRegistryByFiscalCode(taxCode, partyId).then((userResource) =>
@@ -224,7 +224,7 @@ export const fetchUserRegistryById = (
   userId: string
 ): Promise<UserRegistry | null> => {
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return fetchUserRegistryByIdMocked(partyId, userId);
   } else {
     return DashboardApi.fetchUserRegistryById(partyId, userId).then((userResource) =>
@@ -244,7 +244,7 @@ export const fetchUserGroups = (
     product_id: product.id,
   });
   /* istanbul ignore if */
-  if (process.env.REACT_APP_API_MOCK_PARTY_GROUPS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_GROUPS === 'true') {
     return fetchUserGroupsMocked(party, pageRequest, product, userId);
   } else {
     return DashboardApi.fetchUserGroups(party.partyId, pageRequest, product.id, userId).then(
@@ -259,7 +259,7 @@ export const getUserCountService = (
   roles?: string,
   status?: string
 ): Promise<UserCountResource> => {
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return getUserCountServiceMocked(institutionId, productId, roles, status);
   } else {
     return DashboardApi.getUserCount(institutionId, productId, roles, status);
@@ -271,7 +271,7 @@ export const checkUserService = (
   productId: string,
   fiscalCode: string
 ): Promise<CheckUserResponse> => {
-  if (process.env.REACT_APP_API_MOCK_PARTY_USERS === 'true') {
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
     return checkUserServiceMocked(institutionId, productId, fiscalCode);
   } else {
     return DashboardApi.checkUser(institutionId, productId, fiscalCode);
