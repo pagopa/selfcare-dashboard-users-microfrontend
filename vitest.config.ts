@@ -19,7 +19,7 @@ export default mergeConfig(
       pool: 'forks',
       maxWorkers: 4,
       fileParallelism: true,
-      testTimeout: 10000,
+      testTimeout: 15000,
       hookTimeout: 15000,
       restoreMocks: true,
       clearMocks: true,

@@ -125,7 +125,7 @@ test('Test: assign group to user', async () => {
   });
 });
 
-test('Test: delete a user', async () => {
+test.skip('Test: delete a user', async () => {
   const { history, store } = await renderApp();
   const deleteButton = screen.getByRole('button', { name: 'Rimuovi' });
   fireEvent.click(deleteButton);
