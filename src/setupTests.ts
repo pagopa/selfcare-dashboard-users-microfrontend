@@ -3,10 +3,8 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-import { cleanup } from '@testing-library/react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import 'vitest';
 import de from './locale/de';
 import en from './locale/en';
 import fr from './locale/fr';
@@ -34,8 +32,4 @@ beforeAll(async () => {
       react: { useSuspense: false },
     });
   }
-});
-
-afterEach(() => {
-  cleanup();
 });

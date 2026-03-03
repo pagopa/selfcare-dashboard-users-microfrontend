@@ -8,3 +8,4 @@ src/reportWebVitals.ts
 **/generated/**
 e2e
 vitest.config.ts
+dist
