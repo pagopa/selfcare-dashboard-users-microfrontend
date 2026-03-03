@@ -27,11 +27,11 @@ describe('AddUserForm Component', () => {
       certifiedSurname: true,
       certifiedMail: true,
     },
-    forwardNextStep: jest.fn(),
-    setCurrentSelectedProduct: jest.fn(),
-    setAddedUserList: jest.fn(),
+    forwardNextStep: vi.fn(),
+    setCurrentSelectedProduct: vi.fn(),
+    setAddedUserList: vi.fn(),
     isAddInBulkEAFlow: true,
-    setIsAddInBulkEAFlow: jest.fn(),
+    setIsAddInBulkEAFlow: vi.fn(),
   };
 
   test('should render AddUserForm with all required fields', () => {
@@ -174,11 +174,11 @@ describe('AddUserForm Component', () => {
           certifiedSurname: true,
           certifiedMail: true,
         }}
-        forwardNextStep={jest.fn()}
-        setCurrentSelectedProduct={jest.fn()}
-        setAddedUserList={jest.fn()}
+        forwardNextStep={vi.fn()}
+        setCurrentSelectedProduct={vi.fn()}
+        setAddedUserList={vi.fn()}
         isAddInBulkEAFlow={true}
-        setIsAddInBulkEAFlow={jest.fn()}
+        setIsAddInBulkEAFlow={vi.fn()}
       />
     );
 

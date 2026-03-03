@@ -10,11 +10,15 @@ import { productRoles2ProductRolesList } from '../../../../model/ProductRole';
 import { createStore, store } from '../../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 
-jest.setTimeout(6000);
-
-jest.mock('i18next-browser-languagedetector');
-jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
-jest.mock('../../../../services/usersService');
+vi.mock('i18next-browser-languagedetector', () => ({
+  __esModule: true,
+  default: () => ({}),
+}));
+vi.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin', () => ({
+  __esModule: true,
+  default: (Component: any) => Component,
+}));
+vi.mock('../../../../services/usersService');
 
 const fieldsValue = {
   taxCode: 'RSSFNC80A01A794Q',

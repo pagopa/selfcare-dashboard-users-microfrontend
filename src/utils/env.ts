@@ -1,5 +1,5 @@
-import { Store } from 'redux';
 import { i18n } from 'i18next';
+import { Store } from 'redux';
 
 const PUBLIC_URL_INNER: string | undefined = import.meta.env.VITE_PUBLIC_URL || '/dashboard';
 export const ENV = {

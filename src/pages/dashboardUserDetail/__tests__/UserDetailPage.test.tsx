@@ -11,14 +11,15 @@ import { createMemoryHistory } from 'history';
 import '../../../locale';
 import { renderComponent } from '../../../remotes/__tests__/RenderComponents/RenderComponentUser.test';
 
-jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
-jest.mock('../../../services/usersService');
-jest.mock('../../../services/groupsService');
-
-jest.setTimeout(15000);
+vi.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin', () => ({
+  __esModule: true,
+  default: (Component: any) => Component,
+}));
+vi.mock('../../../services/usersService');
+vi.mock('../../../services/groupsService');
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
   cleanup();
 });
 

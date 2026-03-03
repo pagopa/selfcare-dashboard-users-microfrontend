@@ -10,7 +10,21 @@ beforeEach(() => {
 });
 
 beforeAll(async () => {
-  await i18n.changeLanguage('it');
+  if (!i18n.isInitialized) {
+    await i18n.use(initReactI18next).init({
+      resources: {
+        it: { translation: it },
+        en: { translation: en },
+        fr: { translation: fr },
+        de: { translation: de },
+        sl: { translation: sl },
+      },
+      lng: 'it',
+      fallbackLng: 'it',
+      interpolation: { escapeValue: false },
+      react: { useSuspense: false },
+    });
+  }
 });
 
 afterEach(() => {

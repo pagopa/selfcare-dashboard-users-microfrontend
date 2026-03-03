@@ -9,8 +9,11 @@ import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { ENV } from '../../../utils/env';
 import RoutingUsers from '../../RoutingUsers';
 
-jest.mock('../../../services/usersService');
-jest.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin');
+vi.mock('../../../services/usersService');
+vi.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin', () => ({
+  __esModule: true,
+  default: (Component: any) => Component,
+}));
 
 // eslint-disable-next-line functional/immutable-data
 (window as any).appRoutes = DASHBOARD_USERS_ROUTES;

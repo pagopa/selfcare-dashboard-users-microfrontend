@@ -37,9 +37,9 @@ test('should render AddLegalRepresentativeForm with empty props', () => {
       }}
       productId={''}
       productName={''}
-      backPreviousStep={jest.fn()}
+      backPreviousStep={vi.fn()}
       addedUserList={[]}
-      setOutcome={jest.fn()}
+      setOutcome={vi.fn()}
       isAddInBulkEAFlow={false}
     />
   );
@@ -52,7 +52,7 @@ test('should render AddLegalRepresentativeForm with isAddInBulkEAFlow true', () 
       party={mockedPartyAgencyOnboarded}
       productId={'prod-io'}
       productName={'IO'}
-      backPreviousStep={jest.fn()}
+      backPreviousStep={vi.fn()}
       addedUserList={[
         {
           name: 'name',
@@ -62,7 +62,7 @@ test('should render AddLegalRepresentativeForm with isAddInBulkEAFlow true', () 
           role: RoleEnum.DELEGATE,
         },
       ]}
-      setOutcome={jest.fn()}
+      setOutcome={vi.fn()}
       isAddInBulkEAFlow={true}
     />
   );
@@ -79,9 +79,9 @@ test('should render AddLegalRepresentativeForm with product interop', () => {
       party={mockedRomeParty}
       productId={'prod-interop'}
       productName={'Interoperabilità'}
-      backPreviousStep={jest.fn()}
+      backPreviousStep={vi.fn()}
       addedUserList={[]}
-      setOutcome={jest.fn()}
+      setOutcome={vi.fn()}
       isAddInBulkEAFlow={false}
     />
   );

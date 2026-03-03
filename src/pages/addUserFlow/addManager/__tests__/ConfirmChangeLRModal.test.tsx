@@ -2,8 +2,8 @@ import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../../../utils/test-utils';
 import { ConfirmChangeLRModal } from '../components/ConfirmChangeLRModal';
 
-const onclose = jest.fn();
-const onConfirm = jest.fn();
+const onclose = vi.fn();
+const onConfirm = vi.fn();
 
 test('should render ConfirmChangeLRModal', () => {
   renderWithProviders(
