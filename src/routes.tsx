@@ -1,5 +1,5 @@
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { Redirect, useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router-dom';
 import { ENV } from './utils/env';
 
 import UserDetailPage from './pages/dashboardUserDetail/userDetailPage/UserDetailPage';

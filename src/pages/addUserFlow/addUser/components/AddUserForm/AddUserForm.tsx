@@ -21,7 +21,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { useFormik } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party } from '../../../../../model/Party';
 import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../../model/PartyUser';

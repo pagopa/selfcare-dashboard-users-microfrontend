@@ -1,4 +1,4 @@
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material';
 import { I18nextProvider } from 'react-i18next';

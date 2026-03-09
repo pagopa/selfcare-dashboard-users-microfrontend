@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { Route, Router, Switch } from 'react-router';
+import { Route, Router, Switch } from 'react-router-dom';
 import { DashboardMicrofrontendPageProps } from '../../../microcomponents/dashboard-routes-utils';
 import App from '../../../microcomponents/mock_dashboard/App';
 import { createStore } from '../../../redux/store';

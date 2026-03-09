@@ -22,7 +22,7 @@ const renderApp = async (partyId: string = 'onboarded') => {
   return output;
 };
 
-const toVerifyPath = async (path: string, title: string, history: History, subTitle?: string) => {
+const toVerifyPath = async (path: string, title: string, history: History) => {
   expect(screen.queryByPlaceholderText(title)).toBeNull();
   history.push(path);
   await waitFor(() => screen.queryByPlaceholderText(title));
@@ -39,7 +39,6 @@ test('test routing user list for onboarded institution', async () => {
     '/dashboard/onboarded/users',
     'Utenti',
     history,
-    'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
   );
 });
 
@@ -49,7 +48,6 @@ test('test routing add new user for onboarded institution', async () => {
     '/dashboard/onboarded/users/add',
     'Aggiungi un nuovo utente',
     history,
-    'Inserisci i dati della persona che vuoi autorizzare a gestire i prodotti per il AGENCY ONBOARDED.'
   );
 });
 
