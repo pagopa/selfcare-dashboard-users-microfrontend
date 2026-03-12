@@ -4,7 +4,6 @@ locales/locales.ts
 definitions/*
 src/vite-env.d.ts
 Dangerfile.ts
-src/reportWebVitals.ts
 **/generated/**
 e2e
 vitest.config.ts

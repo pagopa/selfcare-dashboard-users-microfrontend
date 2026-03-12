@@ -11,7 +11,6 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { store } from '../../redux/store';
 import { MOCK_USER } from '../../utils/constants';
 import { ENV } from '../../utils/env';
-import reportWebVitals from '../../reportWebVitals';
 import App from './App';
 import '../../locale';
 
@@ -50,8 +49,3 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
