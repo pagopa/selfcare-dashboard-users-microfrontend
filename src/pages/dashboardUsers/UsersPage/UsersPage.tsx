@@ -1,5 +1,7 @@
+import CheckIcon from '@mui/icons-material/Check';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { Button, Grid, Stack, Tab, Tabs } from '@mui/material';
+import { Alert, Button, Grid, Stack, Tab, Tabs } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';
@@ -8,8 +10,9 @@ import { useUnloadEventOnExit } from '@pagopa/selfcare-common-frontend/lib/hooks
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
@@ -35,7 +38,7 @@ const emptyFilters: UsersTableFiltersConfig = {
   productRoles: [],
 };
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
+// eslint-disable-next-line complexity, sonarjs/cognitive-complexity
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Readonly<Props>) {
   const selectedProductSection =
     window.location.hash !== ''
@@ -57,6 +60,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const [openDialogMobile, setOpenDialogMobile] = useState<boolean>(false);
   const [searchByName, setSearchByName] = useState<string>('');
   const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
+  const [copied, setCopied] = useState(false);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -141,6 +145,24 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
 
   const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
 
+  const renderSubTitle = () => {
+    if (isPnpg) {
+      return t('usersPage.pnpg.subTitle', { businessName: party.description });
+    }
+    if (isPagoPaUser) {
+      return t('usersPage.backStage.subTitle');
+    }
+    return t('usersPage.generic.subTitle');
+  };
+
+
+
+  const handleCopy = () => {
+    void navigator.clipboard.writeText(party.digitalAddress ?? '');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <Grid container p={3} sx={{ backgroundColor: '#F5F5F5' }}>
@@ -150,11 +172,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
               variantTitle="h4"
               variantSubTitle="body1"
               title={t('usersPage.title')}
-              subTitle={
-                !isPnpg
-                  ? t('usersPage.generic.subTitle')
-                  : t('usersPage.pnpg.subTitle', { businessName: party.description })
-              }
+              subTitle={renderSubTitle()}
               mbTitle={2}
             />
           </Grid>
@@ -182,6 +200,51 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             </Grid>
           )}
         </Grid>
+        {isPagoPaUser && (
+          <Grid container item xs={12} mt={5}>
+            <Alert severity="info" action={
+              <ButtonNaked color="primary" onClick={handleCopy}>
+                {copied ? <CheckIcon color="success" /> : <CopyAllIcon sx={{ width: '20px', height: '20px' }} />}
+              </ButtonNaked>
+            }
+              sx={{
+                width: '100%',
+                '& .MuiAlert-message': { flexGrow: 0 },
+                '& .MuiAlert-action': {
+                  marginLeft: '0px',
+                  paddingLeft: '8px'
+                }
+              }}>
+              <Trans
+                i18nKey="usersPage.backStage.alertMessage"
+                values={{ partyPec: party.digitalAddress }}
+                components={[
+
+                  // eslint-disable-next-line react/jsx-key
+                  <Button
+                    variant="text"
+                    onClick={handleCopy}
+                    sx={{
+                      p: 0,
+                      minWidth: 0,
+                      verticalAlign: 'baseline',
+                      textTransform: 'none',
+                      textDecoration: 'underline',
+                      fontSize: 'inherit',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                        backgroundColor: 'transparent',
+                      },
+                    }}
+                  >
+                    {party.digitalAddress}
+                    {copied && <CheckIcon sx={{ fontSize: '1rem', ml: 0.5 }} color="success" />}
+                  </Button>
+
+                ]}
+              /></Alert>
+          </Grid>
+        )}
         <MobileFilter
           loading={loading}
           activeProducts={activeProductsWithReadPermission}
