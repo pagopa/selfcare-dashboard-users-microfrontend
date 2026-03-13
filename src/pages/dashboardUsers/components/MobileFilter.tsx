@@ -149,11 +149,8 @@ export default function MobileFilter({
             </Typography>
           </Grid>
           <Grid item>
-            <IconButton>
-            <CloseIcon
-              onClick={handleClose}
-              aria-label='Chiudi'
-            />
+            <IconButton onClick={handleClose} aria-label='Chiudi'>
+              <CloseIcon />
             </IconButton>
           </Grid>
         </Grid>

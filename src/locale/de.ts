@@ -305,5 +305,9 @@ export default {
     pnpg: {
       subTitle: 'Verwalte die Benutzer, die die Zustellungen von {{ businessName}} lesen können.',
     },
+    backStage: {
+      subTitle: 'Anzeige der den Benutzern zugewiesenen Rollen für die Produkte, denen die Einrichtung beigetreten ist.',
+      alertMessage: 'Benachrichtigungen über das Hinzufügen von Benutzern werden an die PEC der Einrichtung gesendet: <0>{{partyPec}}</0>.',
+    },
   },
 };

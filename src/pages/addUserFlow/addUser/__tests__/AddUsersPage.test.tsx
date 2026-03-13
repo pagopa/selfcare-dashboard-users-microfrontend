@@ -10,10 +10,7 @@ import { productRoles2ProductRolesList } from '../../../../model/ProductRole';
 import { createStore, store } from '../../../../redux/store';
 import AddUsersPage from '../AddUsersPage';
 
-vi.mock('i18next-browser-languagedetector', () => ({
-  __esModule: true,
-  default: () => ({}),
-}));
+
 vi.mock('@pagopa/selfcare-common-frontend/lib/decorators/withLogin', () => ({
   __esModule: true,
   default: (Component: any) => Component,

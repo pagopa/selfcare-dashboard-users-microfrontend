@@ -305,5 +305,9 @@ export default {
     pnpg: {
       subTitle: 'Gérez les utilisateurs qui peuvent lire les notifications de {{ businessName}}.',
     },
+    backStage: {
+      subTitle: 'Afficher les rôles attribués aux utilisateurs pour les produits auxquels l’entité a adhéré.',
+      alertMessage: 'Les notifications d’ajout d’utilisateur sont envoyées à la PEC de l’entité : <0>{{partyPec}}</0>.',
+    },
   },
 };

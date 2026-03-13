@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { ButtonNaked } from '@pagopa/mui-italia/dist/components/ButtonNaked/ButtonNaked';
+import { ButtonNaked } from '@pagopa/mui-italia/components/ButtonNaked';
 import { useErrorDispatcher, useLoading } from '@pagopa/selfcare-common-frontend/lib';
 import SessionModal from '@pagopa/selfcare-common-frontend/lib/components/SessionModal';
 import TitleBox from '@pagopa/selfcare-common-frontend/lib/components/TitleBox';

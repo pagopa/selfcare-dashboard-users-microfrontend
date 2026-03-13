@@ -304,5 +304,9 @@ export default {
     pnpg: {
       subTitle: 'Manage the users that can read the notifications for {{ businessName}}.',
     },
+    backStage: {
+      subTitle: 'View the roles assigned to users for the products the institution has joined.',
+      alertMessage: 'User addition notifications are sent to the institution\'s PEC: <0>{{partyPec}}</0>.',
+    },
   },
 };
