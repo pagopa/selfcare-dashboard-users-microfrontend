@@ -305,5 +305,9 @@ export default {
     pnpg: {
       subTitle: 'Upravljajte, kdo lahko bere obvestila {{ businessName}}.',
     },
+    backStage: {
+      subTitle: 'Ogled vlog, dodeljenih uporabnikom za izdelke, h katerim je pristopil organ.',
+      alertMessage: 'Obvestila o dodajanju uporabnikov se pošljejo na naslov PEC organa: <0>{{partyPec}}</0>.',
+    },
   },
 };
