@@ -38,7 +38,7 @@ const emptyFilters: UsersTableFiltersConfig = {
   productRoles: [],
 };
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
+// eslint-disable-next-line complexity, sonarjs/cognitive-complexity
 function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Readonly<Props>) {
   const selectedProductSection =
     window.location.hash !== ''
@@ -158,7 +158,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
 
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(party.digitalAddress ?? '');
+    void navigator.clipboard.writeText(party.digitalAddress ?? '');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -220,6 +220,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                 values={{ partyPec: party.digitalAddress }}
                 components={[
 
+                  // eslint-disable-next-line react/jsx-key
                   <Button
                     variant="text"
                     onClick={handleCopy}
