@@ -98,7 +98,7 @@ export default function UserProductSection({
           </Grid>
         )}
       {partyUser.products
-        .filter((product) => hasPermission(product.id || '', Actions.UpdateProductUsers))
+        .filter((product) => hasPermission(product.id || '', Actions.ListProductUsers))
         .map((userProduct) => {
           const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
           return (
