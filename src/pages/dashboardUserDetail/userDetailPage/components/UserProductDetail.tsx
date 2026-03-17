@@ -2,7 +2,7 @@ import { Alert, Box, Chip, Divider, Grid, Link, Typography } from '@mui/material
 import { ProductAvatar } from '@pagopa/mui-italia';
 import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
-import { PartyUserDetail, PartyUserProduct } from '../../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
 import { PRODUCT_IDS } from '../../../../utils/constants';
@@ -21,6 +21,7 @@ type Props = {
   product: Product;
   isProductDetailPage: boolean;
   handleOpenDelete: () => void;
+  singleRoleForBackstage?: PartyUserProductRole;
 };
 
 export default function UserProductDetail({
@@ -33,9 +34,10 @@ export default function UserProductDetail({
   product,
   isProductDetailPage,
   handleOpenDelete,
+  singleRoleForBackstage
 }: Readonly<Props>) {
   const { t } = useTranslation();
-  const showActionOnProduct = userProduct.roles.length === 1;
+  const showActionOnProduct = userProduct.roles.length === 1 || !!singleRoleForBackstage;
   const isPnpg = product.id.startsWith(PRODUCT_IDS.PNPG);
 
   return (
@@ -132,6 +134,7 @@ export default function UserProductDetail({
         )}
       <Grid item xs={12}>
         <UserProductRoles
+          singleRoleForBackstage={singleRoleForBackstage}
           showActions={!showActionOnProduct}
           party={party}
           user={partyUser}

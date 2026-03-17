@@ -1,13 +1,13 @@
 import { Box, Chip, Grid, Typography, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Party } from '../../../model/Party';
+import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
+import { Product } from '../../../model/Product';
 import {
   ProductRolesLists,
   transcodeProductRole2Description,
   transcodeProductRole2Title,
 } from '../../../model/ProductRole';
-import { Party } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
-import { Product } from '../../../model/Product';
 import UserProductActions from './UserProductActions';
 import UserProductAddRoles from './UserProductAddRoles';
 
@@ -21,6 +21,7 @@ type Props = {
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   isProductDetailPage: boolean;
+  singleRoleForBackstage?: PartyUserProductRole;
 };
 
 const CustomTextTransform = styled(Typography)({
@@ -37,14 +38,16 @@ export default function UserProductRoles({
   productRolesList,
   canEdit,
   isProductDetailPage,
-}: Props) {
+  singleRoleForBackstage,
+}: Readonly<Props>) {
   const { t } = useTranslation();
 
   const isPnpg = product.id.startsWith('prod-pn-pg');
+  const rolesToRender = singleRoleForBackstage ? [singleRoleForBackstage] : userProduct.roles;
 
   return (
     <Grid container item xs={12}>
-      {userProduct.roles.map((p) => (
+      {rolesToRender.map((p) => (
         <Grid container item key={p.relationshipId} mt={3}>
           <Grid item xs={3}>
             <Grid container item>
@@ -84,7 +87,7 @@ export default function UserProductRoles({
                         <Chip
                           label={t('userDetail.statusLabel')}
                           aria-label={'Suspended'}
-                          color='warning'
+                          color="warning"
                           sx={{
                             fontSize: '14px',
                             borderRadius: '16px',
