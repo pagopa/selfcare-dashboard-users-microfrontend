@@ -24,6 +24,7 @@ import {
   getLegalRepresentativeService,
   fetchPartyUser,
   fetchUserRegistryByFiscalCode,
+  getAllUsersService,
   savePartyUser,
   updatePartyUserStatus,
 } from '../usersService';
@@ -40,6 +41,7 @@ beforeEach(() => {
   vi.spyOn(DashboardApi, 'fetchUserRegistryByFiscalCode');
   vi.spyOn(DashboardApi, 'deletePartyRelation');
   vi.spyOn(DashboardApi, 'addUserProductRoles');
+  vi.spyOn(DashboardApi, 'getAllUsers');
 });
 
 test('Test fetch PartyUserDetails', async () => {
@@ -228,7 +230,7 @@ describe('Test updatePartyUserStatus', () => {
         partyUser,
         partyUser.products[0],
         partyUser.products[0].roles[0],
-        'PENDING'
+        'PENDING' as any
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(Error);
@@ -259,4 +261,25 @@ test('Test deletePartyUser', async () => {
     mockedUsers[0].products[0].id,
     mockedUsers[0].products[0].roles[0].role
   );
+});
+
+test('Test getAllUsersService', async () => {
+  const result = await getAllUsersService(
+    { page: 0, size: 20 },
+    mockedParties[0],
+    mockedPartyProducts[0],
+    mockedUser,
+    buildProductsMap(mockedPartyProducts),
+    'ACTIVE',
+    'admin'
+  );
+
+  expect(DashboardApi.getAllUsers).toHaveBeenCalledWith(
+    mockedParties[0].partyId,
+    mockedPartyProducts[0].id,
+    'ACTIVE',
+    'admin'
+  );
+
+  expect(result.content.length).toBeGreaterThanOrEqual(0);
 });

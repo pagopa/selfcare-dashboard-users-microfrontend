@@ -46,8 +46,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
       : undefined;
 
   const { getAllProductsWithPermission, hasPermission } = usePermissions();
-  const activeProductsWithReadPermission = activeProducts.filter((p: Product) =>
-    hasPermission(p.id, Actions.ListProductUsers)
+  const activeProductsWithReadPermission = activeProducts.filter(
+    (p: Product) =>
+      hasPermission(p.id, Actions.ListProductUsers) ||
+      hasPermission(p.id, Actions.ListAllProductUsers)
   );
 
   const selectedProducts = activeProductsWithReadPermission.filter(
@@ -67,7 +69,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const onExit = useUnloadEventOnExit();
   const isMobile = useIsMobile('md');
 
-  const canSeeUsers = getAllProductsWithPermission(Actions.ListActiveProducts).length > 0;
+  const canSeeUsers =
+    getAllProductsWithPermission(Actions.ListProductUsers).length > 0 ||
+    getAllProductsWithPermission(Actions.ListAllProductUsers).length > 0;
   const canAddUser = getAllProductsWithPermission(Actions.CreateProductUsers).length > 0;
 
   const addUserUrl = resolvePathVariables(
@@ -155,8 +159,6 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
     return t('usersPage.generic.subTitle');
   };
 
-
-
   const handleCopy = () => {
     void navigator.clipboard.writeText(party.digitalAddress ?? '');
     setCopied(true);
@@ -202,24 +204,30 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
         </Grid>
         {isPagoPaUser() && (
           <Grid container item xs={12} mt={5}>
-            <Alert severity="info" action={
-              <ButtonNaked color="primary" onClick={handleCopy}>
-                {copied ? <CheckIcon color="success" /> : <CopyAllIcon sx={{ width: '20px', height: '20px' }} />}
-              </ButtonNaked>
-            }
+            <Alert
+              severity="info"
+              action={
+                <ButtonNaked color="primary" onClick={handleCopy}>
+                  {copied ? (
+                    <CheckIcon color="success" />
+                  ) : (
+                    <CopyAllIcon sx={{ width: '20px', height: '20px' }} />
+                  )}
+                </ButtonNaked>
+              }
               sx={{
                 width: '100%',
                 '& .MuiAlert-message': { flexGrow: 0 },
                 '& .MuiAlert-action': {
                   marginLeft: '0px',
-                  paddingLeft: '8px'
-                }
-              }}>
+                  paddingLeft: '8px',
+                },
+              }}
+            >
               <Trans
                 i18nKey="usersPage.backStage.alertMessage"
                 values={{ partyPec: party.digitalAddress }}
                 components={[
-
                   // eslint-disable-next-line react/jsx-key
                   <Button
                     variant="text"
@@ -239,10 +247,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   >
                     {party.digitalAddress}
                     {copied && <CheckIcon sx={{ fontSize: '1rem', ml: 0.5 }} color="success" />}
-                  </Button>
-
+                  </Button>,
                 ]}
-              /></Alert>
+              />
+            </Alert>
           </Grid>
         )}
         <MobileFilter

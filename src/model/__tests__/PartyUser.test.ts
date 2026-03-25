@@ -193,7 +193,7 @@ test('Test partyUserDetail2User', () => {
     taxCode: 'fiscalCode',
     name: 'Name',
     surname: 'Surname',
-    status: 'PENDING',
+    status: 'SUSPENDED',
     email: 'address',
     userRole: 'LIMITED',
     isCurrentUser: false,

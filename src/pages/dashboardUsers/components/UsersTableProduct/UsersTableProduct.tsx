@@ -1,22 +1,23 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
-import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
-import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
-import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import useFakePagination from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
-import { useHistory } from 'react-router-dom';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
+import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
+import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Party, UserStatus } from '../../../../model/Party';
-import { PartyProductUser } from '../../../../model/PartyUser';
+import { AllUserInfo, PartyProductUser } from '../../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../../model/Product';
-import { useAppSelector } from '../../../../redux/hooks';
-import { fetchPartyProductUsers } from '../../../../services/usersService';
-import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
 import { ProductRolesLists } from '../../../../model/ProductRole';
+import { useAppSelector } from '../../../../redux/hooks';
+import { fetchPartyProductUsers, getAllUsersService } from '../../../../services/usersService';
 import { sortedUsers } from '../../../../utils/utils';
-import UsersProductTable from './components/UsersProductTable';
+import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
 import UserProductFetchError from './components/UserProductFetchError';
+import UsersProductTable from './components/UsersProductTable';
 
 type Props = {
   incrementalLoad: boolean;
@@ -50,7 +51,7 @@ const UsersTableProduct = ({
 
   const history = useHistory();
 
-  const [users, setUsers] = useState<PageResource<PartyProductUser>>({
+  const [users, setUsers] = useState<PageResource<PartyProductUser | AllUserInfo>>({
     content: [],
     page: { number: 0, size: 0, totalElements: 0, totalPages: 0 },
   });
@@ -60,30 +61,55 @@ const UsersTableProduct = ({
   const [pageRequest, setPageRequest] = useState<{ page: PageRequest; filterChanged: boolean }>();
 
   const filterUsers = useMemo(
-    () => (users: Array<PartyProductUser>) =>
+    () => (users: Array<PartyProductUser | AllUserInfo>) =>
       users.filter((user) =>
         `${user.name} ${user.surname}`.toLowerCase().includes(searchByName.toLowerCase())
       ),
     [searchByName]
   );
 
-  const fakePagedFetch = useFakePagination(() =>
-    fetchPartyProductUsers(
-      { page: 0, size: 2000 }, // pageRequest?.page as PageRequest, TODO actually pagination is not supported
-      party,
-      product,
-      currentUser ?? ({ uid: 'NONE' } as User),
-      productsMap,
-      undefined,
-      filterConfiguration.productRoles.filter((r) => r.productId === product.id)
-    ).then((data) => {
-      if (searchByName) {
-        return sortedUsers(filterUsers(data.content));
-      }
+  const fakePagedFetch = useFakePagination(() => {
+    const filtersProductRoles = filterConfiguration.productRoles.filter(
+      (r) => r.productId === product.id
+    );
 
-      return sortedUsers(data.content);
-    })
-  );
+    if (isPagoPaUser()) {
+      return getAllUsersService(
+        { page: 0, size: 2000 },
+        party,
+        product,
+        currentUser ?? ({ uid: 'NONE' } as User),
+        productsMap,
+        undefined,
+        filtersProductRoles.length > 0
+          ? filtersProductRoles.map((r) => r.productRole).join(',')
+          : undefined
+      ).then((data) => {
+        if (searchByName) {
+          return sortedUsers(filterUsers(data.content));
+        }
+
+        return sortedUsers(data.content);
+      });
+    } else {
+      return fetchPartyProductUsers(
+        { page: 0, size: 2000 },
+        party,
+        product,
+        currentUser ?? ({ uid: 'NONE' } as User),
+        productsMap,
+        undefined,
+        filtersProductRoles
+        // eslint-disable-next-line sonarjs/no-identical-functions
+      ).then((data) => {
+        if (searchByName) {
+          return sortedUsers(filterUsers(data.content));
+        }
+
+        return sortedUsers(data.content);
+      });
+    }
+  });
 
   const previousInitialPageSize = useRef(initialPageSize);
 
@@ -163,7 +189,7 @@ const UsersTableProduct = ({
       });
   };
 
-  const onDelete = (partyUser: PartyProductUser) => {
+  const onDelete = (partyUser: PartyProductUser | AllUserInfo) => {
     if (incrementalLoad) {
       setUsers({ ...users, content: users.content.filter((u) => u.id !== partyUser.id) });
     } else {
@@ -174,11 +200,13 @@ const UsersTableProduct = ({
     }
   };
 
-  const onStatusUpdate = (partyUser: PartyProductUser, nextStatus: UserStatus) => {
+  const onStatusUpdate = (partyUser: PartyProductUser | AllUserInfo, nextStatus: UserStatus) => {
     // eslint-disable-next-line functional/immutable-data
     partyUser.status = nextStatus;
-    // eslint-disable-next-line functional/immutable-data
-    partyUser.product.roles[0].status = nextStatus;
+    if ('product' in partyUser) {
+      // eslint-disable-next-line functional/immutable-data
+      partyUser.product.roles[0].status = nextStatus;
+    }
     setUsers({ page: users.page, content: users.content.slice() });
   };
 

@@ -7,14 +7,16 @@ import {
   GridValueGetterParams,
 } from '@mui/x-data-grid';
 import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import React, { CSSProperties, ReactNode } from 'react';
-import { PartyProductUser } from '../../../../../model/PartyUser';
+import { AllUserInfo, PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
+import { isUserSuspended } from '../../../../../utils/utils';
 
 export function buildColumnDefs(
   _product: Product,
-  onRowClick: (partyUser: PartyProductUser) => void,
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void,
   productRolesLists: ProductRolesLists
 ) {
   return [
@@ -64,8 +66,8 @@ export function buildColumnDefs(
     {
       field: 'status',
       cellClassName: 'justifyContentNormalRight',
-      headerName: '',
-      align: 'right',
+      headerName: isPagoPaUser() ? i18n.t('usersTable.usersProductTableColumns.headerFields.status') : '',
+      align: isPagoPaUser() ? 'left' : 'right',
       width: 82,
       hideSortIcons: true,
       disableColumnMenu: true,
@@ -93,10 +95,10 @@ export function buildColumnDefs(
 function renderCell(
   params: GridRenderCellParams,
   value: ReactNode = params.value,
-  onRowClick?: (partyUser: PartyProductUser) => void,
+  onRowClick?: (partyUser: PartyProductUser | AllUserInfo) => void,
   overrideStyle: CSSProperties = {}
 ) {
-  const isSuspended = isUserSuspended(params.row as PartyProductUser);
+  const isSuspended = isUserSuspended(params.row as PartyProductUser | AllUserInfo);
   return (
     <div
       style={{
@@ -120,7 +122,9 @@ function renderCell(
           WebkitBoxOrient: 'vertical' as const,
           width: '100%',
           color:
-            isSuspended || params.row.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+            isSuspended || ('product' in params.row && params.row.status === 'SUSPENDED')
+              ? 'text.disabled'
+              : 'colorTextPrimary',
           fontSize: '14px',
         }}
       >
@@ -130,9 +134,6 @@ function renderCell(
   );
 }
 
-function isUserSuspended(user: PartyProductUser): boolean {
-  return user.status === 'SUSPENDED' || !user.product.roles?.find((r) => r.status !== 'SUSPENDED');
-}
 
 function getFullName(params: GridValueGetterParams) {
   return `${params.row.name} ${params.row.surname} ${params.row.status}`;
@@ -158,9 +159,9 @@ function showCustomHeader(params: GridColumnHeaderParams) {
 function showName(
   params: GridRenderCellParams,
   canShowChip: boolean,
-  onRowClick: (partyUser: PartyProductUser) => void
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void
 ) {
-  const isSuspended = isUserSuspended(params.row as PartyProductUser);
+  const isSuspended = isUserSuspended(params.row as PartyProductUser | AllUserInfo);
   const showChip = canShowChip && isSuspended;
 
   return (
@@ -208,12 +209,18 @@ function showName(
   );
 }
 
-function TableChip({ text }: { text: string }) {
+function TableChip({
+  text,
+  color = 'warning',
+}: {
+  text: string;
+  color?: 'success' | 'warning' | 'error' | 'default' | 'info' | 'primary' | 'secondary';
+}) {
   return (
     <Chip
       label={text}
-      aria-label={'Suspended'}
-      color='warning'
+      aria-label={text}
+      color={color}
       sx={{
         fontSize: '14px',
         fontWeight: 'fontWeightMedium',
@@ -226,32 +233,44 @@ function TableChip({ text }: { text: string }) {
 }
 
 function showRoles(
-  params: GridRenderCellParams<PartyProductUser>,
+  params: GridRenderCellParams<PartyProductUser | AllUserInfo>,
   productRolesLists: ProductRolesLists,
-  onRowClick: (partyUser: PartyProductUser) => void
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void
 ) {
-  const isSuspended = isUserSuspended(params.row as PartyProductUser);
+  const isSuspended = isUserSuspended(params.row as PartyProductUser | AllUserInfo);
   return (
     <React.Fragment>
       {renderCell(
         params,
         <Grid container direction="column" sx={{ display: 'contents' }}>
-          {(params.row as PartyProductUser).product.roles?.map(
-            (
-              r // load just the actual product
-            ) => (
-              <Grid item key={r.relationshipId}>
-                <Typography
-                  variant="caption"
-                  color={
-                    isSuspended || r.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary'
-                  }
-                  sx={{ outline: 'none', paddingLeft: 3 }}
-                >
-                  {transcodeProductRole2Title(r.role, productRolesLists)}
-                </Typography>
-              </Grid>
+          {'product' in params.row ? (
+            (params.row as PartyProductUser).product.roles?.map(
+              (
+                r // load just the actual product
+              ) => (
+                <Grid item key={r.relationshipId}>
+                  <Typography
+                    variant="caption"
+                    color={
+                      isSuspended || r.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary'
+                    }
+                    sx={{ outline: 'none', paddingLeft: 3 }}
+                  >
+                    {transcodeProductRole2Title(r.role, productRolesLists)}
+                  </Typography>
+                </Grid>
+              )
             )
+          ) : (
+            <Grid item>
+              <Typography
+                variant="caption"
+                color={isSuspended ? 'text.disabled' : 'colorTextPrimary'}
+                sx={{ outline: 'none', paddingLeft: 3 }}
+              >
+                {(params.row as AllUserInfo).partyRole}
+              </Typography>
+            </Grid>
           )}
         </Grid>,
         onRowClick,
@@ -266,28 +285,66 @@ function showRoles(
 
 function showStatus(
   params: GridRenderCellParams,
-  onRowClick: (partyUser: PartyProductUser) => void
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void
 ) {
-  const showChip = isUserSuspended(params.row as PartyProductUser);
-  return renderCell(
-    params,
-    <>
-      {showChip && (
-        <TableChip text={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')} />
-      )}
-    </>,
-    onRowClick,
-    {
-      paddingLeft: 0,
-      paddingRight: 0,
-      textAlign: 'right',
-    }
-  );
+  const row = params.row as PartyProductUser | AllUserInfo;
+  if ('product' in row) {
+    const showChip = isUserSuspended(row);
+    return renderCell(
+      params,
+      <>
+        {showChip && (
+          <TableChip text={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')} />
+        )}
+      </>,
+      onRowClick,
+      {
+        paddingLeft: 0,
+        paddingRight: 0,
+        textAlign: 'right',
+      }
+    );
+  } else {
+    const status = row.status;
+    const isRemoved = status === 'DELETED';
+    const isSuspended = status === 'SUSPENDED';
+    const isActive = status === 'ACTIVE';
+
+    return renderCell(
+      params,
+      <>
+        {isActive && (
+          <TableChip
+            text={i18n.t('usersTable.usersProductTableColumns.rows.activeChip')}
+            color="success"
+          />
+        )}
+        {isSuspended && (
+          <TableChip
+            text={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')}
+            color="warning"
+          />
+        )}
+        {isRemoved && (
+          <TableChip
+            text={i18n.t('usersTable.usersProductTableColumns.rows.removedChip')}
+            color="error"
+          />
+        )}
+      </>,
+      onRowClick,
+      {
+        paddingLeft: 0,
+        paddingRight: 0,
+        textAlign: 'left',
+      }
+    );
+  }
 }
 
 function showActions(
-  p: GridRenderCellParams<PartyProductUser>,
-  onRowClick: (partyUser: PartyProductUser) => void
+  p: GridRenderCellParams<PartyProductUser | AllUserInfo>,
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void
 ) {
   return renderCell(
     p,
@@ -295,7 +352,7 @@ function showActions(
       <IconButton
         onClick={onRowClick ? () => onRowClick(p.row) : undefined}
         sx={{ backgroundColor: 'transparent' }}
-        aria-label={i18n.t('usersTable.usersProductTableColumns.rows.detailPageRedirectButton')+` ${p.row.surname} ${p.row.name}`}
+        aria-label={i18n.t('usersTable.usersProductTableColumns.rows.detailPageRedirectButton') + ` ${p.row.surname} ${p.row.name}`}
       >
         <ArrowForwardIosIcon sx={{ fontSize: 'small' }} />
       </IconButton>

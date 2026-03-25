@@ -112,7 +112,11 @@ export default function UserProductSection({
           </Grid>
         )}
       {itemsToRender
-        .filter((item) => hasPermission(item.id || '', Actions.ListProductUsers))
+        .filter(
+          (product) =>
+            hasPermission(product.id || '', Actions.ListProductUsers) ||
+            hasPermission(product.id || '', Actions.ListAllProductUsers)
+        )
         .map((userProduct) => {
           const product = products.find((p) => p.id === userProduct.id) as Product;
 
