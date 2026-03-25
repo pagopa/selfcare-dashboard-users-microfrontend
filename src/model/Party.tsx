@@ -3,13 +3,14 @@ import { ProductOnBoardingStatusEnum } from '../api/generated/b4f-dashboard/Onbo
 
 export type UserRole = 'ADMIN' | 'LIMITED' | 'ADMIN_EA';
 export type PartyRole = 'DELEGATE' | 'MANAGER' | 'OPERATOR' | 'SUB_DELEGATE' | 'ADMIN_EA';
+export type PartyStatus = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'TOBEVALIDATED' | 'REJECTED';
 export type UserStatus = 'ACTIVE' | 'SUSPENDED' | 'DELETED';
 export type UserRoleFilters = 'ADMIN' | 'LIMITED';
 
 export type BaseParty = {
   partyId: string;
   description: string;
-  status: UserStatus;
+  status: PartyStatus;
   userRole: UserRole;
   urlLogo?: string;
   parentDescription?: string;
