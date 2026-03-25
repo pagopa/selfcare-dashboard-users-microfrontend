@@ -9,6 +9,7 @@ import { UserCountResource } from '../api/generated/b4f-dashboard/UserCountResou
 import { Party, UserRole, UserStatus } from '../model/Party';
 import { PartyGroup, usersGroupPlainResource2PartyGroup } from '../model/PartyGroup';
 import {
+  AllUserInfo,
   BasePartyUser,
   PartyProductUser,
   PartyUserDetail,
@@ -18,6 +19,7 @@ import {
   PartyUserProductRole,
   institutionUserResource2PartyUserDetail,
   productUserResource2PartyProductUser,
+  userInstitutionInfo2GetAllUsers,
 } from '../model/PartyUser';
 import { Product, ProductsMap } from '../model/Product';
 import { ProductRole } from '../model/ProductRole';
@@ -30,23 +32,15 @@ import {
   fetchPartyUser as fetchPartyUserMocked,
   fetchUserGroups as fetchUserGroupsMocked,
   fetchUserRegistryById as fetchUserRegistryByIdMocked,
+  getAllUsersServiceMocked,
   getLegalRepresentativeServiceMocked,
   getUserCountServiceMocked,
   mockedUserRegistry,
   savePartyUser as savePartyUserMocked,
+  toFakePagination,
   updatePartyUser as updatePartyUserMocked,
   updatePartyUserStatus as updatePartyUserStatusMocked,
 } from './__mocks__/usersService';
-
-const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
-  content,
-  page: {
-    number: 0,
-    size: content.length,
-    totalElements: content.length,
-    totalPages: 1,
-  },
-});
 
 export const fetchPartyProductUsers = (
   pageRequest: PageRequest,
@@ -72,6 +66,34 @@ export const fetchPartyProductUsers = (
     return DashboardApi.getPartyProductUsers(party.partyId, product.id, productRoles).then((r) =>
       // TODO fixme when API will support pagination
       toFakePagination(r.map((u) => productUserResource2PartyProductUser(u, product, currentUser)))
+    );
+  }
+};
+
+export const getAllUsersService = (
+  pageRequest: PageRequest,
+  party: Party,
+  product: Product,
+  currentUser: User,
+  productsMap: ProductsMap,
+  states?: string,
+  roles?: string
+): Promise<PageResource<AllUserInfo>> => {
+  /* istanbul ignore if */
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
+    return getAllUsersServiceMocked(
+      pageRequest,
+      party,
+      product,
+      currentUser,
+      productsMap,
+      states,
+      roles
+    );
+  } else {
+    return DashboardApi.getAllUsers(party.partyId, product.id, states, roles).then((r) =>
+      // TODO fixme when API will support pagination
+      toFakePagination(r.map((user) => userInstitutionInfo2GetAllUsers(user, currentUser)))
     );
   }
 };

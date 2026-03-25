@@ -25,6 +25,8 @@ export default {
       rows: {
         isCurrentUser: '(tu)',
         suspendedChip: 'Sospeso',
+        activeChip: 'Attivo',
+        removedChip: 'Rimosso',
         detailPageRedirectButton: 'Accedi alla pagina di dettaglio di',
       },
     },
@@ -348,14 +350,13 @@ export default {
     title: 'Utenti',
     generic: {
       subTitle:
-        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.'
+        'Visualizza e gestisci i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
     },
     pnpg: {
       subTitle: 'Gestisci gli utenti che possono leggere le notifiche di {{ businessName}}.',
     },
     backStage: {
-      subTitle:
-        'Visualizza i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
+      subTitle: 'Visualizza i ruoli assegnati agli utenti per i prodotti a cui l’ente ha aderito.',
       alertMessage:
         'Le comunicazioni di aggiunta utente vengono inviate alla PEC dell’ente: <0>{{partyPec}}</0>.',
     },
