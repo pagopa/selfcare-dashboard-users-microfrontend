@@ -48,6 +48,11 @@ export type PartyUserProduct = {
   roles: Array<PartyUserProductRole>;
 };
 
+export type RenderableProduct = PartyUserProduct & {
+  renderId: string;
+  displayRole?: PartyUserProductRole;
+};
+
 export type PartyUserProductRole = {
   relationshipId: string;
   role: string;

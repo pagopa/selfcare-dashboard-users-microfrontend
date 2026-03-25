@@ -20,7 +20,7 @@ const dependencies: Record<string, string> = {
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   const base =
     command === 'build' && env.VITE_URL_CDN
       ? `${env.VITE_URL_CDN}/microcomponents/dashboard/users/`
