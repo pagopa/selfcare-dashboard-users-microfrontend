@@ -1,23 +1,23 @@
-import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
-import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
-import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
-import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import useFakePagination from '@pagopa/selfcare-common-frontend/lib/hooks/useFakePagination';
-import { useHistory } from 'react-router-dom';
+import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequest';
+import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
+import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
+import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices/userSlice';
+import { handleErrors } from '@pagopa/selfcare-common-frontend/lib/services/errorService';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
-import { Party, UserStatus } from '../../../../model/Party';
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Party, UserStatus } from '../../../../model/Party';
 import { AllUserInfo, PartyProductUser } from '../../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../../model/Product';
+import { ProductRolesLists } from '../../../../model/ProductRole';
 import { useAppSelector } from '../../../../redux/hooks';
 import { fetchPartyProductUsers, getAllUsersService } from '../../../../services/usersService';
-import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
-import { ProductRolesLists } from '../../../../model/ProductRole';
 import { sortedUsers } from '../../../../utils/utils';
-import UsersProductTable from './components/UsersProductTable';
+import { UsersTableFiltersConfig } from '../UsersTableActions/UsersTableFilters';
 import UserProductFetchError from './components/UserProductFetchError';
+import UsersProductTable from './components/UsersProductTable';
 
 type Props = {
   incrementalLoad: boolean;
@@ -100,6 +100,7 @@ const UsersTableProduct = ({
         productsMap,
         undefined,
         filtersProductRoles
+        // eslint-disable-next-line sonarjs/no-identical-functions
       ).then((data) => {
         if (searchByName) {
           return sortedUsers(filterUsers(data.content));
@@ -202,8 +203,8 @@ const UsersTableProduct = ({
   const onStatusUpdate = (partyUser: PartyProductUser | AllUserInfo, nextStatus: UserStatus) => {
     // eslint-disable-next-line functional/immutable-data
     partyUser.status = nextStatus;
-    // eslint-disable-next-line functional/immutable-data
     if ('product' in partyUser) {
+      // eslint-disable-next-line functional/immutable-data
       partyUser.product.roles[0].status = nextStatus;
     }
     setUsers({ page: users.page, content: users.content.slice() });

@@ -7,11 +7,11 @@ import {
   GridValueGetterParams,
 } from '@mui/x-data-grid';
 import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import React, { CSSProperties, ReactNode } from 'react';
 import { AllUserInfo, PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
-import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { isUserSuspended } from '../../../../../utils/utils';
 
 export function buildColumnDefs(
