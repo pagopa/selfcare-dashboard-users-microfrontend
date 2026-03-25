@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party, UserStatus } from '../../../../../model/Party';
-import { PartyProductUser } from '../../../../../model/PartyUser';
+import { AllUserInfo, PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
@@ -29,20 +29,20 @@ interface UsersTableProps {
   loading: boolean;
   noMoreData: boolean;
   party: Party;
-  users: Array<PartyProductUser>;
+  users: Array<PartyProductUser | AllUserInfo>;
   product: Product;
   productRolesLists: ProductRolesLists;
   fetchPage: (page?: number, size?: number, refetch?: boolean) => void;
   page: Page;
   sort?: string;
   onSortRequest: (sort: string) => void;
-  onRowClick: (partyUser: PartyProductUser) => void;
-  onDelete: (partyUser: PartyProductUser) => void;
-  onStatusUpdate: (partyUser: PartyProductUser, nextStatus: UserStatus) => void;
+  onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void;
+  onDelete: (partyUser: PartyProductUser | AllUserInfo) => void;
+  onStatusUpdate: (partyUser: PartyProductUser | AllUserInfo, nextStatus: UserStatus) => void;
 }
 
 type CustomRowProps = Omit<GridRowProps, 'row'> & {
-  row: PartyProductUser;
+  row: PartyProductUser | AllUserInfo;
 };
 
 const CustomDataGrid = styled(DataGrid)({
@@ -158,10 +158,13 @@ export default function UsersProductTable({
         components={{
           Row: (props: CustomRowProps) => {
             const user = props.row;
-            const userSuspended = user.status === 'SUSPENDED';
-            const userRolesTitles = user.product.roles.map((role) =>
-              transcodeProductRole2Title(role.role, productRolesLists)
-            );
+            const userSuspended = 'product' in user && user.status === 'SUSPENDED';
+            const userRolesTitles =
+              'product' in user
+                ? user.product.roles.map((role) =>
+                    transcodeProductRole2Title(role.role, productRolesLists)
+                  )
+                : [user.partyRole];
             if (isMobile) {
               return (
                 <Box
@@ -239,7 +242,7 @@ export default function UsersProductTable({
                         <Typography sx={{ fontSize: 'fontSize', fontWeight: 'fontWeightMedium' }}>
                           {t('usersTable.usersProductTableColumns.headerFields.role')}
                         </Typography>
-                        {userRolesTitles.map((roleTitle, index) => (
+                        {userRolesTitles.map((roleTitle: string, index: number) => (
                           <Typography
                             key={index}
                             sx={{

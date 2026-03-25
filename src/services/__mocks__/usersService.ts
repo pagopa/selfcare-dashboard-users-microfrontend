@@ -93,7 +93,7 @@ export const mockedAllUsers: Array<UserInstitutionRole> = [
     fiscalCode: 'BNCGLI90B41F205Z',
     email: 'giulia.bianchi@example.com',
     partyRole: 'DELEGATE',
-    status: 'ACTIVE',
+    status: 'DELETED',
   },
   {
     id: 'mock-user-3',
@@ -105,6 +105,60 @@ export const mockedAllUsers: Array<UserInstitutionRole> = [
     status: 'SUSPENDED',
   },
 ];
+
+const usersByProduct: Record<string, Array<UserInstitutionRole>> = {
+  'prod-io': [
+    {
+      id: 'io-user-1',
+      name: 'Mario',
+      surname: 'Rossi',
+      fiscalCode: 'RSSMRA80A01H501A',
+      email: 'mario.rossi@io.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+    {
+      id: 'io-user-2',
+      name: 'Giulia',
+      surname: 'Bianchi',
+      fiscalCode: 'BNCGLI90B41F205Z',
+      email: 'giulia.bianchi@io.it',
+      partyRole: 'DELEGATE',
+      status: 'DELETED',
+    },
+  ],
+  'prod-interop': [
+    {
+      id: 'interop-user-1',
+      name: 'Luca',
+      surname: 'Verdi',
+      fiscalCode: 'VRDLCU85C15L219X',
+      email: 'luca.verdi@interop.it',
+      partyRole: 'OPERATOR',
+      status: 'SUSPENDED',
+    },
+    {
+      id: 'interop-user-2',
+      name: 'Paola',
+      surname: 'Gialli',
+      fiscalCode: 'GLLPLA82A01H501A',
+      email: 'paola.gialli@interop.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+  ],
+  'prod-pn': [
+    {
+      id: 'pn-user-1',
+      name: 'Marco',
+      surname: 'Marchetti',
+      fiscalCode: 'MRCMRA80A01H501A',
+      email: 'marco.m@pn.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+  ],
+};
 
 export const mockedUsers: Array<PartyUserDetail> = [
   // use case ACTIVE on 1 product/role
@@ -1212,15 +1266,17 @@ export const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
 export const getAllUsersServiceMocked = (
   _pageRequest: PageRequest,
   _party: Party,
-  _product: Product,
+  product: Product,
   currentUser: User,
   _productsMap: ProductsMap,
   _states?: string,
   _roles?: string
-): Promise<PageResource<AllUserInfo>> =>
-  Promise.resolve(
-    toFakePagination(mockedAllUsers.map((user) => userInstitutionInfo2GetAllUsers(user, currentUser)))
+): Promise<PageResource<AllUserInfo>> => {
+  const users = usersByProduct[product.id] ?? mockedAllUsers;
+  return Promise.resolve(
+    toFakePagination(users.map((user) => userInstitutionInfo2GetAllUsers(user, currentUser)))
   );
+};
 
 export const getLegalRepresentativeServiceMocked = (
   _institutionId: string,

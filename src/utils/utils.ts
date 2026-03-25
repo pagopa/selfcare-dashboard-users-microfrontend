@@ -1,7 +1,9 @@
-import { PartyProductUser } from '../model/PartyUser';
+import { AllUserInfo, PartyProductUser } from '../model/PartyUser';
 
-export const sortedUsers = (users: Array<PartyProductUser>) =>
-  [...users].sort((firstUser: PartyProductUser, secondUser: PartyProductUser) => {
+export const sortedUsers = <T extends { isCurrentUser: boolean; name: string; surname: string }>(
+  users: Array<T>
+) =>
+  [...users].sort((firstUser: T, secondUser: T) => {
     // Prioritize the current user at the top
     if (firstUser.isCurrentUser) {
       return -1;
@@ -27,3 +29,10 @@ export const sortedUsers = (users: Array<PartyProductUser>) =>
 const phoneRegex = /^\+?\d{7,15}$/;
 
 export const isValidPhone = (phone?: string) => phoneRegex.test(phone ?? '');
+
+export const isUserSuspended = (user: PartyProductUser | AllUserInfo): boolean => {
+  if ('product' in user) {
+    return user.status === 'SUSPENDED' || !user.product.roles?.find((r) => r.status !== 'SUSPENDED');
+  }
+  return false;
+};

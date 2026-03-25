@@ -21,6 +21,7 @@ export default {
         name: 'Nome',
         email: 'Email',
         role: 'Ruolo',
+        status: 'Stato',
       },
       rows: {
         isCurrentUser: '(tu)',
