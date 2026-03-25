@@ -3,10 +3,11 @@ import { theme } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Party } from '../../../../model/Party';
-import { PartyUserDetail } from '../../../../model/PartyUser';
+import { PartyUserDetail, RenderableProduct } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
@@ -36,6 +37,19 @@ export default function UserProductSection({
 
   const isPnpgProduct = products[0].id.startsWith('prod-pn-pg');
   const isPnpgTheOnlyProduct = isPnpgProduct && products.length === 1;
+
+  const itemsToRender: Array<RenderableProduct> = isPagoPaUser()
+    ? (partyUser.products ?? []).flatMap((up) =>
+        up.roles.map((role) => ({
+          ...up,
+          displayRole: role,
+          renderId: `${up.id}-${role.role}`,
+        }))
+      )
+    : (partyUser.products ?? []).map((up) => ({
+        ...up,
+        renderId: up.id || '',
+      }));
 
   return (
     <>
@@ -97,16 +111,17 @@ export default function UserProductSection({
             </Stack>
           </Grid>
         )}
-      {partyUser.products
-        .filter((product) => hasPermission(product.id || '', Actions.ListProductUsers))
+      {itemsToRender
+        .filter((item) => hasPermission(item.id || '', Actions.ListProductUsers))
         .map((userProduct) => {
-          const product = products.find((p) => p.id === userProduct.id) as Product; // admin role will always see all products
+          const product = products.find((p) => p.id === userProduct.id) as Product;
+
           return (
             product && (
               <Grid
                 item
                 xs={12}
-                key={userProduct.id}
+                key={userProduct.renderId}
                 sx={{
                   backgroundColor: 'background.paper',
                   padding: !isPnpgProduct ? 3 : 0,
@@ -118,6 +133,7 @@ export default function UserProductSection({
                   party={party}
                   fetchPartyUser={fetchPartyUser}
                   userProduct={userProduct}
+                  singleRoleForBackstage={userProduct.displayRole}
                   productRolesList={productsRolesMap[userProduct.id]}
                   canEdit={
                     !!party.products.find(

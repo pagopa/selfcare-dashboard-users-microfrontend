@@ -149,7 +149,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
     if (isPnpg) {
       return t('usersPage.pnpg.subTitle', { businessName: party.description });
     }
-    if (isPagoPaUser) {
+    if (isPagoPaUser()) {
       return t('usersPage.backStage.subTitle');
     }
     return t('usersPage.generic.subTitle');
@@ -200,7 +200,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             </Grid>
           )}
         </Grid>
-        {isPagoPaUser && (
+        {isPagoPaUser() && (
           <Grid container item xs={12} mt={5}>
             <Alert severity="info" action={
               <ButtonNaked color="primary" onClick={handleCopy}>
