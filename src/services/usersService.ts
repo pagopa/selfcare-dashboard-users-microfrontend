@@ -2,8 +2,10 @@ import { PageRequest } from '@pagopa/selfcare-common-frontend/lib/model/PageRequ
 import { PageResource } from '@pagopa/selfcare-common-frontend/lib/model/PageResource';
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { DashboardApi } from '../api/DashboardApiClient';
 import { CheckUserResponse } from '../api/generated/b4f-dashboard/CheckUserResponse';
+import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../api/generated/b4f-dashboard/UserCountResource';
 import { Party, UserRole, UserStatus } from '../model/Party';
@@ -110,26 +112,40 @@ export const getLegalRepresentativeService = (
     return DashboardApi.getLegalRepresentative(party.partyId, productId, roles).then((r) => r);
   }
 };
+// function to remove duplication of fetchPartyUser and fetchAllInstitutionUser
+const fetchUserDetail = (
+  partyId: string,
+  userId: string,
+  currentUser: User,
+  productsMap: ProductsMap,
+  fetchApi: (
+    institutionId: string,
+    userId: string
+  ) => Promise<InstitutionUserDetailsResource | null>
+): Promise<PartyUserDetail | null> => {
+  /* istanbul ignore if */
+  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
+    return fetchPartyUserMocked(partyId, userId, currentUser);
+  } else {
+    return fetchApi(partyId, userId).then((u) =>
+      u ? institutionUserResource2PartyUserDetail(u, productsMap, currentUser) : null
+    );
+  }
+};
 
 export const fetchPartyUser = (
   partyId: string,
   userId: string,
   currentUser: User,
   productsMap: ProductsMap
-): Promise<PartyUserDetail | null> => {
-  /* istanbul ignore if */
-  if (process.env.VITE_API_MOCK_PARTY_USERS === 'true') {
-    return fetchPartyUserMocked(partyId, userId, currentUser);
-  } else {
-    return DashboardApi.getPartyUser(partyId, userId).then((u) => {
-      if (u) {
-        return institutionUserResource2PartyUserDetail(u, productsMap, currentUser);
-      } else {
-        return null;
-      }
-    });
-  }
-};
+): Promise<PartyUserDetail | null> =>
+  fetchUserDetail(
+    partyId,
+    userId,
+    currentUser,
+    productsMap,
+    isPagoPaUser() ? DashboardApi.getAllInstitutionUser : DashboardApi.getPartyUser
+  );
 
 export const savePartyUser = (
   party: Party,
