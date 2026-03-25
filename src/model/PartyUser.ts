@@ -173,7 +173,7 @@ export const productUserResource2PartyProductUser = (
 
 export const userInstitutionInfo2GetAllUsers = (
   resource: UserInstitutionRole,
-  currentUser: User,
+  currentUser: User
 ): AllUserInfo => ({
   id: resource.id ?? '',
   name: resource.name ?? '',
