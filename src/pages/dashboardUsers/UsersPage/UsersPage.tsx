@@ -46,8 +46,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
       : undefined;
 
   const { getAllProductsWithPermission, hasPermission } = usePermissions();
-  const activeProductsWithReadPermission = activeProducts.filter((p: Product) =>
-    hasPermission(p.id, Actions.ListProductUsers)
+  const activeProductsWithReadPermission = activeProducts.filter(
+    (p: Product) =>
+      hasPermission(p.id, Actions.ListProductUsers) ||
+      hasPermission(p.id, Actions.ListAllProductUsers)
   );
 
   const selectedProducts = activeProductsWithReadPermission.filter(
