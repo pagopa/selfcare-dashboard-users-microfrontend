@@ -17,6 +17,7 @@ import { ProductUserResource } from './generated/b4f-dashboard/ProductUserResour
 import { UserCountResource } from './generated/b4f-dashboard/UserCountResource';
 import { UserGroupResource } from './generated/b4f-dashboard/UserGroupResource';
 import { UserIdResource } from './generated/b4f-dashboard/UserIdResource';
+import { UserInstitutionRole } from './generated/b4f-dashboard/UserInstitutionRole';
 import { UserResource } from './generated/b4f-dashboard/UserResource';
 
 const withBearerAndInstitutionId: WithDefaultsT<'bearerAuth'> =
@@ -49,6 +50,36 @@ const onRedirectToLogin = () =>
   );
 
 export const DashboardApi = {
+  getPartyProductUsers: async (
+    institutionId: string,
+    productId?: string,
+    productRoles?: Array<ProductRole>
+  ): Promise<Array<ProductUserResource>> => {
+    const result = await apiClient.v2GetUsersUsingGET({
+      institutionId,
+      productId,
+      productRoles: productRoles?.map((r) => r.productRole).join(','),
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  // api for backstage
+  getAllUsers: async (
+    institutionId: string,
+    productId: string,
+    states?: string,
+    roles?: string
+  ): Promise<Array<UserInstitutionRole>> => {
+    const result = await apiClient.v2GetAllUsersUsingGET({
+      institutionId,
+      productId,
+      states,
+      roles,
+    });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
+  // user detail
   getPartyUser: async (
     institutionId: string,
     userId: string
@@ -62,19 +93,6 @@ export const DashboardApi = {
     userId: string
   ): Promise<UserResource | null> => {
     const result = await apiClient.v2GetUserByIdUsingGET({ institutionId, id: userId });
-    return extractResponse(result, 200, onRedirectToLogin);
-  },
-
-  getPartyProductUsers: async (
-    institutionId: string,
-    productId?: string,
-    productRoles?: Array<ProductRole>
-  ): Promise<Array<ProductUserResource>> => {
-    const result = await apiClient.v2GetUsersUsingGET({
-      institutionId,
-      productId,
-      productRoles: productRoles?.map((r) => r.productRole).join(','),
-    });
     return extractResponse(result, 200, onRedirectToLogin);
   },
 

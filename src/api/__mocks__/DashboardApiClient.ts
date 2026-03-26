@@ -263,7 +263,13 @@ export const DashboardApi = {
     Promise.resolve(userGroupPlainResourceArray),
 
   addMemberToUserGroup: async (_id: string, _userId: string): Promise<void> => Promise.resolve(),
-  
+
+  getAllUsers: async (
+    _institutionId: string,
+    _productId: string,
+    _states?: string,
+    _roles?: string
+  ): Promise<Array<any>> => Promise.resolve([]),
 
   checkUser: async (
     _institutionId: string,

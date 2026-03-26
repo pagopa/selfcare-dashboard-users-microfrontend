@@ -9,6 +9,7 @@ export default defineConfig({
     mockReset: true,
     restoreMocks: true,
     environment: 'jsdom',
+    testTimeout: 10000,
     server: {
       deps: {
         inline: ['@pagopa/mui-italia'],

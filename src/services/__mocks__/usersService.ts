@@ -11,11 +11,13 @@ import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClien
 import { CheckUserResponse } from '../../api/generated/b4f-dashboard/CheckUserResponse';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
+import { UserInstitutionRole } from '../../api/generated/b4f-dashboard/UserInstitutionRole';
 import { OnboardingUserDto } from '../../api/generated/onboarding/OnboardingUserDto';
 import { UserDataValidationDto } from '../../api/generated/onboarding/UserDataValidationDto';
 import { Party, UserRole, UserStatus } from '../../model/Party';
 import { PartyGroup, PartyGroupStatus } from '../../model/PartyGroup';
 import {
+  AllUserInfo,
   BasePartyUser,
   PartyProductUser,
   PartyUser,
@@ -24,6 +26,7 @@ import {
   PartyUserOnEdit,
   PartyUserProduct,
   PartyUserProductRole,
+  userInstitutionInfo2GetAllUsers,
 } from '../../model/PartyUser';
 import { Product, ProductsMap } from '../../model/Product';
 import { ProductRole } from '../../model/ProductRole';
@@ -72,6 +75,90 @@ function generateUsers(n: number): Array<PartyUserDetail> {
 test large number of users
 export const mockedUsers: Array<PartyUserDetail> = generateUsers(11121);
 */
+
+export const mockedAllUsers: Array<UserInstitutionRole> = [
+  {
+    id: 'mock-user-1',
+    name: 'Mario',
+    surname: 'Rossi',
+    fiscalCode: 'RSSMRA80A01H501A',
+    email: 'mario.rossi@example.com',
+    partyRole: 'MANAGER',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'mock-user-2',
+    name: 'Giulia',
+    surname: 'Bianchi',
+    fiscalCode: 'BNCGLI90B41F205Z',
+    email: 'giulia.bianchi@example.com',
+    partyRole: 'DELEGATE',
+    status: 'DELETED',
+  },
+  {
+    id: 'mock-user-3',
+    name: 'Luca',
+    surname: 'Verdi',
+    fiscalCode: 'VRDLCU85C15L219X',
+    email: 'luca.verdi@example.com',
+    partyRole: 'OPERATOR',
+    status: 'SUSPENDED',
+  },
+];
+
+const usersByProduct: Record<string, Array<UserInstitutionRole>> = {
+  'prod-io': [
+    {
+      id: 'io-user-1',
+      name: 'Mario',
+      surname: 'Rossi',
+      fiscalCode: 'RSSMRA80A01H501A',
+      email: 'mario.rossi@io.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+    {
+      id: 'io-user-2',
+      name: 'Giulia',
+      surname: 'Bianchi',
+      fiscalCode: 'BNCGLI90B41F205Z',
+      email: 'giulia.bianchi@io.it',
+      partyRole: 'DELEGATE',
+      status: 'DELETED',
+    },
+  ],
+  'prod-interop': [
+    {
+      id: 'interop-user-1',
+      name: 'Luca',
+      surname: 'Verdi',
+      fiscalCode: 'VRDLCU85C15L219X',
+      email: 'luca.verdi@interop.it',
+      partyRole: 'OPERATOR',
+      status: 'SUSPENDED',
+    },
+    {
+      id: 'interop-user-2',
+      name: 'Paola',
+      surname: 'Gialli',
+      fiscalCode: 'GLLPLA82A01H501A',
+      email: 'paola.gialli@interop.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+  ],
+  'prod-pn': [
+    {
+      id: 'pn-user-1',
+      name: 'Marco',
+      surname: 'Marchetti',
+      fiscalCode: 'MRCMRA80A01H501A',
+      email: 'marco.m@pn.it',
+      partyRole: 'MANAGER',
+      status: 'ACTIVE',
+    },
+  ],
+};
 
 export const mockedUsers: Array<PartyUserDetail> = [
   // use case ACTIVE on 1 product/role
@@ -1165,6 +1252,31 @@ export const fetchPartyProductUsers = (
       }),
     })
   );
+
+export const toFakePagination = <T>(content: Array<T>): PageResource<T> => ({
+  content,
+  page: {
+    number: 0,
+    size: content.length,
+    totalElements: content.length,
+    totalPages: 1,
+  },
+});
+
+export const getAllUsersServiceMocked = (
+  _pageRequest: PageRequest,
+  _party: Party,
+  product: Product,
+  currentUser: User,
+  _productsMap: ProductsMap,
+  _states?: string,
+  _roles?: string
+): Promise<PageResource<AllUserInfo>> => {
+  const users = usersByProduct[product.id] ?? mockedAllUsers;
+  return Promise.resolve(
+    toFakePagination(users.map((user) => userInstitutionInfo2GetAllUsers(user, currentUser)))
+  );
+};
 
 export const getLegalRepresentativeServiceMocked = (
   _institutionId: string,

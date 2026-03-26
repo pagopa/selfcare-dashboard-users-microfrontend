@@ -3,8 +3,9 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
+import { UserInstitutionRole } from '../api/generated/b4f-dashboard/UserInstitutionRole';
 import { RoleEnum } from '../api/generated/onboarding/UserDto';
-import { UserRole, UserRoleFilters, UserStatus } from './Party';
+import { PartyRole, UserRole, UserRoleFilters, UserStatus } from './Party';
 import { Product, ProductsMap } from './Product';
 
 export type BasePartyUser = {
@@ -16,6 +17,17 @@ export type BasePartyUser = {
   status: UserStatus;
   isCurrentUser: boolean;
   mobilePhone?: string;
+};
+
+export type AllUserInfo = {
+  id: string;
+  name: string;
+  surname: string;
+  fiscalCode: string;
+  email: string;
+  partyRole: PartyRole;
+  status: UserStatus;
+  isCurrentUser: boolean;
 };
 
 export type PartyProductUser = BasePartyUser & {
@@ -155,6 +167,20 @@ export const productUserResource2PartyProductUser = (
   email: resource?.email as EmailString,
   userRole: resource.role as UserRole,
   product: productInfoResource2PartyUserProduct(resource.product as ProductInfoResource, product),
+  status: resource.status as UserStatus,
+  isCurrentUser: currentUser.uid === resource.id,
+});
+
+export const userInstitutionInfo2GetAllUsers = (
+  resource: UserInstitutionRole,
+  currentUser: User,
+): AllUserInfo => ({
+  id: resource.id ?? '',
+  name: resource.name ?? '',
+  surname: resource.surname ?? '',
+  fiscalCode: resource.fiscalCode ?? '',
+  email: resource?.email as EmailString,
+  partyRole: resource?.partyRole as PartyRole,
   status: resource.status as UserStatus,
   isCurrentUser: currentUser.uid === resource.id,
 });
