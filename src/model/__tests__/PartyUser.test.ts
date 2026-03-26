@@ -16,7 +16,7 @@ import {
   productUserResource2PartyProductUser,
 } from '../PartyUser';
 
-test('Test institutionUserResource2PartyUserDetail', () => {
+test('Test institutionUserResource2PartyUser', () => {
   const institutionUserResource: InstitutionUserDetailsResource = {
     id: '1',
     name: 'Name',
@@ -58,6 +58,9 @@ test('Test institutionUserResource2PartyUserDetail', () => {
             role: 'productRole',
             selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
+            createdAt: undefined,
+            partyRole: undefined,
+            updatedAt: undefined,
           },
         ],
       },
@@ -121,6 +124,9 @@ test('Test institutionUserResource2PartyUserDetail', () => {
             role: 'productRole',
             selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
+            createdAt: undefined,
+            partyRole: undefined,
+            updatedAt: undefined,
           },
         ],
       },
