@@ -1,8 +1,9 @@
 import { Box, Chip, Grid, Typography, styled } from '@mui/material';
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useTranslation } from 'react-i18next';
+import { ProductRoleInfoResource } from '../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { Party } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import {
   ProductRolesLists,
@@ -22,7 +23,7 @@ type Props = {
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   isProductDetailPage: boolean;
-  singleRoleForBackstage?: PartyUserProductRole;
+  singleRoleForBackstage?: ProductRoleInfoResource;
 };
 
 const CustomTextTransform = styled(Typography)({
@@ -79,8 +80,10 @@ export default function UserProductRoles({
                       }}
                     >
                       {isPagoPaUser()
-                        ? user.userRole
-                        : transcodeProductRole2Title(p.role, productRolesList)}
+                        ? `${transcodeProductRole2Title(p.role ?? '', productRolesList)} - ${
+                            p.partyRole
+                          } `
+                        : transcodeProductRole2Title(p.role ?? '', productRolesList)}
                     </CustomTextTransform>
                   </Box>
                   {p.status === 'SUSPENDED' &&
@@ -107,7 +110,7 @@ export default function UserProductRoles({
                     color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
                   }}
                 >
-                  {transcodeProductRole2Description(p.role, productRolesList)}
+                  {transcodeProductRole2Description(p.role ?? '', productRolesList)}
                 </Typography>
               </Grid>
               {!isPnpg && (

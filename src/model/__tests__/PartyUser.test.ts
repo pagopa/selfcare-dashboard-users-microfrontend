@@ -1,5 +1,8 @@
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
-import { InstitutionUserDetailsResource, RoleEnum } from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
+import {
+  InstitutionUserDetailsResource,
+  RoleEnum,
+} from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
@@ -170,10 +173,13 @@ test('Test productUserResource2PartyProductUser', () => {
       title: 'productTitle',
       roles: [
         {
+          createdAt: undefined,
+          partyRole: undefined,
           relationshipId: 'relationshipId',
           role: 'productRole',
           selcRole: 'ADMIN',
           status: 'ACTIVE',
+          updatedAt: undefined,
         },
       ],
     },

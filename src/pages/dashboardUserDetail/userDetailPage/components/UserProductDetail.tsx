@@ -3,10 +3,10 @@ import { ProductAvatar } from '@pagopa/mui-italia';
 import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { Trans, useTranslation } from 'react-i18next';
+import { ProductRoleInfoResource } from '../../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { Party } from '../../../../model/Party';
 import {
   PartyUserDetail,
-  PartyUserProductRole,
   RenderableProduct
 } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
@@ -27,7 +27,7 @@ type Props = {
   product: Product;
   isProductDetailPage: boolean;
   handleOpenDelete: () => void;
-  singleRoleForBackstage?: PartyUserProductRole;
+  singleRoleForBackstage?: ProductRoleInfoResource;
 };
 
 export default function UserProductDetail({

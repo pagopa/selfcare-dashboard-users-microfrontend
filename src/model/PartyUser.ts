@@ -2,10 +2,11 @@ import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { ProductInfoResource } from '../api/generated/b4f-dashboard/ProductInfoResource';
+import { ProductRoleInfoResource } from '../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserInstitutionRole } from '../api/generated/b4f-dashboard/UserInstitutionRole';
 import { RoleEnum } from '../api/generated/onboarding/UserDto';
-import { PartyRole, UserRole, UserRoleFilters, UserStatus } from './Party';
+import { PartyRole, UserRole, UserStatus } from './Party';
 import { Product, ProductsMap } from './Product';
 
 export type BasePartyUser = {
@@ -45,19 +46,12 @@ export type PartyUserDetail = PartyUser & {
 export type PartyUserProduct = {
   id: string;
   title: string;
-  roles: Array<PartyUserProductRole>;
+  roles: Array<ProductRoleInfoResource>;
 };
 
 export type RenderableProduct = PartyUserProduct & {
   renderId: string;
-  displayRole?: PartyUserProductRole;
-};
-
-export type PartyUserProductRole = {
-  relationshipId: string;
-  role: string;
-  selcRole: UserRoleFilters;
-  status: UserStatus;
+  displayRole?: ProductRoleInfoResource;
 };
 
 export type PartyUserOnCreation = {
@@ -153,7 +147,10 @@ export const productInfoResource2PartyUserProduct = (
     role: r.role,
     selcRole: r.selcRole as UserRole,
     status: r.status as UserStatus,
-  })) as Array<PartyUserProductRole>,
+    partyRole: r.partyRole,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
+  })) as Array<ProductRoleInfoResource>,
 });
 
 export const productUserResource2PartyProductUser = (

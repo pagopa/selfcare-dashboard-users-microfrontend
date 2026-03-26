@@ -9,6 +9,7 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
 import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
 import { CheckUserResponse } from '../../api/generated/b4f-dashboard/CheckUserResponse';
+import { ProductRoleInfoResource, SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
 import { UserInstitutionRole } from '../../api/generated/b4f-dashboard/UserInstitutionRole';
@@ -25,7 +26,6 @@ import {
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
-  PartyUserProductRole,
   userInstitutionInfo2GetAllUsers,
 } from '../../model/PartyUser';
 import { Product, ProductsMap } from '../../model/Product';
@@ -56,7 +56,7 @@ function generateUsers(n: number): Array<PartyUserDetail> {
             {
               relationshipId: `rel${i}`,
               role: 'incaricato-ente-creditore',
-              selcRole: 'ADMIN',
+              selcRole: SelcRoleEnum.ADMIN,
               status: 'ACTIVE',
             },
           ],
@@ -178,7 +178,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel1',
             role: 'incaricato-ente-creditore',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -204,7 +204,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel2',
             role: 'incaricato-ente-creditore',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -216,7 +216,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel2',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -229,7 +229,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel2',
             role: 'Amministratore',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -241,7 +241,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel2',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -250,7 +250,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
     isCurrentUser: true,
   },
 
-  // use case SUSPENDED having just 1 product/role
+  // use case SUSPENDED having just 1 product/roles
   {
     id: 'uid3',
     taxCode: 'TAXCOD03A00A123P',
@@ -271,7 +271,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel3',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -297,13 +297,13 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel4',
             role: 'amministratore',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
           {
             relationshipId: 'rel4_2',
             role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -329,13 +329,13 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel4',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
           {
             relationshipId: 'rel4_2',
             role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -361,7 +361,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel6',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -373,7 +373,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel6',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -399,7 +399,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel7',
             role: 'referente-tecnico',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -425,13 +425,13 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel8',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
           {
             relationshipId: 'rel8_2',
             role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -456,7 +456,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel6',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -468,13 +468,13 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel9',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
           {
             relationshipId: 'rel9_2',
             role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -498,13 +498,13 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel10',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
           {
             relationshipId: 'rel10_2',
             role: 'operatore-sicurezza',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -528,7 +528,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel11',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -553,7 +553,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel12',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -577,7 +577,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel13',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -601,7 +601,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel14',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -625,7 +625,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel15',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -649,7 +649,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel16',
             role: 'test',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -673,7 +673,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel17',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -697,7 +697,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel18',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -721,7 +721,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel19',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -745,7 +745,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel20',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -769,7 +769,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel21',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -793,7 +793,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel22',
             role: 'referente-tecnico',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -818,19 +818,19 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'relTest1',
             role: 'testRole1',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
           {
             relationshipId: 'relTest2',
             role: 'testRole2',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
           {
             relationshipId: 'relTest3',
             role: 'testRole3',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'SUSPENDED',
           },
         ],
@@ -854,7 +854,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel4',
             role: 'Gestore Notifiche',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -878,7 +878,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel4',
             role: 'Gestore Notifiche',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -890,7 +890,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
           {
             relationshipId: 'rel4',
             role: 'Gestore Notifiche',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
           },
         ],
@@ -915,7 +915,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
             relationshipId: 'd83a7eb3-bbb8-4b18-8230-ed74740b4c29',
             role: 'pg-operator',
             status: 'ACTIVE',
-            selcRole: 'LIMITED',
+            selcRole: SelcRoleEnum.LIMITED,
           },
         ],
       },
@@ -927,7 +927,7 @@ export const mockedUsers: Array<PartyUserDetail> = [
             relationshipId: '14be375d-f82e-446b-b7f8-5c2a271315ea',
             role: 'pg-admin',
             status: 'ACTIVE',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
           },
         ],
       },
@@ -1204,7 +1204,7 @@ export const fetchPartyUsers = (
         productRoles &&
         productRoles.length > 0 &&
         !userProductsFilter.find((p) =>
-          p.roles.find((r) => productRoles.map((r) => r.productRole).indexOf(r.role) > -1)
+          p.roles.find((r) => productRoles.map((r) => r.productRole).indexOf(r.role ?? '') > -1)
         )
       ) {
         return false;
@@ -1308,7 +1308,7 @@ export const savePartyUser = (
         roles: user.productRoles.map((r) => ({
           relationshipId: 'relationshipId',
           role: r,
-          selcRole: 'ADMIN',
+          selcRole: SelcRoleEnum.ADMIN,
           status: 'ACTIVE',
         })),
       },
@@ -1381,7 +1381,7 @@ export const updatePartyUserStatus = (
   _party: Party,
   user: BasePartyUser,
   _product: PartyUserProduct,
-  role: PartyUserProductRole,
+  role: ProductRoleInfoResource,
   status: UserStatus
 ): Promise<any> => {
   const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
@@ -1414,7 +1414,7 @@ export const deletePartyUser = (
   _party: Party,
   user: BasePartyUser,
   product: PartyUserProduct,
-  role: PartyUserProductRole
+  role: ProductRoleInfoResource
 ): Promise<any> => {
   const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
   if (mockedUser.products.length === 1 && product.roles.length === 1) {

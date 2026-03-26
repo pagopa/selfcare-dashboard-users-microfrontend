@@ -5,8 +5,9 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNot
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { ProductRoleInfoResource } from '../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { Party, UserStatus } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS, PRODUCT_IDS } from '../../../utils/constants';
@@ -18,7 +19,7 @@ type Props = {
   party: Party;
   user: PartyUserDetail;
   fetchPartyUser: () => void;
-  role: PartyUserProductRole;
+  role: ProductRoleInfoResource;
   product: PartyUserProduct;
   productRolesList: ProductRolesLists;
   canEdit: boolean;
@@ -36,7 +37,7 @@ export default function UserProductActions({
   isProductDetailPage,
   handleOpenDelete,
   canEdit,
-}: Props) {
+}: Readonly<Props>) {
   const { t } = useTranslation();
   const setLoading = useLoading(LOADING_TASK_UPDATE_PARTY_USER_STATUS);
   const addError = useErrorDispatcher();
@@ -49,7 +50,7 @@ export default function UserProductActions({
 
   const onDeleteMoreRole = () => {
     setLoading(true);
-    const userRole = !isPnpg ? role : product.roles[0];
+    const userRole = isPnpg ? product.roles[0] : role;
     deletePartyUser(party, user, product, userRole)
       .then((_) => {
         if (moreRolesOnProduct) {
@@ -97,7 +98,7 @@ export default function UserProductActions({
           i18nKey="userDetail.actions.modalDelete.moreRolesOnProduct.message"
           values={{
             user: party && `${user.name} ${user.surname}`,
-            role: transcodeProductRole2Title(role.role, productRolesList),
+            role: transcodeProductRole2Title(role.role ?? '', productRolesList),
           }}
           components={{ 1: <strong style={{ textTransform: 'capitalize' }} />, 3: <strong /> }}
         >
@@ -108,7 +109,7 @@ export default function UserProductActions({
           i18nKey="userDetail.actions.modalDelete.haveMoreProducts"
           values={{
             user: `${user.name} ${user.surname}`,
-            productRole: transcodeProductRole2Title(role.role, productRolesList),
+            productRole: transcodeProductRole2Title(role.role ?? '', productRolesList),
             productTitle: `${product.title}`,
           }}
           components={{
@@ -193,6 +194,7 @@ export default function UserProductActions({
       )
       .finally(() => setLoading(false));
   };
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const handleOpen = () => {
     addNotify({
       component: 'SessionModal',
@@ -207,7 +209,7 @@ export default function UserProductActions({
             i18nKey="userDetail.actions.changeUserStatusModal.suspend.messageWithMultipleRoles"
             values={{
               user: `${user.name} ${user.surname}`,
-              productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+              productRole: `${transcodeProductRole2Title(role.role ?? '', productRolesList)}`,
             }}
             components={{ 1: <strong style={{ textTransform: 'capitalize' }} />, 3: <strong /> }}
           >
@@ -218,7 +220,7 @@ export default function UserProductActions({
             i18nKey="userDetail.actions.changeUserStatusModal.suspend.messageWithOneRole"
             values={{
               user: `${user.name} ${user.surname}`,
-              productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+              productRole: `${transcodeProductRole2Title(role.role ?? '', productRolesList)}`,
               productTitle: `${product.title}`,
             }}
             components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
@@ -230,7 +232,7 @@ export default function UserProductActions({
             i18nKey="userDetail.actions.changeUserStatusModal.reactivate.messageWithMultipleRoles"
             values={{
               user: `${user.name} ${user.surname}`,
-              productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+              productRole: `${transcodeProductRole2Title(role.role ?? '', productRolesList)}`,
             }}
             components={{ 1: <strong />, 3: <strong /> }}
           >
@@ -243,7 +245,7 @@ export default function UserProductActions({
               i18nKey="userDetail.actions.changeUserStatusModal.reactivate.messageWithOneRole"
               values={{
                 user: `${user.name} ${user.surname}`,
-                productRole: `${transcodeProductRole2Title(role.role, productRolesList)}`,
+                productRole: `${transcodeProductRole2Title(role.role ?? '', productRolesList)}`,
                 productTitle: `${product.title}`,
               }}
               components={{ 1: <strong />, 3: <strong />, 6: <strong /> }}
@@ -270,7 +272,7 @@ export default function UserProductActions({
               <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
                 <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
                   <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
-                  {t('userDetail.actions.deleteButton')}
+                    {t('userDetail.actions.deleteButton')}
                   </Typography>
                 </Link>
               </Box>
