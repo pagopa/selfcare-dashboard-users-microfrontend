@@ -85,7 +85,7 @@ export default function UserProductRoles({
                         : transcodeProductRole2Title(p.role ?? '', productRolesList)}
                     </CustomTextTransform>
                   </Box>
-                  {p.status === 'SUSPENDED' &&
+                  {!isPagoPaUser() && p.status === 'SUSPENDED' &&
                     (isProductDetailPage ||
                       userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
                       <Box display="flex" justifyContent="center" alignItems="center" ml={1}>
