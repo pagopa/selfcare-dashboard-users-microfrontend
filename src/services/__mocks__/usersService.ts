@@ -9,7 +9,7 @@ import { EmailString } from '@pagopa/ts-commons/lib/strings';
 import { cloneDeep } from 'lodash';
 import { mockedProductUserResource } from '../../api/__mocks__/DashboardApiClient';
 import { CheckUserResponse } from '../../api/generated/b4f-dashboard/CheckUserResponse';
-import { ProductRoleInfoResource, SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
+import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../../api/generated/b4f-dashboard/UserCountResource';
 import { UserInstitutionRole } from '../../api/generated/b4f-dashboard/UserInstitutionRole';
@@ -26,6 +26,7 @@ import {
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
+  PartyUserProductRole,
   userInstitutionInfo2GetAllUsers,
 } from '../../model/PartyUser';
 import { Product, ProductsMap } from '../../model/Product';
@@ -1381,7 +1382,7 @@ export const updatePartyUserStatus = (
   _party: Party,
   user: BasePartyUser,
   _product: PartyUserProduct,
-  role: ProductRoleInfoResource,
+  role: PartyUserProductRole,
   status: UserStatus
 ): Promise<any> => {
   const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
@@ -1414,7 +1415,7 @@ export const deletePartyUser = (
   _party: Party,
   user: BasePartyUser,
   product: PartyUserProduct,
-  role: ProductRoleInfoResource
+  role: PartyUserProductRole
 ): Promise<any> => {
   const mockedUser = mockedUsers.find((u) => u.id === user.id) as PartyUserDetail;
   if (mockedUser.products.length === 1 && product.roles.length === 1) {

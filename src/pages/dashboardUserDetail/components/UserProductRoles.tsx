@@ -1,9 +1,8 @@
 import { Box, Chip, Grid, Typography, styled } from '@mui/material';
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useTranslation } from 'react-i18next';
-import { ProductRoleInfoResource } from '../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { Party } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import {
   ProductRolesLists,
@@ -23,7 +22,7 @@ type Props = {
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   isProductDetailPage: boolean;
-  singleRoleForBackstage?: ProductRoleInfoResource;
+  singleRoleForBackstage?: PartyUserProductRole;
 };
 
 const CustomTextTransform = styled(Typography)({

@@ -5,6 +5,7 @@ import {
   mockedUserResource,
 } from '../../api/__mocks__/DashboardApiClient';
 import { DashboardApi } from '../../api/DashboardApiClient';
+import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { RoleEnum } from '../../api/generated/onboarding/UserDto';
 import { mockedParties } from '../../microcomponents/mock_dashboard/data/party';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
@@ -21,10 +22,10 @@ import {
   addUserProductRoles,
   deletePartyUser,
   fetchPartyProductUsers,
-  getLegalRepresentativeService,
   fetchPartyUser,
   fetchUserRegistryByFiscalCode,
   getAllUsersService,
+  getLegalRepresentativeService,
   savePartyUser,
   updatePartyUserStatus,
 } from '../usersService';
@@ -183,7 +184,7 @@ describe('Test updatePartyUserStatus', () => {
             {
               relationshipId: 'relationshipId',
               role: 'productRole',
-              selcRole: 'ADMIN',
+              selcRole: SelcRoleEnum.ADMIN,
               status: 'ACTIVE',
             },
           ],

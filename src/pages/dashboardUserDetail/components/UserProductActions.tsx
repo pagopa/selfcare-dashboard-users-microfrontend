@@ -5,9 +5,8 @@ import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNot
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { ProductRoleInfoResource } from '../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { Party, UserStatus } from '../../../model/Party';
-import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
+import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { updatePartyUserStatus } from '../../../services/usersService';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS, PRODUCT_IDS } from '../../../utils/constants';
@@ -19,7 +18,7 @@ type Props = {
   party: Party;
   user: PartyUserDetail;
   fetchPartyUser: () => void;
-  role: ProductRoleInfoResource;
+  role: PartyUserProductRole;
   product: PartyUserProduct;
   productRolesList: ProductRolesLists;
   canEdit: boolean;

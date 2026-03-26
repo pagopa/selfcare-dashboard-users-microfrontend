@@ -56,7 +56,7 @@ test('Test institutionUserResource2PartyUserDetail', () => {
           {
             relationshipId: 'relationshipId',
             role: 'productRole',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -119,7 +119,7 @@ test('Test institutionUserResource2PartyUserDetail', () => {
           {
             relationshipId: 'relationshipId',
             role: 'productRole',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
           },
         ],
@@ -177,7 +177,7 @@ test('Test productUserResource2PartyProductUser', () => {
           partyRole: undefined,
           relationshipId: 'relationshipId',
           role: 'productRole',
-          selcRole: 'ADMIN',
+          selcRole: SelcRoleEnum.ADMIN,
           status: 'ACTIVE',
           updatedAt: undefined,
         },

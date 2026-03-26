@@ -6,7 +6,6 @@ import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage
 import { DashboardApi } from '../api/DashboardApiClient';
 import { CheckUserResponse } from '../api/generated/b4f-dashboard/CheckUserResponse';
 import { InstitutionUserDetailsResource } from '../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
-import { ProductRoleInfoResource } from '../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../api/generated/b4f-dashboard/ProductUserResource';
 import { UserCountResource } from '../api/generated/b4f-dashboard/UserCountResource';
 import { Party, UserRole, UserStatus } from '../model/Party';
@@ -19,6 +18,7 @@ import {
   PartyUserOnCreation,
   PartyUserOnEdit,
   PartyUserProduct,
+  PartyUserProductRole,
   institutionUserResource2PartyUserDetail,
   productUserResource2PartyProductUser,
   userInstitutionInfo2GetAllUsers,
@@ -197,7 +197,7 @@ export const updatePartyUserStatus = (
   party: Party,
   user: BasePartyUser,
   product: PartyUserProduct,
-  role: ProductRoleInfoResource,
+  role: PartyUserProductRole,
   status: UserStatus
 ): Promise<any> => {
   /* istanbul ignore if */
@@ -228,7 +228,7 @@ export const deletePartyUser = (
   party: Party,
   user: BasePartyUser,
   product: PartyUserProduct,
-  role: ProductRoleInfoResource
+  role: PartyUserProductRole
 ): Promise<any> => {
   trackEvent('USER_DELETE', {
     party_id: party.partyId,

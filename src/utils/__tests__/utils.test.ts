@@ -1,3 +1,4 @@
+import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { AllUserInfo, PartyProductUser } from '../../model/PartyUser';
 import { sortedUsers } from '../utils';
 
@@ -44,7 +45,9 @@ describe('sortedUsers', () => {
     product: {
       id: 'prod',
       title: 'Product',
-      roles: [{ relationshipId: 'rel1', role: 'admin', selcRole: 'ADMIN', status: 'ACTIVE' }],
+      roles: [
+        { relationshipId: 'rel1', role: 'admin', selcRole: SelcRoleEnum.ADMIN, status: 'ACTIVE' },
+      ],
     },
   };
 
@@ -62,12 +65,12 @@ describe('sortedUsers', () => {
     const sorted = sortedUsers(unsorted);
     expect(sorted[0]).toEqual(currentPartyProductUser);
   });
-  
+
   test('should sort by name then surname as fallback', () => {
-      const u1 = { ...allUserInfo1, name: 'A', surname: 'B' };
-      const u2 = { ...allUserInfo1, name: 'A', surname: 'A' };
-      const sorted = sortedUsers([u1, u2]);
-      expect(sorted[0].surname).toBe('A');
-      expect(sorted[1].surname).toBe('B');
+    const u1 = { ...allUserInfo1, name: 'A', surname: 'B' };
+    const u2 = { ...allUserInfo1, name: 'A', surname: 'A' };
+    const sorted = sortedUsers([u1, u2]);
+    expect(sorted[0].surname).toBe('A');
+    expect(sorted[1].surname).toBe('B');
   });
 });
