@@ -1,8 +1,14 @@
 import { Alert, Box, Chip, Divider, Grid, Link, Typography } from '@mui/material';
 import { ProductAvatar } from '@pagopa/mui-italia';
+import i18n from '@pagopa/selfcare-common-frontend/lib/locale/locale-utils';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
-import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../../model/PartyUser';
+import {
+  PartyUserDetail,
+  PartyUserProductRole,
+  RenderableProduct
+} from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
 import { PRODUCT_IDS } from '../../../../utils/constants';
@@ -15,7 +21,7 @@ type Props = {
   partyUser: PartyUserDetail;
   party: Party;
   fetchPartyUser: () => void;
-  userProduct: PartyUserProduct;
+  userProduct: RenderableProduct;
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   product: Product;
@@ -34,7 +40,7 @@ export default function UserProductDetail({
   product,
   isProductDetailPage,
   handleOpenDelete,
-  singleRoleForBackstage
+  singleRoleForBackstage,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const showActionOnProduct = userProduct.roles.length === 1 || !!singleRoleForBackstage;
@@ -70,30 +76,59 @@ export default function UserProductDetail({
                   </Box>
                 </Box>
               )}
-              <Box ml={isPnpg ? 0 : 4} display="flex" justifyContent="center" alignItems={'center'}>
-                {!userProduct.roles.find((p) => p.status !== 'SUSPENDED') && (
-                  <Chip
-                    label={t('userDetail.statusLabel')}
-                    aria-label={'Suspended'}
-                    color="warning"
-                    sx={{
-                      fontSize: '14px',
-                      borderRadius: '16px',
-                      height: '24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  />
-                )}
-              </Box>
+              {!isPagoPaUser() && (
+                <Box
+                  ml={isPnpg ? 0 : 4}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems={'center'}
+                >
+                  {userProduct.roles.find((p) => p.status === 'SUSPENDED') && (
+                    <Chip
+                      label={t('userDetail.statusLabel')}
+                      aria-label={'Suspended'}
+                      color="warning"
+                      sx={{
+                        fontSize: '14px',
+                        borderRadius: '16px',
+                        height: '24px',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    />
+                  )}
+                </Box>
+              )}
             </Grid>
           </Grid>
+          {isPagoPaUser() && (
+            <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
+              {singleRoleForBackstage?.status === 'ACTIVE' && (
+                <Chip
+                  label={i18n.t('usersTable.usersProductTableColumns.rows.activeChip')}
+                  color="success"
+                />
+              )}
+              {singleRoleForBackstage?.status === 'SUSPENDED' && (
+                <Chip
+                  label={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')}
+                  color="warning"
+                />
+              )}
+              {singleRoleForBackstage?.status === 'DELETED' && (
+                <Chip
+                  label={i18n.t('usersTable.usersProductTableColumns.rows.removedChip')}
+                  color="error"
+                />
+              )}
+            </Grid>
+          )}
           {!isPnpg && (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
               <UserProductActions
                 showActions={showActionOnProduct}
                 party={party}
-                role={userProduct.roles[0]}
+                role={singleRoleForBackstage ?? userProduct.roles[0]}
                 user={partyUser}
                 fetchPartyUser={fetchPartyUser}
                 product={userProduct}
@@ -109,7 +144,8 @@ export default function UserProductDetail({
       <Grid item xs={12} mt={3}>
         <Divider sx={{ borderColor: 'background.default' }} />
       </Grid>
-      {userProduct.id === PRODUCT_IDS.INTEROP &&
+      {!isPagoPaUser() &&
+        userProduct.id === PRODUCT_IDS.INTEROP &&
         userProduct.roles[0].selcRole === 'ADMIN' &&
         !partyUser.isCurrentUser && (
           <Alert severity="info" sx={{ mt: 2 }}>

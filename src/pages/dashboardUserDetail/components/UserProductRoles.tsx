@@ -1,4 +1,5 @@
 import { Box, Chip, Grid, Typography, styled } from '@mui/material';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct, PartyUserProductRole } from '../../../model/PartyUser';
@@ -77,10 +78,14 @@ export default function UserProductRoles({
                         fontWeight: 'fontWeightMedium',
                       }}
                     >
-                      {transcodeProductRole2Title(p.role, productRolesList)}
+                      {isPagoPaUser()
+                        ? `${transcodeProductRole2Title(p.role ?? '', productRolesList)} - ${
+                            p.partyRole
+                          } `
+                        : transcodeProductRole2Title(p.role ?? '', productRolesList)}
                     </CustomTextTransform>
                   </Box>
-                  {p.status === 'SUSPENDED' &&
+                  {!isPagoPaUser() && p.status === 'SUSPENDED' &&
                     (isProductDetailPage ||
                       userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
                       <Box display="flex" justifyContent="center" alignItems="center" ml={1}>
@@ -104,7 +109,7 @@ export default function UserProductRoles({
                     color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
                   }}
                 >
-                  {transcodeProductRole2Description(p.role, productRolesList)}
+                  {transcodeProductRole2Description(p.role ?? '', productRolesList)}
                 </Typography>
               </Grid>
               {!isPnpg && (

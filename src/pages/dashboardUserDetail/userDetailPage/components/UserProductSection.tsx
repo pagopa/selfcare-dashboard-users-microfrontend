@@ -38,6 +38,7 @@ export default function UserProductSection({
   const isPnpgProduct = products[0].id.startsWith('prod-pn-pg');
   const isPnpgTheOnlyProduct = isPnpgProduct && products.length === 1;
 
+  // show single role cards for backstage
   const itemsToRender: Array<RenderableProduct> = isPagoPaUser()
     ? (partyUser.products ?? []).flatMap((up) =>
         up.roles.map((role) => ({

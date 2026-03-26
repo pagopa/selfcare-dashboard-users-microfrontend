@@ -15,7 +15,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../../../hooks/useIsMobile';
-import { Party, UserStatus } from '../../../../../model/Party';
+import { Party } from '../../../../../model/Party';
 import { AllUserInfo, PartyProductUser } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
 import { ProductRolesLists, transcodeProductRole2Title } from '../../../../../model/ProductRole';
@@ -37,8 +37,6 @@ interface UsersTableProps {
   sort?: string;
   onSortRequest: (sort: string) => void;
   onRowClick: (partyUser: PartyProductUser | AllUserInfo) => void;
-  onDelete: (partyUser: PartyProductUser | AllUserInfo) => void;
-  onStatusUpdate: (partyUser: PartyProductUser | AllUserInfo, nextStatus: UserStatus) => void;
 }
 
 type CustomRowProps = Omit<GridRowProps, 'row'> & {

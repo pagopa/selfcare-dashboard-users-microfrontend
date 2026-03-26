@@ -205,12 +205,6 @@ export const userGroupPlainResourceArray: Array<UserGroupPlainResource> = [
 ];
 
 export const DashboardApi = {
-  getPartyUser: async (
-    _institutionId: string,
-    _userId: string
-  ): Promise<InstitutionUserDetailsResource | null> =>
-    Promise.resolve(mockedInstitutionUserDetailsResource),
-
   getPartyUsers: async (
     _institutionId: string,
     _productId?: string,
@@ -224,6 +218,18 @@ export const DashboardApi = {
     _productId: string,
     _role?: string
   ): Promise<Array<ProductUserResource>> => Promise.resolve(mockedProductUserResource),
+
+  getPartyUser: async (
+    _institutionId: string,
+    _userId: string
+  ): Promise<InstitutionUserDetailsResource | null> =>
+    Promise.resolve(mockedInstitutionUserDetailsResource),
+
+  getAllInstitutionUser: async (
+    _institutionId: string,
+    _userId: string
+  ): Promise<InstitutionUserDetailsResource | null> =>
+    Promise.resolve(mockedInstitutionUserDetailsResource),
 
   getLegalRepresentative: async (
     _institutionId: string,

@@ -208,7 +208,7 @@ function UserDetailPage({
                 spacing={isPnpg ? 4 : 0}
               >
                 <Button
-                  disabled={partyUser.status === 'SUSPENDED'}
+                  disabled={partyUser?.status === 'SUSPENDED'}
                   disableRipple
                   variant="outlined"
                   sx={{ height: '40px' }}

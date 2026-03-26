@@ -58,6 +58,9 @@ export type PartyUserProductRole = {
   role: string;
   selcRole: UserRoleFilters;
   status: UserStatus;
+  partyRole?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type PartyUserOnCreation = {
@@ -153,6 +156,9 @@ export const productInfoResource2PartyUserProduct = (
     role: r.role,
     selcRole: r.selcRole as UserRole,
     status: r.status as UserStatus,
+    partyRole: r.partyRole,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
   })) as Array<PartyUserProductRole>,
 });
 
@@ -173,7 +179,7 @@ export const productUserResource2PartyProductUser = (
 
 export const userInstitutionInfo2GetAllUsers = (
   resource: UserInstitutionRole,
-  currentUser: User,
+  currentUser: User
 ): AllUserInfo => ({
   id: resource.id ?? '',
   name: resource.name ?? '',

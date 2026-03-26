@@ -1,5 +1,8 @@
 import { mockedUser } from '../../__mocks__/@pagopa/selfcare-common-frontend/decorators/withLogin';
-import { InstitutionUserDetailsResource, RoleEnum } from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
+import {
+  InstitutionUserDetailsResource,
+  RoleEnum,
+} from '../../api/generated/b4f-dashboard/InstitutionUserDetailsResource';
 import { SelcRoleEnum } from '../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { ProductUserResource } from '../../api/generated/b4f-dashboard/ProductUserResource';
 import { mockedPartyProducts } from '../../microcomponents/mock_dashboard/data/product';
@@ -13,7 +16,7 @@ import {
   productUserResource2PartyProductUser,
 } from '../PartyUser';
 
-test('Test institutionUserResource2PartyUserDetail', () => {
+test('Test institutionUserResource2PartyUser', () => {
   const institutionUserResource: InstitutionUserDetailsResource = {
     id: '1',
     name: 'Name',
@@ -53,8 +56,11 @@ test('Test institutionUserResource2PartyUserDetail', () => {
           {
             relationshipId: 'relationshipId',
             role: 'productRole',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
+            createdAt: undefined,
+            partyRole: undefined,
+            updatedAt: undefined,
           },
         ],
       },
@@ -116,8 +122,11 @@ test('Test institutionUserResource2PartyUserDetail', () => {
           {
             relationshipId: 'relationshipId',
             role: 'productRole',
-            selcRole: 'ADMIN',
+            selcRole: SelcRoleEnum.ADMIN,
             status: 'ACTIVE',
+            createdAt: undefined,
+            partyRole: undefined,
+            updatedAt: undefined,
           },
         ],
       },
@@ -170,10 +179,13 @@ test('Test productUserResource2PartyProductUser', () => {
       title: 'productTitle',
       roles: [
         {
+          createdAt: undefined,
+          partyRole: undefined,
           relationshipId: 'relationshipId',
           role: 'productRole',
-          selcRole: 'ADMIN',
+          selcRole: SelcRoleEnum.ADMIN,
           status: 'ACTIVE',
+          updatedAt: undefined,
         },
       ],
     },

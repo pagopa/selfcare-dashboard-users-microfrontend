@@ -1,3 +1,4 @@
+import { SelcRoleEnum } from '../../../api/generated/b4f-dashboard/ProductRoleInfoResource';
 import { StatusEnum } from '../../../api/generated/b4f-dashboard/SubProductResource';
 import { Product } from '../../../model/Product';
 import { ProductRole } from '../../../model/ProductRole';
@@ -136,7 +137,7 @@ export const mockedProductRoles: Array<ProductRole> = [
   {
     productId: 'PRODID',
     partyRole: 'MANAGER',
-    selcRole: 'ADMIN',
+    selcRole: SelcRoleEnum.ADMIN,
     multiroleAllowed: false,
     productRole: 'referente-legale',
     title: 'Referente Legale',
@@ -146,7 +147,7 @@ export const mockedProductRoles: Array<ProductRole> = [
   {
     productId: 'PRODID',
     partyRole: 'DELEGATE',
-    selcRole: 'ADMIN',
+    selcRole: SelcRoleEnum.ADMIN,
     multiroleAllowed: false,
     productRole: 'referente-amministrativo',
     title: 'Amministratore',
@@ -156,7 +157,7 @@ export const mockedProductRoles: Array<ProductRole> = [
   {
     productId: 'PRODID',
     partyRole: 'SUB_DELEGATE',
-    selcRole: 'ADMIN',
+    selcRole: SelcRoleEnum.ADMIN,
     multiroleAllowed: false,
     productRole: 'incaricato-ente-creditore',
     title: 'Incaricato Ente Creditore',

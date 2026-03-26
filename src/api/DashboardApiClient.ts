@@ -88,6 +88,14 @@ export const DashboardApi = {
     return extractResponse(result, 200, onRedirectToLogin);
   },
 
+  getAllInstitutionUser: async (
+    institutionId: string,
+    userId: string
+  ): Promise<InstitutionUserDetailsResource | null> => {
+    const result = await apiClient.v2RetrieveAllInstitutionUser({ institutionId, userId });
+    return extractResponse(result, 200, onRedirectToLogin);
+  },
+
   fetchUserRegistryById: async (
     institutionId: string,
     userId: string
