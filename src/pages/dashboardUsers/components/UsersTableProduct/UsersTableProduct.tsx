@@ -8,7 +8,7 @@ import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Party, UserStatus } from '../../../../model/Party';
+import { Party } from '../../../../model/Party';
 import { AllUserInfo, PartyProductUser } from '../../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
@@ -189,27 +189,6 @@ const UsersTableProduct = ({
       });
   };
 
-  const onDelete = (partyUser: PartyProductUser | AllUserInfo) => {
-    if (incrementalLoad) {
-      setUsers({ ...users, content: users.content.filter((u) => u.id !== partyUser.id) });
-    } else {
-      setPageRequest({
-        filterChanged: true,
-        page: pageRequest?.page as PageRequest,
-      });
-    }
-  };
-
-  const onStatusUpdate = (partyUser: PartyProductUser | AllUserInfo, nextStatus: UserStatus) => {
-    // eslint-disable-next-line functional/immutable-data
-    partyUser.status = nextStatus;
-    if ('product' in partyUser) {
-      // eslint-disable-next-line functional/immutable-data
-      partyUser.product.roles[0].status = nextStatus;
-    }
-    setUsers({ page: users.page, content: users.content.slice() });
-  };
-
   if (error && !loading) {
     return <UserProductFetchError onRetry={fetchUsers} />;
   } else {
@@ -251,8 +230,6 @@ const UsersTableProduct = ({
         onRowClick={(partyUser) =>
           history.push(resolvePathVariables(userDetailUrl, { userId: partyUser.id }))
         }
-        onDelete={onDelete}
-        onStatusUpdate={onStatusUpdate}
       />
     );
   }

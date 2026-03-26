@@ -6,8 +6,8 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../../model/Party';
 import {
   PartyUserDetail,
-  PartyUserProduct,
   PartyUserProductRole,
+  RenderableProduct
 } from '../../../../model/PartyUser';
 import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
@@ -21,7 +21,7 @@ type Props = {
   partyUser: PartyUserDetail;
   party: Party;
   fetchPartyUser: () => void;
-  userProduct: PartyUserProduct;
+  userProduct: RenderableProduct;
   productRolesList: ProductRolesLists;
   canEdit: boolean;
   product: Product;
@@ -103,19 +103,19 @@ export default function UserProductDetail({
           </Grid>
           {isPagoPaUser() && (
             <Grid item xs={5} display="flex" alignItems="center" justifyContent="flex-end">
-              {partyUser.status === 'ACTIVE' && (
+              {singleRoleForBackstage?.status === 'ACTIVE' && (
                 <Chip
                   label={i18n.t('usersTable.usersProductTableColumns.rows.activeChip')}
                   color="success"
                 />
               )}
-              {partyUser.status === 'SUSPENDED' && (
+              {singleRoleForBackstage?.status === 'SUSPENDED' && (
                 <Chip
                   label={i18n.t('usersTable.usersProductTableColumns.rows.suspendedChip')}
                   color="warning"
                 />
               )}
-              {partyUser.status === 'DELETED' && (
+              {singleRoleForBackstage?.status === 'DELETED' && (
                 <Chip
                   label={i18n.t('usersTable.usersProductTableColumns.rows.removedChip')}
                   color="error"
