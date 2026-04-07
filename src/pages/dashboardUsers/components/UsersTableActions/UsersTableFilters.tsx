@@ -7,6 +7,8 @@ export type UsersTableFiltersConfig = {
   productIds: Array<string>;
   /** The product roles selected as filter */
   productRoles: Array<ProductRole>;
+  /** The party roles selected as filter */
+  partyRoles: Array<string>;
 };
 interface UsersSearchFilterProps {
   products: Array<Product>;

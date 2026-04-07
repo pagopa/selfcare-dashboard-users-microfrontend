@@ -16,8 +16,7 @@ import { useIsMobile } from '../../../hooks/useIsMobile';
 import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
-import UsersTableActions from './UsersTableActions/UsersTableActions';
-import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
+import UsersTableFilters, { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
 
 const MobileDialog = styled(Dialog)(({ theme }) => {
   const baseStyles = {
@@ -157,10 +156,9 @@ export default function MobileFilter({
       </DialogTitle>
       <DialogContent sx={{ display: 'flex' }}>
         <Grid sx={{ flexGrow: 1, width: '100%', maxWidth: '100%', marginLeft: 0 }}>
-          <UsersTableActions
+          <UsersTableFilters
             disableFilters={loading}
             loading={loading}
-            party={party}
             products={activeProducts}
             productsRolesMap={
               !selectedProductSection
