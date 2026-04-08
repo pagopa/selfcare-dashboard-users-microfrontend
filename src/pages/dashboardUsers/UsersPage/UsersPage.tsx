@@ -260,7 +260,6 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           activeProducts={activeProductsWithReadPermission}
           filters={filters}
           openDialogMobile={openDialogMobile}
-          party={party}
           productsRolesMap={productsRolesMap}
           selectedProductSection={selectedProductSection}
           setFilters={setFilters}

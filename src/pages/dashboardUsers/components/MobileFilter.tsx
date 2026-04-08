@@ -7,13 +7,12 @@ import {
   IconButton,
   Slide,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { Party } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import UsersTableFilters, { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
@@ -89,7 +88,6 @@ const Transition = React.forwardRef(function Transition(
 
 type Props = {
   loading: boolean;
-  party: Party;
   productsRolesMap: ProductsRolesMap;
   filters: UsersTableFiltersConfig;
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
@@ -105,7 +103,6 @@ type Props = {
 
 export default function MobileFilter({
   loading,
-  party,
   productsRolesMap,
   filters,
   setOpenDialogMobile,
@@ -141,14 +138,14 @@ export default function MobileFilter({
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography
-              variant='overline'
+              variant="overline"
               sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', textAlign: 'left' }}
             >
               {t('usersTable.filterRole.addFilters')}
             </Typography>
           </Grid>
           <Grid item>
-            <IconButton onClick={handleClose} aria-label='Chiudi'>
+            <IconButton onClick={handleClose} aria-label="Chiudi">
               <CloseIcon />
             </IconButton>
           </Grid>
