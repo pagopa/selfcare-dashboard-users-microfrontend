@@ -1,5 +1,12 @@
-import { UserRole } from "@pagopa/selfcare-common-frontend/lib/utils/constants";
-import { ProductRole, productRolesGroupBySelcRole } from "../../../../model/ProductRole";
+import { Select } from '@mui/material';
+import { styled } from '@mui/system';
+import { UserRole } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { PartyRole } from '../../../../model/Party';
+import {
+  ProductRole,
+  productRoles2ProductRolesList,
+  productRolesGroupBySelcRole,
+} from '../../../../model/ProductRole';
 
 export type ProductRolesGroupByTitle = { [title: string]: Array<ProductRole> };
 
@@ -26,8 +33,8 @@ export const labels = {
 export const productList = (
   productRoles: Array<ProductRole>
 ): {
-    [selcRole in UserRole]: ProductRolesGroupByTitle;
-  } =>
+  [selcRole in UserRole]: ProductRolesGroupByTitle;
+} =>
   Object.fromEntries(
     Object.entries(productRolesGroupBySelcRole(productRoles)).map(([selcRole, roles]) => [
       selcRole,
@@ -37,3 +44,18 @@ export const productList = (
     [selcRole in UserRole]: ProductRolesGroupByTitle;
   };
 
+export const partyRoleList = (productRoles: Array<ProductRole>): Array<PartyRole> => {
+  const rolesList = productRoles2ProductRolesList(productRoles);
+  return Object.entries(rolesList.groupByPartyRole)
+    .filter(([_role, roles]) => roles.length > 0)
+    .map(([role]) => role as PartyRole);
+};
+
+export const CustomSelect = styled(Select)({
+  '& .MuiInput-root': {
+    cursor: 'pointer',
+  },
+  '& .MuiSelect-select.MuiSelect-outlined': {
+    cursor: 'pointer',
+  },
+});

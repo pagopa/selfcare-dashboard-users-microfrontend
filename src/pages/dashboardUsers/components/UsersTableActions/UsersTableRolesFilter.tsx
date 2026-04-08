@@ -1,52 +1,24 @@
-import {
-  Box,
-  Button,
-  Grid,
-  ListItemText,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Grid, ListItemText, MenuItem, SelectChangeEvent, TextField } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { styled } from '@mui/system';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { useLiveAnnouncerWithRegion } from '@pagopa/selfcare-common-frontend/lib';
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { isEqual } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../../hooks/useIsMobile';
 import { PartyRole, UserRole, UserRoleFilters } from '../../../../model/Party';
 import { ProductRole } from '../../../../model/ProductRole';
+import {
+  CustomSelect,
+  emptySelcRoleGroup,
+  partyRoleList,
+  productList,
+  ProductRolesGroupByTitle,
+} from './helpers';
+import { ProductRolesFilterSelect } from './ProductRolesFilterSelect';
 import { UsersTableFiltersConfig } from './UsersTableFilters';
-import { emptySelcRoleGroup, labels, productList, ProductRolesGroupByTitle } from './helpers';
-
-const CustomSelect = styled(Select)({
-  '& .MuiInput-root': {
-    cursor: 'pointer',
-  },
-  '& .MuiSelect-select.MuiSelect-outlined': {
-    cursor: 'pointer',
-  },
-});
-const MenuProps = {
-  PaperProps: {
-    style: {
-      width: '300px',
-    },
-  },
-};
-
-const PARTY_ROLE_OPTIONS: Array<PartyRole> = [
-  'DELEGATE',
-  'MANAGER',
-  'OPERATOR',
-  'SUB_DELEGATE',
-  'ADMIN_EA',
-];
 
 type Props = {
   productRolesList: Array<ProductRole>;
@@ -77,9 +49,7 @@ export default function UsersTableRolesFilter({
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
 
-  const selcRoleGroup = useMemo(() => productRolesList, [productRolesList]);
   const productFiltered = useMemo(() => productList(productRolesSelected), [productRolesSelected]);
-  const selcGroups = Object.keys(selcRoleGroup) as Array<UserRoleFilters>;
 
   const { announce, LiveRegion } = useLiveAnnouncerWithRegion();
 
@@ -89,7 +59,9 @@ export default function UsersTableRolesFilter({
 
   const [selectedPartyRoles, setSelectedRoles] = useState<Array<PartyRole>>([]);
 
-  const isPagoPa = true;
+  const partyRoleOptions = useMemo(() => partyRoleList(productRolesList), [productRolesList]);
+
+  const isPagoPa = isPagoPaUser();
 
   const nextProductRolesFilter = useMemo(
     () =>
@@ -134,75 +106,6 @@ export default function UsersTableRolesFilter({
       [selcRole]: nextSelcGroupSelected,
     });
   };
-
-  const isPnpg = window.location.hostname?.startsWith('imprese');
-
-  const children = (
-    selcRole: UserRole,
-    selcGroup: ProductRolesGroupByTitle,
-    selcGroupSelected: ProductRolesGroupByTitle
-  ) =>
-    Object.entries(selcGroup).map(([title, roles]) => {
-      const isSelected = !!selcGroupSelected[title];
-      return (
-        <MenuItem
-          key={`${selcRole}-children-${title}`}
-          value={`child-${selcRole}-${title}`}
-          sx={{
-            display: 'flex',
-            ml: isPnpg ? 0 : showSelcRoleGrouped ? 3 : 1,
-            mb: isPnpg ? 0 : 1,
-          }}
-          onClick={() => handleProductRole(isSelected, selcGroupSelected, selcRole, title, roles)}
-        >
-          <FormControlLabel
-            key={title}
-            sx={{ height: '30px' }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            aria-label={`${title}`}
-            label={
-              <Typography
-                variant="body2"
-                sx={{ color: 'black', fontSize: '14px', fontWeight: 'fontWeightMedium' }}
-              >{`${title}`}</Typography>
-            }
-            control={
-              <Checkbox
-                sx={{
-                  color: '#5C6F82',
-                  '&.Mui-checked': {
-                    color: '#0073E6',
-                  },
-                }}
-                checked={isSelected}
-                onChange={() =>
-                  handleProductRole(isSelected, selcGroupSelected, selcRole, title, roles)
-                }
-              />
-            }
-          />
-        </MenuItem>
-      );
-    });
-
-  const isSelcGroupTotallySelected = (selcRole: UserRoleFilters) => {
-    const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
-    const selcGroup = selcRoleGroup[selcRole];
-    return Object.keys(selcGroupSelected).length === Object.keys(selcGroup).length;
-  };
-
-  const selcGroupTotallySelected: { [userRole in UserRoleFilters]: boolean } = useMemo(
-    () =>
-      Object.fromEntries(
-        (Object.keys(selcRoleGroup) as Array<UserRoleFilters>).map((s: UserRoleFilters) => [
-          s,
-          showSelcRoleGrouped ? isSelcGroupTotallySelected(s) : false,
-        ])
-      ) as { [userRole in UserRoleFilters]: boolean },
-    [selcRoleGroup, productRoleCheckedBySelcRole]
-  );
 
   const handleSubmit = () => {
     if (isPagoPa) {
@@ -290,7 +193,7 @@ TODO for status filter
             }
             displayEmpty
           >
-            {PARTY_ROLE_OPTIONS.map((role) => (
+            {partyRoleOptions.map((role) => (
               <MenuItem key={role} value={role}>
                 <Checkbox checked={selectedPartyRoles.includes(role)} />
                 <ListItemText primary={role} />
@@ -298,113 +201,13 @@ TODO for status filter
             ))}
           </CustomSelect>
         ) : (
-          <CustomSelect
-            multiple
-            fullWidth
-            size="small"
-            MenuProps={MenuProps}
-            variant="outlined"
-            displayEmpty
-            native={false}
-            value={selcGroups.flatMap(
-              (s) =>
-                selcGroupTotallySelected[s]
-                  ? [`group-${s}-${t(labels[s].titleKey)}`] // Add prefix to make parent unique
-                  : Object.keys(productRoleCheckedBySelcRole[s]).map(
-                      (title) => `child-${s}-${title}`
-                    ) // Add prefix to make children unique
-            )}
-            renderValue={(selected: any) => {
-              if (selected.length === 0) {
-                return (
-                  <Box sx={{ fontStyle: 'normal', cursor: 'pointer' }}>
-                    {t('usersTable.filterRole.placeholder')}
-                  </Box>
-                );
-              }
-
-              const displayValues = selected.map((value: string) => {
-                const secondDashIndex = value.indexOf('-', value.indexOf('-') + 1);
-                return secondDashIndex !== -1 ? value.substring(secondDashIndex + 1) : value;
-              });
-
-              return (
-                <Typography
-                  sx={{
-                    display: 'inline-block',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    width: '100%',
-                    fontWeight: 'fontWeightMedium',
-                  }}
-                >
-                  {displayValues.join(', ')}
-                </Typography>
-              );
-            }}
-            sx={{
-              width: '100%',
-              '.MuiInput-input:focus': { backgroundColor: 'transparent' },
-            }}
-          >
-            {selcGroups.map((selcRole) => {
-              const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
-              const selcGroup = selcRoleGroup[selcRole];
-              const isSelected = selcGroupTotallySelected[selcRole];
-              return [
-                showSelcRoleGrouped && !isPnpg ? (
-                  <MenuItem
-                    value={`group-${selcRole}-${t(labels[selcRole].titleKey)}`}
-                    onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
-                    key={selcRole}
-                  >
-                    <FormControlLabel
-                      sx={{
-                        height: '60px',
-                        padding: 1,
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      aria-label={t(labels[selcRole].titleKey)}
-                      label={
-                        <Grid container sx={{ height: '100%', whiteSpace: 'normal' }}>
-                          <Grid item xs={12}>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                color: 'colorTextPrimary',
-                                fontWeight: 'fontWeightMedium',
-                              }}
-                            >
-                              {t(labels[selcRole].titleKey)}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body2" sx={{ color: '#475A6D', fontSize: '12px' }}>
-                              {t(labels[selcRole].descriptionKey)}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      }
-                      control={
-                        <Checkbox
-                          sx={{ padding: isPnpg ? 0 : '0 9px' }}
-                          checked={isSelected}
-                          indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
-                          onChange={() => handleUserRole(isSelected, selcGroup, selcRole)}
-                        />
-                      }
-                    />
-                  </MenuItem>
-                ) : undefined,
-                children(selcRole, selcGroup, selcGroupSelected),
-              ];
-            })}
-          </CustomSelect>
+          <ProductRolesFilterSelect
+            productRolesList={productRolesList}
+            productRoleCheckedBySelcRole={productRoleCheckedBySelcRole}
+            showSelcRoleGrouped={showSelcRoleGrouped}
+            handleUserRole={handleUserRole}
+            handleProductRole={handleProductRole}
+          />
         )}
       </Grid>
 

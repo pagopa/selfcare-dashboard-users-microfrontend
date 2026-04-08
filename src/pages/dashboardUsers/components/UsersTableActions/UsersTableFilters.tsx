@@ -43,6 +43,8 @@ export default function UsersTableFilters({
     (p) => p.list
   );
 
+  console.log('productRolesList', productsRolesMap);
+
   return (
     <UsersTableRolesFilter
       disableFilters={disableFilters}
