@@ -15,7 +15,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { Party } from '../../../model/Party';
+import { Party, PartyRole } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
@@ -65,6 +65,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const [searchByName, setSearchByName] = useState<string>('');
   const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
   const [copied, setCopied] = useState(false);
+  const [selectedPartyRoles, setSelectedPartyRoles] = useState<Array<PartyRole>>([]);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -268,6 +269,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           setSearchByName={setSearchByName}
           disableRemoveFiltersButton={disableRemoveFiltersButton}
           setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+          selectedPartyRoles={selectedPartyRoles}
+          setSelectedPartyRoles={setSelectedPartyRoles}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -297,6 +300,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             setSearchByName={setSearchByName}
             disableRemoveFiltersButton={disableRemoveFiltersButton}
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+            selectedPartyRoles={selectedPartyRoles}
+            setSelectedPartyRoles={setSelectedPartyRoles}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -362,6 +367,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   setFilters(emptyFilters);
                   setSearchByName('');
                   setDisableRemoveFiltersButton(false);
+                  setSelectedPartyRoles([]);
                 }}
               />
             )}

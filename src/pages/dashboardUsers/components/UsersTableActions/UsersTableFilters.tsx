@@ -1,3 +1,4 @@
+import { PartyRole } from '../../../../model/Party';
 import { Product } from '../../../../model/Product';
 import { ProductRole, ProductsRolesMap } from '../../../../model/ProductRole';
 import UsersTableRolesFilter from './UsersTableRolesFilter';
@@ -24,6 +25,8 @@ interface UsersSearchFilterProps {
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
   disableRemoveFiltersButton: boolean;
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPartyRoles: Array<PartyRole>;
+  setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
 }
 
 export default function UsersTableFilters({
@@ -38,6 +41,8 @@ export default function UsersTableFilters({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
+  selectedPartyRoles,
+  setSelectedPartyRoles,
 }: Readonly<UsersSearchFilterProps>) {
   const productRolesList: Array<ProductRole> = Object.values(productsRolesMap).flatMap(
     (p) => p.list
@@ -57,6 +62,8 @@ export default function UsersTableFilters({
       setSearchByName={setSearchByName}
       disableRemoveFiltersButton={disableRemoveFiltersButton}
       setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+      selectedPartyRoles={selectedPartyRoles}
+      setSelectedPartyRoles={setSelectedPartyRoles}
     />
   );
 }

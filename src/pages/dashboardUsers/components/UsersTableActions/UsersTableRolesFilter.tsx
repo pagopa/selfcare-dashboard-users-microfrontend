@@ -33,6 +33,8 @@ type Props = {
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
   disableRemoveFiltersButton: boolean;
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPartyRoles: Array<PartyRole>;
+  setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
 };
 
 export default function UsersTableRolesFilter({
@@ -45,6 +47,8 @@ export default function UsersTableRolesFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
+  selectedPartyRoles,
+  setSelectedPartyRoles,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -56,8 +60,6 @@ export default function UsersTableRolesFilter({
   const [productRoleCheckedBySelcRole, setProductRoleCheckedBySelcRole] = useState<{
     [selcRole in UserRoleFilters]: ProductRolesGroupByTitle;
   }>(emptySelcRoleGroup);
-
-  const [selectedPartyRoles, setSelectedRoles] = useState<Array<PartyRole>>([]);
 
   const partyRoleOptions = useMemo(() => partyRoleList(productRolesList), [productRolesList]);
 
@@ -128,14 +130,14 @@ export default function UsersTableRolesFilter({
   const handleResetFilters = () => {
     onFiltersChange({ ...filters, productIds: [], productRoles: [], partyRoles: [] });
     setSearchByName('');
-    setSelectedRoles([]);
+    setSelectedPartyRoles([]);
     setDisableRemoveFiltersButton(true);
     announce(t('accessibility.removeFilters'));
   };
 
   const handleRolesChange = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as Array<PartyRole>;
-    setSelectedRoles(value);
+    setSelectedPartyRoles(value);
   };
 
   const isFilterButtonDisabled = isPagoPa

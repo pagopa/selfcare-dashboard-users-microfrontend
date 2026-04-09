@@ -13,6 +13,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../hooks/useIsMobile';
+import { PartyRole } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import UsersTableFilters, { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
@@ -99,6 +100,8 @@ type Props = {
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
   disableRemoveFiltersButton: boolean;
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPartyRoles: Array<PartyRole>;
+  setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
 };
 
 export default function MobileFilter({
@@ -114,6 +117,8 @@ export default function MobileFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
+  selectedPartyRoles,
+  setSelectedPartyRoles,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -170,6 +175,8 @@ export default function MobileFilter({
             setSearchByName={setSearchByName}
             disableRemoveFiltersButton={disableRemoveFiltersButton}
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+            selectedPartyRoles={selectedPartyRoles}
+            setSelectedPartyRoles={setSelectedPartyRoles}
           />
         </Grid>
       </DialogContent>
