@@ -15,7 +15,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { Party } from '../../../model/Party';
+import { Party, PartyRole } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
@@ -23,8 +23,9 @@ import { ENV } from '../../../utils/env';
 import MobileFilter from '../components/MobileFilter';
 import UserTableNoData from '../components/UserTableNoData';
 import UsersProductSection from '../components/UsersProductSection';
-import UsersTableActions from '../components/UsersTableActions/UsersTableActions';
-import { UsersTableFiltersConfig } from '../components/UsersTableActions/UsersTableFilters';
+import UsersTableFilters, {
+  UsersTableFiltersConfig,
+} from '../components/UsersTableActions/UsersTableFilters';
 
 interface Props {
   party: Party;
@@ -36,6 +37,7 @@ interface Props {
 const emptyFilters: UsersTableFiltersConfig = {
   productIds: [],
   productRoles: [],
+  partyRoles: [],
 };
 
 // eslint-disable-next-line complexity, sonarjs/cognitive-complexity
@@ -63,6 +65,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const [searchByName, setSearchByName] = useState<string>('');
   const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
   const [copied, setCopied] = useState(false);
+  const [selectedPartyRoles, setSelectedPartyRoles] = useState<Array<PartyRole>>([]);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -258,7 +261,6 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           activeProducts={activeProductsWithReadPermission}
           filters={filters}
           openDialogMobile={openDialogMobile}
-          party={party}
           productsRolesMap={productsRolesMap}
           selectedProductSection={selectedProductSection}
           setFilters={setFilters}
@@ -267,6 +269,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           setSearchByName={setSearchByName}
           disableRemoveFiltersButton={disableRemoveFiltersButton}
           setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+          selectedPartyRoles={selectedPartyRoles}
+          setSelectedPartyRoles={setSelectedPartyRoles}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -279,10 +283,9 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             </ButtonNaked>
           </Grid>
         ) : (
-          <UsersTableActions
+          <UsersTableFilters
             disableFilters={loading}
             loading={loading}
-            party={party}
             products={activeProductsWithReadPermission}
             productsRolesMap={
               selectedProductSection && !dangerousKeys.includes(selectedProductSection)
@@ -297,6 +300,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             setSearchByName={setSearchByName}
             disableRemoveFiltersButton={disableRemoveFiltersButton}
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+            selectedPartyRoles={selectedPartyRoles}
+            setSelectedPartyRoles={setSelectedPartyRoles}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -362,6 +367,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   setFilters(emptyFilters);
                   setSearchByName('');
                   setDisableRemoveFiltersButton(false);
+                  setSelectedPartyRoles([]);
                 }}
               />
             )}

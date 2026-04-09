@@ -7,17 +7,16 @@ import {
   IconButton,
   Slide,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../../hooks/useIsMobile';
-import { Party } from '../../../model/Party';
+import { PartyRole } from '../../../model/Party';
 import { Product } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
-import UsersTableActions from './UsersTableActions/UsersTableActions';
-import { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
+import UsersTableFilters, { UsersTableFiltersConfig } from './UsersTableActions/UsersTableFilters';
 
 const MobileDialog = styled(Dialog)(({ theme }) => {
   const baseStyles = {
@@ -90,7 +89,6 @@ const Transition = React.forwardRef(function Transition(
 
 type Props = {
   loading: boolean;
-  party: Party;
   productsRolesMap: ProductsRolesMap;
   filters: UsersTableFiltersConfig;
   setOpenDialogMobile: React.Dispatch<React.SetStateAction<boolean>>;
@@ -102,11 +100,12 @@ type Props = {
   setSearchByName: React.Dispatch<React.SetStateAction<string>>;
   disableRemoveFiltersButton: boolean;
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedPartyRoles: Array<PartyRole>;
+  setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
 };
 
 export default function MobileFilter({
   loading,
-  party,
   productsRolesMap,
   filters,
   setOpenDialogMobile,
@@ -118,6 +117,8 @@ export default function MobileFilter({
   setSearchByName,
   disableRemoveFiltersButton,
   setDisableRemoveFiltersButton,
+  selectedPartyRoles,
+  setSelectedPartyRoles,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -142,14 +143,14 @@ export default function MobileFilter({
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography
-              variant='overline'
+              variant="overline"
               sx={{ fontSize: '14px', fontWeight: 'fontWeightBold', textAlign: 'left' }}
             >
               {t('usersTable.filterRole.addFilters')}
             </Typography>
           </Grid>
           <Grid item>
-            <IconButton onClick={handleClose} aria-label='Chiudi'>
+            <IconButton onClick={handleClose} aria-label="Chiudi">
               <CloseIcon />
             </IconButton>
           </Grid>
@@ -157,10 +158,9 @@ export default function MobileFilter({
       </DialogTitle>
       <DialogContent sx={{ display: 'flex' }}>
         <Grid sx={{ flexGrow: 1, width: '100%', maxWidth: '100%', marginLeft: 0 }}>
-          <UsersTableActions
+          <UsersTableFilters
             disableFilters={loading}
             loading={loading}
-            party={party}
             products={activeProducts}
             productsRolesMap={
               !selectedProductSection
@@ -175,6 +175,8 @@ export default function MobileFilter({
             setSearchByName={setSearchByName}
             disableRemoveFiltersButton={disableRemoveFiltersButton}
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
+            selectedPartyRoles={selectedPartyRoles}
+            setSelectedPartyRoles={setSelectedPartyRoles}
           />
         </Grid>
       </DialogContent>

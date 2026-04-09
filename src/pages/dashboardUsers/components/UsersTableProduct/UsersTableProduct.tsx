@@ -81,9 +81,7 @@ const UsersTableProduct = ({
         currentUser ?? ({ uid: 'NONE' } as User),
         productsMap,
         undefined,
-        filtersProductRoles.length > 0
-          ? filtersProductRoles.map((r) => r.productRole).join(',')
-          : undefined
+        filterConfiguration.partyRoles.join(',')
       ).then((data) => {
         if (searchByName) {
           return sortedUsers(filterUsers(data.content));

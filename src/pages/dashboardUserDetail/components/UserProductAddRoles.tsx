@@ -39,11 +39,11 @@ export default function UserProductAddRoles({
   const addError = useErrorDispatcher();
   const addNotify = useUserNotify();
 
-  const [selectedRoles, setSelectedRoles] = useState<Array<string>>([]);
+  const [selectedRoles, setSelectedPartyRoles] = useState<Array<string>>([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setSelectedRoles(userProduct.roles.map((r) => r.role));
+    setSelectedPartyRoles(userProduct.roles.map((r) => r.role));
   }, [userProduct.roles]);
 
   const onAddMultiRole = () => {
@@ -193,7 +193,7 @@ export default function UserProductAddRoles({
                         isDisabled
                           ? undefined
                           : () =>
-                              setSelectedRoles(
+                              setSelectedPartyRoles(
                                 isSelected
                                   ? selectedRoles?.filter((s) => s !== p.productRole)
                                   : selectedRoles?.concat([p.productRole])
