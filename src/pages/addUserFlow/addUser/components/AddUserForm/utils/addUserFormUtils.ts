@@ -9,6 +9,7 @@ import {
   validateSurname,
   validateTaxCode,
 } from '../../../../utils/validation';
+import { isPnpgOrImprese } from '../../../../../../utils/utils';
 
 const validateEmail = (email: string | undefined, t: (key: string) => string) => {
   if (!email) {
@@ -17,7 +18,7 @@ const validateEmail = (email: string | undefined, t: (key: string) => string) =>
   if (!emailRegexp.test(email)) {
     return t('userEdit.addForm.errors.invalidEmail');
   }
-  if (isPecEmail(email)) {
+  if (!isPnpgOrImprese() && isPecEmail(email)) {
     return t('userEdit.addForm.errors.invalidPecEmail');
   }
   return undefined;

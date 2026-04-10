@@ -5,6 +5,7 @@ import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { RoleEnum } from '../../../../api/generated/onboarding/UserDto';
 import { AddedUsersList } from '../../../../model/PartyUser';
+import { isPnpgOrImprese } from '../../../../utils/utils';
 
 export const taxCodeRegexp = new RegExp(
   '^[A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1}$'
@@ -56,22 +57,20 @@ const validateTaxCodeField = (taxCode: string | undefined, t: any) => {
   if (!taxCodeRegexp.test(taxCode) || verifyChecksumMatchWithTaxCode(taxCode)) {
     return t('userEdit.addForm.errors.invalidFiscalCode');
   }
-  return undefined;
-};
-
 const validateEmailField = (
   manager: Partial<AddedUsersList>,
   addedUserList: Array<AddedUsersList>,
   t: any
 ) => {
   const { email } = manager;
+
   if (!email) {
     return t('userEdit.addForm.addLegalRepresentative.requiredError');
   }
   if (!emailRegexp.test(email)) {
     return t('userEdit.addForm.errors.invalidEmail');
   }
-  if (isPecEmail(email)) {
+  if (!isPnpgOrImprese() && isPecEmail(email)) {
     return t('userEdit.addForm.errors.invalidPecEmail');
   }
   return checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);

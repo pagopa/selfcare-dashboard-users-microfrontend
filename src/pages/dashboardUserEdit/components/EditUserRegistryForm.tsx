@@ -1,4 +1,4 @@
-import { Button, Grid, Stack, styled, TextField, Typography } from '@mui/material';
+import { Button, Grid, Stack, styled, TextField } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
@@ -28,7 +28,7 @@ import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
 import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
-import { isValidPhone } from '../../../utils/utils';
+import { isPnpgOrImprese, isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
   '.MuiInputLabel-asterisk': {
@@ -90,7 +90,7 @@ const validateEmail = (email: string | undefined, t: any) => {
   if (!emailRegexp.test(email)) {
     return t('userEdit.editRegistryForm.errors.invalidEmail');
   }
-  if (isPecEmail(email)) {
+  if (!isPnpgOrImprese() && isPecEmail(email)) {
     return t('userEdit.editRegistryForm.errors.invalidPecEmail');
   }
   return undefined;
@@ -317,7 +317,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               '',
               true,
               'lowercase',
-              t('userEdit.editRegistryForm.errors.pecEmailHelperText')
+              isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
             )}
           />
         </Grid>

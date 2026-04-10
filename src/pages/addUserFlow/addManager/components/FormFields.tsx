@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { AddedUsersList, TextTransform } from '../../../../model/PartyUser';
+import { isPnpgOrImprese } from '../../../../utils/utils';
 import { CustomTextField } from '../../utils/helpers';
 
 export const FormFields = ({ formik }: { formik: any }) => {
@@ -89,7 +90,7 @@ export const FormFields = ({ formik }: { formik: any }) => {
               t('userEdit.addForm.addLegalReesentative.institutionalEmail'),
               '',
               undefined,
-              t('userEdit.addForm.errors.pecEmailHelperText')
+              isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
             )}
           />
         </Grid>

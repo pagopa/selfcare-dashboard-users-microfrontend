@@ -36,3 +36,6 @@ export const isUserSuspended = (user: PartyProductUser | AllUserInfo): boolean =
   }
   return false;
 };
+
+export const isPnpgOrImprese = () => 
+  window.location.hostname.startsWith('pnpg.') || window.location.hostname.startsWith('imprese.');

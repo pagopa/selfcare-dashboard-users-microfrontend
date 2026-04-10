@@ -3,6 +3,7 @@ import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
 import { PartyUserOnCreation, TextTransform } from '../../../../../../model/PartyUser';
+import { isPnpgOrImprese } from '../../../../../../utils/utils';
 import { commonStyles, CustomTextField } from '../../../../utils/helpers';
 
 type UserDataSectionProps = {
@@ -92,7 +93,7 @@ export const UserDataSection = ({
           t('userEdit.addForm.institutionalEmail.label'),
           '',
           'lowercase',
-          t('userEdit.addForm.errors.pecEmailHelperText')
+          isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
         )}
         disabled={!validTaxcode}
       />
