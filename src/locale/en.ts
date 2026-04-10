@@ -240,6 +240,10 @@ export default {
       errors: {
         invalidFiscalCode: 'The entered fiscal code is not valid ',
         invalidEmail: 'The email address is not valid',
+        invalidPecEmail:
+          'PEC email address not accepted. Please enter the institutional email address used for the entity.',
+        pecEmailHelperText:
+          'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
         mismatchEmail: 'The email addresses do not correspond',
       },
       saveUserSuccess: 'User added correctly',
@@ -281,6 +285,10 @@ export default {
       errors: {
         userNotFind: 'It is impossible to locate the desired user',
         invalidEmail: 'The email address is not valid',
+        invalidPecEmail:
+          'PEC email address not accepted. Please enter the institutional email address used for the entity.',
+        pecEmailHelperText:
+          'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
         mismatchEmail: 'The email addresses do not correspond',
       },
       editUserSuccess: 'Profile changed correctly',
@@ -306,7 +314,8 @@ export default {
     },
     backStage: {
       subTitle: 'View the roles assigned to users for the products the institution has joined.',
-      alertMessage: 'User addition notifications are sent to the institution\'s PEC: <0>{{partyPec}}</0>.',
+      alertMessage:
+        "User addition notifications are sent to the institution's PEC: <0>{{partyPec}}</0>.",
     },
   },
 };

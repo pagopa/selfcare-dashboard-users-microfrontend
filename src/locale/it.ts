@@ -270,6 +270,10 @@ export default {
       errors: {
         invalidFiscalCode: 'Il Codice Fiscale inserito non è valido ',
         invalidEmail: 'L’indirizzo email non è valido',
+        invalidPecEmail:
+          'Indirizzo PEC non accettato. Inserisci l’indirizzo email istituzionale utilizzato per l’ente',
+        pecEmailHelperText:
+          'Inserisci l’indirizzo email istituzionale utilizzato per l’ente. Non sono ammessi gli indirizzi PEC.',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
       },
       saveUserSuccess: 'Utente aggiunto correttamente',
@@ -332,6 +336,10 @@ export default {
       errors: {
         userNotFind: "Impossibile individuare l'utente desiderato",
         invalidEmail: 'L’indirizzo email non è valido',
+        invalidPecEmail:
+          'Indirizzo PEC non accettato. Inserisci l’indirizzo email istituzionale utilizzato per l’ente',
+        pecEmailHelperText:
+          'Inserisci l’indirizzo email istituzionale utilizzato per l’ente. Non sono ammessi gli indirizzi PEC.',
         mismatchEmail: 'Gli indirizzi email non corrispondono',
         invalidMobilePhone: 'Il numero di telefono inserito non è valido ',
       },

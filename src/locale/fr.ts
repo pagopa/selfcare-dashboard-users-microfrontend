@@ -241,6 +241,10 @@ export default {
       errors: {
         invalidFiscalCode: 'Le Code Fiscal saisi est invalide ',
         invalidEmail: 'L’adresse mail est invalide',
+        invalidPecEmail:
+          "Adresse PEC non acceptée. Veuillez saisir l'adresse e-mail institutionnelle utilisée pour l'entité.",
+        pecEmailHelperText:
+          "Vezillez saisir l'adresse e-mail institutionnelle utilisée pour l'entité. Les adresses PEC ne sont pas autorisées.",
         mismatchEmail: 'Les adresses mail ne correspondent pas',
       },
       saveUserSuccess: 'Utilisateur correctement ajouté',
@@ -282,6 +286,10 @@ export default {
       errors: {
         userNotFind: 'Impossible de trouver l’utilisateur souhaité',
         invalidEmail: 'L’adresse mail est invalide',
+        invalidPecEmail:
+          "Adresse PEC non acceptée. Veuillez saisir l'adresse e-mail institutionnelle utilisée pour l'entité.",
+        pecEmailHelperText:
+          "Vezillez saisir l'adresse e-mail institutionnelle utilisée pour l'entité. Les adresses PEC ne sont pas autorisées.",
         mismatchEmail: 'Les adresses mail ne correspondent pas',
       },
       editUserSuccess: 'Profil correctement modifié',
@@ -306,8 +314,10 @@ export default {
       subTitle: 'Gérez les utilisateurs qui peuvent lire les notifications de {{ businessName}}.',
     },
     backStage: {
-      subTitle: 'Afficher les rôles attribués aux utilisateurs pour les produits auxquels l’entité a adhéré.',
-      alertMessage: 'Les notifications d’ajout d’utilisateur sont envoyées à la PEC de l’entité : <0>{{partyPec}}</0>.',
+      subTitle:
+        'Afficher les rôles attribués aux utilisateurs pour les produits auxquels l’entité a adhéré.',
+      alertMessage:
+        'Les notifications d’ajout d’utilisateur sont envoyées à la PEC de l’entité : <0>{{partyPec}}</0>.',
     },
   },
 };

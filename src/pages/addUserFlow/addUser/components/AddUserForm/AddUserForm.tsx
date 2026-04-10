@@ -384,7 +384,8 @@ export default function AddUserForm({
     field: keyof PartyUserOnCreation,
     label: string,
     placeholder: string,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
 
@@ -395,7 +396,7 @@ export default function AddUserForm({
       label,
       placeholder,
       error: isError,
-      helperText: isError ? formik.errors[field] : undefined,
+      helperText: isError ? formik.errors[field] : hint,
       required: true,
       variant: 'outlined' as const,
       onChange: formik.handleChange,

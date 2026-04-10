@@ -31,7 +31,7 @@ export default {
       },
       limited: {
         title: 'Upravljavec',
-        description: "Upravlja tehnološko integracijo in/ali delovanje storitev",
+        description: 'Upravlja tehnološko integracijo in/ali delovanje storitev',
       },
       searchByName: 'Išči po imenu',
       addFilters: 'Filtriraj',
@@ -92,7 +92,7 @@ export default {
       delete: {
         userRoleDelete: 'Vloga je bila uspešno odstranjena',
         userDelete: 'Uporabnik uspešno odstranjen',
-        userDeleteError: "Uporabnika ni bilo mogoče odstraniti. Poskusi ponovno.",
+        userDeleteError: 'Uporabnika ni bilo mogoče odstraniti. Poskusi ponovno.',
       },
       modalDelete: {
         moreRolesOnProduct: {
@@ -130,7 +130,8 @@ export default {
       },
       changeUserStatusSuccess: 'Pravilna vloga {{userStatus}}',
       changeUserStatusSuspendError: 'Vloge ni bilo mogoče prekiniti. Poskusi ponovno.',
-      changeUserStatusRehabilitateError: 'Vloge ni bilo mogoče ponovno vzpostaviti. Poskusi ponovno.',
+      changeUserStatusRehabilitateError:
+        'Vloge ni bilo mogoče ponovno vzpostaviti. Poskusi ponovno.',
       changeUserStatusRemoveError: 'Vloge ni bilo mogoče odstraniti. Poskusi ponovno.',
       suspendRole: 'Prekini',
       reactivateRole: 'Ponovno vzpostavi',
@@ -241,6 +242,10 @@ export default {
       errors: {
         invalidFiscalCode: 'Vnesena davčna številka je neveljavna ',
         invalidEmail: 'E-poštni naslov je neveljaven',
+        invalidPecEmail:
+          'Naslov PEC ni sprejet. Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt.',
+        pecEmailHelperText:
+          'Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt. Naslovi PEC niso dovoljeni.',
         mismatchEmail: 'E-poštna naslova se ne ujemata',
       },
       saveUserSuccess: 'Uporabnik je bil uspešno dodan',
@@ -280,8 +285,12 @@ export default {
       backButton: 'Nazaj',
       confirmButton: 'Potrdi',
       errors: {
-        userNotFind: "Ni mogoče najti želenega uporabnika",
+        userNotFind: 'Ni mogoče najti želenega uporabnika',
         invalidEmail: 'E-poštni naslov je neveljaven',
+        invalidPecEmail:
+          'Naslov PEC ni sprejet. Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt.',
+        pecEmailHelperText:
+          'Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt. Naslovi PEC niso dovoljeni.',
         mismatchEmail: 'E-poštna naslova se ne ujemata',
       },
       editUserSuccess: 'Profil je bil uspešno spremenjen',
@@ -290,7 +299,7 @@ export default {
     addProduct: {
       navigation: 'Dodeli vlogo',
       title: 'Dodeli novo vlogo',
-      subTitle: "Izberite produkt, ki jo želite dodeliti uporabniku.",
+      subTitle: 'Izberite produkt, ki jo želite dodeliti uporabniku.',
       name: 'Ime',
       surname: 'Priimek',
       fiscalCode: 'Davčna številka',
@@ -307,7 +316,8 @@ export default {
     },
     backStage: {
       subTitle: 'Ogled vlog, dodeljenih uporabnikom za izdelke, h katerim je pristopil organ.',
-      alertMessage: 'Obvestila o dodajanju uporabnikov se pošljejo na naslov PEC organa: <0>{{partyPec}}</0>.',
+      alertMessage:
+        'Obvestila o dodajanju uporabnikov se pošljejo na naslov PEC organa: <0>{{partyPec}}</0>.',
     },
   },
 };

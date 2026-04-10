@@ -1,4 +1,5 @@
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { isPecEmail } from '@pagopa/selfcare-common-frontend/lib/utils/utils';
 import { FormikProps } from 'formik';
 import { PartyUserOnCreation } from '../../../../../../model/PartyUser';
 import { UserRegistry } from '../../../../../../model/UserRegistry';
@@ -8,6 +9,7 @@ import {
   validateSurname,
   validateTaxCode,
 } from '../../../../utils/validation';
+import { isPnpgOrImprese } from '../../../../../../utils/utils';
 
 const validateEmail = (email: string | undefined, t: (key: string) => string) => {
   if (!email) {
@@ -15,6 +17,9 @@ const validateEmail = (email: string | undefined, t: (key: string) => string) =>
   }
   if (!emailRegexp.test(email)) {
     return t('userEdit.addForm.errors.invalidEmail');
+  }
+  if (!isPnpgOrImprese() && isPecEmail(email)) {
+    return t('userEdit.addForm.errors.invalidPecEmail');
   }
   return undefined;
 };

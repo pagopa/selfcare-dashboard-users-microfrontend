@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { AddedUsersList, TextTransform } from '../../../../model/PartyUser';
+import { isPnpgOrImprese } from '../../../../utils/utils';
 import { CustomTextField } from '../../utils/helpers';
 
 export const FormFields = ({ formik }: { formik: any }) => {
@@ -10,7 +11,8 @@ export const FormFields = ({ formik }: { formik: any }) => {
     field: keyof AddedUsersList,
     label: string,
     placeholder: string,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => {
     const isSubmitted = formik.submitCount > 0;
     const error = formik.errors[field];
@@ -25,7 +27,7 @@ export const FormFields = ({ formik }: { formik: any }) => {
       label,
       placeholder,
       error: isError,
-      helperText: isError ? formik.errors[field] : undefined,
+      helperText: isError ? formik.errors[field] : hint,
       required: true,
       variant: 'outlined' as const,
       onChange: formik.handleChange,
@@ -85,8 +87,10 @@ export const FormFields = ({ formik }: { formik: any }) => {
             fullWidth
             {...baseTextFieldProps(
               'email',
-              t('userEdit.addForm.addLegalRepresentative.institutionalEmail'),
-              ''
+              t('userEdit.addForm.addLegalReesentative.institutionalEmail'),
+              '',
+              undefined,
+              isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
             )}
           />
         </Grid>

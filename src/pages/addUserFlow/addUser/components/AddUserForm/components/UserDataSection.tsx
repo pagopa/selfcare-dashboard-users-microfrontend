@@ -3,6 +3,7 @@ import { theme } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
 import { PartyUserOnCreation, TextTransform } from '../../../../../../model/PartyUser';
+import { isPnpgOrImprese } from '../../../../../../utils/utils';
 import { commonStyles, CustomTextField } from '../../../../utils/helpers';
 
 type UserDataSectionProps = {
@@ -11,7 +12,8 @@ type UserDataSectionProps = {
     field: keyof PartyUserOnCreation,
     label: string,
     placeholder: string,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => any;
   validTaxcode: string | undefined;
   isMobile: boolean;
@@ -67,7 +69,13 @@ export const UserDataSection = ({
         />
         {LiveRegion && <LiveRegion fieldName="name" message={formik.errors.name} />}
       </Box>
-      <Box sx={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0, position: 'relative' }}>
+      <Box
+        sx={{
+          width: isMobile ? '100%' : '49%',
+          marginTop: isMobile ? '24px' : 0,
+          position: 'relative',
+        }}
+      >
         <CustomTextField
           size="small"
           style={{ width: '100%' }}
@@ -84,7 +92,8 @@ export const UserDataSection = ({
           'email',
           t('userEdit.addForm.institutionalEmail.label'),
           '',
-          'lowercase'
+          'lowercase',
+          isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
         )}
         disabled={!validTaxcode}
       />
