@@ -57,6 +57,9 @@ const validateTaxCodeField = (taxCode: string | undefined, t: any) => {
   if (!taxCodeRegexp.test(taxCode) || verifyChecksumMatchWithTaxCode(taxCode)) {
     return t('userEdit.addForm.errors.invalidFiscalCode');
   }
+  return undefined;
+};
+
 const validateEmailField = (
   manager: Partial<AddedUsersList>,
   addedUserList: Array<AddedUsersList>,
