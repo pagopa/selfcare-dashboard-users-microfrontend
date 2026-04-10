@@ -1,4 +1,5 @@
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { isPecEmail } from '@pagopa/selfcare-common-frontend/lib/utils/utils';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
@@ -28,36 +29,70 @@ export const checkDuplicateTaxCodeWithDifferentEmail = (
   return undefined;
 };
 
+const validateNameField = (name: string | undefined, taxCode: string | undefined, t: any) => {
+  if (!name) {
+    return t('userEdit.addForm.addLegalRepresentative.requiredError');
+  }
+  if (verifyNameMatchWithTaxCode(name, taxCode)) {
+    return t('userEdit.mismatchWithTaxCode.name');
+  }
+  return undefined;
+};
+
+const validateSurnameField = (surname: string | undefined, taxCode: string | undefined, t: any) => {
+  if (!surname) {
+    return t('userEdit.addForm.addLegalRepresentative.requiredError');
+  }
+  if (verifySurnameMatchWithTaxCode(surname, taxCode)) {
+    return t('userEdit.mismatchWithTaxCode.surname');
+  }
+  return undefined;
+};
+
+const validateTaxCodeField = (taxCode: string | undefined, t: any) => {
+  if (!taxCode) {
+    return t('userEdit.addForm.addLegalRepresentative.requiredError');
+  }
+  if (!taxCodeRegexp.test(taxCode) || verifyChecksumMatchWithTaxCode(taxCode)) {
+    return t('userEdit.addForm.errors.invalidFiscalCode');
+  }
+  return undefined;
+};
+
+const validateEmailField = (
+  manager: Partial<AddedUsersList>,
+  addedUserList: Array<AddedUsersList>,
+  t: any
+) => {
+  const { email } = manager;
+  if (!email) {
+    return t('userEdit.addForm.addLegalRepresentative.requiredError');
+  }
+  if (!emailRegexp.test(email)) {
+    return t('userEdit.addForm.errors.invalidEmail');
+  }
+  if (isPecEmail(email)) {
+    return t('userEdit.addForm.errors.invalidPecEmail');
+  }
+  return checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
+};
+
 export const validateManagerForm = (
   manager: Partial<AddedUsersList>,
   addedUserList: Array<AddedUsersList>,
   t: any
 ) => {
-  const duplicateError = checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
-  const requiredField = t('userEdit.addForm.addLegalRepresentative.requiredError');
+  const nameError = validateNameField(manager.name, manager.taxCode, t);
+  const surnameError = validateSurnameField(manager.surname, manager.taxCode, t);
+  const taxCodeError = validateTaxCodeField(manager.taxCode, t);
+  const emailError = validateEmailField(manager, addedUserList, t);
 
   return Object.fromEntries(
     Object.entries({
-      name: !manager.name
-        ? requiredField
-        : verifyNameMatchWithTaxCode(manager.name, manager.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.name')
-        : undefined,
-      surname: !manager.surname
-        ? requiredField
-        : verifySurnameMatchWithTaxCode(manager.surname, manager.taxCode)
-        ? t('userEdit.mismatchWithTaxCode.surname')
-        : undefined,
-      taxCode: !manager.taxCode
-        ? requiredField
-        : !taxCodeRegexp.test(manager.taxCode) || verifyChecksumMatchWithTaxCode(manager.taxCode)
-        ? t('userEdit.addForm.errors.invalidFiscalCode')
-        : undefined,
-      email: !manager.email
-        ? requiredField
-        : !emailRegexp.test(manager.email)
-        ? t('userEdit.addForm.errors.invalidEmail')
-        : duplicateError,
-    }).filter(([_key, value]) => value)
+      name: nameError,
+      surname: surnameError,
+      taxCode: taxCodeError,
+      email: emailError,
+    }).filter(([_key, value]) => value !== undefined)
   );
 };

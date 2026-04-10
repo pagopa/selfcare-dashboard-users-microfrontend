@@ -10,7 +10,8 @@ export const FormFields = ({ formik }: { formik: any }) => {
     field: keyof AddedUsersList,
     label: string,
     placeholder: string,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => {
     const isSubmitted = formik.submitCount > 0;
     const error = formik.errors[field];
@@ -25,7 +26,7 @@ export const FormFields = ({ formik }: { formik: any }) => {
       label,
       placeholder,
       error: isError,
-      helperText: isError ? formik.errors[field] : undefined,
+      helperText: isError ? formik.errors[field] : hint,
       required: true,
       variant: 'outlined' as const,
       onChange: formik.handleChange,
@@ -86,7 +87,9 @@ export const FormFields = ({ formik }: { formik: any }) => {
             {...baseTextFieldProps(
               'email',
               t('userEdit.addForm.addLegalRepresentative.institutionalEmail'),
-              ''
+              '',
+              undefined,
+              'L’indirizzo e-mail istituzionale non può essere una PEC'
             )}
           />
         </Grid>

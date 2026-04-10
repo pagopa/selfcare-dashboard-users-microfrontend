@@ -1,4 +1,5 @@
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
+import { isPecEmail } from '@pagopa/selfcare-common-frontend/lib/utils/utils';
 import { verifyChecksumMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyChecksumMatchWithTaxCode';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
@@ -66,24 +67,40 @@ export const validateTaxCode = (taxCode: string | undefined, t: (key: string) =>
   return undefined;
 };
 
+const validateEmail = (
+  manager: Partial<AddedUsersList>,
+  addedUserList: Array<AddedUsersList>,
+  t: any
+) => {
+  const { email } = manager;
+  if (!email) {
+    return t('userEdit.addForm.addLegalRepresentative.requiredError');
+  }
+  if (!emailRegexp.test(email)) {
+    return t('userEdit.addForm.errors.invalidEmail');
+  }
+  if (isPecEmail(email)) {
+    return t('userEdit.addForm.errors.invalidPecEmail');
+  }
+  return checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
+};
+
 export const validateManagerForm = (
   manager: Partial<AddedUsersList>,
   addedUserList: Array<AddedUsersList>,
   t: any
 ) => {
-  const duplicateError = checkDuplicateTaxCodeWithDifferentEmail(manager, addedUserList, t);
-  const requiredField = t('userEdit.addForm.addLegalRepresentative.requiredError');
+  const nameError = validateName(manager.name, manager.taxCode, t);
+  const surnameError = validateSurname(manager.surname, manager.taxCode, t);
+  const taxCodeError = validateTaxCode(manager.taxCode, t);
+  const emailError = validateEmail(manager, addedUserList, t);
 
   return Object.fromEntries(
     Object.entries({
-      name: validateName(manager.name, manager.taxCode, t),
-      surname: validateSurname(manager.surname, manager.taxCode, t),
-      taxCode: validateTaxCode(manager.taxCode, t),
-      email: !manager.email
-        ? requiredField
-        : !emailRegexp.test(manager.email)
-        ? t('userEdit.addForm.errors.invalidEmail')
-        : duplicateError,
-    }).filter(([_key, value]) => value)
+      name: nameError,
+      surname: surnameError,
+      taxCode: taxCodeError,
+      email: emailError,
+    }).filter(([_key, value]) => value !== undefined)
   );
 };

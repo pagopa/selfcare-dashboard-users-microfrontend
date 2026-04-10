@@ -11,7 +11,8 @@ type UserDataSectionProps = {
     field: keyof PartyUserOnCreation,
     label: string,
     placeholder: string,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => any;
   validTaxcode: string | undefined;
   isMobile: boolean;
@@ -84,7 +85,8 @@ export const UserDataSection = ({
           'email',
           t('userEdit.addForm.institutionalEmail.label'),
           '',
-          'lowercase'
+          'lowercase',
+          'L’indirizzo e-mail istituzionale non può essere una PEC'
         )}
         disabled={!validTaxcode}
       />

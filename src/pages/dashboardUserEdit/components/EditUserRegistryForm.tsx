@@ -12,6 +12,7 @@ import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyt
 import { emailRegexp } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { storageUserOps } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
+import { isPecEmail } from '@pagopa/selfcare-common-frontend/lib/utils/utils';
 import { verifyNameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifyNameMatchWithTaxCode';
 import { verifySurnameMatchWithTaxCode } from '@pagopa/selfcare-common-frontend/lib/utils/verifySurnameMatchWithTaxCode';
 import { EmailString } from '@pagopa/ts-commons/lib/strings';
@@ -68,6 +69,49 @@ type Props = {
 
 type TextTransform = 'uppercase' | 'lowercase';
 
+const validateName = (name: string | undefined, taxCode: string | undefined, t: any) =>
+  !name
+    ? requiredError
+    : taxCode && verifyNameMatchWithTaxCode(name, taxCode)
+    ? t('userEdit.mismatchWithTaxCode.name')
+    : undefined;
+
+const validateSurname = (surname: string | undefined, taxCode: string | undefined, t: any) =>
+  !surname
+    ? requiredError
+    : taxCode && verifySurnameMatchWithTaxCode(surname, taxCode)
+    ? t('userEdit.mismatchWithTaxCode.surname')
+    : undefined;
+
+const validateEmail = (email: string | undefined, t: any) => {
+  if (!email) {
+    return requiredError;
+  }
+  if (!emailRegexp.test(email)) {
+    return t('userEdit.editRegistryForm.errors.invalidEmail');
+  }
+  if (isPecEmail(email)) {
+    return t('userEdit.editRegistryForm.errors.invalidPecEmail');
+  }
+  return undefined;
+};
+
+const validateConfirmEmail = (
+  email: string | undefined,
+  confirmEmail: string | undefined,
+  t: any
+) =>
+  !confirmEmail
+    ? requiredError
+    : email && confirmEmail.toLocaleLowerCase() !== email.toLocaleLowerCase()
+    ? t('userEdit.editRegistryForm.errors.mismatchEmail')
+    : undefined;
+
+const validateMobilePhone = (mobilePhone: string | undefined, t: any) =>
+  mobilePhone && !isValidPhone(mobilePhone)
+    ? t('userEdit.editRegistryForm.errors.invalidMobilePhone')
+    : undefined;
+
 export default function EditUserRegistryForm({ party, user, goBack }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('lg');
@@ -94,31 +138,11 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
   const validate = (values: Partial<PartyUserOnEdit>) =>
     Object.fromEntries(
       Object.entries({
-        name: !values.name
-          ? requiredError
-          : verifyNameMatchWithTaxCode(values.name, values.taxCode)
-          ? t('userEdit.mismatchWithTaxCode.name')
-          : undefined,
-        surname: !values.surname
-          ? requiredError
-          : verifySurnameMatchWithTaxCode(values.surname, values.taxCode)
-          ? t('userEdit.mismatchWithTaxCode.surname')
-          : undefined,
-        email: !values.email
-          ? requiredError
-          : !emailRegexp.test(values.email)
-          ? t('userEdit.editRegistryForm.errors.invalidEmail')
-          : undefined,
-        confirmEmail: !values.confirmEmail
-          ? requiredError
-          : values.email &&
-            values.confirmEmail.toLocaleLowerCase() !== values.email.toLocaleLowerCase()
-          ? t('userEdit.editRegistryForm.errors.mismatchEmail')
-          : undefined,
-        mobilePhone:
-          !values.mobilePhone || isValidPhone(values.mobilePhone)
-            ? undefined
-            : t('userEdit.editRegistryForm.errors.invalidMobilePhone'),
+        name: validateName(values.name, values.taxCode, t),
+        surname: validateSurname(values.surname, values.taxCode, t),
+        email: validateEmail(values.email, t),
+        confirmEmail: validateConfirmEmail(values.email, values.confirmEmail, t),
+        mobilePhone: validateMobilePhone(values.mobilePhone, t),
       }).filter(([_key, value]) => value)
     );
 
@@ -181,7 +205,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
     label: string,
     placeholder: string,
     required: boolean = true,
-    textTransform?: TextTransform
+    textTransform?: TextTransform,
+    hint?: string
   ) => {
     const isError = !!formik.errors[field] && formik.errors[field] !== requiredError;
 
@@ -192,7 +217,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
       label,
       placeholder,
       error: isError,
-      helperText: isError ? formik.errors[field] : undefined,
+      helperText: isError ? formik.errors[field] : hint,
       required,
       variant: 'outlined' as const,
       onChange: formik.handleChange,
@@ -291,7 +316,8 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               t('userEdit.editRegistryForm.institutionalEmail.label'),
               '',
               true,
-              'lowercase'
+              'lowercase',
+              'L’indirizzo e-mail istituzionale non può essere una PEC'
             )}
           />
         </Grid>
@@ -317,19 +343,10 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
                 t('userEdit.editRegistryForm.mobilePhone.label'),
                 '',
                 false,
-                'lowercase'
+                'lowercase',
+                t('userEdit.editRegistryForm.mobilePhone.description')
               )}
             />
-            <Typography
-              component={'span'}
-              sx={{
-                fontSize: '12px!important',
-                fontWeight: 'fontWeightMedium',
-                color: theme.palette.text.secondary,
-              }}
-            >
-              {t('userEdit.editRegistryForm.mobilePhone.description')}
-            </Typography>
           </Grid>
         )}
       </Grid>
