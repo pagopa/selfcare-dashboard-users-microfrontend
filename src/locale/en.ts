@@ -188,6 +188,10 @@ export default {
     mismatchWithTaxCode: {
       name: 'Incorrect or different than the fiscal code',
       surname: 'Incorrect or different than the fiscal code',
+      invalidPecEmail:
+        'PEC email address not accepted. Please enter the institutional email address used for the entity.',
+      pecEmailHelperText:
+        'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
     },
     addForm: {
       title: 'Add a new user',
@@ -240,7 +244,10 @@ export default {
       errors: {
         invalidFiscalCode: 'The entered fiscal code is not valid ',
         invalidEmail: 'The email address is not valid',
-        invalidPecEmail: 'The institutional e-mail address cannot be a PEC',
+        invalidPecEmail:
+          'PEC email address not accepted. Please enter the institutional email address used for the entity.',
+        pecEmailHelperText:
+          'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
         mismatchEmail: 'The email addresses do not correspond',
       },
       saveUserSuccess: 'User added correctly',
@@ -282,7 +289,10 @@ export default {
       errors: {
         userNotFind: 'It is impossible to locate the desired user',
         invalidEmail: 'The email address is not valid',
-        invalidPecEmail: 'The institutional e-mail address cannot be a PEC',
+        invalidPecEmail:
+          'PEC email address not accepted. Please enter the institutional email address used for the entity.',
+        pecEmailHelperText:
+          'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
         mismatchEmail: 'The email addresses do not correspond',
       },
       editUserSuccess: 'Profile changed correctly',

@@ -189,6 +189,10 @@ export default {
     mismatchWithTaxCode: {
       name: 'Name falsch oder stimmt nicht mit der Steuernummer überein',
       surname: 'Nachname falsch oder stimmt nicht mit der Steuernummer überein',
+      invalidPecEmail:
+        'PEC-E-Mail-Adresse nicht akzeptiert. Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein.',
+      pecEmailHelperText:
+        'Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein. PEC-E-Mail-Adressen sind nicht zulässig.',
     },
     addForm: {
       title: 'Einen neuen Benutzer hinzufügen',
@@ -241,6 +245,10 @@ export default {
       errors: {
         invalidFiscalCode: 'Die eingegebene Steuernummer ist ungültig ',
         invalidEmail: 'Die E-Mail-Adresse ist ungültig',
+        invalidPecEmail:
+          'PEC-E-Mail-Adresse nicht akzeptiert. Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein.',
+        pecEmailHelperText:
+          'Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein. PEC-E-Mail-Adressen sind nicht zulässig.',
         mismatchEmail: 'Die E-Mail-Adressen stimmen nicht überein',
       },
       saveUserSuccess: 'Benutzer erfolgreich hinzugefügt',
@@ -282,6 +290,10 @@ export default {
       errors: {
         userNotFind: 'Der gewünschte Benutzer kann nicht gefunden werden',
         invalidEmail: 'Die E-Mail-Adresse ist ungültig',
+        invalidPecEmail:
+          'PEC-E-Mail-Adresse nicht akzeptiert. Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein.',
+        pecEmailHelperText:
+          'Bitte geben Sie die institutionelle E-Mail-Adresse der Organisation ein. PEC-E-Mail-Adressen sind nicht zulässig.',
         mismatchEmail: 'Die E-Mail-Adressen stimmen nicht überein',
       },
       editUserSuccess: 'Profil erfolgreich geändert',
@@ -306,8 +318,10 @@ export default {
       subTitle: 'Verwalte die Benutzer, die die Zustellungen von {{ businessName}} lesen können.',
     },
     backStage: {
-      subTitle: 'Anzeige der den Benutzern zugewiesenen Rollen für die Produkte, denen die Einrichtung beigetreten ist.',
-      alertMessage: 'Benachrichtigungen über das Hinzufügen von Benutzern werden an die PEC der Einrichtung gesendet: <0>{{partyPec}}</0>.',
+      subTitle:
+        'Anzeige der den Benutzern zugewiesenen Rollen für die Produkte, denen die Einrichtung beigetreten ist.',
+      alertMessage:
+        'Benachrichtigungen über das Hinzufügen von Benutzern werden an die PEC der Einrichtung gesendet: <0>{{partyPec}}</0>.',
     },
   },
 };
