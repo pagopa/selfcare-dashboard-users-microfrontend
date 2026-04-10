@@ -188,10 +188,6 @@ export default {
     mismatchWithTaxCode: {
       name: 'Incorrect or different than the fiscal code',
       surname: 'Incorrect or different than the fiscal code',
-      invalidPecEmail:
-        'PEC email address not accepted. Please enter the institutional email address used for the entity.',
-      pecEmailHelperText:
-        'Please enter the institutional email address used for the entity. PEC addresses are not allowed.',
     },
     addForm: {
       title: 'Add a new user',

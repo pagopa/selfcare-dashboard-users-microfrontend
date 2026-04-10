@@ -189,10 +189,6 @@ export default {
     mismatchWithTaxCode: {
       name: 'Ime ni pravilno ali se razlikuje od davčne številke',
       surname: 'Priimek ni pravilen ali se razlikuje od davčne številke',
-      invalidPecEmail:
-        'Naslov PEC ni sprejet. Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt.',
-      pecEmailHelperText:
-        'Prosimo, vnesite institucionalni e-poštni naslov, ki se uporablja za subjekt. Naslovi PEC niso dovoljeni.',
     },
     addForm: {
       title: 'Dodajte novega uporabnika',

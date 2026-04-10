@@ -317,7 +317,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
               '',
               true,
               'lowercase',
-              'L’indirizzo e-mail istituzionale non può essere una PEC'
+              t('userEdit.editRegistryForm.errors.pecEmailHelperText')
             )}
           />
         </Grid>

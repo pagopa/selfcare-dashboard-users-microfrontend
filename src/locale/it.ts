@@ -198,10 +198,6 @@ export default {
     mismatchWithTaxCode: {
       name: 'Nome non corretto o diverso dal Codice Fiscale',
       surname: 'Cognome non corretto o diverso dal Codice Fiscale',
-      invalidPecEmail:
-        'Indirizzo PEC non accettato. Inserisci l’indirizzo email istituzionale utilizzato per l’ente',
-      pecEmailHelperText:
-        'Inserisci l’indirizzo email istituzionale utilizzato per l’ente. Non sono ammessi gli indirizzi PEC.',
     },
     addForm: {
       title: 'Aggiungi un nuovo utente',

@@ -68,7 +68,13 @@ export const UserDataSection = ({
         />
         {LiveRegion && <LiveRegion fieldName="name" message={formik.errors.name} />}
       </Box>
-      <Box sx={{ width: isMobile ? '100%' : '49%', marginTop: isMobile ? '24px' : 0, position: 'relative' }}>
+      <Box
+        sx={{
+          width: isMobile ? '100%' : '49%',
+          marginTop: isMobile ? '24px' : 0,
+          position: 'relative',
+        }}
+      >
         <CustomTextField
           size="small"
           style={{ width: '100%' }}
@@ -86,7 +92,7 @@ export const UserDataSection = ({
           t('userEdit.addForm.institutionalEmail.label'),
           '',
           'lowercase',
-          'L’indirizzo e-mail istituzionale non può essere una PEC'
+          t('userEdit.addForm.errors.pecEmailHelperText')
         )}
         disabled={!validTaxcode}
       />

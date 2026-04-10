@@ -86,10 +86,10 @@ export const FormFields = ({ formik }: { formik: any }) => {
             fullWidth
             {...baseTextFieldProps(
               'email',
-              t('userEdit.addForm.addLegalRepresentative.institutionalEmail'),
+              t('userEdit.addForm.addLegalReesentative.institutionalEmail'),
               '',
               undefined,
-              'L’indirizzo e-mail istituzionale non può essere una PEC'
+              t('userEdit.addForm.errors.pecEmailHelperText')
             )}
           />
         </Grid>
