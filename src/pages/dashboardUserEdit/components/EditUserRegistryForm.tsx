@@ -149,6 +149,7 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
   const formik = useFormik<PartyUserOnEdit>({
     initialValues: { ...user, confirmEmail: user.email },
     validate,
+    validateOnMount: true,
     onSubmit: (values) => {
       setLoadingSaveUser(true);
       updatePartyUser(party, {
