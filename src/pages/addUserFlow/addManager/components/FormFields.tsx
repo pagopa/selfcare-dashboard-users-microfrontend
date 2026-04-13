@@ -87,7 +87,7 @@ export const FormFields = ({ formik }: { formik: any }) => {
             fullWidth
             {...baseTextFieldProps(
               'email',
-              t('userEdit.addForm.addLegalReesentative.institutionalEmail'),
+              t('userEdit.addForm.addLegalRepresentative.institutionalEmail'),
               '',
               undefined,
               isPnpgOrImprese() ? undefined : t('userEdit.addForm.errors.pecEmailHelperText')
