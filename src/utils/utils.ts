@@ -1,3 +1,4 @@
+import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
 import { AllUserInfo, PartyProductUser } from '../model/PartyUser';
 
 export const sortedUsers = <T extends { isCurrentUser: boolean; name: string; surname: string }>(
@@ -25,17 +26,33 @@ export const sortedUsers = <T extends { isCurrentUser: boolean; name: string; su
       return 0;
     }
   });
-  
+
 const phoneRegex = /^\+?\d{7,15}$/;
 
 export const isValidPhone = (phone?: string) => phoneRegex.test(phone ?? '');
 
 export const isUserSuspended = (user: PartyProductUser | AllUserInfo): boolean => {
   if ('product' in user) {
-    return user.status === 'SUSPENDED' || !user.product.roles?.find((r) => r.status !== 'SUSPENDED');
+    return (
+      user.status === 'SUSPENDED' || !user.product.roles?.find((r) => r.status !== 'SUSPENDED')
+    );
   }
   return false;
 };
 
-export const isPnpgOrImprese = () => 
+export const isPnpgOrImprese = () =>
   window.location.hostname.startsWith('pnpg.') || window.location.hostname.startsWith('imprese.');
+
+type AppArea = 'imprese' | 'ar_backstage' | 'area_riservata';
+
+export const getAppArea = (): AppArea => {
+  if (isPnpgOrImprese()) {
+    return 'imprese';
+  }
+
+  if (isPagoPaUser()) {
+    return 'ar_backstage';
+  }
+
+  return 'area_riservata';
+};

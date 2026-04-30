@@ -1,10 +1,10 @@
-import {Button, Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
+import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
-import { useFocus } from '@pagopa/selfcare-common-frontend/lib/hooks/useFocus';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
@@ -19,6 +19,7 @@ import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { getAppArea } from '../../../utils/utils';
 import UserDetail from '../components/UserDetail';
 import UserProductActions from '../components/UserProductActions';
 import { deletePartyUser } from './../../../services/usersService';
@@ -61,7 +62,7 @@ function UserDetailPage({
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId });
+      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId, from: getAppArea() });
     }
   }, [party]);
 
