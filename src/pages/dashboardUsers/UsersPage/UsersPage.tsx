@@ -20,6 +20,7 @@ import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { ENV } from '../../../utils/env';
+import { getAppArea } from '../../../utils/utils';
 import MobileFilter from '../components/MobileFilter';
 import UserTableNoData from '../components/UserTableNoData';
 import UsersProductSection from '../components/UsersProductSection';
@@ -110,7 +111,10 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
     }
   }, [productsFetchStatus]);
 
-  useEffect(() => trackEvent('USER_LIST', { party_id: party.partyId }), [party]);
+  useEffect(
+    () => trackEvent('USER_LIST', { party_id: party.partyId, from: getAppArea() }),
+    [party]
+  );
 
   const setSelectedProductSection = (productId?: string) =>
     // eslint-disable-next-line functional/immutable-data
