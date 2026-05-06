@@ -6,6 +6,7 @@ import { userSelectors } from '@pagopa/selfcare-common-frontend/lib/redux/slices
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { EVENTS } from '../../utils/constants';
 import { ENV } from '../../utils/env';
 
 type Props = {
@@ -50,7 +51,7 @@ export default function Layout({ children }: Readonly<Props>) {
         onDocumentationClick={
           showDocBtn
             ? () => {
-                trackEvent('OPEN_OPERATIVE_MANUAL', {
+                trackEvent(EVENTS.OPEN_OPERATIVE_MANUAL, {
                   from: 'dashboard',
                 });
                 window.open(ENV.DOCUMENTATION_LINKS.SELFCARE, '_blank');

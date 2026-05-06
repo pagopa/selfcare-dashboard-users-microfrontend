@@ -9,6 +9,7 @@ import { Product } from '../../../../model/Product';
 import { ProductRolesLists } from '../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
 import { addUserProductRoles, savePartyUser } from '../../../../services/usersService';
+import { EVENTS } from '../../../../utils/constants';
 
 type Props = {
   party: Party;
@@ -62,7 +63,7 @@ export const useSaveUser =
     addUserOrRole
       .then((userId) => {
         unregisterUnloadEvent();
-        trackEvent(initialFormData.taxCode ? 'USER_ADD_ROLE' : 'USER_ADD', {
+        trackEvent(initialFormData.taxCode ? EVENTS.USER_ADD_ROLE : EVENTS.USER_ADD, {
           party_id: party.partyId,
           product_id: userProduct?.id,
           product_role: values2submit.productRoles,
