@@ -202,7 +202,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   sx={{ height: '48px', width: '163px' }}
                   onClick={() =>
                     onExit(() =>
-                      trackEvent(EVENTS.USER_ADD_START, () => {
+                      trackEvent(EVENTS.USER_ADD_START, undefined, () => {
                         history.push(addUserUrl);
                       })
                     )
