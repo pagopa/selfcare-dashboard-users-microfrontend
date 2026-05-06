@@ -26,6 +26,7 @@ import {
 import { Product, ProductsMap } from '../model/Product';
 import { ProductRole } from '../model/ProductRole';
 import { UserRegistry, userResource2UserRegistry } from '../model/UserRegistry';
+import { EVENTS } from '../utils/constants';
 import {
   addUserProductRoles as addProductUserMocked,
   checkUserServiceMocked,
@@ -205,14 +206,14 @@ export const updatePartyUserStatus = (
     return updatePartyUserStatusMocked(party, user, product, role, status);
   }
   if (status === 'ACTIVE') {
-    trackEvent('USER_RESUME', {
+    trackEvent(EVENTS.USER_RESUME, {
       party_id: party.partyId,
       product_id: product.id,
       product_role: user.userRole,
     });
     return DashboardApi.activatePartyRelation(user.id, party.partyId, product.id, role.role);
   } else if (status === 'SUSPENDED') {
-    trackEvent('USER_SUSPEND', {
+    trackEvent(EVENTS.USER_SUSPEND, {
       party_id: party.partyId,
       product_id: product.id,
       product_role: user.userRole,
@@ -230,7 +231,7 @@ export const deletePartyUser = (
   product: PartyUserProduct,
   role: PartyUserProductRole
 ): Promise<any> => {
-  trackEvent('USER_DELETE', {
+  trackEvent(EVENTS.USER_DELETE, {
     party_id: party.partyId,
     product_id: product.id,
     product_role: role.role,
@@ -277,7 +278,7 @@ export const fetchUserGroups = (
   product: Product,
   userId: string
 ): Promise<Array<PartyGroup>> => {
-  trackEvent('GET_USER_GROUPS', {
+  trackEvent(EVENTS.GET_USER_GROUPS, {
     party_id: party.partyId,
     product_id: product.id,
   });

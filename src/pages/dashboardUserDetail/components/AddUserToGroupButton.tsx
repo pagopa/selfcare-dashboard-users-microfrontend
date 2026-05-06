@@ -1,24 +1,29 @@
+import AddIcon from '@mui/icons-material/Add';
 import {
-  Grid,
-  Typography,
   FormControl,
+  Grid,
   InputLabel,
-  Select,
-  OutlinedInput,
   MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
 } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
-import { Trans, useTranslation } from 'react-i18next';
-import { SessionModal, useErrorDispatcher, useUserNotify } from '@pagopa/selfcare-common-frontend/lib';
-import { useEffect, useState } from 'react';
+import {
+  SessionModal,
+  useErrorDispatcher,
+  useUserNotify,
+} from '@pagopa/selfcare-common-frontend/lib';
 import { User } from '@pagopa/selfcare-common-frontend/lib/model/User';
-import AddIcon from '@mui/icons-material/Add';
 import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { Party } from '../../../model/Party';
 import { PartyGroup } from '../../../model/PartyGroup';
 import { PartyUserDetail } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { addMemberToUserGroup } from '../../../services/groupsService';
-import { Party } from '../../../model/Party';
+import { EVENTS } from '../../../utils/constants';
 
 type AddUserToGroupButtonProps = {
   user: PartyUserDetail;
@@ -48,7 +53,7 @@ export default function AddUserToGroupButton({
     if (selectedGroup) {
       addMemberToUserGroup(selectedGroup.id, currentUser.uid)
         .then((_) => {
-          trackEvent('GROUP_USER_ADD', {
+          trackEvent(EVENTS.GROUP_USER_ADD, {
             party_id: party.partyId,
             product_id: product.id,
           });

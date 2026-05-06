@@ -18,7 +18,7 @@ import { PartyUserDetail } from '../../../model/PartyUser';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap, transcodeProductRole2Title } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
-import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { EVENTS, LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 import { getAppArea } from '../../../utils/utils';
 import UserDetail from '../components/UserDetail';
 import UserProductActions from '../components/UserProductActions';
@@ -62,7 +62,7 @@ function UserDetailPage({
 
   useEffect(() => {
     if (party) {
-      trackEvent('OPEN_USER_DETAIL', { party_id: party.partyId, from: getAppArea() });
+      trackEvent(EVENTS.OPEN_USER_DETAIL, { party_id: party.partyId, from: getAppArea() });
     }
   }, [party]);
 

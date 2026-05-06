@@ -1,20 +1,20 @@
+import AddIcon from '@mui/icons-material/Add';
 import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
+import { ButtonNaked } from '@pagopa/mui-italia';
 import SessionModal from '@pagopa/selfcare-common-frontend/lib/components/SessionModal';
 import useErrorDispatcher from '@pagopa/selfcare-common-frontend/lib/hooks/useErrorDispatcher';
 import useLoading from '@pagopa/selfcare-common-frontend/lib/hooks/useLoading';
 import useUserNotify from '@pagopa/selfcare-common-frontend/lib/hooks/useUserNotify';
+import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
+import { roleLabels } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { roleLabels } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
-import { ButtonNaked } from '@pagopa/mui-italia';
-import AddIcon from '@mui/icons-material/Add';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
 import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
 import { addUserProductRoles } from '../../../services/usersService';
-import { LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
+import { EVENTS, LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
 type Props = {
   party: Party;
@@ -71,7 +71,7 @@ export default function UserProductAddRoles({
       partyRole
     )
       .then((_) => {
-        trackEvent('USER_ADD_ROLE', {
+        trackEvent(EVENTS.USER_ADD_ROLE, {
           party_id: party.partyId,
           product_id: product.id,
           product_role: newRoleSelected,

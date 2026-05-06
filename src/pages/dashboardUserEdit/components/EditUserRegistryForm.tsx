@@ -27,7 +27,7 @@ import { Party } from '../../../model/Party';
 import { PartyUserOnEdit } from '../../../model/PartyUser';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
 import { updatePartyUser } from '../../../services/usersService';
-import { LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
+import { EVENTS, LOADING_TASK_SAVE_PARTY_USER } from '../../../utils/constants';
 import { isPnpgOrImprese, isValidPhone } from '../../../utils/utils';
 
 const CustomTextField: any = styled(TextField)({
@@ -160,11 +160,11 @@ export default function EditUserRegistryForm({ party, user, goBack }: Readonly<P
       })
         .then(() => {
           unregisterUnloadEvent();
-          trackEvent('USER_UPDATE', {
+          trackEvent(EVENTS.USER_UPDATE, {
             party_id: party.partyId,
           });
           if (values.mobilePhone && values.mobilePhone.length > 0) {
-            trackEvent('DASHBOARD_ADD_TEL', {
+            trackEvent(EVENTS.DASHBOARD_ADD_TEL, {
               request_id: requestId,
               party_id: party.partyId,
             });

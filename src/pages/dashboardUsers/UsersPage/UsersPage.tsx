@@ -19,6 +19,7 @@ import { Party, PartyRole } from '../../../model/Party';
 import { Product, ProductsMap } from '../../../model/Product';
 import { ProductsRolesMap } from '../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../routes';
+import { EVENTS } from '../../../utils/constants';
 import { ENV } from '../../../utils/env';
 import { getAppArea } from '../../../utils/utils';
 import MobileFilter from '../components/MobileFilter';
@@ -112,7 +113,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   }, [productsFetchStatus]);
 
   useEffect(
-    () => trackEvent('USER_LIST', { party_id: party.partyId, from: getAppArea() }),
+    () => trackEvent(EVENTS.USER_LIST, { party_id: party.partyId, from: getAppArea() }),
     [party]
   );
 
@@ -199,7 +200,13 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                 <Button
                   variant="contained"
                   sx={{ height: '48px', width: '163px' }}
-                  onClick={() => onExit(() => history.push(addUserUrl))}
+                  onClick={() =>
+                    onExit(() =>
+                      trackEvent(EVENTS.USER_ADD_START, () => {
+                        history.push(addUserUrl);
+                      })
+                    )
+                  }
                   ref={buttonRef}
                   tabIndex={0}
                 >

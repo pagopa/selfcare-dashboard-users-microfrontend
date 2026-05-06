@@ -21,6 +21,7 @@ import {
 } from '../../../services/onboardingService';
 import { getLegalRepresentativeService } from '../../../services/usersService';
 import {
+  EVENTS,
   LOADING_TASK_GET_LEGAL_REPRESENTATIVE,
   LOADING_TASK_ONBOARDING_USER_WITH_LEGAL_REPRESENTATIVE,
 } from '../../../utils/constants';
@@ -179,7 +180,7 @@ export default function AddLegalRepresentativeForm({
         }
         setOutcome(outcomeContent.success);
         if (!isAddInBulkEAFlow) {
-          trackEvent('ONBOARDING_USER_SUCCESS', {
+          trackEvent(EVENTS.ONBOARDING_USER_SUCCESS, {
             request_id: requestId,
             party_id: party.partyId,
             product_id: productId,
