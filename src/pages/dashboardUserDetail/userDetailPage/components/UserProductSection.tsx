@@ -1,7 +1,6 @@
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { theme } from '@pagopa/mui-italia';
 import { usePermissions } from '@pagopa/selfcare-common-frontend/lib';
-import { trackEvent } from '@pagopa/selfcare-common-frontend/lib/services/analyticsService';
 import { Actions } from '@pagopa/selfcare-common-frontend/lib/utils/constants';
 import { resolvePathVariables } from '@pagopa/selfcare-common-frontend/lib/utils/routes-utils';
 import { isPagoPaUser } from '@pagopa/selfcare-common-frontend/lib/utils/storage';
@@ -12,7 +11,6 @@ import { PartyUserDetail, RenderableProduct } from '../../../../model/PartyUser'
 import { Product } from '../../../../model/Product';
 import { ProductsRolesMap } from '../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../routes';
-import { EVENTS } from '../../../../utils/constants';
 import UserProductDetail from './UserProductDetail';
 
 type Props = {
@@ -98,17 +96,15 @@ export default function UserProductSection({
                   fontWeight: 'fontWeightBold',
                 }}
                 onClick={() =>
-                  trackEvent(EVENTS.USER_ADD_START, () => {
-                    history.push(
-                      resolvePathVariables(
-                        DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PRODUCT.path,
-                        {
-                          partyId: party.partyId,
-                          userId: partyUser.id,
-                        }
-                      )
-                    );
-                  })
+                  history.push(
+                    resolvePathVariables(
+                      DASHBOARD_USERS_ROUTES.PARTY_USERS.subRoutes.ADD_PRODUCT.path,
+                      {
+                        partyId: party.partyId,
+                        userId: partyUser.id,
+                      }
+                    )
+                  )
                 }
               >
                 {t('userDetail.productSection.addButton')}
