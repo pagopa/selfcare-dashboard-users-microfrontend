@@ -56,3 +56,17 @@ export const getAppArea = (): AppArea => {
 
   return 'area_riservata';
 };
+
+export const formatUpdatedAt = (updatedAt: Date) => {
+  const date = updatedAt instanceof Date ? updatedAt : new Date(updatedAt);
+  const datePart = date.toLocaleDateString('it-IT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+  const timePart = date.toLocaleTimeString('it-IT', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return `il ${datePart} alle ${timePart}`;
+};
