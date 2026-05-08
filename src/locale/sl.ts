@@ -184,6 +184,7 @@ export default {
     infoIcon: 'Nimate dovoljenja za upravljanje tega produkta',
     removeRoleBannerText:
       'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
+    lastModifiedDate: 'Zadnja sprememba vloge:',
   },
   userEdit: {
     mismatchWithTaxCode: {

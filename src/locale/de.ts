@@ -184,6 +184,7 @@ export default {
     infoIcon: 'Du hast nicht die Berechtigungen zur Verwaltung dieses Produkts',
     removeRoleBannerText:
       'Per rimuovere un Amministratore, segui le indicazioni che trovi in <1>questa pagina</1>.',
+    lastModifiedDate: 'Letzte Rollenänderung:',
   },
   userEdit: {
     mismatchWithTaxCode: {

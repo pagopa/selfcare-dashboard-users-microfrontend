@@ -652,6 +652,8 @@ export const mockedUsers: Array<PartyUserDetail> = [
             role: 'test',
             selcRole: SelcRoleEnum.LIMITED,
             status: 'ACTIVE',
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
       },

@@ -9,6 +9,7 @@ import {
   transcodeProductRole2Description,
   transcodeProductRole2Title,
 } from '../../../model/ProductRole';
+import { formatUpdatedAt } from '../../../utils/utils';
 import UserProductActions from './UserProductActions';
 import UserProductAddRoles from './UserProductAddRoles';
 
@@ -45,14 +46,15 @@ export default function UserProductRoles({
 
   const isPnpg = product.id.startsWith('prod-pn-pg');
   const rolesToRender = singleRoleForBackstage ? [singleRoleForBackstage] : userProduct.roles;
+  const isPagoPa = isPagoPaUser();
 
   return (
-    <Grid container item xs={12}>
+    <Grid container>
       {rolesToRender.map((p) => (
-        <Grid container item key={p.relationshipId} mt={3}>
-          <Grid item xs={3}>
-            <Grid container item>
-              <Box>
+        <>
+          <Grid container mt={3}>
+            <Grid item xs={3}>
+              <Grid item>
                 <Typography
                   sx={{
                     fontSize: 'fontSize',
@@ -62,74 +64,83 @@ export default function UserProductRoles({
                 >
                   {t('userDetail.role')}
                 </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={9}>
-            <Grid item container>
-              <Grid item xs={8}>
-                <Box display="flex">
-                  <Box>
-                    <CustomTextTransform
-                      sx={{
-                        color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
-                        fontSize: 'fontSize',
-                        fontWeight: 'fontWeightMedium',
-                      }}
-                    >
-                      {isPagoPaUser()
-                        ? `${transcodeProductRole2Title(p.role ?? '', productRolesList)} - ${
-                            p.partyRole
-                          } `
-                        : transcodeProductRole2Title(p.role ?? '', productRolesList)}
-                    </CustomTextTransform>
-                  </Box>
-                  {!isPagoPaUser() && p.status === 'SUSPENDED' &&
-                    (isProductDetailPage ||
-                      userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
-                      <Box display="flex" justifyContent="center" alignItems="center" ml={1}>
-                        <Chip
-                          label={t('userDetail.statusLabel')}
-                          aria-label={'Suspended'}
-                          color="warning"
-                          sx={{
-                            fontSize: '14px',
-                            borderRadius: '16px',
-                            height: '24px',
-                          }}
-                        />
-                      </Box>
-                    )}
-                </Box>
-                <Typography
-                  sx={{
-                    fontSize: 'fontSize',
-                    fontWeight: 'fontWeightRegular',
-                    color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
-                  }}
-                >
-                  {transcodeProductRole2Description(p.role ?? '', productRolesList)}
-                </Typography>
               </Grid>
-              {!isPnpg && (
-                <Grid item xs={4}>
-                  <UserProductActions
-                    showActions={showActions}
-                    party={party}
-                    user={user}
-                    fetchPartyUser={fetchPartyUser}
-                    role={p}
-                    product={userProduct}
-                    productRolesList={productRolesList}
-                    canEdit={canEdit}
-                    isProductDetailPage={isProductDetailPage}
-                  />
+            </Grid>
+
+            <Grid item xs={9}>
+              <Grid item container>
+                <Grid item xs={8}>
+                  <Box display="flex">
+                    <Box>
+                      <CustomTextTransform
+                        sx={{
+                          color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                          fontSize: 'fontSize',
+                          fontWeight: 'fontWeightMedium',
+                        }}
+                      >
+                        {isPagoPa
+                          ? `${transcodeProductRole2Title(p.role ?? '', productRolesList)} - ${
+                              p.partyRole
+                            } `
+                          : transcodeProductRole2Title(p.role ?? '', productRolesList)}
+                      </CustomTextTransform>
+                    </Box>
+                    {!isPagoPa &&
+                      p.status === 'SUSPENDED' &&
+                      (isProductDetailPage ||
+                        userProduct.roles.find((r) => r.status !== 'SUSPENDED')) && (
+                        <Box display="flex" justifyContent="center" alignItems="center" ml={1}>
+                          <Chip
+                            label={t('userDetail.statusLabel')}
+                            aria-label={'Suspended'}
+                            color="warning"
+                            sx={{
+                              fontSize: '14px',
+                              borderRadius: '16px',
+                              height: '24px',
+                            }}
+                          />
+                        </Box>
+                      )}
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontSize: 'fontSize',
+                      fontWeight: 'fontWeightRegular',
+                      color: p.status === 'SUSPENDED' ? 'text.disabled' : 'colorTextPrimary',
+                    }}
+                  >
+                    {transcodeProductRole2Description(p.role ?? '', productRolesList)}
+                  </Typography>
                 </Grid>
-              )}
+                {!isPnpg && (
+                  <Grid item xs={4}>
+                    <UserProductActions
+                      showActions={showActions}
+                      party={party}
+                      user={user}
+                      fetchPartyUser={fetchPartyUser}
+                      role={p}
+                      product={userProduct}
+                      productRolesList={productRolesList}
+                      canEdit={canEdit}
+                      isProductDetailPage={isProductDetailPage}
+                    />
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+          {isPagoPa && (
+            <Grid container>
+              <Grid item xs={3}>
+                <Typography>{t('userDetail.lastModifiedDate')}</Typography>
+              </Grid>
+              <Typography>{p.updatedAt ? formatUpdatedAt(p.updatedAt) : '-'}</Typography>
+            </Grid>
+          )}
+        </>
       ))}
       {canEdit && (
         <UserProductAddRoles
