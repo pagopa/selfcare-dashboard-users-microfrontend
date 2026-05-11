@@ -136,7 +136,7 @@ export default function UserProductRoles({
               </Grid>
             </Grid>
             {isPagoPa && (
-              <Grid container>
+              <Grid container mt={1}>
                 <Grid item xs={3}>
                   <Typography>{t('userDetail.lastModifiedDate')}</Typography>
                 </Grid>
