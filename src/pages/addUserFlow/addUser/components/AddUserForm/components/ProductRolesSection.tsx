@@ -43,8 +43,11 @@ export const ProductRolesSection = ({
   const addRole = async (r: ProductRole) => {
     // eslint-disable-next-line functional/no-let
     let nextProductRoles;
-    if (r.multiroleAllowed && formik.values.productRoles.length > 0) {
-      if (productRoles?.groupByProductRole[formik.values.productRoles[0]].selcRole !== r.selcRole) {
+    if (r.multiRoleGroups && r.multiRoleGroups.length > 0 && formik.values.productRoles.length > 0) {
+      const firstSelectedRole = productRoles?.groupByProductRole[formik.values.productRoles[0]];
+      const shareGroup = firstSelectedRole?.multiRoleGroups?.some((group) => r.multiRoleGroups?.includes(group));
+
+      if (!shareGroup) {
         nextProductRoles = [r.productRole];
       } else {
         const productRoleIndex = formik.values.productRoles.findIndex((p) => p === r.productRole);
@@ -88,12 +91,27 @@ export const ProductRolesSection = ({
           </ButtonNaked>
         </Grid>
       )}
-      {Object.values(productRoles.groupBySelcRole).map((roles) =>
-        roles
-          .filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
-          .map((p, index: number, filteredRoles) => (
-            <React.Fragment key={p.productRole}>
+      {Object.values(productRoles.groupBySelcRole).map((roles) => {
+        const dashboardRoles = roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed));
+        const groupedRoles = dashboardRoles.reduce((acc, r) => {
+          const key =
+            r.multiRoleGroups && r.multiRoleGroups.length > 0
+              ? r.multiRoleGroups.join(',')
+              : r.productRole;
+          if (!acc[key]) {
+            // eslint-disable-next-line functional/immutable-data
+            acc[key] = [];
+          }
+          // eslint-disable-next-line functional/immutable-data
+          acc[key].push(r);
+          return acc;
+        }, {} as Record<string, Array<ProductRole>>);
+
+        return Object.values(groupedRoles).map((group, groupIndex, allGroups) => (
+          <React.Fragment key={group[0].productRole}>
+            {group.map((p) => (
               <Box
+                key={p.productRole}
                 aria-label={`${p.title}`}
                 sx={{
                   display: 'flex',
@@ -108,7 +126,9 @@ export const ProductRolesSection = ({
                   checked={formik.values.productRoles.indexOf(p.productRole) > -1}
                   disabled={!validTaxcode}
                   value={p.productRole}
-                  control={roles.length > 1 && p.multiroleAllowed ? <Checkbox /> : <Radio />}
+                  control={
+                    p.multiRoleGroups && p.multiRoleGroups.length > 0 ? <Checkbox /> : <Radio />
+                  }
                   label={renderLabel(p, !!validTaxcode)}
                   aria-label={`${p.title}`}
                   onClick={
@@ -119,7 +139,7 @@ export const ProductRolesSection = ({
                             setIsAddInBulkEAFlow(
                               p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
                                 party.products.some(
-                                  (p) => p.productId === userProduct?.id && p.isAggregator
+                                  (prod) => prod.productId === userProduct?.id && prod.isAggregator
                                 )
                             );
                           }
@@ -135,14 +155,15 @@ export const ProductRolesSection = ({
                   </Tooltip>
                 )}
               </Box>
-              {filteredRoles.length !== index + 1 && (
-                <Grid item xs={12}>
-                  <Divider sx={{ borderColor: 'background.default' }} />
-                </Grid>
-              )}
-            </React.Fragment>
-          ))
-      )}
+            ))}
+            {allGroups.length !== groupIndex + 1 && (
+              <Grid item xs={12}>
+                <Divider sx={{ borderColor: 'background.default' }} />
+              </Grid>
+            )}
+          </React.Fragment>
+        ));
+      })}
     </Grid>
   );
 };

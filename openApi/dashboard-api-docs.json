@@ -5182,9 +5182,13 @@
             "description" : "Self Care role",
             "enum" : [ "ADMIN", "LIMITED", "ADMIN_EA" ]
           },
-          "multiroleAllowed" : {
-            "type" : "boolean",
-            "description" : "Indicates if an User can have more than one product role"
+          "multiRoleGroups" : {
+            "type" : "array",
+            "description" : "Groups to which the product role belongs for multi-role selection",
+            "items" : {
+              "type" : "string",
+              "description" : "Group name"
+            }
           },
           "phasesAdditionAllowed" : {
             "type" : "array",

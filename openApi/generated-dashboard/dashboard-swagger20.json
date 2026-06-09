@@ -4445,9 +4445,13 @@
     },
     "ProductRoleMappingsResource": {
       "properties": {
-        "multiroleAllowed": {
-          "description": "Indicates if an User can have more than one product role",
-          "type": "boolean"
+        "multiRoleGroups": {
+          "description": "Groups to which the product role belongs for multi-role selection",
+          "items": {
+            "description": "Group name",
+            "type": "string"
+          },
+          "type": "array"
         },
         "partyRole": {
           "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
