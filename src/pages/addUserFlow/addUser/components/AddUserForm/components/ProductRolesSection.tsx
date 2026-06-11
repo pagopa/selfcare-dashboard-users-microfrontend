@@ -1,5 +1,5 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Box, Checkbox, Divider, Grid, Radio, Tooltip } from '@mui/material';
+import { Box, Checkbox, Divider, Grid, Radio, Tooltip, Typography } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
@@ -11,7 +11,6 @@ import { ProductRole, ProductRolesLists } from '../../../../../../model/ProductR
 import { commonStyles, CustomFormControlLabel } from '../../../../utils/helpers';
 import { isAddRoleFromDashboard, isAddRoleFromDashboardAsync } from '../utils/addUserFormUtils';
 
-// 3. ProductRolesSection Component
 interface ProductRolesSectionProps {
   party: Party;
   productRoles: ProductRolesLists;
@@ -26,6 +25,20 @@ interface ProductRolesSectionProps {
   t: (key: string) => string;
 }
 
+// Divider with a word in the middle, e.g. "—— or ——"
+const LabeledDivider = ({ label }: { label: string }) => (
+  <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', my: 1 }}>
+    <Divider sx={{ borderColor: 'background.default', flexGrow: 1 }} />
+    <Typography
+      variant="body2"
+      sx={{ mx: 2, color: 'text.secondary', whiteSpace: 'nowrap', textTransform: 'lowercase' }}
+    >
+      {label}
+    </Typography>
+    <Divider sx={{ borderColor: 'background.default', flexGrow: 1 }} />
+  </Grid>
+);
+
 export const ProductRolesSection = ({
   productRoles,
   dynamicDocLink,
@@ -37,7 +50,6 @@ export const ProductRolesSection = ({
   userProduct,
   party,
   renderLabel,
-
   t,
 }: ProductRolesSectionProps) => {
   const addRole = async (r: ProductRole) => {
@@ -62,6 +74,78 @@ export const ProductRolesSection = ({
     }
     await formik.setFieldValue('productRoles', nextProductRoles, true);
   };
+
+  const renderRoleRow = (p: ProductRole) => (
+    <Box
+      key={p.productRole}
+      aria-label={`${p.title}`}
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        my: 2,
+      }}
+    >
+      <CustomFormControlLabel
+        sx={{ marginTop: 0 }}
+        checked={formik.values.productRoles.indexOf(p.productRole) > -1}
+        disabled={!validTaxcode}
+        value={p.productRole}
+        control={p.multiRoleGroups && p.multiRoleGroups.length > 0 ? <Checkbox /> : <Radio />}
+        label={renderLabel(p, !!validTaxcode)}
+        aria-label={`${p.title}`}
+        onClick={
+          validTaxcode
+            ? async () => {
+              await addRole(p);
+              if (!isAdminEaOnProdIO) {
+                setIsAddInBulkEAFlow(
+                  p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
+                  party.products.some(
+                    (prod) => prod.productId === userProduct?.id && prod.isAggregator
+                  )
+                );
+              }
+
+              setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
+            }
+            : undefined
+        }
+      />
+      {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
+        <Tooltip title={t('userEdit.addForm.role.adminTooltip')} placement="top" arrow>
+          <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
+        </Tooltip>
+      )}
+    </Box>
+  );
+
+  // Flatten all dashboard-eligible roles, then split into exclusive (radio) vs multi-select (checkbox)
+  const allDashboardRoles = Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
+    roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
+  );
+
+  const exclusiveRoles = allDashboardRoles.filter(
+    (r) => !r.multiRoleGroups || r.multiRoleGroups.length === 0
+  );
+  const multiSelectRoles = allDashboardRoles.filter(
+    (r) => r.multiRoleGroups && r.multiRoleGroups.length > 0
+  );
+
+  // Group multi-select roles by their multiRoleGroups key
+  const groupedMultiRoles = multiSelectRoles.reduce((acc, r) => {
+    const key = (r.multiRoleGroups ?? []).join(',');
+    if (!acc[key]) {
+      // eslint-disable-next-line functional/immutable-data
+      acc[key] = [];
+    }
+    // eslint-disable-next-line functional/immutable-data
+    acc[key].push(r);
+    return acc;
+  }, {} as Record<string, Array<ProductRole>>);
+
+  const multiRoleGroupEntries = Object.values(groupedMultiRoles);
 
   return (
     <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
@@ -91,79 +175,20 @@ export const ProductRolesSection = ({
           </ButtonNaked>
         </Grid>
       )}
-      {Object.values(productRoles.groupBySelcRole).map((roles) => {
-        const dashboardRoles = roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed));
-        const groupedRoles = dashboardRoles.reduce((acc, r) => {
-          const key =
-            r.multiRoleGroups && r.multiRoleGroups.length > 0
-              ? r.multiRoleGroups.join(',')
-              : r.productRole;
-          if (!acc[key]) {
-            // eslint-disable-next-line functional/immutable-data
-            acc[key] = [];
-          }
-          // eslint-disable-next-line functional/immutable-data
-          acc[key].push(r);
-          return acc;
-        }, {} as Record<string, Array<ProductRole>>);
 
-        return Object.values(groupedRoles).map((group, groupIndex, allGroups) => (
-          <React.Fragment key={group[0].productRole}>
-            {group.map((p) => (
-              <Box
-                key={p.productRole}
-                aria-label={`${p.title}`}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '100%',
-                  my: 2,
-                }}
-              >
-                <CustomFormControlLabel
-                  sx={{ marginTop: 0 }}
-                  checked={formik.values.productRoles.indexOf(p.productRole) > -1}
-                  disabled={!validTaxcode}
-                  value={p.productRole}
-                  control={
-                    p.multiRoleGroups && p.multiRoleGroups.length > 0 ? <Checkbox /> : <Radio />
-                  }
-                  label={renderLabel(p, !!validTaxcode)}
-                  aria-label={`${p.title}`}
-                  onClick={
-                    validTaxcode
-                      ? async () => {
-                          await addRole(p);
-                          if (!isAdminEaOnProdIO) {
-                            setIsAddInBulkEAFlow(
-                              p?.phasesAdditionAllowed.includes('dashboard-aggregator') &&
-                                party.products.some(
-                                  (prod) => prod.productId === userProduct?.id && prod.isAggregator
-                                )
-                            );
-                          }
+      {/* Exclusive roles (radio) */}
+      {exclusiveRoles.map((p) => renderRoleRow(p))}
 
-                          setIsAsyncFlow(p?.phasesAdditionAllowed.includes('dashboard-async'));
-                        }
-                      : undefined
-                  }
-                />
-                {isAddRoleFromDashboardAsync(p?.phasesAdditionAllowed) && (
-                  <Tooltip title={t('userEdit.addForm.role.adminTooltip')} placement="top" arrow>
-                    <InfoOutlinedIcon sx={{ cursor: 'pointer' }} color="primary" />
-                  </Tooltip>
-                )}
-              </Box>
-            ))}
-            {allGroups.length !== groupIndex + 1 && (
-              <Grid item xs={12}>
-                <Divider sx={{ borderColor: 'background.default' }} />
-              </Grid>
-            )}
-          </React.Fragment>
-        ));
-      })}
+      {/* Divider between exclusive and multi-select sections */}
+      {exclusiveRoles.length > 0 && multiSelectRoles.length > 0 && <LabeledDivider label={t('userEdit.addForm.role.or')} />}
+
+      {/* Multi-select roles (checkbox), grouped, with labeled divider between groups */}
+      {multiRoleGroupEntries.map((group, groupIndex) => (
+        <React.Fragment key={group[0].productRole}>
+          {group.map((p) => renderRoleRow(p))}
+          {multiRoleGroupEntries.length !== groupIndex + 1 && <LabeledDivider label={t('userEdit.addForm.role.or')} />}
+        </React.Fragment>
+      ))}
     </Grid>
   );
 };

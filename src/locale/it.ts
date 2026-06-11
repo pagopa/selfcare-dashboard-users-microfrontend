@@ -234,6 +234,7 @@ export default {
         documentationLink: 'Dubbi? Vai al manuale',
         adminTooltip:
           'Per aggiungere questo ruolo è richiesta la sottoscrizione di un modulo da parte del Legale Rappresentante',
+        or: 'oppure'
       },
       addOnAggregatedEntities: {
         title: "Seleziona l'ambito di operatività",
