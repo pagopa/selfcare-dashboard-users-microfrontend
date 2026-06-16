@@ -55,9 +55,9 @@ export const ProductRolesSection = ({
   const addRole = async (r: ProductRole) => {
     // eslint-disable-next-line functional/no-let
     let nextProductRoles;
-    if (r.multiRoleGroups && r.multiRoleGroups.length > 0 && formik.values.productRoles.length > 0) {
+    if (r.multiroleGroups && r.multiroleGroups.length > 0 && formik.values.productRoles.length > 0) {
       const firstSelectedRole = productRoles?.groupByProductRole[formik.values.productRoles[0]];
-      const shareGroup = firstSelectedRole?.multiRoleGroups?.some((group) => r.multiRoleGroups?.includes(group));
+      const shareGroup = firstSelectedRole?.multiroleGroups?.some((group) => r.multiroleGroups?.includes(group));
 
       if (!shareGroup) {
         nextProductRoles = [r.productRole];
@@ -92,7 +92,7 @@ export const ProductRolesSection = ({
         checked={formik.values.productRoles.indexOf(p.productRole) > -1}
         disabled={!validTaxcode}
         value={p.productRole}
-        control={p.multiRoleGroups && p.multiRoleGroups.length > 0 ? <Checkbox /> : <Radio />}
+        control={p.multiroleGroups && p.multiroleGroups.length > 0 ? <Checkbox /> : <Radio />}
         label={renderLabel(p, !!validTaxcode)}
         aria-label={`${p.title}`}
         onClick={
@@ -127,15 +127,15 @@ export const ProductRolesSection = ({
   );
 
   const exclusiveRoles = allDashboardRoles.filter(
-    (r) => !r.multiRoleGroups || r.multiRoleGroups.length === 0
+    (r) => !r.multiroleGroups || r.multiroleGroups.length === 0
   );
   const multiSelectRoles = allDashboardRoles.filter(
-    (r) => r.multiRoleGroups && r.multiRoleGroups.length > 0
+    (r) => r.multiroleGroups && r.multiroleGroups.length > 0
   );
 
-  // Group multi-select roles by their multiRoleGroups key
+  // Group multi-select roles by their multiroleGroups key
   const groupedMultiRoles = multiSelectRoles.reduce((acc, r) => {
-    const key = (r.multiRoleGroups ?? []).join(',');
+    const key = (r.multiroleGroups ?? []).join(',');
     if (!acc[key]) {
       // eslint-disable-next-line functional/immutable-data
       acc[key] = [];

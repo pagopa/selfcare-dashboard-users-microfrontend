@@ -4,7 +4,7 @@ export type ProductRole = {
   productId: string;
   partyRole: PartyRole;
   selcRole: UserRoleFilters;
-  multiRoleGroups?: Array<string>;
+  multiroleGroups?: Array<string>;
   productRole: string;
   title: string;
   description: string;

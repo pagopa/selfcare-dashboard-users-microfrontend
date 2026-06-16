@@ -128,20 +128,20 @@ export default function UserProductAddRoles({
   );
 
   const userFirstRoleDetails = productRolesList.groupByProductRole[userProduct.roles[0].role];
-  const userMultiRoleGroups = userFirstRoleDetails?.multiRoleGroups;
+  const userMultiRoleGroups = userFirstRoleDetails?.multiroleGroups;
 
   const hasMoreRolesInSameGroup = !!(
     userMultiRoleGroups &&
     userMultiRoleGroups.length > 0 &&
     selcRoleProductRoleList.some((r) => {
-      const sharesGroup = r.multiRoleGroups?.some((group) => userMultiRoleGroups.includes(group));
+      const sharesGroup = r.multiroleGroups?.some((group) => userMultiRoleGroups.includes(group));
       const isUnassigned = !userProduct.roles.find((ur) => ur.role === r.productRole);
       return sharesGroup && isUnassigned;
     })
   );
 
   const availableRolesInGroup = orderedRolesList.filter((p) =>
-    p.multiRoleGroups?.some((group) => userMultiRoleGroups?.includes(group))
+    p.multiroleGroups?.some((group) => userMultiRoleGroups?.includes(group))
   );
 
   return hasMoreRolesInSameGroup ? (
