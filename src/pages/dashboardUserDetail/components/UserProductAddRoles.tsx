@@ -127,8 +127,24 @@ export default function UserProductAddRoles({
     [productRolesList, userProduct.roles]
   );
 
-  return userProduct.roles.length < selcRoleProductRoleList.length &&
-    selcRoleProductRoleList[0].multiroleAllowed ? (
+  const userFirstRoleDetails = productRolesList.groupByProductRole[userProduct.roles[0].role];
+  const userMultiRoleGroups = userFirstRoleDetails?.multiroleGroups;
+
+  const hasMoreRolesInSameGroup = !!(
+    userMultiRoleGroups &&
+    userMultiRoleGroups.length > 0 &&
+    selcRoleProductRoleList.some((r) => {
+      const sharesGroup = r.multiroleGroups?.some((group) => userMultiRoleGroups.includes(group));
+      const isUnassigned = !userProduct.roles.find((ur) => ur.role === r.productRole);
+      return sharesGroup && isUnassigned;
+    })
+  );
+
+  const availableRolesInGroup = orderedRolesList.filter((p) =>
+    p.multiroleGroups?.some((group) => userMultiRoleGroups?.includes(group))
+  );
+
+  return hasMoreRolesInSameGroup ? (
     <Grid container>
       <Grid item xs={3} />
       <Grid item xs={9} mt={3}>
@@ -162,7 +178,7 @@ export default function UserProductAddRoles({
                 {`Assegna a <1>{{user}}</1> un altro ruolo <3>{{userRole}}</3> sul prodotto <5>{{productTitle}}</5>`}
               </Trans>
 
-              {Object.values(orderedRolesList).map((p) => {
+              {availableRolesInGroup.map((p) => {
                 const isSelected = (selectedRoles?.indexOf(p.productRole) ?? -1) > -1;
                 const isDisabled =
                   (userProduct.roles.map((u) => u.role).indexOf(p.productRole) ?? -1) > -1;

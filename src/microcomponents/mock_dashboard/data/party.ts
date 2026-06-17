@@ -381,6 +381,23 @@ export const mockedParties: Array<Party> = [
           Actions.DeleteProductUsers,
         ],
       },
+      {
+        productId: 'prod-interop',
+        authorized: true,
+        productOnBoardingStatus: ProductOnBoardingStatusEnum.ACTIVE,
+        userRole: 'ADMIN',
+        billing: {
+          vatNumber: '3333',
+          recipientCode: 'dddd',
+          publicServices: true,
+        },
+        userProductActions: [
+          Actions.ListProductUsers,
+          Actions.CreateProductUsers,
+          Actions.UpdateProductUsers,
+          Actions.DeleteProductUsers,
+        ],
+      },
     ],
     status: undefined,
     userRole: 'ADMIN',
