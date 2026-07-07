@@ -74,10 +74,12 @@ export const validateUserForm = (
 
 // Pure utility functions
 export const isAddRoleFromDashboard = (phasesAdditionAllowed?: Array<string>) =>
-  !!phasesAdditionAllowed && phasesAdditionAllowed[0].startsWith('dashboard');
+  !!phasesAdditionAllowed &&
+  phasesAdditionAllowed.length > 0 &&
+  phasesAdditionAllowed.some((phase) => phase.startsWith('dashboard'));
 
 export const isAddRoleFromDashboardAsync = (phasesAdditionAllowed?: Array<string>) =>
-  !!phasesAdditionAllowed && phasesAdditionAllowed[0] === 'dashboard-async';
+  !!phasesAdditionAllowed && phasesAdditionAllowed.includes('dashboard-async');
 
 export const EA_RADIO_OPTIONS = [
   {

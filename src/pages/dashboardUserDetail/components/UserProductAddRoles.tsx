@@ -12,7 +12,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Party } from '../../../model/Party';
 import { PartyUserDetail, PartyUserProduct } from '../../../model/PartyUser';
 import { Product } from '../../../model/Product';
-import { ProductRole, ProductRolesLists } from '../../../model/ProductRole';
+import {
+  filterDashboardRoles,
+  productRoles2ProductRolesList,
+  ProductRole,
+  ProductRolesLists,
+} from '../../../model/ProductRole';
 import { addUserProductRoles } from '../../../services/usersService';
 import { EVENTS, LOADING_TASK_UPDATE_PARTY_USER_STATUS } from '../../../utils/constants';
 
@@ -42,6 +47,11 @@ export default function UserProductAddRoles({
   const [selectedRoles, setSelectedPartyRoles] = useState<Array<string>>([]);
   const [open, setOpen] = useState(false);
 
+  const filteredProductRolesList = useMemo(
+    () => productRoles2ProductRolesList(filterDashboardRoles(productRolesList.list)),
+    [productRolesList]
+  );
+
   useEffect(() => {
     setSelectedPartyRoles(userProduct.roles.map((r) => r.role));
   }, [userProduct.roles]);
@@ -51,7 +61,7 @@ export default function UserProductAddRoles({
       (r) => !userProduct.roles.find((ur) => ur.role === r)
     );
 
-    const partyRole = productRolesList.groupByProductRole[newRoleSelected[0]].partyRole;
+    const partyRole = filteredProductRolesList.groupByProductRole[newRoleSelected[0]].partyRole;
 
     setOpen(false);
     setLoading(true);
@@ -99,7 +109,7 @@ export default function UserProductAddRoles({
       .finally(() => setLoading(false));
   };
 
-  const selcRoleProductRoleList = productRolesList.groupBySelcRole[userProduct.roles[0].selcRole];
+  const selcRoleProductRoleList = filteredProductRolesList.groupBySelcRole[userProduct.roles[0].selcRole];
   const initialRolesMap = useMemo(
     () =>
       userProduct.roles.reduce((acc: any, r) => {
@@ -124,7 +134,7 @@ export default function UserProductAddRoles({
           return 1;
         }
       }),
-    [productRolesList, userProduct.roles]
+    [filteredProductRolesList, userProduct.roles]
   );
 
   const userFirstRoleDetails = productRolesList.groupByProductRole[userProduct.roles[0].role];
