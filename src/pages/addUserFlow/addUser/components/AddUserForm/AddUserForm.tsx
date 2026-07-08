@@ -304,7 +304,6 @@ export default function AddUserForm({
 
   useEffect(() => {
     if (userProduct) {
-      // setProductRoles(productsRolesMap[userProduct.id]);
 
       const fullRolesList = productsRolesMap[userProduct.id];
       const filteredRolesList = productRoles2ProductRolesList(
