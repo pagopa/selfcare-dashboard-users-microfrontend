@@ -26,7 +26,12 @@ import { useIsMobile } from '../../../../../hooks/useIsMobile';
 import { Party } from '../../../../../model/Party';
 import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../../model/PartyUser';
 import { Product } from '../../../../../model/Product';
-import { ProductRolesLists, ProductsRolesMap } from '../../../../../model/ProductRole';
+import {
+  filterDashboardRoles,
+  productRoles2ProductRolesList,
+  ProductRolesLists,
+  ProductsRolesMap,
+} from '../../../../../model/ProductRole';
 import { DASHBOARD_USERS_ROUTES } from '../../../../../routes';
 import { fetchUserRegistryByFiscalCode } from '../../../../../services/usersService';
 import {
@@ -299,7 +304,12 @@ export default function AddUserForm({
 
   useEffect(() => {
     if (userProduct) {
-      setProductRoles(productsRolesMap[userProduct.id]);
+
+      const fullRolesList = productsRolesMap[userProduct.id];
+      const filteredRolesList = productRoles2ProductRolesList(
+        filterDashboardRoles(fullRolesList?.list ?? [])
+      );
+      setProductRoles(filteredRolesList);
       void formik.setFieldValue('productRoles', [], true);
     }
   }, [userProduct]);

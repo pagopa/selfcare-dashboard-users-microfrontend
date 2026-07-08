@@ -46,6 +46,15 @@ export const productRoles2ProductRolesList = (roles: Array<ProductRole>): Produc
   groupByProductRole: productRolesGroupByProductRole(roles),
 });
 
+export const filterDashboardRoles = (roles: Array<ProductRole>): Array<ProductRole> =>
+  roles.filter(
+    (r) =>
+      r.phasesAdditionAllowed &&
+      r.phasesAdditionAllowed.length > 0 &&
+      r.phasesAdditionAllowed.some((phase) => phase.startsWith('dashboard'))
+  );
+
+
 export const productRolesGroupBySelcRole = (
   roles: Array<ProductRole>
 ): { [selcRole in UserRoleFilters]: Array<ProductRole> } =>
