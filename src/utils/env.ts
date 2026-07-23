@@ -36,7 +36,7 @@ export const ENV = {
     PAGOPA_PT:
       'https://developer.pagopa.it/pago-pa/guides/manuale-bo-pt/manuale-operativo-back-office-pagopa-partner-tecnologico/funzionalita/matrice-ruoli-funzionalita',
     SEND: 'https://developer.pagopa.it/send/guides/manuale-operativo/v1.1.3/piattaforma-notifiche-digitali-manuale-operativo/mittente',
-    PDND: 'https://developer.pagopa.it/pdnd-interoperabilita/guides/pdnd-manuale-operativo/manuale-operativo/guida-alladesione#aggiungere-o-rimuovere-un-operatore-amministrativo-a-pdnd-interoperabilita',
+    PDND: 'https://developer.pagopa.it/it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-creare-e-revocare-gli-utenti-amministratori',
   },
 
   URL_API: {
