@@ -52,7 +52,7 @@ const CustomDataGrid = styled(DataGrid)({
     wordWrap: 'break-word !important',
     lineHeight: '25px !important',
   },
-  '& .MuiDataGrid-columnHeaders': { borderBottom: 'none !important' },
+  '&.MuiDataGrid-columnHeaders': { borderBottom: 'none !important' },
   '.justifyContentBold': {
     fontSize: '16px',
     fontWeight: '600',
@@ -102,7 +102,7 @@ const CustomDataGrid = styled(DataGrid)({
       justifyContent: 'right',
     },
   },
-  '& .MuiDataGrid-virtualScrollerRenderZone': {
+  '&.MuiDataGrid-virtualScrollerRenderZone': {
     width: '100% !important',
   },
 });
@@ -158,8 +158,8 @@ export default function UsersProductTable({
             const userRolesTitles =
               'product' in user
                 ? user.product.roles.map((role) =>
-                    transcodeProductRole2Title(role.role, productRolesLists)
-                  )
+                  transcodeProductRole2Title(role.role, productRolesLists)
+                )
                 : [user.partyRole];
             if (isMobile) {
               return (
@@ -280,23 +280,23 @@ export default function UsersProductTable({
           footer:
             loading || incrementalLoad
               ? () =>
-                  loading ? (
-                    <UserProductLoading />
-                  ) : !noMoreData && !(users.length === page.totalElements) ? (
-                    <UserTableLoadMoreData fetchNextPage={fetchPage} />
-                  ) : (
-                    <></>
-                  )
+                loading ? (
+                  <UserProductLoading />
+                ) : !noMoreData && !(users.length === page.totalElements) ? (
+                  <UserTableLoadMoreData fetchNextPage={fetchPage} />
+                ) : (
+                  <></>
+                )
               : undefined,
           pagination: incrementalLoad
             ? undefined
             : () => (
-                <CustomPagination
-                  sort={sort}
-                  page={page}
-                  onPageRequest={(nextPage) => fetchPage(nextPage.page, nextPage.size)}
-                />
-              ),
+              <CustomPagination
+                sort={sort}
+                page={page}
+                onPageRequest={(nextPage) => fetchPage(nextPage.page, nextPage.size)}
+              />
+            ),
           noRowsOverlay: () => <></>,
           noResultsOverlay: () => <></>,
           columnSortedAscendingIcon: () => <ArrowDropUp sx={{ color: '#5C6F82' }} />,
