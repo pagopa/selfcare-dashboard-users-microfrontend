@@ -52,7 +52,7 @@ const CustomDataGrid = styled(DataGrid)({
     wordWrap: 'break-word !important',
     lineHeight: '25px !important',
   },
-  '&.MuiDataGrid-columnHeaders': { borderBottom: 'none !important' },
+  '& .MuiDataGrid-columnHeaders': { borderBottom: 'none !important' },
   '.justifyContentBold': {
     fontSize: '16px',
     fontWeight: '600',
@@ -69,8 +69,7 @@ const CustomDataGrid = styled(DataGrid)({
     },
   },
   '.MuiDataGrid-columnSeparator': { display: 'none' },
-  '.MuiDataGrid-cell ': { padding: '0px', borderBottom: 'none' },
-  '.MuiDataGrid-columnHeaders': { borderBottom: 'none' },
+  '.MuiDataGrid-cell': { padding: '0px', borderBottom: 'none' },
   '.MuiDataGrid-row': {
     backgroundColor: 'white',
     '&.Mui-selected': {
@@ -145,16 +144,15 @@ export default function UsersProductTable({
       <CustomDataGrid
         className="CustomDataGrid"
         autoHeight={true}
-        columnBuffer={5}
         rows={users}
         rowCount={Math.max(page?.totalElements ?? 0, users.length)}
         getRowId={(r) => r.id}
         columns={isMobile ? [] : columns}
         rowHeight={users.length === 0 && loading ? 0 : rowHeight}
-        headerHeight={headerHeight}
+        columnHeaderHeight={headerHeight}
         hideFooterSelectedRowCount={true}
-        components={{
-          Row: (props: CustomRowProps) => {
+        slots={{
+          row: (props: CustomRowProps) => {
             const user = props.row;
             const userSuspended = 'product' in user && user.status === 'SUSPENDED';
             const userRolesTitles =
@@ -279,7 +277,7 @@ export default function UsersProductTable({
             }
             return <GridRow {...props} />;
           },
-          Footer:
+          footer:
             loading || incrementalLoad
               ? () =>
                   loading ? (
@@ -290,7 +288,7 @@ export default function UsersProductTable({
                     <></>
                   )
               : undefined,
-          Pagination: incrementalLoad
+          pagination: incrementalLoad
             ? undefined
             : () => (
                 <CustomPagination
@@ -299,10 +297,10 @@ export default function UsersProductTable({
                   onPageRequest={(nextPage) => fetchPage(nextPage.page, nextPage.size)}
                 />
               ),
-          NoRowsOverlay: () => <></>,
-          NoResultsOverlay: () => <></>,
-          ColumnSortedAscendingIcon: () => <ArrowDropUp sx={{ color: '#5C6F82' }} />,
-          ColumnSortedDescendingIcon: () => <ArrowDropDown sx={{ color: '#5C6F82' }} />,
+          noRowsOverlay: () => <></>,
+          noResultsOverlay: () => <></>,
+          columnSortedAscendingIcon: () => <ArrowDropUp sx={{ color: '#5C6F82' }} />,
+          columnSortedDescendingIcon: () => <ArrowDropDown sx={{ color: '#5C6F82' }} />,
         }}
         paginationMode="server"
         filterMode="server"
