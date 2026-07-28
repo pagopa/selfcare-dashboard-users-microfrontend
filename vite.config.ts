@@ -35,6 +35,7 @@ export default defineConfig(({ mode, command }) => {
       svgr(),
       federation({
         name: 'selfcareUsers',
+        dts: false,
         filename: 'remoteEntry.js',
         exposes: {
           './RoutingUsers': './src/remotes/RoutingUsers',
