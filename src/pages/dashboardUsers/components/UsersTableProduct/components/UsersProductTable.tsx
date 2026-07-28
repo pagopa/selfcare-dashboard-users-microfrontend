@@ -69,8 +69,7 @@ const CustomDataGrid = styled(DataGrid)({
     },
   },
   '.MuiDataGrid-columnSeparator': { display: 'none' },
-  '.MuiDataGrid-cell ': { padding: '0px', borderBottom: 'none' },
-  '.MuiDataGrid-columnHeaders': { borderBottom: 'none' },
+  '.MuiDataGrid-cell': { padding: '0px', borderBottom: 'none' },
   '.MuiDataGrid-row': {
     backgroundColor: 'white',
     '&.Mui-selected': {
@@ -103,7 +102,7 @@ const CustomDataGrid = styled(DataGrid)({
       justifyContent: 'right',
     },
   },
-  '& .MuiDataGrid-virtualScrollerRenderZone': {
+  '&.MuiDataGrid-virtualScrollerRenderZone': {
     width: '100% !important',
   },
 });
@@ -145,23 +144,22 @@ export default function UsersProductTable({
       <CustomDataGrid
         className="CustomDataGrid"
         autoHeight={true}
-        columnBuffer={5}
         rows={users}
         rowCount={Math.max(page?.totalElements ?? 0, users.length)}
         getRowId={(r) => r.id}
         columns={isMobile ? [] : columns}
         rowHeight={users.length === 0 && loading ? 0 : rowHeight}
-        headerHeight={headerHeight}
+        columnHeaderHeight={headerHeight}
         hideFooterSelectedRowCount={true}
-        components={{
-          Row: (props: CustomRowProps) => {
+        slots={{
+          row: (props: CustomRowProps) => {
             const user = props.row;
             const userSuspended = 'product' in user && user.status === 'SUSPENDED';
             const userRolesTitles =
               'product' in user
                 ? user.product.roles.map((role) =>
-                    transcodeProductRole2Title(role.role, productRolesLists)
-                  )
+                  transcodeProductRole2Title(role.role, productRolesLists)
+                )
                 : [user.partyRole];
             if (isMobile) {
               return (
@@ -279,30 +277,30 @@ export default function UsersProductTable({
             }
             return <GridRow {...props} />;
           },
-          Footer:
+          footer:
             loading || incrementalLoad
               ? () =>
-                  loading ? (
-                    <UserProductLoading />
-                  ) : !noMoreData && !(users.length === page.totalElements) ? (
-                    <UserTableLoadMoreData fetchNextPage={fetchPage} />
-                  ) : (
-                    <></>
-                  )
+                loading ? (
+                  <UserProductLoading />
+                ) : !noMoreData && !(users.length === page.totalElements) ? (
+                  <UserTableLoadMoreData fetchNextPage={fetchPage} />
+                ) : (
+                  <></>
+                )
               : undefined,
-          Pagination: incrementalLoad
+          pagination: incrementalLoad
             ? undefined
             : () => (
-                <CustomPagination
-                  sort={sort}
-                  page={page}
-                  onPageRequest={(nextPage) => fetchPage(nextPage.page, nextPage.size)}
-                />
-              ),
-          NoRowsOverlay: () => <></>,
-          NoResultsOverlay: () => <></>,
-          ColumnSortedAscendingIcon: () => <ArrowDropUp sx={{ color: '#5C6F82' }} />,
-          ColumnSortedDescendingIcon: () => <ArrowDropDown sx={{ color: '#5C6F82' }} />,
+              <CustomPagination
+                sort={sort}
+                page={page}
+                onPageRequest={(nextPage) => fetchPage(nextPage.page, nextPage.size)}
+              />
+            ),
+          noRowsOverlay: () => <></>,
+          noResultsOverlay: () => <></>,
+          columnSortedAscendingIcon: () => <ArrowDropUp sx={{ color: '#5C6F82' }} />,
+          columnSortedDescendingIcon: () => <ArrowDropDown sx={{ color: '#5C6F82' }} />,
         }}
         paginationMode="server"
         filterMode="server"

@@ -3,7 +3,6 @@ import { federation } from '@module-federation/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import svgr from 'vite-plugin-svgr';
 
 const require = createRequire(import.meta.url);
@@ -28,12 +27,15 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     base,
+    resolve: {
+      tsconfigPaths: true,
+    },
     plugins: [
       react(),
       svgr(),
-      tsconfigPaths(),
       federation({
         name: 'selfcareUsers',
+        dts: false,
         filename: 'remoteEntry.js',
         exposes: {
           './RoutingUsers': './src/remotes/RoutingUsers',
