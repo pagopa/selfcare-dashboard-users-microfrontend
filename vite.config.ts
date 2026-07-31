@@ -106,10 +106,6 @@ export default defineConfig(({ mode, command }) => {
             singleton: true,
             requiredVersion: dependencies['react-i18next'],
           },
-          'core-js': {
-            singleton: true,
-            requiredVersion: dependencies['core-js'],
-          },
           'mixpanel-browser': {
             singleton: true,
             requiredVersion: dependencies['mixpanel-browser'],

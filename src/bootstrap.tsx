@@ -1,4 +1,3 @@
-import '@pagopa/selfcare-common-frontend/lib/common-polyfill';
 import { Route } from 'react-router-dom';
 import './locale';
 import { DashboardMicrofrontendPageProps } from './microcomponents/dashboard-routes-utils';
