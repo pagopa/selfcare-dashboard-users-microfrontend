@@ -25,6 +25,7 @@ export default {
     },
     filterRole: {
       placeholder: 'Alle Funktionen',
+      statePlaceholder: 'Status',
       admin: {
         title: 'Administrator',
         description: 'Hat alle Berechtigungen und verwaltet die Benutzer',

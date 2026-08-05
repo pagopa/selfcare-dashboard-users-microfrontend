@@ -102,6 +102,8 @@ type Props = {
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPartyRoles: Array<PartyRole>;
   setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
+  selectedStates: Array<string>;
+  setSelectedStates: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 
 export default function MobileFilter({
@@ -119,6 +121,8 @@ export default function MobileFilter({
   setDisableRemoveFiltersButton,
   selectedPartyRoles,
   setSelectedPartyRoles,
+  selectedStates,
+  setSelectedStates,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -177,6 +181,8 @@ export default function MobileFilter({
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
             selectedPartyRoles={selectedPartyRoles}
             setSelectedPartyRoles={setSelectedPartyRoles}
+            selectedStates={selectedStates}
+            setSelectedStates={setSelectedStates}
           />
         </Grid>
       </DialogContent>

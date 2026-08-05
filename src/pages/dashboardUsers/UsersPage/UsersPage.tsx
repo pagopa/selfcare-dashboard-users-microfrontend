@@ -40,6 +40,7 @@ const emptyFilters: UsersTableFiltersConfig = {
   productIds: [],
   productRoles: [],
   partyRoles: [],
+  states: [],
 };
 
 // eslint-disable-next-line complexity, sonarjs/cognitive-complexity
@@ -68,6 +69,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
   const [disableRemoveFiltersButton, setDisableRemoveFiltersButton] = useState<boolean>(true);
   const [copied, setCopied] = useState(false);
   const [selectedPartyRoles, setSelectedPartyRoles] = useState<Array<PartyRole>>([]);
+  const [selectedStates, setSelectedStates] = useState<Array<string>>([]);
 
   const { t } = useTranslation();
   const history = useHistory();
@@ -282,6 +284,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
           setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
           selectedPartyRoles={selectedPartyRoles}
           setSelectedPartyRoles={setSelectedPartyRoles}
+          selectedStates={selectedStates}
+          setSelectedStates={setSelectedStates}
         />
         {isMobile ? (
           <Grid item mt={isMobile ? 3 : 0}>
@@ -313,6 +317,8 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
             setDisableRemoveFiltersButton={setDisableRemoveFiltersButton}
             selectedPartyRoles={selectedPartyRoles}
             setSelectedPartyRoles={setSelectedPartyRoles}
+            selectedStates={selectedStates}
+            setSelectedStates={setSelectedStates}
           />
         )}
         {moreThanOneActiveProduct && (
@@ -379,6 +385,7 @@ function UsersPage({ party, activeProducts, productsMap, productsRolesMap }: Rea
                   setSearchByName('');
                   setDisableRemoveFiltersButton(false);
                   setSelectedPartyRoles([]);
+                  setSelectedStates([]);
                 }}
               />
             )}

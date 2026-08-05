@@ -1,4 +1,12 @@
-import { Button, Grid, ListItemText, MenuItem, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  Button,
+  Grid,
+  ListItemText,
+  MenuItem,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { ButtonNaked } from '@pagopa/mui-italia';
@@ -35,6 +43,8 @@ type Props = {
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPartyRoles: Array<PartyRole>;
   setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
+  selectedStates: Array<string>;
+  setSelectedStates: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 
 export default function UsersTableRolesFilter({
@@ -49,6 +59,8 @@ export default function UsersTableRolesFilter({
   setDisableRemoveFiltersButton,
   selectedPartyRoles,
   setSelectedPartyRoles,
+  selectedStates,
+  setSelectedStates,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -115,6 +127,7 @@ export default function UsersTableRolesFilter({
         ...filters,
         productIds: nextProductRolesFilter.map((f) => f.productId),
         partyRoles: selectedPartyRoles,
+        states: selectedStates,
       });
     } else {
       onFiltersChange({
@@ -128,9 +141,10 @@ export default function UsersTableRolesFilter({
   };
 
   const handleResetFilters = () => {
-    onFiltersChange({ ...filters, productIds: [], productRoles: [], partyRoles: [] });
+    onFiltersChange({ ...filters, productIds: [], productRoles: [], partyRoles: [], states: [] });
     setSearchByName('');
     setSelectedPartyRoles([]);
+    setSelectedStates([]);
     setDisableRemoveFiltersButton(true);
     announce(t('accessibility.removeFilters'));
   };
@@ -140,25 +154,35 @@ export default function UsersTableRolesFilter({
     setSelectedPartyRoles(value);
   };
 
-  const isFilterButtonDisabled = isPagoPa
-    ? selectedPartyRoles.length === 0 && searchByName.length < 3
-    : isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3;
-  /*
-TODO for status filter
-  const PARTY_STATUS_OPTIONS: Array<PartyStatus> = [
-    'ACTIVE',
-    'SUSPENDED',
-    'PENDING',
-    'TOBEVALIDATED',
-    'REJECTED',
+  const stateOptions: Array<{ value: string; labelKey: string }> = [
+    { value: 'ACTIVE', labelKey: 'usersTable.usersProductTableColumns.rows.activeChip' },
+    { value: 'SUSPENDED', labelKey: 'usersTable.usersProductTableColumns.rows.suspendedChip' },
+    { value: 'DELETED', labelKey: 'usersTable.usersProductTableColumns.rows.removedChip' },
   ];
 
-  const [selectedStatus, setSelectedStatus] = useState<PartyStatus | ''>('');
-
-  const handleStatusChange = (event: SelectChangeEvent<PartyStatus | ''>) => {
-    setSelectedStatus(event.target.value as PartyStatus | '');
+  const handleStatesChange = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value as Array<string>;
+    setSelectedStates(value);
   };
-*/
+
+  const isFilterButtonDisabled = isPagoPa
+    ? selectedPartyRoles.length === 0 && selectedStates.length === 0 && searchByName.length < 3
+    : isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3;
+  const renderTruncatedValue = (text: string) => (
+    <Typography
+      component="span"
+      sx={{
+        display: 'block',
+        width: '100%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <Grid
       container
@@ -166,10 +190,11 @@ TODO for status filter
       spacing={isMobile ? 3 : 2}
       display="flex"
       mt={isMobile ? 0 : 5}
+      flexWrap={isMobile ? 'wrap' : 'nowrap'}
       flexDirection={isMobile ? 'column' : 'row'}
     >
       {LiveRegion}
-      <Grid item xs={12} md={5} width="100%">
+      <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
         <TextField
           fullWidth
           size="small"
@@ -179,7 +204,7 @@ TODO for status filter
           onChange={(e) => setSearchByName(e.target.value)}
         />
       </Grid>
-      <Grid item xs={12} md={4.5}>
+      <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
         {isPagoPa ? (
           <CustomSelect
             fullWidth
@@ -189,9 +214,11 @@ TODO for status filter
             onChange={handleRolesChange}
             input={<OutlinedInput />}
             renderValue={(selected) =>
-              (selected as Array<PartyRole>).length === 0
-                ? t('usersTable.filterRole.placeholder')
-                : (selected as Array<PartyRole>).join(', ')
+              renderTruncatedValue(
+                (selected as Array<PartyRole>).length === 0
+                  ? t('usersTable.filterRole.placeholder')
+                  : (selected as Array<PartyRole>).join(', ')
+              )
             }
             displayEmpty
           >
@@ -213,7 +240,37 @@ TODO for status filter
         )}
       </Grid>
 
-      <Grid item xs={12} md={1}>
+      {isPagoPa && (
+        <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
+          <CustomSelect
+            fullWidth
+            size="small"
+            multiple
+            value={selectedStates}
+            onChange={handleStatesChange}
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              renderTruncatedValue(
+                (selected as Array<string>).length === 0
+                  ? t('usersTable.filterRole.statePlaceholder')
+                  : (selected as Array<string>)
+                      .map((s) => t(stateOptions.find((o) => o.value === s)?.labelKey ?? ''))
+                      .join(', ')
+              )
+            }
+            displayEmpty
+          >
+            {stateOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                <Checkbox checked={selectedStates.includes(option.value)} />
+                <ListItemText primary={t(option.labelKey)} />
+              </MenuItem>
+            ))}
+          </CustomSelect>
+        </Grid>
+      )}
+
+      <Grid item xs={12} md="auto" sx={{ flexShrink: 0 }}>
         <Button
           disabled={isFilterButtonDisabled}
           color="primary"
@@ -221,17 +278,19 @@ TODO for status filter
           type="submit"
           size="small"
           fullWidth
+          sx={{ whiteSpace: 'nowrap' }}
           onClick={handleSubmit}
         >
           {t('usersTable.filterRole.addFilters')}
         </Button>
       </Grid>
-      <Grid item xs={12} md={1.5} display="flex" alignItems="center">
+      <Grid item xs={12} md="auto" display="flex" alignItems="center" sx={{ flexShrink: 0 }}>
         <ButtonNaked
           disabled={nextProductRolesFilter.length === 0 && disableRemoveFiltersButton}
           color="primary"
           fullWidth
           size="small"
+          sx={{ whiteSpace: 'nowrap' }}
           onClick={handleResetFilters}
         >
           {t('usersTable.filterRole.deleteFilters')}

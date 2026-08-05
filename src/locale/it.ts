@@ -33,6 +33,7 @@ export default {
     },
     filterRole: {
       placeholder: 'Tutti i ruoli',
+      statePlaceholder: 'Stato',
       admin: {
         title: 'Amministratore',
         description: 'Ha tutti i permessi e gestisce gli utenti',

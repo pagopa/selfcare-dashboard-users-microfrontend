@@ -25,6 +25,7 @@ export default {
     },
     filterRole: {
       placeholder: 'Tous les rôles',
+      statePlaceholder: 'Statut',
       admin: {
         title: 'Administrateur',
         description: 'Il a toutes les autorisations nécessaires et gère les utilisateurs',
