@@ -1,4 +1,12 @@
-import { Button, Grid, ListItemText, MenuItem, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  Button,
+  Grid,
+  ListItemText,
+  MenuItem,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { ButtonNaked } from '@pagopa/mui-italia';
@@ -160,6 +168,21 @@ export default function UsersTableRolesFilter({
   const isFilterButtonDisabled = isPagoPa
     ? selectedPartyRoles.length === 0 && selectedStates.length === 0 && searchByName.length < 3
     : isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3;
+  const renderTruncatedValue = (text: string) => (
+    <Typography
+      component="span"
+      sx={{
+        display: 'block',
+        width: '100%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+    >
+      {text}
+    </Typography>
+  );
+
   return (
     <Grid
       container
@@ -167,10 +190,11 @@ export default function UsersTableRolesFilter({
       spacing={isMobile ? 3 : 2}
       display="flex"
       mt={isMobile ? 0 : 5}
+      flexWrap={isMobile ? 'wrap' : 'nowrap'}
       flexDirection={isMobile ? 'column' : 'row'}
     >
       {LiveRegion}
-      <Grid item xs={12} md={isPagoPa ? 4 : 5} width="100%">
+      <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
         <TextField
           fullWidth
           size="small"
@@ -180,7 +204,7 @@ export default function UsersTableRolesFilter({
           onChange={(e) => setSearchByName(e.target.value)}
         />
       </Grid>
-      <Grid item xs={12} md={isPagoPa ? 3 : 4.5}>
+      <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
         {isPagoPa ? (
           <CustomSelect
             fullWidth
@@ -190,9 +214,11 @@ export default function UsersTableRolesFilter({
             onChange={handleRolesChange}
             input={<OutlinedInput />}
             renderValue={(selected) =>
-              (selected as Array<PartyRole>).length === 0
-                ? t('usersTable.filterRole.placeholder')
-                : (selected as Array<PartyRole>).join(', ')
+              renderTruncatedValue(
+                (selected as Array<PartyRole>).length === 0
+                  ? t('usersTable.filterRole.placeholder')
+                  : (selected as Array<PartyRole>).join(', ')
+              )
             }
             displayEmpty
           >
@@ -214,8 +240,8 @@ export default function UsersTableRolesFilter({
         )}
       </Grid>
 
-      {true && (
-        <Grid item xs={12} md={2.5}>
+      {isPagoPa && (
+        <Grid item xs={12} md={true} sx={{ minWidth: 0, flexGrow: 1, flexShrink: 1 }}>
           <CustomSelect
             fullWidth
             size="small"
@@ -224,11 +250,13 @@ export default function UsersTableRolesFilter({
             onChange={handleStatesChange}
             input={<OutlinedInput />}
             renderValue={(selected) =>
-              (selected as Array<string>).length === 0
-                ? t('usersTable.filterRole.statePlaceholder')
-                : (selected as Array<string>)
-                    .map((s) => t(stateOptions.find((o) => o.value === s)?.labelKey ?? ''))
-                    .join(', ')
+              renderTruncatedValue(
+                (selected as Array<string>).length === 0
+                  ? t('usersTable.filterRole.statePlaceholder')
+                  : (selected as Array<string>)
+                      .map((s) => t(stateOptions.find((o) => o.value === s)?.labelKey ?? ''))
+                      .join(', ')
+              )
             }
             displayEmpty
           >
@@ -242,7 +270,7 @@ export default function UsersTableRolesFilter({
         </Grid>
       )}
 
-      <Grid item xs={12} md={1}>
+      <Grid item xs={12} md="auto" sx={{ flexShrink: 0 }}>
         <Button
           disabled={isFilterButtonDisabled}
           color="primary"
@@ -250,17 +278,19 @@ export default function UsersTableRolesFilter({
           type="submit"
           size="small"
           fullWidth
+          sx={{ whiteSpace: 'nowrap' }}
           onClick={handleSubmit}
         >
           {t('usersTable.filterRole.addFilters')}
         </Button>
       </Grid>
-      <Grid item xs={12} md={1.5} display="flex" alignItems="center">
+      <Grid item xs={12} md="auto" display="flex" alignItems="center" sx={{ flexShrink: 0 }}>
         <ButtonNaked
           disabled={nextProductRolesFilter.length === 0 && disableRemoveFiltersButton}
           color="primary"
           fullWidth
           size="small"
+          sx={{ whiteSpace: 'nowrap' }}
           onClick={handleResetFilters}
         >
           {t('usersTable.filterRole.deleteFilters')}
