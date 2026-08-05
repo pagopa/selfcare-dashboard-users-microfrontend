@@ -35,6 +35,8 @@ type Props = {
   setDisableRemoveFiltersButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedPartyRoles: Array<PartyRole>;
   setSelectedPartyRoles: React.Dispatch<React.SetStateAction<Array<PartyRole>>>;
+  selectedStates: Array<string>;
+  setSelectedStates: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 
 export default function UsersTableRolesFilter({
@@ -49,6 +51,8 @@ export default function UsersTableRolesFilter({
   setDisableRemoveFiltersButton,
   selectedPartyRoles,
   setSelectedPartyRoles,
+  selectedStates,
+  setSelectedStates,
 }: Readonly<Props>) {
   const { t } = useTranslation();
   const isMobile = useIsMobile('md');
@@ -115,6 +119,7 @@ export default function UsersTableRolesFilter({
         ...filters,
         productIds: nextProductRolesFilter.map((f) => f.productId),
         partyRoles: selectedPartyRoles,
+        states: selectedStates,
       });
     } else {
       onFiltersChange({
@@ -128,9 +133,10 @@ export default function UsersTableRolesFilter({
   };
 
   const handleResetFilters = () => {
-    onFiltersChange({ ...filters, productIds: [], productRoles: [], partyRoles: [] });
+    onFiltersChange({ ...filters, productIds: [], productRoles: [], partyRoles: [], states: [] });
     setSearchByName('');
     setSelectedPartyRoles([]);
+    setSelectedStates([]);
     setDisableRemoveFiltersButton(true);
     announce(t('accessibility.removeFilters'));
   };
@@ -140,25 +146,20 @@ export default function UsersTableRolesFilter({
     setSelectedPartyRoles(value);
   };
 
-  const isFilterButtonDisabled = isPagoPa
-    ? selectedPartyRoles.length === 0 && searchByName.length < 3
-    : isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3;
-  /*
-TODO for status filter
-  const PARTY_STATUS_OPTIONS: Array<PartyStatus> = [
-    'ACTIVE',
-    'SUSPENDED',
-    'PENDING',
-    'TOBEVALIDATED',
-    'REJECTED',
+  const stateOptions: Array<{ value: string; labelKey: string }> = [
+    { value: 'ACTIVE', labelKey: 'usersTable.usersProductTableColumns.rows.activeChip' },
+    { value: 'SUSPENDED', labelKey: 'usersTable.usersProductTableColumns.rows.suspendedChip' },
+    { value: 'DELETED', labelKey: 'usersTable.usersProductTableColumns.rows.removedChip' },
   ];
 
-  const [selectedStatus, setSelectedStatus] = useState<PartyStatus | ''>('');
-
-  const handleStatusChange = (event: SelectChangeEvent<PartyStatus | ''>) => {
-    setSelectedStatus(event.target.value as PartyStatus | '');
+  const handleStatesChange = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value as Array<string>;
+    setSelectedStates(value);
   };
-*/
+
+  const isFilterButtonDisabled = isPagoPa
+    ? selectedPartyRoles.length === 0 && selectedStates.length === 0 && searchByName.length < 3
+    : isEqual(productRolesSelected, nextProductRolesFilter) && searchByName.length < 3;
   return (
     <Grid
       container
@@ -169,7 +170,7 @@ TODO for status filter
       flexDirection={isMobile ? 'column' : 'row'}
     >
       {LiveRegion}
-      <Grid item xs={12} md={5} width="100%">
+      <Grid item xs={12} md={isPagoPa ? 4 : 5} width="100%">
         <TextField
           fullWidth
           size="small"
@@ -179,7 +180,7 @@ TODO for status filter
           onChange={(e) => setSearchByName(e.target.value)}
         />
       </Grid>
-      <Grid item xs={12} md={4.5}>
+      <Grid item xs={12} md={isPagoPa ? 3 : 4.5}>
         {isPagoPa ? (
           <CustomSelect
             fullWidth
@@ -212,6 +213,34 @@ TODO for status filter
           />
         )}
       </Grid>
+
+      {true && (
+        <Grid item xs={12} md={2.5}>
+          <CustomSelect
+            fullWidth
+            size="small"
+            multiple
+            value={selectedStates}
+            onChange={handleStatesChange}
+            input={<OutlinedInput />}
+            renderValue={(selected) =>
+              (selected as Array<string>).length === 0
+                ? t('usersTable.filterRole.statePlaceholder')
+                : (selected as Array<string>)
+                    .map((s) => t(stateOptions.find((o) => o.value === s)?.labelKey ?? ''))
+                    .join(', ')
+            }
+            displayEmpty
+          >
+            {stateOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                <Checkbox checked={selectedStates.includes(option.value)} />
+                <ListItemText primary={t(option.labelKey)} />
+              </MenuItem>
+            ))}
+          </CustomSelect>
+        </Grid>
+      )}
 
       <Grid item xs={12} md={1}>
         <Button

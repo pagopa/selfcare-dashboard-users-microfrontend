@@ -25,6 +25,7 @@ export default {
     },
     filterRole: {
       placeholder: 'Vse vloge',
+      statePlaceholder: 'Stanje',
       admin: {
         title: 'Upravitelj',
         description: 'Ima vsa dovoljenja in upravlja uporabnike',

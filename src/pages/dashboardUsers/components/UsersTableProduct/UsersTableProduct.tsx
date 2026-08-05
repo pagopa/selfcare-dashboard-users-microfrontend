@@ -80,7 +80,7 @@ const UsersTableProduct = ({
         product,
         currentUser ?? ({ uid: 'NONE' } as User),
         productsMap,
-        undefined,
+        filterConfiguration.states.join(','),
         filterConfiguration.partyRoles.join(',')
       ).then((data) => {
         if (searchByName) {
