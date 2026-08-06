@@ -135,6 +135,10 @@ export default function UserProductGroups({ user, party, product, userProduct }:
                 backgroundColor: '#F5F5F5',
                 height: '22px',
                 cursor: 'pointer',
+                '&.Mui-focusVisible': {
+                  outline: `2px solid ${theme.palette.text.primary}`,
+                  outlineOffset: '2px',
+                },
               }}
             />
           ))}
