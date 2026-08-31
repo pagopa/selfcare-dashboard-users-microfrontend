@@ -49,6 +49,18 @@ const CustomTextField: any = styled(TextField)({
     fontSize: 'fontSize',
     fontWeight: 'fontWeightBold',
   },
+  '.MuiInputLabel-root.Mui-disabled': {
+    color: theme.palette.text.secondary,
+    opacity: 1,
+  },
+  '.MuiOutlinedInput-input.Mui-disabled': {
+    color: theme.palette.text.secondary,
+    WebkitTextFillColor: theme.palette.text.secondary,
+    opacity: 1,
+  },
+  '.MuiInputBase-root.Mui-disabled': {
+    color: theme.palette.text.secondary,
+  },
   input: {
     '&::placeholder': {
       fontStyle: 'italic',
