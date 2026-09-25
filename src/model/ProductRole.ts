@@ -9,6 +9,7 @@ export type ProductRole = {
   title: string;
   description: string;
   phasesAdditionAllowed: Array<string>;
+  isPartnerTech?: boolean;
 };
 
 export type ProductRolesLists = {
