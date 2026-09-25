@@ -107,10 +107,16 @@ export const ProductRolesSection = ({
     </Box>
   );
 
-  // Keep the order supplied by the host and render all dashboard roles directly.
-  const dashboardRoles = productRoles.list.filter((r) =>
-    isAddRoleFromDashboard(r.phasesAdditionAllowed)
-  );
+  const dashboardRoles = [
+    ...Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
+      roles.filter(
+        (r) => !r.isPartnerTech && isAddRoleFromDashboard(r.phasesAdditionAllowed)
+      )
+    ),
+    ...productRoles.list.filter(
+      (r) => r.isPartnerTech && isAddRoleFromDashboard(r.phasesAdditionAllowed)
+    ),
+  ];
 
   return (
     <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
