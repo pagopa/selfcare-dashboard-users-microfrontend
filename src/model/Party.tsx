@@ -2,7 +2,13 @@ import { GeographicTaxonomyResource } from '../api/generated/b4f-dashboard/Geogr
 import { ProductOnBoardingStatusEnum } from '../api/generated/b4f-dashboard/OnboardedProductResource';
 
 export type UserRole = 'ADMIN' | 'LIMITED' | 'ADMIN_EA';
-export type PartyRole = 'DELEGATE' | 'MANAGER' | 'OPERATOR' | 'SUB_DELEGATE' | 'ADMIN_EA';
+export type PartyRole =
+  | 'DELEGATE'
+  | 'MANAGER'
+  | 'OPERATOR'
+  | 'SUB_DELEGATE'
+  | 'ADMIN_EA'
+  | 'ADMIN_EA_IO';
 export type PartyStatus = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'TOBEVALIDATED' | 'REJECTED';
 export type UserStatus = 'ACTIVE' | 'SUSPENDED' | 'DELETED';
 export type UserRoleFilters = 'ADMIN' | 'LIMITED';
@@ -28,6 +34,8 @@ type OnboardedProduct = {
   userProductActions?: Array<string>;
   userRole?: string;
   isAggregator?: boolean;
+  partnerTechRolesEnabled?: boolean;
+  userPartnerTechRole?: boolean;
   institutionType?: string;
   origin?: string;
   originId?: string;

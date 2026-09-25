@@ -28,6 +28,7 @@ import { AddedUsersList, PartyUserOnCreation, TextTransform } from '../../../../
 import { Product } from '../../../../../model/Product';
 import {
   filterDashboardRoles,
+  filterPartnerTechRoles,
   productRoles2ProductRolesList,
   ProductRolesLists,
   ProductsRolesMap,
@@ -98,6 +99,9 @@ export default function AddUserForm({
 
   // const [validTaxcode, setValidTaxcode] = useState<string>();
   const [userProduct, setUserProduct] = useState<Product>();
+  const userPartnerTechRole = party.products.find(
+    (onboarding) => onboarding.productId === userProduct?.id
+  )?.userPartnerTechRole;
   const [productRoles, setProductRoles] = useState<ProductRolesLists>();
   const [productInPage, setProductInPage] = useState<boolean>();
   const [isAsyncFlow, setIsAsyncFlow] = useState<boolean>(false);
@@ -307,12 +311,15 @@ export default function AddUserForm({
 
       const fullRolesList = productsRolesMap[userProduct.id];
       const filteredRolesList = productRoles2ProductRolesList(
-        filterDashboardRoles(fullRolesList?.list ?? [])
+        filterPartnerTechRoles(
+          filterDashboardRoles(fullRolesList?.list ?? []),
+          userPartnerTechRole
+        )
       );
       setProductRoles(filteredRolesList);
       void formik.setFieldValue('productRoles', [], true);
     }
-  }, [userProduct]);
+  }, [userProduct, userPartnerTechRole]);
 
   const addMultiRoleModal = (values: PartyUserOnCreation) => {
     addNotify({
