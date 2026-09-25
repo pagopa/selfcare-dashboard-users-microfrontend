@@ -1,8 +1,4 @@
-import {
-  filterPartnerTechRoles,
-  productRoles2ProductRolesList,
-  ProductRole,
-} from '../ProductRole';
+import { productRoles2ProductRolesList, ProductRole } from '../ProductRole';
 
 const adminEaIoRole: ProductRole = {
   productId: 'prod-io',
@@ -14,36 +10,6 @@ const adminEaIoRole: ProductRole = {
   description: 'Admin EA IO role',
   phasesAdditionAllowed: ['dashboard'],
 };
-
-const standardRole: ProductRole = {
-  ...adminEaIoRole,
-  productRole: 'standard-admin',
-  partnerTechRole: false,
-};
-
-const partnerTechRole: ProductRole = {
-  ...adminEaIoRole,
-  productRole: 'partner-tech-admin',
-  partnerTechRole: true,
-};
-
-test('filters non partner-tech roles for a partner-tech-only administrator', () => {
-  expect(filterPartnerTechRoles([standardRole, partnerTechRole], true)).toEqual([partnerTechRole]);
-});
-
-test('does not filter roles for a standard administrator', () => {
-  expect(filterPartnerTechRoles([standardRole, partnerTechRole], false)).toEqual([
-    standardRole,
-    partnerTechRole,
-  ]);
-});
-
-test('does not filter roles for a multi-role administrator when the role flag is absent', () => {
-  expect(filterPartnerTechRoles([standardRole, partnerTechRole])).toEqual([
-    standardRole,
-    partnerTechRole,
-  ]);
-});
 
 test('groups ADMIN_EA_IO product roles by party role', () => {
   const rolesList = productRoles2ProductRolesList([adminEaIoRole]);

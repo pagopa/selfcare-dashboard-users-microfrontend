@@ -1,5 +1,5 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Box, Checkbox, Divider, Grid, Radio, Tooltip, Typography } from '@mui/material';
+import { Box, Checkbox, Grid, Radio, Tooltip } from '@mui/material';
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
@@ -24,20 +24,6 @@ interface ProductRolesSectionProps {
   renderLabel: (role: ProductRole, enabled: boolean) => any;
   t: (key: string) => string;
 }
-
-// Divider with a word in the middle, e.g. "—— or ——"
-const LabeledDivider = ({ label }: { label: string }) => (
-  <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', my: 1 }}>
-    <Divider sx={{ borderColor: 'background.default', flexGrow: 1 }} />
-    <Typography
-      variant="body2"
-      sx={{ mx: 2, color: 'text.secondary', whiteSpace: 'nowrap', textTransform: 'lowercase' }}
-    >
-      {label}
-    </Typography>
-    <Divider sx={{ borderColor: 'background.default', flexGrow: 1 }} />
-  </Grid>
-);
 
 export const ProductRolesSection = ({
   productRoles,
@@ -121,14 +107,10 @@ export const ProductRolesSection = ({
     </Box>
   );
 
-  // Keep the host-provided order while grouping the roles into the two mutually
-  // exclusive UI sections: standard roles first, partner-tech roles second.
-  const allDashboardRoles = Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
+  // Keep the order supplied by the host and render all dashboard roles directly.
+  const dashboardRoles = Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
     roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
   );
-
-  const standardRoles = allDashboardRoles.filter((r) => r.partnerTechRole !== true);
-  const partnerTechRoles = allDashboardRoles.filter((r) => r.partnerTechRole === true);
 
   return (
     <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
@@ -159,13 +141,7 @@ export const ProductRolesSection = ({
         </Grid>
       )}
 
-      {standardRoles.map((p) => renderRoleRow(p))}
-
-      {standardRoles.length > 0 && partnerTechRoles.length > 0 && (
-        <LabeledDivider label={t('userEdit.addForm.role.or')} />
-      )}
-
-      {partnerTechRoles.map((p) => renderRoleRow(p))}
+      {dashboardRoles.map((p) => renderRoleRow(p))}
     </Grid>
   );
 };

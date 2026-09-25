@@ -5,7 +5,6 @@ export type ProductRole = {
   partyRole: PartyRole;
   selcRole: UserRoleFilters;
   multiroleGroups?: Array<string>;
-  partnerTechRole?: boolean;
   productRole: string;
   title: string;
   description: string;
@@ -55,12 +54,6 @@ export const filterDashboardRoles = (roles: Array<ProductRole>): Array<ProductRo
       r.phasesAdditionAllowed.length > 0 &&
       r.phasesAdditionAllowed.some((phase) => phase.startsWith('dashboard'))
   );
-
-export const filterPartnerTechRoles = (
-  roles: Array<ProductRole>,
-  userPartnerTechRole?: boolean
-): Array<ProductRole> =>
-  userPartnerTechRole === true ? roles.filter((role) => role.partnerTechRole === true) : roles;
 
 export const productRolesGroupBySelcRole = (
   roles: Array<ProductRole>
