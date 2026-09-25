@@ -701,7 +701,9 @@
         "responses": {
           "200": {
             "description": "OK",
-            "schema":{"$ref":"#/definitions/ProductRoleMappingsResourceArray"}
+            "schema": {
+              "$ref": "#/definitions/ProductRolesResource"
+            }
           },
           "400": {
             "description": "Bad Request",
@@ -3506,7 +3508,7 @@
       }
     }
   },
-  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"UserInstitutionRoleArray":{"type": "array", "items": {"$ref": "#/definitions/UserInstitutionRole"}},"OnboardingInfoArray":{"type": "array", "items": {"$ref": "#/definitions/OnboardingInfo"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"ProductRoleMappingsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductRoleMappingsResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
+  "definitions" : {"ProductUserResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductUserResource"}},"UserInstitutionRoleArray":{"type": "array", "items": {"$ref": "#/definitions/UserInstitutionRole"}},"OnboardingInfoArray":{"type": "array", "items": {"$ref": "#/definitions/OnboardingInfo"}},"InstitutionBaseResourceArray":{"type": "array", "items": {"$ref": "#/definitions/InstitutionBaseResource"}},"BrokerResourceArray":{"type": "array", "items": {"$ref": "#/definitions/BrokerResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"DelegationResourceArray":{"type": "array", "items": {"$ref": "#/definitions/DelegationResource"}},"STRINGWrapper":{"type": "string"},"STRINGArray":{"type": "array", "items": {"type": "string"}},"ProductsResourceArray":{"type": "array", "items": {"$ref": "#/definitions/ProductsResource"}},
     "Attribute": {
       "properties": {
         "code": {
@@ -4267,6 +4269,9 @@
         "originId": {
           "type": "string"
         },
+        "partnerTechRolesEnabled": {
+          "type": "boolean"
+        },
         "productId": {
           "type": "string"
         },
@@ -4283,6 +4288,9 @@
         },
         "tokenId": {
           "type": "string"
+        },
+        "userPartnerTechRole": {
+          "type": "boolean"
         },
         "userProductActions": {
           "items": {
@@ -4337,6 +4345,9 @@
         "originId": {
           "type": "string"
         },
+        "partnerTechRolesEnabled": {
+          "type": "boolean"
+        },
         "productId": {
           "type": "string"
         },
@@ -4353,6 +4364,9 @@
         },
         "tokenId": {
           "type": "string"
+        },
+        "userPartnerTechRole": {
+          "type": "boolean"
         },
         "userProductActions": {
           "items": {
@@ -4580,6 +4594,10 @@
           "format": "date-time",
           "type": "string"
         },
+        "excludeRoleFromUserGroups": {
+          "description": "Boolean indicating if the current product role should be excluded from the user groups",
+          "type": "boolean"
+        },
         "partyRole": {
           "description": "User's role, available values: [MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA]",
           "type": "string"
@@ -4614,6 +4632,7 @@
       "type": "object"
     },
     "ProductRoleMappingsResource": {
+      "description": "List of partner technical role mappings",
       "properties": {
         "partyRole": {
           "description": "Party role, available values: MANAGER, DELEGATE, SUB_DELEGATE, OPERATOR, ADMIN_EA",
@@ -4662,17 +4681,32 @@
         },
         "role": {
           "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
         }
       },
       "type": "object"
     },
     "ProductRolePermissionsList": {
       "properties": {
+        "email": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
         "items": {
           "items": {
             "$ref": "#/definitions/ProductRolePermissions"
           },
           "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
         }
       },
       "type": "object"
@@ -4697,6 +4731,25 @@
           "items": {
             "description": "Product role groups that allow to assign multiple roles to the same user",
             "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ProductRolesResource": {
+      "properties": {
+        "partnerTechRoleMappings": {
+          "description": "List of partner technical role mappings",
+          "items": {
+            "$ref": "#/definitions/ProductRoleMappingsResource"
+          },
+          "type": "array"
+        },
+        "roleMappings": {
+          "description": "List of product role mappings",
+          "items": {
+            "$ref": "#/definitions/ProductRoleMappingsResource"
           },
           "type": "array"
         }

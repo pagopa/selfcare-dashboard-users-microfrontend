@@ -9,6 +9,7 @@ export type ProductRole = {
   title: string;
   description: string;
   phasesAdditionAllowed: Array<string>;
+  isPartnerTech?: boolean;
 };
 
 export type ProductRolesLists = {
@@ -28,6 +29,7 @@ export const buildEmptyProductRolesLists = (): ProductRolesLists => ({
     SUB_DELEGATE: [],
     OPERATOR: [],
     ADMIN_EA: [],
+    ADMIN_EA_IO: [],
   },
 });
 
@@ -54,13 +56,14 @@ export const filterDashboardRoles = (roles: Array<ProductRole>): Array<ProductRo
       r.phasesAdditionAllowed.some((phase) => phase.startsWith('dashboard'))
   );
 
-
 export const productRolesGroupBySelcRole = (
   roles: Array<ProductRole>
 ): { [selcRole in UserRoleFilters]: Array<ProductRole> } =>
   roles.reduce((acc, r) => {
-    // eslint-disable-next-line functional/immutable-data
-    acc[r.selcRole] = acc[r.selcRole].concat([r]);
+    if (r.selcRole === 'ADMIN' || r.selcRole === 'LIMITED') {
+      // eslint-disable-next-line functional/immutable-data
+      acc[r.selcRole] = acc[r.selcRole].concat([r]);
+    }
     return acc;
   }, buildEmptyProductRolesLists().groupBySelcRole);
 
