@@ -3,7 +3,7 @@ import { Box, Checkbox, Divider, Grid, Radio, Tooltip, Typography } from '@mui/m
 import { ButtonNaked } from '@pagopa/mui-italia';
 import { TitleBox } from '@pagopa/selfcare-common-frontend/lib';
 import { FormikProps } from 'formik';
-import React, { SetStateAction } from 'react';
+import { SetStateAction } from 'react';
 import { Party } from '../../../../../../model/Party';
 import { PartyUserOnCreation } from '../../../../../../model/PartyUser';
 import { Product } from '../../../../../../model/Product';
@@ -121,31 +121,14 @@ export const ProductRolesSection = ({
     </Box>
   );
 
-  // Flatten all dashboard-eligible roles, then split into exclusive (radio) vs multi-select (checkbox)
+  // Keep the host-provided order while grouping the roles into the two mutually
+  // exclusive UI sections: standard roles first, partner-tech roles second.
   const allDashboardRoles = Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
     roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
   );
 
-  const exclusiveRoles = allDashboardRoles.filter(
-    (r) => !r.multiroleGroups || r.multiroleGroups.length === 0
-  );
-  const multiSelectRoles = allDashboardRoles.filter(
-    (r) => r.multiroleGroups && r.multiroleGroups.length > 0
-  );
-
-  // Group multi-select roles by their multiroleGroups key
-  const groupedMultiRoles = multiSelectRoles.reduce((acc, r) => {
-    const key = (r.multiroleGroups ?? []).join(',');
-    if (!acc[key]) {
-      // eslint-disable-next-line functional/immutable-data
-      acc[key] = [];
-    }
-    // eslint-disable-next-line functional/immutable-data
-    acc[key].push(r);
-    return acc;
-  }, {} as Record<string, Array<ProductRole>>);
-
-  const multiRoleGroupEntries = Object.values(groupedMultiRoles);
+  const standardRoles = allDashboardRoles.filter((r) => r.partnerTechRole !== true);
+  const partnerTechRoles = allDashboardRoles.filter((r) => r.partnerTechRole === true);
 
   return (
     <Grid item container xs={12} mb={3} sx={{ ...commonStyles, flexDirection: 'column' }}>
@@ -176,19 +159,13 @@ export const ProductRolesSection = ({
         </Grid>
       )}
 
-      {/* Exclusive roles (radio) */}
-      {exclusiveRoles.map((p) => renderRoleRow(p))}
+      {standardRoles.map((p) => renderRoleRow(p))}
 
-      {/* Divider between exclusive and multi-select sections */}
-      {exclusiveRoles.length > 0 && multiSelectRoles.length > 0 && <LabeledDivider label={t('userEdit.addForm.role.or')} />}
+      {standardRoles.length > 0 && partnerTechRoles.length > 0 && (
+        <LabeledDivider label={t('userEdit.addForm.role.or')} />
+      )}
 
-      {/* Multi-select roles (checkbox), grouped, with labeled divider between groups */}
-      {multiRoleGroupEntries.map((group, groupIndex) => (
-        <React.Fragment key={group[0].productRole}>
-          {group.map((p) => renderRoleRow(p))}
-          {multiRoleGroupEntries.length !== groupIndex + 1 && <LabeledDivider label={t('userEdit.addForm.role.or')} />}
-        </React.Fragment>
-      ))}
+      {partnerTechRoles.map((p) => renderRoleRow(p))}
     </Grid>
   );
 };

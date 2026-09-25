@@ -5,10 +5,6 @@ export type ProductRole = {
   partyRole: PartyRole;
   selcRole: UserRoleFilters;
   multiroleGroups?: Array<string>;
-  /**
-   * Identifies roles that belong to the Partner Tech context.
-   * This is optional until the backend/OpenAPI contract is updated.
-   */
   partnerTechRole?: boolean;
   productRole: string;
   title: string;
