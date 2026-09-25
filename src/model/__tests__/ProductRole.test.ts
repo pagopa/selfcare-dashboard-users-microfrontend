@@ -11,6 +11,28 @@ const adminEaIoRole: ProductRole = {
   phasesAdditionAllowed: ['dashboard'],
 };
 
+test('preserves the input order in the roles list', () => {
+  const operatorRole: ProductRole = {
+    ...adminEaIoRole,
+    partyRole: 'OPERATOR',
+    selcRole: 'LIMITED',
+    productRole: 'operator',
+  };
+  const standardAdminRole: ProductRole = {
+    ...adminEaIoRole,
+    partyRole: 'DELEGATE',
+    productRole: 'admin',
+  };
+  const partnerAdminRole: ProductRole = {
+    ...adminEaIoRole,
+    partyRole: 'SUB_DELEGATE',
+    productRole: 'admin-psp-pt',
+  };
+  const roles = [operatorRole, standardAdminRole, partnerAdminRole];
+
+  expect(productRoles2ProductRolesList(roles).list).toEqual(roles);
+});
+
 test('groups ADMIN_EA_IO product roles by party role', () => {
   const rolesList = productRoles2ProductRolesList([adminEaIoRole]);
 

@@ -108,8 +108,8 @@ export const ProductRolesSection = ({
   );
 
   // Keep the order supplied by the host and render all dashboard roles directly.
-  const dashboardRoles = Object.values(productRoles.groupBySelcRole).flatMap((roles) =>
-    roles.filter((r) => isAddRoleFromDashboard(r.phasesAdditionAllowed))
+  const dashboardRoles = productRoles.list.filter((r) =>
+    isAddRoleFromDashboard(r.phasesAdditionAllowed)
   );
 
   return (
