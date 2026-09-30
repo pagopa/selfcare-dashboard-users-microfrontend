@@ -270,7 +270,7 @@ export default function UserProductActions({
             !(product.id === PRODUCT_IDS.INTEROP && role.selcRole === 'ADMIN') && (
               <Box mr={3} width="52px" display="flex" justifyContent="flex-end">
                 <Link onClick={handleDelete} component="button" sx={{ textDecoration: 'none' }}>
-                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+                  <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'error.dark' }}>
                     {t('userDetail.actions.deleteButton')}
                   </Typography>
                 </Link>

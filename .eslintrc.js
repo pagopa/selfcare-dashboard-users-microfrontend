@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   root: true,
   extends: [
@@ -10,7 +12,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
+    project: path.join(__dirname, 'tsconfig.json'),
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'import', 'functional', 'sonarjs'],

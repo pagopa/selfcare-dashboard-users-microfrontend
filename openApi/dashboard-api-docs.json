@@ -3425,10 +3425,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/ProductRoleMappingsResource"
-                  }
+                  "$ref" : "#/components/schemas/ProductRolesResource"
                 }
               }
             }
@@ -4273,6 +4270,9 @@
           "userRole" : {
             "type" : "string"
           },
+          "userPartnerTechRole" : {
+            "type" : "boolean"
+          },
           "status" : {
             "type" : "string",
             "enum" : [ "ACTIVE", "PENDING", "TOBEVALIDATED", "SUSPENDED", "DELETED", "REJECTED" ]
@@ -4297,6 +4297,9 @@
           },
           "originId" : {
             "type" : "string"
+          },
+          "partnerTechRolesEnabled" : {
+            "type" : "boolean"
           },
           "institutionType" : {
             "type" : "string",
@@ -4700,6 +4703,10 @@
             "type" : "string",
             "description" : "User's role last update date",
             "format" : "date-time"
+          },
+          "excludeRoleFromUserGroups" : {
+            "type" : "boolean",
+            "description" : "Boolean indicating if the current product role should be excluded from the user groups"
           }
         },
         "description" : "User's role infos in product"
@@ -5114,6 +5121,9 @@
           "userRole" : {
             "type" : "string"
           },
+          "userPartnerTechRole" : {
+            "type" : "boolean"
+          },
           "authorized" : {
             "type" : "boolean"
           },
@@ -5134,6 +5144,9 @@
           },
           "originId" : {
             "type" : "string"
+          },
+          "partnerTechRolesEnabled" : {
+            "type" : "boolean"
           },
           "institutionType" : {
             "type" : "string",
@@ -5401,7 +5414,8 @@
               "$ref" : "#/components/schemas/ProductRoleResource"
             }
           }
-        }
+        },
+        "description" : "List of partner technical role mappings"
       },
       "ProductRoleResource" : {
         "type" : "object",
@@ -5429,6 +5443,25 @@
         },
         "description" : "Available product roles"
       },
+      "ProductRolesResource" : {
+        "type" : "object",
+        "properties" : {
+          "roleMappings" : {
+            "type" : "array",
+            "description" : "List of product role mappings",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductRoleMappingsResource"
+            }
+          },
+          "partnerTechRoleMappings" : {
+            "type" : "array",
+            "description" : "List of partner technical role mappings",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductRoleMappingsResource"
+            }
+          }
+        }
+      },
       "BrokerResource" : {
         "type" : "object",
         "properties" : {
@@ -5452,6 +5485,9 @@
           "productId" : {
             "type" : "string"
           },
+          "tenantId" : {
+            "type" : "string"
+          },
           "role" : {
             "type" : "string"
           },
@@ -5469,6 +5505,18 @@
       "ProductRolePermissionsList" : {
         "type" : "object",
         "properties" : {
+          "userId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "familyName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
           "items" : {
             "type" : "array",
             "items" : {
