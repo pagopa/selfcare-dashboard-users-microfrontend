@@ -154,8 +154,11 @@ export default function MobileFilter({
             </Typography>
           </Grid>
           <Grid item>
-            <IconButton onClick={handleClose} aria-label="Chiudi">
-              <CloseIcon />
+            <IconButton
+              onClick={handleClose}
+              aria-label={t('usersTable.filterRole.closeFilters')}
+            >
+              <CloseIcon aria-hidden="true" />
             </IconButton>
           </Grid>
         </Grid>
