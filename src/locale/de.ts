@@ -36,6 +36,7 @@ export default {
       },
       searchByName: 'Suchen nach Namen',
       addFilters: 'Filtern',
+      closeFilters: 'Filter schließen',
       deleteFilters: 'Filter entfernen',
       noDataFilter:
         'Die von dir angewendeten Filter ergaben keine Ergebnisse. <1><2> Filter entfernen </2></1>.',

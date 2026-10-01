@@ -44,6 +44,7 @@ export default {
       },
       searchByName: 'Cerca per nome',
       addFilters: 'Filtra',
+      closeFilters: 'Chiudi filtri',
       deleteFilters: 'Rimuovi filtri',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',

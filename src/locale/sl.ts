@@ -36,6 +36,7 @@ export default {
       },
       searchByName: 'Išči po imenu',
       addFilters: 'Filtriraj',
+      closeFilters: 'Zapri filtre',
       deleteFilters: 'Odstrani filtre',
       noDataFilter:
         'I filtri che hai applicato non hanno dato nessun risultato. <1><2>Rimuovi filtri</2></1>.',
