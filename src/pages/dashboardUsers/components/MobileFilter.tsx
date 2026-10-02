@@ -55,6 +55,7 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
 
   const xsStyles = {
     '& .MuiDialog-container': {
+      ...baseStyles['& .MuiDialog-container'],
       height: 'auto',
       bottom: 0,
       position: 'absolute',
@@ -62,6 +63,7 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
       alignItems: 'flex-end',
     },
     '& .MuiPaper-root': {
+      ...baseStyles['& .MuiPaper-root'],
       borderRadius: '8px 8px 0px 0px',
       width: '100%',
       maxWidth: '100vw',
@@ -75,6 +77,7 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
 
   const smStyles = {
     '& .MuiDialog-container': {
+      ...baseStyles['& .MuiDialog-container'],
       height: '100%',
       right: 0,
       position: 'absolute',
@@ -82,6 +85,7 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
       alignItems: 'stretch',
     },
     '& .MuiPaper-root': {
+      ...baseStyles['& .MuiPaper-root'],
       borderRadius: '0px 0px 0px 0px',
       width: '100%',
       height: '100%',
