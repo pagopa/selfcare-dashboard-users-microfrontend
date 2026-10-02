@@ -26,8 +26,22 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
       flexDirection: 'column',
       alignItems: 'center',
       flex: '1 1 auto',
+      minHeight: 0,
       overflowX: 'hidden',
+      overflowY: 'auto',
       paddingTop: '0px',
+    },
+    '& .MuiDialogTitle-root': {
+      flex: '0 0 auto',
+    },
+    '& .MuiDialog-container': {
+      minHeight: 0,
+    },
+    '& .MuiPaper-root': {
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: 0,
+      overflow: 'hidden',
     },
     '& .MuiDialogActions-root': {
       display: 'block',
@@ -41,32 +55,45 @@ const MobileDialog = styled(Dialog)(({ theme }) => {
 
   const xsStyles = {
     '& .MuiDialog-container': {
+      ...baseStyles['& .MuiDialog-container'],
       height: 'auto',
       bottom: 0,
       position: 'absolute',
       width: '100%',
+      alignItems: 'flex-end',
     },
     '& .MuiPaper-root': {
+      ...baseStyles['& .MuiPaper-root'],
       borderRadius: '8px 8px 0px 0px',
       width: '100%',
       maxWidth: '100vw',
+      maxHeight: '100vh',
+      '@supports (max-height: 100dvh)': {
+        maxHeight: '100dvh',
+      },
       margin: 0,
     },
   };
 
   const smStyles = {
     '& .MuiDialog-container': {
+      ...baseStyles['& .MuiDialog-container'],
       height: '100%',
       right: 0,
       position: 'absolute',
       width: '70%',
+      alignItems: 'stretch',
     },
     '& .MuiPaper-root': {
+      ...baseStyles['& .MuiPaper-root'],
       borderRadius: '0px 0px 0px 0px',
       width: '100%',
       height: '100%',
       maxWidth: '85vw',
       maxHeight: '100vh',
+      '@supports (max-height: 100dvh)': {
+        maxHeight: '100dvh',
+      },
       margin: 0,
     },
   };
@@ -139,11 +166,13 @@ export default function MobileFilter({
     <MobileDialog
       open={openDialogMobile}
       fullWidth
+      scroll="paper"
+      aria-labelledby="mobile-filter-dialog-title"
       sx={{ alignItems: 'center' }}
       onClose={handleClose}
       TransitionComponent={Transition}
     >
-      <DialogTitle px={3} pt={3} pb={0}>
+      <DialogTitle id="mobile-filter-dialog-title" px={3} pt={3} pb={0}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
             <Typography
