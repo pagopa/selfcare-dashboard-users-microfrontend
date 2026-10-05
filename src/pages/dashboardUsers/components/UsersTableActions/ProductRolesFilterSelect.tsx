@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControlLabel, Grid, MenuItem, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UserRole, UserRoleFilters } from '../../../../model/Party';
 import { ProductRole } from '../../../../model/ProductRole';
@@ -39,6 +39,7 @@ export const ProductRolesFilterSelect = ({
   handleProductRole,
 }: Props) => {
   const { t } = useTranslation();
+  const id = useId();
   const isPnpg = window.location.hostname?.startsWith('imprese');
 
   const selcRoleGroup = useMemo(() => productList(productRolesList), [productRolesList]);
@@ -94,6 +95,7 @@ export const ProductRolesFilterSelect = ({
             }
             control={
               <Checkbox
+                inputProps={{ tabIndex: -1 }}
                 sx={{
                   color: '#5C6F82',
                   '&.Mui-checked': {
@@ -163,9 +165,13 @@ export const ProductRolesFilterSelect = ({
         const selcGroupSelected = productRoleCheckedBySelcRole[selcRole];
         const selcGroup = selcRoleGroup[selcRole];
         const isSelected = selcGroupTotallySelected[selcRole];
+        const titleId = `${id}-${selcRole}-title`;
+        const descriptionId = `${id}-${selcRole}-description`;
         return [
           showSelcRoleGrouped && !isPnpg ? (
             <MenuItem
+              aria-labelledby={titleId}
+              aria-describedby={descriptionId}
               value={`group-${selcRole}-${t(labels[selcRole].titleKey)}`}
               onClick={() => handleUserRole(isSelected, selcGroup, selcRole)}
               key={selcRole}
@@ -180,11 +186,11 @@ export const ProductRolesFilterSelect = ({
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-                aria-label={t(labels[selcRole].titleKey)}
                 label={
                   <Grid container sx={{ height: '100%', whiteSpace: 'normal' }}>
                     <Grid item xs={12}>
                       <Typography
+                        id={titleId}
                         variant="body2"
                         sx={{
                           color: 'colorTextPrimary',
@@ -195,7 +201,11 @@ export const ProductRolesFilterSelect = ({
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography variant="body2" sx={{ color: '#475A6D', fontSize: '12px' }}>
+                      <Typography
+                        id={descriptionId}
+                        variant="body2"
+                        sx={{ color: '#475A6D', fontSize: '12px' }}
+                      >
                         {t(labels[selcRole].descriptionKey)}
                       </Typography>
                     </Grid>
@@ -203,6 +213,11 @@ export const ProductRolesFilterSelect = ({
                 }
                 control={
                   <Checkbox
+                    inputProps={{
+                      tabIndex: -1,
+                      'aria-labelledby': titleId,
+                      'aria-describedby': descriptionId,
+                    }}
                     sx={{ padding: isPnpg ? 0 : '0 9px' }}
                     checked={isSelected}
                     indeterminate={!isSelected && Object.keys(selcGroupSelected).length > 0}
