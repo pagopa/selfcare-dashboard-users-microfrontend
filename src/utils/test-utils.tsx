@@ -1,3 +1,5 @@
+import { ThemeProvider } from '@mui/material';
+import { theme } from '@pagopa/mui-italia';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
@@ -13,7 +15,9 @@ export const renderWithProviders = (
   const history = injectedHistory ? injectedHistory : createMemoryHistory();
   render(
     <Router history={history}>
-      <Provider store={store}>{component}</Provider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>{component}</ThemeProvider>
+      </Provider>
     </Router>
   );
   return { store, history };
